@@ -65,8 +65,8 @@ def build_nav(index):
         '  <span class="dl-next-arrow" aria-hidden="true">→</span>\n'
         ' </a>\n'
         f' <div class="dl-nav-utilities">{previous_link}<a href="/decoder/">All lessons ↗</a></div>\n'
-        f' {switch}\n'
-        ' </nav><!-- LESSON_NAV_END -->'
+        + (f' {switch}\n' if switch else "")
+        + ' </nav><!-- LESSON_NAV_END -->'
     )
     return top, bottom
 

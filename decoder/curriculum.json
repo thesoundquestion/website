@@ -24,7 +24,7 @@
       "slug": "speaker-impedance",
       "category": "speakers",
       "title": "Speaker impedance and matching",
-      "desc": "Read speaker impedance curves, nominal ohms, and amplifier load requirements.",
+      "description": "Read speaker impedance curves, nominal ohms, and amplifier load requirements.",
       "example": "8 Ω nominal · minimum 6.4 Ω",
       "question": "Why doesn't an 8-ohm speaker stay at 8 ohms?",
       "decode": "The <strong>8 Ω</strong> figure is a nominal designation, not a constant value. A minimum of <strong>6.4 Ω</strong> means the magnitude is stated not to fall below 80% of nominal in the rated band. That relationship appears in IEC 60268-5. A typical impedance plot may rise dramatically at a driver's resonance without implying louder sound at those frequencies.",
@@ -99,7 +99,7 @@
       "slug": "amplifier-classes",
       "category": "amplifiers",
       "title": "Amplifier classes and devices",
-      "desc": "Compare Class A, AB and D, and distinguish vacuum tubes, BJTs and MOSFETs.",
+      "description": "Compare Class A, AB, D and G/H, and distinguish operating classes from device types.",
       "example": "Class AB · MOSFET output stage",
       "question": "Does Class A, Class AB or Class D decide how an amplifier sounds?",
       "decode": "<strong>Class AB</strong> describes the operating method: complementary output devices share the audio signal with some overlap. <strong>MOSFET</strong> describes the kind of transistor used. Both terms can describe one amplifier, because operating class and transistor type are independent design choices.",
@@ -156,7 +156,25 @@
       "slug": "headphone-types",
       "category": "headphones",
       "title": "Headphones and IEM types",
-      "description": "Compare open-back, closed-back and in-ear designs, and decode impedance and sensitivity."
+      "description": "Compare three earcup enclosures and see how over-ear, on-ear, earbud and IEM fits differ."
+    },
+    {
+      "slug": "headphone-frequency-response",
+      "category": "headphones",
+      "title": "Headphone frequency response and fit",
+      "description": "Read a 20 Hz–20 kHz rating and see how tuning and a pad leak change the bass."
+    },
+    {
+      "slug": "headphone-sensitivity",
+      "category": "headphones",
+      "title": "Headphone sensitivity and impedance",
+      "description": "Compare dB SPL per volt and per milliwatt, then work out the voltage and current needed."
+    },
+    {
+      "slug": "headphone-output-impedance",
+      "category": "headphones",
+      "title": "Headphone output impedance and source matching",
+      "description": "See how a headphone jack and a changing load divide voltage and can alter tonal balance."
     }
   ],
   "categories": {
@@ -179,7 +197,7 @@
       "adjective": "headphone",
       "anchor": "headphone-lessons",
       "switch_to": "speakers",
-      "description": "Explore headphone and IEM constructions, fit, driver technologies and electrical matching."
+      "description": "Explore earcup design, fit, frequency response and how headphones interact with the source."
     }
   }
 }

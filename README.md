@@ -15,7 +15,7 @@ Public website for **The Sound Question** at https://thesoundquestion.pages.dev/
 - `journey/index.html` — guided 9-stage overview of the sound journey
 - `about/index.html` — about
 - `library/index.html` — technical reference library (not yet populated)
-- `decoder/index.html` — independent Spec Sheet Decoder, beginner-first amplifier and speaker examples
+- `decoder/index.html` — Spec Sheet Decoder with speaker, amplifier and headphone lessons
 - `connect/index.html` — official account links
 - `privacy/index.html` — website privacy notice
 - `404.html` — not-found page
@@ -36,7 +36,7 @@ Use relative-to-root links (`/library/`, `/assets/styles.css`) so page paths wor
 
 ## Spec Sheet Decoder
 
-The decoder is deliberately separate from the reference library. The initial example values are entirely **fictional** and are marked as such; they are not manufacturer claims or instrument measurements. It is built with native HTML `<details>` elements to work on phones without JavaScript. Technical notes are optional, and all buying advice is qualified.
+The decoder teaches through labelled **fictional specifications**, calculated examples and synthetic plots. Native HTML and `<details>` keep the lessons and engineering notes readable without JavaScript. JavaScript adds scenario switching to the plots and earcup illustrations.
 
 ## Brand direction (November 2026)
 
@@ -48,9 +48,9 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 
 ## Spec Sheet Decoder overhaul: graph-based lessons
 
-- `decoder/` presents five in-depth lessons and compact visual navigation.
+- `decoder/` presents twelve in-depth lessons and compact visual navigation.
 - `decoder/quick-reference/` preserves the original brief 15-spec index.
-- `decoder/speaker-frequency-response/`, `bass-extension/`, `speaker-sensitivity/`, `amplifier-power/`, `amplifier-distortion/` are full lessons.
+- `decoder/curriculum.json` lists the speaker, amplifier and headphone lessons in order.
 - `assets/decoder-lessons.css` is scoped visual styling; `assets/decoder-lessons.js` runs interactive curve switching locally and performs no network calls.
 
 ### Data integrity
@@ -88,13 +88,21 @@ The three fictional THD spec charts are prominently placed at the top of `/decod
 THD+N now has a focused illustrated section under `#thd-plus-noise` with synthetic THD/THD+N curves, a bandwidth caveat, plain-language stages and evidence references. Its illustrative fixed noise and test load are not actual measurements. Supplementary three-rating charts are slightly smaller on desktop, and the interactive main distortion chart remains full size. Keep the THD and THD+N differences clear and the reading order intact.
 
 ### Critical publishing rule: teach every example stat explicitly
-Any example specification prominently shown at the beginning of a Decoder lesson must have a corresponding diagram/chart that visualizes **that exact quantity and measurement convention** and a plain-English explanation of every component of the printed specification. Do not let the lesson's separate preference/behavior graph substitute for decoding its exact headline example. Clearly differentiate single test points from a sweep, rated limits from measured curves, and unspecified conditions from supported facts. For the distortion lesson, the 0.09% at 1 kHz example links to its exactly matching one-point illustration. Four existing lessons have dedicated #decode-the-spec modules. Future lessons must follow this pattern.
+Any example specification prominently shown at the beginning of a Decoder lesson must have a corresponding chart or diagram that visualizes **that exact quantity and measurement convention**, with a plain-English explanation of each component. Use the dedicated `#decode-the-spec` section to identify test points, sweeps, limits and unspecified conditions. For example, the distortion lesson marks its 0.09% at 1 kHz rating as a single point.
 
-## Expanded curriculum
-Added full interactive lessons for speaker impedance and amplifier classes. Each starts with an exact stat/label diagram. Curriculum now has seven lessons; category `switch_to` controls the cross-category invitation, and the navigation sync script supports it. Diagrams are schematic and not measured product results.
+## Speaker, amplifier and headphone lessons
 
-## Next expansion: drivers and headphones
-Two new lessons: `speaker-drivers` and `headphone-types` with matching exact sample stat illustrations and three-way interactive comparisons. The curriculum now has nine lessons across speakers, amplifiers, and headphones/IEMs. Classifications alone never guarantee sound quality. New published topics must be inserted in `decoder/curriculum.json`, the index, sitemap, and navigation. The headphone example sensitivity level is a hypothetical measurement reference and is **not a recommended listening level**.
+The five speaker lessons cover response, bass extension, sensitivity, impedance, and drivers and crossovers. The three amplifier lessons cover power and headroom, distortion and THD+N, and output-stage classes and devices. The classes lesson explains why buyers may choose Class A, AB, D or G/H and what measurements can establish.
+
+The four headphone lessons follow design and fit through to electrical matching.
+
+- `headphone-types` uses seven local WebP illustrations in `assets/headphones/` to teach earcup enclosure and pad or tip placement.
+- `headphone-frequency-response` decodes a 20 Hz–20 kHz rating without a stated tolerance and compares seated fit, intentional bass tuning and a pad leak.
+- `headphone-sensitivity` converts a rating at 1 V RMS to its equivalent at 1 mW and compares voltage, current and power at a shared hypothetical test point.
+- `headphone-output-impedance` shows a calculated 10 Ω source at 1 kHz and compares a varying headphone load with a flat load.
+
+Add each lesson to `decoder/curriculum.json`, the decoder index and the sitemap, then regenerate navigation. Check graph selection, keyboard access, mobile legibility and the static fallback before publishing. For the earcup comparison all three designs remain visible with JavaScript disabled.
 
 ### Amplifier headroom lesson (2026-11-10)
-The amplifier-power lesson now has an interactive `#headroom` section immediately after the standard output/load comparison. Its 25 W, 80 W and 200 W options depict **fictional clean power ceilings**, not manufacturer measurements or faithful clipping predictions. For the shared fictitious passage, the 25 W model reaches its assumed limit, the 80 W model handles the peaks, and 200 W adds unused capacity. It clearly explains that a power supply, heat, load, distortion and protection must support the wattage claim, and that extra power is not intrinsically more accurate. Preserve the small-room/moderate-volume and high-sensitivity counterexample. The shared local graph selector uses [data-lesson-plot], SVG [data-plot-case], and [data-case-description].
+
+The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `#headroom`. A separate THD+N chart compares the 80 W and 200 W examples at the same 70 W demand. It shows how an amplifier can pass a peak below its clipping limit while operating where its distortion is already rising. Load, distortion, power supply, heat and protection all inform how much usable power a rating represents.

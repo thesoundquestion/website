@@ -370,6 +370,38 @@
 .ex-dev-grid p{font-size:.9rem;line-height:1.75}
 @media(max-width:800px){.ex-dev-grid{grid-template-columns:1fr}}
 
+/* Earcup illustrations and the separate fit comparison */
+[data-lesson-plot] .dl-graph-toolbar[hidden]{display:none}
+.hp-enclosure.dl-figure{display:block}
+.hp-enclosure-case:not([hidden]){display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center}
+.hp-enclosure-case:not([hidden]) ~ .hp-enclosure-case:not([hidden]){border-top:1px solid #33506a}
+.hp-enclosure-case img{display:block;width:min(100%,280px);height:auto;margin:0 auto}
+.hp-enclosure-case .dl-case-desc{padding:1.1rem 1.4rem}
+.hp-enclosure-case .dl-case-desc p:last-child{margin-bottom:0}
+.hp-enclosure .dl-plot-status{border-block:1px solid #33506a}
+.hp-enclosure .dl-option{min-height:44px}
+.hp-fit-section{padding-block:clamp(16px,2.3vw,32px) clamp(30px,4vw,52px);scroll-margin-top:90px}
+.hp-fit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.85rem}
+.hp-fit-grid figure{margin:0;padding:1rem;background:#102439;border:1px solid #385875;border-radius:11px}
+.hp-fit-grid img{display:block;width:100%;max-width:210px;height:auto;margin:0 auto .55rem}
+.hp-fit-grid strong{display:block;font-size:1.05rem;color:#eefaff}
+.hp-fit-grid figcaption p{font-size:.87rem;line-height:1.55;margin:.35rem 0 0}
+.hp-plot-axis{font:17px system-ui;fill:#c0d8e9}
+.hp-plot-label{font:700 19px system-ui;fill:#e9f8ff}
+.hp-plot-value{font:700 18px system-ui;fill:#ffcf9e}
+.hp-plot-title{font:700 17px system-ui;fill:#dbf5ff}
+@media(min-width:1100px){#headphone-lessons .dl-cards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:701px) and (max-width:1099px){#headphone-lessons .dl-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.hp-fit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){
+ .hp-enclosure-case:not([hidden]){grid-template-columns:1fr}
+ .hp-enclosure-case img{width:min(100%,245px)}
+ .hp-enclosure-case .dl-case-desc{padding:.4rem 1.1rem 1rem}
+ .hp-fit-grid figure{padding:.65rem}
+ .hp-plot-axis{font-size:18px}
+}
+@media(max-width:365px){.hp-fit-grid{grid-template-columns:1fr}}
+
 
 /* Amplifier power: compact but complete headroom module */
 .hr-section{padding-block:clamp(26px,3.4vw,50px);scroll-margin-top:90px}

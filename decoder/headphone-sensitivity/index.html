@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080d15">
+  <meta name="description" content="Convert dB SPL per volt and per milliwatt, then compare how much voltage, current and power different headphones need.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Sound Question">
+  <meta property="og:title" content="Headphone sensitivity and impedance | The Sound Question">
+  <meta property="og:description" content="Convert dB SPL per volt and per milliwatt, then compare how much voltage, current and power different headphones need.">
+  <meta property="og:url" content="https://thesoundquestion.pages.dev/decoder/headphone-sensitivity/">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://thesoundquestion.pages.dev/decoder/headphone-sensitivity/">
+  <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/decoder-lessons.css">
+  <title>Headphone sensitivity and impedance | The Sound Question</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+        <nav class="main-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/journey/">The Journey</a><a href="/decoder/" aria-current="page">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav>
+      </div>
+    </header>
+    <main id="main">
+      <div class="dl-lesson-top container">
+        <div class="dl-lesson-utility">
+          <nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Headphone sensitivity and impedance</span></nav>
+<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/headphone-output-impedance/" aria-label="Next lesson: Headphone output impedance and source matching">Next lesson: Headphone output impedance and source matching →</a><!-- LESSON_TOP_NAV_END -->
+        </div>
+        <p class="section-kicker">LESSON 11 · HEADPHONES</p>
+        <h1>Will your source drive your headphones?</h1>
+        <p class="lead">Read sensitivity and impedance together to see what a headphone asks of your dongle or amplifier. The same printed sensitivity can mean different things when the test units change.</p>
+        <div class="dl-example-spec" role="note">
+          <span class="dl-spec-tag">EXAMPLE PRODUCT SPECIFICATION</span>
+          <strong>300 Ω · 102 dB SPL at 1 V RMS</strong>
+          <p>This sensitivity rating uses voltage as its reference. <a href="#decode-the-spec">Read the example ↓</a></p>
+        </div>
+        <nav class="dl-lesson-jumps" aria-label="On this page">
+          <a href="#compare">Compare cases ↓</a><a href="#understand">How it works ↓</a><a href="#listening">What might you hear? ↓</a><a href="#buying">Buying advice ↓</a>
+        </nav>
+      </div>
+
+      <section class="dl-stat-decode container" id="decode-the-spec">
+        <div class="dl-stat-head">
+          <p class="section-kicker">DECODE THE EXAMPLE</p>
+          <h2>300 Ω · 102 dB SPL at 1 V RMS</h2>
+        </div>
+        <div class="dl-stat-grid">
+          <div class="dl-stat-chart">
+            <svg class="dl-stat-svg" viewBox="0 0 600 272" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fictional 300-ohm headphone level versus voltage. The highlighted rating is 102 dB SPL at 1 V RMS. At 0.548 V RMS the load draws 1 mW and the calculated level is 96.8 dB SPL.">
+              <rect width="600" height="272" rx="12" fill="#0b1b2e"/>
+              <text x="70.0" y="28.0" text-anchor="start" class="hp-plot-title">Output level (dB SPL) · 300 Ω nominal</text>
+              <path d="M70 201.7H552" stroke="#2e4c63"/><text x="61.0" y="207.7" text-anchor="end" class="hp-plot-axis">85</text>
+              <path d="M70 165.1H552" stroke="#2e4c63"/><text x="61.0" y="171.1" text-anchor="end" class="hp-plot-axis">90</text>
+              <path d="M70 128.5H552" stroke="#2e4c63"/><text x="61.0" y="134.5" text-anchor="end" class="hp-plot-axis">95</text>
+              <path d="M70 77.3H552" stroke="#2e4c63"/><text x="61.0" y="83.3" text-anchor="end" class="hp-plot-axis">102</text>
+              <path d="M70 48.0H552" stroke="#2e4c63"/><text x="61.0" y="54.0" text-anchor="end" class="hp-plot-axis">106</text>
+              <path d="M70.0 48V209" stroke="#2e4c63"/><text x="70.0" y="233.0" text-anchor="middle" class="hp-plot-axis">0.15</text>
+              <path d="M230.7 48V209" stroke="#2e4c63"/><text x="230.7" y="233.0" text-anchor="middle" class="hp-plot-axis">0.30</text>
+              <path d="M370.2 48V209" stroke="#2e4c63"/><text x="370.2" y="233.0" text-anchor="middle" class="hp-plot-axis">0.548</text>
+              <path d="M509.7 48V209" stroke="#2e4c63"/><text x="509.7" y="233.0" text-anchor="middle" class="hp-plot-axis">1.0</text>
+              <path d="M70 48V209H552" fill="none" stroke="#6d91a7"/>
+              <text x="311.0" y="257.0" text-anchor="middle" class="hp-plot-axis">Input voltage (V RMS, log scale)</text>
+              <path d="M70.0 197.9L552.0 65.7" fill="none" stroke="#82d8fb" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M370.2 115.5V209M509.7 77.3V209" stroke="#e8b988" stroke-dasharray="5 5"/>
+              <circle cx="370.2" cy="115.5" r="6" fill="#82d8fb" stroke="#0b1b2e" stroke-width="2"/>
+              <circle cx="509.7" cy="77.3" r="6" fill="#ffcf9e" stroke="#0b1b2e" stroke-width="2"/>
+              <text x="499.7" y="64.3" text-anchor="end" class="hp-plot-value">102 dB SPL at 1 V</text>
+              <text x="380.2" y="146.5" text-anchor="start" class="hp-plot-label">96.8 dB SPL at 1 mW</text>
+            </svg>
+            <p class="dl-stat-caption">Ideal calculation for a 300 Ω resistive load with linear acoustic response.</p>
+          </div>
+          <div class="dl-stat-explanation">
+            <p class="dl-stat-key">What the rating tells you</p>
+            <p><strong>300 Ω</strong> is the nominal load. <strong>102 dB SPL at 1 V RMS</strong> is the sound pressure level for one volt across that load in the example test. RMS means root mean square, the effective voltage for the calculation. At 300 Ω, 1 V supplies 3.33 mW. The same sensitivity works out to about <strong>96.8 dB SPL at 1 mW</strong>, which takes 0.548 V RMS.</p>
+            <p class="dl-stat-warning">The <a href="/decoder/headphone-types/#decode-the-spec">32 Ω example</a> also prints 102 dB SPL, but its reference is 1 mW. Convert both to a shared reference before comparing. Treat these levels as test references only.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="dl-chart-section container" id="compare">
+        <div class="dl-heading">
+          <h2>Same sound pressure, different electrical demands</h2>
+          <p>All three fictional examples use the same 90 dB SPL test-tone reference and ideal resistive loads. Each bar keeps its scale when you switch headphones.</p>
+        </div>
+        <div class="dl-figure" data-lesson-plot="headphone-sensitivity">
+          <div class="dl-graph-toolbar" role="group" aria-label="Select a comparison case" hidden>
+            <button type="button" class="dl-option is-current" data-select-case="efficient" aria-pressed="true">Efficient 32 Ω</button>
+            <button type="button" class="dl-option" data-select-case="high-z" aria-pressed="false">300 Ω</button>
+            <button type="button" class="dl-option" data-select-case="high-current" aria-pressed="false">Low-sensitivity 16 Ω</button>
+          </div>
+          <svg class="dl-graph" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Calculated drive for a fictional 32-ohm load at the shared 90 dB SPL test point. Voltage 45 mV RMS. Current 1.40 mA RMS. Power 0.063 mW.">
+              <rect width="600" height="270" rx="12" fill="#0b1b2e"/>
+              <text x="46.0" y="30.0" text-anchor="start" class="hp-plot-title">Drive at the same 90 dB SPL test point</text>
+              <g data-plot-case="efficient" data-plot-summary="Calculated drive for a fictional 32-ohm load at the shared 90 dB SPL test point. Voltage 45 mV RMS. Current 1.40 mA RMS. Power 0.063 mW.">
+                <text x="46.0" y="63.0" text-anchor="start" class="hp-plot-label">Voltage</text>
+                <text x="554.0" y="63.0" text-anchor="end" class="hp-plot-value">45 mV RMS</text>
+                <rect x="46" y="72" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="72" width="76.1" height="14" rx="7" fill="#82d8fb"/>
+                <text x="46.0" y="108.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="108.0" text-anchor="end" class="hp-plot-axis">300 mV RMS</text>
+                <text x="46.0" y="134.0" text-anchor="start" class="hp-plot-label">Current</text>
+                <text x="554.0" y="134.0" text-anchor="end" class="hp-plot-value">1.40 mA RMS</text>
+                <rect x="46" y="143" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="143" width="47.6" height="14" rx="7" fill="#82d8fb"/>
+                <text x="46.0" y="179.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="179.0" text-anchor="end" class="hp-plot-axis">15 mA RMS</text>
+                <text x="46.0" y="205.0" text-anchor="start" class="hp-plot-label">Power</text>
+                <text x="554.0" y="205.0" text-anchor="end" class="hp-plot-value">0.063 mW</text>
+                <rect x="46" y="214" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="214" width="10.7" height="14" rx="7" fill="#82d8fb"/>
+                <text x="46.0" y="250.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="250.0" text-anchor="end" class="hp-plot-axis">3 mW</text>
+              </g>
+              <g data-plot-case="high-z" data-plot-summary="Calculated drive for a fictional 300-ohm load at the shared 90 dB SPL test point. Voltage 251 mV RMS. Current 0.84 mA RMS. Power 0.210 mW." hidden>
+                <text x="46.0" y="63.0" text-anchor="start" class="hp-plot-label">Voltage</text>
+                <text x="554.0" y="63.0" text-anchor="end" class="hp-plot-value">251 mV RMS</text>
+                <rect x="46" y="72" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="72" width="425.3" height="14" rx="7" fill="#9de6cc"/>
+                <text x="46.0" y="108.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="108.0" text-anchor="end" class="hp-plot-axis">300 mV RMS</text>
+                <text x="46.0" y="134.0" text-anchor="start" class="hp-plot-label">Current</text>
+                <text x="554.0" y="134.0" text-anchor="end" class="hp-plot-value">0.84 mA RMS</text>
+                <rect x="46" y="143" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="143" width="28.4" height="14" rx="7" fill="#9de6cc"/>
+                <text x="46.0" y="179.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="179.0" text-anchor="end" class="hp-plot-axis">15 mA RMS</text>
+                <text x="46.0" y="205.0" text-anchor="start" class="hp-plot-label">Power</text>
+                <text x="554.0" y="205.0" text-anchor="end" class="hp-plot-value">0.210 mW</text>
+                <rect x="46" y="214" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="214" width="35.6" height="14" rx="7" fill="#9de6cc"/>
+                <text x="46.0" y="250.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="250.0" text-anchor="end" class="hp-plot-axis">3 mW</text>
+              </g>
+              <g data-plot-case="high-current" data-plot-summary="Calculated drive for a fictional 16-ohm load at the shared 90 dB SPL test point. Voltage 200 mV RMS. Current 12.53 mA RMS. Power 2.512 mW." hidden>
+                <text x="46.0" y="63.0" text-anchor="start" class="hp-plot-label">Voltage</text>
+                <text x="554.0" y="63.0" text-anchor="end" class="hp-plot-value">200 mV RMS</text>
+                <rect x="46" y="72" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="72" width="339.5" height="14" rx="7" fill="#ffcf9e"/>
+                <text x="46.0" y="108.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="108.0" text-anchor="end" class="hp-plot-axis">300 mV RMS</text>
+                <text x="46.0" y="134.0" text-anchor="start" class="hp-plot-label">Current</text>
+                <text x="554.0" y="134.0" text-anchor="end" class="hp-plot-value">12.53 mA RMS</text>
+                <rect x="46" y="143" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="143" width="424.3" height="14" rx="7" fill="#ffcf9e"/>
+                <text x="46.0" y="179.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="179.0" text-anchor="end" class="hp-plot-axis">15 mA RMS</text>
+                <text x="46.0" y="205.0" text-anchor="start" class="hp-plot-label">Power</text>
+                <text x="554.0" y="205.0" text-anchor="end" class="hp-plot-value">2.512 mW</text>
+                <rect x="46" y="214" width="508" height="14" rx="7" fill="#2e4c63"/>
+                <rect x="46" y="214" width="425.3" height="14" rx="7" fill="#ffcf9e"/>
+                <text x="46.0" y="250.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="250.0" text-anchor="end" class="hp-plot-axis">3 mW</text>
+              </g>
+            </svg>
+          <div class="dl-plot-status" role="status" data-plot-status hidden>Showing: Efficient 32 Ω</div>
+          <div class="dl-graph-caption"><strong>Calculated values.</strong> Each row has its own units and scale. Compare voltage to voltage, current to current and power to power across cases.</div>
+          <div class="dl-case-desc" data-case-description="efficient">
+            <p class="dl-case-kicker">Efficient 32 Ω</p>
+            <h3>A small output can go a long way</h3>
+            <p>Rated <strong>32 Ω · 102 dB SPL at 1 mW</strong>. This example reaches the shared reference with about 45 mV RMS and 1.40 mA RMS.</p>
+            <p>Sensitive headphones and IEMs can reach the required level with modest power. Low background noise is worth checking because hiss may be easier to hear.</p>
+          </div>
+          <div class="dl-case-desc" data-case-description="high-z" hidden>
+            <p class="dl-case-kicker">300 Ω</p>
+            <h3>This load needs more voltage</h3>
+            <p>Rated <strong>300 Ω · 102 dB SPL at 1 V RMS</strong>. The same reference takes about 251 mV RMS and 0.84 mA RMS.</p>
+            <p>It asks for the most voltage and the least current of the three. A source with limited voltage swing can run out of room for peaks.</p>
+          </div>
+          <div class="dl-case-desc" data-case-description="high-current" hidden>
+            <p class="dl-case-kicker">Low-sensitivity 16 Ω</p>
+            <h3>This load asks for more current</h3>
+            <p>Rated <strong>16 Ω · 86 dB SPL at 1 mW</strong>. The reference takes about 200 mV RMS and 12.53 mA RMS.</p>
+            <p>It takes less voltage than the 300 Ω example and about fifteen times as much current. The source needs to sustain that current into the lower load.</p>
+          </div>
+        </div>
+        <noscript><p class="dl-stat-caption">At the same 90 dB SPL reference, the 300 Ω example needs about 251 mV RMS and 0.84 mA RMS. The low-sensitivity 16 Ω example needs about 200 mV RMS and 12.53 mA RMS.</p></noscript>
+      </section>
+
+      <section class="dl-section-soft dl-foundation" id="understand">
+        <div class="container dl-reading">
+          <h2>Match the units to the question</h2>
+          <p><strong>dB SPL at 1 V</strong> is handy when you know the source’s clean voltage into a headphone load. <strong>dB SPL at 1 mW</strong> is handy when you know the power into that load. The nominal impedance lets you estimate one from the other.</p>
+          <p>Low impedance draws more current at the same voltage. Higher impedance can demand more voltage at the same power. The sensitivity tells you how much electrical drive is needed for a given acoustic level, so the actual limit depends on both numbers.</p>
+          <p>Allow for music’s peaks when comparing with a source’s clean-output limits. For a linear headphone on a fixed resistive load, a signal segment 10 dB higher calls for about 3.16 times the voltage and current, and ten times the power.</p>
+        </div>
+      </section>
+
+      <section class="dl-section-soft dl-listening" id="listening">
+        <div class="container dl-reading">
+          <h2>What happens when a source reaches its limit?</h2>
+          <p>If the source reaches its voltage or current limit, louder peaks can distort or compress. Hiss in quiet passages points to the noise floor of the source and how sensitive the headphone is to it.</p>
+          <p>A clean source with sufficient output can already cover the range you use. For changes in tonal balance between sources, check <a href="/decoder/headphone-output-impedance/">source output impedance</a> as well.</p>
+          <div class="dl-claims-grid">
+            <div class="dl-audiophile"><p class="dl-box-label">COMMON CLAIM</p><p>“High-ohm headphones are always harder to drive.”</p></div>
+            <div class="dl-evidence"><p class="dl-box-label">WHAT TO CHECK</p><p>Compare the voltage and current needed for the same test level. In the chart, 300 Ω asks for the highest voltage, and the less sensitive 16 Ω example demands the most current and power.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container dl-buy-section" id="buying">
+        <div class="dl-reading">
+          <h2>What should you look for?</h2>
+          <ol class="dl-buy-list">
+            <li>Check whether sensitivity is quoted for 1 mW or 1 V, and look for the test frequency or method.</li>
+            <li>Find the source’s clean output into a load near your headphone impedance. Read the load and distortion conditions attached to the rating.</li>
+            <li>Check peak margin and noise. Extra available voltage helps when voltage is the limit, and low hiss matters with sensitive IEMs.</li>
+          </ol>
+          <details class="dl-advanced">
+            <summary>Engineering deep dive <small>Optional</small></summary>
+            <p>For a resistive load R, P = V²/R and I = V/R, using RMS voltage and current. If sensitivity is quoted in dB SPL at 1 mW, add 10 log₁₀(1000/R) to estimate dB SPL at 1 V RMS. If sensitivity is quoted at 1 V, subtract that same term to estimate dB SPL at 1 mW.</p>
+            <p>In the 300 Ω example, 10 log₁₀(1000/300) ≈ 5.23 dB. Manufacturer values can use different fixtures, test frequencies and averaging. Use the impedance at the test frequency when it’s available.</p>
+          </details>
+        </div>
+        <div class="dl-references">
+          <h2>Sources and further reading</h2>
+          <ul>
+            <li><a href="https://www.ti.com/lit/ug/tiduaw1/tiduaw1.pdf" rel="noopener noreferrer">Texas Instruments · Headphone amplifier design and sensitivity calculations ↗</a></li>
+            <li><a href="https://benchmarkmedia.com/blogs/application_notes/14498801-will-the-hpa2-drive-my-headphones" rel="noopener noreferrer">Benchmark Media Systems · Estimating drive requirements from headphone specifications ↗</a></li>
+          </ul>
+          <p>Continue to <a href="/decoder/headphone-output-impedance/">source output impedance</a> to see how the source and headphone split the voltage.</p>
+        </div>
+      </section>
+      <!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
+ <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 11 of 12 · Headphones & IEMs</span></div>
+ <a class="dl-next-card" href="/decoder/headphone-output-impedance/">
+  <span class="dl-next-copy"><span class="dl-next-kicker">UP NEXT · HEADPHONES & IEMS</span>
+  <strong>Headphone output impedance and source matching</strong><span>See how a headphone jack and a changing load divide voltage and can alter tonal balance.</span></span>
+  <span class="dl-next-arrow" aria-hidden="true">→</span>
+ </a>
+ <div class="dl-nav-utilities"><a href="/decoder/headphone-frequency-response/">← Previous: Headphone frequency response and fit</a><a href="/decoder/">All lessons ↗</a></div>
+ </nav><!-- LESSON_NAV_END -->
+    </main>
+    <footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><img src="/assets/mark.svg" width="29" height="29" alt=""><span>The Sound Question</span></div>
+    <div class="footer-links"><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a><a href="/privacy/">Privacy</a></div>
+    <p>From the first sound to the final listen. Understand what shapes what you hear.</p>
+    <small>© 2026 The Sound Question. Free to explore, no account required.</small>
+  </div>
+</footer>
+  </div>
+<script defer src="/assets/decoder-lessons.js"></script>
+</body>
+</html>
