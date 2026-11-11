@@ -70,6 +70,11 @@ for (const chart of document.querySelectorAll('svg:has([data-trace])')) mountTra
 document.querySelectorAll('[data-lesson-plot]').forEach(section => {
  const buttons = [...section.querySelectorAll('button[data-select-case]')];
  const plots = [...section.querySelectorAll('[data-plot-case]')];
+ const loadButtons = [...section.querySelectorAll('[data-select-load]')];
+ const loadOnlyPlots = [...section.querySelectorAll('svg [data-plot-load]:not([data-plot-case])')];
+ let activeLoad = loadButtons[0]?.dataset.selectLoad;
+ let activeChoice;
+ const matchesLoad = element => !element.dataset.plotLoad || element.dataset.plotLoad === activeLoad;
  const descriptions = [...section.querySelectorAll('[data-case-description]')];
  const status = section.querySelector('[data-plot-status]');
  const chart = section.querySelector('svg.dl-graph');
@@ -77,14 +82,16 @@ document.querySelectorAll('[data-lesson-plot]').forEach(section => {
  function select(choice) {
    const selectedButton = buttons.find(b => b.dataset.selectCase === choice);
    if (!selectedButton) return;
+   activeChoice = choice;
    for (const b of buttons) {
      const chosen = b.dataset.selectCase === choice;
      b.setAttribute('aria-pressed', String(chosen));
      b.classList.toggle('is-current', chosen);
    }
-   for (const plot of plots) plot.toggleAttribute('hidden', plot.dataset.plotCase !== choice);
-   for (const element of descriptions) element.toggleAttribute('hidden', element.getAttribute('data-case-description') !== choice);
-   const title = selectedButton.textContent.trim();
+   for (const plot of plots) plot.toggleAttribute('hidden', plot.dataset.plotCase !== choice || !matchesLoad(plot));
+   for (const plot of loadOnlyPlots) plot.toggleAttribute('hidden', !matchesLoad(plot));
+   for (const element of descriptions) element.toggleAttribute('hidden', element.dataset.caseDescription !== choice || !matchesLoad(element));
+   const title = selectedButton.textContent.trim() + (activeLoad ? ' into ' + activeLoad + ' Ω' : '');
    if (status) {
      let note = chart ? 'The comparison graph is updated.' : 'The illustration and explanation are updated.';
      if (section.dataset.lessonPlot === 'amplifier-power' && choice === 'issue') note = 'An incomplete rating cannot be plotted fairly.';
@@ -92,13 +99,22 @@ document.querySelectorAll('[data-lesson-plot]').forEach(section => {
      status.textContent = 'Showing: ' + title + '. ' + note;
    }
    if (chart) {
-     const selectedPlot = plots.find(plot => chart.contains(plot) && plot.dataset.plotCase === choice);
+     const selectedPlot = plots.find(plot => chart.contains(plot) && plot.dataset.plotCase === choice && matchesLoad(plot));
      const summary = selectedPlot?.dataset.plotSummary;
      traceControls.get(chart)?.();
      chart.setAttribute('aria-label', summary || 'Illustrative graph for ' + section.dataset.lessonPlot.replaceAll('-', ' ') + '. Selected example: ' + title + '.');
    }
  }
  for (const b of buttons) b.addEventListener('click', () => select(b.dataset.selectCase));
+ for (const button of loadButtons) button.addEventListener('click', () => {
+   activeLoad = button.dataset.selectLoad;
+   for (const option of loadButtons) {
+     const chosen = option === button;
+     option.setAttribute('aria-pressed', String(chosen));
+     option.classList.toggle('is-current', chosen);
+   }
+   select(activeChoice);
+ });
  if (buttons.length) {
    select(buttons[0].dataset.selectCase);
    if (toolbar) toolbar.hidden = false;
