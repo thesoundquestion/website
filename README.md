@@ -15,7 +15,7 @@ Public website for **The Sound Question** at https://thesoundquestion.pages.dev/
 - `journey/index.html` — guided 9-stage overview of the sound journey
 - `about/index.html` — about
 - `library/index.html` — technical reference library (not yet populated)
-- `decoder/index.html` — Spec Sheet Decoder with speaker, amplifier and headphone lessons
+- `decoder/index.html` — Spec Sheet Decoder with speaker, amplifier, headphone and source/DAC lessons
 - `connect/index.html` — official account links
 - `privacy/index.html` — website privacy notice
 - `404.html` — not-found page
@@ -48,7 +48,7 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 
 ## Spec Sheet Decoder overhaul: graph-based lessons
 
-- `decoder/` presents twelve in-depth lessons and compact visual navigation.
+- `decoder/` presents fourteen in-depth lessons and compact visual navigation.
 - `decoder/quick-reference/` preserves the original brief 15-spec index.
 - `decoder/ohms-law/` is a standalone reference for volts, amps, ohms and watts, with examples linked from the relevant lessons.
 - `decoder/curriculum.json` lists the speaker, amplifier and headphone lessons in order.
@@ -109,3 +109,9 @@ Add each lesson to `decoder/curriculum.json`, the decoder index and the sitemap,
 ### Amplifier headroom lesson (2026-11-10)
 
 The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `#headroom`. A separate THD+N chart compares the 80 W and 200 W examples at the same 70 W demand. It shows how an amplifier can pass a peak below its clipping limit while operating where its distortion is already rising. Load, distortion, power supply, heat and protection all inform how much usable power a rating represents.
+
+## Decoder source and DAC lessons (2026-11-11)
+- Lesson 13: source output level versus amplifier input sensitivity and the separate maximum clean input, with three conditional examples.
+- Lesson 14: DAC SNR example of 110 dB A-weighted relative to 2 V RMS, plus three noise-separation comparisons and THD+N/SINAD explanations.
+- Both use fictional specifications and labelled original diagrams; no actual product measurements or auditory proof are claimed. The existing local case switcher progressively enhances the graphs.
+- The curriculum now contains 14 lessons with a new Sources & DACs category; regenerate adjacent navigation for all previous lessons when adding any lesson.

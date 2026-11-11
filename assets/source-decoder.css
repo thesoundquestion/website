@@ -1,0 +1,14 @@
+/* Educational source and DAC illustration styles */
+.sd-panel{background:#0d2236;border:1px solid #43647e;padding:1.05rem 1.25rem;border-radius:12px;color:#e7f7ff}.sd-panel>h3{font-size:1rem;margin:.1rem 0 1.2rem;color:#d9f4ff}
+.sd-reading{margin:1rem 0 1.35rem}.sd-reading-head{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.4rem;color:#bbd6e8;font-size:.87rem}.sd-reading-head strong{color:#fff;font-variant-numeric:tabular-nums}
+.sd-meter{height:25px;overflow:hidden;background:repeating-linear-gradient(90deg,#10273b 0,#10273b calc(25% - 1px),#34536b calc(25% - 1px),#34536b 25%);border:1px solid #52718b;border-radius:6px}.sd-meter>span{display:block;height:100%;background:linear-gradient(100deg,#70ccf5,#9ce8ce);border-right:2px solid #f3ffff}.sd-scale{display:flex;justify-content:space-between;color:#a6c6da;font-size:.78rem}.sd-help{font-size:.83rem;color:#b1ccde;line-height:1.7;margin:1.15rem 0 .2rem}
+.sd-case{padding:1.1rem 1.35rem 1.6rem}.sd-case>h3{color:#effaff;margin:.3rem 0 1rem;font-size:1.25rem}.sd-note{border-top:1px solid #3a5773;margin:1.1rem 0 .3rem;padding-top:.95rem}.sd-note h3{font-size:1rem;color:#e6f8ff}.sd-note p{font-size:.93rem;line-height:1.75;margin:.3rem 0}
+.sd-ref{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;border-bottom:3px solid #9be3c9;padding:.1rem 0 .5rem}.sd-ref strong{color:#9be3c9}.sd-ruler{margin:0 0 0 1rem;border-left:2px solid #507492}.sd-mark{height:36px;border-bottom:1px dashed #345068;color:#9fbdd0;font-size:.8rem;padding:.7rem .8rem}.sd-noise{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.3rem 1rem;border-top:3px solid #f3c28a;background:#2c2a2b;color:#ffe6c9;font-size:.81rem;padding:.35rem .7rem}
+[data-plot-case][hidden]{display:none!important}@media(max-width:640px){.sd-panel,.sd-case{padding:.85rem}.sd-reading-head{font-size:.79rem}.sd-mark{height:40px}.sd-noise{font-size:.73rem}}
+
+/* The DAC ruler is linear in decibels: 54 px per 20 dB; -110 sits halfway between -100 and -120. */
+.sd-ruler{position:relative}
+.sd-mark{height:54px;box-sizing:border-box}
+.sd-noise{position:absolute;top:297px;right:0;left:auto;width:min(77%,350px);box-sizing:border-box;display:flex;flex-wrap:wrap;gap:.1rem .6rem;background:#252b30;border-top:3px solid #f3c28a;padding:.25rem .4rem;z-index:1}
+.sd-ruler>.sd-mark:last-child{padding-top:2rem;padding-left:.5rem}
+@media(max-width:640px){.sd-mark{height:58px}.sd-noise{top:319px;width:75%;font-size:.7rem;line-height:1.3}}

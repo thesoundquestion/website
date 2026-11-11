@@ -175,6 +175,18 @@
       "category": "headphones",
       "title": "Headphone output impedance and source matching",
       "description": "See how a headphone jack and a changing load divide voltage and can alter tonal balance."
+    },
+    {
+      "slug": "source-levels",
+      "category": "sources",
+      "title": "Source levels and amplifier input sensitivity",
+      "description": "Why a 2 V source does not automatically overload an input rated at 200 mV sensitivity."
+    },
+    {
+      "slug": "dac-specifications",
+      "category": "sources",
+      "title": "DAC noise, output level and distortion",
+      "description": "Learn to read SNR, THD+N, voltage levels and the limits of DAC specifications."
     }
   ],
   "categories": {
@@ -198,6 +210,13 @@
       "anchor": "headphone-lessons",
       "switch_to": "speakers",
       "description": "Explore earcup design, fit, frequency response and how headphones interact with the source."
+    },
+    "sources": {
+      "label": "Sources & DACs",
+      "adjective": "source",
+      "anchor": "source-lessons",
+      "description": "Discover what output voltage, input sensitivity and measured DAC performance really mean.",
+      "switch_to": "speakers"
     }
   }
 }
