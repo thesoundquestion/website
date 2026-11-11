@@ -338,3 +338,22 @@
 .dn-detail p{font-size:.9rem;line-height:1.78}
 @media(max-width:1000px){.dn-grid{grid-template-columns:1fr}.dn-graph{max-width:800px}.dn-read{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.dn-read,.dn-notes{grid-template-columns:1fr}.dn-chart{width:100%}.dn-read>div{padding:.85rem}.dl-spotlight-card .spec-plot{width:min(100%,300px)}}
+
+/* Every published sample specification must have its own plain-language plotted explanation */
+.dl-stat-decode{padding-block:clamp(17px,2.1vw,32px) clamp(18px,2.4vw,36px);scroll-margin-top:88px}
+.dl-stat-head{margin-bottom:.8rem}
+.dl-stat-head h2{font-size:clamp(1.35rem,2.2vw,2rem);margin:.2rem 0}
+.dl-stat-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:1rem 1.5rem;align-items:center;border:1px solid #37617b;background:#10263a;padding:1rem 1.15rem;border-radius:12px}
+.dl-stat-svg{display:block;width:100%;height:auto}
+.dl-stat-axis{fill:#bed8e9;font:14px system-ui}
+.dl-stat-label{fill:#f2fbff;font:700 17px system-ui}
+.dl-stat-small{fill:#a9c4d6;font:12px system-ui}
+.dl-stat-cap{fill:#92e6f4;font:700 15px system-ui}
+.dl-stat-caption{font-size:.73rem;color:#a8c3d5;margin:.4rem 0 0;line-height:1.55}
+.dl-stat-explanation>p{font-size:.93rem;line-height:1.72;margin:.55rem 0}
+.dl-stat-key{font-size:1.04rem!important;font-weight:780;color:#dff6ff;border-bottom:1px solid #35617a;padding-bottom:.5rem}
+.dl-stat-warning{border-left:3px solid #8acdda;padding:.65rem .8rem;background:#0b1e2e;border-radius:5px}
+.dl-stat-warning strong{color:#edf9ff}
+.dl-example-spec a{color:#94ddfa;font-weight:740}
+@media(max-width:900px){.dl-stat-grid{grid-template-columns:1fr;align-items:start}.dl-stat-chart{max-width:770px}}
+@media(max-width:650px){.dl-stat-decode{padding-block:12px 18px}.dl-stat-grid{padding:.7rem}.dl-stat-axis{font-size:16px}.dl-stat-label{font-size:19px}}

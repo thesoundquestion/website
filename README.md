@@ -86,3 +86,6 @@ The three fictional THD spec charts are prominently placed at the top of `/decod
 
 ### THD+N lesson extension and secondary-chart sizing
 THD+N now has a focused illustrated section under `#thd-plus-noise` with synthetic THD/THD+N curves, a bandwidth caveat, plain-language stages and evidence references. Its illustrative fixed noise and test load are not actual measurements. Supplementary three-rating charts are slightly smaller on desktop, and the interactive main distortion chart remains full size. Keep the THD and THD+N differences clear and the reading order intact.
+
+### Critical publishing rule: teach every example stat explicitly
+Any example specification prominently shown at the beginning of a Decoder lesson must have a corresponding diagram/chart that visualizes **that exact quantity and measurement convention** and a plain-English explanation of every component of the printed specification. Do not let the lesson's separate preference/behavior graph substitute for decoding its exact headline example. Clearly differentiate single test points from a sweep, rated limits from measured curves, and unspecified conditions from supported facts. For the distortion lesson, the 0.09% at 1 kHz example links to its exactly matching one-point illustration. Four existing lessons have dedicated #decode-the-spec modules. Future lessons must follow this pattern.
