@@ -1,0 +1,19 @@
+/* Decoder lesson 16: bit-depth diagrams and compare UI */
+.bd-quant-svg{display:block;width:100%;height:auto}
+.bd-exact-note{margin:1.2rem 0 0;max-width:980px;border:1px solid #39627a;border-left:4px solid #7fcceb;border-radius:10px;padding:1rem 1.15rem;background:#10273a}
+.bd-exact-note strong{color:#e6f9ff}.bd-exact-note p{line-height:1.72;font-size:.94rem;margin:.5rem 0 0}
+.bd-case{padding:clamp(1rem,2.5vw,1.55rem)}.bd-case-head{display:flex;flex-wrap:wrap;gap:.7rem 1.5rem;align-items:baseline;justify-content:space-between}.bd-case-head h3{font-size:1.5rem;color:#effbff;margin:0}.bd-case-head p{flex:1 1 310px;color:#bfd7e7;line-height:1.65;margin:0;font-size:.96rem}
+.bd-case-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin:1.5rem 0}.bd-case-kpis>div{background:#10263b;border:1px solid #3c5970;border-radius:10px;padding:1rem;display:flex;flex-direction:column;gap:.5rem}
+.bd-case-kpis span{font-size:.84rem;color:#b6d1e3}.bd-case-kpis strong{font-size:clamp(1.28rem,2.5vw,1.85rem);font-variant-numeric:tabular-nums;color:#eefaff}
+.bd-ruler{background:#0d2237;border:1px solid #375774;padding:1rem;border-radius:9px}.bd-ruler>p{font-size:.86rem;line-height:1.6;margin:0 0 .85rem;color:#c4dfef}
+.bd-track{height:35px;border:1px solid #59778e;background:repeating-linear-gradient(90deg,#102438 0,#102438 calc(25% - 1px),#2e4961 calc(25% - 1px),#2e4961 25%);overflow:hidden;border-radius:6px}
+.bd-track>span{height:100%;display:block;background:linear-gradient(90deg,#65bee9,#a4e3c7);border-right:3px solid #eefeff}
+.bd-axis{display:flex;justify-content:space-between;gap:.3rem;color:#afcadc;font-size:.8rem;font-variant-numeric:tabular-nums;margin:.5rem 0 0}
+.bd-takeaway{font-size:.92rem;line-height:1.8;color:#bed3e5;margin:1.15rem 0 .2rem}
+.bd-caveat{font-size:.83rem;line-height:1.75;color:#b2cbdc;max-width:900px;padding-top:.85rem}
+.bd-two-up,.bd-flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin:1.5rem 0}
+.bd-two-up>div,.bd-flow>div{border:1px solid #3a5c74;border-radius:11px;background:#10283a;padding:1.05rem 1.2rem}
+.bd-two-up h3{font-size:1.1rem;margin:0 0 .5rem}.bd-two-up p{margin:0;font-size:.94rem;line-height:1.7}
+.bd-flow strong{display:block;color:#edf9ff;margin:0 0 .6rem}.bd-flow span{font-size:.92rem;line-height:1.7;color:#b8d2e3}
+@media(max-width:700px){.bd-case-kpis,.bd-two-up,.bd-flow{grid-template-columns:1fr}.bd-case-head{display:block}.bd-case-head p{margin:.5rem 0 0}.bd-ruler{padding:.75rem}.bd-axis{font-size:.71rem}}
+@media(max-width:360px){.bd-axis{font-size:.65rem}}

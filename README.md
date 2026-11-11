@@ -48,7 +48,7 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 
 ## Spec Sheet Decoder overhaul: graph-based lessons
 
-- `decoder/` presents fifteen in-depth lessons and compact visual navigation.
+- `decoder/` presents sixteen in-depth lessons and compact visual navigation.
 - `decoder/quick-reference/` preserves the original brief 15-spec index.
 - `decoder/ohms-law/` is a standalone reference for volts, amps, ohms and watts, with examples linked from the relevant lessons.
 - `decoder/curriculum.json` lists speaker, amplifier, headphone and source/DAC lessons in order.
@@ -121,3 +121,9 @@ The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `
 - The interactive comparison preserves the same 0–100 kHz scale for 44.1, 48, 96, 192 kHz; sample counts are for a consistent 10 ms interval. A separate 30 kHz/48 kHz example explains how an unfiltered signal can alias to 18 kHz.
 - The diagrams are mathematical/illustrative rather than real product measurements or proof of audibility. Related DAC and listening-glossary lessons are linked. Scoped CSS lives in `assets/sample-rate.css` and the existing `decoder-lessons.js` adds progressive enhancement to the comparison.
 - Curriculum, sitemap, landing page and previous/next links must all be updated together when this lesson is published.
+
+## Lesson 16: bit depth, noise and dynamic range (2026-11-11)
+- `decoder/bit-depth/` starts with an exact 16-bit signed linear PCM example: 2^16 = 65,536 numeric codes (−32768..32767). An original SVG illustrates 16 binary positions and a separately labeled magnified near-zero rounding example with six invented amplitude samples. Do not infer that a DAC connects levels into a stepped waveform.
+- The progressive-enhancement compare UI offers 8-, 16- and 24-bit hypothetical ideal quantization SNR figures of ~49.9 / 98.1 / 146.2 dB (6.02N + 1.76 dB for the stated model), with a fixed 0–160 dB axis. The digital theoretical value is NOT a measured converter dynamic range and cannot diagnose audibility.
+- Dither and noise shaping are explained separately from bit-depth value counts, with practical choices for recording, mastering and listening; audible musical dynamics are distinguished from bit-depth dynamic range. Analog Devices and iZotope references are included.
+- New responsive styling in `assets/bit-depth.css`; the existing local case selector handles comparisons, while the first case is readable without JavaScript. Course navigation, curriculum, index, sitemap and README must be published atomically.

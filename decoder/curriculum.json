@@ -193,6 +193,12 @@
       "category": "sources",
       "title": "Sample rates and audio bandwidth",
       "description": "Decode 48,000 samples per second, Nyquist bandwidth, aliasing and sample-rate choices."
+    },
+    {
+      "slug": "bit-depth",
+      "category": "sources",
+      "title": "Bit depth and dynamic range",
+      "description": "Understand 16-bit versus 24-bit PCM, quantization, noise and dither without confusing bits with musical dynamics."
     }
   ],
   "categories": {
