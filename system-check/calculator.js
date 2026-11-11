@@ -13,7 +13,7 @@ const db = value => value.toFixed(1);
 const referenceFeet = 1 / 0.3048;
 let levelAnchor = 'peak';
 
-function addRating(watts = '', load = '', type = 'continuous', conditions = '') {
+function addRating(watts = '', load = '', type = 'continuous', conditions = '', sourceUrl = '') {
   const row = document.createElement('div');
   row.className = 'sc-rating';
   row.innerHTML = '<label>Watts per channel<input data-watts type="number" min="0.001" max="100000" step="any" placeholder="e.g. 80"></label>'
@@ -25,6 +25,10 @@ function addRating(watts = '', load = '', type = 'continuous', conditions = '') 
   row.querySelector('[data-ohms]').value = load;
   row.querySelector('select').value = type;
   row.querySelector('[data-conditions]').value = conditions;
+  if (sourceUrl) {
+    row.dataset.sourceUrl = sourceUrl;
+    row.addEventListener('input', () => delete row.dataset.sourceUrl);
+  }
   row.querySelector('button').addEventListener('click', () => {
     row.remove();
     if (!ratings.children.length) addRating();
@@ -169,7 +173,11 @@ function readRatings() {
     const load = row.querySelector('[data-ohms]').valueAsNumber;
     if (Number.isNaN(watts) && Number.isNaN(load)) continue;
     if (!Number.isFinite(watts) || !Number.isFinite(load)) throw new Error('Enter both watts and test load for each amplifier rating you use.');
-    entries.push({ watts, load, type: row.querySelector('select').value, conditions: row.querySelector('[data-conditions]').value.trim() });
+    entries.push({
+      watts, load, type: row.querySelector('select').value,
+      conditions: row.querySelector('[data-conditions]').value.trim(),
+      sourceUrl: row.dataset.sourceUrl
+    });
   }
   return entries;
 }
@@ -235,7 +243,7 @@ function curveReading(peakV, averageV, speakerLoad) {
   if (!peak) {
     const edge = peakW > points.at(-1)[0] ? points.at(-1)[0] : points[0][0];
     const direction = peakW > edge ? 'above' : 'below';
-    addText('p', 'Your peak would ask for about ' + show(peakW) + ' W in this test, ' + direction + ' the entered curve’s ' + show(edge) + ' W boundary. Add a point closer to your target to estimate distortion there. ' + context);
+    addText('p', 'Your peak would ask for about ' + show(peakW) + ' W in this test, ' + direction + ' the entered curve’s ' + show(edge) + ' W boundary. Add measurements that bracket the target power to estimate distortion there. ' + context);
   } else {
     addText('p', 'At your peak, the curve ' + (peak.exact ? 'shows ' : 'suggests about ') + show(peak.percent) + '% ' + type + ' at ' + show(peakW) + ' W. ' + context);
     if (!peak.exact) {
@@ -255,11 +263,11 @@ function curveReading(peakV, averageV, speakerLoad) {
       addText('p', 'Your average level maps to ' + show(averageW) + ' W in this test, outside the points you entered.');
     }
   }
-  if (load !== speakerLoad) addText('p', 'Your speaker is rated ' + show(speakerLoad) + ' Ω. These figures apply to the ' + show(load) + ' Ω bench test.');
+  if (load !== speakerLoad) addText('p', 'Your speaker is rated ' + show(speakerLoad) + ' Ω. Use a curve at ' + show(speakerLoad) + ' Ω to check distortion at the nominal load. The figures above describe the ' + show(load) + ' Ω bench test at the same target voltage.');
   addText('p', 'These figures describe the bench test. Audibility depends on the signal, speaker and listening conditions.');
 }
 
-function renderConnections(volts, entries) {
+function renderConnections(volts, entries, speakerLoad) {
   const source = num('sourceVoltage');
   const sourceZ = num('sourceZ');
   const inputZ = num('inputZ') * 1000;
@@ -278,8 +286,23 @@ function renderConnections(volts, entries) {
   const voltageGain = Number.isFinite(gain) ? 10 ** (gain / 20) : first && sensitivity ? Math.sqrt(first.watts * first.load) / sensitivity : NaN;
   if (Number.isFinite(voltageGain)) {
     const needed = volts / voltageGain;
-    addText('p', 'To request this peak, the amplifier input needs about ' + show(needed) + ' V RMS at the entered gain or rated sensitivity.');
-    if (source) addText('p', (source * divider >= needed ? 'Your source can supply the input signal needed for this peak. ' : 'Source signal: below the voltage needed to request this peak. ') + 'It can supply an estimated ' + show(source * divider) + ' V RMS at the amp input' + (hasDivider ? ' after input loading' : ' before any input loading') + '.');
+    const gainBasis = Number.isFinite(gain)
+      ? 'the entered gain'
+      : 'the entered input sensitivity for ' + show(first.watts) + ' W into ' + show(first.load) + ' Ω';
+    addText('p', 'Look for a source that can deliver about ' + show(needed) + ' V RMS into the amp input for this peak, based on ' + gainBasis + '.');
+    if (source && hasDivider) {
+      const available = source * divider;
+      const result = available >= needed ? 'That covers the input signal needed for this peak.' : 'That falls short of the input signal needed for this peak.';
+      addText('p', 'Your source can supply an estimated ' + show(available) + ' V RMS after input loading. ' + result);
+    } else if (source) {
+      const result = source >= needed
+        ? 'That would cover the peak if loading loss is small. The voltage at the amp input is unverified.'
+        : 'That falls short even before accounting for input loading.';
+      addText('p', 'Your source is rated for ' + show(source) + ' V RMS. ' + result);
+      if (!Number.isFinite(sourceZ) && !Number.isFinite(inputZ)) {
+        addText('p', 'Enter both impedances to estimate the voltage at the amp input.');
+      }
+    }
   } else if (source || sensitivity) {
     addText('p', 'Enter amplifier voltage gain, or rated input sensitivity and its matching first power rating, to estimate the required input signal.');
   }
@@ -289,7 +312,9 @@ function renderConnections(volts, entries) {
       const high = maximum / (maximum + outputZ);
       addText('p', 'The amplifier’s output impedance could contribute about ' + db(20 * Math.log10(high / low)) + ' dB of level variation between the entered impedance extremes in a resistive model. The frequencies and electrical phase determine how that translates to tonal balance.');
     } else {
-      addText('p', 'Enter minimum and maximum speaker impedance to estimate tonal variation from amplifier output impedance.');
+      const testLoad = minimum > 0 ? minimum : maximum > 0 ? maximum : speakerLoad;
+      const attenuation = 20 * Math.log10(1 + outputZ / testLoad);
+      addText('p', 'Treating ' + show(testLoad) + ' Ω as a fixed load, the entered output impedance would reduce the level by about ' + db(attenuation) + ' dB compared with the amp’s unloaded output. Enter both measured speaker impedance extremes to estimate how that loss might vary across frequencies.');
     }
   }
 }
@@ -300,56 +325,141 @@ function powerPercent(ratio) {
   return new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1 }).format(percent) + '%';
 }
 
+function coversDemand(demand, watts) {
+  return demand <= watts * (1 + 1e-12);
+}
+
+function sameVoltageWatts(rating, load) {
+  return rating.watts * rating.load / load;
+}
+
+function powerTarget(load, peakWatts, averageWatts) {
+  return show(load) + ' Ω · about ' + show(peakWatts) + ' W per channel for short peaks'
+    + (averageWatts === null ? '.' : ' and ' + show(averageWatts) + ' W per channel for the average level.');
+}
+
+function appendRatingSource(element, rating) {
+  if (!rating.sourceUrl) return;
+  const link = document.createElement('a');
+  link.href = rating.sourceUrl;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.textContent = 'Rating source';
+  element.append(' ', link);
+}
+
 function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW }) {
   if (mode === 'upgrade' || !entries.length) {
-    addText('h3', 'About ' + show(peakW) + ' W per channel for your loudest peaks');
-    addText('p', 'Look for that much power into ' + show(load) + ' Ω. ' + (averageW === null
-      ? 'This estimate covers your peak target.'
-      : 'Your average level calls for about ' + show(averageW) + ' W per channel.'));
-    if (mode === 'check') addText('p', 'Add your amp’s power rating to see how much it has to spare.');
+    addText('h3', 'What to look for');
+    addText('p', powerTarget(load, peakW, averageW));
+    if (mode === 'check') addText('p', 'Add your amp’s power rating and the impedance it was tested at to check whether it covers this target.');
     return;
   }
+
+  const ranked = [...entries].sort((a, b) => b.watts - a.watts);
   const testLoads = [load, ...new Set(entries.map(entry => entry.load)
     .filter(testLoad => testLoad !== load).sort((a, b) => a - b))];
-  function outcome(demand, rating) {
-    const use = demand / rating.watts;
-    return use <= 1
-      ? 'Pass · ' + powerPercent(1 - use) + ' in reserve'
-      : 'Fail · needs ' + powerPercent(use - 1) + ' more power';
+
+  function nearestRating(testLoad, type) {
+    return ranked.filter(rating => rating.type === type && rating.load !== testLoad)
+      .sort((a, b) => Math.abs(a.load - testLoad) - Math.abs(b.load - testLoad) || a.load - b.load)[0];
   }
-  const rows = testLoads.map(testLoad => {
-    const ratingsAtLoad = entries.filter(entry => entry.load === testLoad).sort((a, b) => b.watts - a.watts);
-    const continuous = ratingsAtLoad.find(rating => rating.type === 'continuous');
-    const burst = ratingsAtLoad.find(rating => rating.type === 'burst');
+
+  function outcome(demand, watts, estimated) {
+    const passes = coversDemand(demand, watts);
+    if (passes) {
+      return (estimated ? 'Unverified · estimated ' : 'Pass · ')
+        + powerPercent(Math.max(0, 1 - demand / watts)) + ' in reserve';
+    }
+    return (estimated ? 'Unverified · needs about ' : 'Fail · needs ')
+      + powerPercent(demand / watts - 1) + ' more power';
+  }
+
+  const checks = testLoads.map(testLoad => {
+    const atLoad = ranked.filter(rating => rating.load === testLoad);
+    const continuous = atLoad.find(rating => rating.type === 'continuous');
+    const burst = atLoad.find(rating => rating.type === 'burst');
+    const nearbyContinuous = continuous ? null : nearestRating(testLoad, 'continuous');
     const peakDemand = peakV ** 2 / testLoad;
+    const averageDemand = averageV === null ? null : averageV ** 2 / testLoad;
+    const basis = new Set();
+    const cells = [show(testLoad) + ' Ω' + (testLoad === load ? ' (speaker rating)' : ' (test load)')];
+
+    if (averageDemand !== null) {
+      if (continuous) {
+        cells.push(outcome(averageDemand, continuous.watts, false));
+      } else if (nearbyContinuous) {
+        basis.add(nearbyContinuous);
+        cells.push(outcome(averageDemand, sameVoltageWatts(nearbyContinuous, testLoad), true));
+      } else {
+        cells.push('Unverified · needs a continuous rating');
+      }
+    }
+
+    let missingBurst = false;
     const peakRating = burst && (!continuous || burst.watts >= continuous.watts) ? burst : continuous;
-    const row = [show(testLoad) + ' Ω' + (testLoad === load ? ' (speaker rating)' : ' (test load)')];
-    if (averageV !== null) {
-      row.push(continuous
-        ? outcome(averageV ** 2 / testLoad, continuous)
-        : 'Unverified · needs a continuous rating');
-    }
-    if (peakRating && (peakDemand <= peakRating.watts || burst)) {
-      row.push(outcome(peakDemand, peakRating));
-    } else if (continuous) {
-      row.push('Unverified · above continuous rating');
+    if (peakRating && (burst || coversDemand(peakDemand, peakRating.watts))) {
+      cells.push(outcome(peakDemand, peakRating.watts, false));
     } else {
-      row.push('Unverified · needs a power rating with a known duration');
+      const estimatedPeak = [nearestRating(testLoad, 'burst'), nearbyContinuous]
+        .filter(rating => rating && (!continuous || sameVoltageWatts(rating, testLoad) > continuous.watts))
+        .sort((a, b) => sameVoltageWatts(b, testLoad) - sameVoltageWatts(a, testLoad))[0];
+
+      if (estimatedPeak) {
+        const watts = sameVoltageWatts(estimatedPeak, testLoad);
+        basis.add(estimatedPeak);
+        missingBurst = estimatedPeak.type === 'continuous' && !coversDemand(peakDemand, watts);
+        cells.push(missingBurst ? 'Unverified · above estimated continuous output' : outcome(peakDemand, watts, true));
+      } else if (continuous) {
+        missingBurst = true;
+        cells.push('Unverified · above continuous rating');
+      } else {
+        cells.push('Unverified · needs a power rating with a known duration');
+      }
     }
-    return row;
+    return { testLoad, peakDemand, averageDemand, cells, basis, missingBurst };
   });
+
   addText('h3', 'Does your amp meet the goal?');
-  body.append(table(averageV === null ? ['Impedance', 'Short peaks'] : ['Impedance', 'Average level', 'Short peaks'], rows));
-  if (rows.some(row => row.at(-1) === 'Unverified · above continuous rating')) {
-    addText('p', 'An amp may deliver more power for a short burst than its continuous rating shows. Add a burst rating at that impedance to check.');
+  body.append(table(averageV === null ? ['Impedance', 'Short peaks'] : ['Impedance', 'Average level', 'Short peaks'], checks.map(check => check.cells)));
+
+  const openChecks = checks.filter(({ cells }) => cells.slice(1).some(cell => !cell.startsWith('Pass')));
+  if (openChecks.length) {
+    addText('h3', 'What to look for');
+    for (const check of openChecks) addText('p', powerTarget(check.testLoad, check.peakDemand, check.averageDemand));
+    if (openChecks.some(check => check.testLoad !== load)) {
+      addText('p', 'Use the other test-load targets where those impedances are relevant to your speakers.');
+    }
+  }
+  const ampModel = field('ampModel').value.trim();
+  if (ampModel && checks[0].cells.slice(1).some(cell => cell.startsWith('Unverified'))) {
+    addText('p', '').append(searchLink('Find an amplifier test at ' + show(load) + ' Ω', ampModel, show(load) + ' ohm continuous and burst power bench test'));
+  }
+  if (checks.some(check => check.missingBurst)) {
+    addText('p', 'An amp may deliver more power for a short burst. To check peaks above its continuous output, look for a burst rating at that impedance.');
+  }
+  if (checks.some(check => check.basis.size)) {
+    addText('h3', 'What the estimates use');
+    for (const { testLoad, basis } of checks) {
+      for (const rating of basis) {
+        const duration = rating.type === 'burst' ? 'burst' : 'continuous';
+        const origin = rating.sourceUrl ? 'The preset’s ' : 'Your entered ';
+        const estimate = addText('p', origin + show(rating.watts) + ' W into ' + show(rating.load) + ' Ω (' + duration + ') projects to about '
+          + show(sameVoltageWatts(rating, testLoad)) + ' W into ' + show(testLoad) + ' Ω if the amp maintains the same voltage.'
+          + (rating.conditions ? ' The entered test conditions were ' + rating.conditions.replace(/[.]+$/, '') + '.' : ''));
+        appendRatingSource(estimate, rating);
+      }
+    }
+    addText('p', 'An actual test at the target impedance is needed to verify those estimates. Lower impedances ask for more current and can make the amp reach its limit sooner.');
   }
   if (entries.some(entry => entry.type === 'unknown')) {
-    addText('p', 'Ratings with an unspecified duration appear under Show the math. Identify them as continuous or burst to use them in the assessment.');
+    addText('p', 'Give ratings with an unspecified duration a continuous or burst label to use them in this assessment.');
   }
   if (minimum < load && !entries.some(entry => entry.load <= minimum)) {
-    addText('p', 'Your speaker dips to ' + show(minimum) + ' Ω. A lower-impedance amp test would help check those peaks.');
+    const lowLoadNote = addText('p', 'Your speaker dips to ' + show(minimum) + ' Ω. A lower-impedance amp test would help check those peaks.');
+    if (ampModel) lowLoadNote.append(' ', searchLink('Find a lower-load bench test', ampModel, show(minimum) + ' ohm amplifier power bench measurements'));
   }
-  addText('p', 'Reserve is a percentage of rated power. Each row uses ratings at that impedance and the test conditions you entered.');
+  addText('p', 'Reserve is a percentage of rated or estimated amplifier power.');
 }
 
 function calculate() {
@@ -392,7 +502,7 @@ function calculate() {
   }
   if (mode === 'check') {
     curveReading(peakV, averageV, load);
-    renderConnections(peakV, entries);
+    renderConnections(peakV, entries, load);
   }
   const summaryCount = body.children.length;
   body.append(table(['Listening goal', 'Power/ch.', 'Voltage RMS', 'Current RMS'], rows));
@@ -406,30 +516,24 @@ function calculate() {
     if (!entries.length) addText('p', 'Add a wattage and its test load to compare your amplifier against this demand.');
     if (entries.length) {
       const lines = document.createElement('ul');
-      for (const { watts, load: testLoad, type, conditions } of entries) {
+      for (const rating of entries) {
+        const { watts, load: testLoad, type, conditions } = rating;
         const maxV = Math.sqrt(watts * testLoad);
         const label = type === 'continuous' ? 'continuous' : type === 'burst' ? 'short-burst' : 'duration unspecified';
-        let line = show(watts) + ' W into ' + show(testLoad) + ' Ω (' + label + ') gives an estimated ' + db(referenceAtSeat + 20 * Math.log10(maxV / reference)) + ' dB at the seat for that test-load voltage. ';
+        let line = show(watts) + ' W into ' + show(testLoad) + ' Ω (' + label + ') implies ' + show(maxV) + ' V RMS. The speaker model estimates ' + db(referenceAtSeat + 20 * Math.log10(maxV / reference)) + ' dB at the seat at that voltage. ';
         line += 'The peak target corresponds to ' + show(peakV ** 2 / testLoad) + ' W at this load.';
         if (averageV !== null && type === 'continuous') line += ' The average target corresponds to ' + show(averageV ** 2 / testLoad) + ' W.';
         if (conditions) line += ' Entered test conditions: ' + conditions + '.';
         if (testLoad !== load) line += ' This rating uses a different load from your speaker’s nominal impedance.';
         const item = document.createElement('li');
         item.textContent = line;
+        appendRatingSource(item, rating);
         lines.append(item);
       }
       body.append(lines);
-      const hasMatch = entries.some(rating => rating.load === load);
-      const lowLoad = minimum > 0 && minimum < load ? minimum : load;
-      if (!hasMatch || !entries.some(rating => rating.load <= lowLoad)) {
-        const paragraph = addText('p', 'Look for a bench test closer to your speaker’s load. The ratings entered leave some of that load range unverified.');
-        const model = field('ampModel').value.trim();
-        if (model) paragraph.append(' ', searchLink('Find a lower-load bench test', model, show(lowLoad) + ' ohm amplifier power bench measurements'));
-      }
     }
   }
-  addText('h3', mode === 'upgrade' ? 'Your amplifier shopping target' : 'If you want more headroom');
-  addText('p', 'For this setup, look for roughly ' + show(peakW) + ' W per channel into ' + show(load) + ' Ω for the peak' + (averageW === null ? '.' : ' and roughly ' + show(averageW) + ' W per channel for the average level.') + ' If your speakers dip below their nominal load, check lower-impedance bench results as well.');
+  addText('h3', 'If you want more headroom');
   addText('p', 'For another 3 dB of peak reserve, look for about ' + show(peakW * 10 ** .3) + ' W into the same load. Speakers rated 3 dB more sensitive on the same basis would cut the estimated power needed for your current goal roughly in half.');
   const details = document.createElement('details');
   const summary = document.createElement('summary');
@@ -464,7 +568,7 @@ function mountGearPresets(catalog) {
       }
       if (kind === 'amp') {
         ratings.replaceChildren();
-        gear.ratings.forEach(rating => addRating(...rating));
+        gear.ratings.forEach(rating => addRating(...rating, gear.url));
       }
       if (kind === 'speaker' || kind === 'amp') {
         const model = field(kind + 'Model');
