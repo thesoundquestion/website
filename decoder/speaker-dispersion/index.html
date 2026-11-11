@@ -62,12 +62,45 @@
 <div class="dl-plot-status" data-plot-status role="status" hidden></div>
 </div><p class="sp-plot-caption">Original imaginary responses, not a manufacturer's measurement. The 0 dB reference at <em>each frequency</em> means “same as on axis there.” It does not mean the speaker's on-axis frequency response is perfectly flat.</p>
 <div class="dl-reading" id="axis-specs">
-<h3>How to read “20 Hz–20 kHz, ±8 dB on axis”</h3>
-<p><strong>20 Hz–20 kHz</strong> is the frequency span. <strong>±8 dB</strong> is the allowed variation from the stated reference level across that span. If the reference is 85 dB SPL, the response can fall anywhere from 77 to 93 dB SPL, a band 16 dB wide. Neither endpoint has to land on a tolerance limit. A range listed without a tolerance leaves you guessing how far down the bass or treble is at the edges.</p>
-<p><strong>On axis (0°)</strong> means the microphone is positioned along the speaker's designated reference direction, often straight ahead at tweeter height. <strong>30° horizontal off axis</strong> means the microphone is 30° to the side of that direction at the same distance. Above or below is a vertical measurement. At your couch, each speaker's toe-in changes the angle between its reference direction and your seat.</p>
-<h4>Read the two kinds of dB numbers separately</h4>
-<p>On the graph above, select <strong>30° sideways</strong> and find <strong>8 kHz</strong> along the bottom. The point at <strong>−6 dB</strong> is a difference between the two angles at that frequency. If the speaker measured 87 dB SPL on axis at 8 kHz, it would measure 81 dB SPL at 30° under the same conditions. In the ±8 dB spec, the comparison is with the spec's reference level across the whole stated frequency band. To see peaks and dips in the speaker's own response, look for a frequency-response plot that shows both curves on a common level scale.</p>
-<p><strong>A real spec sheet:</strong> Paradigm lists the Décor 1S v2 at ±3 dB from 130 Hz to 21 kHz on axis and from 130 Hz to 17 kHz at 30° off axis. That tells you how far each published band extends at the stated tolerance. To see how many dB the response changes at a particular frequency, you need the curves. When comparing speakers, check the tolerance, angle and plane, and whether the response was measured in a room or under free-field conditions.</p>
+<h3>How to read an on-axis and off-axis measurement</h3>
+<figure class="reference-figure">
+<svg class="dl-stat-svg" viewBox="0 0 560 355" role="img" aria-labelledby="axis-geometry-title axis-geometry-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="axis-geometry-title">Microphone positions for a horizontal speaker measurement</title>
+<desc id="axis-geometry-desc">Viewed from above, a speaker faces right. The on-axis microphone sits straight ahead. The off-axis microphone sits 30 degrees to the side, at the same height and distance from the speaker.</desc>
+<defs>
+<linearGradient id="axis-cabinet" x2="0.9" y2="1"><stop stop-color="#465c71"/><stop offset="1" stop-color="#142637"/></linearGradient>
+<g id="axis-mic"><rect x="-12" y="-7" width="30" height="14" rx="6" fill="#102333" stroke="currentColor" stroke-width="2"/><path d="M-5 -5v10m4-10v10m4-10v10" stroke="currentColor" stroke-width="1.2"/></g>
+</defs>
+<rect width="560" height="355" rx="16" fill="#0b1726"/>
+<text x="30" y="39" fill="#c1d2e3" font-family="system-ui,sans-serif" font-size="18">Top view · horizontal plane</text>
+<rect x="32" y="92" width="87" height="85" rx="15" fill="#06101c"/>
+<rect x="30" y="87" width="87" height="84" rx="15" fill="url(#axis-cabinet)" stroke="#7990a5"/>
+<path d="M109 99q15 30 0 60" fill="none" stroke="#9bafc1" stroke-width="5" stroke-linecap="round"/>
+<text x="30" y="204" fill="#c1d2e3" font-family="system-ui,sans-serif" font-size="17">Speaker</text>
+<path d="M117 129H422" stroke="#77e4ff" stroke-width="3"/>
+<path d="M117 129L381.14 281.5" stroke="#d3baff" stroke-width="3" stroke-dasharray="9 6"/>
+<path d="M422 129 A305 305 0 0 1 381.14 281.5" fill="none" stroke="#8299b0" stroke-width="1.5" stroke-dasharray="3 6"/>
+<path d="M188 129 A71 71 0 0 1 178.49 164.5" fill="none" stroke="#d3baff" stroke-width="2"/>
+<circle cx="117" cy="129" r="4" fill="#e0edfa"/>
+<use href="#axis-mic" transform="translate(422 129)" color="#77e4ff"/>
+<use href="#axis-mic" transform="translate(381.14 281.5) rotate(30)" color="#d3baff"/>
+<g font-family="system-ui,sans-serif" font-size="18" font-weight="600">
+<text x="199" y="155" fill="#d3baff">30°</text>
+<text x="422" y="104" text-anchor="middle" fill="#77e4ff">0° on axis</text>
+<text x="381" y="319" text-anchor="middle" fill="#d3baff">30° off axis</text>
+<text x="441" y="201" fill="#c1d2e3" font-size="16">Same<tspan x="441" dy="20">distance</tspan></text>
+</g>
+</svg>
+<figcaption><strong>Where the measurement is taken.</strong> The two positions show where one microphone would be relative to the speaker at 0° and 30°. The angle changes while height, distance and input signal stay the same. A vertical measurement changes the angle above or below the reference axis. At home, toe-in changes the horizontal angle between each speaker and your seat.</figcaption>
+</figure>
+<figure class="reference-figure" id="measured-axis-response">
+<h4>Measured example · Genelec 8030A</h4>
+<a href="https://3d3a.princeton.edu/sites/g/files/toruqf931/files/2022-10/genelec_8030a_h_freq_resp_plot_q1.png"><img src="https://3d3a.princeton.edu/sites/g/files/toruqf931/files/2022-10/genelec_8030a_h_freq_resp_plot_q1.png" alt="Princeton’s Genelec 8030A graph plots sound pressure level from 500 Hz to 20 kHz at horizontal angles from 0 to 90 degrees. The 0 and 30 degree traces are closer around 1 kHz and further apart around 10 kHz." loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+<figcaption>Horizontal frequency responses measured in an anechoic chamber by <a href="https://3d3a.princeton.edu/genelec-8030a">Princeton University’s 3D3A Lab</a>. Original graph, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. <a href="https://3d3a.princeton.edu/sites/g/files/toruqf931/files/2022-10/genelec_8030a_h_freq_resp_plot_q1.png">Open the full-size graph</a>.</figcaption>
+</figure>
+<p><strong>Read across, then compare vertically.</strong> The bottom axis is frequency in kilohertz (1 kHz = 1,000 Hz). The left axis is sound pressure level in dB. Find the red <strong>0°</strong> trace and the olive <strong>30°</strong> trace using the legend. Compare them at <strong>1 kHz</strong>, then at <strong>10 kHz</strong>. The gap is larger at 10 kHz, so that sideways position loses more output in the treble than at 1 kHz. On the interactive graph above, the vertical scale shows that kind of gap directly by subtracting the 0° level at each frequency.</p>
+<h4>What does ±3 dB on a spec sheet mean?</h4>
+<p>Paradigm lists the Décor 1S v2 at <strong>±3 dB from 130 Hz to 21 kHz on axis</strong> and <strong>±3 dB from 130 Hz to 17 kHz at 30° off axis</strong>. The ±3 dB describes the allowed variation above and below the reference level over each stated band. Each band is 6 dB wide in level. The two upper frequency limits describe where each response meets that tolerance. To compare the angles at a particular frequency, read the vertical gap between the two curves on a shared scale, as in the Genelec graph.</p>
 </div>
 </section>
 <div class="container dl-reading"><figure class="reference-figure" id="spk-01">
@@ -122,7 +155,7 @@
 <li><a href="https://www.paradigm.com/en/lcr/decor-1s-v2" rel="noopener noreferrer">Paradigm · Example of published on-axis and 30° off-axis response ranges ↗</a></li>
 <li><a href="https://www.erinsaudiocorner.com/loudspeakers/mkiw150/" rel="noopener noreferrer">Erin's Audio Corner · Example real loudspeaker off-axis and spinorama measurements ↗</a></li>
 <li><a href="https://www.winmf.de/en/help/directivity/ansi-cea-2034-a" rel="noopener noreferrer">WinMF · Explanation of ANSI/CTA-2034 polar measurement curves ↗</a></li>
-</ul><p><strong>Integrity note:</strong> The two response charts on this page are original, invented illustrations. The linked external pages explain real measurement methods, but the fictional numbers here are not taken from any specific loudspeaker.</p></div>
+</ul><p><strong>Integrity note:</strong> The angle selector and the smooth-versus-uneven comparison use fictional data. The Genelec graph shows published measurements from Princeton’s 3D3A Lab.</p></div>
 </div></section>
 <!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
 <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 18 of 18 · Speakers</span></div>
