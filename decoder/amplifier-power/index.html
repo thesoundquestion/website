@@ -111,6 +111,22 @@
   <div class="dl-case-desc" data-case-description="extra" data-plot-load="8" hidden><p><strong>200 W amp into 8 Ω.</strong> The amp delivers the roughly 68 W peak with room to spare. The pink line stays near 0.011% on the tallest hit.</p></div>
   <div class="dl-case-desc" data-case-description="extra" data-plot-load="4" hidden><p><strong>200 W amp into 4 Ω.</strong> The amp still delivers the roughly 136 W peak. In our example it has enough current for up to 240 W into 4 Ω, and the pink line stays low through the hit.</p></div>
  </div>
+ <details class="dl-advanced" id="headroom-graph-settings">
+  <summary>Graph settings · amplifier limits, voltage and volume</summary>
+  <p>These are fictional amplifier output limits into fixed test resistances. The graph uses them as the points where the solid output line flattens to illustrate clipping.</p>
+  <table>
+   <thead><tr><th scope="col">Example amp</th><th scope="col">8 Ω output limit</th><th scope="col">4 Ω output limit</th></tr></thead>
+   <tbody>
+    <tr><th scope="row">25 W amp</th><td>25 W</td><td>30 W</td></tr>
+    <tr><th scope="row">80 W amp</th><td>80 W</td><td>100 W</td></tr>
+    <tr><th scope="row">200 W amp</th><td>200 W</td><td>240 W</td></tr>
+   </tbody>
+  </table>
+  <p><strong>Voltage and current.</strong> Each amp gets the same requested output voltage at every moment. The loudest hit asks for about <strong>23.3 V RMS equivalent</strong>. That works out to about <strong>68 W and 2.9 A into 8 Ω</strong>, or <strong>136 W and 5.8 A into 4 Ω</strong>. Those are the demands before any clipping. The load switch holds the requested voltage steady.</p>
+  <p><strong>Where would the volume knob be?</strong> Use the 80 W amp at 8 Ω as a reference. The loudest hit is about <strong>0.7 dB below that amp’s output limit</strong>, or about 92% of its available voltage. That describes how hard the amp is working on that hit. A real knob position depends on the source level, the amp’s gain and how its volume control is designed.</p>
+  <p><strong>Distortion model.</strong> The pink line uses a fictional 1 kHz distortion-plus-noise curve for each amp and load, sampled at the power requested as the passage plays. Its shape and the output limits are assumptions chosen for this example.</p>
+ </details>
+
   <p><strong>What’s worth paying for?</strong> If your speakers dip low in impedance and you play loud, extra current capacity can help keep drum hits and other loud peaks clean. Compare measured output and distortion into 4 Ω under similar test conditions. If your speakers are easy to drive and you listen at moderate levels, a lower-priced amp that stays clean at your listening level can be all you need.</p>
 
  <div class="hr-rule-strip" aria-label="How much extra loudness do higher amplifier watt ratings allow under ideal conditions">
