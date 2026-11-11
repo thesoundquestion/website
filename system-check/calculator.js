@@ -464,13 +464,14 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
 
 function calculate() {
   const mode = field('mode').value;
-  const entries = mode === 'check' ? readRatings() : [];
+  const load = num('load');
+  const enteredRatings = mode === 'check' ? readRatings() : [];
+  const entries = enteredRatings.filter(rating => rating.load !== 2 || load === 2);
   const target = field('targetMode').value;
   const average = target === 'peak' ? null : num('average');
   const peak = num('peak');
   if (average !== null && peak < average) throw new Error('Enter a peak level at or above the average level.');
   if (peak > 135) throw new Error('Use a peak target of 135 dB SPL or less for this model.');
-  const load = num('load');
   const minimum = num('minimum');
   const maximum = num('maximum');
   if (Number.isFinite(maximum) && Number.isFinite(minimum) && maximum < minimum) throw new Error('Maximum impedance must be at or above minimum impedance.');
@@ -502,7 +503,7 @@ function calculate() {
   }
   if (mode === 'check') {
     curveReading(peakV, averageV, load);
-    renderConnections(peakV, entries, load);
+    renderConnections(peakV, enteredRatings, load);
   }
   const summaryCount = body.children.length;
   body.append(table(['Listening goal', 'Power/ch.', 'Voltage RMS', 'Current RMS'], rows));
@@ -613,6 +614,7 @@ document.querySelector('#example').addEventListener('click', () => {
   for (const note of document.querySelectorAll('[data-gear] p')) note.replaceChildren();
   levelAnchor = 'peak';
   field('sensitivity').value = 94.5;
+  field('peak').value = 105;
   field('load').value = 8;
   field('distance').value = 8;
   field('speakers').value = '0';
