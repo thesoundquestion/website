@@ -31,6 +31,7 @@ const equipment = {
       ['enclosure', 'Enclosure / acoustic loading', 'text', 'e.g. bass reflex'],
       ['frequencyResponse', 'Published frequency range', 'text', 'e.g. 50 Hz–20 kHz'],
       ['responseBasis', 'Response tolerance or test basis', 'text', 'e.g. ±3 dB, on-axis'],
+      ['responseExtra', 'Additional published response limit', 'text', 'e.g. 40 Hz (−6 dB)'],
       ['crossover', 'Crossover frequency/frequencies', 'text', 'e.g. 500 Hz / 2.4 kHz'],
     ],
   },
@@ -207,6 +208,7 @@ function speakerRows(devices) {
   rowOfSpecs('Drivers, sizes and materials', devices, 'drivers');
   rowOfSpecs('Enclosure / loading', devices, 'enclosure');
   addRow('Published frequency response', devices.map(({ values }) => responseReading(values)));
+  if (devices.some(({ values }) => values.responseExtra)) rowOfSpecs('Additional response limit', devices, 'responseExtra');
   rowOfSpecs('Crossover points', devices, 'crossover');
   addSection('Sensitivity and electrical load');
   const sensitivity = devices.map(({ values }) => normalizedSensitivity(values, 2.83, 1));
@@ -276,7 +278,7 @@ function currentDevice(index) {
     const preset = systemCheckGear[kind].find(device => device.model === selection.model);
     if (!preset) return undefined;
     const details = detailFor(kind, preset.model);
-    return { ...preset, values: { ...preset.values, ...details }, detailedReference: details.reference, detailNote: details.detailNote };
+    return { ...preset, values: { ...preset.values, ...details }, detailedReference: details.reference, detailNote: details.detailNote, reviewStatus: details.reviewStatus, reviewedOn: details.reviewedOn };
   }
   const { name, watts, duration, conditions, ...values } = selection.values;
   const ratings = watts > 0 && values.load > 0 ? [[watts, values.load, duration || 'unknown', conditions ?? '']] : [];
@@ -311,6 +313,11 @@ function showComparison() {
   rows.replaceChildren();
   const render = { amp: amplifierRows, speaker: speakerRows, source: sourceRows, headphone: headphoneRows }[kind];
   document.querySelector('#comparison-takeaway').textContent = render(devices);
+  if (kind !== 'amp') addRow('Specification source review', devices.map(device => {
+    if (device.model === (device.values.name || '')) return 'Entered manually · unverified';
+    if (device.reviewStatus === 'manufacturer-checked') return withCondition('Manufacturer document cross-checked', device.reviewedOn || '');
+    return withCondition('Not fully reviewed', 'Use the source links below; unconfirmed fields may be blank.');
+  }));
   addRow('Notes and sources', devices.map(deviceLinks));
   const lesson = document.querySelector('#comparison-lesson');
   [lesson.href, lesson.textContent] = equipment[kind].lesson;
