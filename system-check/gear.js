@@ -831,6 +831,29 @@ const systemCheckGear = {
       "url": "https://www.denon.com/en/product/av-receivers/dra-900h/DRA900H.html"
     },
     {
+      "model": "Denon PMA-500V",
+      "values": {
+        "inputZ": 47,
+        "inputSensitivity": 0.15
+      },
+      "ratings": [
+        [
+          80,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, <0.05% THD, both channels driven"
+        ],
+        [
+          130,
+          4,
+          "continuous",
+          "1 kHz, 1% THD, DIN"
+        ]
+      ],
+      "note": "Denon lists 80 W per channel into 8 Ω across the audio band. The 130 W figure into 4 Ω is a 1 kHz DIN rating at 1% THD. The line input is rated at 150 mV and 47 kΩ.",
+      "url": "https://www.manualslib.com/manual/4265572/Denon-Pma-500v.html?page=17"
+    },
+    {
       "model": "Denon PMA-600NE",
       "values": {
         "inputZ": 40
