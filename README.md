@@ -14,7 +14,8 @@ Public website for **The Sound Question** at https://thesoundquestion.pages.dev/
 - `index.html` — homepage: from microphone to ears
 - `journey/index.html` — guided 9-stage overview of the sound journey
 - `about/index.html` — about
-- `library/index.html` — technical reference library (not yet populated)
+- `library/index.html` — reference library with an introductory guide, glossary, methods and sources
+- `library/make-audio-make-sense/` — first reference article and downloadable PDF handbook
 - `decoder/index.html` — Spec Sheet Decoder with speaker, amplifier, headphone and source/DAC lessons
 - `connect/index.html` — official account links
 - `privacy/index.html` — website privacy notice
@@ -46,7 +47,7 @@ Maintain the [approved answers](assets/lesson-tutor/approved-answers.json) along
 
 ## Brand direction (November 2026)
 
-**The Sound Question: From the microphone to your ears.** The website is a beginner-first guide to the complete music and audio journey: performance, capture, mixing, mastering, formats, sources and conversion, amplification, speakers/headphones, rooms, hearing and personal preferences. Not every recording begins with a microphone or follows one identical signal path. The homepage and `journey/` provide the broad map; `decoder/` remains the dedicated equipment-specification teaching tool, and `library/` is reserved for supporting materials and reviewed downloads.
+**The Sound Question: From the microphone to your ears.** The website is a beginner-first guide to the complete music and audio journey: performance, capture, mixing, mastering, formats, sources and conversion, amplification, speakers/headphones, rooms, hearing and personal preferences. Not every recording begins with a microphone or follows one identical signal path. The homepage and `journey/` provide the broad map; `decoder/` remains the dedicated equipment-specification teaching tool, and `library/` publishes supporting materials and reviewed downloads.
 
 Writing standard: Begin with familiar listening experiences, then detailed plain-language explanation, contrast neutral vs deliberate coloration vs genuine limitations, include common enthusiast claims and evidence limits, and offer technical details only after the basics. This project does not equate preference with objective accuracy, and never promotes unvalidated simulation results as measurements.
 
