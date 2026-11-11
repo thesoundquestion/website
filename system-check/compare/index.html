@@ -11,7 +11,8 @@
   <link rel="stylesheet" href="/system-check/style.css?v=compare-gear">
   <link rel="stylesheet" href="/system-check/compare/style.css">
   <script defer src="/system-check/gear.js?v=compare-gear"></script>
-  <script defer src="/system-check/compare/compare.js"></script>
+  <script defer src="/system-check/compare/specs.js?v=detail-20261111"></script>
+  <script defer src="/system-check/compare/compare.js?v=detail-20261111"></script>
   <title>Compare My Gear | The Sound Question</title>
 </head>
 <body>
@@ -22,7 +23,7 @@
   </div></header>
   <main id="main" class="container sc gc">
     <h1>Compare My Gear</h1>
-    <p class="lead">Put the gear you own next to a model you’re curious about. See the specs side by side and what they mean for your setup.</p>
+    <p class="lead">Put the gear you own next to a model you’re curious about. Compare not just power and sensitivity, but speaker drivers and crossover design, DAC sample-rate support, and headphone construction and response claims.</p>
     <nav class="sc-tool-tabs" aria-label="Equipment tools">
       <a class="button button-secondary" href="/system-check/">System Check</a>
       <a class="button button-primary" href="/system-check/compare/" aria-current="page">Compare My Gear</a>
@@ -53,11 +54,12 @@
       <section id="comparison" class="sc-results" aria-labelledby="comparison-title" hidden>
         <h2 id="comparison-title">Specs side by side</h2>
         <p id="comparison-takeaway"></p>
-        <table class="gc-table">
+        <p class="gc-compare-explainer">All dimensions, frequency ranges and digital-format ceilings are model-specific published specifications, <strong>not comparable sound-quality scores</strong>. A frequency range without a stated tolerance is not a ±3 dB response curve. Unverified details are shown as “—”, not guessed.</p>
+        <table class="gc-table"><caption class="gc-table-caption">Model specifications, with test conditions and sources where available</caption>
           <thead><tr><th scope="col">Specification</th><th scope="col" id="left-heading"></th><th scope="col" id="right-heading"></th></tr></thead>
           <tbody id="comparison-rows"></tbody>
         </table>
-        <p class="gc-lesson"><a id="comparison-lesson" href="/decoder/">How to read these specs</a></p>
+        <p class="gc-lesson"><a id="comparison-lesson" href="/decoder/">How to read these specs</a> · <a href="/decoder/speaker-drivers/">Drivers and crossovers</a> · <a href="/decoder/sample-rate/">Sample rate</a> · <a href="/decoder/headphone-frequency-response/">Headphone frequency response</a></p>
       </section>
     </div>
   </main>
