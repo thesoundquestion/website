@@ -1,5 +1,5 @@
 'use strict';
-/* Compare My Gear: source-linked specification supplement; updated with model/source review status. */
+/* Model-specific specification supplement, source review tracked per entry. */
 const compareGearDetails = {
   "version": "2026-11-11",
   "notice": "Supplemental, source-linked model facts. A blank value means the source did not establish the specification.",
@@ -209,31 +209,43 @@ const compareGearDetails = {
       "reference": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
     },
     "Cerwin-Vega XLS-12": {
-      "configuration": null,
-      "drivers": "12″ woofer; other sizes/materials not yet verified",
-      "enclosure": null,
-      "frequencyResponse": null,
-      "responseBasis": null,
-      "crossover": null,
-      "reference": "https://cerwinvega.com/products/xls-12"
+      "configuration": "3-way",
+      "drivers": "12″ paper/composite-cone woofer(s); 6.5″ midrange; 1″ soft-dome tweeter",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "43 Hz–20 kHz",
+      "responseBasis": "Manufacturer −3 dB limits",
+      "crossover": "380 Hz / 2.4 kHz",
+      "reference": "https://cerwinvega.com/products/xls-12",
+      "responseExtra": "37 Hz–20 kHz (−10 dB)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "detailNote": "Cerwin-Vega XLS-series published manual, and current manufacturer's website for response limits. Different model revisions may vary."
     },
     "Cerwin-Vega XLS-15": {
-      "configuration": null,
-      "drivers": "15″ woofer; other sizes/materials not yet verified",
-      "enclosure": null,
-      "frequencyResponse": null,
-      "responseBasis": null,
-      "crossover": null,
-      "reference": "https://cerwinvega.com/products/xls-15"
+      "configuration": "3-way",
+      "drivers": "15″ paper/composite-cone woofer(s); 6.5″ midrange; 1″ soft-dome tweeter",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "38 Hz–20 kHz",
+      "responseBasis": "Manufacturer −3 dB limits",
+      "crossover": "280 Hz / 2.4 kHz",
+      "reference": "https://cerwinvega.com/products/xls-15",
+      "responseExtra": "36 Hz–20 kHz (−10 dB)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "detailNote": "Cerwin-Vega XLS-series published manual, and current manufacturer's website for response limits. Different model revisions may vary."
     },
     "Cerwin-Vega XLS-215": {
-      "configuration": null,
-      "drivers": "2 × 15″ woofers; other sizes/materials not yet verified",
-      "enclosure": null,
-      "frequencyResponse": null,
-      "responseBasis": null,
-      "crossover": null,
-      "reference": "https://cerwinvega.com/products/xls-215"
+      "configuration": "3-way",
+      "drivers": "2 × 15″ paper/composite-cone woofer(s); 6.5″ midrange; 1″ soft-dome tweeter",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "38 Hz–20 kHz",
+      "responseBasis": "Manufacturer −3 dB limits",
+      "crossover": "280 Hz / 2.4 kHz",
+      "reference": "https://cerwinvega.com/products/xls-215",
+      "responseExtra": "36 Hz–20 kHz (−10 dB)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "detailNote": "Cerwin-Vega XLS-series published manual, and current manufacturer's website for response limits. Different model revisions may vary."
     },
     "Yamaha NS-555": {
       "configuration": "3-way / four drivers",
@@ -524,7 +536,7 @@ const compareGearDetails = {
       "reviewedOn": "2026-11-11"
     },
     "Polk Signature Elite ES60": {
-      "configuration": "2-way / 4 active drivers",
+      "configuration": "Four active drivers; acoustic way count not specified",
       "drivers": "3 × 6.5″ mica-reinforced polypropylene LF/MF; 1″ Terylene dome tweeter",
       "enclosure": "Bass reflex / Power Port",
       "frequencyResponse": "32 Hz–40 kHz",
@@ -532,7 +544,8 @@ const compareGearDetails = {
       "crossover": "2.4 kHz",
       "reference": "https://www.polkaudio.com/en-ca/product/home-speakers/floor-standing/signature-elite-es60/300369.html",
       "reviewStatus": "manufacturer-checked",
-      "reviewedOn": "2026-11-11"
+      "reviewedOn": "2026-11-11",
+      "detailNote": "The reviewed Polk ES60 product sheet does not clearly identify the number of independent acoustic frequency bands; four drivers alone do not establish 2-way, 2.5-way or 3-way topology."
     },
     "Klipsch Heresy II": {
       "configuration": "3-way",
@@ -542,6 +555,18 @@ const compareGearDetails = {
       "responseBasis": "Manufacturer ±3 dB",
       "reference": "https://assets.klipsch.com/product-specsheets/Heresy-II-Specs.pdf",
       "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "Cerwin-Vega AT-15": {
+      "configuration": "3-way / four active drivers",
+      "drivers": "15″ cast-frame woofer; 2 × 5″ cone midranges; 1″ polymer-dome tweeter with acoustic transformer",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "28 Hz–28 kHz",
+      "responseBasis": "Period secondary reproduction; tolerance not established",
+      "crossover": "400 Hz / 3.0 kHz",
+      "reference": "https://audiokarma.org/forums/threads/cerwin-vega-at-15.575851/",
+      "detailNote": "Secondary transcription of vintage specifications, not an independently verified manufacturer data sheet or measurement; use cautiously.",
+      "reviewStatus": "secondary-reviewed",
       "reviewedOn": "2026-11-11"
     }
   },
@@ -556,7 +581,8 @@ const compareGearDetails = {
       "reference": "https://sg.creative.com/corporate/pressroom?id=13137",
       "detailNote": "Creative's primary announcement specifies 24-bit / 96 kHz conversion at the RCA line outputs. It does not establish a 24/192 RCA mode; host software/driver availability varies.",
       "reviewStatus": "manufacturer-checked",
-      "reviewedOn": "2026-11-11"
+      "reviewedOn": "2026-11-11",
+      "pcmPCIe": "RCA DAC specified up to 24-bit / 96 kHz; actual driver modes may vary"
     },
     "iFi ZEN DAC V2 (fixed RCA)": {
       "converter": "Burr-Brown DAC architecture",
