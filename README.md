@@ -13,7 +13,8 @@ Public website for **The Sound Question** at https://thesoundquestion.pages.dev/
 
 - `index.html` — homepage
 - `about/index.html` — about
-- `library/index.html` — public reference library landing page (not yet populated)
+- `library/index.html` — technical reference library (not yet populated)
+- `decoder/index.html` — independent Spec Sheet Decoder, beginner-first amplifier and speaker examples
 - `connect/index.html` — official account links
 - `privacy/index.html` — website privacy notice
 - `404.html` — not-found page
@@ -31,3 +32,7 @@ The site currently contains **no analytics scripts, third-party embeds, forms or
 Edit and commit files to `main`. Cloudflare Pages should automatically deploy. If the build configuration is edited in Cloudflare, ensure that this plain HTML site continues to publish the repository root.
 
 Use relative-to-root links (`/library/`, `/assets/styles.css`) so page paths work on all devices.
+
+## Spec Sheet Decoder
+
+The decoder is deliberately separate from the reference library. The initial example values are entirely **fictional** and are marked as such; they are not manufacturer claims or instrument measurements. It is built with native HTML `<details>` elements to work on phones without JavaScript. Technical notes are optional, and all buying advice is qualified.
