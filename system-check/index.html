@@ -9,7 +9,7 @@
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css">
-<script defer src="/system-check/calculator.js?v=linked-levels"></script>
+<script defer src="/system-check/calculator.js?v=inline-specs"></script>
 <title>System Check | The Sound Question</title>
 </head>
 <body>
@@ -98,6 +98,12 @@
 <h2 id="result-title">Your estimate</h2>
 <p id="result-status" role="status">Enter your speaker specs and listening goal to get started.</p>
 <div id="result-body"></div>
+<section id="spec-search" aria-labelledby="spec-search-title" data-google-engine="" hidden>
+<h2 id="spec-search-title" tabindex="-1">Spec search</h2>
+<p id="spec-search-status" role="status"></p>
+<div id="spec-search-links" class="sc-searches"></div>
+<div id="spec-search-results"></div>
+</section>
 </section>
 </form>
 <section class="sc-notes">
