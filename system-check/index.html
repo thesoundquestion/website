@@ -9,7 +9,8 @@
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css">
-<script defer src="/system-check/calculator.js?v=stereo-default"></script>
+<script defer src="/system-check/gear.js"></script>
+<script defer src="/system-check/calculator.js?v=gear-presets"></script>
 <title>System Check | The Sound Question</title>
 </head>
 <body>
@@ -30,6 +31,10 @@
 <button class="sc-button" type="button" id="example">Load the lesson example</button>
 </fieldset>
 <fieldset><legend>Speakers and seat</legend>
+<div class="sc-gear-picker" data-gear="speaker" hidden>
+<label>Speaker preset<select aria-describedby="gear-speaker-note"><option value="">Enter specs manually</option></select></label>
+<p id="gear-speaker-note" aria-live="polite"></p>
+</div>
 <div class="sc-fields">
 <label>Speaker sensitivity (dB)<input name="sensitivity" type="number" min="40" max="130" step="any" required placeholder="e.g. 88"></label>
 <label>Sensitivity basis<select name="basis"><option value="voltage">2.83 V at 3.28 ft</option><option value="power">1 W at 3.28 ft</option></select></label>
@@ -58,6 +63,10 @@
 </details>
 </fieldset>
 <fieldset id="amp-fields"><legend>Amplifier ratings</legend>
+<div class="sc-gear-picker" data-gear="amp" hidden>
+<label>Amplifier preset<select aria-describedby="gear-amp-note"><option value="">Enter specs manually</option></select></label>
+<p id="gear-amp-note" aria-live="polite"></p>
+</div>
 <p>Enter watts per channel. Use separate rows for different loads or test durations.</p>
 <div id="ratings"></div>
 <button class="sc-button" id="add-rating" type="button">Add a power rating</button>
@@ -75,7 +84,12 @@
 <label>Impedance phase at minimum (°)<input name="phase" type="number" min="-90" max="90" step="any"></label>
 <label>Maximum measured impedance (Ω)<input name="maximum" type="number" min="0.2" max="300" step="any"></label>
 </div><p>Use 0 dB room adjustment for the free-field estimate. Stereo summation varies with the recording, frequency and seat.</p></fieldset>
-<fieldset><legend>Source and amplifier connection</legend><div class="sc-fields">
+<fieldset><legend>Source and amplifier connection</legend>
+<div class="sc-gear-picker" data-gear="source" hidden>
+<label>DAC or source preset<select aria-describedby="gear-source-note"><option value="">Enter specs manually</option></select></label>
+<p id="gear-source-note" aria-live="polite"></p>
+</div>
+<div class="sc-fields">
 <label>Source maximum output (V RMS)<input name="sourceVoltage" type="number" min="0.001" max="100" step="any"></label>
 <label>Source output impedance (Ω)<input name="sourceZ" type="number" min="0" max="100000" step="any"></label>
 <label>Amplifier input impedance (kΩ)<input name="inputZ" type="number" min="0.001" max="1000" step="any"></label>
@@ -107,6 +121,12 @@
 </section>
 </form>
 <section class="sc-notes">
+<details><summary>Headphone specifications</summary>
+<div class="sc-gear-picker" data-gear="headphone" hidden>
+<label>Headphone model<select aria-describedby="gear-headphone-note"><option value="">Choose a model</option></select></label>
+<p id="gear-headphone-note" aria-live="polite"></p>
+</div>
+</details>
 <h2>How the estimate works</h2>
 <p>Sensitivity tells us how much sound the speaker makes at a known input. The calculator estimates how much level you lose with distance, then works out the voltage and watts needed per channel. Room reflections, bass management, speaker compression, impedance phase and the duration of a peak can all change what your system delivers. Published bench ratings apply under their stated test conditions.</p>
 <p><a href="/decoder/amplifier-power/#headroom">Amplifier headroom</a> · <a href="/decoder/speaker-sensitivity/">Speaker sensitivity</a> · <a href="/decoder/speaker-impedance/">Speaker impedance</a> · <a href="/decoder/ohms-law/">Voltage, current and watts</a></p>
