@@ -550,6 +550,7 @@ const presetFields = {
 };
 
 function mountGearPresets(catalog) {
+  const selections = new URLSearchParams(location.search);
   for (const picker of document.querySelectorAll('[data-gear]')) {
     const kind = picker.dataset.gear;
     const options = catalog[kind];
@@ -581,6 +582,11 @@ function mountGearPresets(catalog) {
       source.target = '_blank';
       source.rel = 'noopener noreferrer';
       source.textContent = 'View source';
+      if (kind === 'headphone' && gear.values?.sensitivity) {
+        const { load, sensitivity, basis } = gear.values;
+        const reference = basis === 'power' ? '1 mW' : '1 V RMS';
+        note.append(show(load) + ' Ω nominal, ' + show(sensitivity) + ' dB SPL at ' + reference + '. ');
+      }
       note.append(gear.note + ' ', source);
       if (gear.extra) {
         const more = source.cloneNode();
@@ -588,13 +594,25 @@ function mountGearPresets(catalog) {
         more.href = gear.extra[1];
         note.append(' · ', more);
       }
+      const compare = document.createElement('a');
+      compare.href = '/system-check/compare/?' + new URLSearchParams({ type: kind, left: gear.model });
+      compare.textContent = 'Compare this gear';
+      note.append(' · ', compare);
     });
+
+    const selected = options.findIndex(gear => gear.model === selections.get(kind));
+    if (selected >= 0) {
+      select.value = String(selected);
+      select.dispatchEvent(new Event('change'));
+      const details = picker.closest('details');
+      if (details) details.open = true;
+    }
   }
 }
 
 if (typeof systemCheckGear !== 'undefined') mountGearPresets(systemCheckGear);
 
-addRating();
+if (!ratings.children.length) addRating();
 sync();
 field('targetMode').addEventListener('change', () => {
   if (field('targetMode').value === 'peak') levelAnchor = 'peak';
