@@ -130,7 +130,7 @@ async function searchSpecs(model, terms) {
   try {
     const results = await loadGoogleResults();
     if (request !== lastSearch) return;
-    results.execute('"' + model + '" ' + terms);
+    results.execute('"' + model + '"');
     searchStatus.textContent = 'Results for ' + model;
   } catch {
     if (request === lastSearch) searchStatus.textContent = 'Inline results are unavailable. Open the Google search to continue.';
