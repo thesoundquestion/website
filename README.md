@@ -91,6 +91,8 @@ THD+N now has a focused illustrated section under `#thd-plus-noise` with synthet
 ### Critical publishing rule: teach every example stat explicitly
 Any example specification prominently shown at the beginning of a Decoder lesson must have a corresponding chart or diagram that visualizes **that exact quantity and measurement convention**, with a plain-English explanation of each component. Use the dedicated `#decode-the-spec` section to identify test points, sweeps, limits and unspecified conditions. For example, the distortion lesson marks its 0.09% at 1 kHz rating as a single point.
 
+Link to [the Ohm’s law example](https://thesoundquestion.pages.dev/decoder/ohms-law/#same-voltage) where a lesson first uses a lower-ohm load to explain current or watts, including in a chart’s explanation. Name the condition in plain language. At the same voltage, fewer ohms draw more current. In amplifier lessons, connect that extra current to what the power supply and output circuitry can deliver. Link to another lesson where it answers the reader’s next question.
+
 ## Speaker, amplifier and headphone lessons
 
 The five speaker lessons cover response, bass extension, sensitivity, impedance, and drivers and crossovers. The three amplifier lessons cover power and headroom, distortion and THD+N, and output-stage classes and devices. The classes lesson explains why buyers may choose Class A, AB, D or G/H and what measurements can establish.

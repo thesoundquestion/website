@@ -360,6 +360,8 @@
 @media(max-width:650px){.dl-stat-decode{padding-block:12px 18px}.dl-stat-grid{padding:.7rem}.dl-stat-axis{font-size:16px}.dl-stat-label{font-size:19px}}
 
 /* Plain-language terms and worked electrical examples */
+.dl-ohm-reference .container { max-width:820px; }
+.dl-ohm-reference .dl-advanced [id] { scroll-margin-top:90px; }
 .dl-term-grid {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));
