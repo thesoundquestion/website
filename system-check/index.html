@@ -9,8 +9,8 @@
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css">
-<script defer src="/system-check/gear.js?v=starter-catalog"></script>
-<script defer src="/system-check/calculator.js?v=power-targets"></script>
+<script defer src="/system-check/gear.js?v=expanded-catalog"></script>
+<script defer src="/system-check/calculator.js?v=home-listening"></script>
 <title>System Check | The Sound Question</title>
 </head>
 <body>
@@ -42,7 +42,7 @@
 <label>Distance to each speaker (ft)<input name="distance" type="number" min="0.5" max="300" step="any" required placeholder="e.g. 8"></label>
 </div>
 <p id="sensitivity-count-note"><strong>Use sensitivity for one speaker.</strong> The calculator adds the pair’s contribution under Speakers contributing. If your sensitivity figure already includes both speakers at the stated input per speaker, choose +0 dB there.</p>
-<datalist id="impedances"><option value="2"><option value="3"><option value="4"><option value="6"><option value="8"><option value="12"><option value="16"></datalist>
+<datalist id="impedances"><option value="3"><option value="4"><option value="6"><option value="8"><option value="12"><option value="16"></datalist>
 <details class="sc-lookup" data-lookup="speaker"><summary>Find my speaker specs</summary>
 <label>Brand and exact model<input name="speakerModel" placeholder="e.g. Klipsch RP-600M II"></label>
 <p>Look for the sensitivity basis and nominal impedance in the manual. Independent tests may show how far impedance dips. Browse the <a href="https://www.spinorama.org/" target="_blank" rel="noopener">Spinorama speaker index</a>.</p>
@@ -51,11 +51,11 @@
 <fieldset><legend>Listening goal</legend>
 <div class="sc-fields">
 <label>Start with<select name="targetMode"><option value="both" selected>Linked average and peak levels</option><option value="peak">Peak level only</option></select></label>
-<label data-target="peak">Peak at your seat (dB SPL)<input name="peak" type="number" min="20" max="135" step="any" value="105" list="levels" required></label>
-<label data-target="average">Average at your seat (dB SPL)<input name="average" type="number" min="20" max="135" step="any" value="90" list="levels" required></label>
+<label data-target="peak">Peak at your seat (dB SPL)<input name="peak" type="number" min="20" max="135" step="any" value="90" list="levels" required></label>
+<label data-target="average">Average at your seat (dB SPL)<input name="average" type="number" min="20" max="135" step="any" value="75" list="levels" required></label>
 <label data-target="gap">Room above average for peaks (dB)<input name="gap" type="number" min="0" max="50" step="any" value="15" list="peak-gaps" required></label>
 </div>
-<p>Edit either level and the other follows. The default <strong>15 dB gap</strong> is a starting estimate. A heavily compressed track can have smaller peaks, while a dynamic recording can have larger ones. Change the gap if you know your music. <a href="https://www.ti.com/lit/an/sloa068/sloa068.pdf" target="_blank" rel="noopener">More on peak-to-average levels</a></p>
+<p><strong>75 dB SPL average at your seat</strong> is a starting point. Genelec uses a <a href="https://www.genelec.com/-/blog/how-to-analyse-frequency-and-temporal-responses" target="_blank" rel="noopener">70–80 dB SPL listening range</a> for room calibration. Edit either level and the other follows. The default <strong>15 dB gap</strong> is a starting estimate. A heavily compressed track can have smaller peaks, while a dynamic recording can have larger ones. Change the gap if you know your music. <a href="https://www.ti.com/lit/an/sloa068/sloa068.pdf" target="_blank" rel="noopener">More on peak-to-average levels</a></p>
 <datalist id="peak-gaps"><option value="6"><option value="10"><option value="15"><option value="20"><option value="24"></datalist>
 <datalist id="levels"><option value="40"><option value="50"><option value="60"><option value="70"><option value="75"><option value="80"><option value="85"><option value="90"><option value="95"><option value="100"><option value="105"><option value="108"><option value="110"><option value="115"></datalist>
 <details><summary>What does that level sound like?</summary>
@@ -68,7 +68,7 @@
 <label>Amplifier preset<select aria-describedby="gear-amp-note"><option value="">Enter specs manually</option></select></label>
 <p id="gear-amp-note" aria-live="polite"></p>
 </div>
-<p>Enter watts per channel. Use separate rows for different loads or test durations.</p>
+<p>Enter watts per channel. Use separate rows for different loads or test durations. A 2 Ω rating appears in the comparison only when you enter 2 Ω as the speaker’s nominal load.</p>
 <div id="ratings"></div>
 <button class="sc-button" id="add-rating" type="button">Add a power rating</button>
 <details class="sc-lookup" data-lookup="amp"><summary>Find my amplifier specs</summary>
