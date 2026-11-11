@@ -11,6 +11,86 @@ const systemCheckGear = {
       "url": "https://www.axiomaudio.com/faqs"
     },
     {
+      "model": "Cerwin-Vega AT-15",
+      "values": {
+        "sensitivity": 102,
+        "basis": "power",
+        "load": 4
+      },
+      "note": "15-inch three-way. The period Stereo Directory lists 102 dB at 1 W / 3.28 ft and 4 Ω nominal.",
+      "url": "https://www.worldradiohistory.com/Archive-All-Audio/Archive-HiFI-Stereo/SPECIALS/Stereo-Directory-1995.pdf"
+    },
+    {
+      "model": "Cerwin-Vega D-3",
+      "values": {
+        "sensitivity": 94,
+        "basis": "power",
+        "load": 8
+      },
+      "note": "Original D-Series brochure. Sensitivity is for one speaker at 1 W / 3.28 ft.",
+      "url": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
+    },
+    {
+      "model": "Cerwin-Vega D-5",
+      "values": {
+        "sensitivity": 96,
+        "basis": "power",
+        "load": 8
+      },
+      "note": "12-inch three-way. The original D-Series brochure lists 96 dB at 1 W / 3.28 ft and 8 Ω nominal.",
+      "url": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
+    },
+    {
+      "model": "Cerwin-Vega D-7",
+      "values": {
+        "sensitivity": 98,
+        "basis": "power",
+        "load": 8
+      },
+      "note": "12-inch three-way. The original D-Series brochure lists 98 dB at 1 W / 3.28 ft and 8 Ω nominal.",
+      "url": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
+    },
+    {
+      "model": "Cerwin-Vega D-9",
+      "values": {
+        "sensitivity": 101,
+        "basis": "power",
+        "load": 8
+      },
+      "note": "15-inch three-way. The original D-Series brochure lists 101 dB at 1 W / 3.28 ft and 8 Ω nominal.",
+      "url": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
+    },
+    {
+      "model": "Cerwin-Vega XLS-12",
+      "values": {
+        "sensitivity": 90.8,
+        "basis": "power",
+        "load": 6
+      },
+      "note": "12-inch tower. Sensitivity is for one speaker at 1 W / 3.28 ft.",
+      "url": "https://cerwinvega.com/products/xls-12"
+    },
+    {
+      "model": "Cerwin-Vega XLS-15",
+      "values": {
+        "sensitivity": 92.3,
+        "basis": "power",
+        "load": 6
+      },
+      "note": "15-inch tower. Sensitivity is for one speaker at 1 W / 3.28 ft.",
+      "url": "https://cerwinvega.com/products/xls-15"
+    },
+    {
+      "model": "Cerwin-Vega XLS-215",
+      "values": {
+        "sensitivity": 95.3,
+        "basis": "power",
+        "load": 6
+      },
+      "note": "Dual 15-inch tower. Sensitivity is for one speaker at 1 W / 3.28 ft.",
+      "url": "https://cerwinvega.com/products/xls-215"
+    },
+    {
       "model": "DALI Oberon 1",
       "values": {
         "sensitivity": 86,
@@ -24,6 +104,26 @@ const systemCheckGear = {
       "model": "DALI Oberon 3",
       "values": {
         "sensitivity": 87,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
+    },
+    {
+      "model": "DALI Oberon 5",
+      "values": {
+        "sensitivity": 88,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
+    },
+    {
+      "model": "DALI Oberon 7",
+      "values": {
+        "sensitivity": 88.5,
         "basis": "voltage",
         "load": 6
       },
@@ -97,6 +197,16 @@ const systemCheckGear = {
       "url": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf"
     },
     {
+      "model": "ELAC Debut Reference DFR52",
+      "values": {
+        "sensitivity": 87,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://www.elac.com/download/dfr52/elac-debut-reference-eng.pdf"
+    },
+    {
       "model": "ELAC Uni-Fi 2.0 UB52",
       "values": {
         "sensitivity": 85,
@@ -107,6 +217,26 @@ const systemCheckGear = {
       "url": "https://online.elac.com/download/ub52/elac-uni-fi-2-0-en.pdf"
     },
     {
+      "model": "JBL L100 Century (original)",
+      "values": {
+        "sensitivity": 91.2,
+        "basis": "power",
+        "load": 8
+      },
+      "note": "JBL lists 78 dB at 1 W / 15 ft. The 91.2 dB preset is an estimate at 3.28 ft using free-field distance loss.",
+      "url": "https://support.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw06bf89c3/pdfs/L100%20CENTURY%5EJBL%5Eom%5E%5E%5E%5E.pdf"
+    },
+    {
+      "model": "JBL L100 Classic",
+      "values": {
+        "sensitivity": 90,
+        "basis": "voltage",
+        "load": 4
+      },
+      "note": "This preset is for the L100 Classic. Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw34a5166a/pdfs/JBL_Synthesis_L100_Classic_Brochure.pdf"
+    },
+    {
       "model": "JBL Stage 250B",
       "values": {
         "sensitivity": 86,
@@ -115,6 +245,16 @@ const systemCheckGear = {
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. This is the Stage 2 model.",
       "url": "https://www.jbl.com/250B.html"
+    },
+    {
+      "model": "JBL Stage 280F",
+      "values": {
+        "sensitivity": 91,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://global.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw9bd72c8c/pdfs/Spec%20Sheet%20-%20JBL%20280F.pdf"
     },
     {
       "model": "JBL Stage A130",
@@ -160,6 +300,17 @@ const systemCheckGear = {
       "url": "https://ca.kef.com/products/q3-meta"
     },
     {
+      "model": "KEF Q7 Meta",
+      "values": {
+        "sensitivity": 87,
+        "basis": "voltage",
+        "load": 4,
+        "minimum": 3.2
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF lists 4 Ω nominal and a 3.2 Ω minimum.",
+      "url": "https://ca.kef.com/products/q7-meta"
+    },
+    {
       "model": "KEF Q150",
       "values": {
         "sensitivity": 86,
@@ -180,6 +331,59 @@ const systemCheckGear = {
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. KEF lists a 3.7 Ω minimum.",
       "url": "https://international.kef.com/products/q350-bookshelf-speaker/1000"
+    },
+    {
+      "model": "KEF Q550",
+      "values": {
+        "sensitivity": 87,
+        "basis": "voltage",
+        "load": 8,
+        "minimum": 3.5
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF lists 8 Ω nominal and a 3.5 Ω minimum.",
+      "url": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf"
+    },
+    {
+      "model": "KEF Q750",
+      "values": {
+        "sensitivity": 88,
+        "basis": "voltage",
+        "load": 8,
+        "minimum": 3.8
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF lists 8 Ω nominal and a 3.8 Ω minimum.",
+      "url": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf"
+    },
+    {
+      "model": "KEF Q950",
+      "values": {
+        "sensitivity": 91,
+        "basis": "voltage",
+        "load": 8,
+        "minimum": 3.2
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF lists 8 Ω nominal and a 3.2 Ω minimum.",
+      "url": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf"
+    },
+    {
+      "model": "Klipsch Forte II",
+      "values": {
+        "sensitivity": 99,
+        "basis": "power",
+        "load": 8
+      },
+      "note": "Original Forte II brochure. Sensitivity is for one speaker at 1 W / 3.28 ft.",
+      "url": "https://assets.klipsch.com/product-specsheets/forte-II-brochure.pdf"
+    },
+    {
+      "model": "Klipsch Heresy II",
+      "values": {
+        "sensitivity": 96,
+        "basis": "power",
+        "load": 8
+      },
+      "note": "Original Heresy II brochure. Sensitivity is for one speaker at 1 W / 3.28 ft.",
+      "url": "https://assets.klipsch.com/files/Heresy-II-La-Scala-Belle-Klipsch-brochure-and-specs.pdf"
     },
     {
       "model": "Klipsch R-50M",
@@ -245,6 +449,16 @@ const systemCheckGear = {
       ]
     },
     {
+      "model": "Paradigm Monitor SE 6000F",
+      "values": {
+        "sensitivity": 90,
+        "basis": "voltage",
+        "load": 8
+      },
+      "note": "Uses the 90 dB anechoic figure so you can apply your own room adjustment. Paradigm also lists 93 dB in-room and 8 Ω compatibility.",
+      "url": "https://www.paradigm.com/en/floorstanding/monitor-se-6000f"
+    },
+    {
       "model": "Paradigm Monitor SE Atom",
       "values": {
         "sensitivity": 86,
@@ -273,6 +487,20 @@ const systemCheckGear = {
       },
       "note": "86 dB anechoic (89 dB in room) and 8 Ω compatibility, from a secondary v3 specification. The calculator assumes the 2.83 V / 3.28 ft basis. Minimum impedance is unverified.",
       "url": "https://www.canuckaudiomart.com/details/649350799-paradigm-titan-bookshelf-speakers-v3-black-with-wall-mounts/"
+    },
+    {
+      "model": "Pioneer HPM-100",
+      "values": {
+        "sensitivity": 92,
+        "basis": "voltage",
+        "load": 8
+      },
+      "note": "Sensitivity is the period Hi-Fi Choice measurement at 2.83 V / 3.28 ft. The original nominal rating is 8 Ω.",
+      "url": "https://www.worldradiohistory.com/UK/Hi-Fi-Choice/1975-1982/Hi-Fi%20Choice%20Iss.%20010%20Loudspeakers%201978.pdf",
+      "extra": [
+        "HPM-100 specifications and manuals",
+        "https://www.hifiengine.com/manual_library/pioneer/hpm-100.shtml"
+      ]
     },
     {
       "model": "Pioneer S-H352F-K",
@@ -313,6 +541,16 @@ const systemCheckGear = {
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. Polk specifies 4 Ω and 8 Ω amp compatibility. The 8 Ω entry is a calculation reference.",
       "url": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dwf6e3c837/downloads/Polk_Infosheet_ES15-ES20_759558.pdf"
+    },
+    {
+      "model": "Polk Signature Elite ES60",
+      "values": {
+        "sensitivity": 90,
+        "basis": "voltage",
+        "load": 8
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Polk lists compatibility with 4 Ω and 8 Ω amplifier outputs. The preset uses 8 Ω as a calculation reference.",
+      "url": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw08b8483e/downloads/Polk_Infosheet_ES50-ES55-ES60_759558.pdf"
     },
     {
       "model": "Q Acoustics 3020i",
@@ -356,6 +594,61 @@ const systemCheckGear = {
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Wharfedale lists 8 Ω compatibility and a 4 Ω minimum.",
       "url": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-2"
+    },
+    {
+      "model": "Wharfedale Diamond 12.3",
+      "values": {
+        "sensitivity": 89,
+        "basis": "voltage",
+        "load": 8,
+        "minimum": 5
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Wharfedale lists 8 Ω compatibility and a 5 Ω minimum.",
+      "url": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-3"
+    },
+    {
+      "model": "Yamaha NS-555",
+      "values": {
+        "sensitivity": 88,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-555/specs.html"
+    },
+    {
+      "model": "Yamaha NS-777",
+      "values": {
+        "sensitivity": 89,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-777/specs.html"
+    },
+    {
+      "model": "Yamaha NS-1000M",
+      "values": {
+        "sensitivity": 90,
+        "basis": "voltage",
+        "load": 8
+      },
+      "note": "Hi-Fi Choice measured 90 dB at 2.83 V / 3.28 ft. Yamaha's owner's manual lists 8 Ω nominal.",
+      "url": "https://www.worldradiohistory.com/UK/Hi-Fi-Choice/1975-1982/Hi-Fi%20Choice%20Iss.%20015%20Loudspeakers%203%201979.pdf",
+      "extra": [
+        "Yamaha owner's manual",
+        "https://medias.audiofanzine.com/files/yamaha-ns-1000-owners-manual-480506.pdf"
+      ]
+    },
+    {
+      "model": "Yamaha NS-6490 (Canada)",
+      "values": {
+        "sensitivity": 90,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Yamaha Canada's three-way sealed model specifications. Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-6490/"
     }
   ],
   "amp": [
@@ -390,6 +683,72 @@ const systemCheckGear = {
       ],
       "note": "Published 8 Ω power and 47 kΩ line input impedance for the DAB-equipped AXR100D.",
       "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/axr100d_a4_en.pdf"
+    },
+    {
+      "model": "Cambridge Audio CXA61",
+      "values": {
+        "inputZ": 43
+      },
+      "ratings": [
+        [
+          60,
+          8,
+          "continuous",
+          "Manufacturer RMS rating"
+        ],
+        [
+          90,
+          4,
+          "continuous",
+          "Manufacturer RMS rating"
+        ]
+      ],
+      "note": "Cambridge specifies 60 W into 8 Ω and 90 W into 4 Ω. Its published distortion tests use separate conditions.",
+      "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/cxa61_81_81_mk_ii_a4_en.pdf"
+    },
+    {
+      "model": "Cambridge Audio CXA81",
+      "values": {
+        "inputZ": 43
+      },
+      "ratings": [
+        [
+          80,
+          8,
+          "continuous",
+          "Manufacturer RMS rating"
+        ],
+        [
+          120,
+          4,
+          "continuous",
+          "Manufacturer RMS rating"
+        ]
+      ],
+      "note": "Original CXA81. Cambridge publishes RMS power into both loads and gives the unbalanced input impedance.",
+      "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/cxa61_81_81_mk_ii_a4_en.pdf"
+    },
+    {
+      "model": "Cambridge Audio CXA81 Mk II",
+      "values": {
+        "inputZ": 43
+      },
+      "ratings": [
+        [
+          80,
+          8,
+          "continuous",
+          "Manufacturer RMS rating"
+        ],
+        [
+          120,
+          4,
+          "continuous",
+          "Manufacturer RMS rating"
+        ]
+      ],
+      "note": "CXA81 Mk II. Cambridge publishes RMS power into both loads and gives the unbalanced input impedance.",
+      "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/cxa61_81_81_mk_ii_a4_en.pdf"
     },
     {
       "model": "Denon AVR-S760H",
@@ -452,6 +811,26 @@ const systemCheckGear = {
       "url": "https://manuals.denon.com/AVRX1800H/NA/en/DRDZSYifoqoect.php"
     },
     {
+      "model": "Denon DRA-900H",
+      "values": {},
+      "ratings": [
+        [
+          100,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.08% THD, 2 channels driven"
+        ],
+        [
+          120,
+          6,
+          "continuous",
+          "1 kHz, 0.7% THD, 2 channels driven"
+        ]
+      ],
+      "note": "The 8 Ω rating covers the audible band. The 6 Ω rating uses a single test tone and permits more distortion.",
+      "url": "https://www.denon.com/en/product/av-receivers/dra-900h/DRA900H.html"
+    },
+    {
       "model": "Denon PMA-600NE",
       "values": {
         "inputZ": 40
@@ -496,6 +875,46 @@ const systemCheckGear = {
       "url": "https://manuals.denon.com/pma900hne/eu/en/obaosyqihmfszx.php"
     },
     {
+      "model": "Marantz 2230",
+      "values": {},
+      "ratings": [
+        [
+          30,
+          8,
+          "continuous",
+          "Rated continuous, both channels driven"
+        ],
+        [
+          30,
+          4,
+          "continuous",
+          "Rated continuous, both channels driven"
+        ]
+      ],
+      "note": "Original 2230 receiver. The service manual gives 30 W per channel with both channels driven into either 8 Ω or 4 Ω.",
+      "url": "https://library.mikesservers.com/M/Marantz/2230/marantz_2230_receiver_sm.pdf"
+    },
+    {
+      "model": "Marantz 2270",
+      "values": {},
+      "ratings": [
+        [
+          70,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, both channels driven"
+        ],
+        [
+          70,
+          4,
+          "continuous",
+          "20 Hz–20 kHz, both channels driven"
+        ]
+      ],
+      "note": "Original 2270 receiver. The owner's manual lists full-band continuous power into 4 Ω and 8 Ω.",
+      "url": "https://retronik.silicium.org/DOCUMENTS/Audiovideo/Marantz/Marantz-2270-Owners-Manual.pdf"
+    },
+    {
       "model": "Marantz PM6007",
       "values": {
         "inputZ": 20,
@@ -517,6 +936,55 @@ const systemCheckGear = {
       ],
       "note": "The manual gives a damping factor of 100 into 8 Ω, corresponding to an estimated 0.08 Ω output impedance.",
       "url": "https://manuals.marantz.com/pm6007/na/en/DNTXSYnslltjoe.php"
+    },
+    {
+      "model": "Marantz Stereo 70s",
+      "values": {},
+      "ratings": [
+        [
+          75,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.08% THD, 2 channels driven"
+        ],
+        [
+          100,
+          6,
+          "continuous",
+          "1 kHz, 0.7% THD, 2 channels driven"
+        ]
+      ],
+      "note": "The 8 Ω rating covers the audible band. The 6 Ω rating uses a single test tone and permits more distortion.",
+      "url": "https://manuals.marantz.com/stereo70s/NA/EN/DRDZSYifoqoect.php"
+    },
+    {
+      "model": "NAD 3020 (original)",
+      "values": {
+        "inputZ": 20,
+        "inputSensitivity": 0.15
+      },
+      "ratings": [
+        [
+          20,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, both channels driven"
+        ],
+        [
+          39,
+          8,
+          "burst",
+          "Manufacturer dynamic rating"
+        ],
+        [
+          58,
+          4,
+          "burst",
+          "Manufacturer dynamic rating"
+        ]
+      ],
+      "note": "Original 3020 integrated amp. The manual gives 20 W per channel continuous, separate short-burst ratings, and 0.15 V line input sensitivity at 20 W.",
+      "url": "https://audiocircuit.dk/downloads/nad/NAD-3020-int-sm2.pdf"
     },
     {
       "model": "NAD C 316BEE V2",
@@ -598,6 +1066,68 @@ const systemCheckGear = {
       ],
       "note": "Front stereo ratings. Approx. 0.2 Ω speaker output impedance is derived from the low-frequency damping factor. The manual gives line-input sensitivity under IHF conditions, so rated-output sensitivity is left blank.",
       "url": "https://help.na.panasonic.com/wp-content/uploads/2023/02/SAHE100_RQT6209_ENG.pdf"
+    },
+    {
+      "model": "Pioneer SX-780",
+      "values": {},
+      "ratings": [
+        [
+          45,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.05% THD, both channels driven"
+        ]
+      ],
+      "note": "Original SX-780 receiver. The 45 W per channel rating is the full-band stereo figure.",
+      "url": "https://www.manualslib.com/manual/4050022/Pioneer-Sx-780.html"
+    },
+    {
+      "model": "Pioneer SX-950",
+      "values": {},
+      "ratings": [
+        [
+          85,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.1% THD, both channels driven"
+        ]
+      ],
+      "note": "Original SX-950 receiver. Pioneer's period catalogue lists the 85 W full-band stereo rating.",
+      "url": "https://hifigoteborg.se/pdf/Pioneer_1976-77.pdf"
+    },
+    {
+      "model": "Sansui AU-517",
+      "values": {
+        "inputZ": 47,
+        "inputSensitivity": 0.15
+      },
+      "ratings": [
+        [
+          65,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.025% THD, both channels driven"
+        ]
+      ],
+      "note": "Original AU-517 integrated amp. AUX input sensitivity is specified at rated power with a 1 kHz signal.",
+      "url": "https://www.hifiengine.info/sansui/sansui_au-517_717s.pdf"
+    },
+    {
+      "model": "Sansui AU-717",
+      "values": {
+        "inputZ": 47,
+        "inputSensitivity": 0.15
+      },
+      "ratings": [
+        [
+          85,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.025% THD, both channels driven"
+        ]
+      ],
+      "note": "Original AU-717 integrated amp. AUX input sensitivity is specified at rated power with a 1 kHz signal.",
+      "url": "https://www.hifiengine.info/sansui/sansui_au-517_717s.pdf"
     },
     {
       "model": "Sony STR-DE475 (US/Canada)",
@@ -724,6 +1254,28 @@ const systemCheckGear = {
       ],
       "note": "Factory line-input specs. Approx. 0.178 Ω speaker output impedance is derived from the 8 Ω damping factor at 1 kHz. The 150 W / 4 Ω DIN figure applies to other regional versions.",
       "url": "https://audiocircuit.dk/downloads/yamaha/Yamaha-A720-int-sm.pdf"
+    },
+    {
+      "model": "Yamaha A-1000",
+      "values": {
+        "outputZ": 0.089
+      },
+      "ratings": [
+        [
+          120,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.005% THD"
+        ],
+        [
+          140,
+          6,
+          "continuous",
+          "20 Hz–20 kHz, 0.007% THD"
+        ]
+      ],
+      "note": "The service manual lists full-band power into 8 Ω and 6 Ω. The output impedance estimate uses the published damping factor of 90 at 8 Ω and 1 kHz.",
+      "url": "https://ks19561005.sakura.ne.jp/9999/ServiceManual/Yamaha%2CA-1000_service.pdf"
     },
     {
       "model": "Yamaha A-S301",
@@ -972,6 +1524,70 @@ const systemCheckGear = {
       ]
     },
     {
+      "model": "Yamaha R-N600A",
+      "values": {},
+      "ratings": [
+        [
+          80,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.07% THD"
+        ],
+        [
+          105,
+          8,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ],
+        [
+          125,
+          6,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ],
+        [
+          150,
+          4,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ]
+      ],
+      "note": "The 80 W per channel rating is continuous. Yamaha publishes separate dynamic power ratings into 8 Ω, 6 Ω and 4 Ω.",
+      "url": "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-n600a/specs.html"
+    },
+    {
+      "model": "Yamaha R-N800A",
+      "values": {},
+      "ratings": [
+        [
+          100,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.07% THD"
+        ],
+        [
+          140,
+          8,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ],
+        [
+          170,
+          6,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ],
+        [
+          220,
+          4,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ]
+      ],
+      "note": "The 100 W per channel rating is continuous. Yamaha publishes separate dynamic power ratings into 8 Ω, 6 Ω and 4 Ω.",
+      "url": "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-n800a/specs.html"
+    },
+    {
       "model": "Yamaha R-S202",
       "values": {
         "inputZ": 47,
@@ -1005,6 +1621,47 @@ const systemCheckGear = {
       ],
       "note": "North American 100 W stereo rating. The owner’s manual gives a separate set of IHF dynamic figures and specifies 0.5 V input sensitivity at 100 W into 8 Ω.",
       "url": "https://data.yamaha.com/files/download/other_assets/2/794512/web_VEX7420_R-S202_om_UA_En_A0.pdf"
+    },
+    {
+      "model": "Yamaha RX-485 (US/Canada)",
+      "values": {
+        "inputZ": 47,
+        "outputZ": 0.1
+      },
+      "ratings": [
+        [
+          65,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.04% THD"
+        ],
+        [
+          70,
+          6,
+          "continuous",
+          "20 Hz–20 kHz, 0.06% THD"
+        ],
+        [
+          95,
+          8,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ],
+        [
+          115,
+          6,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ],
+        [
+          135,
+          4,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ]
+      ],
+      "note": "North American full-band and IHF dynamic ratings. Output impedance is an upper-bound estimate from the 8 Ω damping factor.",
+      "url": "https://www.manualslib.com/manual/3394633/Yamaha-Rx-485.html?page=5"
     },
     {
       "model": "Yamaha RX-V385",
