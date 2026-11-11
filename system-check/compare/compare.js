@@ -6,6 +6,8 @@ const format = new Intl.NumberFormat('en-CA', { maximumSignificantDigits: 3 });
 const show = value => format.format(value);
 const manual = '__manual__';
 const missing = '—';
+const enriched = typeof compareGearDetails !== 'undefined' ? compareGearDetails : {};
+const detailFor = (type, model) => enriched[type]?.[model] || {};
 
 const equipment = {
   amp: {
@@ -24,6 +26,12 @@ const equipment = {
       ['basis', 'Sensitivity reference', 'select', [['voltage', '2.83 V at 3.28 ft'], ['power', '1 W at 3.28 ft']]],
       ['load', 'Nominal impedance (Ω)', 'number', .1],
       ['minimum', 'Minimum impedance (Ω)', 'number', .1],
+      ['configuration', 'Ways / driver arrangement', 'text', 'e.g. 3-way / four drivers'],
+      ['drivers', 'Driver sizes and materials', 'text', 'e.g. 6.5-inch woofer, 1-inch soft-dome'],
+      ['enclosure', 'Enclosure / acoustic loading', 'text', 'e.g. bass reflex'],
+      ['frequencyResponse', 'Published frequency range', 'text', 'e.g. 50 Hz–20 kHz'],
+      ['responseBasis', 'Response tolerance or test basis', 'text', 'e.g. ±3 dB, on-axis'],
+      ['crossover', 'Crossover frequency/frequencies', 'text', 'e.g. 500 Hz / 2.4 kHz'],
     ],
   },
   source: {
@@ -34,6 +42,12 @@ const equipment = {
       ['sourceConnection', 'Output connection', 'select', [['RCA', 'RCA'], ['XLR', 'XLR'], ['3.5 mm', '3.5 mm'], ['Other', 'Other']]],
       ['sourceSnr', 'Signal-to-noise ratio', 'text', 'dB and test conditions'],
       ['sourceThdn', 'THD+N', 'text', '% and test conditions'],
+      ['converter', 'DAC chip / converter architecture', 'text', 'e.g. AK4493SEQ'],
+      ['digitalInputs', 'Digital inputs and streaming', 'text', 'e.g. USB / optical / coaxial'],
+      ['pcmUSB', 'PCM support via USB', 'text', 'e.g. 24-bit / 192 kHz'],
+      ['pcmSpdif', 'PCM via optical/coax', 'text', 'e.g. 24-bit / 96 kHz'],
+      ['dsd', 'DSD support (if known)', 'text', 'e.g. native DSD256 on USB'],
+      ['analogResponse', 'Analogue output frequency response', 'text', 'e.g. 20 Hz–20 kHz ±0.1 dB'],
     ],
   },
   headphone: {
@@ -43,6 +57,12 @@ const equipment = {
       ['basis', 'Sensitivity reference', 'select', [['power', '1 mW'], ['voltage', '1 V RMS']]],
       ['load', 'Nominal impedance (Ω)', 'number', .1],
       ['sensitivityConditions', 'Sensitivity test conditions', 'text', 'e.g. at 1 kHz'],
+      ['transducer', 'Transducer construction', 'text', 'e.g. dynamic, open back'],
+      ['driverSize', 'Driver diameter (if published)', 'text', 'e.g. 40 mm'],
+      ['diaphragm', 'Diaphragm material / motor', 'text', 'e.g. PET diaphragm'],
+      ['frequencyResponse', 'Manufacturer frequency range', 'text', 'e.g. 12 Hz–40 kHz'],
+      ['responseBasis', 'Frequency-range tolerance / basis', 'text', 'e.g. no tolerance stated'],
+      ['connector', 'Cable / connector', 'text', 'e.g. detachable MMCX'],
     ],
   },
 };
@@ -103,6 +123,29 @@ function addRow(label, values) {
   rows.append(row);
 }
 
+function addSection(label) {
+  const row = element('tr');
+  row.className = 'gc-section-row';
+  const header = element('th', label);
+  header.scope = 'colgroup';
+  header.colSpan = 3;
+  row.append(header);
+  rows.append(row);
+}
+
+function specValue(value) {
+  return typeof value === 'string' && value.trim() ? value : missing;
+}
+
+function rowOfSpecs(label, devices, field) {
+  addRow(label, devices.map(device => specValue(device.values[field])));
+}
+
+function responseReading(values) {
+  if (!values.frequencyResponse) return missing;
+  return withCondition(values.frequencyResponse, values.responseBasis || 'Tolerance not stated');
+}
+
 function normalizedSensitivity(values, referenceVoltage, powerWatts) {
   if (!Number.isFinite(values.sensitivity)) return NaN;
   if (values.basis === 'voltage') return values.sensitivity;
@@ -159,6 +202,13 @@ function sensitivityTakeaway(devices, normalized, label) {
 }
 
 function speakerRows(devices) {
+  addSection('Speaker construction and acoustic response');
+  rowOfSpecs('Ways / configuration', devices, 'configuration');
+  rowOfSpecs('Drivers, sizes and materials', devices, 'drivers');
+  rowOfSpecs('Enclosure / loading', devices, 'enclosure');
+  addRow('Published frequency response', devices.map(({ values }) => responseReading(values)));
+  rowOfSpecs('Crossover points', devices, 'crossover');
+  addSection('Sensitivity and electrical load');
   const sensitivity = devices.map(({ values }) => normalizedSensitivity(values, 2.83, 1));
   addRow('Listed sensitivity', devices.map(({ values }) => sensitivityReading(values, true)));
   addRow('Sensitivity at 2.83 V / 3.28 ft', sensitivity.map(value => reading(value, 'dB SPL')));
@@ -166,7 +216,7 @@ function speakerRows(devices) {
   addRow('Minimum impedance', devices.map(({ values }) => {
     return withCondition(reading(values.minimum, 'Ω'), Number.isFinite(values.minimumHz) ? 'at ' + reading(values.minimumHz, 'Hz') : '');
   }));
-  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 2.83 V');
+  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 2.83 V') + ' Driver count and published frequency limits do not establish sound quality; look for comparable measured curves and distortion.';
 }
 
 function dacMeasurement(value) {
@@ -174,6 +224,14 @@ function dacMeasurement(value) {
 }
 
 function sourceRows(devices) {
+  addSection('Conversion, digital formats and connectivity');
+  rowOfSpecs('DAC converter / architecture', devices, 'converter');
+  rowOfSpecs('Digital inputs / streaming', devices, 'digitalInputs');
+  rowOfSpecs('PCM via USB', devices, 'pcmUSB');
+  rowOfSpecs('PCM via optical / coaxial', devices, 'pcmSpdif');
+  rowOfSpecs('DSD input support', devices, 'dsd');
+  addSection('Analogue output and measured performance');
+  rowOfSpecs('Analogue frequency response', devices, 'analogResponse');
   const values = devices.map(device => device.values);
   const voltage = values.map(spec => spec.sourceVoltage);
   addRow('Line output connection', values.map(spec => spec.sourceConnection || missing));
@@ -185,7 +243,7 @@ function sourceRows(devices) {
   addRow('Signal-to-noise ratio', values.map(spec => dacMeasurement(spec.sourceSnr)));
   addRow('THD+N', values.map(spec => dacMeasurement(spec.sourceThdn)));
   const connectionMatches = values[0].sourceConnection && values[0].sourceConnection === values[1].sourceConnection;
-  const conditions = 'Compare noise and distortion figures when the output, signal level, bandwidth and weighting match.';
+  const conditions = 'Digital format support describes compatibility, not effective analogue resolution or audible quality. Compare noise and distortion when output, signal level, bandwidth and weighting match.';
   if (!connectionMatches || voltage.some(value => !(value > 0))) return conditions;
   const difference = Math.abs(20 * Math.log10(voltage[0] / voltage[1]));
   if (difference < .05) return 'The listed full-scale voltages match. ' + conditions;
@@ -194,20 +252,32 @@ function sourceRows(devices) {
 }
 
 function headphoneRows(devices) {
+  addSection('Transducers, acoustics and physical fit');
+  addRow('Design / fit', devices.map(({ values }) => specValue(values.design)));
+  rowOfSpecs('Transducer technology', devices, 'transducer');
+  rowOfSpecs('Driver size', devices, 'driverSize');
+  rowOfSpecs('Diaphragm / material', devices, 'diaphragm');
+  addRow('Published frequency range', devices.map(({ values }) => responseReading(values)));
+  rowOfSpecs('Cable / connectors', devices, 'connector');
+  addSection('Sensitivity and source requirements');
   const sensitivity = devices.map(({ values }) => normalizedSensitivity(values, 1, .001));
   const exampleVoltage = sensitivity.map(value => 10 ** ((90 - value) / 20));
-  addRow('Design', devices.map(({ values }) => values.design || missing));
   addRow('Nominal impedance', devices.map(({ values }) => reading(values.load, 'Ω')));
   addRow('Listed sensitivity', devices.map(({ values }) => sensitivityReading(values, false)));
   addRow('Sensitivity at 1 V RMS', sensitivity.map(value => reading(value, 'dB SPL')));
   addRow('Voltage for 90 dB SPL · estimate', exampleVoltage.map(value => reading(value * 1000, 'mV RMS')));
   addRow('Current for 90 dB SPL · estimate', devices.map(({ values }, index) => reading(1000 * exampleVoltage[index] / values.load, 'mA RMS')));
-  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 1 V RMS') + ' Fit and measurement fixtures can affect the estimates.';
+  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 1 V RMS') + ' Frequency-range endpoints alone do not describe tonal balance. Fit, pads and measurement fixtures can change the actual response.';
 }
 
 function currentDevice(index) {
   const selection = comparisons[kind][index];
-  if (selection.model !== manual) return systemCheckGear[kind].find(device => device.model === selection.model);
+  if (selection.model !== manual) {
+    const preset = systemCheckGear[kind].find(device => device.model === selection.model);
+    if (!preset) return undefined;
+    const details = detailFor(kind, preset.model);
+    return { ...preset, values: { ...preset.values, ...details }, detailedReference: details.reference, detailNote: details.detailNote };
+  }
   const { name, watts, duration, conditions, ...values } = selection.values;
   const ratings = watts > 0 && values.load > 0 ? [[watts, values.load, duration || 'unknown', conditions ?? '']] : [];
   return {
@@ -220,7 +290,9 @@ function currentDevice(index) {
 
 function deviceLinks(device) {
   const notes = withCondition(device.note || missing);
-  if (device.url) notes.append(linkedText('View source', device.url, true));
+  if (device.url) notes.append(linkedText('Preset source', device.url, true));
+  if (device.detailedReference && device.detailedReference !== device.url) notes.append(linkedText('Detailed specifications', device.detailedReference, true));
+  if (device.detailNote) notes.append(withCondition('', device.detailNote));
   if (device.extra) notes.append(linkedText(device.extra[0], device.extra[1], true));
   if (device.url && kind !== 'headphone') {
     notes.append(linkedText('Use in System Check', '/system-check/?' + new URLSearchParams({ [kind]: device.model })));
