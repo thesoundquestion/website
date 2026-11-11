@@ -73,3 +73,7 @@ The canonical order of all published lessons is `decoder/curriculum.json`. Each 
 The lesson index cards at `decoder/index.html` must also be updated for any newly published lesson.
 
 When a new equipment category is introduced, add its label, singular adjective, landing-page anchor, and transition description to `decoder/curriculum.json` under `categories`; the navigation generator then creates the right category-switch prompt automatically.
+
+## Responsive layout principles
+
+The site's general layout is content-first, not a full-screen title showcase. On desktop, avoid huge blank sections: navigation, lessons and practical material should be visible early. Use the width available on desktop to place graphs alongside explanations, while preserving the mobile stacked layout. The homepage now offers direct learning choices before the longer journey overview. Do not reduce lesson depth just to reduce scroll.
