@@ -28,19 +28,26 @@
       </div>
     </header>
     <main id="main">
-<div class="dl-lesson-top container"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Frequency response</span></nav>
-<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/bass-extension/" aria-label="Next lesson: Bass extension">Next lesson: Bass extension →</a><!-- LESSON_TOP_NAV_END -->
+<div class="dl-lesson-top container"><div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Frequency response</span></nav>
+<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/bass-extension/" aria-label="Next lesson: Bass extension">Next lesson: Bass extension →</a><!-- LESSON_TOP_NAV_END --></div>
  <p class="section-kicker">LESSON 01 · LOUDSPEAKERS · THE TONAL BALANCE</p>
  <h1>Why do some speakers sound brighter, warmer or more forward?</h1><p class="lead">Learn to read the rise and fall of a speaker's response graph and tell tonal preference from a serious irregularity.</p>
- <div class="dl-meta"><span>Example spec: <strong>55 Hz–20 kHz (±3 dB)</strong></span><span>Original teaching illustrations · Not real equipment tests</span></div>
+ <div class="dl-example-spec" role="note">
+ <span class="dl-spec-tag">EXAMPLE SPECIFICATION · SPEAKERS</span>
+ <strong>55 Hz–20 kHz (±3 dB)</strong>
+ <p>Example only, not a real product measurement. We will use this kind of listing to explain what the numbers mean.</p>
  </div>
- <div class="dl-section-soft"><div class="container dl-reading">
- <div class="dl-start"><p class="section-kicker">FIRST, THE EVERYDAY EXPLANATION</p>
- <p>The graph is not a map of musical instruments with strict boundaries. A voice, guitar or cymbal contains many notes and overtones spread over a range.</p><p>The line shows sound strength at each measured pitch, not the overall volume setting. If only the guitar-presence region rises, it does not mean the whole song got louder.</p><p>A smoother line is often a useful indicator of a speaker that changes tonal balance less, but controlled preference research does not eliminate individual taste.</p>
- </div></div></div>
- <section class="dl-chart-section container"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>How strongly different parts of the music come through</h2><p>Move from left to right: deep bass, voices and guitars, then high notes. A higher line means those notes are stronger relative to other notes. The straight centre line is a reference, not a commandment.</p></div>
+ <nav class="dl-lesson-jumps" aria-label="Jump to lesson section">
+ <a href="#compare">See and switch the graphs ↓</a>
+ <a href="#understand">Understand the spec ↓</a>
+ <a href="#listening">What might I hear? ↓</a>
+ <a href="#buying">Buying advice ↓</a>
+ </nav>
+ </div>
+ 
+ <section class="dl-chart-section container" id="compare"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>How strongly different parts of the music come through</h2><p>Move from left to right: deep bass, voices and guitars, then high notes. A higher line means those notes are stronger relative to other notes. The straight centre line is a reference, not a commandment.</p></div>
  <div class="dl-figure" data-lesson-plot="speaker-frequency-response">
- <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span>Compare examples:</span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">Even reference</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Different character</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Warning sign</button></div>
+ <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span><b>TRY THE GRAPH</b><small>Click each example to see what changes</small></span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">Even reference</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Different character</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Warning sign</button></div>
  <div class="dl-graph-orientation" aria-label="What the graph shows from left to right"><span>DEEP BASS</span><span>VOICES & GUITARS</span><span>HIGH NOTES</span></div><p class="dl-graph-translation">Higher on the graph means those particular notes come through more strongly, not that someone turned up the whole song.</p>
  <svg class="dl-graph" role="img" aria-label="Illustrative comparison graph for speaker frequency response. Choose examples using the buttons. Not measured data." viewBox="0 0 790 405" xmlns="http://www.w3.org/2000/svg">
  <rect x="0" y="0" width="790" height="405" rx="16" fill="#0a1828"/>
@@ -57,13 +64,17 @@
  <div class="dl-case-desc" data-case-description="even" ><p class="dl-case-kicker">Even reference</p><h3>More even through the middle</h3><p>The example keeps much of the musical range at a similar strength, with bass gradually fading at the lowest notes.</p><p>For many listeners, this makes instruments sound more naturally balanced. Research on loudspeaker preference often finds that smooth, reasonably flat response is a useful starting point, particularly with consistent off-axis behavior.</p><p class="dl-caution">This is a reference for comparison, not a claim that everyone has to prefer it.</p></div><div class="dl-case-desc" data-case-description="character" hidden><p class="dl-case-kicker">Different character</p><h3>An intentional presence lift</h3><p>This version gives extra strength to a broad band where guitar attack and parts of the human voice live. The curve isn't automatically defective; it has a different balance.</p><p>You might enjoy the extra energy and sense of closeness. A listener who prefers relaxed vocals may instead find the same emphasis tiring. Your room, placement and listening level change the result.</p><p class="dl-caution">Your preference is valid. A response bump is not a certificate of either quality or failure.</p></div><div class="dl-case-desc" data-case-description="issue" hidden><p class="dl-case-kicker">Warning sign</p><h3>A large, narrow peak and deep dip</h3><p>Here, a small group of notes becomes far stronger, followed by a sudden weakness. This sort of abrupt pattern is more concerning than a gentle, broad tonal choice.</p><p>Some notes can jump forward unnaturally while nearby notes disappear. It may suggest a resonance, crossover problem or other uneven behavior that warrants closer testing.</p><p class="dl-caution">A single graph still isn't a complete diagnosis; check measurement conditions and what happens off to the sides.</p></div>
  </div>
  </section>
- <section class="dl-section-soft"><div class="container dl-reading">
+ <section class="dl-section-soft dl-foundation" id="understand"><div class="container dl-reading">
+ <div class="dl-start"><p class="section-kicker">FIRST, THE EVERYDAY EXPLANATION</p>
+ <p>The graph is not a map of musical instruments with strict boundaries. A voice, guitar or cymbal contains many notes and overtones spread over a range.</p><p>The line shows sound strength at each measured pitch, not the overall volume setting. If only the guitar-presence region rises, it does not mean the whole song got louder.</p><p>A smoother line is often a useful indicator of a speaker that changes tonal balance less, but controlled preference research does not eliminate individual taste.</p>
+ </div></div></section>
+ <section class="dl-section-soft dl-listening" id="listening"><div class="container dl-reading">
  <p class="section-kicker">CONNECT THE GRAPH TO THE MUSIC</p><h2>What could you actually hear?</h2><p>A wide rise in upper-middle notes can make electric guitars sound more immediate. The very same rise can make some vocals too insistent. Neither reaction is a contradiction.</p><p>A gentle lift across a broad range is different from a sharp isolated peak that emphasizes a few notes. Look at the width and shape of the change, not only its highest point.</p>
- <div class="dl-audiophile"><p class="dl-box-label">WHAT AUDIOPHILES SAY</p><p>“Forward,” “detailed,” “warm,” “bright,” and “laid-back” often refer to tonal balance, but listeners use those words inconsistently. A brighter speaker is not automatically resolving more musical information.</p></div>
- <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>Measured response can reveal which parts of music are emphasized. In controlled loudspeaker studies, relatively smooth, flat responses and stable behavior away from the central seat tend to perform well, though preferences and rooms still matter. One front-facing graph does not prove imaging, bass control or superiority.</p></div>
+ <div class="dl-claims-grid" id="claims"><div class="dl-audiophile"><p class="dl-box-label">WHAT AUDIOPHILES SAY</p><p>“Forward,” “detailed,” “warm,” “bright,” and “laid-back” often refer to tonal balance, but listeners use those words inconsistently. A brighter speaker is not automatically resolving more musical information.</p></div>
+ <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>Measured response can reveal which parts of music are emphasized. In controlled loudspeaker studies, relatively smooth, flat responses and stable behavior away from the central seat tend to perform well, though preferences and rooms still matter. One front-facing graph does not prove imaging, bass control or superiority.</p></div></div>
  </div></section>
  
- <section class="container dl-buy-section"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
+ <section class="container dl-buy-section" id="buying"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
  <ol class="dl-buy-list"><li>Compare the response against the same reference and similar measuring conditions.</li><li>Look for both the straight-ahead response and how it changes off to the sides.</li><li>Decide whether the emphasis is a tonal flavor you enjoy or an irregularity that appears hard to control.</li></ol>
  <div class="dl-variable"><h3>What else can change the outcome?</h3><p>Room placement, wall reflections, listening angle, driver blending, recordings, and hearing. This lesson applies to speakers; headphones need a different measurement reference because ears and fit change what “flat” looks like.</p></div>
  <details class="dl-advanced"><summary><span>Want the engineering explanation?</span><small>Advanced detail</small></summary><p>Frequency response is normally expressed in decibels relative to a chosen reference across frequency. The graph uses a logarithmic horizontal axis so that each octave occupies similar space. Peaks, dips, smoothing, measurement distance, room reflections and off-axis behavior affect interpretation; these synthetic curves are not measurements of real speakers.</p></details>

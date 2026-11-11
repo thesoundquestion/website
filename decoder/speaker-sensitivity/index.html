@@ -28,19 +28,26 @@
       </div>
     </header>
     <main id="main">
-<div class="dl-lesson-top container"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Sensitivity</span></nav>
-<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/amplifier-power/" aria-label="Next lesson: Amplifier power">Next lesson: Amplifier power →</a><!-- LESSON_TOP_NAV_END -->
+<div class="dl-lesson-top container"><div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Sensitivity</span></nav>
+<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/amplifier-power/" aria-label="Next lesson: Amplifier power">Next lesson: Amplifier power →</a><!-- LESSON_TOP_NAV_END --></div>
  <p class="section-kicker">LESSON 03 · LOUDSPEAKERS · SOUND PER AMPLIFIER EFFORT</p>
  <h1>Why does one speaker play louder than another at the same setting?</h1><p class="lead">Sensitivity explains the volume difference you can get from the same test input, and why the printed number can mislead.</p>
- <div class="dl-meta"><span>Example spec: <strong>87 dB at 2.83 V / 1 metre</strong></span><span>Original teaching illustrations · Not real equipment tests</span></div>
+ <div class="dl-example-spec" role="note">
+ <span class="dl-spec-tag">EXAMPLE SPECIFICATION · SPEAKERS</span>
+ <strong>87 dB at 2.83 V / 1 metre</strong>
+ <p>Example only, not a real product measurement. We will use this kind of listing to explain what the numbers mean.</p>
  </div>
- <div class="dl-section-soft"><div class="container dl-reading">
- <div class="dl-start"><p class="section-kicker">FIRST, THE EVERYDAY EXPLANATION</p>
- <p>Sensitivity is a rough indication of how much sound a speaker makes from a fixed test signal, at a defined distance. Think of two flashlights given the same amount of electricity: one might produce more light. That does not automatically mean it makes better light.</p><p>When two speakers are measured in the same way, a higher sensitivity number means more sound for the same reference input. That's useful when deciding how much amplifier headroom you might need.</p><p>But this is not the maximum output a speaker can deliver, and it cannot tell you how the speaker's bass, voices or high notes are balanced.</p>
- </div></div></div>
- <section class="dl-chart-section container"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>Same power going in. Different output coming out.</h2><p>Move right to give the speaker more electrical power. Move up to see more sound output. The two normal example lines have the same shape but begin at different levels.</p></div>
+ <nav class="dl-lesson-jumps" aria-label="Jump to lesson section">
+ <a href="#compare">See and switch the graphs ↓</a>
+ <a href="#understand">Understand the spec ↓</a>
+ <a href="#listening">What might I hear? ↓</a>
+ <a href="#buying">Buying advice ↓</a>
+ </nav>
+ </div>
+ 
+ <section class="dl-chart-section container" id="compare"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>Same power going in. Different output coming out.</h2><p>Move right to give the speaker more electrical power. Move up to see more sound output. The two normal example lines have the same shape but begin at different levels.</p></div>
  <div class="dl-figure" data-lesson-plot="speaker-sensitivity">
- <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span>Compare examples:</span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">Higher sensitivity</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Lower sensitivity</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Output limiting</button></div>
+ <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span><b>TRY THE GRAPH</b><small>Click each example to see what changes</small></span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">Higher sensitivity</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Lower sensitivity</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Output limiting</button></div>
  <div class="dl-graph-orientation" aria-label="What the graph shows from left to right"><span>LESS AMP POWER</span><span>MORE POWER</span><span>MUCH MORE POWER</span></div><p class="dl-graph-translation">Higher on the graph means more output at the same test distance, not automatically better sound quality.</p>
  <svg class="dl-graph" role="img" aria-label="Illustrative comparison graph for speaker sensitivity. Choose examples using the buttons. Not measured data." viewBox="0 0 790 405" xmlns="http://www.w3.org/2000/svg">
  <rect x="0" y="0" width="790" height="405" rx="16" fill="#0a1828"/>
@@ -57,13 +64,17 @@
  <div class="dl-case-desc" data-case-description="even" ><p class="dl-case-kicker">Higher sensitivity</p><h3>More sound from the same input</h3><p>With the same test power and at the same distance, this speaker produces more sound. It takes less amplifier power to reach an equivalent measured level.</p><p>That may help in a larger room or with a lower-power amplifier. It does not prove better bass, lower distortion or a nicer sound.</p><p class="dl-caution">The headline figure is useful when the comparison conditions really match.</p></div><div class="dl-case-desc" data-case-description="character" hidden><p class="dl-case-kicker">Lower sensitivity</p><h3>Needs more input for the same output</h3><p>This speaker produces less sound from the same electrical power. You may need to turn the amplifier up further to reach the same level.</p><p>It could still sound wonderful and be the better speaker for your music. A speaker designed for deeper bass, a different enclosure or lower distortion may trade away sensitivity.</p><p class="dl-caution">Lower sensitivity isn't automatically inferior sound quality.</p></div><div class="dl-case-desc" data-case-description="issue" hidden><p class="dl-case-kicker">Output limiting</p><h3>Stops keeping up as power increases</h3><p>In this invented example, the speaker initially gets louder as power increases but eventually gains much less sound than expected. That is a different problem from low sensitivity.</p><p>Big drum hits may fail to grow as strongly as expected, or the speaker may sound strained at demanding levels. A real assessment would require distortion and compression tests.</p><p class="dl-caution">A sensitivity number alone cannot reveal this limiting behavior.</p></div>
  </div>
  </section>
- <section class="dl-section-soft"><div class="container dl-reading">
+ <section class="dl-section-soft dl-foundation" id="understand"><div class="container dl-reading">
+ <div class="dl-start"><p class="section-kicker">FIRST, THE EVERYDAY EXPLANATION</p>
+ <p>Sensitivity is a rough indication of how much sound a speaker makes from a fixed test signal, at a defined distance. Think of two flashlights given the same amount of electricity: one might produce more light. That does not automatically mean it makes better light.</p><p>When two speakers are measured in the same way, a higher sensitivity number means more sound for the same reference input. That's useful when deciding how much amplifier headroom you might need.</p><p>But this is not the maximum output a speaker can deliver, and it cannot tell you how the speaker's bass, voices or high notes are balanced.</p>
+ </div></div></section>
+ <section class="dl-section-soft dl-listening" id="listening"><div class="container dl-reading">
  <p class="section-kicker">CONNECT THE GRAPH TO THE MUSIC</p><h2>What could you actually hear?</h2><p>A highly sensitive speaker could get loud with a relatively modest amplifier, while a lower-sensitivity speaker might need more amplifier power to reach the same listening level.</p><p>An amp's volume dial does not have a universal meaning between systems. The actual sound also depends on the source level, amplifier gain, distance and the room.</p>
- <div class="dl-audiophile"><p class="dl-box-label">WHAT AUDIOPHILES SAY</p><p>Some enthusiasts describe sensitive speakers as more lively or immediate. Their impression may be real, but the sensitivity number does not, by itself, prove better dynamics or response to quick musical changes.</p></div>
- <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>Sensitivity predicts output level at a defined test point. It says little about how cleanly a speaker plays very loudly. When one manufacturer uses 2.83 volts and another uses one watt, an apparently direct comparison can be unfair without checking impedance.</p></div>
+ <div class="dl-claims-grid" id="claims"><div class="dl-audiophile"><p class="dl-box-label">WHAT AUDIOPHILES SAY</p><p>Some enthusiasts describe sensitive speakers as more lively or immediate. Their impression may be real, but the sensitivity number does not, by itself, prove better dynamics or response to quick musical changes.</p></div>
+ <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>Sensitivity predicts output level at a defined test point. It says little about how cleanly a speaker plays very loudly. When one manufacturer uses 2.83 volts and another uses one watt, an apparently direct comparison can be unfair without checking impedance.</p></div></div>
  </div></section>
  
- <section class="container dl-buy-section"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
+ <section class="container dl-buy-section" id="buying"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
  <ol class="dl-buy-list"><li>Compare figures quoted at the same distance and with matching input conventions.</li><li>Check speaker impedance and how much power or voltage the amplifier can supply.</li><li>Do not confuse the sensitivity rating with the speaker's maximum clean sound level.</li></ol>
  <div class="dl-variable"><h3>What else can change the outcome?</h3><p>Nominal and actual impedance, power versus voltage reference, room, distance, gain, how the response is averaged, and where loud-speaker compression begins.</p></div>
  <details class="dl-advanced"><summary><span>Want the engineering explanation?</span><small>Advanced detail</small></summary><p>A +3 dB level change requires roughly twice the electrical power if speaker behavior remains linear. At 2.83 V, an ideal 8 Ω load uses about 1 watt, while an ideal 4 Ω load uses about 2 watts. The plotted curves are idealized 1 W / 1 m examples, except the third which is a fictional compression illustration. Real speaker efficiency changes with frequency and level.</p></details>

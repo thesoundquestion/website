@@ -28,19 +28,26 @@
       </div>
     </header>
     <main id="main">
-<div class="dl-lesson-top container"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Bass extension</span></nav>
-<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/speaker-sensitivity/" aria-label="Next lesson: Speaker sensitivity">Next lesson: Speaker sensitivity →</a><!-- LESSON_TOP_NAV_END -->
+<div class="dl-lesson-top container"><div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Bass extension</span></nav>
+<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/speaker-sensitivity/" aria-label="Next lesson: Speaker sensitivity">Next lesson: Speaker sensitivity →</a><!-- LESSON_TOP_NAV_END --></div>
  <p class="section-kicker">LESSON 02 · LOUDSPEAKERS · THE DEEP NOTES</p>
  <h1>Why can a speaker play bass but still lack real low-end weight?</h1><p class="lead">A close look at bass roll-off, the difference between punch and deep extension, and how a spec can hide weak output.</p>
- <div class="dl-meta"><span>Example spec: <strong>45 Hz at −6 dB</strong></span><span>Original teaching illustrations · Not real equipment tests</span></div>
+ <div class="dl-example-spec" role="note">
+ <span class="dl-spec-tag">EXAMPLE SPECIFICATION · SPEAKERS</span>
+ <strong>45 Hz at −6 dB</strong>
+ <p>Example only, not a real product measurement. We will use this kind of listing to explain what the numbers mean.</p>
  </div>
- <div class="dl-section-soft"><div class="container dl-reading">
- <div class="dl-start"><p class="section-kicker">FIRST, THE EVERYDAY EXPLANATION</p>
- <p>Frequency response figures sometimes list a lower number such as 45 Hz with a second figure such as −6 dB. That second figure tells you how much weaker the sound has become compared with a reference level.</p><p>Deep bass does not suddenly shut off at a single number. Most speakers gradually lose strength as notes get lower, and the shape of that decline matters.</p><p>The bass you feel, the punch you hear, and the lowest note a speaker can reproduce are related but different experiences.</p>
- </div></div></div>
- <section class="dl-chart-section container"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>Follow what happens as notes get deeper</h2><p>The far left is the deepest bass. When the line drops, those low notes come through more weakly. The other music can stay at the same volume: only certain notes are fading.</p></div>
+ <nav class="dl-lesson-jumps" aria-label="Jump to lesson section">
+ <a href="#compare">See and switch the graphs ↓</a>
+ <a href="#understand">Understand the spec ↓</a>
+ <a href="#listening">What might I hear? ↓</a>
+ <a href="#buying">Buying advice ↓</a>
+ </nav>
+ </div>
+ 
+ <section class="dl-chart-section container" id="compare"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>Follow what happens as notes get deeper</h2><p>The far left is the deepest bass. When the line drops, those low notes come through more weakly. The other music can stay at the same volume: only certain notes are fading.</p></div>
  <div class="dl-figure" data-lesson-plot="bass-extension">
- <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span>Compare examples:</span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">Deeper reach</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Earlier roll-off</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Boom and fade</button></div>
+ <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span><b>TRY THE GRAPH</b><small>Click each example to see what changes</small></span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">Deeper reach</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Earlier roll-off</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Boom and fade</button></div>
  <div class="dl-graph-orientation" aria-label="What the graph shows from left to right"><span>VERY DEEP BASS</span><span>BASS BODY</span><span>HIGHER BASS</span></div><p class="dl-graph-translation">Follow the left side: when the line drops, the deepest notes fade while other parts of the music can stay unchanged.</p>
  <svg class="dl-graph" role="img" aria-label="Illustrative comparison graph for bass extension. Choose examples using the buttons. Not measured data." viewBox="0 0 790 405" xmlns="http://www.w3.org/2000/svg">
  <rect x="0" y="0" width="790" height="405" rx="16" fill="#0a1828"/>
@@ -57,13 +64,17 @@
  <div class="dl-case-desc" data-case-description="even" ><p class="dl-case-kicker">Deeper reach</p><h3>More low bass retained</h3><p>This example stays stronger farther down into the deepest notes before falling away. It could be useful for recordings that contain genuine deep bass.</p><p>The lowest synth notes, movie effects or organ notes may have more weight, but the graph says nothing about maximum clean loudness or how your room will respond.</p><p class="dl-caution">Deeper extension is a capability, not a guarantee of enjoyable bass.</p></div><div class="dl-case-desc" data-case-description="character" hidden><p class="dl-case-kicker">Earlier roll-off</p><h3>Less very deep bass</h3><p>This speaker starts losing strength sooner. It isn't necessarily bad. A compact speaker with limited deep-bass output may still have exceptionally clean and engaging midrange.</p><p>Kick-drum attack and bass-guitar articulation can still be excellent. You might prefer this balance or plan to add a subwoofer for the very low notes.</p><p class="dl-caution">A smaller bookshelf speaker is not a failed floorstander simply because it cannot reproduce the lowest notes at full strength.</p></div><div class="dl-case-desc" data-case-description="issue" hidden><p class="dl-case-kicker">Boom and fade</p><h3>A strong hump followed by missing lows</h3><p>This example adds extra strength to a narrow part of the bass, then falls sharply below it. It can make the bass seem big at first without reproducing a wide range of deep notes.</p><p>Some bass notes may thump strongly while others disappear. That can produce one-note bass, although room resonances could create a similar effect in a real listening space.</p><p class="dl-caution">Investigate whether the curve represents the speaker alone or the speaker interacting with a room.</p></div>
  </div>
  </section>
- <section class="dl-section-soft"><div class="container dl-reading">
+ <section class="dl-section-soft dl-foundation" id="understand"><div class="container dl-reading">
+ <div class="dl-start"><p class="section-kicker">FIRST, THE EVERYDAY EXPLANATION</p>
+ <p>Frequency response figures sometimes list a lower number such as 45 Hz with a second figure such as −6 dB. That second figure tells you how much weaker the sound has become compared with a reference level.</p><p>Deep bass does not suddenly shut off at a single number. Most speakers gradually lose strength as notes get lower, and the shape of that decline matters.</p><p>The bass you feel, the punch you hear, and the lowest note a speaker can reproduce are related but different experiences.</p>
+ </div></div></section>
+ <section class="dl-section-soft dl-listening" id="listening"><div class="container dl-reading">
  <p class="section-kicker">CONNECT THE GRAPH TO THE MUSIC</p><h2>What could you actually hear?</h2><p>A kick drum has more than one part: a low thump and a faster attack. A speaker might reproduce the attack clearly while the low thump is reduced.</p><p>A bass guitar may remain audible even when its deepest fundamentals are weak, because higher parts of the sound are still present. That is why listening impressions alone can make extension difficult to judge.</p>
- <div class="dl-audiophile"><p class="dl-box-label">WHAT AUDIOPHILES SAY</p><p>“Tight bass,” “fast bass,” “one-note bass,” and “authoritative bass” are common descriptions. The terms can describe real differences, but they do not uniquely identify a woofer material or amplifier damping factor.</p></div>
- <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>A well-measured low-frequency curve can show where bass loses strength. Whether the bass sounds boomy or powerful in your room also depends heavily on placement, room modes, distortion and how loud the system is pushed. A −6 dB point is not the lowest note the speaker can make.</p></div>
+ <div class="dl-claims-grid" id="claims"><div class="dl-audiophile"><p class="dl-box-label">WHAT AUDIOPHILES SAY</p><p>“Tight bass,” “fast bass,” “one-note bass,” and “authoritative bass” are common descriptions. The terms can describe real differences, but they do not uniquely identify a woofer material or amplifier damping factor.</p></div>
+ <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>A well-measured low-frequency curve can show where bass loses strength. Whether the bass sounds boomy or powerful in your room also depends heavily on placement, room modes, distortion and how loud the system is pushed. A −6 dB point is not the lowest note the speaker can make.</p></div></div>
  </div></section>
  
- <section class="container dl-buy-section"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
+ <section class="container dl-buy-section" id="buying"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
  <ol class="dl-buy-list"><li>Check the level attached to the lowest quoted frequency, not just the frequency itself.</li><li>Compare low-bass strength and output limits, especially if you will not use a subwoofer.</li><li>Consider room position and whether your favorite music actually contains deep bass.</li></ol>
  <div class="dl-variable"><h3>What else can change the outcome?</h3><p>Room boundaries, subwoofers, listening position, cabinet tuning, bass management, driver excursion, and the recorded bass content.</p></div>
  <details class="dl-advanced"><summary><span>Want the engineering explanation?</span><small>Advanced detail</small></summary><p>A −6 dB response means one-half the measured sound-pressure amplitude compared with the stated reference, not half the perceived loudness. This illustration uses a relative level scale and log-spaced frequency axis. Real published responses may be free-field, ground-plane or in-room measurements, which are not interchangeable.</p></details>

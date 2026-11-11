@@ -77,3 +77,7 @@ When a new equipment category is introduced, add its label, singular adjective, 
 ## Responsive layout principles
 
 The site's general layout is content-first, not a full-screen title showcase. On desktop, avoid huge blank sections: navigation, lessons and practical material should be visible early. Use the width available on desktop to place graphs alongside explanations, while preserving the mobile stacked layout. The homepage now offers direct learning choices before the longer journey overview. Do not reduce lesson depth just to reduce scroll.
+
+## Decoder lesson layout v2 (desktop and mobile)
+
+Each lesson must show a prominent sample specification and navigation near the compact title, then the **interactive graph immediately**, followed by the longer plain-language explanation, listening effects, audiophile claims and evidence, and buying checklist. On wider viewports the selected case explanation appears **beside** its graph instead of under it. On mobile the chart and text stack. Long-form teaching content is preserved; the title is not allowed to dominate the first viewport. Every new lesson must use the same #compare, #understand, #listening and #buying anchors. Keep the curriculum previous/next links intact.

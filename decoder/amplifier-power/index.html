@@ -28,19 +28,26 @@
       </div>
     </header>
     <main id="main">
-<div class="dl-lesson-top container"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Amplifier power</span></nav>
-<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/amplifier-distortion/" aria-label="Next lesson: Amplifier distortion and harmonics">Next lesson: Amplifier distortion and harmonics →</a><!-- LESSON_TOP_NAV_END -->
+<div class="dl-lesson-top container"><div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Amplifier power</span></nav>
+<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/amplifier-distortion/" aria-label="Next lesson: Amplifier distortion and harmonics">Next lesson: Amplifier distortion and harmonics →</a><!-- LESSON_TOP_NAV_END --></div>
  <p class="section-kicker">LESSON 04 · AMPLIFIERS · CLEAN OUTPUT AND HEADROOM</p>
  <h1>Why doesn't a 150-watt amplifier always outperform an 80-watt one?</h1><p class="lead">Power specifications, speaker load, headroom, and how to spot a misleading wattage claim.</p>
- <div class="dl-meta"><span>Example spec: <strong>80 W/channel, 8 Ω, 20 Hz–20 kHz</strong></span><span>Original teaching illustrations · Not real equipment tests</span></div>
+ <div class="dl-example-spec" role="note">
+ <span class="dl-spec-tag">EXAMPLE SPECIFICATION · AMPLIFIERS</span>
+ <strong>80 W/channel, 8 Ω, 20 Hz–20 kHz</strong>
+ <p>Example only, not a real product measurement. We will use this kind of listing to explain what the numbers mean.</p>
  </div>
- <div class="dl-section-soft"><div class="container dl-reading">
- <div class="dl-start"><p class="section-kicker">FIRST, THE EVERYDAY EXPLANATION</p>
- <p>An amplifier's watt rating describes electrical output under a test. It doesn't tell you how loud a particular speaker will sound because speakers differ in how much sound they make from that power.</p><p>Music is not one continuous test tone. Quiet passages may require modest output while a sudden drum hit asks for much more. Having sufficient clean output for those short moments is often called headroom.</p><p>The volume dial is not a watt meter. Different source levels and amplifier gain settings can produce full rated output at very different positions on the knob.</p>
- </div></div></div>
- <section class="dl-chart-section container"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>The same amplifier, tested with different electrical loads</h2><p>The left side represents the more demanding 4 Ω test load and the right side 8 Ω. Higher bars mean more electrical power under a matching test. Two amps can both claim 80 watts at 8 Ω and behave differently with 4 Ω.</p></div>
+ <nav class="dl-lesson-jumps" aria-label="Jump to lesson section">
+ <a href="#compare">See and switch the graphs ↓</a>
+ <a href="#understand">Understand the spec ↓</a>
+ <a href="#listening">What might I hear? ↓</a>
+ <a href="#buying">Buying advice ↓</a>
+ </nav>
+ </div>
+ 
+ <section class="dl-chart-section container" id="compare"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>The same amplifier, tested with different electrical loads</h2><p>The left side represents the more demanding 4 Ω test load and the right side 8 Ω. Higher bars mean more electrical power under a matching test. Two amps can both claim 80 watts at 8 Ω and behave differently with 4 Ω.</p></div>
  <div class="dl-figure" data-lesson-plot="amplifier-power">
- <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span>Compare examples:</span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">More reserve</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Less reserve</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Vague headline</button></div>
+ <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span><b>TRY THE GRAPH</b><small>Click each example to see what changes</small></span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">More reserve</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Less reserve</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Vague headline</button></div>
  <div class="dl-graph-orientation" aria-label="What the graph shows from left to right"><span>4 Ω · MORE CURRENT</span><span>6 Ω</span><span>8 Ω · LESS CURRENT</span></div><p class="dl-graph-translation">Higher means more measured electrical power in the example, not automatically greater musical quality. Real speaker loads are more complicated.</p>
  <svg class="dl-graph" role="img" aria-label="Illustrative comparison graph for amplifier power. Choose examples using the buttons. Not measured data." viewBox="0 0 790 405" xmlns="http://www.w3.org/2000/svg">
  <rect x="0" y="0" width="790" height="405" rx="16" fill="#0a1828"/>
@@ -64,13 +71,17 @@
  <div class="dl-case-desc" data-case-description="even" ><p class="dl-case-kicker">More reserve</p><h3>Power stays strong into 4 Ω</h3><p>This example is rated at 80 W into 8 Ω and 140 W into 4 Ω under the same hypothetical test conditions. It shows substantial additional current capability at a more demanding load.</p><p>That reserve may be useful with speakers that dip to lower impedance or with loud musical peaks, assuming the amplifier and speaker are suitable matches.</p><p class="dl-caution">It still doesn't tell us how the amplifier sounds at normal levels.</p></div><div class="dl-case-desc" data-case-description="character" hidden><p class="dl-case-kicker">Less reserve</p><h3>Same 8 Ω rating, less output into 4 Ω</h3><p>This amplifier also produces 80 W into 8 Ω, but is rated at 95 W into 4 Ω under the same invented conditions. That doesn't make it a bad product.</p><p>With easier speakers and ordinary listening levels it may perform perfectly well. It offers less additional electrical output as the load becomes harder.</p><p class="dl-caution">A buyer should match the amp to their speakers rather than chase the bigger number.</p></div><div class="dl-case-desc" data-case-description="issue" hidden><p class="dl-case-kicker">Vague headline</p><h3>A big number without the test details</h3><p>Imagine a box saying “150 W MAX” without the resistance, distortion limit, test duration, number of channels driven or frequency range. It looks impressive but cannot be plotted fairly on this comparison.</p><p>It may represent a brief burst, an easy single tone or output with considerable distortion. You don't know from the headline alone.</p><p class="dl-caution">Missing test conditions are a warning about the claim, not proof the product itself sounds bad.</p></div>
  </div>
  </section>
- <section class="dl-section-soft"><div class="container dl-reading">
+ <section class="dl-section-soft dl-foundation" id="understand"><div class="container dl-reading">
+ <div class="dl-start"><p class="section-kicker">FIRST, THE EVERYDAY EXPLANATION</p>
+ <p>An amplifier's watt rating describes electrical output under a test. It doesn't tell you how loud a particular speaker will sound because speakers differ in how much sound they make from that power.</p><p>Music is not one continuous test tone. Quiet passages may require modest output while a sudden drum hit asks for much more. Having sufficient clean output for those short moments is often called headroom.</p><p>The volume dial is not a watt meter. Different source levels and amplifier gain settings can produce full rated output at very different positions on the knob.</p>
+ </div></div></section>
+ <section class="dl-section-soft dl-listening" id="listening"><div class="container dl-reading">
  <p class="section-kicker">CONNECT THE GRAPH TO THE MUSIC</p><h2>What could you actually hear?</h2><p>An amplifier with insufficient clean output for the level you want may make loud passages harsh or compressed, or reach its protection limits.</p><p>With the same speakers at the same actual loudness and comfortably below their limits, a larger watt rating by itself doesn't establish a sound-quality advantage.</p>
- <div class="dl-audiophile"><p class="dl-box-label">WHAT AUDIOPHILES SAY</p><p>“More watts means more authority” and “a huge transformer makes bass tighter” are common claims. Available power and supply design matter in some conditions, but neither statement is guaranteed by a single specification.</p></div>
- <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>The load impedance, frequency range, distortion allowance, number of driven channels and duration all matter. The US FTC Amplifier Rule exists partly to improve power-claim comparisons; other markets and product categories can use different requirements.</p></div>
+ <div class="dl-claims-grid" id="claims"><div class="dl-audiophile"><p class="dl-box-label">WHAT AUDIOPHILES SAY</p><p>“More watts means more authority” and “a huge transformer makes bass tighter” are common claims. Available power and supply design matter in some conditions, but neither statement is guaranteed by a single specification.</p></div>
+ <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>The load impedance, frequency range, distortion allowance, number of driven channels and duration all matter. The US FTC Amplifier Rule exists partly to improve power-claim comparisons; other markets and product categories can use different requirements.</p></div></div>
  </div></section>
  
- <section class="container dl-buy-section"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
+ <section class="container dl-buy-section" id="buying"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
  <ol class="dl-buy-list"><li>Check whether watts are per channel and identify the speaker-load rating.</li><li>Look for frequency range, distortion limit, test duration and channels driven.</li><li>Treat vague peak or maximum wattage claims separately from sustained ratings.</li></ol>
  <div class="dl-variable"><h3>What else can change the outcome?</h3><p>Speaker sensitivity, impedance and phase, room size, seating distance, music dynamics, amplifier thermal limits and protection, and how the source is connected.</p></div>
  <details class="dl-advanced"><summary><span>Want the engineering explanation?</span><small>Advanced detail</small></summary><p>For a steady sine wave into an ideal resistor, P = V_RMS² / R. At 80 W into 8 Ω, voltage is about 25.3 V RMS; 80 W into 4 Ω needs about 17.9 V RMS but greater current. The graph uses fictitious continuous ratings at common conditions, not a physical model or standard-defined test. It omits distortion and thermal history.</p></details>
