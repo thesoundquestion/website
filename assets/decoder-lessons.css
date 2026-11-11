@@ -369,3 +369,43 @@
 .ex-dev-grid h3{font-size:1.2rem}
 .ex-dev-grid p{font-size:.9rem;line-height:1.75}
 @media(max-width:800px){.ex-dev-grid{grid-template-columns:1fr}}
+
+
+/* Amplifier power: compact but complete headroom module */
+.hr-section{padding-block:clamp(26px,3.4vw,50px);scroll-margin-top:90px}
+.hr-section-heading{max-width:1030px;margin:0 0 1.2rem}
+.hr-section-heading h2,.hr-quality h2{font-size:clamp(1.65rem,2.75vw,2.5rem);margin:.25rem 0 .65rem}
+.hr-section-heading>p:last-child{font-size:1.02rem;line-height:1.75;margin:0}
+.hr-figure{max-width:100%}
+.hr-axis,.hr-axis-title{fill:#b7d5e5;font:13px system-ui}
+.hr-axis-title{font-weight:600}
+.hr-limit-label{font:750 16px system-ui}
+.hr-warning{fill:#f2bea2;font:720 15px system-ui}
+.hr-margins{fill:#b5dacc;font:710 14px system-ui}
+.hr-rule-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin:1.35rem 0}
+.hr-rule-strip>div{border:1px solid #385873;background:#10283b;border-radius:10px;padding:1rem 1.15rem}
+.hr-rule-strip span{display:block;color:#b7d6e8;font-size:.77rem;font-weight:790}
+.hr-rule-strip strong{display:block;color:#95dcf6;font-size:1.65rem;margin:.25rem 0}
+.hr-rule-strip p{font-size:.86rem;line-height:1.65;margin:0}
+.hr-answer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.45rem 0}
+.hr-answer-grid>div{padding:1.2rem 1.3rem;background:#11263a;border:1px solid #365c78;border-radius:11px}
+.hr-answer-grid h3{font-size:1.26rem;margin:.25rem 0 .7rem}
+.hr-answer-grid p:last-child{font-size:.95rem;line-height:1.8;margin:0}
+.hr-answer-grid a,.hr-quality a,.hr-reading a{color:#97dcfc}
+.hr-quality{padding:clamp(1rem,2vw,1.6rem);background:#112337;border:1px solid #42637f;border-radius:13px}
+.hr-quality>p:not(.section-kicker){line-height:1.8;font-size:.99rem}
+.hr-claim-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1.25rem 0}
+.hr-claim-row>div{background:#0b1d2d;border-radius:10px;padding:1.1rem;border:1px solid #34516b}
+.hr-claim-row strong{display:block;color:#f2faff;font-size:1.55rem}
+.hr-claim-row span{font-size:.78rem;color:#a0cee3}
+.hr-claim-row p{font-size:.91rem;line-height:1.72;margin:.65rem 0 0}
+.hr-proof{background:#10313a;border:1px solid #377b79;border-radius:10px;padding:1rem 1.2rem;margin:1rem 0}
+.hr-proof ol{margin:.6rem 0 0;padding-left:1.35rem}
+.hr-proof li{font-size:.92rem;line-height:1.75;margin:.45rem 0}
+.hr-proof strong{color:#effeff}
+.hr-safety{border-left:3px solid #e3ba95;padding:.75rem 1rem;background:#2a2730;border-radius:4px}
+.hr-reading{border-top:1px solid #3a5a70;margin-top:1.6rem;padding-top:.9rem}
+.hr-reading h3{font-size:1.12rem}
+.hr-reading p{font-size:.88rem;line-height:1.75;margin-bottom:0}
+@media(max-width:950px){.hr-figure{display:block}.hr-answer-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.hr-rule-strip,.hr-claim-row{grid-template-columns:1fr}.hr-figure .dl-graph-toolbar>span{width:100%}.hr-figure .dl-graph-orientation{margin:1rem .8rem 0}.hr-figure .dl-graph-translation{margin:.5rem .8rem 0}.hr-quality{padding:1rem}}
