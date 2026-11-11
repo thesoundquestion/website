@@ -1,5 +1,5 @@
 'use strict';
-/* Compare My Gear model-specific manufacturer and reviewed-source supplement. Research reviewed 2026-11-11. */
+/* Compare My Gear: source-linked specification supplement; updated with model/source review status. */
 const compareGearDetails = {
   "version": "2026-11-11",
   "notice": "Supplemental, source-linked model facts. A blank value means the source did not establish the specification.",
@@ -342,9 +342,13 @@ const compareGearDetails = {
       "drivers": "6.5″ advanced polypropylene-cone LF/MF; 1″ textile-dome tweeter",
       "enclosure": "Bass reflex",
       "frequencyResponse": "50 Hz–20 kHz",
-      "responseBasis": "Manufacturer ±3 dB; bass −6 dB at 43 Hz",
+      "responseBasis": "Manufacturer ±3 dB (Diamond 12.2, not 12.2i)",
+      "responseExtra": "43 Hz (−6 dB)",
       "crossover": "2.0 kHz",
-      "reference": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-2"
+      "reference": "https://www.wharfedale.co.uk/products/diamond-12-2",
+      "detailNote": "Diamond 12.2 (original), not updated Diamond 12.2i.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Wharfedale Diamond 12.3": {
       "configuration": "2.5-way",
@@ -567,14 +571,16 @@ const compareGearDetails = {
       "reviewedOn": "2026-11-11"
     },
     "Schiit Modi+ (RCA)": {
-      "converter": null,
-      "digitalInputs": "USB-C, optical, coaxial",
-      "pcmUSB": null,
-      "pcmSpdif": null,
-      "dsd": null,
-      "analogResponse": null,
-      "reference": "https://audiochainsdb.com/en/gear/schiit-modi-plus",
-      "detailNote": "Archived Modi+ limits/chip require model-specific source verification. Do not substitute current Modi 5 specifications."
+      "converter": "ESS ES9018",
+      "digitalInputs": "USB-C / Unison USB; optical Toslink; coaxial S/PDIF",
+      "pcmUSB": "PCM 16–24-bit / 44.1–192 kHz",
+      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
+      "analogResponse": "20 Hz–20 kHz (±0.1 dB), archived distributor specification",
+      "reference": "https://www.schiit.com/public/upload/PDF/modi%20plus%20manual.pdf",
+      "secondReference": "https://www.jaben.com/products/schiit-audio-modi-plus",
+      "detailNote": "Official Modi+ manual confirms USB/optical/coax inputs; archived distributor specifications supply chip, sample-rate and analogue-performance limits. Do not substitute current Modi 5 specifications.",
+      "reviewStatus": "manufacturer-and-distributor",
+      "reviewedOn": "2026-11-11"
     },
     "SMSL SU-1 (RCA)": {
       "converter": "AKM AK4493S",
