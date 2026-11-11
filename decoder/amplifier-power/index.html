@@ -82,8 +82,8 @@
  <div class="hr-section-heading"><p class="section-kicker">AMPLIFIER POWER THAT ACTUALLY MATTERS</p><h2 id="headroom-title">Headroom: why clean peaks need more than a clipping threshold</h2>
  <p>A drum hit can demand far more power than the notes around it, even when the average listening level is comfortable. <strong>Headroom</strong> means having sufficient <em>clean</em> output for those peaks, not merely keeping an output waveform from visibly flattening. Depending on the amplifier, distortion may rise as it approaches maximum power, even before hard clipping. The power rating alone does not tell us where that rise begins.</p></div>
  <p><strong>Listening goal: drum hits that reach about 105 dB at your seat.</strong> Imagine sitting 8 ft from one speaker during a loud passage. That’s the target for the loudest hit. The same hit asks for about <strong>68 W into 8 Ω</strong> or <strong>136 W into 4 Ω</strong> at the same requested voltage. Try the 80 W amp at both loads and see whether it can deliver the peak.</p>
- <details class="dl-advanced" id="headroom-graph-settings">
-  <summary>Graph settings · speaker sensitivity, amplifier limits and volume</summary>
+ <section id="headroom-graph-settings" aria-labelledby="headroom-settings-title">
+  <h3 id="headroom-settings-title">Graph settings</h3>
   <p><strong>How we estimated the listening level.</strong> The example uses one fictional speaker with a <a href="/decoder/speaker-sensitivity/">sensitivity</a> of 94.5 dB at 2.83 V, measured 3.28 ft away. At an 8 ft seat, about 23.3 V brings the loudest hit to roughly 105 dB in this simple estimate. Both load settings assume the same sound output for a given voltage. Room reflections, a second speaker and speaker compression can change the real result.</p>
   <p>These are fictional amplifier output limits into fixed test resistances. The graph uses them as the points where the solid output line flattens to illustrate clipping.</p>
   <table>
@@ -97,7 +97,7 @@
   <p><strong>Voltage and current.</strong> Each amp gets the same requested output voltage at every moment. The loudest hit asks for about <strong>23.3 V RMS equivalent</strong>. That works out to about <strong>68 W and 2.9 A into 8 Ω</strong>, or <strong>136 W and 5.8 A into 4 Ω</strong>. Those are the demands before any clipping. The load switch holds the requested voltage steady.</p>
   <p><strong>Where would the volume knob be?</strong> Use the 80 W amp at 8 Ω as a reference. The loudest hit is about <strong>0.7 dB below that amp’s output limit</strong>, or about 92% of its available voltage. That describes how hard the amp is working on that hit. A real knob position depends on the source level, the amp’s gain and how its volume control is designed.</p>
   <p><strong>Distortion model.</strong> The pink line uses a fictional 1 kHz distortion-plus-noise curve for each amp and load, sampled at the power requested as the passage plays. Its shape and the output limits are assumptions chosen for this example.</p>
- </details>
+ </section>
 
  <div class="dl-figure hr-figure" data-lesson-plot="amplifier-headroom">
   <div class="dl-graph-toolbar" style="display:block;padding:0">
