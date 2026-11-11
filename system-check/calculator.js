@@ -309,58 +309,47 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     if (mode === 'check') addText('p', 'Add your amp’s power rating to see how much it has to spare.');
     return;
   }
-  const testLoads = [...new Set(entries.map(entry => entry.load))];
-  if (!testLoads.includes(load)) {
-    addText('h3', 'Power at your speaker’s nominal load is unverified');
-    addText('p', 'Add a rating at ' + show(load) + ' Ω to check your speakers. The other loads below are separate bench-test comparisons.');
+  const testLoads = [load, ...new Set(entries.map(entry => entry.load)
+    .filter(testLoad => testLoad !== load).sort((a, b) => a - b))];
+  function outcome(demand, rating) {
+    const use = demand / rating.watts;
+    return use <= 1
+      ? 'Pass · ' + powerPercent(1 - use) + ' in reserve'
+      : 'Fail · needs ' + powerPercent(use - 1) + ' more power';
   }
-
-  function usage(use, rating) {
-    const label = show(rating.watts) + ' W ' + (rating.type === 'burst' ? 'burst' : 'continuous') + ' rating';
-    return 'Uses ' + powerPercent(use) + ' of the ' + label + '. ' + (use > 1
-      ? 'The target needs ' + powerPercent(use - 1) + ' more power than this rating.'
-      : powerPercent(1 - use) + ' of rated power is in reserve.');
-  }
-
-  for (const testLoad of testLoads.sort((a, b) => Number(b === load) - Number(a === load) || a - b)) {
+  const rows = testLoads.map(testLoad => {
     const ratingsAtLoad = entries.filter(entry => entry.load === testLoad).sort((a, b) => b.watts - a.watts);
     const continuous = ratingsAtLoad.find(rating => rating.type === 'continuous');
     const burst = ratingsAtLoad.find(rating => rating.type === 'burst');
-    const unspecified = ratingsAtLoad.find(rating => rating.type === 'unknown');
     const peakDemand = peakV ** 2 / testLoad;
-    const averageDemand = averageV === null ? null : averageV ** 2 / testLoad;
     const peakRating = burst && (!continuous || burst.watts >= continuous.watts) ? burst : continuous;
-    addText('h3', testLoad === load ? 'At your speaker’s nominal load · ' + show(load) + ' Ω' : 'Separate test load · ' + show(testLoad) + ' Ω');
-
-    if (averageDemand !== null) {
-      if (continuous) {
-        const use = averageDemand / continuous.watts;
-        addText('p', (use <= 1 ? 'Average level: covered by the continuous rating. ' : 'Average level: above the continuous rating. ') + usage(use, continuous));
-      } else {
-        addText('p', 'Average level: unverified. Add a continuous rating at this load to check the roughly ' + show(averageDemand) + ' W per channel needed.');
-      }
+    const row = [show(testLoad) + ' Ω' + (testLoad === load ? ' (speaker rating)' : ' (test load)')];
+    if (averageV !== null) {
+      row.push(continuous
+        ? outcome(averageV ** 2 / testLoad, continuous)
+        : 'Unverified · needs a continuous rating');
     }
-
-    if (peakRating && peakDemand <= peakRating.watts) {
-      addText('p', 'Short peaks: covered by the ' + (peakRating.type === 'burst' ? 'burst' : 'continuous') + ' rating. ' + usage(peakDemand / peakRating.watts, peakRating));
-    } else if (burst) {
-      addText('p', 'Short peaks: above the entered burst rating. ' + usage(peakDemand / burst.watts, burst));
+    if (peakRating && (peakDemand <= peakRating.watts || burst)) {
+      row.push(outcome(peakDemand, peakRating));
     } else if (continuous) {
-      addText('p', 'Short peaks: unverified. Your target exceeds the continuous rating. ' + usage(peakDemand / continuous.watts, continuous) + ' The amp may deliver more power briefly. Add a burst rating at this load to check.');
+      row.push('Unverified · above continuous rating');
     } else {
-      addText('p', 'Short peaks: unverified. Add a continuous or burst rating at this load.');
+      row.push('Unverified · needs a power rating with a known duration');
     }
-    if (unspecified && (!continuous || !burst)) {
-      addText('p', 'The ' + show(unspecified.watts) + ' W rating has no test duration listed. Identify it as continuous or burst to use it in the assessment.');
-    }
-    if (testLoad !== load) {
-      addText('p', 'Your speaker is rated ' + show(load) + ' Ω. These results describe the ' + show(testLoad) + ' Ω test only.');
-    }
+    return row;
+  });
+  addText('h3', 'Does your amp meet the goal?');
+  body.append(table(averageV === null ? ['Impedance', 'Short peaks'] : ['Impedance', 'Average level', 'Short peaks'], rows));
+  if (rows.some(row => row.at(-1) === 'Unverified · above continuous rating')) {
+    addText('p', 'An amp may deliver more power for a short burst than its continuous rating shows. Add a burst rating at that impedance to check.');
+  }
+  if (entries.some(entry => entry.type === 'unknown')) {
+    addText('p', 'Ratings with an unspecified duration appear under Show the math. Identify them as continuous or burst to use them in the assessment.');
   }
   if (minimum < load && !entries.some(entry => entry.load <= minimum)) {
     addText('p', 'Your speaker dips to ' + show(minimum) + ' Ω. A lower-impedance amp test would help check those peaks.');
   }
-  addText('p', 'This compares your estimated power demand with the ratings you entered. Test conditions and your speaker’s actual load can affect the result.');
+  addText('p', 'Reserve is a percentage of rated power. Each row uses ratings at that impedance and the test conditions you entered.');
 }
 
 function calculate() {
