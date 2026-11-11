@@ -117,3 +117,16 @@
 .dl-graph-orientation span:last-child{text-align:right}
 .dl-graph-translation{margin:.7rem 1.45rem 0;font-size:.92rem;line-height:1.7;color:#d5e9f6}
 @media(max-width:600px){.dl-graph-orientation{margin:1rem .8rem 0;gap:.4rem}.dl-graph-orientation span{font-size:.58rem;letter-spacing:0}.dl-graph-translation{margin:.65rem .9rem 0;font-size:.81rem}}
+
+/* Make SVG visibility reflect the hidden attribute across browsers */
+[data-lesson-plot] svg [hidden] {display:none!important}
+.dl-plot-status {padding:.7rem 1.3rem;color:#cde7f4;font-weight:690;font-size:.83rem;background:#132c3e;border-bottom:1px solid #33506a}
+.dl-diagnostic-heading {fill:#f9d6c1;font:800 31px system-ui}
+.dl-diagnostic-question {fill:#f1f6fa;font:730 24px system-ui}
+.dl-diagnostic-body {fill:#cbdcec;font:17px system-ui}
+.dl-diagnostic-small {fill:#fae1cc;font:700 12px system-ui}
+.dl-spectrum-heading {fill:#b7eff7;font:800 16px system-ui}
+.dl-spectrum-column {fill:#e2f5fa;font:740 19px system-ui}
+.dl-spectrum-label {fill:#b8d6e8;font:700 17px system-ui}
+.dl-spectrum-footer {fill:#e0eff8;font:17px system-ui}
+.dl-spectrum-small {fill:#a3bbd0;font:13px system-ui}
