@@ -28,3 +28,10 @@
 .sc-notes { max-width: 48rem; margin-top: 2.5rem; }
 @media (max-width: 800px) { .sc-layout { grid-template-columns: 1fr; } }
 @media (max-width: 400px) { .sc-fields, .sc-rating { grid-template-columns: 1fr; } }
+
+.sc-tool-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin-block: 1rem 1.5rem;
+}
