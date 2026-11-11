@@ -543,3 +543,100 @@
 @media (min-width: 1000px) {
  .dl-figure > .dl-trace-chart { grid-column: 1; grid-row: 4; }
 }
+
+.dl-tool-callout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-block: 1.5rem;
+  padding: clamp(1rem, 2.6vw, 1.6rem);
+  border: 1px solid #355e77;
+  border-inline-start: 4px solid #7bd4ee;
+  border-radius: .8rem;
+  background: #112b40;
+}
+
+.dl-tool-copy {
+  flex: 1 1 23rem;
+}
+
+.dl-tool-copy h2, .dl-tool-copy h3 {
+  margin: 0 0 .3rem;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+}
+
+.dl-tool-copy p {
+  margin: 0;
+  color: #c8dce9;
+}
+
+.dl-tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+}
+
+.hr-target {
+  margin: 0 0 1rem;
+}
+
+.hr-target strong {
+  color: #aee9ff;
+}
+
+.hr-settings {
+  margin: 0 0 1.2rem;
+  padding: clamp(1rem, 2.6vw, 1.5rem);
+  border: 1px solid #36536d;
+  border-radius: .8rem;
+  background: #0e1e30;
+}
+
+.hr-settings h3 {
+  margin: 0 0 .65rem;
+}
+
+.hr-settings p {
+  max-width: 84ch;
+  margin: .55rem 0;
+}
+
+.hr-settings-tables, .hr-settings-notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .9rem 1.2rem;
+}
+
+.hr-settings-tables {
+  margin-block: 1.2rem;
+}
+
+.hr-settings .dl-worked-table {
+  margin: 0;
+}
+
+.hr-settings-notes p {
+  margin: 0;
+}
+
+.hr-settings p.hr-model-note {
+  margin: .9rem 0 0;
+  color: #b9d0df;
+  font-size: .9rem;
+}
+
+.hr-buying {
+  margin: 1.2rem 0;
+  max-width: 85ch;
+}
+
+@media (max-width: 650px) {
+  .hr-settings-tables, .hr-settings-notes {
+    grid-template-columns: 1fr;
+  }
+
+  .dl-tool-actions, .dl-tool-actions .button {
+    width: 100%;
+  }
+}
