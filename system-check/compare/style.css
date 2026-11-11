@@ -1,0 +1,116 @@
+.gc .lead {
+  max-width: 48rem;
+}
+
+.gc-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-block: 1.5rem 1rem;
+}
+
+.gc-types button[aria-pressed="true"] {
+  background: #244f70;
+  border-color: #8edaf3;
+  color: #f1fbff;
+}
+
+.gc-pickers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.gc-pickers fieldset > label + label {
+  margin-top: .7rem;
+}
+
+.gc .gc-manual {
+  margin-top: .8rem;
+}
+
+.gc-manual[hidden], #comparison[hidden] {
+  display: none;
+}
+
+.gc .gc-manual input, .gc .gc-manual select {
+  min-width: 0;
+}
+
+#compare-status {
+  color: #bcd1e3;
+  min-height: 1.4em;
+  margin-block: .8rem;
+}
+
+#comparison {
+  margin-top: .9rem;
+  padding: clamp(.7rem, 2vw, 1.35rem);
+}
+
+#comparison h2 {
+  margin: 0 0 .55rem;
+}
+
+#comparison-takeaway {
+  max-width: 76ch;
+}
+
+.gc-table {
+  table-layout: fixed;
+}
+
+.gc-table th, .gc-table td {
+  overflow-wrap: anywhere;
+  vertical-align: top;
+}
+
+.gc-table th:first-child {
+  width: 26%;
+}
+
+.gc-table thead th {
+  color: #e6f5ff;
+  background: #172f44;
+}
+
+.gc-table tbody th {
+  color: #dceef9;
+  font-weight: 650;
+}
+
+.gc-table .gc-conditions {
+  display: block;
+  color: #bdcfe0;
+  font-size: .86em;
+  margin-top: .25rem;
+}
+
+.gc-table .gc-rating + .gc-rating {
+  margin-top: .6rem;
+}
+
+.gc-table a {
+  display: inline-block;
+  margin: .2rem .6rem .1rem 0;
+}
+
+.gc .gc-lesson {
+  margin-bottom: 0;
+}
+
+@media (max-width: 580px) {
+  .gc-pickers {
+    grid-template-columns: 1fr;
+    gap: .65rem;
+  }
+
+  .gc-table th:first-child {
+    width: 28%;
+  }
+
+  .gc-table th, .gc-table td {
+    font-size: .84rem;
+    padding-inline: .3rem;
+  }
+}
