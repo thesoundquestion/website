@@ -28,7 +28,8 @@ def build_nav(index):
     end_of_category = lesson["category"] != nxt["category"]
     category_info = CATEGORIES[lesson["category"]]
     next_info = CATEGORIES[nxt["category"]]
-    target = next_info["label"].lower()
+    switch_info = CATEGORIES[category_info.get("switch_to", nxt["category"])]
+    target = switch_info["label"].lower()
     title = html.escape(nxt["title"])
     desc = html.escape(nxt["description"])
     current_category = category_info["label"]
@@ -49,10 +50,10 @@ def build_nav(index):
             '<aside class="dl-topic-switch"><div>'
             f'<p class="dl-switch-label">FINISHED THIS {category_info["adjective"].upper()} SERIES?</p>'
             f'<h3>Want to learn about {target}?</h3>'
-            f'<p>{html.escape(next_info["description"])}</p>'
+            f'<p>{html.escape(switch_info["description"])}</p>'
             '</div>'
-            f'<a class="dl-switch-link" href="/decoder/#{next_info["anchor"]}">'
-            f'Explore {next_info["adjective"].lower()} lessons ↗</a></aside>'
+            f'<a class="dl-switch-link" href="/decoder/#{switch_info["anchor"]}">'
+            f'Explore {switch_info["adjective"].lower()} lessons ↗</a></aside>'
         )
     bottom = (
         '<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">\n'

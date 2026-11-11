@@ -21,6 +21,63 @@
       "description": "Learn why some speakers play louder from the same amplifier input."
     },
     {
+      "slug": "speaker-impedance",
+      "category": "speakers",
+      "title": "Speaker impedance and matching",
+      "desc": "Read speaker impedance curves, nominal ohms, and amplifier load requirements.",
+      "example": "8 Ω nominal · minimum 6.4 Ω",
+      "question": "Why doesn't an 8-ohm speaker stay at 8 ohms?",
+      "decode": "The <strong>8 Ω</strong> figure is a nominal designation, not a constant value. A minimum of <strong>6.4 Ω</strong> means the magnitude is stated not to fall below 80% of nominal in the rated band. That relationship appears in IEC 60268-5. A typical impedance plot may rise dramatically at a driver's resonance without implying louder sound at those frequencies.",
+      "limit": "The rating tells you neither the phase angle nor how much current your specific amplifier can safely deliver. This fictional curve illustrates the specification, not a tested speaker.",
+      "labels": [
+        "8 Ω nominal",
+        "4 Ω nominal",
+        "Deep dip"
+      ],
+      "keys": [
+        "even",
+        "character",
+        "issue"
+      ],
+      "heads": [
+        "A normal changing electrical load",
+        "Lower impedance demands more current",
+        "A deep dip can challenge an amplifier"
+      ],
+      "exps": [
+        "The magnitude rises around the bass resonance and comes back down. An ordinary speaker does not have one perfectly fixed impedance across all music.",
+        "A typical 4 Ω nominal loudspeaker runs at a lower electrical impedance. It can be every bit as good as an 8 Ω design, but a compatible amplifier must supply the current.",
+        "A substantial dip may increase current demand at particular frequencies, especially with an unfavorable electrical phase. This is something to investigate, not automatic evidence of bad sound."
+      ],
+      "paragraphs": [
+        "Impedance measures opposition to alternating electrical current. A speaker has moving voice coils, crossover components and resonances, so its impedance changes with the frequency of the signal. The single number on the carton is shorthand for the load an amplifier should expect.",
+        "A low impedance at a given output voltage generally asks the amplifier for more current. A high resonant peak, by contrast, does not automatically increase amplifier load. Even more important, a magnitude curve doesn't show electrical phase, which changes how current and voltage interact.",
+        "When two different speakers are equally loud and their amplifiers are operating comfortably, the nominal 4 Ω or 8 Ω labels do not define the sound. The meaningful risk is exceeding a particular amplifier's stable operating range."
+      ],
+      "listening": [
+        "An amplifier may sound clean with a demanding loudspeaker at modest levels, then approach clipping, protection or excess heating when a loud passage requires more current. That is a system interaction, not proof that low impedance inherently sounds worse.",
+        "Bass tightness, separation and musical dynamics cannot be read directly from nominal impedance. Speaker response, sensitivity, distortion, placement and the amplifier's actual capabilities all play roles."
+      ],
+      "audiophile": "“Eight-ohm speakers are easy to drive” and “four-ohm speakers have more powerful bass” are common shortcuts. A nominal label alone doesn't establish either conclusion.",
+      "evidence": "Impedance magnitude and phase, minimum impedance, listening level and amplifier current/voltage capacity all influence matching. A nominal 8 Ω speaker can still present surprisingly challenging dips. IEC 60268-5 includes a rated-impedance minimum-magnitude convention.",
+      "buy": [
+        "Check the rated load supported by the amplifier, and look for minimum impedance rather than only nominal impedance.",
+        "Consider sensitivity and listening distance: a nominal rating doesn't tell you how loudly the speaker will play for a given input.",
+        "Avoid connecting multiple speakers in parallel without understanding how their combined load affects the amplifier."
+      ],
+      "advanced": "For a pure resistor only, I = V/R. At 20 V RMS, 8 Ω draws 2.5 A and 4 Ω draws 5 A. Loudspeakers are complex frequency-dependent loads, so the instantaneous relationship also depends on phase.",
+      "sources": [
+        [
+          "Klippel: Loudspeaker IEC impedance testing",
+          "https://www.klippel.de/fileadmin/klippel/Bilder/Know-How/Literature/Papers/TUTORIAL_W.KlippeL-IEC%20Standard%20Project%2060268-5%20A%20and%20B%20AES%202015.pdf"
+        ],
+        [
+          "Loudspeaker impedance and IEC standard examples",
+          "https://docs.jmrp.io/phonometry/devices/electroacoustics/loudspeakers/"
+        ]
+      ]
+    },
+    {
       "slug": "amplifier-power",
       "category": "amplifiers",
       "title": "Amplifier power",
@@ -31,6 +88,63 @@
       "category": "amplifiers",
       "title": "Amplifier distortion and harmonics",
       "description": "Compare distortion curves and understand the added tones."
+    },
+    {
+      "slug": "amplifier-classes",
+      "category": "amplifiers",
+      "title": "Amplifier classes and devices",
+      "desc": "Compare Class A, AB and D, and distinguish vacuum tubes, BJTs and MOSFETs.",
+      "example": "Class AB · MOSFET output stage",
+      "question": "Does Class A, Class AB or Class D decide how an amplifier sounds?",
+      "decode": "<strong>Class AB</strong> describes the operating method: complementary output devices share the audio signal with some overlap. <strong>MOSFET</strong> describes the kind of transistor used. Both terms can describe one amplifier, because operating class and transistor type are independent design choices.",
+      "limit": "The label doesn't reveal the amplifier's wattage, distortion, output impedance or noise. It isn't enough to predict whether the amplifier will sound warm, clinical or transparent.",
+      "labels": [
+        "Class A",
+        "Class AB",
+        "Class D"
+      ],
+      "keys": [
+        "even",
+        "character",
+        "issue"
+      ],
+      "heads": [
+        "Continuous conduction, even while quiet",
+        "Complementary devices share the workload",
+        "Rapid switching, followed by filtering"
+      ],
+      "exps": [
+        "Class A keeps its output devices conducting across the waveform cycle. It can avoid some crossover mechanisms, but usually expends significant power as heat, even at idle.",
+        "Class AB shares the waveform across devices with overlap to reduce crossover distortion. Its mix of efficiency and performance makes it common in hi-fi and home-theater equipment.",
+        "Class D uses devices as rapid switches, typically followed by an output filter. It can be extremely efficient and accurate. The D does not stand for digital audio."
+      ],
+      "paragraphs": [
+        "Operating class describes how the amplifier's output stage handles the signal. In conventional linear stages, Class A conducts throughout the cycle; Class B splits the cycle; Class AB overlaps the split to reduce crossover distortion. Class D uses high-speed switching instead.",
+        "The hardware uses specific devices. Vacuum tubes, bipolar junction transistors (BJTs) and MOSFETs describe what controls electrical current, not the amplifier class. A Class AB amplifier may use MOSFETs or BJTs. Tubes can also be used in Class A or AB designs.",
+        "Classes G and H manage the supply-rail voltages to reduce waste. They may be combined with linear output stages. Practical concerns such as cooling, reliability, output limits and power consumption often differ by design."
+      ],
+      "listening": [
+        "A carefully engineered Class D amplifier can reproduce music very accurately, just as a well-made Class AB amplifier can. The class label alone does not prove that one will have smoother guitars or punchier drums.",
+        "Some tube designs or other deliberately colored circuits can add audible harmonics. That coloration depends on the particular circuitry and load, not merely the presence of tubes, MOSFETs or a Class A badge."
+      ],
+      "audiophile": "“Class A is the most musical,” “MOSFETs sound like tubes” and “Class D sounds cold” are useful claims to investigate, not universal laws. Different implementations can measure and sound very different.",
+      "evidence": "Amplifier operating class is strongly related to heat, efficiency and design requirements. A class label by itself cannot establish a distortion spectrum or a reliably audible tonal character.",
+      "buy": [
+        "Compare clean power, THD+N at relevant loads and levels, and compatibility with the speakers you actually own.",
+        "Account for idle heat, ventilation and service needs; tube replacement and Class A power consumption can add ongoing costs.",
+        "Read actual product measurements rather than relying on the output-device label as a substitute for sound-quality evidence."
+      ],
+      "advanced": "In a conventional linear output stage, a Class A device conducts for 360° of the cycle; Class B approximately 180°; Class AB between 180° and 360°. Class D uses switching rather than the same conduction-angle classification. Class G/H implement different supply-rail management strategies.",
+      "sources": [
+        [
+          "Texas Instruments: Audio amplifier basics",
+          "https://www.ti.com/video/6287826793001"
+        ],
+        [
+          "Analog Devices: Class D amplifier design and efficiency",
+          "https://www.analog.com/en/resources/analog-dialogue/articles/class-d-audio-amplifiers.html"
+        ]
+      ]
     }
   ],
   "categories": {
@@ -38,13 +152,15 @@
       "label": "Speakers",
       "adjective": "speaker",
       "anchor": "speaker-lessons",
-      "description": "Explore how speakers turn an electrical signal into sound, from tonal balance to bass and sensitivity."
+      "description": "Explore how speakers turn an electrical signal into sound, from tonal balance to bass and sensitivity.",
+      "switch_to": "amplifiers"
     },
     "amplifiers": {
       "label": "Amplifiers",
       "adjective": "amplifier",
       "anchor": "amplifier-lessons",
-      "description": "Discover what amplifier power, distortion and circuit performance mean when driving real speakers."
+      "description": "Discover what amplifier power, distortion and circuit performance mean when driving real speakers.",
+      "switch_to": "speakers"
     }
   }
 }

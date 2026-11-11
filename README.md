@@ -89,3 +89,6 @@ THD+N now has a focused illustrated section under `#thd-plus-noise` with synthet
 
 ### Critical publishing rule: teach every example stat explicitly
 Any example specification prominently shown at the beginning of a Decoder lesson must have a corresponding diagram/chart that visualizes **that exact quantity and measurement convention** and a plain-English explanation of every component of the printed specification. Do not let the lesson's separate preference/behavior graph substitute for decoding its exact headline example. Clearly differentiate single test points from a sweep, rated limits from measured curves, and unspecified conditions from supported facts. For the distortion lesson, the 0.09% at 1 kHz example links to its exactly matching one-point illustration. Four existing lessons have dedicated #decode-the-spec modules. Future lessons must follow this pattern.
+
+## Expanded curriculum
+Added full interactive lessons for speaker impedance and amplifier classes. Each starts with an exact stat/label diagram. Curriculum now has seven lessons; category `switch_to` controls the cross-category invitation, and the navigation sync script supports it. Diagrams are schematic and not measured product results.

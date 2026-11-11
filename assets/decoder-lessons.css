@@ -357,3 +357,8 @@
 .dl-example-spec a{color:#94ddfa;font-weight:740}
 @media(max-width:900px){.dl-stat-grid{grid-template-columns:1fr;align-items:start}.dl-stat-chart{max-width:770px}}
 @media(max-width:650px){.dl-stat-decode{padding-block:12px 18px}.dl-stat-grid{padding:.7rem}.dl-stat-axis{font-size:16px}.dl-stat-label{font-size:19px}}
+
+/* Expanded decoder topics */
+.ex-new-svg{display:block;width:100%;height:auto}
+.ex-new-head{fill:#eefaff;font:750 20px system-ui}
+.ex-new-label{fill:#c3dfef;font:15px system-ui}
