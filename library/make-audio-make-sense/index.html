@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080d15">
+  <meta name="description" content="A reference guide to recording, digital audio, amplifiers, speakers and listening terms.">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="The Sound Question">
+  <meta property="og:title" content="Make Audio Make Sense | The Sound Question">
+  <meta property="og:description" content="A reference guide to recording, digital audio, amplifiers, speakers and listening terms.">
+  <meta property="og:url" content="https://thesoundquestion.pages.dev/library/make-audio-make-sense/">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://thesoundquestion.pages.dev/library/make-audio-make-sense/">
+  <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/reference-figures.css">
+  <title>Make Audio Make Sense | The Sound Question</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+        <nav class="main-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav>
+      </div>
+    </header>
+    <main id="main">
+<header class="page-intro container"><p><a href="/library/">← Reference Library</a></p><h1>Make Audio Make Sense</h1><p class="lead">Understand the terms you encounter from recording to listening, and learn what an audio specification can tell you.</p><p>First published <time datetime="2026-11-11">November 11, 2026</time> · Revision 1.0</p><nav aria-label="On this page"><ul class="reference-jumps"><li><a href="#recording">Recording</a></li><li><a href="#digital">Digital audio</a></li><li><a href="#amplification">Amplification</a></li><li><a href="#playback">Speakers and headphones</a></li><li><a href="#methods">Methods</a></li><li><a href="#sources">Sources</a></li></ul></nav></header>
+<article class="section section-border"><div class="container reference-reading">
+<section id="recording"><h2>1. Recording, mixing and mastering</h2>
+<p>A microphone turns changes in air pressure into an electrical signal. Its placement and pickup pattern affect the balance of the source and room sound. A mix combines recordings and shapes their relative level, tone and position. Mastering prepares the finished mix for distribution and can affect its level and dynamics.</p>
+<p><strong>Dynamic range</strong> describes a span between levels. For a recording, specify which levels or measurement method you mean. For playback hardware, a specification typically compares a maximum signal with the noise floor under stated conditions. <strong>Clipping</strong> occurs when a stage exceeds its available range and truncates peaks.</p>
+<p><a href="/journey/">Follow recording, mixing and mastering in the Sound Journey</a>.</p></section>
+<section id="digital"><h2>2. Digital audio and the source</h2>
+<p><strong>Sample rate</strong> is the number of samples per second per channel. In a properly band-limited system, a 48 kHz rate can represent frequencies below 24 kHz. Practical filters need transition space. <strong>Bit depth</strong> sets the number of available quantization levels in integer PCM. It affects quantization noise and usable dynamic range.</p>
+<p><strong>Lossless</strong> compression reconstructs the original encoded audio data. <strong>Lossy</strong> encoding discards or approximates information to reduce size. Audible differences depend on the encoder, settings, material and listener. Compare versions derived from the same master if you want to isolate the codec.</p>
+<p>A <strong>DAC</strong> converts digital audio into an analog signal. Its line output feeds a compatible input. Compare the source's maximum output voltage and the receiving input's permitted level when investigating overload.</p>
+<ul><li><a href="/decoder/sample-rate/">Sample rate</a> and <a href="/decoder/bit-depth/">bit depth</a></li><li><a href="/decoder/lossy-lossless/">Lossy and lossless audio</a></li><li><a href="/decoder/dac-specifications/">DAC specifications</a> and <a href="/decoder/source-levels/">source levels</a></li></ul></section>
+<section id="amplification"><h2>3. Amplification and headroom</h2>
+<p>An amplifier provides voltage and current to drive a load. <strong>Impedance</strong> describes how a speaker or headphone opposes alternating current and can change with frequency. <strong>Headroom</strong> is the margin available for signal peaks before a stage reaches its clean-output limit.</p>
+<p><strong>Worked example.</strong> If an amplifier supplies 20 V RMS into an ideal 8 Ω resistor, it delivers 50 W (20² ÷ 8). The same voltage into an ideal 4 Ω resistor requires 100 W and twice the RMS current, 5 A instead of 2.5 A. This calculation assumes the amplifier can sustain 20 V into either load. A real loudspeaker's impedance and phase vary with frequency.</p>
+<p>Read a wattage rating alongside its load, distortion threshold, frequency range and number of driven channels. For a distortion figure such as <strong>THD+N</strong>, check test level, frequency and measurement bandwidth before comparing equipment.</p>
+<ul><li><a href="/decoder/amplifier-power/">Amplifier power and headroom</a></li><li><a href="/decoder/amplifier-distortion/">Amplifier distortion</a> and <a href="/decoder/speaker-impedance/">speaker impedance</a></li><li><a href="/decoder/quick-reference/">Spec Decoder quick reference</a></li></ul></section>
+<section id="playback"><h2>4. Speakers, headphones and the room</h2>
+<p><strong>Frequency response</strong> shows how output level changes with frequency under a defined test setup. <strong>Sensitivity</strong> relates input to output sound pressure level under stated conditions. Read the voltage or power reference and the measurement distance before comparing speaker sensitivity. Headphone figures may use dB SPL per volt or per milliwatt.</p>
+<p><strong>Dispersion</strong> describes how a speaker's output changes with angle and frequency. A seat off to the side receives a different angle of direct sound. The walls also receive sound from off-axis directions and reflect some of it back. For headphones, fit and seal can strongly affect the sound at the ear, particularly bass response.</p>
+<p>When someone describes <strong>imaging</strong>, they usually mean how precisely voices or instruments appear to occupy positions. <strong>Soundstage</strong> describes the apparent extent of that scene. The recording, speaker setup, reflections and listener all contribute.</p>
+<ul><li><a href="/decoder/speaker-frequency-response/">Speaker frequency response</a> and <a href="/decoder/speaker-sensitivity/">speaker sensitivity</a></li><li><a href="/decoder/speaker-dispersion/">Speaker dispersion and room illustrations</a></li><li><a href="/decoder/headphone-frequency-response/">Headphone frequency response</a> and <a href="/decoder/headphone-sensitivity/">headphone sensitivity</a></li><li><a href="/decoder/audiophile-glossary/">Audiophile glossary</a></li></ul></section>
+<section id="methods"><h2>5. Check what a claim can tell you</h2>
+<ol><li><strong>Read the conditions.</strong> Check the units, reference level, load, angle, distance and bandwidth as applicable.</li><li><strong>Identify the evidence.</strong> A specification states a result or limit under defined conditions. A measurement records what happened in one setup. A model shows what follows from its assumptions. A listening impression describes what someone experienced.</li><li><strong>Match the comparison to the question.</strong> If you are testing a codec, use the same master and match playback levels. A blind ABX trial asks whether you can identify a hidden sample as A or B under those conditions. Preference is a separate question.</li></ol></section>
+<section id="sources"><h2>Sources and further reading</h2>
+<ul><li><a href="https://docs.klippel.de/db-lab/latest/directivity-roomcorrection/nfs/nfs.html">KLIPPEL Near Field Scanner documentation</a> explains angular loudspeaker measurements and derived summaries.</li><li><a href="https://www.spinorama.org/docs/01_intro.html">Spinorama measurement guide</a> explains what loudspeaker response plots can tell you.</li><li>The linked Decoder lessons provide worked examples and topic-specific sources for digital audio, amplifiers and transducers.</li></ul></section>
+</div></article>
+</main>
+    <footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><img src="/assets/mark.svg" width="29" height="29" alt=""><span>The Sound Question</span></div>
+    <div class="footer-links"><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a><a href="/privacy/">Privacy</a></div>
+    <p>From the first sound to the final listen. Understand what shapes what you hear.</p>
+    <small>© 2026 The Sound Question. Free to explore, no account required.</small>
+  </div>
+</footer>
+  </div>
+</body>
+</html>

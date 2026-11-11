@@ -1,0 +1,16 @@
+.reference-reading { max-width: 52rem; }
+.reference-reading > section + section { margin-top: 2.6rem; }
+.reference-reading a, .reference-jumps a { text-decoration: underline; text-underline-offset: .2em; }
+.reference-jumps, .figure-key { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; list-style: none; padding: 0; }
+.reference-figure { margin: 2rem 0; padding: clamp(.8rem, 2vw, 1.4rem); background: #101e2e; border: 1px solid #31475d; border-radius: 1rem; }
+.reference-figure h3 { margin: 0 0 .85rem; }
+.reference-figure h4 { margin: 0 0 .45rem; }
+.reference-figure img { display: block; width: 100%; height: auto; border-radius: .7rem; }
+.reference-figure figcaption { margin-top: .9rem; color: #cbd9e7; }
+.figure-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
+.figure-key { margin: .8rem 0 0; }
+.key-cyan { color: #67e1f6; }
+.key-lilac { color: #d5b8ff; }
+.key-amber { color: #ffbf72; }
+@media (max-width: 640px) { .figure-comparison { grid-template-columns: 1fr; } }
+
