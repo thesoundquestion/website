@@ -44,7 +44,7 @@
  <a href="#understand">Understand the spec ↓</a>
  <a href="#listening">What might I hear? ↓</a>
  <a href="#buying">Buying advice ↓</a>
- </nav>
+ <a href="#bench-power">Compare real power ratings ↓</a><a href="#signal-paths">Compare amplifier setups ↓</a></nav>
  </div>
  
  <section class="dl-stat-decode container" id="decode-the-spec" aria-label="What the example specification means">
@@ -158,6 +158,35 @@
  <div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE TELLS US</p><p>The load impedance, frequency range, distortion allowance, number of driven channels and duration all matter. The US FTC Amplifier Rule exists partly to improve power-claim comparisons; other markets and product categories can use different requirements.</p></div></div>
  </div></section>
  
+<section class="dl-section-soft" id="bench-power"><div class="container dl-reading">
+<h2>Read the watts and the test conditions together</h2>
+<p>Yamaha rates the <a href="https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/a-s801/specs.html">A-S801 integrated amp</a> at <strong>100 W per channel</strong> into 8 Ω from 20 Hz to 20 kHz at 0.019% THD. The <a href="https://manual.yamaha.com/av/20/rxa6a/en-US/329936523.html">RX-A6A receiver</a> is rated at <strong>150 W per channel</strong> over the same band and load with two channels driven, at 0.06% THD. Those are manufacturer ratings at different distortion limits. If both powers were available cleanly under the same conditions, 150 W versus 100 W would buy about <strong>1.8 dB of extra peak level</strong> on the same speaker. That extra room matters when peaks approach the amp’s limit.</p>
+<p>The RX-A6A spec sheet also lists 185 W into 8 Ω at 1 kHz and 0.9% THD with one channel driven. The bigger number belongs to a different test. To compare independent measurements, open Audioholics’ <a href="https://www.audioholics.com/amplifier-reviews/yamaha-a-s801-amplifier-review">A-S801 bench test</a> and <a href="https://www.audioholics.com/av-receiver-reviews/yamaha-rx-a6a">RX-A6A bench test</a>. Look for the same load, number of driven channels, bandwidth, duration and THD+N threshold. A two-channel test addresses stereo use. A multichannel test helps explain what happens when more channels draw from the receiver’s supply.</p>
+<figure class="dl-variable">
+<h3>One amp, two loads: Yamaha A-S3200</h3>
+<svg class="dl-stat-svg" viewBox="0 0 540 158" role="img" aria-label="Stereophile measured the Yamaha A-S3200 at 110 watts per channel into 8 ohms and 168 watts per channel into 4 ohms, both channels driven at 1 percent THD plus noise." xmlns="http://www.w3.org/2000/svg">
+<rect width="540" height="158" rx="12" fill="#0b1726"/>
+<g font-family="system-ui,sans-serif" font-size="17" fill="#e1eef9">
+<text x="18" y="55">8 Ω</text><rect x="65" y="32" width="220" height="31" rx="4" fill="#77e4ff"/><text x="299" y="55">110 W/ch</text>
+<text x="18" y="113">4 Ω</text><rect x="65" y="90" width="336" height="31" rx="4" fill="#ffc27b"/><text x="415" y="113">168 W/ch</text>
+<text x="65" y="143" font-size="14">Both channels driven · 1% THD+N threshold</text>
+</g></svg>
+<figcaption>Original bars from two reported <a href="https://stereophile.com/content/yamaha-s3200-integrated-amplifier-measurements">Stereophile bench results</a>. The 4 Ω test draws more current and gets its own rating. These points mark the lab’s clipping threshold. Use the published sweeps to inspect distortion below those points.</figcaption>
+</figure>
+<p>When buying, start with the speaker load, listening distance and how loud you play. Extra power can keep demanding peaks clean. If your system already has enough headroom, features such as bass management, room correction, phono inputs or simpler source switching may matter more.</p>
+<p>Next, see <a href="/decoder/amplifier-distortion/#bench-distortion">how real amplifier distortion tests differ</a>.</p>
+</div></section>
+<section class="container dl-reading" id="signal-paths">
+<h2>Separates, integrated amps and receivers</h2>
+<p>Follow the signal from left to right. The volume control sets the signal sent to the power stage. The power stage supplies the voltage and current that drive passive speakers.</p>
+<dl>
+<dt><strong>Separate preamp and power amp</strong></dt><dd>Source → preamp (input selection and volume) → external power amp → speakers. You can keep the controls you like and choose a power amp for the speaker load.</dd>
+<dt><strong>Integrated amplifier</strong></dt><dd>Source → integrated amp (input selection, volume and power stage) → speakers. Some models also have a dedicated power-amp input. On the <a href="https://data.yamaha.com/files/download/other_assets/9/1323169/web_VEJ7880_A-S3200_om_UL_EnFrEs_A0.pdf">Yamaha A-S3200</a>, MAIN DIRECT takes the signal from MAIN IN and fixes the integrated amp’s volume. Use an upstream volume control and start with it turned down.</dd>
+<dt><strong>AV receiver using its speaker terminals</strong></dt><dd>Source → receiver (selected processing, volume and internal power stage) → speakers. Stereo, Straight and Pure Direct are listening modes. On the <a href="https://manual.yamaha.com/av/20/rxa6a/en-US/4141831051.html">RX-A6A</a>, the manual explains these as separate modes. Check what happens to room correction, bass management and subwoofer output for your input before comparing by ear.</dd>
+<dt><strong>AV receiver using front pre-outs</strong></dt><dd>Source → receiver (selected processing and volume) → front pre-outs → external power amp → speakers. The receiver remains the controller and the external amplifier powers the front speakers. The <a href="https://manual.yamaha.com/av/20/rxa6a/en-US/3832211851.html">RX-A6A connection guide</a> shows this setup.</dd>
+</dl>
+<p><strong>Try it at home:</strong> With the same track and seat, compare your usual stereo setting with Direct at matched level. Listen for changes to the bass first. If the subwoofer or EQ changes, you’re hearing a different system setting. That change can matter more to you than the bench difference between two power stages.</p>
+</section>
  <section class="container dl-buy-section" id="buying"><div class="dl-reading"><p class="section-kicker">TAKE THIS TO THE SHOP</p><h2>Before you decide what to buy</h2>
  <ol class="dl-buy-list"><li>Check whether watts are per channel and identify the speaker-load rating.</li><li>Look for frequency range, distortion limit, test duration and channels driven.</li><li>Treat vague peak or maximum wattage claims separately from sustained ratings; check whether distortion, thermal behavior and power supply performance support the claim.</li></ol>
  <div class="dl-variable"><h3>What else can change the outcome?</h3><p>Speaker sensitivity, impedance and phase, room size, seating distance, music dynamics, amplifier thermal limits and protection, and how the source is connected.</p></div>
