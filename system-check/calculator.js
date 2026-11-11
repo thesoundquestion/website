@@ -612,15 +612,19 @@ document.querySelector('#add-rating').addEventListener('click', () => addRating(
 document.querySelector('#example').addEventListener('click', () => {
   form.reset();
   for (const note of document.querySelectorAll('[data-gear] p')) note.replaceChildren();
-  levelAnchor = 'peak';
-  field('sensitivity').value = 94.5;
-  field('peak').value = 105;
+  levelAnchor = 'average';
+  field('sensitivity').value = 89;
+  field('basis').value = 'voltage';
+  field('average').value = 87;
+  field('gap').value = 15;
   field('load').value = 8;
   field('distance').value = 8;
-  field('speakers').value = '0';
+  field('speakers').value = '3';
   ratings.replaceChildren();
-  addRating(80, 8);
-  addRating(100, 4);
+  for (const [watts, load] of [[80, 8], [100, 4]]) {
+    addRating(watts, load, 'continuous', 'Fictional lesson rating');
+    addRating(watts, load, 'burst', 'Fictional lesson peak limit');
+  }
   for (const links of form.querySelectorAll('.sc-searches')) links.replaceChildren();
   if (specPanel) {
     specPanel.hidden = true;
