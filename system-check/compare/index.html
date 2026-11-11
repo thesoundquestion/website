@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Compare amplifier, speaker, DAC and headphone specifications side by side with Compare My Gear.">
+  <link rel="canonical" href="https://thesoundquestion.pages.dev/system-check/compare/">
+  <link rel="icon" href="/assets/mark.svg">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/system-check/style.css?v=compare-gear">
+  <link rel="stylesheet" href="/system-check/compare/style.css">
+  <script defer src="/system-check/gear.js?v=compare-gear"></script>
+  <script defer src="/system-check/compare/compare.js"></script>
+  <title>Compare My Gear | The Sound Question</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+    <nav class="main-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/system-check/">System Check</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav>
+  </div></header>
+  <main id="main" class="container sc gc">
+    <h1>Compare My Gear</h1>
+    <p class="lead">Put the gear you own next to a model you’re curious about. See the specs side by side and what they mean for your setup.</p>
+    <nav class="sc-tool-tabs" aria-label="Equipment tools">
+      <a class="button button-secondary" href="/system-check/">System Check</a>
+      <a class="button button-primary" href="/system-check/compare/" aria-current="page">Compare My Gear</a>
+    </nav>
+    <noscript><p>Enable JavaScript to compare models.</p></noscript>
+    <div id="compare-tool" hidden>
+      <div class="gc-types" role="group" aria-label="Equipment type">
+        <button class="sc-button" type="button" data-kind="amp" aria-pressed="true">Amplifiers</button>
+        <button class="sc-button" type="button" data-kind="speaker" aria-pressed="false">Speakers</button>
+        <button class="sc-button" type="button" data-kind="source" aria-pressed="false">DACs &amp; sources</button>
+        <button class="sc-button" type="button" data-kind="headphone" aria-pressed="false">Headphones &amp; IEMs</button>
+      </div>
+      <div class="gc-pickers">
+        <fieldset data-side="left">
+          <legend>Your gear</legend>
+          <label>Filter your gear presets<input type="search" autocomplete="off" data-filter placeholder="Brand or model"></label>
+          <label>Your model<select data-preset></select></label>
+          <div class="gc-manual sc-fields" data-manual hidden></div>
+        </fieldset>
+        <fieldset data-side="right">
+          <legend>Compare with</legend>
+          <label>Filter comparison presets<input type="search" autocomplete="off" data-filter placeholder="Brand or model"></label>
+          <label>Comparison model<select data-preset></select></label>
+          <div class="gc-manual sc-fields" data-manual hidden></div>
+        </fieldset>
+      </div>
+      <p id="compare-status" role="status">Choose two models or enter your own specs.</p>
+      <section id="comparison" class="sc-results" aria-labelledby="comparison-title" hidden>
+        <h2 id="comparison-title">Specs side by side</h2>
+        <p id="comparison-takeaway"></p>
+        <table class="gc-table">
+          <thead><tr><th scope="col">Specification</th><th scope="col" id="left-heading"></th><th scope="col" id="right-heading"></th></tr></thead>
+          <tbody id="comparison-rows"></tbody>
+        </table>
+        <p class="gc-lesson"><a id="comparison-lesson" href="/decoder/">How to read these specs</a></p>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container"><a href="/">The Sound Question</a></div></footer>
+</body>
+</html>
