@@ -1717,7 +1717,16 @@ const systemCheckGear = {
     {
       "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)",
       "values": {
-        "sourceVoltage": 2
+        "sourceVoltage": 2,
+        "sourceConnection": "RCA",
+        "sourceSnr": [
+          "122 dB",
+          "A-weighted, RCA output"
+        ],
+        "sourceThdn": [
+          "0.001%",
+          "RCA output"
+        ]
       },
       "note": "2 V RMS full-scale on the front-channel RCA line output. Creative specifies 0.001% THD+N and 122 dB A-weighted SNR. RCA output impedance is unverified.",
       "url": "https://media.dustin.eu/media/d200001003267145/sound-blaster-x-fi-titanium-hd-produktinformation.pdf"
@@ -1726,7 +1735,17 @@ const systemCheckGear = {
       "model": "iFi ZEN DAC V2 (fixed RCA)",
       "values": {
         "sourceVoltage": 2.1,
-        "sourceZ": 100
+        "sourceZ": 100,
+        "sourceConnection": "RCA",
+        "sourceZLimit": true,
+        "sourceSnr": [
+          ">116 dB",
+          "A-weighted at 0 dBFS"
+        ],
+        "sourceThdn": [
+          "<0.0015%",
+          "At 0 dBFS, RCA line output"
+        ]
       },
       "note": "Fixed unbalanced RCA output is 2.1 V. The estimate uses iFi’s published 100 Ω upper bound for output impedance.",
       "url": "https://downloads.ifi-audio.com/wp-content/uploads/2021/04/iFi_ZENDAC_V2_Lowdown.pdf"
@@ -1735,7 +1754,8 @@ const systemCheckGear = {
       "model": "Schiit Modi+ (RCA)",
       "values": {
         "sourceVoltage": 2,
-        "sourceZ": 75
+        "sourceZ": 75,
+        "sourceConnection": "RCA"
       },
       "note": "2 V RMS and 75 Ω, as documented from the archived Modi+ specifications.",
       "url": "https://audiochainsdb.com/en/gear/schiit-modi-plus",
@@ -1747,7 +1767,16 @@ const systemCheckGear = {
     {
       "model": "SMSL SU-1 (RCA)",
       "values": {
-        "sourceVoltage": 2
+        "sourceVoltage": 2,
+        "sourceConnection": "RCA",
+        "sourceSnr": [
+          "121 dB",
+          "RCA line output"
+        ],
+        "sourceThdn": [
+          "0.00013%",
+          "RCA line output"
+        ]
       },
       "note": "SMSL lists 2 V RMS line output. The manual does not give RCA output impedance.",
       "url": "https://www.smsl-audio.com/upload/portal/download/SU1Manual.pdf"
@@ -1756,25 +1785,122 @@ const systemCheckGear = {
       "model": "Topping E30 II (RCA)",
       "values": {
         "sourceVoltage": 2.1,
-        "sourceZ": 20
+        "sourceZ": 20,
+        "sourceConnection": "RCA",
+        "sourceSnr": [
+          "123 dB",
+          "1 kHz, A-weighted, USB input at 96 kHz"
+        ],
+        "sourceThdn": [
+          "<0.00015%",
+          "1 kHz, A-weighted, USB input at 96 kHz"
+        ]
       },
       "note": "Topping specifies 2.1 V RMS at 0 dBFS and 20 Ω output impedance for the RCA line output.",
-      "url": "https://dl.topping.audio/usermanual/e30ii.pdf"
+      "url": "https://dl.topping.audio/usermanual/e30ii_e30iil.pdf"
     },
     {
       "model": "WiiM Pro Plus (RCA)",
       "values": {
-        "sourceVoltage": 2
+        "sourceVoltage": 2,
+        "sourceConnection": "RCA",
+        "sourceSnr": [
+          "121 dB",
+          "A-weighted, RCA line output"
+        ],
+        "sourceThdn": [
+          "0.00023%",
+          "−113 dB, RCA line output"
+        ]
       },
       "note": "Uses the default 2 V RMS line-out setting. Update the value if you changed Line Out Level in the WiiM Home app.",
-      "url": "https://faq.wiimhome.com/en/support/solutions/articles/72000581028-is-it-possible-to-limit-the-volume-on-a-wiim-device-to-prevent-distortion-"
+      "url": "https://faq.wiimhome.com/en/support/solutions/articles/72000581028-is-it-possible-to-limit-the-volume-on-a-wiim-device-to-prevent-distortion-",
+      "extra": [
+        "WiiM Pro Plus owner’s manual",
+        "https://www.wiimhome.com/langPdf/en/WiiM%20Pro%20Plus%20UM.pdf"
+      ]
     }
   ],
   "headphone": [
     {
+      "model": "Grado SR80e",
+      "values": {
+        "design": "Open-back on-ear",
+        "sensitivity": 99.8,
+        "basis": "power",
+        "load": 32
+      },
+      "note": "Prestige e-series specification for the SR80e.",
+      "url": "https://www.digitec-derouet.com/photos/sr_80_e.pdf"
+    },
+    {
       "model": "Grado SR80x",
-      "note": "38 Ω nominal, 99.8 dB SPL at 1 mW. Headphone reference only. The speaker-at-a-seat estimate does not use these values.",
+      "values": {
+        "design": "Open-back on-ear",
+        "sensitivity": 99.8,
+        "basis": "power",
+        "load": 38
+      },
+      "note": "Prestige X-series specification for the SR80x.",
       "url": "https://www.gradothailand.com/en/product/sr80x/"
+    },
+    {
+      "model": "Moondrop Chu II",
+      "values": {
+        "design": "In-ear monitor",
+        "sensitivity": 119,
+        "basis": "voltage",
+        "load": 18,
+        "sensitivityConditions": "1 kHz"
+      },
+      "note": "Analogue Chu II with the 3.5 mm plug. Moondrop specifies 18 Ω ±15% at 1 kHz.",
+      "url": "https://moondroplab.com/en-products/chu-ii"
+    },
+    {
+      "model": "Sennheiser HD 560S",
+      "values": {
+        "design": "Open-back over-ear",
+        "sensitivity": 110,
+        "basis": "voltage",
+        "load": 120,
+        "sensitivityConditions": "1 kHz"
+      },
+      "note": "Sennheiser specifies sensitivity at 1 kHz and 1 V RMS.",
+      "url": "https://ca.sennheiser-hearing.com/collections/wired-headphones-1/products/hd-560s"
+    },
+    {
+      "model": "Sennheiser HD 600",
+      "values": {
+        "design": "Open-back over-ear",
+        "sensitivity": 97,
+        "basis": "voltage",
+        "load": 300
+      },
+      "note": "Sennheiser’s current HD 600 specification lists 97 dB SPL at 1 V and 300 Ω nominal.",
+      "url": "https://support.sennheiser-hearing.com/hc/en-fr/articles/38292415494173-HD-600-Specifications"
+    },
+    {
+      "model": "Shure SE215",
+      "values": {
+        "design": "In-ear monitor",
+        "sensitivity": 107,
+        "basis": "power",
+        "load": 17,
+        "sensitivityConditions": "1 kHz"
+      },
+      "note": "Shure specifies 17 Ω and 107 dB SPL per milliwatt at 1 kHz.",
+      "url": "https://www.shure.com/en-US/docs/guide/SE215"
+    },
+    {
+      "model": "Sony MDR-7506",
+      "values": {
+        "design": "Closed-back over-ear",
+        "sensitivity": 106,
+        "basis": "power",
+        "load": 63
+      },
+      "note": "Sony’s manual lists 106 dB per milliwatt and 63 Ω at 1 kHz.",
+      "url": "https://pro.sony/support/res/manuals/5024/9f6330320ece5ab8201bda250dd53ce5/50244182M.pdf"
     }
   ]
 };
