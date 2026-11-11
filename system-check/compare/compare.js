@@ -278,7 +278,7 @@ function currentDevice(index) {
     const preset = systemCheckGear[kind].find(device => device.model === selection.model);
     if (!preset) return undefined;
     const details = detailFor(kind, preset.model);
-    return { ...preset, values: { ...preset.values, ...details }, detailedReference: details.reference, detailNote: details.detailNote, reviewStatus: details.reviewStatus, reviewedOn: details.reviewedOn };
+    return { ...preset, values: { ...preset.values, ...details }, detailedReference: details.reference, secondReference: details.secondReference, detailNote: details.detailNote, reviewStatus: details.reviewStatus, reviewedOn: details.reviewedOn };
   }
   const { name, watts, duration, conditions, ...values } = selection.values;
   const ratings = watts > 0 && values.load > 0 ? [[watts, values.load, duration || 'unknown', conditions ?? '']] : [];
@@ -287,6 +287,7 @@ function currentDevice(index) {
     values,
     ratings,
     note: 'Manually entered specifications.',
+    manual: true,
   };
 }
 
@@ -294,6 +295,7 @@ function deviceLinks(device) {
   const notes = withCondition(device.note || missing);
   if (device.url) notes.append(linkedText('Preset source', device.url, true));
   if (device.detailedReference && device.detailedReference !== device.url) notes.append(linkedText('Detailed specifications', device.detailedReference, true));
+  if (device.secondReference) notes.append(linkedText('Additional specification reference', device.secondReference, true));
   if (device.detailNote) notes.append(withCondition('', device.detailNote));
   if (device.extra) notes.append(linkedText(device.extra[0], device.extra[1], true));
   if (device.url && kind !== 'headphone') {
@@ -314,8 +316,9 @@ function showComparison() {
   const render = { amp: amplifierRows, speaker: speakerRows, source: sourceRows, headphone: headphoneRows }[kind];
   document.querySelector('#comparison-takeaway').textContent = render(devices);
   if (kind !== 'amp') addRow('Specification source review', devices.map(device => {
-    if (device.model === (device.values.name || '')) return 'Entered manually · unverified';
-    if (device.reviewStatus === 'manufacturer-checked') return withCondition('Manufacturer document cross-checked', device.reviewedOn || '');
+    if (device.manual) return 'Entered manually · unverified';
+    if (device.reviewStatus === 'manufacturer-checked') return withCondition('Manufacturer specification cross-checked', device.reviewedOn || '');
+    if (device.reviewStatus === 'manufacturer-and-distributor') return withCondition('Manufacturer manual + archived distributor checked', device.reviewedOn || '');
     return withCondition('Not fully reviewed', 'Use the source links below; unconfirmed fields may be blank.');
   }));
   addRow('Notes and sources', devices.map(deviceLinks));
