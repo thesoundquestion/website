@@ -169,9 +169,50 @@
 </div></section>
 <section class="container dl-reading" id="amplifier-pairing">
 <h2>When amplifier pairing changes the result</h2>
-<p><strong>Preserve the speaker’s balance.</strong> For reference listening, start with a quiet amplifier whose output stays flat into the speaker’s load and that can play your loudest peaks cleanly. That preserves the ELAC’s more even balance or the Klipsch’s particular voicing. Check measured impedance and phase, sensitivity, listening distance and headroom before picking the amp. The original RP-600M, for example, measured about 3.5 Ω at its minimum in Stereophile’s test.</p>
-<p><strong>Understand where a tonal change can come from.</strong> An amp with appreciable output impedance can deliver different voltages at frequencies where the speaker’s impedance changes. In a simplified resistive example, a 2 Ω amp output would deliver about 2.2 dB more voltage level into a 12 Ω region than a 4 Ω region. With a 0.1 Ω output the gap would be about 0.14 dB. Real speakers also have electrical phase. The actual result can emphasize bass, treble or another band depending on the load. A label such as “tube,” “solid-state,” or “warm” gives you less to go on than a loaded response measurement.</p>
-<p><strong>Harmonic coloration is a separate effect.</strong> A second harmonic adds energy an octave above a tone. A treble cut reduces energy already present in a range. Clipping adds a different kind of distortion when the amp runs out of headroom. If your goal is a gentler balance, try a small treble cut first. If you enjoy an amp’s harmonic character, compare at matched level with the same speaker and check its distortion spectrum at realistic output.</p>
+<p><strong>Preserve the speaker’s balance.</strong> For reference listening, start with a quiet amplifier whose <a href="/decoder/amplifier-power/#compare">output holds up into the speaker’s load</a> and that has enough <a href="/decoder/amplifier-power/#headroom">headroom for your loudest peaks</a>. A <a href="https://www.stereophile.com/content/cary-audio-design-slm-100-monoblock-power-amplifier-measurements">frequency-response test into a speaker-like load</a> can show whether the amp changes the balance. That preserves the ELAC’s more even balance or the Klipsch’s particular voicing. Check measured <a href="/decoder/speaker-impedance/">impedance and phase</a>, <a href="/decoder/speaker-sensitivity/">sensitivity</a>, and listening distance before picking the amp. The original RP-600M, for example, measured about 3.5 Ω at its minimum in Stereophile’s test.</p>
+<p><strong>Understand where a tonal change can come from.</strong> A speaker’s impedance can vary with pitch. If the amp has appreciable output impedance, the voltage that reaches the speaker can vary with it. The effect can land in the bass, midrange, or treble, depending on where the speaker’s impedance changes.</p>
+<figure class="reference-figure" id="amp-load-visual">
+<h3>One speaker, two places to measure</h3>
+<p>Imagine a speaker that measures 4 Ω at 200 Hz and 12 Ω at 2 kHz. Those are two example points. The connecting lines help you compare the endpoints. Each trace is set to 0 dB at 200 Hz so you can see how the balance changes.</p>
+<div class="figure-comparison">
+<div><h4>1. Voltage at the speaker terminals</h4>
+<svg class="dl-stat-svg" viewBox="0 0 390 207" role="img" aria-labelledby="load-voltage-title load-voltage-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="load-voltage-title">Voltage change at the speaker terminals</title><desc id="load-voltage-desc">The 0.1 ohm amplifier is 0.14 dB higher at 2 kHz than at 200 Hz. The 2 ohm amplifier is 2.18 dB higher.</desc>
+<rect width="390" height="207" rx="12" fill="#0b1726"/>
+<g font-family="system-ui,sans-serif" font-size="15" fill="#d1e2f0">
+<path d="M55 165H365" stroke="#374f65"/><text x="43" y="170" text-anchor="end">−2</text>
+<path d="M55 140H365" stroke="#374f65"/><text x="43" y="145" text-anchor="end">−1</text>
+<path d="M55 115H365" stroke="#8aa2b6"/><text x="43" y="120" text-anchor="end">0</text>
+<path d="M55 90H365" stroke="#374f65"/><text x="43" y="95" text-anchor="end">+1</text>
+<path d="M55 65H365" stroke="#374f65"/><text x="43" y="70" text-anchor="end">+2</text>
+<path d="M55 40H365" stroke="#374f65"/><text x="43" y="45" text-anchor="end">+3</text>
+<text x="14" y="24">dB</text><text x="110" y="190" text-anchor="middle">200 Hz · 4 Ω</text><text x="309" y="190" text-anchor="middle">2 kHz · 12 Ω</text>
+<g data-trace="0.1 Ω amp" stroke="#77e4ff"><path d="M110 115L309 111.44" fill="none" stroke-width="2.6"/><circle cx="110" cy="115" r="4" fill="#77e4ff"/><circle cx="309" cy="111.44" r="4" fill="#77e4ff"/></g>
+<g data-trace="2 Ω amp" stroke="#ffc27b"><path d="M110 115L309 60.43" fill="none" stroke-width="2.6" stroke-dasharray="6 5"/><circle cx="110" cy="115" r="4" fill="#ffc27b"/><circle cx="309" cy="60.43" r="4" fill="#ffc27b"/></g>
+</g></svg>
+<p><strong>Electrical measurement.</strong> The 0.1 Ω amp changes the balance by <strong>+0.14 dB</strong> at 2 kHz. The 2 Ω amp changes it by <strong>+2.18 dB</strong>.</p></div>
+<div><h4>2. Sound level at the microphone</h4>
+<svg class="dl-stat-svg" viewBox="0 0 390 207" role="img" aria-labelledby="load-acoustic-title load-acoustic-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="load-acoustic-title">Illustrative sound level with the same speaker</title><desc id="load-acoustic-desc">At equal terminal voltage the speaker is 1 dB lower at 2 kHz. With the 0.1 ohm amp it is 0.86 dB lower. With the 2 ohm amp it is 1.18 dB higher.</desc>
+<rect width="390" height="207" rx="12" fill="#0b1726"/>
+<g font-family="system-ui,sans-serif" font-size="15" fill="#d1e2f0">
+<path d="M55 165H365" stroke="#374f65"/><text x="43" y="170" text-anchor="end">−2</text>
+<path d="M55 140H365" stroke="#374f65"/><text x="43" y="145" text-anchor="end">−1</text>
+<path d="M55 115H365" stroke="#8aa2b6"/><text x="43" y="120" text-anchor="end">0</text>
+<path d="M55 90H365" stroke="#374f65"/><text x="43" y="95" text-anchor="end">+1</text>
+<path d="M55 65H365" stroke="#374f65"/><text x="43" y="70" text-anchor="end">+2</text>
+<path d="M55 40H365" stroke="#374f65"/><text x="43" y="45" text-anchor="end">+3</text>
+<text x="14" y="24">dB</text><text x="110" y="190" text-anchor="middle">200 Hz · 4 Ω</text><text x="309" y="190" text-anchor="middle">2 kHz · 12 Ω</text>
+<g data-trace="Equal terminal voltage" stroke="#d3baff"><path d="M110 115L309 140.00" fill="none" stroke-width="2.6" stroke-dasharray="6 5"/><circle cx="110" cy="115" r="4" fill="#d3baff"/><circle cx="309" cy="140.00" r="4" fill="#d3baff"/></g>
+<g data-trace="0.1 Ω amp" stroke="#77e4ff"><path d="M110 115L309 136.44" fill="none" stroke-width="2.6"/><circle cx="110" cy="115" r="4" fill="#77e4ff"/><circle cx="309" cy="136.44" r="4" fill="#77e4ff"/></g>
+<g data-trace="2 Ω amp" stroke="#ffc27b"><path d="M110 115L309 85.43" fill="none" stroke-width="2.6" stroke-dasharray="6 5"/><circle cx="110" cy="115" r="4" fill="#ffc27b"/><circle cx="309" cy="85.43" r="4" fill="#ffc27b"/></g>
+</g></svg>
+<p><strong>Acoustic response.</strong> At equal terminal voltage, suppose the speaker is <strong>1 dB quieter</strong> at 2 kHz. Add the voltage changes from the first panel and it becomes <strong>0.86 dB quieter</strong> with the 0.1 Ω amp or <strong>1.18 dB louder</strong> with the 2 Ω amp.</p></div>
+</div>
+<figcaption>Calculated example with a resistive load and a speaker operating linearly. The electrical graph shows what reaches the terminals. The acoustic graph includes what the speaker does with that voltage. The example frequencies and acoustic response are illustrative.</figcaption>
+<details class="dl-advanced"><summary>See how the voltage change was calculated</summary><p>Terminal voltage is the amp’s unloaded voltage multiplied by <var>R</var><sub>load</sub> / (<var>R</var><sub>load</sub> + <var>R</var><sub>out</sub>). Convert the ratio between the two terminal voltages to dB with 20 log<sub>10</sub>. Real loudspeakers also have electrical phase, so check a loaded frequency-response measurement for the actual combination.</p></details>
+</figure>
+<p><strong>Harmonic coloration is a separate effect.</strong> A second harmonic adds energy an octave above a tone. A treble cut reduces energy already present in a range. Clipping adds a different kind of distortion when the amp runs out of headroom. If your goal is a gentler balance, try a small treble cut first. If you enjoy an amp’s harmonic character, compare at matched level with the same speaker and check its <a href="/decoder/amplifier-distortion/#bench-distortion">distortion spectrum at realistic output</a>.</p>
 <details class="dl-advanced"><summary>Try one speaker with two EQ settings</summary><p>Play a short vocal or guitar passage with the EQ flat. Then try a broad −2 dB bell centered at 1.5 kHz with Q near 1. Match overall playback level and switch back and forth. Listen for whether the voice or guitar feels a little farther away. Repeat separately with a gentle high shelf if you want to isolate treble balance. Each test changes one part of the sound on the same speaker.</p></details>
 <p>See <a href="/decoder/speaker-impedance/">speaker impedance</a>, <a href="/decoder/amplifier-power/#headroom">headroom</a> and <a href="/decoder/amplifier-distortion/">amplifier distortion</a> for the measurements behind these choices.</p>
 </section>
