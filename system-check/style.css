@@ -1,0 +1,30 @@
+.sc { padding-block: clamp(2rem, 5vw, 4.5rem); }
+.sc h1 { margin-block: 0 .6rem; }
+.sc > .lead { max-width: 42rem; }
+.sc-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 1fr); align-items: start; gap: clamp(1rem, 3vw, 2rem); margin-top: 2rem; }
+.sc-inputs { display: grid; gap: 1rem; }
+.sc fieldset, .sc-results, .sc-advanced { border: 1px solid #35516a; border-radius: .75rem; padding: 1rem; background: #101d2c; min-width: 0; }
+.sc legend { color: #e6f6ff; font-weight: 750; padding-inline: .4rem; }
+.sc p { margin-block: .5rem .85rem; }
+.sc-fields, .sc-rating { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.sc-rating { margin-block: .75rem; padding: .75rem; border: 1px solid #35516a; border-radius: .5rem; }
+.sc label { display: block; font-size: .92rem; }
+.sc label[hidden], .sc fieldset[hidden] { display: none; }
+.sc input:not([type=radio]), .sc select, .sc textarea { box-sizing: border-box; width: 100%; display: block; margin-top: .3rem; padding: .58rem; border: 1px solid #4b6983; border-radius: .4rem; color: #eef7ff; background: #0a1523; font: inherit; }
+.sc-mode label { margin-block: .45rem; }
+.sc-mode input { accent-color: #81e1e6; }
+.sc summary { cursor: pointer; color: #a8e8f2; font-weight: 650; margin-block: .5rem; }
+.sc details fieldset { margin-top: .75rem; }
+.sc textarea { resize: vertical; }
+.sc-button { font: inherit; padding: .4rem .7rem; color: #c9f1f7; background: #132b41; border: 1px solid #52758f; border-radius: .4rem; cursor: pointer; }
+.sc-searches { display: flex; gap: .8rem; flex-wrap: wrap; }
+.sc a:not(.button) { color: #a8e8f2; text-decoration: underline; }
+.sc-results h2 { margin-top: 0; }
+.sc-results h3 { font-size: 1.1rem; margin-block: 1.3rem .4rem; }
+.sc-results ul { padding-left: 1.2rem; }
+.sc-results li { margin-block: .45rem; }
+.sc-results table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.sc-results th, .sc-results td { padding: .5rem .35rem; border-bottom: 1px solid #35516a; text-align: left; }
+.sc-notes { max-width: 48rem; margin-top: 2.5rem; }
+@media (max-width: 800px) { .sc-layout { grid-template-columns: 1fr; } }
+@media (max-width: 400px) { .sc-fields, .sc-rating { grid-template-columns: 1fr; } }
