@@ -1,4 +1,72 @@
 /* Local-only graph controls. Use toggleAttribute for SVG compatibility. */
+const traceControls = new WeakMap();
+
+function mountTraceControls(chart) {
+ const traces = new Map();
+ for (const trace of chart.querySelectorAll('[data-trace]')) {
+   const label = trace.dataset.trace;
+   if (!traces.has(label)) traces.set(label, []);
+   traces.get(label).push(trace);
+ }
+ if (traces.size < 2) return;
+
+ const wrapper = document.createElement('div');
+ wrapper.className = 'dl-trace-chart';
+ const controls = document.createElement('div');
+ controls.className = 'dl-trace-controls';
+ controls.setAttribute('role', 'group');
+ controls.setAttribute('aria-label', 'Graph trace emphasis');
+ const hint = document.createElement('span');
+ hint.className = 'dl-trace-hint';
+ hint.textContent = 'Select a trace to dim or restore it.';
+ controls.append(hint);
+
+ const entries = [];
+ for (const [label, series] of traces) {
+   const button = document.createElement('button');
+   button.type = 'button';
+   button.className = 'dl-option';
+   button.setAttribute('aria-pressed', 'true');
+   const swatch = document.createElement('span');
+   swatch.className = 'dl-trace-swatch';
+   swatch.setAttribute('aria-hidden', 'true');
+   button.append(swatch, label);
+   button.addEventListener('click', () => {
+     const dimmed = button.getAttribute('aria-pressed') === 'true';
+     button.setAttribute('aria-pressed', String(!dimmed));
+     for (const trace of series) trace.classList.toggle('dl-trace-dimmed', dimmed);
+   });
+   controls.append(button);
+   entries.push({ button, series, swatch });
+ }
+ chart.before(wrapper);
+ wrapper.append(controls, chart);
+
+ function refresh() {
+   let visibleCount = 0;
+   for (const { button, series, swatch } of entries) {
+     const trace = series.find(node => !node.closest('[hidden]'));
+     button.hidden = !trace;
+     if (trace) {
+       visibleCount++;
+       const color = trace.getAttribute(trace.tagName === 'circle' ? 'fill' : 'stroke');
+       if (color) swatch.style.setProperty('--trace-color', color);
+     }
+   }
+   controls.hidden = visibleCount < 2;
+   if (controls.hidden) {
+     for (const { button, series } of entries) {
+       button.setAttribute('aria-pressed', 'true');
+       for (const trace of series) trace.classList.remove('dl-trace-dimmed');
+     }
+   }
+ }
+ traceControls.set(chart, refresh);
+ refresh();
+}
+
+for (const chart of document.querySelectorAll('svg:has([data-trace])')) mountTraceControls(chart);
+
 document.querySelectorAll('[data-lesson-plot]').forEach(section => {
  const buttons = [...section.querySelectorAll('button[data-select-case]')];
  const plots = [...section.querySelectorAll('[data-plot-case]')];
@@ -26,6 +94,7 @@ document.querySelectorAll('[data-lesson-plot]').forEach(section => {
    if (chart) {
      const selectedPlot = plots.find(plot => chart.contains(plot) && plot.dataset.plotCase === choice);
      const summary = selectedPlot?.dataset.plotSummary;
+     traceControls.get(chart)?.();
      chart.setAttribute('aria-label', summary || 'Illustrative graph for ' + section.dataset.lessonPlot.replaceAll('-', ' ') + '. Selected example: ' + title + '.');
    }
  }

@@ -528,3 +528,18 @@
 .hr-reading p{font-size:.88rem;line-height:1.75;margin-bottom:0}
 @media(max-width:950px){.hr-figure{display:block}.hr-answer-grid{grid-template-columns:1fr}}
 @media(max-width:620px){.hr-rule-strip,.hr-claim-row{grid-template-columns:1fr}.hr-figure .dl-graph-toolbar>span{width:100%}.hr-figure .dl-graph-orientation{margin:1rem .8rem 0}.hr-figure .dl-graph-translation{margin:.5rem .8rem 0}.hr-quality{padding:1rem}}
+
+.dl-trace-chart { min-width: 0; }
+.dl-trace-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin: .5rem .65rem; }
+.dl-trace-controls[hidden], .dl-trace-controls button[hidden] { display: none; }
+.dl-trace-hint { flex-basis: 100%; color: #c3ddf0; font-size: .82rem; }
+.dl-trace-controls button { display: inline-flex; align-items: center; gap: .5rem; background: #14283b; color: #e4f0fa; }
+.dl-trace-controls button[aria-pressed="true"] { background: #14283b; color: #e4f0fa; border-color: #6586a1; }
+.dl-trace-controls button[aria-pressed="false"] { background: #0b1b2b; color: #adbed0; border-style: dashed; }
+.dl-trace-controls button:hover { background: #1e3650; }
+.dl-trace-swatch { width: 1.05rem; border-top: 3px solid var(--trace-color, currentColor); }
+.dl-trace-controls button[aria-pressed="false"] .dl-trace-swatch { opacity: .35; }
+[data-trace].dl-trace-dimmed { opacity: .16; }
+@media (min-width: 1000px) {
+ .dl-figure > .dl-trace-chart { grid-column: 1; grid-row: 4; }
+}
