@@ -36,3 +36,6 @@ document.querySelectorAll('[data-lesson-plot]').forEach(section => {
    if (status) status.hidden = false;
  }
 });
+
+// The lesson controls work independently of the optional tutor.
+import('/assets/lesson-tutor/assistant.js').then(({ mountLessonTutor }) => mountLessonTutor()).catch(() => {});

@@ -26,7 +26,7 @@ Shared styles are at `assets/styles.css`; the source-identifying graphic is `ass
 
 The `thesoundquestion/research` repository is **private**. Nothing from it is automatically published here. Public studies, supporting files and source notes should only be copied to the website once explicitly reviewed and approved.
 
-The site currently contains **no analytics scripts, third-party embeds, forms or advertising**. Please update the privacy notice if that changes.
+The site currently contains **no analytics scripts, third-party embeds, contact forms or advertising**. Please update the privacy notice if that changes.
 
 ## Updating
 
@@ -37,6 +37,12 @@ Use relative-to-root links (`/library/`, `/assets/styles.css`) so page paths wor
 ## Spec Sheet Decoder
 
 The decoder teaches through labelled **fictional specifications**, calculated examples and synthetic plots. Native HTML and `<details>` keep the lessons and engineering notes readable without JavaScript. JavaScript adds scenario switching to the plots and earcup illustrations.
+
+## Ask The Sound Question
+
+The Decoder's 18 lessons include a compact tutor with prepared answers and local typed-question matching. The tutor reads each lesson's selected graph and links to the relevant explanation. The answer bank loads when the panel is opened. Typed questions stay in the browser in the current release.
+
+Maintain the [approved answers](assets/lesson-tutor/approved-answers.json) alongside the lessons. Run the [tutor tests](deployment/lesson-tutor/README.md#verification) when changing lesson specifications, example IDs or anchors. The [development handoff](deployment/lesson-tutor/README.md) covers editorial changes, privacy, operating limits and the optional Cloudflare Workers AI setup.
 
 ## Brand direction (November 2026)
 
@@ -52,7 +58,7 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 - `decoder/quick-reference/` preserves the original brief 15-spec index.
 - `decoder/ohms-law/` is a standalone reference for volts, amps, ohms and watts, with examples linked from the relevant lessons.
 - `decoder/curriculum.json` lists speaker, amplifier, headphone and source/DAC lessons in order.
-- `assets/decoder-lessons.css` is scoped visual styling; `assets/decoder-lessons.js` runs interactive curve switching locally and performs no network calls.
+- `assets/decoder-lessons.css` is scoped visual styling; `assets/decoder-lessons.js` runs interactive curve switching locally and mounts the lesson tutor.
 
 ### Data integrity
 
