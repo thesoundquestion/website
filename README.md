@@ -81,3 +81,5 @@ The site's general layout is content-first, not a full-screen title showcase. On
 ## Decoder lesson layout v2 (desktop and mobile)
 
 Each lesson must show a prominent sample specification and navigation near the compact title, then the **interactive graph immediately**, followed by the longer plain-language explanation, listening effects, audiophile claims and evidence, and buying checklist. On wider viewports the selected case explanation appears **beside** its graph instead of under it. On mobile the chart and text stack. Long-form teaching content is preserved; the title is not allowed to dominate the first viewport. Every new lesson must use the same #compare, #understand, #listening and #buying anchors. Keep the curriculum previous/next links intact.
+
+The three fictional THD spec charts are prominently placed at the top of `/decoder/amplifier-distortion/`, before the main interactive distortion curve. Never bury primary examples behind lengthy introductory sections. The detailed comparison of what test conditions mean follows the curve at `#rating-context`.
