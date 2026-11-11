@@ -78,6 +78,12 @@
       ]
     },
     {
+      "slug": "speaker-drivers",
+      "category": "speakers",
+      "title": "Speaker drivers, materials and crossovers",
+      "description": "Understand woofers, tweeters, cone materials, surrounds and the crossover between them."
+    },
+    {
       "slug": "amplifier-power",
       "category": "amplifiers",
       "title": "Amplifier power",
@@ -145,6 +151,12 @@
           "https://www.analog.com/en/resources/analog-dialogue/articles/class-d-audio-amplifiers.html"
         ]
       ]
+    },
+    {
+      "slug": "headphone-types",
+      "category": "headphones",
+      "title": "Headphones and IEM types",
+      "description": "Compare open-back, closed-back and in-ear designs, and decode impedance and sensitivity."
     }
   ],
   "categories": {
@@ -161,6 +173,13 @@
       "anchor": "amplifier-lessons",
       "description": "Discover what amplifier power, distortion and circuit performance mean when driving real speakers.",
       "switch_to": "speakers"
+    },
+    "headphones": {
+      "label": "Headphones & IEMs",
+      "adjective": "headphone",
+      "anchor": "headphone-lessons",
+      "switch_to": "speakers",
+      "description": "Explore headphone and IEM constructions, fit, driver technologies and electrical matching."
     }
   }
 }

@@ -362,3 +362,10 @@
 .ex-new-svg{display:block;width:100%;height:auto}
 .ex-new-head{fill:#eefaff;font:750 20px system-ui}
 .ex-new-label{fill:#c3dfef;font:15px system-ui}
+
+/* Driver material and headphone design lessons */
+.ex-dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.ex-dev-grid article{padding:1.2rem;background:#11283a;border:1px solid #385875;border-radius:11px}
+.ex-dev-grid h3{font-size:1.2rem}
+.ex-dev-grid p{font-size:.9rem;line-height:1.75}
+@media(max-width:800px){.ex-dev-grid{grid-template-columns:1fr}}

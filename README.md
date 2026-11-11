@@ -92,3 +92,6 @@ Any example specification prominently shown at the beginning of a Decoder lesson
 
 ## Expanded curriculum
 Added full interactive lessons for speaker impedance and amplifier classes. Each starts with an exact stat/label diagram. Curriculum now has seven lessons; category `switch_to` controls the cross-category invitation, and the navigation sync script supports it. Diagrams are schematic and not measured product results.
+
+## Next expansion: drivers and headphones
+Two new lessons: `speaker-drivers` and `headphone-types` with matching exact sample stat illustrations and three-way interactive comparisons. The curriculum now has nine lessons across speakers, amplifiers, and headphones/IEMs. Classifications alone never guarantee sound quality. New published topics must be inserted in `decoder/curriculum.json`, the index, sitemap, and navigation. The headphone example sensitivity level is a hypothetical measurement reference and is **not a recommended listening level**.
