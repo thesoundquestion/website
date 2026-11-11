@@ -441,6 +441,7 @@ document.querySelector('#example').addEventListener('click', () => {
   field('sensitivity').value = 94.5;
   field('load').value = 8;
   field('distance').value = 8;
+  field('speakers').value = '0';
   ratings.replaceChildren();
   addRating(80, 8);
   addRating(100, 4);
