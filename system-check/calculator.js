@@ -268,6 +268,45 @@ function renderConnections(volts, entries) {
   }
 }
 
+function powerPercent(ratio) {
+  const percent = ratio * 100;
+  if (percent > 0 && percent < 0.1) return 'less than 0.1%';
+  return new Intl.NumberFormat('en-CA', { maximumFractionDigits: 1 }).format(percent) + '%';
+}
+
+function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW }) {
+  if (mode === 'upgrade' || !entries.length) {
+    addText('h3', 'About ' + show(peakW) + ' W per channel for your loudest peaks');
+    addText('p', 'Look for that much power into ' + show(load) + ' Ω. ' + (averageW === null
+      ? 'This estimate covers your peak target.'
+      : 'Your average level calls for about ' + show(averageW) + ' W per channel.'));
+    if (mode === 'check') addText('p', 'Add your amp’s power rating to see how much it has to spare.');
+    return;
+  }
+  const matching = entries.filter(entry => entry.load === load);
+  if (!matching.length) addText('h3', 'Add a rating at ' + show(load) + ' Ω to check your speakers');
+  const ordered = [...matching, ...entries.filter(entry => entry.load !== load)];
+  for (const { watts, load: testLoad, type } of ordered) {
+    const use = peakV ** 2 / (testLoad * watts);
+    const title = use > 1 ? 'Falls short of your peak goal' : 'Meets your peak goal';
+    const rating = show(watts) + ' W into ' + show(testLoad) + ' Ω';
+    const duration = type === 'burst' ? 'short burst' : 'test of unknown duration';
+    addText('h3', (testLoad === load ? title : 'At a different load: ' + title.toLowerCase()) + ' · ' + rating);
+    addText('p', 'Your loudest peaks would need ' + powerPercent(use) + ' of this rating. ' + (use > 1
+      ? 'You’d need ' + powerPercent(use - 1) + ' more power than this rating provides.'
+      : 'That leaves ' + powerPercent(1 - use) + ' of rated power in reserve.'));
+    if (averageV !== null && type === 'continuous') {
+      addText('p', 'Your average listening level would use ' + powerPercent(averageV ** 2 / (testLoad * watts)) + ' of rated power.');
+    }
+    if (type !== 'continuous') addText('p', 'This rating is for a ' + duration + '. Check a continuous rating for sustained listening.');
+    if (testLoad !== load) addText('p', 'Your speaker is rated ' + show(load) + ' Ω. This comparison applies to the ' + show(testLoad) + ' Ω test load.');
+  }
+  if (minimum < load && !entries.some(entry => entry.load <= minimum)) {
+    addText('p', 'Your speaker dips to ' + show(minimum) + ' Ω. A lower-impedance amp test would help check those peaks.');
+  }
+  addText('p', 'These percentages describe amplifier power. The estimate uses your seat distance and the ratings you entered.');
+}
+
 function calculate() {
   const mode = field('mode').value;
   const entries = mode === 'check' ? readRatings() : [];
@@ -294,6 +333,8 @@ function calculate() {
   const rows = [[db(peak) + ' dB peak', show(peakW) + ' W', show(peakV) + ' V', show(peakV / load) + ' A']];
   if (averageV !== null) rows.unshift([db(average) + ' dB average', show(averageW) + ' W', show(averageV) + ' V', show(averageV / load) + ' A']);
   status.textContent = mode === 'upgrade' ? 'Here’s the output to look for at your seat.' : 'Here’s what your speakers ask for at your seat.';
+  summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW });
+  const summaryCount = body.children.length;
   body.append(table(['Listening goal', 'Power/ch.', 'Voltage RMS', 'Current RMS'], rows));
   addText('p', 'The watt and current estimates use ' + show(load) + ' Ω nominal as a fixed load. Assumed seat distance: ' + show(distance) + ' ft. Speaker summation: +' + pair + ' dB. Room adjustment: ' + room + ' dB.');
   if (minimum > 0) {
@@ -340,6 +381,11 @@ function calculate() {
   addText('p', 'For this setup, look for roughly ' + show(peakW) + ' W per channel into ' + show(load) + ' Ω for the peak' + (averageW === null ? '.' : ' and roughly ' + show(averageW) + ' W per channel for the average level.') + ' If your speakers dip below their nominal load, check lower-impedance bench results as well.');
   addText('p', 'For another 3 dB of peak reserve, look for about ' + show(peakW * 10 ** .3) + ' W into the same load. Speakers rated 3 dB more sensitive on the same basis would cut the estimated power needed for your current goal roughly in half.');
   if (mode === 'check') renderConnections(peakV, entries);
+  const details = document.createElement('details');
+  const summary = document.createElement('summary');
+  summary.textContent = 'Show the math and test conditions';
+  details.append(summary, ...Array.from(body.children).slice(summaryCount));
+  body.append(details);
 }
 
 addRating();
