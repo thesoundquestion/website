@@ -11,7 +11,8 @@ Public website for **The Sound Question** at https://thesoundquestion.pages.dev/
 
 ## Pages
 
-- `index.html` — homepage
+- `index.html` — homepage: from microphone to ears
+- `journey/index.html` — guided 9-stage overview of the sound journey
 - `about/index.html` — about
 - `library/index.html` — technical reference library (not yet populated)
 - `decoder/index.html` — independent Spec Sheet Decoder, beginner-first amplifier and speaker examples
@@ -36,3 +37,11 @@ Use relative-to-root links (`/library/`, `/assets/styles.css`) so page paths wor
 ## Spec Sheet Decoder
 
 The decoder is deliberately separate from the reference library. The initial example values are entirely **fictional** and are marked as such; they are not manufacturer claims or instrument measurements. It is built with native HTML `<details>` elements to work on phones without JavaScript. Technical notes are optional, and all buying advice is qualified.
+
+## Brand direction (November 2026)
+
+**The Sound Question: From the microphone to your ears.** The website is a beginner-first guide to the complete music and audio journey: performance, capture, mixing, mastering, formats, sources and conversion, amplification, speakers/headphones, rooms, hearing and personal preferences. Not every recording begins with a microphone or follows one identical signal path. The homepage and `journey/` provide the broad map; `decoder/` remains the dedicated equipment-specification teaching tool, and `library/` is reserved for supporting materials and reviewed downloads.
+
+Writing standard: Begin with familiar listening experiences, then detailed plain-language explanation, contrast neutral vs deliberate coloration vs genuine limitations, include common enthusiast claims and evidence limits, and offer technical details only after the basics. This project does not equate preference with objective accuracy, and never promotes unvalidated simulation results as measurements.
+
+Add new topic modules without claiming that planned lessons, PDFs or audio experiments have already been published. Public website material is separate from the private research repo.
