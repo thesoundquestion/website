@@ -9,7 +9,7 @@
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css">
-<script defer src="/system-check/calculator.js?v=spec-assessment"></script>
+<script defer src="/system-check/calculator.js?v=stereo-default"></script>
 <title>System Check | The Sound Question</title>
 </head>
 <body>
@@ -68,7 +68,7 @@
 </fieldset>
 <details class="sc-advanced"><summary>Fine-tune the estimate</summary>
 <fieldset><legend>Room and speaker load</legend><div class="sc-fields">
-<label>Speakers contributing<select name="speakers"><option value="0">One speaker · +0 dB</option><option value="3">Stereo pair · estimated +3 dB</option><option value="6">Stereo pair · ideal +6 dB</option></select></label>
+<label>Speakers contributing<select name="speakers"><option value="0">One speaker · +0 dB</option><option value="3" selected>Stereo pair · estimated +3 dB</option><option value="6">Stereo pair · ideal +6 dB</option></select></label>
 <label>Room adjustment (dB)<input name="room" type="number" min="-25" max="25" step="any" value="0"></label>
 <label>Minimum measured impedance (Ω)<input name="minimum" type="number" min="0.2" max="32" step="any"></label>
 <label>Frequency of minimum (Hz)<input name="minimumHz" type="number" min="1" max="100000" step="any"></label>
