@@ -1,0 +1,339 @@
+'use strict';
+
+const compareTool = document.querySelector('#compare-tool');
+const parameters = new URLSearchParams(location.search);
+const format = new Intl.NumberFormat('en-CA', { maximumSignificantDigits: 3 });
+const show = value => format.format(value);
+const manual = '__manual__';
+const missing = '—';
+
+const equipment = {
+  amp: {
+    lesson: ['/decoder/amplifier-power/#headroom', 'Read about amplifier power and headroom'],
+    fields: [
+      ['watts', 'Power per channel (W)', 'number', .001],
+      ['load', 'Test load (Ω)', 'number', .1],
+      ['duration', 'Rating duration', 'select', [['continuous', 'Continuous'], ['burst', 'Short burst'], ['unknown', 'Unspecified']]],
+      ['conditions', 'Test conditions', 'text', 'Frequency, distortion, channels'],
+    ],
+  },
+  speaker: {
+    lesson: ['/decoder/speaker-sensitivity/', 'Read about speaker sensitivity'],
+    fields: [
+      ['sensitivity', 'Sensitivity (dB SPL)', 'number', 1],
+      ['basis', 'Sensitivity reference', 'select', [['voltage', '2.83 V at 3.28 ft'], ['power', '1 W at 3.28 ft']]],
+      ['load', 'Nominal impedance (Ω)', 'number', .1],
+      ['minimum', 'Minimum impedance (Ω)', 'number', .1],
+    ],
+  },
+  source: {
+    lesson: ['/decoder/dac-specifications/', 'Read about DAC measurements'],
+    fields: [
+      ['sourceVoltage', 'Maximum line output (V RMS)', 'number', .001],
+      ['sourceZ', 'Output impedance (Ω)', 'number', 0],
+      ['sourceConnection', 'Output connection', 'select', [['RCA', 'RCA'], ['XLR', 'XLR'], ['3.5 mm', '3.5 mm'], ['Other', 'Other']]],
+      ['sourceSnr', 'Signal-to-noise ratio', 'text', 'dB and test conditions'],
+      ['sourceThdn', 'THD+N', 'text', '% and test conditions'],
+    ],
+  },
+  headphone: {
+    lesson: ['/decoder/headphone-sensitivity/', 'Read about driving headphones'],
+    fields: [
+      ['sensitivity', 'Sensitivity (dB SPL)', 'number', 1],
+      ['basis', 'Sensitivity reference', 'select', [['power', '1 mW'], ['voltage', '1 V RMS']]],
+      ['load', 'Nominal impedance (Ω)', 'number', .1],
+      ['sensitivityConditions', 'Sensitivity test conditions', 'text', 'e.g. at 1 kHz'],
+    ],
+  },
+};
+
+const newSide = () => ({ model: '', values: {} });
+const comparisons = Object.fromEntries(Object.keys(equipment).map(kind => [kind, [newSide(), newSide()]]));
+const kindButtons = [...compareTool.querySelectorAll('[data-kind]')];
+const sides = [...compareTool.querySelectorAll('[data-side]')].map(root => ({
+  filter: root.querySelector('[data-filter]'),
+  select: root.querySelector('[data-preset]'),
+  fields: root.querySelector('[data-manual]'),
+}));
+const status = document.querySelector('#compare-status');
+const result = document.querySelector('#comparison');
+const rows = document.querySelector('#comparison-rows');
+let kind = Object.hasOwn(equipment, parameters.get('type')) ? parameters.get('type') : 'amp';
+
+function element(tag, text = '') {
+  const node = document.createElement(tag);
+  node.textContent = text;
+  return node;
+}
+
+function linkedText(label, url, external = false) {
+  const link = element('a', label);
+  link.href = url;
+  if (external) {
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  }
+  return link;
+}
+
+function reading(value, unit) {
+  return Number.isFinite(value) ? show(value) + ' ' + unit : missing;
+}
+
+function withCondition(value, condition) {
+  const wrap = element('div', value);
+  if (condition) {
+    const note = element('span', condition);
+    note.className = 'gc-conditions';
+    wrap.append(note);
+  }
+  return wrap;
+}
+
+function addRow(label, values) {
+  const row = element('tr');
+  const header = element('th', label);
+  header.scope = 'row';
+  row.append(header);
+  for (const value of values) {
+    const cell = element('td');
+    cell.append(value ?? missing);
+    row.append(cell);
+  }
+  rows.append(row);
+}
+
+function normalizedSensitivity(values, referenceVoltage, powerWatts) {
+  if (!Number.isFinite(values.sensitivity)) return NaN;
+  if (values.basis === 'voltage') return values.sensitivity;
+  if (values.basis !== 'power' || !(values.load > 0)) return NaN;
+  return values.sensitivity + 20 * Math.log10(referenceVoltage / Math.sqrt(powerWatts * values.load));
+}
+
+function sensitivityReading(values, speaker) {
+  if (!Number.isFinite(values.sensitivity) || !values.basis) return missing;
+  const reference = speaker
+    ? (values.basis === 'power' ? '1 W at 3.28 ft' : '2.83 V at 3.28 ft')
+    : (values.basis === 'power' ? '1 mW' : '1 V RMS');
+  const condition = values.sensitivityConditions ? ' · ' + values.sensitivityConditions : '';
+  return withCondition(reading(values.sensitivity, 'dB SPL'), reference + condition);
+}
+
+function amplifierRows(devices) {
+  const buckets = new Map();
+  devices.forEach((device, index) => {
+    for (const rating of device.ratings ?? []) {
+      const [, load, duration] = rating;
+      const key = load + '/' + duration;
+      if (!buckets.has(key)) buckets.set(key, { load, duration, entries: [[], []] });
+      buckets.get(key).entries[index].push(rating);
+    }
+  });
+  const durations = { continuous: 'continuous', burst: 'short burst', unknown: 'duration unspecified' };
+  const sorted = [...buckets.values()].sort((a, b) => a.load - b.load || Object.keys(durations).indexOf(a.duration) - Object.keys(durations).indexOf(b.duration));
+  for (const bucket of sorted) {
+    addRow(show(bucket.load) + ' Ω · ' + durations[bucket.duration], bucket.entries.map(entries => {
+      if (!entries.length) return missing;
+      const list = element('div');
+      for (const [watts, , , conditions] of entries) {
+        const rating = withCondition(reading(watts, 'W/ch'), conditions);
+        rating.className = 'gc-rating';
+        list.append(rating);
+      }
+      return list;
+    }));
+  }
+  addRow('Input sensitivity', devices.map(({ values }) => reading(values.inputSensitivity * 1000, 'mV')));
+  addRow('Input impedance', devices.map(({ values }) => reading(values.inputZ, 'kΩ')));
+  addRow('Output impedance', devices.map(({ values }) => reading(values.outputZ, 'Ω')));
+  return 'Start with the power row for your speaker’s impedance. Compare the frequency range, distortion limit and channels driven under each rating.';
+}
+
+function sensitivityTakeaway(devices, normalized, label) {
+  if (!normalized.every(Number.isFinite)) return 'Add a sensitivity figure with its reference and a nominal impedance to compare on the same basis.';
+  const difference = Math.abs(normalized[0] - normalized[1]);
+  if (difference < .05) return 'The listed sensitivities give about the same output at the same voltage, assuming comparable tests.';
+  const higher = normalized[0] > normalized[1] ? devices[0] : devices[1];
+  const voltagePercent = Math.round(100 * 10 ** (-difference / 20));
+  return higher.model + ' has about ' + difference.toFixed(1) + ' dB higher ' + label + '. It would need about ' + voltagePercent + '% as much voltage for the same sound level if the sensitivity tests are comparable.';
+}
+
+function speakerRows(devices) {
+  const sensitivity = devices.map(({ values }) => normalizedSensitivity(values, 2.83, 1));
+  addRow('Listed sensitivity', devices.map(({ values }) => sensitivityReading(values, true)));
+  addRow('Sensitivity at 2.83 V / 3.28 ft', sensitivity.map(value => reading(value, 'dB SPL')));
+  addRow('Nominal impedance', devices.map(({ values }) => reading(values.load, 'Ω')));
+  addRow('Minimum impedance', devices.map(({ values }) => {
+    return withCondition(reading(values.minimum, 'Ω'), Number.isFinite(values.minimumHz) ? 'at ' + reading(values.minimumHz, 'Hz') : '');
+  }));
+  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 2.83 V');
+}
+
+function dacMeasurement(value) {
+  return Array.isArray(value) ? withCondition(value[0], value[1]) : (value || missing);
+}
+
+function sourceRows(devices) {
+  const values = devices.map(device => device.values);
+  const voltage = values.map(spec => spec.sourceVoltage);
+  addRow('Line output connection', values.map(spec => spec.sourceConnection || missing));
+  addRow('Maximum line output', voltage.map(value => reading(value, 'V RMS')));
+  addRow('Output impedance', values.map(spec => {
+    const value = reading(spec.sourceZ, 'Ω');
+    return spec.sourceZLimit ? '≤' + value : value;
+  }));
+  addRow('Signal-to-noise ratio', values.map(spec => dacMeasurement(spec.sourceSnr)));
+  addRow('THD+N', values.map(spec => dacMeasurement(spec.sourceThdn)));
+  const connectionMatches = values[0].sourceConnection && values[0].sourceConnection === values[1].sourceConnection;
+  const conditions = 'Compare noise and distortion figures when the output, signal level, bandwidth and weighting match.';
+  if (!connectionMatches || voltage.some(value => !(value > 0))) return conditions;
+  const difference = Math.abs(20 * Math.log10(voltage[0] / voltage[1]));
+  if (difference < .05) return 'The listed full-scale voltages match. ' + conditions;
+  const higher = voltage[0] > voltage[1] ? devices[0] : devices[1];
+  return higher.model + ' is about ' + difference.toFixed(1) + ' dB higher at full scale. That can change the playback level at the same amp setting. ' + conditions;
+}
+
+function headphoneRows(devices) {
+  const sensitivity = devices.map(({ values }) => normalizedSensitivity(values, 1, .001));
+  const exampleVoltage = sensitivity.map(value => 10 ** ((90 - value) / 20));
+  addRow('Design', devices.map(({ values }) => values.design || missing));
+  addRow('Nominal impedance', devices.map(({ values }) => reading(values.load, 'Ω')));
+  addRow('Listed sensitivity', devices.map(({ values }) => sensitivityReading(values, false)));
+  addRow('Sensitivity at 1 V RMS', sensitivity.map(value => reading(value, 'dB SPL')));
+  addRow('Voltage for 90 dB SPL · estimate', exampleVoltage.map(value => reading(value * 1000, 'mV RMS')));
+  addRow('Current for 90 dB SPL · estimate', devices.map(({ values }, index) => reading(1000 * exampleVoltage[index] / values.load, 'mA RMS')));
+  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 1 V RMS') + ' Fit and measurement fixtures can affect the estimates.';
+}
+
+function currentDevice(index) {
+  const selection = comparisons[kind][index];
+  if (selection.model !== manual) return systemCheckGear[kind].find(device => device.model === selection.model);
+  const { name, watts, duration, conditions, ...values } = selection.values;
+  const ratings = watts > 0 && values.load > 0 ? [[watts, values.load, duration || 'unknown', conditions ?? '']] : [];
+  return {
+    model: name || (index === 0 ? 'Your gear' : 'Comparison gear'),
+    values,
+    ratings,
+    note: 'Manually entered specifications.',
+  };
+}
+
+function deviceLinks(device) {
+  const notes = withCondition(device.note || missing);
+  if (device.url) notes.append(linkedText('View source', device.url, true));
+  if (device.extra) notes.append(linkedText(device.extra[0], device.extra[1], true));
+  if (device.url && kind !== 'headphone') {
+    notes.append(linkedText('Use in System Check', '/system-check/?' + new URLSearchParams({ [kind]: device.model })));
+  }
+  return notes;
+}
+
+function showComparison() {
+  const devices = sides.map((_, index) => currentDevice(index));
+  const ready = devices.every(Boolean);
+  result.hidden = !ready;
+  status.hidden = ready;
+  if (!ready) return;
+  document.querySelector('#left-heading').textContent = devices[0].model;
+  document.querySelector('#right-heading').textContent = devices[1].model;
+  rows.replaceChildren();
+  const render = { amp: amplifierRows, speaker: speakerRows, source: sourceRows, headphone: headphoneRows }[kind];
+  document.querySelector('#comparison-takeaway').textContent = render(devices);
+  addRow('Notes and sources', devices.map(deviceLinks));
+  const lesson = document.querySelector('#comparison-lesson');
+  [lesson.href, lesson.textContent] = equipment[kind].lesson;
+}
+
+const searchKey = value => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+function fillOptions(side, index) {
+  const selected = comparisons[kind][index].model;
+  const filter = searchKey(side.filter.value);
+  side.select.replaceChildren(new Option('Choose a model', ''), new Option('Enter specs manually', manual));
+  for (const device of systemCheckGear[kind]) {
+    if (device.model === selected || searchKey(device.model).includes(filter)) {
+      side.select.add(new Option(device.model, device.model));
+    }
+  }
+  side.select.value = selected;
+}
+
+function showManualFields(side, index) {
+  const selected = comparisons[kind][index];
+  side.fields.hidden = selected.model !== manual;
+  side.fields.replaceChildren();
+  if (side.fields.hidden) return;
+  const specs = [['name', 'Model name (optional)', 'text', 'Your model'], ...equipment[kind].fields];
+  for (const [name, caption, type, setting] of specs) {
+    const label = element('label', caption);
+    const control = element(type === 'select' ? 'select' : 'input');
+    if (type === 'select') {
+      control.add(new Option('Choose a value', ''));
+      for (const [value, text] of setting) control.add(new Option(text, value));
+    } else {
+      control.type = type;
+      if (type === 'number') {
+        control.min = setting;
+        control.step = 'any';
+      } else {
+        control.placeholder = setting;
+        control.maxLength = 140;
+      }
+    }
+    control.value = selected.values[name] ?? '';
+    control.addEventListener('input', () => {
+      if (type === 'number') {
+        selected.values[name] = control.validity.valid && control.value ? control.valueAsNumber : undefined;
+      } else {
+        selected.values[name] = control.value.trim();
+      }
+      showComparison();
+    });
+    label.append(control);
+    side.fields.append(label);
+  }
+}
+
+function updateAddress() {
+  const query = new URLSearchParams({ type: kind });
+  for (const [index, key] of ['left', 'right'].entries()) {
+    const name = comparisons[kind][index].model;
+    if (name && name !== manual) query.set(key, name);
+  }
+  history.replaceState(null, '', '?' + query + location.hash);
+}
+
+function showCategory() {
+  for (const button of kindButtons) button.setAttribute('aria-pressed', String(button.dataset.kind === kind));
+  sides.forEach((side, index) => {
+    side.filter.value = '';
+    fillOptions(side, index);
+    showManualFields(side, index);
+  });
+  showComparison();
+}
+
+if (typeof systemCheckGear !== 'undefined') {
+  sides.forEach((side, index) => {
+    const preselected = parameters.get(index === 0 ? 'left' : 'right');
+    if (systemCheckGear[kind].some(device => device.model === preselected)) {
+      comparisons[kind][index].model = preselected;
+    }
+    side.filter.addEventListener('input', () => fillOptions(side, index));
+    side.select.addEventListener('change', () => {
+      comparisons[kind][index].model = side.select.value;
+      showManualFields(side, index);
+      showComparison();
+      updateAddress();
+    });
+  });
+  for (const button of kindButtons) {
+    button.addEventListener('click', () => {
+      kind = button.dataset.kind;
+      showCategory();
+      updateAddress();
+    });
+  }
+  showCategory();
+  compareTool.hidden = false;
+}
