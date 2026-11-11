@@ -199,6 +199,12 @@
       "category": "sources",
       "title": "Bit depth and dynamic range",
       "description": "Understand 16-bit versus 24-bit PCM, quantization, noise and dither without confusing bits with musical dynamics."
+    },
+    {
+      "slug": "lossy-lossless",
+      "category": "sources",
+      "title": "Lossless vs lossy audio and bitrates",
+      "description": "Understand MP3, AAC, FLAC, PCM, bitrate and the artifacts a codec might create."
     }
   ],
   "categories": {

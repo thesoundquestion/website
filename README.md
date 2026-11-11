@@ -48,7 +48,7 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 
 ## Spec Sheet Decoder overhaul: graph-based lessons
 
-- `decoder/` presents sixteen in-depth lessons and compact visual navigation.
+- `decoder/` presents seventeen in-depth lessons and compact visual navigation.
 - `decoder/quick-reference/` preserves the original brief 15-spec index.
 - `decoder/ohms-law/` is a standalone reference for volts, amps, ohms and watts, with examples linked from the relevant lessons.
 - `decoder/curriculum.json` lists speaker, amplifier, headphone and source/DAC lessons in order.
@@ -127,3 +127,9 @@ The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `
 - The progressive-enhancement compare UI offers 8-, 16- and 24-bit hypothetical ideal quantization SNR figures of ~49.9 / 98.1 / 146.2 dB (6.02N + 1.76 dB for the stated model), with a fixed 0–160 dB axis. The digital theoretical value is NOT a measured converter dynamic range and cannot diagnose audibility.
 - Dither and noise shaping are explained separately from bit-depth value counts, with practical choices for recording, mastering and listening; audible musical dynamics are distinguished from bit-depth dynamic range. Analog Devices and iZotope references are included.
 - New responsive styling in `assets/bit-depth.css`; the existing local case selector handles comparisons, while the first case is readable without JavaScript. Course navigation, curriculum, index, sitemap and README must be published atomically.
+
+## Lesson 17: lossy vs lossless audio (2026-11-11)
+- `decoder/lossy-lossless/` begins with the exact example “MP3 stereo 320 kb/s CBR”: one second 320,000 bits = 40,000 bytes = 40 kB, a four-minute data approximation of 9.60 decimal MB before tags. Its spec illustration shows the 320 kb/s mark on a 0–400 kb/s ruler; eight conceptual 40-kilobit blocks explicitly do not depict MP3 frames.
+- The switchable chart uses one fixed 0–1500 kb/s horizontal scale for 320 and 128 kb/s CBR MP3, hypothetical 256 kb/s AAC, and 16-bit/44.1 kHz stereo PCM at 1411.2 kb/s. Four-minute data estimates 9.60 / 3.84 / 7.68 / 42.34 decimal MB before overhead. Crucially, storage ratio is NOT a loss-of-audible-quality ratio. FLAC is deliberately not assigned a fake fixed bitrate.
+- Side-by-side PCM/WAV vs FLAC vs MP3/AAC descriptions distinguish identical decoded PCM from irreversible lossy approximation, and codec from container. The lesson covers sample-master comparability, ABX testing limits, lossy artifacts, conversions and library archiving. No commercial recordings were used as test material.
+- New CSS in `assets/lossy-lossless.css`, shared progressive local selector, sourced public links to Xiph.Org and Hydrogenaudio. Integrate in curriculum, index, sitemap, and regenerate all lesson navigation.

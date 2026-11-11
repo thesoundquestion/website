@@ -1,0 +1,37 @@
+/* Lesson 17: lossless, lossy and bitrate. Simple static illustrations + optional local selector. */
+.ll-exact-figure{background:#0d2235;border:1px solid #3c6078;border-radius:13px;padding:clamp(.8rem,2vw,1.25rem);color:#d9ecf7}
+.ll-graph-heading{font-weight:750;font-size:.87rem;color:#e0f8ff;margin:.2rem 0 .7rem}
+.ll-exact-bar{height:31px;overflow:hidden;border:1px solid #54788e;border-radius:6px;background:repeating-linear-gradient(90deg,#13283e 0,#13283e calc(25% - 1px),#39576d calc(25% - 1px),#39576d 25%)}
+.ll-exact-bar>span{display:block;height:100%;width:80%;background:linear-gradient(95deg,#72c8f2,#9ae3c2);border-right:3px solid #f8ffff}
+.ll-axis{display:flex;justify-content:space-between;gap:.2rem;flex-wrap:nowrap;color:#b5d5e6;font-size:.75rem;margin:.55rem 0 0;font-variant-numeric:tabular-nums}
+.ll-block-heading{margin-top:1.4rem}
+.ll-blocks{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:.22rem;margin:.6rem 0 .9rem}
+.ll-block{border-radius:5px;background:linear-gradient(180deg,#75c9ee,#96e4d2);color:#082035;padding:.45rem .1rem;display:flex;flex-direction:column;align-items:center;gap:.15rem;font-size:.7rem;min-width:0}
+.ll-block strong{font-size:.75rem}.ll-block span{font-variant-numeric:tabular-nums;font-size:.66rem}
+.ll-metric-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.45rem}
+.ll-metric-row>div{background:#142d42;border:1px solid #3d6178;border-radius:7px;padding:.65rem .5rem;text-align:center;min-width:0}
+.ll-metric-row span{display:block;color:#bed9e8;font-size:.72rem}.ll-metric-row strong{display:block;color:#f1fbff;font-size:1.04rem;margin:.25rem 0 0}
+.ll-footnote{font-size:.78rem;line-height:1.6;color:#b3cddd;margin:1rem 0 0}
+.ll-case{padding:clamp(1rem,2.5vw,1.5rem)}.ll-case-header{display:grid;grid-template-columns:minmax(160px,1fr) minmax(0,1.15fr);gap:1rem;align-items:start}
+.ll-case-header h3{font-size:clamp(1.3rem,2.3vw,1.65rem);margin:.35rem 0;color:#edfbff}.ll-pill{font-weight:800;font-size:.71rem;letter-spacing:.08em;color:#9ce5ef;text-transform:uppercase;margin:0!important}
+.ll-case-header>p{font-size:.94rem;line-height:1.75;margin:0;color:#bcd6e6}
+.ll-case-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin:1.4rem 0}
+.ll-case-kpis>div{border:1px solid #385b75;background:#102c40;padding:.95rem;border-radius:10px;display:flex;flex-direction:column;gap:.4rem}
+.ll-case-kpis span{font-size:.84rem;color:#b5d2e4}.ll-case-kpis strong{color:#f1fbff;font-size:clamp(1.2rem,2.5vw,1.8rem);font-variant-numeric:tabular-nums}
+.ll-chart{padding:1rem;background:#0c2135;border:1px solid #345975;border-radius:10px}.ll-chart>p:first-child{font-size:.84rem;margin:0 0 .9rem}
+.ll-track{height:33px;background:repeating-linear-gradient(90deg,#11293f 0,#11293f calc(20% - 1px),#335069 calc(20% - 1px),#335069 20%);border-radius:5px;border:1px solid #56778c;overflow:hidden}
+.ll-track>span{display:block;height:100%;background:linear-gradient(90deg,#70c5f4,#a3e5c4);border-right:3px solid #efffff}
+.ll-compare-note{margin:.9rem 0 0;font-size:.86rem;line-height:1.68;color:#c4dbea}
+.ll-math{font-size:.9rem;color:#c5deeb;border-top:1px solid #344e61;margin-top:1rem;padding-top:.85rem}
+.ll-math summary{color:#9cdbfc;cursor:pointer;font-weight:760}
+.ll-math p{line-height:1.7}.ll-flac-note{margin:1.2rem 0 0;max-width:990px;border:1px solid #507a85;border-left:4px solid #96e1ca;border-radius:10px;padding:1.1rem 1.3rem;background:#0e2637}
+.ll-flac-note h3{margin:0 0 .6rem;font-size:1.25rem}.ll-flac-note p{line-height:1.75;font-size:.95rem;margin:0}
+.ll-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin:1.5rem 0}
+.ll-path{display:flex;flex-direction:column;align-items:start;gap:.7rem;border:1px solid #416078;border-radius:11px;background:#10293c;padding:1.05rem}
+.ll-path strong{color:#f3fbff;font-size:1.06rem}.ll-path span{font-size:.87rem;color:#c1d7e6;line-height:1.65}.ll-path .ll-arrow{font-size:.78rem;color:#9ce5ec}.ll-path b{margin-top:auto;color:#adedd8;font-size:.91rem}
+.ll-artifacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin:1.4rem 0}
+.ll-artifacts>div{background:#0d2b3e;border:1px solid #3c5976;padding:1.05rem 1.15rem;border-radius:10px}
+.ll-artifacts h3{font-size:1.05rem;margin:0 0 .6rem}.ll-artifacts p{font-size:.91rem;line-height:1.72;margin:0}
+[data-plot-case][hidden]{display:none!important}
+@media(max-width:760px){.ll-case-header{grid-template-columns:1fr}.ll-flow,.ll-artifacts{grid-template-columns:1fr}.ll-case-kpis{grid-template-columns:1fr}.ll-case-header>p{margin:.25rem 0}.ll-blocks{gap:2px}.ll-exact-figure{padding:.85rem}.ll-block{padding:.42rem 0}}
+@media(max-width:360px){.ll-metric-row span{font-size:.66rem}.ll-metric-row strong{font-size:.93rem}.ll-axis{font-size:.66rem}.ll-block strong{font-size:.65rem}.ll-block span{font-size:.59rem}}
