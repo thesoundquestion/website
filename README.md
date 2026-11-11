@@ -45,3 +45,16 @@ The decoder is deliberately separate from the reference library. The initial exa
 Writing standard: Begin with familiar listening experiences, then detailed plain-language explanation, contrast neutral vs deliberate coloration vs genuine limitations, include common enthusiast claims and evidence limits, and offer technical details only after the basics. This project does not equate preference with objective accuracy, and never promotes unvalidated simulation results as measurements.
 
 Add new topic modules without claiming that planned lessons, PDFs or audio experiments have already been published. Public website material is separate from the private research repo.
+
+## Spec Sheet Decoder overhaul: graph-based lessons
+
+- `decoder/` presents five in-depth lessons and compact visual navigation.
+- `decoder/quick-reference/` preserves the original brief 15-spec index.
+- `decoder/speaker-frequency-response/`, `bass-extension/`, `speaker-sensitivity/`, `amplifier-power/`, `amplifier-distortion/` are full lessons.
+- `assets/decoder-lessons.css` is scoped visual styling; `assets/decoder-lessons.js` runs interactive curve switching locally and performs no network calls.
+
+### Data integrity
+
+All lesson graphs are generated **synthetic illustrations**, not actual measured equipment, simulated amplifier circuitry or extracted manufacturer plots. Never present them as sourced data. The lessons distinguish tonal preference, objective performance evidence, poor documentation, and genuine engineering limitations. The harmonic distortion bars show relative harmonic patterns only, not auditory loudness or real signal data. Graph controls preserve a readable first scenario with JavaScript disabled.
+
+Citation and measurement-source URLs live in each lesson's further-reading section. The public site is distinct from the private research workspace.
