@@ -46,6 +46,7 @@ const equipment = {
       ['converter', 'DAC chip / converter architecture', 'text', 'e.g. AK4493SEQ'],
       ['digitalInputs', 'Digital inputs and streaming', 'text', 'e.g. USB / optical / coaxial'],
       ['pcmUSB', 'PCM support via USB', 'text', 'e.g. 24-bit / 192 kHz'],
+      ['pcmPCIe', 'PCM / DAC via PCIe computer audio', 'text', 'e.g. 24-bit / 96 kHz RCA output'],
       ['pcmSpdif', 'PCM via optical/coax', 'text', 'e.g. 24-bit / 96 kHz'],
       ['dsd', 'DSD support (if known)', 'text', 'e.g. native DSD256 on USB'],
       ['analogResponse', 'Analogue output frequency response', 'text', 'e.g. 20 Hz–20 kHz ±0.1 dB'],
@@ -230,6 +231,7 @@ function sourceRows(devices) {
   rowOfSpecs('DAC converter / architecture', devices, 'converter');
   rowOfSpecs('Digital inputs / streaming', devices, 'digitalInputs');
   rowOfSpecs('PCM via USB', devices, 'pcmUSB');
+  if (devices.some(({ values }) => values.pcmPCIe)) rowOfSpecs('PCM / DAC via PCIe audio', devices, 'pcmPCIe');
   rowOfSpecs('PCM via optical / coaxial', devices, 'pcmSpdif');
   rowOfSpecs('DSD input support', devices, 'dsd');
   addSection('Analogue output and measured performance');
@@ -319,6 +321,7 @@ function showComparison() {
     if (device.manual) return 'Entered manually · unverified';
     if (device.reviewStatus === 'manufacturer-checked') return withCondition('Manufacturer specification cross-checked', device.reviewedOn || '');
     if (device.reviewStatus === 'manufacturer-and-distributor') return withCondition('Manufacturer manual + archived distributor checked', device.reviewedOn || '');
+    if (device.reviewStatus === 'secondary-reviewed') return withCondition('Secondary source only · check before relying on figures', device.reviewedOn || '');
     return withCondition('Not fully reviewed', 'Use the source links below; unconfirmed fields may be blank.');
   }));
   addRow('Notes and sources', devices.map(deviceLinks));
