@@ -236,3 +236,27 @@
  .dl-chart-section{padding-top:12px}
  .dl-reading>p:not(.section-kicker):not(.dl-box-label){font-size:1rem}
 }
+
+/* Familiar distortion spec sheets: a comparative shopping example */
+.dl-rating-lesson{padding-block:clamp(28px,3.6vw,51px);scroll-margin-top:90px;border-top:1px solid #273b52}
+.dl-rating-lesson .dl-reading{max-width:1050px}
+.dl-rating-lesson h2{font-size:clamp(1.7rem,2.9vw,2.55rem);margin-bottom:.8rem}
+.dl-rating-lesson .dl-reading>p{font-size:1.04rem;line-height:1.8}
+.dl-rating-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem;margin:1.45rem 0}
+.dl-rating-card{padding:1.25rem 1.4rem;border-radius:12px;border:1px solid #42637c;background:#11293c;display:flex;flex-direction:column}
+.dl-rating-card>span{font-size:.73rem;font-weight:800;color:#9ddffb;letter-spacing:.11em}
+.dl-rating-card>strong{font-size:clamp(1.8rem,3.1vw,2.65rem);letter-spacing:-.025em;color:#edf9ff;line-height:1.2;margin-top:.45rem}
+.dl-rating-card>b{color:#c5e5fa;font-size:.94rem;margin-top:.15rem}
+.dl-rating-card p{font-size:.94rem;line-height:1.75;margin:.85rem 0 1rem}
+.dl-rating-card>div{margin-top:auto;border-top:1px solid #335770;padding-top:.8rem;font-size:.84rem;color:#b0dff1;font-weight:720}
+.dl-rating-complete{padding:1.35rem 1.5rem;border-radius:12px;border:1px solid #3d8177;background:#112b30;margin:1.5rem 0}
+.dl-rating-complete strong{display:block;font-size:clamp(1.05rem,2vw,1.35rem);color:#e8fff6;line-height:1.55;margin-bottom:.65rem}
+.dl-rating-complete p:last-child{font-size:.93rem;margin:0;line-height:1.75}
+.dl-rating-lesson h3{font-size:1.35rem;margin:1.6rem 0 .7rem}
+.dl-rating-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem 1.1rem;padding:0;list-style:none;counter-reset:checks}
+.dl-rating-checks li{position:relative;counter-increment:checks;padding:.95rem 1.1rem .95rem 2.5rem;border:1px solid #324f64;border-radius:9px;background:#101f31;line-height:1.67;font-size:.92rem}
+.dl-rating-checks li::before{content:counter(checks);position:absolute;left:1rem;top:.95rem;font-weight:800;color:#88d8fb}
+.dl-rating-checks b{color:#e6f5ff}
+.dl-rating-warning{padding:1rem 1.2rem;border-left:3px solid #77c9e9;background:#11273a;border-radius:4px;margin-top:1.5rem;font-size:.91rem;line-height:1.75;color:#c5def0}
+.dl-rating-warning strong{color:#eaf8ff}
+@media(max-width:780px){.dl-rating-grid,.dl-rating-checks{grid-template-columns:1fr}.dl-rating-card{padding:1rem}.dl-rating-card>strong{font-size:1.8rem}}
