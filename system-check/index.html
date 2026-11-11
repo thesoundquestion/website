@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Estimate the power and headroom your speakers need at your listening seat, and compare amplifier upgrades.">
+<link rel="canonical" href="https://thesoundquestion.pages.dev/system-check/">
+<link rel="icon" href="/assets/mark.svg">
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/system-check/style.css">
+<script defer src="/system-check/calculator.js"></script>
+<title>System Check | The Sound Question</title>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/system-check/" aria-current="page">System Check</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav>
+</div></header>
+<main id="main" class="container sc">
+<h1>System Check</h1>
+<p class="lead">Can your amp handle the loudest hits at your seat? Find out what your speakers ask for and what an upgrade would buy you.</p>
+<noscript><p>Enable JavaScript to calculate estimates. You can still read the <a href="/decoder/amplifier-power/#headroom">headroom lesson</a>.</p></noscript>
+<form id="check" class="sc-layout">
+<div class="sc-inputs">
+<fieldset class="sc-mode"><legend>What are you working out?</legend>
+<label><input type="radio" name="mode" value="check" checked> Can my amp deliver it?</label>
+<label><input type="radio" name="mode" value="upgrade"> What would I need?</label>
+<button class="sc-button" type="button" id="example">Load the lesson example</button>
+</fieldset>
+<fieldset><legend>Speakers and seat</legend>
+<div class="sc-fields">
+<label>Speaker sensitivity (dB)<input name="sensitivity" type="number" min="40" max="130" step="any" required placeholder="e.g. 88"></label>
+<label>Sensitivity basis<select name="basis"><option value="voltage">2.83 V at 3.28 ft</option><option value="power">1 W at 3.28 ft</option></select></label>
+<label>Nominal impedance (Ω)<input name="load" type="number" min="0.5" max="32" step="any" list="impedances" required placeholder="e.g. 8"></label>
+<label>Distance to each speaker (ft)<input name="distance" type="number" min="0.5" max="300" step="any" required placeholder="e.g. 8"></label>
+</div>
+<datalist id="impedances"><option value="2"><option value="3"><option value="4"><option value="6"><option value="8"><option value="12"><option value="16"></datalist>
+<details class="sc-lookup" data-lookup="speaker"><summary>Find my speaker specs</summary>
+<label>Brand and exact model<input name="speakerModel" placeholder="e.g. Klipsch RP-600M II"></label>
+<p>Look for the sensitivity basis and nominal impedance in the manual. Independent tests may show how far impedance dips. Browse the <a href="https://www.spinorama.org/" target="_blank" rel="noopener">Spinorama speaker index</a>.</p>
+<div class="sc-searches"></div></details>
+</fieldset>
+<fieldset><legend>Listening goal</legend>
+<div class="sc-fields">
+<label>Start with<select name="targetMode"><option value="peak">A peak level</option><option value="average">An average level</option><option value="both">Average and peak levels</option></select></label>
+<label data-target="peak">Peak at your seat (dB SPL)<input name="peak" type="number" min="20" max="135" step="any" value="105" list="levels" required></label>
+<label data-target="average" hidden>Average at your seat (dB SPL)<input name="average" type="number" min="20" max="135" step="any" value="80" list="levels" disabled required></label>
+<label data-target="gap" hidden>Room above average for peaks (dB)<input name="gap" type="number" min="0" max="50" step="any" value="15" disabled required></label>
+</div>
+<datalist id="levels"><option value="40"><option value="50"><option value="60"><option value="70"><option value="75"><option value="80"><option value="85"><option value="90"><option value="95"><option value="100"><option value="105"><option value="108"><option value="110"><option value="115"></datalist>
+<details><summary>What does that level sound like?</summary>
+<p>For scale, CDC examples put normal conversation around 60 dB, movie theaters around 70–104 dB and rock concerts around 95–115 dB. Distance, the room, and the sound itself change these figures. A short 105 dB drum hit describes a peak. An average describes the whole passage.</p>
+<a href="https://www.cdc.gov/nceh/hearing_loss/infographic/" target="_blank" rel="noopener">CDC everyday sound examples</a> · <a href="https://archive.cdc.gov/www_cdc_gov/healthyschools/noise/signs.htm" target="_blank" rel="noopener">Conversation and other reference levels</a>
+</details>
+</fieldset>
+<fieldset id="amp-fields"><legend>Amplifier ratings</legend>
+<p>Enter watts per channel. Use separate rows for different loads or test durations.</p>
+<div id="ratings"></div>
+<button class="sc-button" id="add-rating" type="button">Add a power rating</button>
+<details class="sc-lookup" data-lookup="amp"><summary>Find my amplifier specs</summary>
+<label>Brand and exact model<input name="ampModel" placeholder="e.g. Yamaha A-S801"></label>
+<p>Check the load, distortion limit, frequency range, and channels driven before comparing results. Browse <a href="https://www.stereophile.com/" target="_blank" rel="noopener">Stereophile</a> or <a href="https://www.audioholics.com/amplifier-reviews" target="_blank" rel="noopener">Audioholics amplifier reviews</a>.</p>
+<div class="sc-searches"></div></details>
+</fieldset>
+<details class="sc-advanced"><summary>Fine-tune the estimate</summary>
+<fieldset><legend>Room and speaker load</legend><div class="sc-fields">
+<label>Speakers contributing<select name="speakers"><option value="0">One speaker · +0 dB</option><option value="3">Stereo pair · estimated +3 dB</option><option value="6">Stereo pair · ideal +6 dB</option></select></label>
+<label>Room adjustment (dB)<input name="room" type="number" min="-25" max="25" step="any" value="0"></label>
+<label>Minimum measured impedance (Ω)<input name="minimum" type="number" min="0.2" max="32" step="any"></label>
+<label>Frequency of minimum (Hz)<input name="minimumHz" type="number" min="1" max="100000" step="any"></label>
+<label>Impedance phase at minimum (°)<input name="phase" type="number" min="-90" max="90" step="any"></label>
+<label>Maximum measured impedance (Ω)<input name="maximum" type="number" min="0.2" max="300" step="any"></label>
+</div><p>Use 0 dB room adjustment for the free-field estimate. Stereo summation varies with the recording, frequency and seat.</p></fieldset>
+<fieldset><legend>Source and amplifier connection</legend><div class="sc-fields">
+<label>Source maximum output (V RMS)<input name="sourceVoltage" type="number" min="0.001" max="100" step="any"></label>
+<label>Source output impedance (Ω)<input name="sourceZ" type="number" min="0" max="100000" step="any"></label>
+<label>Amplifier input impedance (kΩ)<input name="inputZ" type="number" min="0.001" max="1000" step="any"></label>
+<label>Amplifier voltage gain (dB)<input name="gain" type="number" min="-20" max="80" step="any"></label>
+<label>Input sensitivity for rated power (V RMS)<input name="inputSensitivity" type="number" min="0.001" max="100" step="any"></label>
+<label>Amplifier output impedance (Ω)<input name="outputZ" type="number" min="0" max="100" step="any"></label>
+</div><p>For the input-sensitivity check, the first power rating must be the rating associated with that sensitivity. Use gain if you know it.</p></fieldset>
+<fieldset><legend>Published distortion readings</legend>
+<div class="sc-fields">
+<label>Test load (Ω)<input name="curveLoad" type="number" min="0.5" max="32" step="any" list="impedances"></label>
+<label>Test frequency (Hz)<input name="curveHz" type="number" min="1" max="100000" step="any"></label>
+<label>Measurement<select name="curveType"><option>THD+N</option><option>THD</option></select></label>
+</div>
+<label>Curve points (watts, percent)<textarea name="curve" rows="3" placeholder="10, 0.01&#10;50, 0.02&#10;100, 0.2"></textarea></label>
+<p>Enter one point per line from a single test. For 0.01%, enter 0.01. <a href="/decoder/amplifier-distortion/">How to read distortion curves</a></p></fieldset>
+</details>
+<button class="button button-primary" type="submit">Calculate system headroom</button>
+</div>
+<section id="results" class="sc-results" aria-labelledby="result-title" tabindex="-1">
+<h2 id="result-title">Your estimate</h2>
+<p id="result-status" role="status">Enter your speaker specs and listening goal to get started.</p>
+<div id="result-body"></div>
+</section>
+</form>
+<section class="sc-notes">
+<h2>How the estimate works</h2>
+<p>Sensitivity tells us how much sound the speaker makes at a known input. The calculator estimates how much level you lose with distance, then works out the voltage and watts needed per channel. Room reflections, bass management, speaker compression, impedance phase and the duration of a peak can all change what your system delivers. Published bench ratings apply under their stated test conditions.</p>
+<p><a href="/decoder/amplifier-power/#headroom">Amplifier headroom</a> · <a href="/decoder/speaker-sensitivity/">Speaker sensitivity</a> · <a href="/decoder/speaker-impedance/">Speaker impedance</a> · <a href="/decoder/ohms-law/">Voltage, current and watts</a></p>
+</section>
+</main>
+<footer class="site-footer"><div class="container"><a href="/">The Sound Question</a></div></footer>
+</body>
+</html>
