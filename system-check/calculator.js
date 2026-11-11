@@ -78,12 +78,86 @@ function searchLink(label, model, terms) {
   return a;
 }
 
+const specPanel = document.querySelector('#spec-search');
+const engineId = specPanel?.dataset.googleEngine;
+let googleResults;
+let lastSearch = 0;
+
+function loadGoogleResults() {
+  if (googleResults) return googleResults;
+  googleResults = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    const timeout = setTimeout(() => reject(new Error('Google Search timed out')), 12000);
+    function fail(error) {
+      clearTimeout(timeout);
+      reject(error);
+    }
+    window.__gcse = {
+      parsetags: 'explicit',
+      callback() {
+        try {
+          const search = window.google.search.cse.element;
+          search.render({
+            div: 'spec-search-results',
+            tag: 'searchresults-only',
+            gname: 'equipmentSpecs',
+            attributes: { autoSearchOnLoad: false, linkTarget: '_blank' }
+          });
+          const results = search.getElement('equipmentSpecs');
+          if (!results) throw new Error('Google Search did not initialize');
+          clearTimeout(timeout);
+          resolve(results);
+        } catch (error) {
+          fail(error);
+        }
+      }
+    };
+    script.async = true;
+    script.src = 'https://cse.google.com/cse.js?' + new URLSearchParams({ cx: engineId });
+    script.addEventListener('error', () => fail(new Error('Google Search could not load')));
+    document.head.append(script);
+  });
+  return googleResults;
+}
+
+async function searchSpecs(model, terms) {
+  const request = ++lastSearch;
+  const searchStatus = document.querySelector('#spec-search-status');
+  specPanel.hidden = false;
+  document.querySelector('#spec-search-links').replaceChildren(searchLink('Search all of Google', model, terms));
+  document.querySelector('#spec-search-title').focus();
+  searchStatus.textContent = 'Searching for ' + model + '…';
+  try {
+    const results = await loadGoogleResults();
+    if (request !== lastSearch) return;
+    results.execute('"' + model + '" ' + terms);
+    searchStatus.textContent = 'Results for ' + model;
+  } catch {
+    if (request === lastSearch) searchStatus.textContent = 'Inline results are unavailable. Open the Google search to continue.';
+  }
+}
+
 for (const group of form.querySelectorAll('[data-lookup]')) {
   const input = group.querySelector('input');
   const links = group.querySelector('.sc-searches');
   input.addEventListener('input', () => {
     const model = input.value.trim();
-    links.replaceChildren(...(model ? lookup[group.dataset.lookup].map(([label, terms]) => searchLink(label, model, terms)) : []));
+    links.replaceChildren();
+    if (!model) return;
+    const options = lookup[group.dataset.lookup];
+    if (!engineId) {
+      links.append(...options.map(([label, terms]) => searchLink(label, model, terms)));
+      return;
+    }
+    const terms = group.dataset.lookup === 'speaker'
+      ? 'speaker sensitivity nominal impedance specifications measurements'
+      : 'amplifier output power 8 ohms 4 ohms specifications measurements';
+    const button = document.createElement('button');
+    button.className = 'sc-button';
+    button.type = 'button';
+    button.textContent = 'Search for specs';
+    button.addEventListener('click', () => searchSpecs(model, terms));
+    links.append(button, searchLink('Search all of Google', model, terms));
   });
 }
 
@@ -293,6 +367,11 @@ document.querySelector('#example').addEventListener('click', () => {
   addRating(80, 8);
   addRating(100, 4);
   for (const links of form.querySelectorAll('.sc-searches')) links.replaceChildren();
+  if (specPanel) {
+    specPanel.hidden = true;
+    lastSearch++;
+    googleResults?.then(results => results.clearAllResults()).catch(() => {});
+  }
   sync();
   form.requestSubmit();
 });
