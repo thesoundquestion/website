@@ -14,7 +14,9 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-LESSONS = json.loads((ROOT / "decoder" / "curriculum.json").read_text(encoding="utf-8"))["lessons"]
+CURRICULUM = json.loads((ROOT / "decoder" / "curriculum.json").read_text(encoding="utf-8"))
+LESSONS = CURRICULUM["lessons"]
+CATEGORIES = CURRICULUM["categories"]
 
 def lesson_url(entry):
     return f'/decoder/{entry["slug"]}/'
@@ -24,12 +26,13 @@ def build_nav(index):
     nxt = LESSONS[(index + 1) % len(LESSONS)]
     previous = LESSONS[index - 1] if index else None
     end_of_category = lesson["category"] != nxt["category"]
-    is_speaker = lesson["category"] == "speakers"
-    target = "amplifiers" if is_speaker else "speakers"
+    category_info = CATEGORIES[lesson["category"]]
+    next_info = CATEGORIES[nxt["category"]]
+    target = next_info["label"].lower()
     title = html.escape(nxt["title"])
     desc = html.escape(nxt["description"])
-    current_category = "Speakers" if is_speaker else "Amplifiers"
-    next_category = "SPEAKERS" if nxt["category"] == "speakers" else "AMPLIFIERS"
+    current_category = category_info["label"]
+    next_category = next_info["label"].upper()
     top = (
         '<!-- LESSON_TOP_NAV_BEGIN -->'
         f'<a class="dl-top-next" href="{lesson_url(nxt)}" aria-label="Next lesson: {title}">'
@@ -39,17 +42,17 @@ def build_nav(index):
     if previous:
         previous_link = f'<a href="{lesson_url(previous)}">← Previous: {html.escape(previous["title"])}</a>'
     else:
-        previous_link = '<a href="/decoder/#speaker-lessons">← See all speaker lessons</a>'
+        previous_link = f'<a href="/decoder/#{category_info["anchor"]}">← See all {category_info["label"].lower()} lessons</a>'
     switch = ""
     if end_of_category:
         switch = (
             '<aside class="dl-topic-switch"><div>'
-            f'<p class="dl-switch-label">FINISHED THIS {"SPEAKER" if is_speaker else "AMPLIFIER"} SERIES?</p>'
+            f'<p class="dl-switch-label">FINISHED THIS {category_info["adjective"].upper()} SERIES?</p>'
             f'<h3>Want to learn about {target}?</h3>'
-            f'<p>{"Discover what amplifier power, distortion and circuit performance mean when driving real speakers." if is_speaker else "Explore how speakers turn an electrical signal into sound, from tonal balance to bass and sensitivity."}</p>'
+            f'<p>{html.escape(next_info["description"])}</p>'
             '</div>'
-            f'<a class="dl-switch-link" href="/decoder/#{"amplifier-lessons" if is_speaker else "speaker-lessons"}">'
-            f'Explore {target} lessons ↗</a></aside>'
+            f'<a class="dl-switch-link" href="/decoder/#{next_info["anchor"]}">'
+            f'Explore {next_info["adjective"].lower()} lessons ↗</a></aside>'
         )
     bottom = (
         '<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">\n'
@@ -68,6 +71,10 @@ def build_nav(index):
 
 if len(LESSONS) < 2 or len({x["slug"] for x in LESSONS}) != len(LESSONS):
     raise SystemExit("Curriculum requires at least two lessons with unique slugs")
+
+for lesson in LESSONS:
+    if lesson["category"] not in CATEGORIES:
+        raise SystemExit(f"Unknown category: {lesson['category']}")
 
 for i, lesson in enumerate(LESSONS):
     path = ROOT / "decoder" / lesson["slug"] / "index.html"

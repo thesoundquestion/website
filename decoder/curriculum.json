@@ -32,5 +32,19 @@
       "title": "Amplifier distortion and harmonics",
       "description": "Compare distortion curves and understand the added tones."
     }
-  ]
+  ],
+  "categories": {
+    "speakers": {
+      "label": "Speakers",
+      "adjective": "speaker",
+      "anchor": "speaker-lessons",
+      "description": "Explore how speakers turn an electrical signal into sound, from tonal balance to bass and sensitivity."
+    },
+    "amplifiers": {
+      "label": "Amplifiers",
+      "adjective": "amplifier",
+      "anchor": "amplifier-lessons",
+      "description": "Discover what amplifier power, distortion and circuit performance mean when driving real speakers."
+    }
+  }
 }
