@@ -11,6 +11,7 @@ const format = new Intl.NumberFormat('en-CA', { maximumSignificantDigits: 3 });
 const show = value => format.format(value);
 const db = value => value.toFixed(1);
 const referenceFeet = 1 / 0.3048;
+let levelAnchor = 'peak';
 
 function addRating(watts = '', load = '', type = 'continuous') {
   const row = document.createElement('div');
@@ -34,7 +35,7 @@ function addRating(watts = '', load = '', type = 'continuous') {
 
 function sync() {
   const target = field('targetMode').value;
-  const visible = { peak: target !== 'average', average: target !== 'peak', gap: target === 'average' };
+  const visible = { peak: true, average: target !== 'peak', gap: target !== 'peak' };
   for (const label of form.querySelectorAll('[data-target]')) {
     label.hidden = !visible[label.dataset.target];
     label.querySelector('input').disabled = label.hidden;
@@ -42,6 +43,17 @@ function sync() {
   const amp = document.querySelector('#amp-fields');
   amp.hidden = field('mode').value === 'upgrade';
   amp.disabled = amp.hidden;
+  syncLevels();
+}
+
+function syncLevels() {
+  if (field('targetMode').value === 'peak') return;
+  const anchor = num(levelAnchor);
+  const gap = num('gap');
+  if (!Number.isFinite(anchor) || !Number.isFinite(gap)) return;
+  const fromPeak = levelAnchor === 'peak';
+  const linkedLevel = fromPeak ? anchor - gap : anchor + gap;
+  field(fromPeak ? 'average' : 'peak').value = Number(linkedLevel.toFixed(2));
 }
 
 const lookup = {
@@ -187,7 +199,7 @@ function calculate() {
   const entries = mode === 'check' ? readRatings() : [];
   const target = field('targetMode').value;
   const average = target === 'peak' ? null : num('average');
-  const peak = target === 'average' ? average + num('gap') : num('peak');
+  const peak = num('peak');
   if (average !== null && peak < average) throw new Error('Enter a peak level at or above the average level.');
   if (peak > 135) throw new Error('Use a peak target of 135 dB SPL or less for this model.');
   const load = num('load');
@@ -258,11 +270,22 @@ function calculate() {
 
 addRating();
 sync();
-field('targetMode').addEventListener('change', sync);
+field('targetMode').addEventListener('change', () => {
+  if (field('targetMode').value === 'peak') levelAnchor = 'peak';
+  sync();
+});
+for (const name of ['peak', 'average']) {
+  field(name).addEventListener('input', () => {
+    levelAnchor = name;
+    syncLevels();
+  });
+}
+field('gap').addEventListener('input', syncLevels);
 for (const option of field('mode')) option.addEventListener('change', sync);
 document.querySelector('#add-rating').addEventListener('click', () => addRating().querySelector('input').focus());
 document.querySelector('#example').addEventListener('click', () => {
   form.reset();
+  levelAnchor = 'peak';
   field('sensitivity').value = 94.5;
   field('load').value = 8;
   field('distance').value = 8;
