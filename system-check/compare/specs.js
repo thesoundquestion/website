@@ -1,5 +1,5 @@
 'use strict';
-/* Compare My Gear supplemental manufacturer specifications; deliberately kept separate from calculator presets. */
+/* Compare My Gear model-specific manufacturer and reviewed-source supplement. Research reviewed 2026-11-11. */
 const compareGearDetails = {
   "version": "2026-11-11",
   "notice": "Supplemental, source-linked model facts. A blank value means the source did not establish the specification.",
@@ -11,7 +11,9 @@ const compareGearDetails = {
       "frequencyResponse": "51 Hz–26 kHz",
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": "2.8 kHz",
-      "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
+      "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "DALI Oberon 3": {
       "configuration": "2-way",
@@ -20,7 +22,9 @@ const compareGearDetails = {
       "frequencyResponse": "47 Hz–26 kHz",
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": "2.4 kHz",
-      "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
+      "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "DALI Oberon 5": {
       "configuration": "2-way",
@@ -29,7 +33,9 @@ const compareGearDetails = {
       "frequencyResponse": "39 Hz–26 kHz",
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": "2.4 kHz",
-      "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
+      "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "DALI Oberon 7": {
       "configuration": "2-way",
@@ -38,7 +44,9 @@ const compareGearDetails = {
       "frequencyResponse": "36 Hz–26 kHz",
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": "2.3 kHz",
-      "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
+      "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "ELAC Debut 2.0 B5.2": {
       "configuration": "2-way",
@@ -62,28 +70,38 @@ const compareGearDetails = {
       "configuration": "2-way",
       "drivers": "5.25″ aramid-fibre woofer; 1″ aluminium-dome tweeter",
       "enclosure": "Bass reflex",
-      "frequencyResponse": "42 Hz–38 kHz",
-      "responseBasis": "Manufacturer −6 dB range",
+      "frequencyResponse": "70 Hz–34 kHz",
+      "responseBasis": "Manufacturer −3 dB limits",
       "crossover": "1.9 kHz",
-      "reference": "https://elac.com/download/debut-3-0/debut-3-0-sales-sheet_2.0.0.pdf"
+      "reference": "https://elac.com/download/db63/debut-3-sales-sheet_1.0.0.pdf",
+      "responseExtra": "42 Hz–38 kHz (−6 dB)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "ELAC Debut 3.0 DB63": {
       "configuration": "2-way",
       "drivers": "6.5″ aramid-fibre woofer; 1″ aluminium-dome tweeter",
       "enclosure": "Bass reflex",
-      "frequencyResponse": "42 Hz–38 kHz",
-      "responseBasis": "Manufacturer −6 dB range",
+      "frequencyResponse": "50 Hz–34 kHz",
+      "responseBasis": "Manufacturer −3 dB limits",
       "crossover": "2.0 kHz",
-      "reference": "https://elac.com/download/debut-3-0/debut-3-0-sales-sheet_2.0.0.pdf"
+      "reference": "https://elac.com/download/db63/debut-3-sales-sheet_1.0.0.pdf",
+      "responseExtra": "42 Hz–38 kHz (−6 dB)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "ELAC Debut 3.0 DF63": {
-      "configuration": "3-way",
-      "drivers": "2 × 6.5″ aramid-fibre woofers; 6.5″ aramid-fibre midrange; 1″ aluminium-dome tweeter",
+      "configuration": "3-way / 4 drivers",
+      "drivers": "3 × 6.5″ aramid-fibre bass/midrange diaphragms in a three-way system; 1 × 1″ aluminium-dome tweeter",
       "enclosure": "Bass reflex",
-      "frequencyResponse": "31 Hz–38 kHz",
-      "responseBasis": "Manufacturer −6 dB range",
+      "frequencyResponse": "46 Hz–34 kHz",
+      "responseBasis": "Manufacturer −3 dB limits",
       "crossover": "550 Hz / 2.0 kHz",
-      "reference": "https://elac.com/download/debut-3-0/debut-3-0-sales-sheet_2.0.0.pdf"
+      "reference": "https://elac.com/download/db63/debut-3-sales-sheet_1.0.0.pdf",
+      "responseExtra": "31 Hz–38 kHz (−6 dB)",
+      "detailNote": "Older ELAC sheet assigns 2 × 6.5″ midrange and 1 × 6.5″ woofer; layout labeling may be ambiguous, so the comparison does not guess which cabinet position handles which band.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "KEF Q150": {
       "configuration": "2-way coaxial Uni-Q",
@@ -92,7 +110,10 @@ const compareGearDetails = {
       "frequencyResponse": "51 Hz–28 kHz",
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": "2.5 kHz",
-      "reference": "https://assets.kef.com/uploads/cm/Q_Series_brochure_EN.pdf"
+      "reference": "https://assets.kef.com/documents/qseries/Q_Series_brochure_EN.pdf",
+      "responseExtra": "47 Hz (−6 dB, free field)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "KEF Q350": {
       "configuration": "2-way coaxial Uni-Q",
@@ -101,7 +122,10 @@ const compareGearDetails = {
       "frequencyResponse": "63 Hz–28 kHz",
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": "2.5 kHz",
-      "reference": "https://assets.kef.com/uploads/cm/Q_Series_brochure_EN.pdf"
+      "reference": "https://assets.kef.com/documents/qseries/Q_Series_brochure_EN.pdf",
+      "responseExtra": "42 Hz (−6 dB, free field)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "KEF Q550": {
       "configuration": "2.5-way",
@@ -110,7 +134,10 @@ const compareGearDetails = {
       "frequencyResponse": "58 Hz–28 kHz",
       "responseBasis": "Manufacturer ±3 dB (confirm exact regional revision)",
       "crossover": "2.5 kHz",
-      "reference": "https://assets.kef.com/uploads/cm/Q_Series_brochure_EN.pdf"
+      "reference": "https://assets.kef.com/documents/qseries/Q_Series_brochure_EN.pdf",
+      "responseExtra": "45 Hz (−6 dB, free field)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "KEF Q750": {
       "configuration": "2.5-way",
@@ -119,7 +146,10 @@ const compareGearDetails = {
       "frequencyResponse": "48 Hz–28 kHz",
       "responseBasis": "Manufacturer ±3 dB (confirm exact regional revision)",
       "crossover": "2.5 kHz",
-      "reference": "https://assets.kef.com/uploads/cm/Q_Series_brochure_EN.pdf"
+      "reference": "https://assets.kef.com/documents/qseries/Q_Series_brochure_EN.pdf",
+      "responseExtra": "42 Hz (−6 dB, free field)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "KEF Q950": {
       "configuration": "2.5-way",
@@ -128,7 +158,10 @@ const compareGearDetails = {
       "frequencyResponse": "44 Hz–28 kHz",
       "responseBasis": "Manufacturer ±3 dB (confirm exact regional revision)",
       "crossover": "2.5 kHz",
-      "reference": "https://assets.kef.com/uploads/cm/Q_Series_brochure_EN.pdf"
+      "reference": "https://assets.kef.com/documents/qseries/Q_Series_brochure_EN.pdf",
+      "responseExtra": "38 Hz (−6 dB, free field)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "KEF LS50 Meta": {
       "configuration": "2-way coaxial Uni-Q",
@@ -203,22 +236,26 @@ const compareGearDetails = {
       "reference": "https://cerwinvega.com/products/xls-215"
     },
     "Yamaha NS-555": {
-      "configuration": "3-way / 4 drivers",
+      "configuration": "3-way / four drivers",
       "drivers": "2 × 6.5″ PMD-cone woofers; 5″ cone midrange with waveguide; 1″ aluminium-dome HF with waveguide",
       "enclosure": "Bass reflex",
       "frequencyResponse": "35 Hz–35 kHz",
       "responseBasis": "Manufacturer range; tolerance not stated",
-      "crossover": "1 kHz / 4 kHz",
-      "reference": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-555/specs.html"
+      "crossover": "1.0 kHz / 4.0 kHz",
+      "reference": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-555/specs.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Yamaha NS-777": {
-      "configuration": "3-way / 4 drivers",
+      "configuration": "3-way / four drivers",
       "drivers": "2 × 8″ PMD-cone woofers; 5″ cone midrange with waveguide; 1″ aluminium-dome HF with waveguide",
       "enclosure": "Bass reflex",
       "frequencyResponse": "30 Hz–35 kHz",
       "responseBasis": "Manufacturer range; tolerance not stated",
-      "crossover": "1 kHz / 4 kHz",
-      "reference": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-777/specs.html"
+      "crossover": "1.0 kHz / 4.0 kHz",
+      "reference": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-777/specs.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Yamaha NS-6490 (Canada)": {
       "configuration": "3-way",
@@ -228,16 +265,20 @@ const compareGearDetails = {
       "responseBasis": "Manufacturer range; tolerance not stated",
       "crossover": "2.5 kHz / 8 kHz",
       "reference": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-6490/",
-      "detailNote": "Canadian listing: 6 Ω. US regional page lists 8 Ω; do not mix versions."
+      "detailNote": "Canadian listing: 6 Ω. US regional page lists 8 Ω; do not mix versions.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Paradigm Monitor SE 6000F": {
-      "configuration": "3-way / 5 drivers",
+      "configuration": "3-way / 5 active drivers",
       "drivers": "3 × 5.5″ mineral-filled polypropylene woofers; 5.5″ mineral-filled polypropylene midrange; 1″ X-PAL metal-dome tweeter",
       "enclosure": "Bass reflex",
       "frequencyResponse": "53 Hz–21 kHz",
       "responseBasis": "Manufacturer ±3 dB, on axis",
-      "crossover": "800 Hz / 3 kHz",
-      "reference": "https://www.paradigm.com/en/floorstanding/monitor-se-6000f"
+      "crossover": "800 Hz / 3.0 kHz",
+      "reference": "https://www.paradigm.com/en/floorstanding/monitor-se-6000f",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Paradigm Monitor SE Atom": {
       "configuration": "2-way",
@@ -245,26 +286,32 @@ const compareGearDetails = {
       "enclosure": "Bass reflex",
       "frequencyResponse": "61 Hz–21 kHz",
       "responseBasis": "Manufacturer ±3 dB, on axis",
-      "crossover": null,
-      "reference": "https://www.paradigm.com/en/passive/monitor-se-atom"
+      "crossover": "2.3 kHz",
+      "reference": "https://www.paradigm.com/en/passive/monitor-se-atom",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Klipsch Forte II": {
       "configuration": "3-way",
-      "drivers": "12″ active woofer; horn-loaded midrange and tweeter; 15″ passive bass radiator",
-      "enclosure": "Passive-radiator enclosure",
+      "drivers": "12″ K-25-K woofer; K-61-K horn mid; K-75-K tweeter; 15″ passive radiator",
+      "enclosure": "Passive-radiator vented box",
       "frequencyResponse": "32 Hz–20 kHz",
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": null,
-      "reference": "https://assets.klipsch.com/product-specsheets/forte-II-brochure.pdf"
+      "reference": "https://assets.klipsch.com/product-specsheets/forte-II-brochure.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Klipsch RP-600M II": {
       "configuration": "2-way",
-      "drivers": "6.5″ Cerametallic LF/MF; 1″ vented titanium LTS tweeter with Tractrix horn",
+      "drivers": "6.5″ Cerametallic-cone woofer; 1″ vented titanium LTS tweeter in Tractrix horn",
       "enclosure": "Rear-ported bass reflex",
       "frequencyResponse": "44 Hz–25 kHz",
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": "1.5 kHz",
-      "reference": "https://assets.klipsch.com/product-specsheets/RP-600M-II_Spec-Sheet_v02.pdf"
+      "reference": "https://assets.klipsch.com/product-specsheets/RP-600M-II_Spec-Sheet_v02.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "JBL L100 Classic": {
       "configuration": "3-way",
@@ -272,17 +319,23 @@ const compareGearDetails = {
       "enclosure": "Front-ported bass reflex",
       "frequencyResponse": "40 Hz–40 kHz",
       "responseBasis": "Manufacturer −6 dB",
-      "crossover": "450 Hz / 2.5 kHz",
-      "reference": "https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw1e4dfbc0/pdfs/SC03671_JBL_L100_Classic_Spec%20Sheet_EN_LR.pdf"
+      "crossover": "450 Hz / 3.5 kHz",
+      "reference": "https://global.jbl.com/JBLL100CLASSICUAM.html",
+      "detailNote": "Original L100 Classic, not the 75th Anniversary or Mk II. JBL's manufacturer page lists 3.5 kHz for the second crossover.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Wharfedale Diamond 12.1": {
       "configuration": "2-way",
       "drivers": "5″ advanced polypropylene-cone LF/MF; 1″ textile-dome tweeter",
       "enclosure": "Bass reflex",
       "frequencyResponse": "65 Hz–20 kHz",
-      "responseBasis": "Manufacturer ±3 dB; bass −6 dB at 60 Hz",
+      "responseBasis": "Manufacturer ±3 dB",
       "crossover": "2.6 kHz",
-      "reference": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-1"
+      "reference": "https://www.wharfedale.co.uk/products/diamond-12-1",
+      "responseExtra": "60 Hz (−6 dB)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Wharfedale Diamond 12.2": {
       "configuration": "2-way",
@@ -298,9 +351,12 @@ const compareGearDetails = {
       "drivers": "2 × 5″ advanced polypropylene-cone LF/MF; 1″ textile-dome tweeter",
       "enclosure": "Bass reflex",
       "frequencyResponse": "45 Hz–20 kHz",
-      "responseBasis": "Manufacturer ±3 dB; bass −6 dB at 40 Hz",
+      "responseBasis": "Manufacturer ±3 dB",
       "crossover": "2.2 kHz",
-      "reference": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-3"
+      "reference": "https://www.wharfedale.co.uk/products/diamond-12-3",
+      "responseExtra": "40 Hz (−6 dB)",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Q Acoustics 3020i": {
       "configuration": "2-way",
@@ -309,38 +365,206 @@ const compareGearDetails = {
       "frequencyResponse": "64 Hz–30 kHz",
       "responseBasis": "Manufacturer +3/−6 dB",
       "crossover": "2.4 kHz",
-      "reference": "https://www.qacoustics.com/products/3020i-bookshelf-speaker-pair"
+      "reference": "https://www.qacoustics.com/products/3020i-bookshelf-speaker-pair",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Sony SS-CS5 (original)": {
-      "configuration": "3-way / 3 drivers",
+      "configuration": "3-way / three drivers",
       "drivers": "5.12″ cone woofer; 1″ dome tweeter; separate super-tweeter (diameter not listed on support page)",
       "enclosure": "Bass reflex",
       "frequencyResponse": "53 Hz–50 kHz",
       "responseBasis": "Manufacturer range; tolerance not stated",
       "crossover": null,
-      "reference": "https://www.sony.ca/en/electronics/support/speakers-wired-speakers/ss-cs5/specifications"
+      "reference": "https://www.sony.ca/en/electronics/support/speakers-wired-speakers/ss-cs5/specifications",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "KEF Q1 Meta": {
+      "configuration": "2-way coaxial Uni-Q",
+      "drivers": "5.25″ aluminium LF/MF cone + coaxial 1″ vented aluminium-dome tweeter with MAT",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "51 Hz–20 kHz",
+      "responseBasis": "Manufacturer ±3 dB",
+      "responseExtra": "47 Hz–20 kHz (−6 dB)",
+      "crossover": "2.1 kHz",
+      "reference": "https://ca.kef.com/products/q1-meta",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "KEF Q3 Meta": {
+      "configuration": "2-way coaxial Uni-Q",
+      "drivers": "6.5″ aluminium LF/MF cone + coaxial 1″ vented aluminium-dome tweeter with MAT",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "49 Hz–20 kHz",
+      "responseBasis": "Manufacturer ±3 dB",
+      "responseExtra": "42 Hz–20 kHz (−6 dB)",
+      "crossover": "2.0 kHz",
+      "reference": "https://ca.kef.com/products/q3-meta",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "KEF Q7 Meta": {
+      "configuration": "3-way",
+      "drivers": "2 × 6.5″ hybrid aluminium LF cones; 4″ aluminium midrange; coaxial 0.75″ vented aluminium-dome HF with MAT",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "46 Hz–20 kHz",
+      "responseBasis": "Manufacturer ±3 dB",
+      "responseExtra": "39 Hz–20 kHz (−6 dB)",
+      "crossover": "440 Hz / 2.3 kHz",
+      "reference": "https://ca.kef.com/products/q7-meta",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "ELAC Debut Reference DBR62": {
+      "configuration": "2-way",
+      "drivers": "6.5″ aramid-fibre woofer; 1″ cloth-dome tweeter",
+      "enclosure": "Front-ported bass reflex",
+      "frequencyResponse": "44 Hz–35 kHz",
+      "responseBasis": "Manufacturer range; tolerance not stated",
+      "crossover": "2.2 kHz",
+      "reference": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "ELAC Debut Reference DFR52": {
+      "configuration": "3-way",
+      "drivers": "2 × 5.25″ aramid-fibre woofers; 5.25″ aramid-fibre midrange; 1″ cloth-dome tweeter",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "42 Hz–35 kHz",
+      "responseBasis": "Manufacturer range; tolerance not stated",
+      "crossover": "90 Hz / 2.2 kHz",
+      "detailNote": "ELAC's archived brochures disagree on exact grouping of three 5.25″ cones; three-way specification and two crossover values are stable.",
+      "reference": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "ELAC Uni-Fi 2.0 UB52": {
+      "configuration": "3-way coaxial mid/HF",
+      "drivers": "5.25″ aluminium woofer; 4″ aluminium midrange; coaxial 1″ soft-dome tweeter",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "46 Hz–35 kHz",
+      "responseBasis": "Manufacturer range; tolerance not stated",
+      "crossover": "200 Hz / 2.0 kHz",
+      "reference": "https://www.elac.com/download/uf52/uni-fi-2-0-combined-languages-4-20-20.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "JBL Stage A130": {
+      "configuration": "2-way",
+      "drivers": "5.25″ polycellulose-cone woofer; 1″ aluminium-dome tweeter, HDI waveguide",
+      "enclosure": "Rear-ported bass reflex",
+      "frequencyResponse": "55 Hz–40 kHz",
+      "responseBasis": "Manufacturer range; tolerance not stated",
+      "crossover": "3.2 kHz",
+      "reference": "https://www.jbl.com/JBLA130BLKAM.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "JBL Stage 250B": {
+      "configuration": "2-way",
+      "drivers": "5.25″ polycellulose ribbed-cone woofer; 1″ anodized-aluminium tweeter, HDI waveguide",
+      "enclosure": "Rear-ported bass reflex",
+      "frequencyResponse": "50 Hz–25 kHz",
+      "responseBasis": "Manufacturer ±6 dB",
+      "crossover": "1.7 kHz",
+      "reference": "https://www.jbl.com/250B.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "JBL Stage 280F": {
+      "configuration": "2.5-way",
+      "drivers": "2 × 8″ polycellulose ribbed-cone woofers; 1″ anodized-aluminium tweeter, HDI waveguide",
+      "enclosure": "Dual rear-port bass reflex",
+      "frequencyResponse": "33 Hz–25 kHz",
+      "responseBasis": "Manufacturer ±6 dB",
+      "responseExtra": "39 Hz–25 kHz (−3 dB, regional brochure)",
+      "crossover": "1.1 kHz / 2.1 kHz",
+      "detailNote": "Regional JBL brochures differ slightly (2.1 versus 2.2 kHz) for one crossover; US product page lists 2.1 kHz.",
+      "reference": "https://www.jbl.com/280F.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "Polk Reserve R200": {
+      "configuration": "2-way",
+      "drivers": "6.5″ Turbine-cone LF/MF; 1″ Pinnacle ring-radiator tweeter",
+      "enclosure": "Rear X-Port bass reflex",
+      "frequencyResponse": "51 Hz–38 kHz",
+      "responseBasis": "Manufacturer −3 dB limits",
+      "responseExtra": "39 Hz–50 kHz (overall, tolerance unspecified)",
+      "crossover": "3.0 kHz",
+      "reference": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/reserve-r200/300029.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "Polk Signature Elite ES15": {
+      "configuration": "2-way",
+      "drivers": "5.25″ mica-reinforced polypropylene LF/MF; 1″ Terylene dome tweeter",
+      "enclosure": "Bass reflex / Power Port",
+      "frequencyResponse": "44 Hz–40 kHz",
+      "responseBasis": "Manufacturer overall range; tolerance not stated",
+      "crossover": "2.3 kHz",
+      "reference": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es15/300363.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "Polk Signature Elite ES20": {
+      "configuration": "2-way",
+      "drivers": "6.5″ mica-reinforced polypropylene LF/MF; 1″ Terylene dome tweeter",
+      "enclosure": "Bass reflex / Power Port",
+      "frequencyResponse": "41 Hz–40 kHz",
+      "responseBasis": "Manufacturer overall range; tolerance not stated",
+      "crossover": "2.4 kHz",
+      "reference": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es20/300364.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "Polk Signature Elite ES60": {
+      "configuration": "2-way / 4 active drivers",
+      "drivers": "3 × 6.5″ mica-reinforced polypropylene LF/MF; 1″ Terylene dome tweeter",
+      "enclosure": "Bass reflex / Power Port",
+      "frequencyResponse": "32 Hz–40 kHz",
+      "responseBasis": "Manufacturer overall range; tolerance not stated",
+      "crossover": "2.4 kHz",
+      "reference": "https://www.polkaudio.com/en-ca/product/home-speakers/floor-standing/signature-elite-es60/300369.html",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "Klipsch Heresy II": {
+      "configuration": "3-way",
+      "drivers": "12″ K-24-K woofer; K-53-K horn-loaded midrange; K-76-K horn tweeter",
+      "enclosure": "Sealed",
+      "frequencyResponse": "50 Hz–20 kHz",
+      "responseBasis": "Manufacturer ±3 dB",
+      "reference": "https://assets.klipsch.com/product-specsheets/Heresy-II-Specs.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     }
   },
   "source": {
     "Creative Sound Blaster X-Fi Titanium HD (RCA)": {
-      "converter": "Creative X-Fi PC sound-card DAC",
+      "converter": "Creative X-Fi Titanium HD stereo RCA DAC",
       "digitalInputs": "PCIe audio; S/PDIF optical input/output",
-      "pcmUSB": "Stereo playback up to 24-bit / 192 kHz (regional specification); RCA DAC quality claim 24-bit / 96 kHz",
-      "pcmSpdif": "Optical digital I/O up to 24-bit / 96 kHz",
+      "pcmUSB": "Not applicable · PCIe sound card",
+      "pcmSpdif": null,
       "dsd": null,
       "analogResponse": null,
-      "reference": "https://jp.creative.com/corporate/pressroom?id=13159",
-      "detailNote": "Creative's regional material lists 24/192 stereo playback, while its English release specifies 24/96 performance for the RCA converters. Actual available rates depend on driver and output mode."
+      "reference": "https://sg.creative.com/corporate/pressroom?id=13137",
+      "detailNote": "Creative's primary announcement specifies 24-bit / 96 kHz conversion at the RCA line outputs. It does not establish a 24/192 RCA mode; host software/driver availability varies.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "iFi ZEN DAC V2 (fixed RCA)": {
       "converter": "Burr-Brown DAC architecture",
-      "digitalInputs": "USB-B",
-      "pcmUSB": "PCM up to 24/32-bit / 384 kHz",
+      "digitalInputs": "USB-B input (USB 2.0/3.0 compatible)",
+      "pcmUSB": "PCM up to 24-bit / 384 kHz",
       "pcmSpdif": null,
-      "dsd": "DSD64–DSD256 (USB)",
-      "analogResponse": "Not verified with a published analogue passband tolerance",
+      "dsd": "USB DSD64–DSD256",
+      "analogResponse": null,
       "reference": "https://downloads.ifi-audio.com/wp-content/uploads/2021/04/iFi_ZENDAC_V2_Lowdown.pdf",
-      "detailNote": "Fixed RCA values shown; 4.4 mm balanced and headphone jacks have different levels and impedance."
+      "detailNote": "This is the regular ZEN DAC V2, not the ZEN DAC Signature V2; 2.1 V fixed RCA, ≤100 Ω output impedance.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Schiit Modi+ (RCA)": {
       "converter": null,
@@ -355,30 +579,36 @@ const compareGearDetails = {
     "SMSL SU-1 (RCA)": {
       "converter": "AKM AK4493S",
       "digitalInputs": "USB-C, optical S/PDIF, coaxial S/PDIF",
-      "pcmUSB": "PCM up to 32-bit / 768 kHz",
-      "pcmSpdif": "PCM input limits: consult unit manual",
+      "pcmUSB": "USB PCM 16–32-bit / 44.1–768 kHz",
+      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
       "dsd": "DSD512 (USB)",
       "analogResponse": null,
-      "reference": "https://www.smsl-audio.com/portal/product/detail/id/889"
+      "reference": "https://smsl-audio.com/upload/portal/download/SU1Manual.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Topping E30 II (RCA)": {
       "converter": "Dual AKM AK4493S",
       "digitalInputs": "USB, optical S/PDIF, coaxial S/PDIF",
-      "pcmUSB": "PCM 16–32-bit / 44.1–768 kHz",
-      "pcmSpdif": "PCM 16–24-bit / 44.1–192 kHz",
-      "dsd": "USB DSD64–512 native, up to DSD256 DoP",
-      "analogResponse": "20 Hz–20 kHz (±0.3 dB); USB 96 kHz test",
-      "reference": "https://dl.topping.audio/usermanual/e30ii.pdf"
+      "pcmUSB": "USB PCM 16–32-bit / 44.1–768 kHz",
+      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
+      "dsd": "USB native DSD64–512 / DoP DSD64–256",
+      "analogResponse": "20 Hz–20 kHz (±0.3 dB, USB 96 kHz test)",
+      "reference": "https://dl.topping.audio/usermanual/e30ii.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "WiiM Pro Plus (RCA)": {
       "converter": "AKM AK4493SEQ",
-      "digitalInputs": "Wi-Fi/Ethernet streaming; optical input; RCA analogue input",
-      "pcmUSB": "Streaming device; per-source rates vary",
-      "pcmSpdif": "Optical/coax output PCM up to 24-bit / 192 kHz",
+      "digitalInputs": "Wi-Fi/Ethernet streaming; Bluetooth; optical input; RCA analogue input; optical/coax outputs",
+      "pcmUSB": "No USB digital-audio input",
+      "pcmSpdif": "Optical input and optical/coax output: PCM up to 24-bit / 192 kHz",
       "dsd": null,
       "analogResponse": "20 Hz–20 kHz (±0.1 dB)",
-      "reference": "https://www.wiimhome.com/products/wiim-pro-plus/?resource=banner",
-      "detailNote": "24/192 is the supported digital I/O format, not a statement that the streaming service always supplies that resolution. WiiM states up to 32/384 processing for its analog DAC path."
+      "reference": "https://test.wiimhome.com/products/wiim-pro-plus/",
+      "detailNote": "24/192 is the supported digital I/O format, not a statement that the streaming service always supplies that resolution. WiiM states up to 32/384 processing for its analog DAC path.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "FiiO K11 (RCA line out)": {
       "converter": "Cirrus Logic CS43198",
@@ -386,9 +616,12 @@ const compareGearDetails = {
       "pcmUSB": "PCM up to 32-bit / 384 kHz",
       "pcmSpdif": "Coaxial up to 24-bit / 192 kHz; optical up to 24-bit / 96 kHz",
       "dsd": "USB native DSD256",
-      "analogResponse": "20 Hz–20 kHz (deviation <0.1 dB); RCA line-out",
+      "analogResponse": "20 Hz–20 kHz (attenuation <0.1 dB); manufacturer",
       "reference": "https://www.fiio.com/k11_parameters",
-      "detailNote": "K11 CS43198 version, not K11 R2R; 1.95 V RMS line out."
+      "detailNote": "CS43198 K11, not K11 R2R. Max rates vary by digital input; line output 1.95 V RMS.",
+      "sourceStatus": null,
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     }
   },
   "headphone": {
@@ -417,7 +650,9 @@ const compareGearDetails = {
       "frequencyResponse": "15 Hz–38 kHz",
       "responseBasis": "Manufacturer claimed range; effective FR 20 Hz–20 kHz (IEC 60318-4, −3 dB)",
       "connector": "0.78 mm 2-pin cable / 3.5 mm plug",
-      "reference": "https://moondroplab.com/en-products/chu-ii"
+      "reference": "https://moondroplab.com/en-products/chu-ii",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Sennheiser HD 560S": {
       "transducer": "Dynamic open-back over-ear",
@@ -426,16 +661,20 @@ const compareGearDetails = {
       "frequencyResponse": "6 Hz–38 kHz",
       "responseBasis": "Manufacturer range; tolerance not stated",
       "connector": "3.5 mm analogue / 6.3 mm adapter",
-      "reference": "https://support.sennheiser-hearing.com/hc/en-dk/articles/38271134258077-HD-560S-Specifications"
+      "reference": "https://support.sennheiser-hearing.com/hc/en-dk/articles/38271134258077-HD-560S-Specifications",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Sennheiser HD 600": {
       "transducer": "Dynamic open-back over-ear",
       "driverSize": null,
       "diaphragm": null,
       "frequencyResponse": "12 Hz–40.5 kHz",
-      "responseBasis": "Manufacturer range; tolerance not stated",
+      "responseBasis": "Manufacturer −10 dB frequency-range limits; not a ±3 dB tonal-balance curve",
       "connector": "Detachable analogue cable",
-      "reference": "https://support.sennheiser-hearing.com/hc/en-dk/articles/38292415494173-HD-600-Specifications"
+      "reference": "https://cdn.sennheiser-hearing.com/product-documents/product-downloads/hd-600/instruction_manual/Instruction_manual_HD_600.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Shure SE215": {
       "transducer": "Single dynamic MicroDriver IEM",
@@ -444,7 +683,9 @@ const compareGearDetails = {
       "frequencyResponse": "22 Hz–17.5 kHz",
       "responseBasis": "Manufacturer range; standard SE215, not Special Edition",
       "connector": "MMCX detachable cable",
-      "reference": "https://www.shure.com/en-US/docs/guide/SE215"
+      "reference": "https://www.shure.com/en-US/docs/guide/SE215",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Sony MDR-7506": {
       "transducer": "Dynamic closed-back over-ear",
@@ -463,7 +704,9 @@ const compareGearDetails = {
       "frequencyResponse": "15 Hz–28 kHz",
       "responseBasis": "Manufacturer range; tolerance not stated",
       "connector": "Detachable 3.5 mm analogue cable / 6.3 mm adapter",
-      "reference": "https://www.audio-technica.com.cn/index.php?lang=eng&op=productdetails&pid=927"
+      "reference": "https://docs.audio-technica.com/eu/DOC_ATH-M20x_30x_40x_50x.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "beyerdynamic DT 770 PRO (80 Ω)": {
       "transducer": "Dynamic closed-back over-ear",
@@ -472,8 +715,10 @@ const compareGearDetails = {
       "frequencyResponse": "5 Hz–35 kHz",
       "responseBasis": "Manufacturer range; tolerance not stated",
       "connector": "Fixed analogue cable, 3.5 mm + 6.3 mm adapter",
-      "reference": "https://north-america.beyerdynamic.com/p/dt-770-pro-80-ohm",
-      "detailNote": "Manufacturer's nominal 96 dB sound-pressure statement is not used to calculate dB SPL/V without an independently verified reference basis."
+      "reference": "https://global.beyerdynamic.com/p/dt-770-pro",
+      "detailNote": "Manufacturer's nominal 96 dB sound-pressure statement is not used to calculate dB SPL/V without an independently verified reference basis.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
     },
     "Grado SR60x": {
       "transducer": "Dynamic open-back on-ear",
