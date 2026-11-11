@@ -187,6 +187,12 @@
       "category": "sources",
       "title": "DAC noise, output level and distortion",
       "description": "Learn to read SNR, THD+N, voltage levels and the limits of DAC specifications."
+    },
+    {
+      "slug": "sample-rate",
+      "category": "sources",
+      "title": "Sample rates and audio bandwidth",
+      "description": "Decode 48,000 samples per second, Nyquist bandwidth, aliasing and sample-rate choices."
     }
   ],
   "categories": {

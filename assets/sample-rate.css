@@ -1,0 +1,28 @@
+/* Spec Decoder Lesson 15: original, responsive sample rate illustrations */
+.sr-wave{width:100%;height:auto}
+.sr-exact-extra{border-top:1px solid #34516a;padding:1.3rem 1rem .6rem;max-width:990px;margin:1.4rem 0 0}
+.sr-exact-extra h3{font-size:1.28rem;margin:0 0 .6rem}
+.sr-exact-extra>p{max-width:870px;line-height:1.75}
+.sr-band-mini{position:relative;height:31px;border:1px solid #54758f;border-radius:6px;background:#0b1e2f;overflow:hidden}
+.sr-band-content{position:absolute;left:0;top:0;bottom:0;width:80%;background:linear-gradient(90deg,#4f9fd8,#8ee1bd)}
+.sr-band-20,.sr-band-24{position:absolute;top:0;bottom:0;border-left:3px solid #ffe2a1}
+.sr-band-20{left:66.667%;border-left-color:#ffffff}.sr-band-24{left:80%}
+.sr-band-labels{display:flex;justify-content:space-between;gap:.7rem;font-size:.77rem;font-variant-numeric:tabular-nums;color:#b7d8e9;margin-top:.55rem}
+.sr-fineprint{font-size:.8rem!important;color:#a9c8db;line-height:1.65;margin:1rem 0}
+.sr-case{padding:clamp(1rem,2.5vw,1.65rem)}
+.sr-case-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem 2rem;flex-wrap:wrap}.sr-case-top h3{font-size:1.45rem;margin:0}.sr-case-top p{flex:1 1 320px;margin:0;color:#b8d2e2;line-height:1.65;font-size:.95rem}
+.sr-stat-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1.6rem 0}
+.sr-stat-pair>div{border:1px solid #375971;border-radius:10px;padding:.95rem;background:#102b3f;display:flex;flex-direction:column;gap:.28rem}.sr-stat-pair span{font-size:.81rem;color:#b9d7e8}.sr-stat-pair strong{font-size:clamp(1.3rem,2.6vw,1.9rem);font-variant-numeric:tabular-nums;color:#ecfcff}
+.sr-frequency-wrap{background:#0d2032;border:1px solid #35516d;padding:1.15rem;border-radius:10px}
+.sr-frequency-wrap>p:first-child{font-size:.83rem;margin:0 0 .8rem}
+.sr-frequency-track{height:34px;background:repeating-linear-gradient(90deg,#10283e 0,#10283e calc(20% - 1px),#36536b calc(20% - 1px),#36536b 20%);border:1px solid #526f85;border-radius:5px;overflow:hidden;position:relative}
+.sr-frequency-fill{height:100%;background:linear-gradient(95deg,#5dbcef,#a1dec4);border-right:2px solid #e7faff}
+.sr-audible-marker{position:absolute;left:20%;top:0;bottom:0;border-left:2px dashed #fff;filter:drop-shadow(0 0 2px #000)}
+.sr-axis{display:flex;justify-content:space-between;color:#b7d4e5;gap:.4rem;font-size:.8rem;margin-top:.55rem;font-variant-numeric:tabular-nums}
+.sr-marker-key{font-size:.8rem;line-height:1.65;margin:1rem 0 .1rem}
+.sr-keyline{display:inline-block;width:13px;height:14px;border-left:2px dashed #fff;vertical-align:-3px}
+.sr-case-explain{max-width:850px;margin:1.3rem 0 .1rem;font-size:.94rem;line-height:1.8}
+.sr-explainer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin:1.3rem 0 1.9rem}.sr-explainer-grid>div{border:1px solid #38576e;background:#10263b;padding:1rem 1.15rem;border-radius:10px}.sr-explainer-grid h3{font-size:1.08rem;margin:0 0 .5rem}.sr-explainer-grid p{margin:0;font-size:.91rem;line-height:1.7}
+.sr-alias{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.6rem 1rem;border:1px solid #627d83;border-radius:10px;background:#102e39;padding:1.4rem;margin:1rem 0;color:#e6f6ff;font-weight:710}.sr-alias>span:nth-child(2){color:#9fdee9;font-size:.85rem}.sr-alias strong{color:#ffdca3}
+@media(max-width:700px){.sr-stat-pair,.sr-explainer-grid{grid-template-columns:1fr}.sr-band-labels{font-size:.68rem}.sr-axis{font-size:.7rem}.sr-case-top{display:block}.sr-case-top p{margin:.6rem 0 0}.sr-frequency-wrap{padding:.8rem}.sr-alias{flex-direction:column;align-items:stretch;text-align:center}.sr-exact-extra{padding:1rem .45rem .4rem}}
+@media(max-width:350px){.sr-band-labels{font-size:.63rem}.sr-axis{font-size:.65rem}}

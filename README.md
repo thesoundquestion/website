@@ -48,10 +48,10 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 
 ## Spec Sheet Decoder overhaul: graph-based lessons
 
-- `decoder/` presents fourteen in-depth lessons and compact visual navigation.
+- `decoder/` presents fifteen in-depth lessons and compact visual navigation.
 - `decoder/quick-reference/` preserves the original brief 15-spec index.
 - `decoder/ohms-law/` is a standalone reference for volts, amps, ohms and watts, with examples linked from the relevant lessons.
-- `decoder/curriculum.json` lists the speaker, amplifier and headphone lessons in order.
+- `decoder/curriculum.json` lists speaker, amplifier, headphone and source/DAC lessons in order.
 - `assets/decoder-lessons.css` is scoped visual styling; `assets/decoder-lessons.js` runs interactive curve switching locally and performs no network calls.
 
 ### Data integrity
@@ -115,3 +115,9 @@ The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `
 - Lesson 14: DAC SNR example of 110 dB A-weighted relative to 2 V RMS, plus three noise-separation comparisons and THD+N/SINAD explanations.
 - Both use fictional specifications and labelled original diagrams; no actual product measurements or auditory proof are claimed. The existing local case switcher progressively enhances the graphs.
 - The curriculum now contains 14 lessons with a new Sources & DACs category; regenerate adjacent navigation for all previous lessons when adding any lesson.
+
+## Lesson 15: sample rates and bandwidth (2026-11-11)
+- `decoder/sample-rate/` gives a 48 kHz PCM, 48,000 samples per second per channel example with exactly 48 sample instants illustrated in a 1 ms mathematical sine-wave window and a clearly labeled 24 kHz Nyquist boundary.
+- The interactive comparison preserves the same 0–100 kHz scale for 44.1, 48, 96, 192 kHz; sample counts are for a consistent 10 ms interval. A separate 30 kHz/48 kHz example explains how an unfiltered signal can alias to 18 kHz.
+- The diagrams are mathematical/illustrative rather than real product measurements or proof of audibility. Related DAC and listening-glossary lessons are linked. Scoped CSS lives in `assets/sample-rate.css` and the existing `decoder-lessons.js` adds progressive enhancement to the comparison.
+- Curriculum, sitemap, landing page and previous/next links must all be updated together when this lesson is published.
