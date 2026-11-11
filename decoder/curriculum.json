@@ -205,6 +205,12 @@
       "category": "sources",
       "title": "Lossless vs lossy audio and bitrates",
       "description": "Understand MP3, AAC, FLAC, PCM, bitrate and the artifacts a codec might create."
+    },
+    {
+      "slug": "speaker-dispersion",
+      "category": "speakers",
+      "title": "Speaker dispersion and off-axis response",
+      "description": "Why sound changes away from the centre seat, how to read horizontal/vertical response and speaker directivity."
     }
   ],
   "categories": {

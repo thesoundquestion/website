@@ -48,7 +48,7 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 
 ## Spec Sheet Decoder overhaul: graph-based lessons
 
-- `decoder/` presents seventeen in-depth lessons and compact visual navigation.
+- `decoder/` presents eighteen in-depth lessons and compact visual navigation.
 - `decoder/quick-reference/` preserves the original brief 15-spec index.
 - `decoder/ohms-law/` is a standalone reference for volts, amps, ohms and watts, with examples linked from the relevant lessons.
 - `decoder/curriculum.json` lists speaker, amplifier, headphone and source/DAC lessons in order.
@@ -133,3 +133,10 @@ The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `
 - The switchable chart uses one fixed 0–1500 kb/s horizontal scale for 320 and 128 kb/s CBR MP3, hypothetical 256 kb/s AAC, and 16-bit/44.1 kHz stereo PCM at 1411.2 kb/s. Four-minute data estimates 9.60 / 3.84 / 7.68 / 42.34 decimal MB before overhead. Crucially, storage ratio is NOT a loss-of-audible-quality ratio. FLAC is deliberately not assigned a fake fixed bitrate.
 - Side-by-side PCM/WAV vs FLAC vs MP3/AAC descriptions distinguish identical decoded PCM from irreversible lossy approximation, and codec from container. The lesson covers sample-master comparability, ABX testing limits, lossy artifacts, conversions and library archiving. No commercial recordings were used as test material.
 - New CSS in `assets/lossy-lossless.css`, shared progressive local selector, sourced public links to Xiph.Org and Hydrogenaudio. Integrate in curriculum, index, sitemap, and regenerate all lesson navigation.
+
+## Lesson 18: speaker dispersion and off-axis response (2026-11-11)
+- `decoder/speaker-dispersion/` is Lesson 18, classified in the Speakers category. The exact fictional spec “8 kHz · 30° horizontal: −6 dB relative to 0°” is mapped to an approximately 50% pressure amplitude bar vs a 100% on-axis reference; it never suggests that -6dB means half the subjective loudness.
+- Four selectable simulated horizontal angles 0°/15°/30°/60° plot a fixed 500 Hz–16 kHz log/octave x axis and 0..−18 dB relative to on-axis y axis. At 30°/8 kHz the graph explicitly agrees with −6 dB in the opening spec. The on-axis 0 dB *difference* curve is not falsely presented as an absolutely flat frequency response. The initial 30° case renders without JS.
+- Explains horizontal and vertical directivity separately; broad/narrow/uneven coverage, first reflections, ear-height/crossover lobing, toe-in and room interactions, avoiding one-direction “better” claims. Links to speaker response/driver lessons and Audiophile Glossary.
+- Includes credible reference links to Klippel, Erin's Audio Corner and CTA-2034 guide. All graphs are synthetic teaching data, never measured from a commercial loudspeaker. Site remains dependency-free; uses shared local case-switch JS and scoped new `assets/speaker-dispersion.css`.
+- When publishing, update the last Lesson 17 navigation and every prior course progress counter to 18, curriculum, index and sitemap together.

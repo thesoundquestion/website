@@ -1,0 +1,15 @@
+/* Lesson 18 speaker dispersion / off-axis: example-specific presentation */
+.sp-exact-panel{background:#0b2135;border:1px solid #3a5f79;border-radius:12px;padding:clamp(.9rem,2vw,1.3rem)}
+.sp-exact-panel>h3{font-size:1.06rem;margin:.2rem 0 1.3rem;color:#ebf8ff}
+.sp-exact-row{margin:1rem 0 1.5rem}.sp-bar-head{display:flex;gap:.4rem 1rem;justify-content:space-between;align-items:baseline;flex-wrap:wrap;font-size:.9rem;color:#c5dfee;margin-bottom:.5rem}.sp-bar-head strong{color:#f5fbff;font-variant-numeric:tabular-nums}
+.sp-bar{height:28px;position:relative;border:1px solid #4d718e;border-radius:6px;background:repeating-linear-gradient(90deg,#12273b 0,#12273b calc(25% - 1px),#3a5068 calc(25% - 1px),#3a5068 25%);overflow:hidden}
+.sp-bar>span{display:block;height:100%;background:linear-gradient(90deg,#6ac9f7,#9eebca);border-right:2px solid #e9f8ff}
+.sp-exact-row p{font-size:.84rem;margin:.45rem 0 0;color:#bbd5e8;line-height:1.65}.sp-plot-legend{font-size:.86rem;line-height:1.72;color:#b7d4e6;margin:1.1rem 0 0;border-top:1px solid #33536d;padding-top:.85rem}
+.sp-plot-wrap{min-width:0}.sp-plot-case{padding:clamp(.95rem,2vw,1.55rem);min-width:0}.sp-case-heading{display:grid;grid-template-columns:minmax(150px,1fr) minmax(240px,1.6fr);align-items:start;gap:1rem;margin:0 0 1rem}.sp-case-heading h3{margin:0;color:#f0faff;font-size:1.35rem}.sp-case-heading p{margin:0;font-size:.93rem;line-height:1.7;color:#bdd7e5}
+.sp-curve{display:block;width:100%;height:auto;background:#0b1e31;border-radius:9px}.sp-values{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem 1rem;border-top:1px solid #36536b;margin-top:1rem;padding-top:.8rem;font-size:.88rem;color:#bfd8e9}.sp-values strong{color:#f3faff;font-variant-numeric:tabular-nums;font-size:.99rem;margin-right:1rem}
+.sp-plot-caption{font-size:.83rem;color:#b0cbe0;line-height:1.75;margin:1rem .25rem}
+.sp-room{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin:1.3rem 0 1.7rem}.sp-room>div{padding:1.05rem 1.1rem;border:1px solid #3a5b75;border-radius:11px;background:#11293c}.sp-room h3{font-size:1.05rem;margin:0 0 .55rem}.sp-room p{font-size:.91rem;line-height:1.75;margin:0}
+.sp-vertical-note{border-left:4px solid #86cdeb;border-radius:8px;padding:1rem 1.15rem;background:#132b3e;margin:1.3rem 0}.sp-vertical-note strong{color:#edfaff}.sp-vertical-note p{margin:.4rem 0 0;font-size:.94rem;line-height:1.75}
+[data-plot-case][hidden]{display:none!important}
+@media(max-width:850px){.sp-case-heading,.sp-room{grid-template-columns:1fr}.sp-case-heading{gap:.35rem}}
+@media(max-width:560px){.sp-plot-case{padding:.85rem}.sp-case-heading h3{font-size:1.14rem}.sp-case-heading p{font-size:.87rem}.sp-values{font-size:.82rem}.sp-values strong{margin-right:.3rem}.sp-exact-panel{padding:.85rem}}
