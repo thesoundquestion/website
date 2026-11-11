@@ -93,14 +93,46 @@
 </svg>
 <figcaption><strong>Where the measurement is taken.</strong> The two positions show where one microphone would be relative to the speaker at 0° and 30°. The angle changes while height, distance and input signal stay the same. A vertical measurement changes the angle above or below the reference axis. At home, toe-in changes the horizontal angle between each speaker and your seat.</figcaption>
 </figure>
-<figure class="reference-figure" id="measured-axis-response">
-<h4>Measured example · Genelec 8030A</h4>
-<a href="https://3d3a.princeton.edu/sites/g/files/toruqf931/files/2022-10/genelec_8030a_h_freq_resp_plot_q1.png"><img src="https://3d3a.princeton.edu/sites/g/files/toruqf931/files/2022-10/genelec_8030a_h_freq_resp_plot_q1.png" alt="Princeton’s Genelec 8030A graph plots sound pressure level from 500 Hz to 20 kHz at horizontal angles from 0 to 90 degrees. The 0 and 30 degree traces are closer around 1 kHz and further apart around 10 kHz." loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
-<figcaption>Horizontal frequency responses measured in an anechoic chamber by <a href="https://3d3a.princeton.edu/genelec-8030a">Princeton University’s 3D3A Lab</a>. Original graph, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. <a href="https://3d3a.princeton.edu/sites/g/files/toruqf931/files/2022-10/genelec_8030a_h_freq_resp_plot_q1.png">Open the full-size graph</a>.</figcaption>
+<figure class="reference-figure" id="paradigm-axis-response">
+<h4>Paradigm Décor 1S v2 · simulated from published specs</h4>
+<svg class="dl-stat-svg" viewBox="0 0 690 375" role="img" aria-labelledby="paradigm-plot-title paradigm-plot-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="paradigm-plot-title">Illustrative Paradigm Décor 1S v2 frequency response at 0° and 30°</title>
+<desc id="paradigm-plot-desc">The shaded tolerance band is from minus 3 to plus 3 decibels relative to a reference level. Both simulated traces enter the band at 130 hertz. The dashed 30-degree trace reaches the lower edge at 17 kilohertz, and the solid on-axis trace reaches it at 21 kilohertz. The traces are illustrative.</desc>
+<rect width="690" height="375" rx="16" fill="#0b1726"/>
+<g font-family="system-ui,sans-serif" font-size="18" fill="#c1d2e3">
+<text x="90" y="33">Level relative to reference (dB)</text>
+<rect x="90" y="82" width="560" height="114" fill="#244052"/>
+<path d="M90 82H650" stroke="#a7bfce"/><text x="76" y="88" text-anchor="end">+3</text>
+<path d="M90 139H650" stroke="#4d667d" stroke-dasharray="4 5"/><text x="76" y="145" text-anchor="end">0</text>
+<path d="M90 196H650" stroke="#a7bfce"/><text x="76" y="202" text-anchor="end">−3</text>
+<path d="M90 253H650" stroke="#4d667d"/><text x="76" y="259" text-anchor="end">−6</text>
+<path d="M90 310H650" stroke="#4d667d"/><text x="76" y="316" text-anchor="end">−9</text>
+<text x="100" y="106" fill="#e0edfa">±3 dB band</text>
+<path d="M90 82V310H650" stroke="#93a9be" fill="none"/>
+<path d="M135.87 310v7" stroke="#93a9be"/><text x="135.87" y="338" text-anchor="middle">130 Hz</text>
+<path d="M263.15 310v7" stroke="#93a9be"/><text x="263.15" y="338" text-anchor="middle">500</text>
+<path d="M394.13 310v7" stroke="#93a9be"/><text x="394.13" y="338" text-anchor="middle">2k</text>
+<path d="M525.12 310v7" stroke="#93a9be"/><text x="525.12" y="338" text-anchor="middle">8k</text>
+<text x="370" y="363" text-anchor="middle">Frequency (Hz · log scale)</text>
+<polyline points="90,291 111.08,243.5 135.87,196 185.58,163.7 242.07,146.6 294.94,137.1 337.65,130.45 378.78,141.85 422.49,127.6 466.46,134.25 505.5,143.75 536.24,136.15 563.43,146.6 584.51,159.9 596.33,168.45 606.84,181.75 616.3,196 632.77,236.85000000000002 650,291" fill="none" stroke="#77e4ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="90,294.79999999999995 111.08,249.2 135.87,196 185.58,170.35 242.07,152.3 294.94,141.85 337.65,136.15 378.78,149.45 422.49,137.1 466.46,149.45 505.5,157.05 536.24,163.7 563.43,174.15 584.51,186.5 596.33,196 606.84,217.85000000000002 616.3,239.7 632.77,273.9 650,310" fill="none" stroke="#d3baff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<path d="M135.87 201V310" stroke="#a7bfce" stroke-dasharray="3 5"/>
+<circle cx="135.87" cy="196" r="5" fill="#e0edfa"/>
+<path d="M596.33 191V73h-8" stroke="#d3baff" fill="none" stroke-dasharray="4 4"/>
+<text x="584.33" y="77" text-anchor="end" fill="#d3baff">17 kHz</text>
+<circle cx="596.33" cy="196" r="5" fill="#d3baff"/>
+<path d="M616.3 191V55h8" stroke="#77e4ff" fill="none"/>
+<text x="627.3" y="60" fill="#77e4ff" font-size="16">21 kHz</text>
+<circle cx="616.3" cy="196" r="5" fill="#77e4ff"/>
+</g>
+</svg>
+<ul class="figure-key"><li class="key-cyan">Solid cyan · 0° on axis</li><li class="key-lilac">Dashed lilac · 30° off axis</li></ul>
+<figcaption>The frequency limits and ±3 dB tolerance come from <a href="https://www.paradigm.com/en/lcr/decor-1s-v2">Paradigm’s published specifications</a>. The curves are illustrative and use a common 0 dB reference. The exact curve shapes and levels require measurements.</figcaption>
 </figure>
-<p><strong>Read across, then compare vertically.</strong> The bottom axis is frequency in kilohertz (1 kHz = 1,000 Hz). The left axis is sound pressure level in dB. Find the red <strong>0°</strong> trace and the olive <strong>30°</strong> trace using the legend. Compare them at <strong>1 kHz</strong>, then at <strong>10 kHz</strong>. The gap is larger at 10 kHz, so that sideways position loses more output in the treble than at 1 kHz. On the interactive graph above, the vertical scale shows that kind of gap directly by subtracting the 0° level at each frequency.</p>
-<h4>What does ±3 dB on a spec sheet mean?</h4>
-<p>Paradigm lists the Décor 1S v2 at <strong>±3 dB from 130 Hz to 21 kHz on axis</strong> and <strong>±3 dB from 130 Hz to 17 kHz at 30° off axis</strong>. The ±3 dB describes the allowed variation above and below the reference level over each stated band. Each band is 6 dB wide in level. The two upper frequency limits describe where each response meets that tolerance. To compare the angles at a particular frequency, read the vertical gap between the two curves on a shared scale, as in the Genelec graph.</p>
+<h4>How to read the shaded band</h4>
+<p><strong>Start at 130 Hz.</strong> Both published ranges start there. The shaded band goes from <strong>−3 dB to +3 dB</strong> relative to the reference level, so the full tolerance window is 6 dB tall. The dotted 0 dB line marks the reference.</p>
+<p><strong>Follow each trace to the right.</strong> The 30° rating extends to <strong>17 kHz</strong> and the on-axis rating extends to <strong>21 kHz</strong>. The drawing puts each endpoint on the lower edge to illustrate the rating. The spec sheet gives the frequency limits of the stated tolerance, while the exact level at those limits or beyond them remains unspecified.</p>
+<p><strong>Compare at one frequency.</strong> On a measured plot with a common reference, pick a frequency and read the vertical gap between the two traces. That gap is the change in level at that angle. The ±3 dB rating describes how much a response can vary from its reference across the stated range.</p>
 </div>
 </section>
 <div class="container dl-reading"><figure class="reference-figure" id="spk-01">
@@ -155,7 +187,7 @@
 <li><a href="https://www.paradigm.com/en/lcr/decor-1s-v2" rel="noopener noreferrer">Paradigm · Example of published on-axis and 30° off-axis response ranges ↗</a></li>
 <li><a href="https://www.erinsaudiocorner.com/loudspeakers/mkiw150/" rel="noopener noreferrer">Erin's Audio Corner · Example real loudspeaker off-axis and spinorama measurements ↗</a></li>
 <li><a href="https://www.winmf.de/en/help/directivity/ansi-cea-2034-a" rel="noopener noreferrer">WinMF · Explanation of ANSI/CTA-2034 polar measurement curves ↗</a></li>
-</ul><p><strong>Integrity note:</strong> The angle selector and the smooth-versus-uneven comparison use fictional data. The Genelec graph shows published measurements from Princeton’s 3D3A Lab.</p></div>
+</ul><p><strong>Integrity note:</strong> The graphs use illustrative curves. The Paradigm example uses the manufacturer’s published tolerance and frequency limits.</p></div>
 </div></section>
 <!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
 <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 18 of 18 · Speakers</span></div>
