@@ -9,7 +9,7 @@
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css">
-<script defer src="/system-check/calculator.js"></script>
+<script defer src="/system-check/calculator.js?v=linked-levels"></script>
 <title>System Check | The Sound Question</title>
 </head>
 <body>
@@ -44,11 +44,13 @@
 </fieldset>
 <fieldset><legend>Listening goal</legend>
 <div class="sc-fields">
-<label>Start with<select name="targetMode"><option value="peak">A peak level</option><option value="average">An average level</option><option value="both">Average and peak levels</option></select></label>
+<label>Start with<select name="targetMode"><option value="both" selected>Linked average and peak levels</option><option value="peak">Peak level only</option></select></label>
 <label data-target="peak">Peak at your seat (dB SPL)<input name="peak" type="number" min="20" max="135" step="any" value="105" list="levels" required></label>
-<label data-target="average" hidden>Average at your seat (dB SPL)<input name="average" type="number" min="20" max="135" step="any" value="80" list="levels" disabled required></label>
-<label data-target="gap" hidden>Room above average for peaks (dB)<input name="gap" type="number" min="0" max="50" step="any" value="15" disabled required></label>
+<label data-target="average">Average at your seat (dB SPL)<input name="average" type="number" min="20" max="135" step="any" value="90" list="levels" required></label>
+<label data-target="gap">Room above average for peaks (dB)<input name="gap" type="number" min="0" max="50" step="any" value="15" list="peak-gaps" required></label>
 </div>
+<p>Edit either level and the other follows. The default <strong>15 dB gap</strong> is a starting estimate. A heavily compressed track can have smaller peaks, while a dynamic recording can have larger ones. Change the gap if you know your music. <a href="https://www.ti.com/lit/an/sloa068/sloa068.pdf" target="_blank" rel="noopener">More on peak-to-average levels</a></p>
+<datalist id="peak-gaps"><option value="6"><option value="10"><option value="15"><option value="20"><option value="24"></datalist>
 <datalist id="levels"><option value="40"><option value="50"><option value="60"><option value="70"><option value="75"><option value="80"><option value="85"><option value="90"><option value="95"><option value="100"><option value="105"><option value="108"><option value="110"><option value="115"></datalist>
 <details><summary>What does that level sound like?</summary>
 <p>For scale, CDC examples put normal conversation around 60 dB, movie theaters around 70–104 dB and rock concerts around 95–115 dB. Distance, the room, and the sound itself change these figures. A short 105 dB drum hit describes a peak. An average describes the whole passage.</p>
