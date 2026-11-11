@@ -197,9 +197,10 @@ function addText(tag, text) {
   return element;
 }
 
-function curveReading(watts) {
+function curveReading(peakV, averageV, speakerLoad) {
   const raw = field('curve').value.trim();
   if (!raw) return;
+  addText('h3', 'What your distortion curve shows');
   const load = num('curveLoad');
   const hz = num('curveHz');
   const type = field('curveType').value;
@@ -215,23 +216,46 @@ function curveReading(watts) {
     addText('p', 'Check the distortion points. Use unique positive watt values and nonnegative percentages, one watts, percent pair per line.');
     return;
   }
-  addText('h3', 'Where the peak lands on your distortion curve');
-  const exact = points.find(([w]) => Math.abs(w - watts) < 1e-8);
-  const upper = points.findIndex(([w]) => w > watts);
-  const context = ' into ' + show(load) + ' Ω at ' + show(hz) + ' Hz for the same requested peak voltage.';
-  if (exact) {
-    addText('p', show(exact[1]) + '% ' + type + ' at ' + show(watts) + ' W' + context);
-  } else if (upper > 0) {
+  function estimate(watts) {
+    const exact = points.find(([w]) => Math.abs(w - watts) < 1e-8);
+    if (exact) return { percent: exact[1], exact: true };
+    const upper = points.findIndex(([w]) => w > watts);
+    if (upper <= 0) return null;
     const [leftW, leftPct] = points[upper - 1];
     const [rightW, rightPct] = points[upper];
     const fraction = Math.log(watts / leftW) / Math.log(rightW / leftW);
     const percent = leftPct > 0 && rightPct > 0 ? leftPct * (rightPct / leftPct) ** fraction : leftPct + (rightPct - leftPct) * fraction;
-    addText('p', 'Estimated ' + show(percent) + '% ' + type + ' at ' + show(watts) + ' W' + context);
-    addText('p', 'Entered points bracketing the estimate: ' + show(leftPct) + '% at ' + show(leftW) + ' W and ' + show(rightPct) + '% at ' + show(rightW) + ' W.');
-  } else {
-    addText('p', 'The requested ' + show(watts) + ' W falls outside the supplied measurements' + context);
+    return { percent, leftW, rightW, leftPct, rightPct };
   }
-  addText('p', 'This is a bench-test reference. What you hear depends on the signal, speaker load and listening conditions.');
+
+  const peakW = peakV ** 2 / load;
+  const peak = estimate(peakW);
+  const context = 'Bench test: ' + show(load) + ' Ω at ' + show(hz) + ' Hz.';
+  if (!peak) {
+    const edge = peakW > points.at(-1)[0] ? points.at(-1)[0] : points[0][0];
+    const direction = peakW > edge ? 'above' : 'below';
+    addText('p', 'Your peak would ask for about ' + show(peakW) + ' W in this test, ' + direction + ' the entered curve’s ' + show(edge) + ' W boundary. Add a point closer to your target to estimate distortion there. ' + context);
+  } else {
+    addText('p', 'At your peak, the curve ' + (peak.exact ? 'shows ' : 'suggests about ') + show(peak.percent) + '% ' + type + ' at ' + show(peakW) + ' W. ' + context);
+    if (!peak.exact) {
+      const trend = peak.rightPct > peak.leftPct ? 'rises' : peak.rightPct < peak.leftPct ? 'falls' : 'stays steady';
+      addText('p', 'Distortion ' + trend + ' around this part of the curve, from ' + show(peak.leftPct) + '% at ' + show(peak.leftW) + ' W to ' + show(peak.rightPct) + '% at ' + show(peak.rightW) + ' W.');
+    }
+  }
+  if (averageV !== null) {
+    const averageW = averageV ** 2 / load;
+    const average = estimate(averageW);
+    if (average) {
+      addText('p', 'At your average level (' + show(averageW) + ' W in this test), ' + (average.exact ? 'the curve shows ' : 'the estimate is ') + show(average.percent) + '% ' + type + '.');
+      if (peak && average.percent > 0 && peak.percent >= average.percent * 2) {
+        addText('p', 'The peak figure is about ' + show(peak.percent / average.percent) + ' times the average-level figure on this test.');
+      }
+    } else {
+      addText('p', 'Your average level maps to ' + show(averageW) + ' W in this test, outside the points you entered.');
+    }
+  }
+  if (load !== speakerLoad) addText('p', 'Your speaker is rated ' + show(speakerLoad) + ' Ω. These figures apply to the ' + show(load) + ' Ω bench test.');
+  addText('p', 'These figures describe the bench test. Audibility depends on the signal, speaker and listening conditions.');
 }
 
 function renderConnections(volts, entries) {
@@ -247,13 +271,14 @@ function renderConnections(volts, entries) {
   addText('h3', 'Source and amplifier connection');
   const hasDivider = Number.isFinite(sourceZ) && Number.isFinite(inputZ);
   const divider = hasDivider ? inputZ / (sourceZ + inputZ) : 1;
-  if (hasDivider) addText('p', 'Estimated input loading loss: ' + db(-20 * Math.log10(divider)) + ' dB using the two impedances as resistances.');
+  if (hasDivider) addText('p', 'About ' + powerPercent(divider) + ' of the source signal voltage reaches the amplifier input (' + db(-20 * Math.log10(divider)) + ' dB loss).');
+  else if (Number.isFinite(sourceZ) || Number.isFinite(inputZ)) addText('p', 'Enter both the source output impedance and the amp input impedance to check how much signal reaches the amp.');
   const first = entries[0];
   const voltageGain = Number.isFinite(gain) ? 10 ** (gain / 20) : first && sensitivity ? Math.sqrt(first.watts * first.load) / sensitivity : NaN;
   if (Number.isFinite(voltageGain)) {
     const needed = volts / voltageGain;
     addText('p', 'To request this peak, the amplifier input needs about ' + show(needed) + ' V RMS at the entered gain or rated sensitivity.');
-    if (source) addText('p', 'The source can supply an estimated ' + show(source * divider) + ' V RMS at the amp input' + (hasDivider ? ' after input loading' : ' before any input loading') + '. ' + (source * divider >= needed ? 'That is enough signal voltage under these assumptions.' : 'That falls short of the requested peak.'));
+    if (source) addText('p', (source * divider >= needed ? 'Your source can drive the amp to your peak target under these assumptions. ' : 'Your source falls short of the signal needed for your peak target. ') + 'It can supply an estimated ' + show(source * divider) + ' V RMS at the amp input' + (hasDivider ? ' after input loading' : ' before any input loading') + '.');
   } else if (source || sensitivity) {
     addText('p', 'Enter amplifier voltage gain, or rated input sensitivity and its matching first power rating, to estimate the required input signal.');
   }
@@ -334,14 +359,24 @@ function calculate() {
   if (averageV !== null) rows.unshift([db(average) + ' dB average', show(averageW) + ' W', show(averageV) + ' V', show(averageV / load) + ' A']);
   status.textContent = mode === 'upgrade' ? 'Here’s the output to look for at your seat.' : 'Here’s what your speakers ask for at your seat.';
   summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW });
-  const summaryCount = body.children.length;
-  body.append(table(['Listening goal', 'Power/ch.', 'Voltage RMS', 'Current RMS'], rows));
-  addText('p', 'The watt and current estimates use ' + show(load) + ' Ω nominal as a fixed load. Assumed seat distance: ' + show(distance) + ' ft. Speaker summation: +' + pair + ' dB. Room adjustment: ' + room + ' dB.');
   if (minimum > 0) {
     const hz = num('minimumHz');
     const phase = num('phase');
-    addText('p', 'At the same voltage, a dip to ' + show(minimum) + ' Ω' + (hz ? ' near ' + show(hz) + ' Hz' : '') + ' could ask for about ' + show(peakV / minimum) + ' A RMS equivalent if that peak occurs there.' + (Number.isFinite(phase) ? ' The entered phase is ' + show(phase) + '°. Reactive loading can add stress beyond this current estimate.' : ' A real speaker’s electrical phase also affects amplifier stress.'));
+    addText('h3', 'What the speaker’s impedance dip means');
+    addText('p', 'At ' + show(minimum) + ' Ω' + (hz ? ' near ' + show(hz) + ' Hz' : '') + ', a peak at the target voltage could ask for about ' + show(peakV / minimum) + ' A, compared with ' + show(peakV / load) + ' A at the speaker’s nominal rating.' + (Number.isFinite(phase) ? ' The entered phase is ' + show(phase) + '°. The amp can face extra stress from a reactive load.' : ''));
+  } else if (Number.isFinite(num('minimumHz')) || Number.isFinite(num('phase'))) {
+    addText('p', 'Add the minimum measured impedance to use its frequency or phase.');
   }
+  if (room || pair) {
+    addText('p', 'Your room and speaker settings shift the estimate by ' + db(room + pair) + ' dB combined. With those settings at zero, the same peak would call for about ' + show(peakW * 10 ** ((room + pair) / 10)) + ' W per channel.');
+  }
+  if (mode === 'check') {
+    curveReading(peakV, averageV, load);
+    renderConnections(peakV, entries);
+  }
+  const summaryCount = body.children.length;
+  body.append(table(['Listening goal', 'Power/ch.', 'Voltage RMS', 'Current RMS'], rows));
+  addText('p', 'The watt and current estimates use ' + show(load) + ' Ω nominal as a fixed load. Assumed seat distance: ' + show(distance) + ' ft. Speaker summation: +' + pair + ' dB. Room adjustment: ' + room + ' dB.');
   if (!Number.isFinite(minimum) && field('speakerModel').value.trim()) {
     const paragraph = addText('p', 'A measured impedance dip can help check how much current this speaker could ask for. ');
     paragraph.append(searchLink('Find an impedance measurement', field('speakerModel').value.trim(), 'speaker measured impedance minimum phase'));
@@ -374,13 +409,10 @@ function calculate() {
       }
       if (averageV !== null && !entries.some(rating => rating.type === 'continuous' && rating.load === load)) addText('p', 'A continuous rating at the nominal load would help assess sustained output.');
     }
-    const curveLoad = num('curveLoad');
-    curveReading(curveLoad > 0 ? peakV ** 2 / curveLoad : NaN);
   }
   addText('h3', mode === 'upgrade' ? 'Your amplifier shopping target' : 'If you want more headroom');
   addText('p', 'For this setup, look for roughly ' + show(peakW) + ' W per channel into ' + show(load) + ' Ω for the peak' + (averageW === null ? '.' : ' and roughly ' + show(averageW) + ' W per channel for the average level.') + ' If your speakers dip below their nominal load, check lower-impedance bench results as well.');
   addText('p', 'For another 3 dB of peak reserve, look for about ' + show(peakW * 10 ** .3) + ' W into the same load. Speakers rated 3 dB more sensitive on the same basis would cut the estimated power needed for your current goal roughly in half.');
-  if (mode === 'check') renderConnections(peakV, entries);
   const details = document.createElement('details');
   const summary = document.createElement('summary');
   summary.textContent = 'Show the math and test conditions';
