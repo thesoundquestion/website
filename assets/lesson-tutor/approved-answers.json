@@ -168,13 +168,14 @@
   },
   "speaker-sensitivity": {
     "title": "Speaker sensitivity",
-    "specification": "87 dB at 2.83 V / 1 metre",
+    "specification": "87 dB at 2.83 V / 3.28 ft",
     "topic": "speaker sensitivity",
     "terms": [
       "sensitivity",
       "sound pressure level",
       "spl",
       "2.83 v",
+      "3.28 ft",
       "one metre",
       "one meter",
       "one watt",
@@ -196,7 +197,7 @@
         "section": "understand"
       },
       "spec": {
-        "text": "The example rating states 87 dB SPL, a sound level, at one metre with 2.83 volts applied. On an 8 Ω resistive load 2.83 V is about 1 watt. On a 4 Ω resistive load it is about 2 watts, so compare the voltage and power conventions carefully.",
+        "text": "The example rating states 87 dB SPL, a sound level, at 3.28 ft with 2.83 volts applied. On an 8 Ω resistive load 2.83 V is about 1 watt. On a 4 Ω resistive load it is about 2 watts, so compare the voltage and power conventions carefully.",
         "section": "decode-the-spec"
       },
       "hear": {
