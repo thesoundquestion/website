@@ -379,26 +379,36 @@ const compareGearDetails = {
       "analogResponse": "20 Hz–20 kHz (±0.1 dB)",
       "reference": "https://www.wiimhome.com/products/wiim-pro-plus/?resource=banner",
       "detailNote": "24/192 is the supported digital I/O format, not a statement that the streaming service always supplies that resolution. WiiM states up to 32/384 processing for its analog DAC path."
+    },
+    "FiiO K11 (RCA line out)": {
+      "converter": "Cirrus Logic CS43198",
+      "digitalInputs": "USB-C, optical S/PDIF, coaxial S/PDIF",
+      "pcmUSB": "PCM up to 32-bit / 384 kHz",
+      "pcmSpdif": "Coaxial up to 24-bit / 192 kHz; optical up to 24-bit / 96 kHz",
+      "dsd": "USB native DSD256",
+      "analogResponse": "20 Hz–20 kHz (deviation <0.1 dB); RCA line-out",
+      "reference": "https://www.fiio.com/k11_parameters",
+      "detailNote": "K11 CS43198 version, not K11 R2R; 1.95 V RMS line out."
     }
   },
   "headphone": {
     "Grado SR80e": {
       "transducer": "Dynamic, open-back on-ear",
-      "driverSize": null,
+      "driverSize": "40 mm",
       "diaphragm": null,
-      "frequencyResponse": null,
-      "responseBasis": "Not independently source-verified",
+      "frequencyResponse": "20 Hz–20 kHz",
+      "responseBasis": "Original e-series brochure; tolerance not stated",
       "connector": "3.5 mm analogue",
       "reference": "https://www.digitec-derouet.com/photos/sr_80_e.pdf"
     },
     "Grado SR80x": {
       "transducer": "Dynamic, open-back on-ear",
-      "driverSize": null,
+      "driverSize": "44 mm",
       "diaphragm": null,
-      "frequencyResponse": null,
-      "responseBasis": "Not independently source-verified",
+      "frequencyResponse": "20 Hz–20 kHz",
+      "responseBasis": "Manufacturer range; tolerance not stated",
       "connector": "3.5 mm analogue",
-      "reference": "https://www.gradothailand.com/en/product/sr80x/"
+      "reference": "https://gradocanada.ca/product/sr80x"
     },
     "Moondrop Chu II": {
       "transducer": "Dynamic in-ear monitor",
@@ -445,6 +455,34 @@ const compareGearDetails = {
       "connector": "Coiled cable, 3.5 mm / 6.3 mm adapter",
       "reference": "https://pro.sony/en_NA/pdf/mdr-7506",
       "detailNote": "Pro Sony datasheet specifies 63 Ω. Some regional consumer pages incorrectly show 24 Ω; the preset uses the Pro datasheet."
+    },
+    "Audio-Technica ATH-M50x": {
+      "transducer": "Dynamic closed-back over-ear",
+      "driverSize": "45 mm",
+      "diaphragm": "CCAW voice coil; rare-earth magnet (diaphragm polymer not specified)",
+      "frequencyResponse": "15 Hz–28 kHz",
+      "responseBasis": "Manufacturer range; tolerance not stated",
+      "connector": "Detachable 3.5 mm analogue cable / 6.3 mm adapter",
+      "reference": "https://www.audio-technica.com.cn/index.php?lang=eng&op=productdetails&pid=927"
+    },
+    "beyerdynamic DT 770 PRO (80 Ω)": {
+      "transducer": "Dynamic closed-back over-ear",
+      "driverSize": null,
+      "diaphragm": null,
+      "frequencyResponse": "5 Hz–35 kHz",
+      "responseBasis": "Manufacturer range; tolerance not stated",
+      "connector": "Fixed analogue cable, 3.5 mm + 6.3 mm adapter",
+      "reference": "https://north-america.beyerdynamic.com/p/dt-770-pro-80-ohm",
+      "detailNote": "Manufacturer's nominal 96 dB sound-pressure statement is not used to calculate dB SPL/V without an independently verified reference basis."
+    },
+    "Grado SR60x": {
+      "transducer": "Dynamic open-back on-ear",
+      "driverSize": "44 mm",
+      "diaphragm": "Fourth-generation X-Series driver; diaphragm material not independently confirmed",
+      "frequencyResponse": "20 Hz–20 kHz",
+      "responseBasis": "Manufacturer range; tolerance not stated",
+      "connector": "Fixed 3.5 mm analogue cable with adapter",
+      "reference": "https://www.gradothailand.com/en/product/sr60x/"
     }
   }
 };
