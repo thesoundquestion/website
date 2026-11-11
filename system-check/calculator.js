@@ -13,7 +13,7 @@ const db = value => value.toFixed(1);
 const referenceFeet = 1 / 0.3048;
 let levelAnchor = 'peak';
 
-function addRating(watts = '', load = '', type = 'continuous') {
+function addRating(watts = '', load = '', type = 'continuous', conditions = '') {
   const row = document.createElement('div');
   row.className = 'sc-rating';
   row.innerHTML = '<label>Watts per channel<input data-watts type="number" min="0.001" max="100000" step="any" placeholder="e.g. 80"></label>'
@@ -24,6 +24,7 @@ function addRating(watts = '', load = '', type = 'continuous') {
   row.querySelector('[data-watts]').value = watts;
   row.querySelector('[data-ohms]').value = load;
   row.querySelector('select').value = type;
+  row.querySelector('[data-conditions]').value = conditions;
   row.querySelector('button').addEventListener('click', () => {
     row.remove();
     if (!ratings.children.length) addRating();
@@ -420,6 +421,57 @@ function calculate() {
   body.append(details);
 }
 
+const presetFields = {
+  speaker: ['sensitivity', 'basis', 'load', 'minimum', 'minimumHz', 'phase', 'maximum'],
+  amp: ['inputZ', 'inputSensitivity', 'gain', 'outputZ', 'curveLoad', 'curveHz', 'curveType', 'curve'],
+  source: ['sourceVoltage', 'sourceZ']
+};
+
+function mountGearPresets(catalog) {
+  for (const picker of document.querySelectorAll('[data-gear]')) {
+    const kind = picker.dataset.gear;
+    const options = catalog[kind];
+    if (!options?.length) continue;
+    const select = picker.querySelector('select');
+    const note = picker.querySelector('p');
+    options.forEach((gear, index) => select.add(new Option(gear.model, String(index))));
+    picker.hidden = false;
+
+    select.addEventListener('change', () => {
+      const gear = select.value === '' ? null : options[Number(select.value)];
+      note.replaceChildren();
+      if (!gear) return;
+      for (const name of presetFields[kind] || []) {
+        const fallback = name === 'basis' ? 'voltage' : name === 'curveType' ? 'THD+N' : '';
+        field(name).value = gear.values?.[name] ?? fallback;
+      }
+      if (kind === 'amp') {
+        ratings.replaceChildren();
+        gear.ratings.forEach(rating => addRating(...rating));
+      }
+      if (kind === 'speaker' || kind === 'amp') {
+        const model = field(kind + 'Model');
+        model.value = gear.model.replace(/ \(US\/Canada\)$/, '');
+        model.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      const source = document.createElement('a');
+      source.href = gear.url;
+      source.target = '_blank';
+      source.rel = 'noopener noreferrer';
+      source.textContent = 'View source';
+      note.append(gear.note + ' ', source);
+      if (gear.extra) {
+        const more = source.cloneNode();
+        more.textContent = gear.extra[0];
+        more.href = gear.extra[1];
+        note.append(' · ', more);
+      }
+    });
+  }
+}
+
+if (typeof systemCheckGear !== 'undefined') mountGearPresets(systemCheckGear);
+
 addRating();
 sync();
 field('targetMode').addEventListener('change', () => {
@@ -437,6 +489,7 @@ for (const option of field('mode')) option.addEventListener('change', sync);
 document.querySelector('#add-rating').addEventListener('click', () => addRating().querySelector('input').focus());
 document.querySelector('#example').addEventListener('click', () => {
   form.reset();
+  for (const note of document.querySelectorAll('[data-gear] p')) note.replaceChildren();
   levelAnchor = 'peak';
   field('sensitivity').value = 94.5;
   field('load').value = 8;
