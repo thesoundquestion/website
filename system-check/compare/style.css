@@ -114,3 +114,18 @@
     padding-inline: .3rem;
   }
 }
+
+/* Model-specific detail groups; keep long driver names legible and source conditions explicit. */
+.gc-table-caption{caption-side:bottom;text-align:left;font-size:.79rem;color:#a9c2d7;padding:.65rem 0 0}
+.gc-compare-explainer{font-size:.9rem;line-height:1.7;background:#0a2031;border-left:3px solid #62b7e5;padding:.7rem 1rem;border-radius:5px}
+.gc-compare-explainer strong{color:#edf7ff}
+.gc-table .gc-section-row th{background:#132f44;color:#9fe1ff;text-transform:uppercase;letter-spacing:.09em;font-size:.75rem;padding:.75rem .85rem;text-align:left;border-top:1px solid #3c6079}
+.gc-table tbody tr:not(.gc-section-row):nth-child(even){background:rgba(79,140,180,.045)}
+.gc-table tbody td{line-height:1.58}
+.gc-table tbody td .gc-conditions{line-height:1.52}
+.gc-lesson{display:flex;flex-wrap:wrap;gap:.3rem .75rem}
+.gc-lesson a{color:#96dffc}
+@media (max-width:580px){
+ .gc-table .gc-section-row th{font-size:.7rem;padding:.6rem}
+ .gc-compare-explainer{font-size:.82rem}
+}
