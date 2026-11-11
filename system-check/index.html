@@ -9,7 +9,7 @@
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css">
-<script defer src="/system-check/gear.js"></script>
+<script defer src="/system-check/gear.js?v=starter-catalog"></script>
 <script defer src="/system-check/calculator.js?v=power-targets"></script>
 <title>System Check | The Sound Question</title>
 </head>
@@ -36,11 +36,12 @@
 <p id="gear-speaker-note" aria-live="polite"></p>
 </div>
 <div class="sc-fields">
-<label>Speaker sensitivity (dB)<input name="sensitivity" type="number" min="40" max="130" step="any" required placeholder="e.g. 88"></label>
-<label>Sensitivity basis<select name="basis"><option value="voltage">2.83 V at 3.28 ft</option><option value="power">1 W at 3.28 ft</option></select></label>
+<label>Speaker sensitivity (dB)<input name="sensitivity" aria-describedby="sensitivity-count-note" type="number" min="40" max="130" step="any" required placeholder="e.g. 88"></label>
+<label>Sensitivity basis<select name="basis" aria-describedby="sensitivity-count-note"><option value="voltage">2.83 V at 3.28 ft</option><option value="power">1 W at 3.28 ft</option></select></label>
 <label>Nominal impedance (Ω)<input name="load" type="number" min="0.5" max="32" step="any" list="impedances" required placeholder="e.g. 8"></label>
 <label>Distance to each speaker (ft)<input name="distance" type="number" min="0.5" max="300" step="any" required placeholder="e.g. 8"></label>
 </div>
+<p id="sensitivity-count-note"><strong>Use sensitivity for one speaker.</strong> The calculator adds the pair’s contribution under Speakers contributing. If your sensitivity figure already includes both speakers at the stated input per speaker, choose +0 dB there.</p>
 <datalist id="impedances"><option value="2"><option value="3"><option value="4"><option value="6"><option value="8"><option value="12"><option value="16"></datalist>
 <details class="sc-lookup" data-lookup="speaker"><summary>Find my speaker specs</summary>
 <label>Brand and exact model<input name="speakerModel" placeholder="e.g. Klipsch RP-600M II"></label>
@@ -77,13 +78,15 @@
 </fieldset>
 <details class="sc-advanced"><summary>Fine-tune the estimate</summary>
 <fieldset><legend>Room and speaker load</legend><div class="sc-fields">
-<label>Speakers contributing<select name="speakers"><option value="0">One speaker · +0 dB</option><option value="3" selected>Stereo pair · estimated +3 dB</option><option value="6">Stereo pair · ideal +6 dB</option></select></label>
+<label>Speakers contributing<select name="speakers" aria-describedby="speaker-count-note"><option value="0">One speaker · +0 dB</option><option value="3" selected>Stereo pair · estimated +3 dB</option><option value="6">Stereo pair · ideal +6 dB</option></select></label>
 <label>Room adjustment (dB)<input name="room" type="number" min="-25" max="25" step="any" value="0"></label>
 <label>Minimum measured impedance (Ω)<input name="minimum" type="number" min="0.2" max="32" step="any"></label>
 <label>Frequency of minimum (Hz)<input name="minimumHz" type="number" min="1" max="100000" step="any"></label>
 <label>Impedance phase at minimum (°)<input name="phase" type="number" min="-90" max="90" step="any"></label>
 <label>Maximum measured impedance (Ω)<input name="maximum" type="number" min="0.2" max="300" step="any"></label>
-</div><p>Use 0 dB room adjustment for the free-field estimate. Stereo summation varies with the recording, frequency and seat.</p></fieldset>
+</div>
+<p id="speaker-count-note"><strong>Stereo pair assumes a single-speaker sensitivity figure.</strong> Choose +0 dB if the figure already includes the pair. Stereo summation varies with the recording, frequency and seat.</p>
+<p>Keep room adjustment at 0 dB when using published in-room sensitivity to avoid counting the room contribution twice. A single-speaker in-room figure can still be used with the stereo pair setting.</p></fieldset>
 <fieldset><legend>Source and amplifier connection</legend>
 <div class="sc-gear-picker" data-gear="source" hidden>
 <label>DAC or source preset<select aria-describedby="gear-source-note"><option value="">Enter specs manually</option></select></label>
