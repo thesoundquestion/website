@@ -11,6 +11,26 @@ const systemCheckGear = {
       "url": "https://www.axiomaudio.com/faqs"
     },
     {
+      "model": "DALI Oberon 1",
+      "values": {
+        "sensitivity": 86,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
+    },
+    {
+      "model": "DALI Oberon 3",
+      "values": {
+        "sensitivity": 87,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
+      "url": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
+    },
+    {
       "model": "ELAC Debut 2.0 B5.2",
       "values": {
         "sensitivity": 86,
@@ -77,6 +97,26 @@ const systemCheckGear = {
       "url": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf"
     },
     {
+      "model": "ELAC Uni-Fi 2.0 UB52",
+      "values": {
+        "sensitivity": 85,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. This preset is for the Uni-Fi 2.0 UB52.",
+      "url": "https://online.elac.com/download/ub52/elac-uni-fi-2-0-en.pdf"
+    },
+    {
+      "model": "JBL Stage 250B",
+      "values": {
+        "sensitivity": 86,
+        "basis": "voltage",
+        "load": 6
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. This is the Stage 2 model.",
+      "url": "https://www.jbl.com/250B.html"
+    },
+    {
       "model": "JBL Stage A130",
       "values": {
         "sensitivity": 86,
@@ -85,6 +125,17 @@ const systemCheckGear = {
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw7e9d0d59/pdfs/JBL_Arena_Stage_Spec_Sheet_English%20-%20Update%2020241114.pdf"
+    },
+    {
+      "model": "KEF LS50 Meta",
+      "values": {
+        "sensitivity": 85,
+        "basis": "voltage",
+        "load": 8,
+        "minimum": 3.5
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF specifies a 3.5 Ω minimum.",
+      "url": "https://ca.kef.com/products/ls50-meta"
     },
     {
       "model": "KEF Q1 Meta",
@@ -96,6 +147,17 @@ const systemCheckGear = {
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. KEF lists a 3.2 Ω minimum.",
       "url": "https://ca.kef.com/products/q1-meta"
+    },
+    {
+      "model": "KEF Q3 Meta",
+      "values": {
+        "sensitivity": 87,
+        "basis": "voltage",
+        "load": 4,
+        "minimum": 3.2
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF specifies a 3.2 Ω minimum.",
+      "url": "https://ca.kef.com/products/q3-meta"
     },
     {
       "model": "KEF Q150",
@@ -118,6 +180,16 @@ const systemCheckGear = {
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. KEF lists a 3.7 Ω minimum.",
       "url": "https://international.kef.com/products/q350-bookshelf-speaker/1000"
+    },
+    {
+      "model": "Klipsch R-50M",
+      "values": {
+        "sensitivity": 92,
+        "basis": "voltage",
+        "load": 8
+      },
+      "note": "Klipsch’s 92 dB figure uses its room-referenced convention. The preset uses 8 Ω compatibility as a calculation reference. Leave room adjustment at zero to avoid counting room contribution twice.",
+      "url": "https://assets.klipsch.com/product-specsheets/Reference-R-50M-Spec-Sheet.pdf"
     },
     {
       "model": "Klipsch R-51M",
@@ -212,6 +284,17 @@ const systemCheckGear = {
       "url": "https://www.generalmanual.com/Speaker/Pioneer-S-H352F-K-3-Way-Floor-Standing-Speaker.htm"
     },
     {
+      "model": "Polk Reserve R200",
+      "values": {
+        "sensitivity": 86,
+        "basis": "voltage",
+        "load": 8,
+        "minimum": 3.8
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Polk lists 8, 6 and 4 Ω amplifier output compatibility and a 3.8 Ω minimum. The preset uses 8 Ω as a calculation reference.",
+      "url": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw4c6aec6a/downloads/reserve-r200ae-owners-manual-global.pdf"
+    },
+    {
       "model": "Polk Signature Elite ES15",
       "values": {
         "sensitivity": 85,
@@ -262,6 +345,17 @@ const systemCheckGear = {
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. Wharfedale lists 8 Ω compatibility and a 4 Ω minimum.",
       "url": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-1"
+    },
+    {
+      "model": "Wharfedale Diamond 12.2",
+      "values": {
+        "sensitivity": 88,
+        "basis": "voltage",
+        "load": 8,
+        "minimum": 4
+      },
+      "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Wharfedale lists 8 Ω compatibility and a 4 Ω minimum.",
+      "url": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-2"
     }
   ],
   "amp": [
@@ -280,6 +374,22 @@ const systemCheckGear = {
       ],
       "note": "Published 8 Ω power and line input impedance. The manual gives a separate distortion figure at 80% of rated output.",
       "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/axa35_a4_en.pdf"
+    },
+    {
+      "model": "Cambridge Audio AXR100D",
+      "values": {
+        "inputZ": 47
+      },
+      "ratings": [
+        [
+          100,
+          8,
+          "continuous",
+          "Manufacturer rated output; published THD applies at 80% of rated power"
+        ]
+      ],
+      "note": "Published 8 Ω power and 47 kΩ line input impedance for the DAB-equipped AXR100D.",
+      "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/axr100d_a4_en.pdf"
     },
     {
       "model": "Denon AVR-S760H",
@@ -322,6 +432,26 @@ const systemCheckGear = {
       "url": "https://manuals.denon.com/AVRX1700H/eu/en/GFNFSYbsjxinov.php"
     },
     {
+      "model": "Denon AVR-X1800H",
+      "values": {},
+      "ratings": [
+        [
+          80,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.08% THD, front channels"
+        ],
+        [
+          120,
+          6,
+          "continuous",
+          "1 kHz, 0.7% THD, front channels"
+        ]
+      ],
+      "note": "North American front-channel ratings. Output with all surround channels driven can differ.",
+      "url": "https://manuals.denon.com/AVRX1800H/NA/en/DRDZSYifoqoect.php"
+    },
+    {
       "model": "Denon PMA-600NE",
       "values": {
         "inputZ": 40
@@ -342,6 +472,28 @@ const systemCheckGear = {
       ],
       "note": "The 4 Ω rating uses a single test frequency and higher distortion limit. Line input impedance is 40 kΩ with Source Direct off and 17 kΩ with it on.",
       "url": "https://manuals.denon.com/pma600ne/na/en/OBAOSYxljoeltq.php"
+    },
+    {
+      "model": "Denon PMA-900HNE",
+      "values": {
+        "inputZ": 17
+      },
+      "ratings": [
+        [
+          50,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.07% THD, 2 channels driven"
+        ],
+        [
+          85,
+          4,
+          "continuous",
+          "1 kHz, 0.7% THD, 2 channels driven"
+        ]
+      ],
+      "note": "Line input impedance is 17 kΩ. The 4 Ω rating uses a single test frequency and a higher distortion limit.",
+      "url": "https://manuals.denon.com/pma900hne/eu/en/obaosyqihmfszx.php"
     },
     {
       "model": "Marantz PM6007",
@@ -365,6 +517,64 @@ const systemCheckGear = {
       ],
       "note": "The manual gives a damping factor of 100 into 8 Ω, corresponding to an estimated 0.08 Ω output impedance.",
       "url": "https://manuals.marantz.com/pm6007/na/en/DNTXSYnslltjoe.php"
+    },
+    {
+      "model": "NAD C 316BEE V2",
+      "values": {},
+      "ratings": [
+        [
+          40,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, <0.03% THD, both channels driven"
+        ],
+        [
+          40,
+          4,
+          "continuous",
+          "20 Hz–20 kHz, <0.03% THD, both channels driven"
+        ],
+        [
+          90,
+          8,
+          "burst",
+          "IHF dynamic power"
+        ],
+        [
+          120,
+          4,
+          "burst",
+          "IHF dynamic power"
+        ]
+      ],
+      "note": "NAD specifies the same continuous output into 8 Ω and 4 Ω, with separate IHF dynamic ratings.",
+      "url": "https://nadelectronics.com/wp1.nadelectronics.com/wp-content/uploads/2018/05/NAD_C316BEEV2_Data_Sheet.pdf"
+    },
+    {
+      "model": "Onkyo TX-8220",
+      "values": {},
+      "ratings": [
+        [
+          45,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.08% THD, 2 channels driven"
+        ],
+        [
+          80,
+          8,
+          "burst",
+          "Onkyo dynamic power, front"
+        ],
+        [
+          120,
+          4,
+          "burst",
+          "Onkyo dynamic power, front"
+        ]
+      ],
+      "note": "Uses the full-band 8 Ω rating and the 8 Ω and 4 Ω dynamic ratings. Onkyo’s page gives conflicting THD conditions for its 6 Ω rating.",
+      "url": "https://onkyo.com/emea/home-audio/tx-8220"
     },
     {
       "model": "Panasonic SA-HE100",
@@ -422,6 +632,20 @@ const systemCheckGear = {
         "Sony product specifications",
         "https://www.sony.ca/en/electronics/support/audio-components-receivers-amplifiers/str-dh190/specifications"
       ]
+    },
+    {
+      "model": "Sony STR-DH590",
+      "values": {},
+      "ratings": [
+        [
+          90,
+          6,
+          "continuous",
+          "20 Hz–20 kHz, ≤0.09% THD, both channels driven"
+        ]
+      ],
+      "note": "Uses Sony’s full-band stereo rating. The product-page 145 W figure is a one-channel, 1 kHz test.",
+      "url": "https://assets.worldwidestereo.com/documents/170575/Sony-STR-DH590-Manual.pdf"
     },
     {
       "model": "WiiM Amp",
@@ -537,12 +761,6 @@ const systemCheckGear = {
           4,
           "burst",
           "IHF dynamic power"
-        ],
-        [
-          150,
-          2,
-          "burst",
-          "IHF dynamic power"
         ]
       ],
       "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
@@ -582,12 +800,6 @@ const systemCheckGear = {
         [
           185,
           4,
-          "burst",
-          "IHF dynamic power"
-        ],
-        [
-          220,
-          2,
           "burst",
           "IHF dynamic power"
         ]
@@ -631,12 +843,6 @@ const systemCheckGear = {
           4,
           "burst",
           "IHF dynamic power"
-        ],
-        [
-          290,
-          2,
-          "burst",
-          "IHF dynamic power"
         ]
       ],
       "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
@@ -678,16 +884,54 @@ const systemCheckGear = {
           4,
           "burst",
           "IHF dynamic power"
-        ],
-        [
-          290,
-          2,
-          "burst",
-          "IHF dynamic power"
         ]
       ],
       "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
       "url": "https://data.yamaha.com/files/download/other_assets/1/1412681/web_VEX7500_A-S801_om_U_EnFr_A0.pdf"
+    },
+    {
+      "model": "Yamaha A-S1200",
+      "values": {
+        "outputZ": 0.032
+      },
+      "ratings": [
+        [
+          90,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.07% THD, stereo"
+        ],
+        [
+          150,
+          4,
+          "continuous",
+          "20 Hz–20 kHz, 0.07% THD, stereo"
+        ]
+      ],
+      "note": "Yamaha’s stereo power ratings. The 0.032 Ω output impedance estimate uses the published minimum damping factor of 250 into 8 Ω at 1 kHz.",
+      "url": "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/a-s1200/specs.html"
+    },
+    {
+      "model": "Yamaha A-S3200",
+      "values": {
+        "outputZ": 0.032
+      },
+      "ratings": [
+        [
+          100,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.07% THD, stereo"
+        ],
+        [
+          150,
+          4,
+          "continuous",
+          "20 Hz–20 kHz, 0.07% THD, stereo"
+        ]
+      ],
+      "note": "Yamaha’s stereo power ratings. The 0.032 Ω output impedance estimate uses the published minimum damping factor of 250 into 8 Ω at 1 kHz.",
+      "url": "https://ca.yamaha.com/en/business/audio/products/custom-installation/a-s3200/specs.html"
     },
     {
       "model": "Yamaha HTR-4063 (US/Canada)",
@@ -716,12 +960,6 @@ const systemCheckGear = {
         [
           160,
           4,
-          "burst",
-          "IHF dynamic power, front channels"
-        ],
-        [
-          180,
-          2,
           "burst",
           "IHF dynamic power, front channels"
         ]
@@ -763,16 +1001,36 @@ const systemCheckGear = {
           4,
           "burst",
           "Manufacturer dynamic power per channel"
-        ],
-        [
-          180,
-          2,
-          "burst",
-          "Manufacturer dynamic power per channel"
         ]
       ],
       "note": "North American 100 W stereo rating. The owner’s manual gives a separate set of IHF dynamic figures and specifies 0.5 V input sensitivity at 100 W into 8 Ω.",
       "url": "https://data.yamaha.com/files/download/other_assets/2/794512/web_VEX7420_R-S202_om_UA_En_A0.pdf"
+    },
+    {
+      "model": "Yamaha RX-V385",
+      "values": {},
+      "ratings": [
+        [
+          70,
+          6,
+          "continuous",
+          "20 Hz–20 kHz, 0.09% THD, 2 channels driven"
+        ],
+        [
+          110,
+          6,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ],
+        [
+          130,
+          4,
+          "burst",
+          "Yamaha dynamic power per channel"
+        ]
+      ],
+      "note": "Two-channel and dynamic figures. Check the receiver manual for supported speaker loads.",
+      "url": "https://ca.yamaha.com/en/audio/home-audio/products/av-receivers-amps/rx-v385/specs.html"
     }
   ],
   "source": [
@@ -783,6 +1041,53 @@ const systemCheckGear = {
       },
       "note": "2 V RMS full-scale on the front-channel RCA line output. Creative specifies 0.001% THD+N and 122 dB A-weighted SNR. RCA output impedance is unverified.",
       "url": "https://media.dustin.eu/media/d200001003267145/sound-blaster-x-fi-titanium-hd-produktinformation.pdf"
+    },
+    {
+      "model": "iFi ZEN DAC V2 (fixed RCA)",
+      "values": {
+        "sourceVoltage": 2.1,
+        "sourceZ": 100
+      },
+      "note": "Fixed unbalanced RCA output is 2.1 V. The estimate uses iFi’s published 100 Ω upper bound for output impedance.",
+      "url": "https://downloads.ifi-audio.com/wp-content/uploads/2021/04/iFi_ZENDAC_V2_Lowdown.pdf"
+    },
+    {
+      "model": "Schiit Modi+ (RCA)",
+      "values": {
+        "sourceVoltage": 2,
+        "sourceZ": 75
+      },
+      "note": "2 V RMS and 75 Ω, as documented from the archived Modi+ specifications.",
+      "url": "https://audiochainsdb.com/en/gear/schiit-modi-plus",
+      "extra": [
+        "Schiit Modi+ manual",
+        "https://www.schiit.com/public/upload/PDF/modi%20plus%20manual.pdf"
+      ]
+    },
+    {
+      "model": "SMSL SU-1 (RCA)",
+      "values": {
+        "sourceVoltage": 2
+      },
+      "note": "SMSL lists 2 V RMS line output. The manual does not give RCA output impedance.",
+      "url": "https://www.smsl-audio.com/upload/portal/download/SU1Manual.pdf"
+    },
+    {
+      "model": "Topping E30 II (RCA)",
+      "values": {
+        "sourceVoltage": 2.1,
+        "sourceZ": 20
+      },
+      "note": "Topping specifies 2.1 V RMS at 0 dBFS and 20 Ω output impedance for the RCA line output.",
+      "url": "https://dl.topping.audio/usermanual/e30ii.pdf"
+    },
+    {
+      "model": "WiiM Pro Plus (RCA)",
+      "values": {
+        "sourceVoltage": 2
+      },
+      "note": "Uses the default 2 V RMS line-out setting. Update the value if you changed Line Out Level in the WiiM Home app.",
+      "url": "https://faq.wiimhome.com/en/support/solutions/articles/72000581028-is-it-possible-to-limit-the-volume-on-a-wiim-device-to-prevent-distortion-"
     }
   ],
   "headphone": [
