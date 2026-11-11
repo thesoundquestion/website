@@ -11,7 +11,39 @@
 <p class="lead">Move away from the middle seat and the sound can change even though the volume knob hasn't moved. Speakers send different amounts of sound in different directions, and the difference can change with pitch.</p>
 <dl class="dl-term-grid"><div><dt>On axis (0°)</dt><dd>Listening straight ahead from the speaker's stated reference direction, usually near its tweeter or acoustic axis.</dd></div><div><dt>Off axis</dt><dd>Listening at an angle away from that forward direction, either sideways or above and below.</dd></div><div><dt>Directivity</dt><dd>How strongly a speaker concentrates sound in certain directions instead of spreading it everywhere.</dd></div></dl>
 <div class="dl-example-spec" role="note"><span class="dl-spec-tag">FICTIONAL HORIZONTAL RESPONSE SPECIFICATION</span><strong>8 kHz · 30° horizontal: −6 dB relative to 0°</strong><p>One frequency, one angle, same measurement distance and signal. <a href="#decode-the-spec">See exactly what this rating means ↓</a></p></div>
-<nav class="dl-lesson-jumps" aria-label="Sections"><a href="#decode-the-spec">Decode −6 dB ↓</a><a href="#compare">Compare angles ↓</a><a href="#axis-specs">Read an axis spec ↓</a><a href="#understand">The room and the sound ↓</a><a href="#vertical">Why ear height matters ↓</a><a href="#listening">What you might hear ↓</a><a href="#buying">What to look for ↓</a></nav></div>
+<nav class="dl-lesson-jumps" aria-label="Sections"><a href="#axis-specs">Find the measurement angle ↓</a><a href="#decode-the-spec">Decode −6 dB ↓</a><a href="#compare">Try the angle graph ↓</a><a href="#kef-axis-response">Compare two speakers ↓</a><a href="#understand">Hear it in a room ↓</a><a href="#buying">What to look for ↓</a></nav></div>
+<section class="container dl-reading" id="axis-specs"><h2>Start with the measurement angle</h2>
+<figure class="reference-figure">
+<svg class="dl-stat-svg" viewBox="0 0 560 355" role="img" aria-labelledby="axis-geometry-title axis-geometry-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="axis-geometry-title">Microphone positions for a horizontal speaker measurement</title>
+<desc id="axis-geometry-desc">Viewed from above, a speaker faces right. The on-axis microphone sits straight ahead. The off-axis microphone sits 30 degrees to the side, at the same height and distance from the speaker.</desc>
+<defs>
+<linearGradient id="axis-cabinet" x2="0.9" y2="1"><stop stop-color="#465c71"/><stop offset="1" stop-color="#142637"/></linearGradient>
+<g id="axis-mic"><rect x="-12" y="-7" width="30" height="14" rx="6" fill="#102333" stroke="currentColor" stroke-width="2"/><path d="M-5 -5v10m4-10v10m4-10v10" stroke="currentColor" stroke-width="1.2"/></g>
+</defs>
+<rect width="560" height="355" rx="16" fill="#0b1726"/>
+<text x="30" y="39" fill="#c1d2e3" font-family="system-ui,sans-serif" font-size="18">Top view · horizontal plane</text>
+<rect x="32" y="92" width="87" height="85" rx="15" fill="#06101c"/>
+<rect x="30" y="87" width="87" height="84" rx="15" fill="url(#axis-cabinet)" stroke="#7990a5"/>
+<path d="M109 99q15 30 0 60" fill="none" stroke="#9bafc1" stroke-width="5" stroke-linecap="round"/>
+<text x="30" y="204" fill="#c1d2e3" font-family="system-ui,sans-serif" font-size="17">Speaker</text>
+<path d="M117 129H422" stroke="#77e4ff" stroke-width="3"/>
+<path d="M117 129L381.14 281.5" stroke="#d3baff" stroke-width="3" stroke-dasharray="9 6"/>
+<path d="M422 129 A305 305 0 0 1 381.14 281.5" fill="none" stroke="#8299b0" stroke-width="1.5" stroke-dasharray="3 6"/>
+<path d="M188 129 A71 71 0 0 1 178.49 164.5" fill="none" stroke="#d3baff" stroke-width="2"/>
+<circle cx="117" cy="129" r="4" fill="#e0edfa"/>
+<use href="#axis-mic" transform="translate(422 129)" color="#77e4ff"/>
+<use href="#axis-mic" transform="translate(381.14 281.5) rotate(30)" color="#d3baff"/>
+<g font-family="system-ui,sans-serif" font-size="18" font-weight="600">
+<text x="199" y="155" fill="#d3baff">30°</text>
+<text x="422" y="104" text-anchor="middle" fill="#77e4ff">0° on axis</text>
+<text x="381" y="319" text-anchor="middle" fill="#d3baff">30° off axis</text>
+<text x="441" y="201" fill="#c1d2e3" font-size="16">Same<tspan x="441" dy="20">distance</tspan></text>
+</g>
+</svg>
+<figcaption><strong>Where the measurement is taken.</strong> The two positions show where one microphone would be relative to the speaker at 0° and 30°. The angle changes while height, distance and input signal stay the same. A vertical measurement changes the angle above or below the reference axis. At home, toe-in changes the horizontal angle between each speaker and your seat.</figcaption>
+</figure>
+</section>
 <section class="dl-stat-decode container" id="decode-the-spec"><div class="dl-stat-head"><p class="section-kicker">DECODE THE EXACT STAT</p><h2>What does 30° horizontal, −6 dB at 8 kHz mean?</h2></div>
 <div class="dl-stat-grid dl-stat-copy-first"><div class="dl-stat-explanation">
 <p class="dl-stat-key">In this example, 8 kHz sound is 6 dB lower at 30° sideways than directly in front.</p>
@@ -61,40 +93,10 @@
 </svg><div class="sp-values"><span>8 kHz difference</span><strong>-12 dB</strong><span>16 kHz difference</span><strong>-17 dB</strong></div></article>
 <div class="dl-plot-status" data-plot-status role="status" hidden></div>
 </div><p class="sp-plot-caption">Original imaginary responses, not a manufacturer's measurement. The 0 dB reference at <em>each frequency</em> means “same as on axis there.” It does not mean the speaker's on-axis frequency response is perfectly flat.</p>
-<div class="dl-reading" id="axis-specs">
-<h3>How to read an on-axis and off-axis measurement</h3>
-<figure class="reference-figure">
-<svg class="dl-stat-svg" viewBox="0 0 560 355" role="img" aria-labelledby="axis-geometry-title axis-geometry-desc" xmlns="http://www.w3.org/2000/svg">
-<title id="axis-geometry-title">Microphone positions for a horizontal speaker measurement</title>
-<desc id="axis-geometry-desc">Viewed from above, a speaker faces right. The on-axis microphone sits straight ahead. The off-axis microphone sits 30 degrees to the side, at the same height and distance from the speaker.</desc>
-<defs>
-<linearGradient id="axis-cabinet" x2="0.9" y2="1"><stop stop-color="#465c71"/><stop offset="1" stop-color="#142637"/></linearGradient>
-<g id="axis-mic"><rect x="-12" y="-7" width="30" height="14" rx="6" fill="#102333" stroke="currentColor" stroke-width="2"/><path d="M-5 -5v10m4-10v10m4-10v10" stroke="currentColor" stroke-width="1.2"/></g>
-</defs>
-<rect width="560" height="355" rx="16" fill="#0b1726"/>
-<text x="30" y="39" fill="#c1d2e3" font-family="system-ui,sans-serif" font-size="18">Top view · horizontal plane</text>
-<rect x="32" y="92" width="87" height="85" rx="15" fill="#06101c"/>
-<rect x="30" y="87" width="87" height="84" rx="15" fill="url(#axis-cabinet)" stroke="#7990a5"/>
-<path d="M109 99q15 30 0 60" fill="none" stroke="#9bafc1" stroke-width="5" stroke-linecap="round"/>
-<text x="30" y="204" fill="#c1d2e3" font-family="system-ui,sans-serif" font-size="17">Speaker</text>
-<path d="M117 129H422" stroke="#77e4ff" stroke-width="3"/>
-<path d="M117 129L381.14 281.5" stroke="#d3baff" stroke-width="3" stroke-dasharray="9 6"/>
-<path d="M422 129 A305 305 0 0 1 381.14 281.5" fill="none" stroke="#8299b0" stroke-width="1.5" stroke-dasharray="3 6"/>
-<path d="M188 129 A71 71 0 0 1 178.49 164.5" fill="none" stroke="#d3baff" stroke-width="2"/>
-<circle cx="117" cy="129" r="4" fill="#e0edfa"/>
-<use href="#axis-mic" transform="translate(422 129)" color="#77e4ff"/>
-<use href="#axis-mic" transform="translate(381.14 281.5) rotate(30)" color="#d3baff"/>
-<g font-family="system-ui,sans-serif" font-size="18" font-weight="600">
-<text x="199" y="155" fill="#d3baff">30°</text>
-<text x="422" y="104" text-anchor="middle" fill="#77e4ff">0° on axis</text>
-<text x="381" y="319" text-anchor="middle" fill="#d3baff">30° off axis</text>
-<text x="441" y="201" fill="#c1d2e3" font-size="16">Same<tspan x="441" dy="20">distance</tspan></text>
-</g>
-</svg>
-<figcaption><strong>Where the measurement is taken.</strong> The two positions show where one microphone would be relative to the speaker at 0° and 30°. The angle changes while height, distance and input signal stay the same. A vertical measurement changes the angle above or below the reference axis. At home, toe-in changes the horizontal angle between each speaker and your seat.</figcaption>
-</figure>
-<h4>Same room, same seat. What might sound different?</h4>
-<p>Imagine swapping the two pairs into the same spots, keeping the listening distance and height the same, and matching playback level. First aim each pair at your seat for the 0° comparison. Then rotate both speakers equally so your seat is 30° off each axis. That keeps the direct listening distance and left/right symmetry in place while you hear what a change in aim does. The curves below show the direct sound under controlled conditions. The room adds its own contribution.</p>
+</section>
+<section class="dl-section-soft"><div class="container dl-reading">
+<h2>Read two real speakers on the same graph</h2>
+<p>Compare the two pairs in the same positions, at the same distance and with their on-axis levels aligned. The solid lines show what reaches you straight ahead. The dashed lines show the direct sound if you turn each speaker so your seat is 30° from its axis.</p>
 <figure class="reference-figure" id="kef-axis-response">
 <h4 id="genelec-axis-response">KEF LS50 and Genelec 8030A · measured horizontal response</h4>
 <svg class="dl-stat-svg" viewBox="0 0 715 335" role="img" aria-labelledby="overlay-axis-title overlay-axis-desc" xmlns="http://www.w3.org/2000/svg">
@@ -124,46 +126,57 @@
 <ul class="figure-key"><li class="key-cyan">Cyan · KEF LS50</li><li class="key-amber">Amber · Genelec 8030A</li><li>Solid · 0° on axis</li><li>Dashed · 30° off axis</li></ul>
 <figcaption>Digitized from Princeton University’s 3D3A Lab charts for the <a href="https://3d3a.princeton.edu/kef-ls50">KEF LS50</a> and <a href="https://3d3a.princeton.edu/genelec-8030a">Genelec 8030A</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. We shifted both curves for each speaker by the same amount to align their on-axis levels at 1 kHz. The gaps within each pair are preserved. Readings are approximate.</figcaption>
 </figure>
-<h4>What to listen for in the KEF and Genelec comparison</h4>
+<h3>What changes when you turn the speakers?</h3>
 <p><strong>Start with the voice and cymbals.</strong> Follow one trace from left to right to see tonal balance. At any one frequency, the vertical gap between a speaker’s solid and dashed lines shows what changes with angle. To compare the two models, first align their on-axis levels at a reference frequency. The examples below use 1 kHz and apply the same level adjustment to both traces for each speaker.</p>
 <p><strong>Facing the speakers:</strong> Around 5 kHz the LS50 has roughly 3 dB more output relative to its 1 kHz level than the 8030A. That can make consonants and the initial edge of a cymbal hit stand out more on the KEF when the recording has energy there. A more prominent edge can sound like extra detail. The graph shows a difference in emphasis.</p>
-<p><strong>At 30°:</strong> The LS50 loses about 4 dB around 5 kHz compared with its own straight-ahead response. The 8030A loses about 1 dB there. After the 1 kHz alignment, the two speakers are close to the same level at 5 kHz at this angle. At 10 kHz the situation changes. The KEF’s traces nearly meet, while the Genelec’s off-axis trace is about 2 dB below its on-axis trace. At 30° the KEF is roughly 2 dB ahead there after alignment. So a listener may hear the KEF’s consonant edge soften as the speakers turn away, while a little more of the upper-treble shimmer remains audible compared with the Genelec. How noticeable that is depends on the recording and the room.</p>
-<h4>What those differences could sound like in the same room</h4>
-<p>Picture a <strong>11.8 × 27.9 ft room</strong> with two identical painted drywall sidewalls, speakers 5.9 ft apart and aimed at a centered seat about 21.7 ft down the room. The long layout makes the first sidewall bounce leave each speaker at 30° from its forward axis, so the dashed lines apply directly to that path. The bounce travels about 23.41 ft versus 21.87 ft straight to the seat and arrives about 1.37 ms later. For this example, give both walls the same illustrative 3 dB reflection loss at 5 and 10 kHz. Including the extra distance, each bounce is about 3.6 dB lower than its corresponding dashed curve on the same level reference. These are estimates for the direct path and first sidewall bounce, with the same geometry and wall loss for both pairs.</p>
-<p><strong>Vocal edge and apparent width around 5 kHz.</strong> The KEF sends about 3 dB more 5 kHz energy straight to your seat, while the two pairs send about the same 5 kHz energy via the first sidewall bounce. On a recording with crisp consonants, the KEF may make the singer’s articulation stand out more from the center. The Genelec has more reflected energy <em>relative to its direct sound</em> in that band, so the consonant edge may feel a little less tightly concentrated. That is a plausible difference in the apparent width of that part of the voice.</p>
-<p><strong>Cymbal shimmer around 10 kHz.</strong> The direct levels are close, while the KEF sends about 2 dB more 10 kHz energy into that same bounce. In this room, a bright cymbal tail could have a little more upper-treble sheen or spread on the KEF. The Genelec’s first bounce has less of that upper-treble contribution, so the shimmer may feel a little more concentrated around where the cymbal was placed in the mix.</p>
-<p><strong>Image position.</strong> In this symmetric setup, a centered vocal should stay centered on either pair. Listen for whether the consonants seem more tightly gathered and whether cymbal decay spreads farther to the sides. The estimated differences are frequency-specific. A centered image can stay put while its apparent width or tonal emphasis changes.</p>
-<h4>How the ±3 dB spec fits in</h4>
+<p><strong>At 30°:</strong> The LS50 loses about 4 dB around 5 kHz compared with its own straight-ahead response. The 8030A loses about 1 dB there. After the 1 kHz alignment, the two speakers are close to the same level at 5 kHz at this angle. At 10 kHz the situation changes. The KEF’s traces nearly meet, while the Genelec’s off-axis trace is about 2 dB below its on-axis trace. At 30° the KEF is roughly 2 dB ahead there after alignment. So a listener may hear the KEF’s consonant edge soften as the speakers turn away, while a little more of the upper-treble shimmer remains audible compared with the Genelec. The next section uses a fixed room and seat to compare what comes back from the sidewalls.</p>
+<details class="dl-advanced"><summary>How the manufacturer’s ±3 dB spec fits in</summary>
 <p>KEF lists the original LS50 at <strong>79 Hz–28 kHz (±3 dB)</strong> in its <a href="https://assets.kef.com/archive/ls50/ls50_brochure.pdf">manufacturer brochure</a>. The tolerance describes a 6 dB-high window around the spec’s reference level over the stated range. The independent plot here spans 500 Hz–20 kHz, so the brochure supplies the wider frequency limits. The vertical gap at 5 kHz compares two angles at one frequency.</p>
-</div>
-</section>
+</details></div></section>
 <div class="container dl-reading"><figure class="reference-figure" id="spk-01">
 <h3>How much of the couch falls within the coverage?</h3>
 <div class="figure-comparison"><div><h4>Wider coverage</h4><img src="/assets/illustrations/spk-01-wide.svg" alt="The cyan coverage areas of both speakers span all three marked seats." width="720" height="480" loading="lazy" decoding="async"></div>
 <div><h4>Narrower coverage</h4><img src="/assets/illustrations/spk-01-narrow.svg" alt="The center seat falls within both cyan coverage areas. The outer seats sit beyond both drawn boundaries." width="720" height="480" loading="lazy" decoding="async"></div></div>
 <figcaption><b>SPK-01 · Coverage at one illustrative frequency (8 kHz).</b> The room, aiming and on-axis level are matched. Dotted lines mark the speaker axes. The cyan areas show wider and narrower coverage contours. Output changes gradually across the contour, and the shaded area does not encode level. This example compares direct sound only.</figcaption>
 </figure></div>
-<section class="dl-section-soft" id="understand"><div class="container dl-reading"><p class="section-kicker">WHAT YOUR ROOM ADDS</p><h2>The sound comes straight at you, and it also bounces around.</h2>
-<p>The first sound reaching you from a speaker is the <strong>direct sound</strong>. Some sound travels toward side walls, the floor and the ceiling and reaches you after a reflection. Those reflected sounds still carry the speaker's off-axis tonal balance.</p>
-<p>A speaker that changes smoothly as you move off axis can give nearby seats and reflections a more consistent tonal character. If there is a sudden extra dip around its crossover frequency at certain angles, the direct and reflected sound may have noticeably different frequency balances. The room and placement determine how much of that difference reaches your ears.</p>
-<figure class="reference-figure" id="spk-02">
+<section class="dl-section-soft dl-listening" id="understand"><div class="container dl-reading">
+<h2>Hear the difference in a 12 × 15 ft room</h2>
+<p>Keep the same seat and swap the two pairs into the same spots. The speakers are 6 ft apart and 2 ft from the front wall, aimed at a seat centered 9.71 ft behind the speaker line. Both sidewalls are painted drywall. The direct sound comes from the 0° axis. The first bounce leaves each speaker at 60°, so this example uses the 60° traces from Princeton’s original charts for the <a href="https://3d3a.princeton.edu/kef-ls50">KEF</a> and <a href="https://3d3a.princeton.edu/genelec-8030a">Genelec</a>.</p>
+<figure class="reference-figure" id="spk-03">
+<h3>The direct sound and the first sidewall bounce</h3>
+<svg class="dl-stat-svg" viewBox="0 0 520 460" role="img" aria-labelledby="small-room-title small-room-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="small-room-title">Direct and first sidewall paths in a 12 by 15 foot room</title>
+<desc id="small-room-desc">Two speakers are six feet apart and aimed at the centered seat. The solid paths reach the seat directly. The dashed paths leave each speaker at 60 degrees from its forward axis and reflect from the nearest sidewall.</desc>
+<rect width="520" height="460" rx="16" fill="#0b1726"/>
+<rect x="116" y="47" width="288" height="360" rx="4" fill="#14273b" stroke="#8299b0" stroke-width="3"/>
+<g fill="none" stroke-width="3">
+<path d="M188 95L260 328 M332 95L260 328" stroke="#77e4ff"/>
+<path d="M188 95L116 172.67L260 328 M332 95L404 172.67L260 328" stroke="#ffc27b" stroke-dasharray="7 6"/>
+</g>
+<g fill="#d0e2ef"><rect x="176" y="83" width="24" height="24" rx="4"/><rect x="320" y="83" width="24" height="24" rx="4"/><circle cx="260" cy="328" r="8"/></g>
+<g fill="#c1d2e3" font-family="system-ui,sans-serif" font-size="19" text-anchor="middle">
+<text x="260" y="32">12 ft</text><text x="440" y="235">15 ft</text><text x="260" y="81">6 ft apart</text><text x="260" y="360">Centered seat</text>
+<text x="70" y="162" fill="#ffc27b">Wall</text><text x="70" y="184" fill="#ffc27b">bounce</text>
+</g></svg>
+<ul class="figure-key"><li class="key-cyan">Solid · direct sound</li><li class="key-amber">Dashed · first sidewall bounce</li></ul>
+<figcaption>The direct path is 10.16 ft and the bounce travels 13.24 ft, arriving about 2.74 ms later at 1,125 ft/s. This is a plan view with the speaker and ear heights matched.</figcaption>
+</figure>
+<h3 id="listening">Listen for the voice first, then the cymbals</h3>
+<p><strong>A centered voice around 4 kHz.</strong> With the same 1 kHz alignment, the KEF’s direct sound is about 2–3 dB stronger here, while the Genelec’s first sidewall bounce is about 2 dB stronger. The KEF may give the edges of consonants more bite straight ahead. The Genelec sends more of that part of the voice back from the sides, so the consonants could feel a little less tightly gathered around the center.</p>
+<p><strong>Cymbal shimmer around 10 kHz.</strong> The direct levels are close, and the KEF’s first bounce is only about 1 dB stronger in this layout. Expect a smaller difference here than in the vocal example. With the left and right paths symmetric, a centered vocal can stay centered on both pairs even if its edges feel a little wider on one.</p>
+<details class="dl-advanced"><summary>How the room estimate was calculated</summary><p>The comparison models one first bounce per speaker. We assume 3 dB of loss at each wall as an illustrative value, plus about 2.3 dB from the longer path. Around 4 kHz, that puts each first bounce approximately 17 dB below the KEF’s direct sound and 12 dB below the Genelec’s. These are separate path levels estimated from digitized measurements. The example leaves out phase summation and other reflections, so the listening impressions are hypotheses for this layout.</p></details>
+<details class="dl-advanced"><summary>Explore how the angle can change the tone of a reflection</summary><figure class="reference-figure" id="spk-02">
 <h3>Off-axis sound can change tone as well as level</h3>
 <img src="/assets/illustrations/spk-02-off-axis.svg" alt="At the same off-axis angle, one response slopes gently downward. The second follows that slope with an extra 6 dB dip centered at 4 kHz." width="720" height="378" loading="lazy" decoding="async">
 <ul class="figure-key"><li class="key-cyan">Solid cyan · smooth tilt</li><li class="key-lilac">Dashed lilac · added notch</li></ul>
 <figcaption><b>SPK-02 · Synthetic responses at the same horizontal angle, 30°.</b> Both traces are relative to each speaker’s own on-axis level at each frequency. The examples match at 8 kHz to the displayed precision. Around 4 kHz, one radiates less energy at the chosen angle. A surface in that direction can receive a different tonal balance even when a single coverage rating looks similar. The plot shows speaker output at one angle. A room measurement would also capture the surface, distance and other paths.</figcaption>
 </figure>
-<figure class="reference-figure" id="spk-03">
-<h3>What reaches the center seat first?</h3>
-<img src="/assets/illustrations/spk-03-reflections.svg" alt="Solid cyan paths run from the speakers to the center seat. Dashed amber paths take a longer route, bouncing from each speaker's nearest side wall." width="720" height="480" loading="lazy" decoding="async">
-<ul class="figure-key"><li class="key-cyan">Solid cyan · direct sound</li><li class="key-amber">Dashed amber · first sidewall reflection</li></ul>
-<figcaption><b>SPK-03 · Calculated paths in a 15.7 × 17.7 ft room.</b> In plan view, each direct path is 9.57 ft and each illustrated bounce travels 15.03 ft. The added distance yields about 4.85 ms of extra travel at 1,125 ft/s. Path geometry models arrival time. The strength and tone of the reflected sound also depend on the speaker’s radiation and the wall surface.</figcaption>
-</figure>
-<div class="sp-room"><div><h3>Wide, smooth radiation</h3><p>More sound reaches seats and side walls at greater angles. It may be useful for a broad listening area, but also sends more energy toward reflective surfaces.</p></div><div><h3>Narrow, smooth radiation</h3><p>Less off-axis energy at some frequencies can reduce side-wall contribution. It may demand more careful speaker aiming and seat positioning.</p></div><div><h3>Uneven radiation</h3><p>A sudden mismatch between drivers can produce response dips or peaks at some angles even if the main on-axis curve looks good.</p></div></div>
-<p><strong>Wider is not automatically better.</strong> Think about your actual seating arrangement, toe-in, wall distances, room treatment and how consistent the response remains as the angle changes. Different recordings and personal preferences also matter.</p>
-<p>For broader speaker tonality, see <a href="/decoder/speaker-frequency-response/">frequency response</a>. For the acoustic components that create directional behavior, see <a href="/decoder/speaker-drivers/">drivers and crossovers</a>.</p>
+</details>
 <details class="dl-advanced"><summary>What are “listening window,” “sound power” and “spinorama”? <small>Optional detail</small></summary>
 <p>A formal off-axis test can measure many angles in both horizontal and vertical planes. <strong>ANSI/CTA-2034</strong>, commonly called a spinorama, groups these measurements into summaries. <strong>On-axis</strong> is one reference direction. The <strong>listening window</strong> is an average of nearby response directions, including angles out to ±30° horizontally and ±10° vertically. <strong>Early reflections</strong> estimates first-bounce reflected energy using a defined angle-weighted procedure. <strong>Sound power</strong> estimates radiated acoustic output averaged over directions.</p>
 <p><strong>Directivity index</strong> compares the level of a forward/listening-window response with a wider-angle response. Its trend can tell you how radiation becomes more focused with frequency. A smooth trend is often more informative than a single advertised “dispersion angle.” These are standardized measurement summaries, not a guarantee of a particular room's exact response.</p></details>
+
+<p>Read more about <a href="/decoder/audiophile-glossary/#soundstage">soundstage</a>, <a href="/decoder/audiophile-glossary/#imaging">imaging</a> and <a href="/decoder/audiophile-glossary/#separation">separation</a> in the glossary.</p>
 </div></section>
 <section class="dl-section-soft" id="vertical"><div class="container dl-reading"><p class="section-kicker">ANOTHER DIRECTION TO THINK ABOUT</p><h2>Sideways isn't the same as above or below.</h2>
 <p>A published <strong>horizontal</strong> plot tells you what happens when you move left or right. A <strong>vertical</strong> plot describes moving above or below the speaker's reference axis, such as standing up from the sofa or sitting lower than the tweeter.</p>
@@ -171,10 +184,6 @@
 <div class="sp-vertical-note"><strong>Practical example:</strong><p>A speaker may have smooth horizontal coverage across your couch while exhibiting a narrow vertical sweet spot near the crossover. Another design may behave differently. A horizontal “±30°” figure says nothing reliable about its vertical coverage.</p></div>
 <p>When reviewing speaker measurements, look for <strong>both directions</strong>, especially if your speakers sit high, low, on a shelf, or cover people at different seated and standing heights.</p>
 </div></section>
-<section class="dl-section-soft dl-listening" id="listening"><div class="container dl-reading"><h2>Can dispersion change imaging and separation?</h2>
-<p>Yes, it can influence the direct-to-reflected balance and how the stereo image behaves as you move, but dispersion <strong>cannot create spatial information that isn't in the recording</strong>. Speaker spacing, left-right symmetry, toe-in and room reflections remain important.</p>
-<div class="dl-claims-grid"><div class="dl-audiophile"><p class="dl-box-label">COMMON CLAIM</p><p>“Wide-dispersion speakers are always more holographic and have better separation.”</p></div><div class="dl-evidence"><p class="dl-box-label">WHAT THE EVIDENCE CAN SUPPORT</p><p>Off-axis measurements can describe tonal consistency and where sound is radiated. “Holographic” and “separation” describe listening impressions. Room layout and recording matter, so the claim cannot be established from a single dispersion angle.</p></div></div>
-<p>Our listening glossary has plain-language entries for <a href="/decoder/audiophile-glossary/#soundstage">soundstage</a>, <a href="/decoder/audiophile-glossary/#imaging">imaging</a>, <a href="/decoder/audiophile-glossary/#separation">separation</a> and <a href="/decoder/audiophile-glossary/#holographic">holographic</a>. Those describe experiences; this lesson examines one possible physical contributor.</p></div></section>
 <section class="container dl-buy-section" id="buying"><div class="dl-reading"><h2>What should you check when choosing or positioning speakers?</h2>
 <ol class="dl-buy-list"><li><strong>Look for on-axis and off-axis frequency response.</strong> A single “frequency range” or “120° coverage” label is far less informative than curves across multiple angles.</li>
 <li><strong>Think about seats.</strong> For a wide couch, check response around the angles your seats make relative to each speaker, rather than assuming wider published coverage is always an advantage.</li>
