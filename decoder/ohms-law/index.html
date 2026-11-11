@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080d15">
+  <meta name="description" content="Learn how volts, amps, ohms and watts fit together using speaker and headphone examples.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Sound Question">
+  <meta property="og:title" content="Ohm’s law for audio | The Sound Question">
+  <meta property="og:description" content="Learn how volts, amps, ohms and watts fit together using speaker and headphone examples.">
+  <meta property="og:url" content="https://thesoundquestion.pages.dev/decoder/ohms-law/">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://thesoundquestion.pages.dev/decoder/ohms-law/">
+  <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/decoder-lessons.css">
+  <title>Ohm’s law for audio | The Sound Question</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+        <nav class="main-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/journey/">The Journey</a><a href="/decoder/" aria-current="page">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav>
+      </div>
+    </header>
+    <main id="main">
+      <div class="dl-lesson-top container">
+        <div class="dl-lesson-utility">
+          <nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Ohm’s law for audio</span></nav>
+        </div>
+        <p class="section-kicker">DECODER REFERENCE</p>
+        <h1>Ohm’s law for audio</h1>
+        <p class="lead">At the same voltage, a 4 Ω load draws twice as much current as an 8 Ω load. That changes what the amplifier has to supply and how many watts reach the load.</p>
+        <dl class="dl-term-grid">
+          <div><dt>Volts (V)</dt><dd>The electrical difference the amplifier applies across the speaker or headphones.</dd></div>
+          <div><dt>Amps (A)</dt><dd>How much electric charge flows per second. This is current.</dd></div>
+          <div><dt>Ohms (Ω)</dt><dd>How strongly the connected device opposes current. For a music signal, this is impedance.</dd></div>
+          <div><dt>Watts (W)</dt><dd>How much electrical energy is delivered per second. This is power.</dd></div>
+        </dl>
+        <nav class="dl-lesson-jumps" aria-label="On this page">
+          <a href="#same-voltage">Same volts, different ohms ↓</a><a href="#power">How to find watts ↓</a><a href="#source-and-load">What happens at the headphone jack ↓</a><a href="#formulas">Formula reference ↓</a>
+        </nav>
+      </div>
+
+      <section class="container dl-chart-section" id="same-voltage">
+        <div class="dl-heading">
+          <h2>Hold the voltage steady. Change the load.</h2>
+          <p>The amplifier applies <strong>4 V RMS</strong> across each example load. RMS is the effective voltage of the changing test signal. The load is what you connect to the amplifier, and here we use simple resistors.</p>
+        </div>
+        <div class="dl-reading">
+          <table class="dl-worked-table">
+            <caption>Current and power at 4 V RMS</caption>
+            <thead><tr><th scope="col">Load</th><th scope="col">Current</th><th scope="col">Power</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">8 Ω</th><td>0.50 A <meter class="dl-meter" min="0" max="1" value="0.5" aria-label="Current for 8 ohms, 0.50 amps on a 0 to 1 amp scale"></meter></td><td>2 W <meter class="dl-meter" min="0" max="4" value="2" aria-label="Power for 8 ohms, 2 watts on a 0 to 4 watt scale"></meter></td></tr>
+              <tr><th scope="row">4 Ω</th><td>1.00 A <meter class="dl-meter" min="0" max="1" value="1" aria-label="Current for 4 ohms, 1 amp on a 0 to 1 amp scale"></meter></td><td>4 W <meter class="dl-meter" min="0" max="4" value="4" aria-label="Power for 4 ohms, 4 watts on a 0 to 4 watt scale"></meter></td></tr>
+            </tbody>
+          </table>
+          <p><strong>To find amps, divide volts by ohms.</strong> In the first row, 4 ÷ 8 gives 0.50 A. In the second row, 4 ÷ 4 gives 1.00 A. Half the resistance takes twice the current at the same voltage.</p>
+          <p>That is why a <a href="/decoder/speaker-impedance/">speaker with a dip in its impedance</a> can ask the amplifier for more current at that frequency. The amplifier must be able to sustain the voltage and supply the current for the example to hold.</p>
+        </div>
+      </section>
+
+      <section class="dl-section-soft dl-foundation" id="power">
+        <div class="container dl-reading">
+          <h2>Multiply volts by amps to get watts</h2>
+          <p>For the resistive examples, the first row above gives <strong>4 V × 0.50 A = 2 W</strong>. The second gives <strong>4 V × 1.00 A = 4 W</strong>. The voltage stays the same and the current doubles, so the watts double.</p>
+          <p>Now keep the 8 Ω load and turn the signal voltage up. The current rises too, so both numbers in the power calculation change.</p>
+          <table class="dl-worked-table">
+            <caption>What changes when voltage doubles into 8 Ω</caption>
+            <thead><tr><th scope="col">Voltage</th><th scope="col">Current</th><th scope="col">Power</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">4 V RMS</th><td>0.50 A</td><td>2 W</td></tr>
+              <tr><th scope="row">8 V RMS</th><td>1.00 A</td><td>8 W</td></tr>
+            </tbody>
+          </table>
+          <p><strong>At the same resistance, twice the voltage gives four times the watts.</strong> An <a href="/decoder/amplifier-power/">amplifier’s power rating</a> tells you the load and conditions under which it can deliver its rated output.</p>
+        </div>
+      </section>
+
+      <section class="container dl-chart-section" id="source-and-load">
+        <div class="dl-heading">
+          <h2>Where does the voltage go at a headphone jack?</h2>
+          <p>Imagine a jack with <strong>10 Ω of internal output impedance</strong> and 1.00 V RMS available before you connect anything. Plug in a 32 Ω headphone. In this simplified model, the same current flows through the jack’s internal resistance and the headphone.</p>
+        </div>
+        <div class="dl-reading">
+          <ol>
+            <li>Add the two resistances. <strong>10 Ω + 32 Ω = 42 Ω.</strong></li>
+            <li>Divide the available voltage by the total. <strong>1.00 V ÷ 42 Ω ≈ 0.0238 A.</strong></li>
+            <li>Multiply that current by each resistance. About <strong>0.24 V</strong> drops across the jack’s resistance and <strong>0.76 V</strong> reaches the headphone.</li>
+          </ol>
+          <figure class="dl-voltage-split">
+            <div class="dl-voltage-split-bar" aria-hidden="true"><span style="flex:10"></span><span style="flex:32"></span></div>
+            <figcaption><span><strong>0.24 V</strong> across the jack’s resistance</span><span><strong>0.76 V</strong> across the headphones</span></figcaption>
+          </figure>
+          <p>Lower headphone impedance allows more current to flow through the jack’s resistance. More current makes a larger voltage drop inside the jack. If the headphone impedance changes from one note to the next, the loss can change too. <a href="/decoder/headphone-output-impedance/#compare">Compare a bass note and a midrange note in the headphone lesson.</a></p>
+        </div>
+      </section>
+
+      <section class="container dl-buy-section" id="formulas">
+        <div class="dl-reading">
+          <h2>Formula reference</h2>
+          <table class="dl-worked-table">
+            <thead><tr><th scope="col">To find</th><th scope="col">Use</th><th scope="col">In words</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Current</th><td>I = V ÷ R</td><td>Volts divided by ohms</td></tr>
+              <tr><th scope="row">Voltage</th><td>V = I × R</td><td>Amps times ohms</td></tr>
+              <tr><th scope="row">Resistance</th><td>R = V ÷ I</td><td>Volts divided by amps</td></tr>
+              <tr><th scope="row">Power in a resistor</th><td>P = V × I</td><td>Volts times amps</td></tr>
+            </tbody>
+          </table>
+          <p>Use the voltage <strong>across the part you’re calculating</strong>. The voltage before the headphones are plugged in and the voltage across them can be different.</p>
+          <details class="dl-advanced">
+            <summary>RMS, frequency and real loads <small>Optional</small></summary>
+            <p>RMS is the effective value of an alternating signal. Across a resistor, 4 V RMS delivers the same average power as a steady 4 V. Combining Ohm’s law with the power equation gives P = V²/R and P = I²R, using RMS voltage and current for these audio examples.</p>
+            <p>A speaker or headphone’s impedance can vary with frequency. For a sine wave at one frequency, the RMS current magnitude is the RMS voltage at the terminals divided by the impedance magnitude at that frequency. If the current and voltage are out of phase, average real power also depends on their phase difference.</p>
+          </details>
+        </div>
+        <div class="dl-references">
+          <h2>Sources and further reading</h2>
+          <ul>
+            <li><a href="https://openstax.org/books/university-physics-volume-2/pages/9-4-ohms-law" rel="noopener noreferrer">OpenStax · Ohm’s law ↗</a></li>
+            <li><a href="https://openstax.org/books/university-physics-volume-2/pages/15-4-power-in-an-ac-circuit" rel="noopener noreferrer">OpenStax · Average power and RMS in an AC circuit ↗</a></li>
+            <li><a href="https://www.allaboutcircuits.com/textbook/direct-current/chpt-6/voltage-divider-circuits/" rel="noopener noreferrer">All About Circuits · Voltage division ↗</a></li>
+          </ul>
+          <p>To see how these numbers relate to volume, read <a href="/decoder/headphone-sensitivity/">headphone sensitivity and impedance</a>.</p>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand"><img src="/assets/mark.svg" width="29" height="29" alt=""><span>The Sound Question</span></div>
+        <div class="footer-links"><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a><a href="/privacy/">Privacy</a></div>
+        <p>From the first sound to the final listen. Understand what shapes what you hear.</p>
+        <small>© 2026 The Sound Question. Free to explore, no account required.</small>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

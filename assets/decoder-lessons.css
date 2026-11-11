@@ -164,6 +164,7 @@
 .dl-card-foot{padding-top:.7rem}.dl-beyond h2{font-size:clamp(1.8rem,3vw,2.7rem)}
 .dl-triad{margin-top:1.2rem}.dl-triad>div{padding:1rem}
 .dl-index-hint{font-size:.91rem;color:#c5ddeb;line-height:1.7;margin:1rem 0 0}
+.dl-index-hint a{color:#94ddfa;font-weight:740}
 @media(max-width:650px){.dl-home-hero{padding-block:33px 25px}.dl-cards{grid-template-columns:1fr}.dl-card{min-height:0}.dl-mini{height:40px}.dl-thumb{height:40px}}
 
 /* V2: Content-first detailed lessons: graph visible near the top on desktop and mobile */
@@ -357,6 +358,90 @@
 .dl-example-spec a{color:#94ddfa;font-weight:740}
 @media(max-width:900px){.dl-stat-grid{grid-template-columns:1fr;align-items:start}.dl-stat-chart{max-width:770px}}
 @media(max-width:650px){.dl-stat-decode{padding-block:12px 18px}.dl-stat-grid{padding:.7rem}.dl-stat-axis{font-size:16px}.dl-stat-label{font-size:19px}}
+
+/* Plain-language terms and worked electrical examples */
+.dl-term-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));
+  gap:.65rem;
+  margin:.75rem 0 1rem;
+}
+.dl-term-grid > div {
+  border:1px solid #385875;
+  border-radius:9px;
+  background:#102439;
+  padding:.7rem .9rem;
+}
+.dl-term-grid dt { color:#eefaff; font-weight:750; }
+.dl-term-grid dd { margin:.25rem 0 0; color:#c6d7e8; font-size:.9rem; line-height:1.55; }
+.dl-worked-table {
+  width:100%;
+  border-collapse:collapse;
+  margin:1rem 0;
+  background:#102439;
+  color:#e6f5ff;
+  font-variant-numeric:tabular-nums;
+}
+.dl-worked-table caption {
+  color:#d1e9f6;
+  font-weight:700;
+  padding:0 0 .5rem;
+  text-align:left;
+}
+.dl-worked-table th, .dl-worked-table td {
+  padding:.65rem clamp(.4rem,1.4vw,1rem);
+  border:1px solid #385875;
+  text-align:left;
+  vertical-align:top;
+}
+.dl-worked-table thead th { background:#142e42; }
+.dl-meter {
+  display:block;
+  width:100%;
+  height:.75rem;
+  margin:.35rem 0 0;
+  accent-color:#82d8fb;
+}
+.dl-meter::-webkit-meter-bar { background:#304e64; border:0; border-radius:10px; box-shadow:none; }
+.dl-meter::-webkit-meter-optimum-value { background:#82d8fb; border-radius:10px; }
+.dl-meter::-moz-meter-bar { background:#82d8fb; border-radius:10px; }
+.dl-note-bars { padding:1rem 1rem .85rem; min-width:0; }
+.dl-note-scale { margin:0 0 .8rem; font-size:.9rem; color:#d5e9f6; }
+.dl-note-row + .dl-note-row { margin-top:.8rem; }
+.dl-note-row label {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:.5rem;
+  color:#e8f7ff;
+  font-size:.93rem;
+}
+.dl-note-row label strong { white-space:nowrap; font-variant-numeric:tabular-nums; }
+.dl-response-details { margin:.65rem 1rem 1rem; }
+.dl-response-details .dl-graph { max-width:640px; margin:0 auto .65rem; }
+.dl-voltage-split { margin:1rem 0; }
+.dl-voltage-split-bar { display:flex; height:.9rem; border-radius:1rem; overflow:hidden; }
+.dl-voltage-split-bar span:first-child { background:#ffcf9e; }
+.dl-voltage-split-bar span:last-child { background:#82d8fb; }
+.dl-voltage-split figcaption {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  gap:.35rem 1rem;
+  margin-top:.5rem;
+  font-size:.9rem;
+  color:#c6d7e8;
+}
+@media(min-width:901px) {
+  .dl-stat-copy-first { grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); }
+}
+@media(min-width:1000px) {
+  .dl-note-bars { grid-column:1; grid-row:4; }
+  .dl-response-details { grid-column:1/-1; grid-row:7; }
+}
+@media(max-width:450px) {
+  .dl-worked-table { font-size:.87rem; }
+}
 
 /* Expanded decoder topics */
 .ex-new-svg{display:block;width:100%;height:auto}

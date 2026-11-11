@@ -50,6 +50,7 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 
 - `decoder/` presents twelve in-depth lessons and compact visual navigation.
 - `decoder/quick-reference/` preserves the original brief 15-spec index.
+- `decoder/ohms-law/` is a standalone reference for volts, amps, ohms and watts, with examples linked from the relevant lessons.
 - `decoder/curriculum.json` lists the speaker, amplifier and headphone lessons in order.
 - `assets/decoder-lessons.css` is scoped visual styling; `assets/decoder-lessons.js` runs interactive curve switching locally and performs no network calls.
 

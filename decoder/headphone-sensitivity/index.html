@@ -34,15 +34,19 @@
 <!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/headphone-output-impedance/" aria-label="Next lesson: Headphone output impedance and source matching">Next lesson: Headphone output impedance and source matching →</a><!-- LESSON_TOP_NAV_END -->
         </div>
         <p class="section-kicker">LESSON 11 · HEADPHONES</p>
-        <h1>Will your source drive your headphones?</h1>
-        <p class="lead">Read sensitivity and impedance together to see what a headphone asks of your dongle or amplifier. The same printed sensitivity can mean different things when the test units change.</p>
+        <h1>Will your headphones play loud enough?</h1>
+        <p class="lead">Your headphone jack needs enough output to reach the volume you want and handle sudden peaks. Two headphone specs tell you what the jack has to supply.</p>
+        <dl class="dl-term-grid">
+          <div><dt>Sensitivity</dt><dd>How loud the headphones play with a given amount of electrical input.</dd></div>
+          <div><dt>Impedance</dt><dd>How much the headphones oppose current. Lower ohms draw more current at the same voltage.</dd></div>
+        </dl>
         <div class="dl-example-spec" role="note">
           <span class="dl-spec-tag">EXAMPLE PRODUCT SPECIFICATION</span>
           <strong>300 Ω · 102 dB SPL at 1 V RMS</strong>
-          <p>This sensitivity rating uses voltage as its reference. <a href="#decode-the-spec">Read the example ↓</a></p>
+          <p>How loud this example plays with one volt applied. <a href="#decode-the-spec">Read the rating ↓</a></p>
         </div>
         <nav class="dl-lesson-jumps" aria-label="On this page">
-          <a href="#compare">Compare cases ↓</a><a href="#understand">How it works ↓</a><a href="#listening">What might you hear? ↓</a><a href="#buying">Buying advice ↓</a>
+          <a href="#compare">Compare three headphones ↓</a><a href="#understand">Why ohms matter ↓</a><a href="#listening">What to listen for ↓</a><a href="#buying">What to check before buying ↓</a>
         </nav>
       </div>
 
@@ -51,7 +55,13 @@
           <p class="section-kicker">DECODE THE EXAMPLE</p>
           <h2>300 Ω · 102 dB SPL at 1 V RMS</h2>
         </div>
-        <div class="dl-stat-grid">
+        <div class="dl-stat-grid dl-stat-copy-first">
+          <div class="dl-stat-explanation">
+            <p class="dl-stat-key">Find the dot marked 1 V</p>
+            <p><strong>300 Ω</strong> is the headphone’s stated impedance. The gold dot shows that applying <strong>1 V RMS</strong> produces <strong>102 dB SPL</strong> in the example test. RMS is the effective voltage of the test signal. SPL means sound pressure level.</p>
+            <p>The blue dot shows the same headphone with one milliwatt of power. That takes about <strong>0.548 V RMS</strong> and gives about <strong>96.8 dB SPL</strong> in this example.</p>
+            <p class="dl-stat-warning">The <a href="/decoder/headphone-types/#decode-the-spec">32 Ω example</a> also prints 102 dB SPL. Read what follows “at” to see which input each rating uses. These are test levels.</p>
+          </div>
           <div class="dl-stat-chart">
             <svg class="dl-stat-svg" viewBox="0 0 600 272" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fictional 300-ohm headphone level versus voltage. The highlighted rating is 102 dB SPL at 1 V RMS. At 0.548 V RMS the load draws 1 mW and the calculated level is 96.8 dB SPL.">
               <rect width="600" height="272" rx="12" fill="#0b1b2e"/>
@@ -76,24 +86,19 @@
             </svg>
             <p class="dl-stat-caption">Ideal calculation for a 300 Ω resistive load with linear acoustic response.</p>
           </div>
-          <div class="dl-stat-explanation">
-            <p class="dl-stat-key">What the rating tells you</p>
-            <p><strong>300 Ω</strong> is the nominal load. <strong>102 dB SPL at 1 V RMS</strong> is the sound pressure level for one volt across that load in the example test. RMS means root mean square, the effective voltage for the calculation. At 300 Ω, 1 V supplies 3.33 mW. The same sensitivity works out to about <strong>96.8 dB SPL at 1 mW</strong>, which takes 0.548 V RMS.</p>
-            <p class="dl-stat-warning">The <a href="/decoder/headphone-types/#decode-the-spec">32 Ω example</a> also prints 102 dB SPL, but its reference is 1 mW. Convert both to a shared reference before comparing. Treat these levels as test references only.</p>
-          </div>
         </div>
       </section>
 
       <section class="dl-chart-section container" id="compare">
         <div class="dl-heading">
-          <h2>Same sound pressure, different electrical demands</h2>
-          <p>All three fictional examples use the same 90 dB SPL test-tone reference and ideal resistive loads. Each bar keeps its scale when you switch headphones.</p>
+          <h2>Three headphones at the same test level</h2>
+          <p>Choose a headphone. The bars show what its jack needs to supply to reach the same test tone level. Look at the voltage row across the three examples, then do the same for current.</p>
         </div>
         <div class="dl-figure" data-lesson-plot="headphone-sensitivity">
           <div class="dl-graph-toolbar" role="group" aria-label="Select a comparison case" hidden>
-            <button type="button" class="dl-option is-current" data-select-case="efficient" aria-pressed="true">Efficient 32 Ω</button>
-            <button type="button" class="dl-option" data-select-case="high-z" aria-pressed="false">300 Ω</button>
-            <button type="button" class="dl-option" data-select-case="high-current" aria-pressed="false">Low-sensitivity 16 Ω</button>
+            <button type="button" class="dl-option is-current" data-select-case="efficient" aria-pressed="true">32 Ω · Modest drive</button>
+            <button type="button" class="dl-option" data-select-case="high-z" aria-pressed="false">300 Ω · More voltage</button>
+            <button type="button" class="dl-option" data-select-case="high-current" aria-pressed="false">16 Ω · More current</button>
           </div>
           <svg class="dl-graph" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Calculated drive for a fictional 32-ohm load at the shared 90 dB SPL test point. Voltage 45 mV RMS. Current 1.40 mA RMS. Power 0.063 mW.">
               <rect width="600" height="270" rx="12" fill="#0b1b2e"/>
@@ -150,25 +155,22 @@
                 <text x="46.0" y="250.0" text-anchor="start" class="hp-plot-axis">0</text><text x="554.0" y="250.0" text-anchor="end" class="hp-plot-axis">3 mW</text>
               </g>
             </svg>
-          <div class="dl-plot-status" role="status" data-plot-status hidden>Showing: Efficient 32 Ω</div>
-          <div class="dl-graph-caption"><strong>Calculated values.</strong> Each row has its own units and scale. Compare voltage to voltage, current to current and power to power across cases.</div>
+          <div class="dl-plot-status" role="status" data-plot-status hidden>Showing: 32 Ω · Modest drive</div>
+          <div class="dl-graph-caption"><strong>Calculated at the same 90 dB SPL test point.</strong> Millivolts, milliamps and milliwatts are thousandths of a volt, amp and watt.</div>
           <div class="dl-case-desc" data-case-description="efficient">
-            <p class="dl-case-kicker">Efficient 32 Ω</p>
-            <h3>A small output can go a long way</h3>
-            <p>Rated <strong>32 Ω · 102 dB SPL at 1 mW</strong>. This example reaches the shared reference with about 45 mV RMS and 1.40 mA RMS.</p>
-            <p>Sensitive headphones and IEMs can reach the required level with modest power. Low background noise is worth checking because hiss may be easier to hear.</p>
+            <h3>A little voltage is enough</h3>
+            <p>This <strong>32 Ω</strong> headphone is rated <strong>102 dB SPL at 1 mW</strong>. It reaches the test level with 45 mV and 1.40 mA.</p>
+            <p>A sensitive headphone like this can play loudly from a modest source. Listen for hiss between tracks if you use sensitive IEMs.</p>
           </div>
           <div class="dl-case-desc" data-case-description="high-z" hidden>
-            <p class="dl-case-kicker">300 Ω</p>
-            <h3>This load needs more voltage</h3>
-            <p>Rated <strong>300 Ω · 102 dB SPL at 1 V RMS</strong>. The same reference takes about 251 mV RMS and 0.84 mA RMS.</p>
-            <p>It asks for the most voltage and the least current of the three. A source with limited voltage swing can run out of room for peaks.</p>
+            <h3>Check the jack’s voltage limit</h3>
+            <p>This <strong>300 Ω</strong> headphone is rated <strong>102 dB SPL at 1 V RMS</strong>. It needs 251 mV and 0.84 mA for the same test level.</p>
+            <p>It needs the most voltage of the three. A jack that can supply only a small voltage may run out of room on loud peaks.</p>
           </div>
           <div class="dl-case-desc" data-case-description="high-current" hidden>
-            <p class="dl-case-kicker">Low-sensitivity 16 Ω</p>
-            <h3>This load asks for more current</h3>
-            <p>Rated <strong>16 Ω · 86 dB SPL at 1 mW</strong>. The reference takes about 200 mV RMS and 12.53 mA RMS.</p>
-            <p>It takes less voltage than the 300 Ω example and about fifteen times as much current. The source needs to sustain that current into the lower load.</p>
+            <h3>Check how much current the jack can supply</h3>
+            <p>This <strong>16 Ω</strong> headphone is rated <strong>86 dB SPL at 1 mW</strong>. It needs 200 mV and 12.53 mA to reach the test level.</p>
+            <p>It needs a little less voltage than the 300 Ω example and about fifteen times its current. Check the jack’s clean output into a load near 16 Ω.</p>
           </div>
         </div>
         <noscript><p class="dl-stat-caption">At the same 90 dB SPL reference, the 300 Ω example needs about 251 mV RMS and 0.84 mA RMS. The low-sensitivity 16 Ω example needs about 200 mV RMS and 12.53 mA RMS.</p></noscript>
@@ -176,18 +178,17 @@
 
       <section class="dl-section-soft dl-foundation" id="understand">
         <div class="container dl-reading">
-          <h2>Match the units to the question</h2>
-          <p><strong>dB SPL at 1 V</strong> is handy when you know the source’s clean voltage into a headphone load. <strong>dB SPL at 1 mW</strong> is handy when you know the power into that load. The nominal impedance lets you estimate one from the other.</p>
-          <p>Low impedance draws more current at the same voltage. Higher impedance can demand more voltage at the same power. The sensitivity tells you how much electrical drive is needed for a given acoustic level, so the actual limit depends on both numbers.</p>
-          <p>Allow for music’s peaks when comparing with a source’s clean-output limits. For a linear headphone on a fixed resistive load, a signal segment 10 dB higher calls for about 3.16 times the voltage and current, and ten times the power.</p>
+          <h2>Why do lower ohms draw more current?</h2>
+          <p><a href="/decoder/ohms-law/#same-voltage">Ohm’s law</a> gives the current when you divide volts by ohms. Apply 1 V to a 64 Ω load and about 16 mA flows. Apply the same 1 V to 32 Ω and about 31 mA flows. Halving the resistance doubles the current in this example.</p>
+          <p>Sensitivity answers the other part of the question. It tells you how much input a headphone needs to reach a given sound level. That is why the 300 Ω example needs the most voltage and the 16 Ω example needs the most current at the same test level.</p>
         </div>
       </section>
 
       <section class="dl-section-soft dl-listening" id="listening">
         <div class="container dl-reading">
-          <h2>What happens when a source reaches its limit?</h2>
-          <p>If the source reaches its voltage or current limit, louder peaks can distort or compress. Hiss in quiet passages points to the noise floor of the source and how sensitive the headphone is to it.</p>
-          <p>A clean source with sufficient output can already cover the range you use. For changes in tonal balance between sources, check <a href="/decoder/headphone-output-impedance/">source output impedance</a> as well.</p>
+          <h2>Listen for rough peaks and hiss</h2>
+          <p>Try music you know at your usual volume. If the source runs out of voltage or current on a drum hit, the peak can sound rough or squashed. Hiss in quiet passages can come from the source’s noise, especially with sensitive headphones.</p>
+          <p>If you hear a change in bass or treble between jacks at the same listening level, see <a href="/decoder/headphone-output-impedance/">what the jack’s output impedance can change</a>.</p>
           <div class="dl-claims-grid">
             <div class="dl-audiophile"><p class="dl-box-label">COMMON CLAIM</p><p>“High-ohm headphones are always harder to drive.”</p></div>
             <div class="dl-evidence"><p class="dl-box-label">WHAT TO CHECK</p><p>Compare the voltage and current needed for the same test level. In the chart, 300 Ω asks for the highest voltage, and the less sensitive 16 Ω example demands the most current and power.</p></div>
@@ -199,14 +200,15 @@
         <div class="dl-reading">
           <h2>What should you look for?</h2>
           <ol class="dl-buy-list">
-            <li>Check whether sensitivity is quoted for 1 mW or 1 V, and look for the test frequency or method.</li>
-            <li>Find the source’s clean output into a load near your headphone impedance. Read the load and distortion conditions attached to the rating.</li>
-            <li>Check peak margin and noise. Extra available voltage helps when voltage is the limit, and low hiss matters with sensitive IEMs.</li>
+            <li>Read the input next to the sensitivity rating. Compare headphones at the same reference, whether that is 1 V or 1 mW.</li>
+            <li>Look up the jack’s clean output into a load close to your headphone’s ohm rating.</li>
+            <li>Leave some room for loud peaks at your usual listening volume. Check for hiss if you use sensitive IEMs.</li>
           </ol>
           <details class="dl-advanced">
-            <summary>Engineering deep dive <small>Optional</small></summary>
+            <summary>Convert sensitivity and calculate peak needs <small>Optional</small></summary>
             <p>For a resistive load R, P = V²/R and I = V/R, using RMS voltage and current. If sensitivity is quoted in dB SPL at 1 mW, add 10 log₁₀(1000/R) to estimate dB SPL at 1 V RMS. If sensitivity is quoted at 1 V, subtract that same term to estimate dB SPL at 1 mW.</p>
             <p>In the 300 Ω example, 10 log₁₀(1000/300) ≈ 5.23 dB. Manufacturer values can use different fixtures, test frequencies and averaging. Use the impedance at the test frequency when it’s available.</p>
+            <p>For a linear headphone on a fixed resistive load, a signal segment 10 dB higher calls for about 3.16 times the voltage and current, and ten times the power. See <a href="/decoder/ohms-law/#power">how volts and amps determine watts</a>.</p>
           </details>
         </div>
         <div class="dl-references">

@@ -24,7 +24,7 @@ document.querySelectorAll('[data-lesson-plot]').forEach(section => {
      status.textContent = 'Showing: ' + title + '. ' + note;
    }
    if (chart) {
-     const selectedPlot = plots.find(plot => plot.dataset.plotCase === choice);
+     const selectedPlot = plots.find(plot => chart.contains(plot) && plot.dataset.plotCase === choice);
      const summary = selectedPlot?.dataset.plotSummary;
      chart.setAttribute('aria-label', summary || 'Illustrative graph for ' + section.dataset.lessonPlot.replaceAll('-', ' ') + '. Selected example: ' + title + '.');
    }
