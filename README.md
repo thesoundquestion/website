@@ -58,3 +58,16 @@ Add new topic modules without claiming that planned lessons, PDFs or audio exper
 All lesson graphs are generated **synthetic illustrations**, not actual measured equipment, simulated amplifier circuitry or extracted manufacturer plots. Never present them as sourced data. The lessons distinguish tonal preference, objective performance evidence, poor documentation, and genuine engineering limitations. The harmonic distortion bars show relative harmonic patterns only, not auditory loudness or real signal data. Graph controls preserve a readable first scenario with JavaScript disabled.
 
 Citation and measurement-source URLs live in each lesson's further-reading section. The public site is distinct from the private research workspace.
+
+### Lesson navigation and publication rule
+
+The canonical order of all published lessons is `decoder/curriculum.json`. Each lesson **must** have:
+
+1. A small, top-of-page "Next lesson" quick link.
+2. A prominent bottom "Up next" link and previous/all-lessons navigation.
+3. On the final lesson of a category, a separate "Want to learn about amplifiers?" or "Want to learn about speakers?" card linking to the opposite category.
+4. Correct adjacent links when the curriculum changes, without any dependency on JavaScript.
+
+**Every time a lesson is added, removed or reordered**: edit `decoder/curriculum.json`, make sure the lesson's HTML is in place, run `python3 scripts/sync_decoder_navigation.py`, and commit the updated pages with the curriculum file. This helper uses only Python's standard library and updates all lesson navigation from one central order. The last lesson links back to the first to avoid a dead end. New categories should be given appropriate category prompts instead of assuming there are only speakers and amplifiers.
+
+The lesson index cards at `decoder/index.html` must also be updated for any newly published lesson.

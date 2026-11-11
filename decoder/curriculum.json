@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "description": "Published Spec Sheet Decoder lesson order. Keep updated whenever a new lesson is added; run scripts/sync_decoder_navigation.py to rebuild adjacent-lesson links.",
+  "lessons": [
+    {
+      "slug": "speaker-frequency-response",
+      "category": "speakers",
+      "title": "Speaker frequency response",
+      "description": "Understand why speakers sound balanced, bright, warm or forward."
+    },
+    {
+      "slug": "bass-extension",
+      "category": "speakers",
+      "title": "Bass extension",
+      "description": "See how the deepest bass notes fade and why the shape matters."
+    },
+    {
+      "slug": "speaker-sensitivity",
+      "category": "speakers",
+      "title": "Speaker sensitivity",
+      "description": "Learn why some speakers play louder from the same amplifier input."
+    },
+    {
+      "slug": "amplifier-power",
+      "category": "amplifiers",
+      "title": "Amplifier power",
+      "description": "Understand clean output, headroom and meaningful wattage ratings."
+    },
+    {
+      "slug": "amplifier-distortion",
+      "category": "amplifiers",
+      "title": "Amplifier distortion and harmonics",
+      "description": "Compare distortion curves and understand the added tones."
+    }
+  ]
+}
