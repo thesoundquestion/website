@@ -109,3 +109,11 @@
 @media(max-width:700px){.dl-cards,.dl-triad,.dl-harmonic-columns{grid-template-columns:1fr}.dl-home-hero{padding-block:60px}.dl-intro-strip{grid-template-columns:1fr 1fr}.dl-graph-toolbar{padding:.95rem}.dl-graph-toolbar>span{width:100%}.dl-option{font-size:.76rem}.dl-graph .dl-axis{font-size:17px}.dl-graph .dl-title-axis{font-size:16px}.dl-case-desc{padding:0 1rem 1rem}.dl-graph-caption{margin:0 1rem 1.1rem}.dl-harmonics{padding-block:3rem}.dl-lesson-top h1{font-size:clamp(2.5rem,10vw,4.1rem)}}
 @media(max-width:420px){.dl-intro-strip{grid-template-columns:1fr}.dl-graph-toolbar{gap:.35rem}.dl-option{padding:.5rem}.dl-buy-list li{padding-left:3.1rem}.dl-buy-list li::before{left:.9rem}}
 @media(prefers-reduced-motion:reduce){.dl-card{transition:none}}
+
+/* Additional plain-language graph orientation */
+.dl-graph-orientation{margin:1.2rem 1.45rem 0;display:flex;justify-content:space-between;gap:1rem;align-items:center}
+.dl-graph-orientation span{font-size:.67rem;letter-spacing:.08em;font-weight:800;color:#9edcf9;text-align:center;flex:1}
+.dl-graph-orientation span:first-child{text-align:left}
+.dl-graph-orientation span:last-child{text-align:right}
+.dl-graph-translation{margin:.7rem 1.45rem 0;font-size:.92rem;line-height:1.7;color:#d5e9f6}
+@media(max-width:600px){.dl-graph-orientation{margin:1rem .8rem 0;gap:.4rem}.dl-graph-orientation span{font-size:.58rem;letter-spacing:0}.dl-graph-translation{margin:.65rem .9rem 0;font-size:.81rem}}
