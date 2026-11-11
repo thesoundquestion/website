@@ -1732,6 +1732,23 @@ const systemCheckGear = {
       "url": "https://media.dustin.eu/media/d200001003267145/sound-blaster-x-fi-titanium-hd-produktinformation.pdf"
     },
     {
+      "model": "FiiO K11 (RCA line out)",
+      "values": {
+        "sourceVoltage": 1.95,
+        "sourceConnection": "RCA",
+        "sourceSnr": [
+          "≥126 dB",
+          "A-weighted, RCA line output"
+        ],
+        "sourceThdn": [
+          "<0.00035%",
+          "1 kHz, −0.3 dB, 10 kΩ, RCA line out"
+        ]
+      },
+      "url": "https://www.fiio.com/k11_parameters",
+      "note": "Original CS43198-based FiiO K11 (not the K11 R2R). Output is the RCA line-out specification; headphone ports have separate output ratings."
+    },
+    {
       "model": "iFi ZEN DAC V2 (fixed RCA)",
       "values": {
         "sourceVoltage": 2.1,
@@ -1822,6 +1839,37 @@ const systemCheckGear = {
     }
   ],
   "headphone": [
+    {
+      "model": "Audio-Technica ATH-M50x",
+      "values": {
+        "design": "Closed-back over-ear",
+        "sensitivity": 99,
+        "basis": "power",
+        "load": 38
+      },
+      "url": "https://www.audio-technica.com.cn/index.php?lang=eng&op=productdetails&pid=927",
+      "note": "Wired ATH-M50x, not Bluetooth. Manufacturer specifies 99 dB/mW, 38 Ω and 45 mm drivers."
+    },
+    {
+      "model": "beyerdynamic DT 770 PRO (80 Ω)",
+      "values": {
+        "design": "Closed-back over-ear",
+        "load": 80
+      },
+      "url": "https://north-america.beyerdynamic.com/p/dt-770-pro-80-ohm",
+      "note": "This entry is the 80 Ω version. Manufacturer lists 96 dB nominal SPL but the exact sensitivity reference is not sufficiently established here; enter a verified value for source-drive estimates."
+    },
+    {
+      "model": "Grado SR60x",
+      "values": {
+        "design": "Open-back on-ear",
+        "sensitivity": 99.8,
+        "basis": "power",
+        "load": 38
+      },
+      "url": "https://www.gradothailand.com/en/product/sr60x/",
+      "note": "Prestige X SR60x, not Classic-series SR60. Manufacturer-regional source lists 38 Ω and 99.8 dB at 1 mW."
+    },
     {
       "model": "Grado SR80e",
       "values": {
