@@ -65,11 +65,13 @@ test('a self reported used purchase is not treated as a verified sale sample',()
   assert.equal(x.regular.length,0);
 });
 
-test('regional-only amounts never leak into UK or US plans',()=>{
+test('Canadian market-only records never leak; US gets distinct source-backed USD pair prices',()=>{
   assert.equal(priceContextFor('Paradigm Monitor SE Atom','GB','GBP'),null);
   assert.equal(priceContextFor('Paradigm Titan v3','US','USD'),null);
   const us=candidates({region:'US',currency:'USD'});
-  assert.ok(us.selected.every(x=>x.marketContext===null));
+  assert.ok(us.selected.some(x=>x.title==='Polk Monitor XT15'&&x.subtotal===179));
+  assert.ok(us.selected.some(x=>x.title==='Polk Monitor XT20'&&x.subtotal===279));
+  assert.ok(us.selected.every(x=>x.pricingCurrency==='USD'));
 });
 
 test('budget 300 can use a documented broad seasonal Atom promotion but not after it expires',()=>{
