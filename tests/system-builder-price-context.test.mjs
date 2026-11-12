@@ -37,12 +37,12 @@ test('sale discounts never become assumed regular market values',()=>{
   assert.ok(p.marketContext.notes.includes('advertised prices'));
 });
 
-test('used asking examples are two real observations but not a calculated market average',()=>{
+test('used asking examples from three sellers do not become an average',()=>{
   const x=priceContextFor('Paradigm Titan v3');
-  assert.equal(x.usedAsks.length,2);
+  assert.equal(x.usedAsks.length,3);
   assert.ok(x.usedAsks.every(a=>a.status.includes('asking_only')));
   assert.equal(x.usedExampleRange.min,125);
-  assert.equal(x.usedExampleRange.max,149.95);
+  assert.equal(x.usedExampleRange.max,195);
   assert.equal(x.usedExampleRange.notRegionalMedian,true);
   assert.equal(x.usedExampleRange.notTransactionPrices,true);
   assert.equal(CANADIAN_PAIR_PRICE_OBSERVATIONS['Paradigm Titan v3'].excludedOlder.length,1);
