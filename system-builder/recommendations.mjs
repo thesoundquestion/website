@@ -154,12 +154,15 @@ export function shortlistExamples(input = {}) {
   const used = input.used !== false;
   const selected = [], excluded = [];
   const targetArchitectures = arch === 'open' ?
-    (scene === 'party' || aim === 'party' ? ['party_pa'] : ['passive_separates','consumer_powered_pair','active_studio']) :
+    (scene === 'party' || aim === 'party' || neededPower ? ['party_pa'] : ['passive_separates','consumer_powered_pair','active_studio']) :
     [arch];
   let order;
   if (targetArchitectures.length === 1 && targetArchitectures[0] === 'headphone_first') order = ['headphone-hd560','headphone-hd600'];
   else if (targetArchitectures.length === 1 && targetArchitectures[0] === 'party_pa') order = ['party-soundboks','party-jbl','party-dzr'];
   else if (scene === 'desk') order = ['powered-mr4','powered-ora','studio-jbl','studio-kali','passive-rs202-p3','passive-as301-p5','used-rx485-titan'];
+  else if (aim === 'imaging') order = ['studio-jbl','powered-ora','passive-as301-p5','studio-kali','passive-rs202-p3','powered-mr4','used-rx485-titan'];
+  else if (aim === 'natural') order = ['passive-as301-p5','studio-kali','powered-mr4','powered-ora','passive-rs202-p3','studio-jbl','used-rx485-titan'];
+  else if (aim === 'low_volume') order = ['powered-mr4','passive-as301-p5','powered-ora','studio-kali','passive-rs202-p3','studio-jbl','used-rx485-titan'];
   else if (aim === 'bass') order = ['powered-ora','passive-as301-p5','studio-kali','passive-rs202-p3','studio-jbl','powered-mr4','used-rx485-titan'];
   else if (aim === 'dynamic' || input.level === 'high') order = ['passive-as301-p5','studio-kali','passive-rs202-p3','studio-jbl','powered-ora','powered-mr4','used-rx485-titan'];
   else order = ['passive-rs202-p3','passive-as301-p5','powered-ora','powered-mr4','studio-kali','studio-jbl','used-rx485-titan'];
@@ -182,6 +185,7 @@ export function shortlistExamples(input = {}) {
         new Set(selected.map(x=>x.architecture)).size < 3) continue;
     const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
     selected.push({ ...product, subtotal, priceComponents:snapshot?.components || [],
+      editorialGoalFocus: product.goals.includes(aim),
       pricingStatus: subtotal === null ? 'regional_price_missing' : 'partial_subtotal',
       connectionStatus: needsConnection ? 'adapter_needed' : 'native_possible',
       levelCaution:input.level === 'high' && ['powered-mr4','powered-ora'].includes(product.id),
