@@ -80,3 +80,13 @@
 .sc-speaker-safety>a{font-size:.8rem;display:inline-block;margin:.4rem 0 .1rem}
 .sc-amp-stress-warning{margin:.9rem 0 0!important;padding:.8rem .85rem;border-left:4px solid #e7ad82;border-radius:5px;background:#382d2c;color:#ffe0cd;font-size:.85rem;line-height:1.65}
 @media(max-width:520px){.sc-power-inputs{padding:.75rem}.sc-power-inputs .sc-fields{grid-template-columns:1fr}}
+
+/* External Google links: no embedded search UI and no search service dependency */
+.sc-lookup-guide{font-size:.86rem;line-height:1.7;color:#c6ddec}
+.sc-lookup-extra{font-size:.81rem;line-height:1.65;color:#aecbda}
+.sc-search-status{font-size:.82rem;line-height:1.55;color:#b9d7e6;min-height:1.3em}
+.sc .sc-searches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;margin:.8rem 0}
+.sc .sc-searches a.sc-search-link{display:flex;align-items:center;justify-content:space-between;min-width:0;padding:.7rem .8rem;border:1px solid #426b83;border-radius:.55rem;background:#152b3c;color:#d8f3ff;text-decoration:none;font-weight:700;font-size:.83rem;line-height:1.4}
+.sc .sc-searches a.sc-search-link-primary{border-color:#84cfe8;background:#17384b;color:#f0fbff}
+.sc .sc-searches a.sc-search-link:hover,.sc .sc-searches a.sc-search-link:focus-visible{border-color:#b1efff;background:#1d4157;text-decoration:underline}
+@media(max-width:720px){.sc .sc-searches{grid-template-columns:1fr}}

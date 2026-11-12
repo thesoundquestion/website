@@ -226,3 +226,6 @@ The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `
 - One original stereo phrase powers the restrained, moderate and heavily limited examples, the peak/RMS comparisons, and the same-mix remaster. Voltage ranges, RMS, sample peak, crest factor and ideal 8 Ω power all come from the displayed signals. The EQ plot shows the applied filter gain. Vinyl and digital paths use original diagrams.
 - The lesson links to exact releases and engineer accounts for Yes, Clapton, Elbow, Dire Straits, Metallica and Daft Punk. Playback normalization is tied to current platform documentation and ITU/EBU standards.
 - Run `python3 scripts/sync_mastering_examples.py` after changing the synthetic signal, processing or plot settings. It regenerates the marked HTML sections with standard-library Python. Deployment still serves the committed static files directly.
+
+### System Check Google lookup cleanup (2026-11-12)
+System Check now opens targeted **ordinary Google searches** only. Removed embedded Google CSE loader, results UI and engine ID. See `system-check/SPEC_SEARCH_EXTERNAL_GOOGLE_2026_11_12.md` for search categories, tested source models and limitations. The calculation engine and equipment database are preserved. Run `node --test tests/system-check-results.test.mjs tests/system-check-search.test.mjs`.

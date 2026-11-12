@@ -61,110 +61,8 @@ function syncLevels() {
   field(fromPeak ? 'average' : 'peak').value = Number(linkedLevel.toFixed(2));
 }
 
-const lookup = {
-  speaker: [
-    ['Manufacturer specs and manual', 'speaker official specifications manual sensitivity nominal impedance'],
-    ['Independent sensitivity and impedance tests', 'speaker measured sensitivity impedance phase Erin Audio Corner Audio Science Review Stereophile'],
-    ['Search Spinorama', 'site:spinorama.org']
-  ],
-  amp: [
-    ['Manufacturer specs and manual', 'amplifier official manual specifications watts per channel input sensitivity gain'],
-    ['Find a 4 Ω bench test', 'amplifier measurements 4 ohms watts THD+N Stereophile Audioholics Audio Science Review'],
-    ['Find distortion and output impedance tests', 'amplifier bench test distortion versus power output impedance']
-  ]
-};
-
-function searchLink(label, model, terms) {
-  const a = document.createElement('a');
-  a.textContent = label;
-  a.href = 'https://www.google.com/search?' + new URLSearchParams({ q: '"' + model + '" ' + terms });
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  return a;
-}
-
-const specPanel = document.querySelector('#spec-search');
-const engineId = specPanel?.dataset.googleEngine;
-let googleResults;
-let lastSearch = 0;
-
-function loadGoogleResults() {
-  if (googleResults) return googleResults;
-  googleResults = new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    const timeout = setTimeout(() => reject(new Error('Google Search timed out')), 12000);
-    function fail(error) {
-      clearTimeout(timeout);
-      reject(error);
-    }
-    window.__gcse = {
-      parsetags: 'explicit',
-      callback() {
-        try {
-          const search = window.google.search.cse.element;
-          search.render({
-            div: 'spec-search-results',
-            tag: 'searchresults-only',
-            gname: 'equipmentSpecs',
-            attributes: { autoSearchOnLoad: false, linkTarget: '_blank' }
-          });
-          const results = search.getElement('equipmentSpecs');
-          if (!results) throw new Error('Google Search did not initialize');
-          clearTimeout(timeout);
-          resolve(results);
-        } catch (error) {
-          fail(error);
-        }
-      }
-    };
-    script.async = true;
-    script.src = 'https://cse.google.com/cse.js?' + new URLSearchParams({ cx: engineId });
-    script.addEventListener('error', () => fail(new Error('Google Search could not load')));
-    document.head.append(script);
-  });
-  return googleResults;
-}
-
-async function searchSpecs(model, terms) {
-  const request = ++lastSearch;
-  const searchStatus = document.querySelector('#spec-search-status');
-  specPanel.hidden = false;
-  document.querySelector('#spec-search-links').replaceChildren(searchLink('Search all of Google', model, terms));
-  document.querySelector('#spec-search-title').focus();
-  searchStatus.textContent = 'Searching for ' + model + '…';
-  try {
-    const results = await loadGoogleResults();
-    if (request !== lastSearch) return;
-    results.execute('"' + model + '"');
-    searchStatus.textContent = 'Results for ' + model;
-  } catch {
-    if (request === lastSearch) searchStatus.textContent = 'Inline results are unavailable. Open the Google search to continue.';
-  }
-}
-
-for (const group of form.querySelectorAll('[data-lookup]')) {
-  const input = group.querySelector('input');
-  const links = group.querySelector('.sc-searches');
-  input.addEventListener('input', () => {
-    const model = input.value.trim();
-    links.replaceChildren();
-    if (!model) return;
-    const options = lookup[group.dataset.lookup];
-    if (!engineId) {
-      links.append(...options.map(([label, terms]) => searchLink(label, model, terms)));
-      return;
-    }
-    const terms = group.dataset.lookup === 'speaker'
-      ? 'speaker sensitivity nominal impedance specifications measurements'
-      : 'amplifier output power 8 ohms 4 ohms specifications measurements';
-    const button = document.createElement('button');
-    button.className = 'sc-button';
-    button.type = 'button';
-    button.textContent = 'Search for specs';
-    button.addEventListener('click', () => searchSpecs(model, terms));
-    links.append(button, searchLink('Search all of Google', model, terms));
-  });
-}
+// External specification searches live independently in spec-search.mjs.
+// Calculator engineering logic and manual-entry fields remain unchanged.
 
 function readRatings() {
   const entries = [];
@@ -918,11 +816,6 @@ document.querySelector('#example').addEventListener('click', () => {
     addRating(watts, load, 'burst', 'Fictional lesson peak limit');
   }
   for (const links of form.querySelectorAll('.sc-searches')) links.replaceChildren();
-  if (specPanel) {
-    specPanel.hidden = true;
-    lastSearch++;
-    googleResults?.then(results => results.clearAllResults()).catch(() => {});
-  }
   sync();
   form.requestSubmit();
 });

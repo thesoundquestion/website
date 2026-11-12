@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="/system-check/style.css?v=compare-gear">
 <script defer src="/system-check/gear.js?v=compare-gear"></script>
 <script defer src="/system-check/calculator.js?v=compare-gear"></script>
+<script type="module" src="/system-check/spec-search.mjs?v=external-google"></script>
 <title>System Check | The Sound Question</title>
 </head>
 <body>
@@ -60,9 +61,11 @@
 <p id="sensitivity-count-note"><strong>Use sensitivity for one speaker.</strong> The calculator adds the pair’s contribution under Speakers contributing. If your sensitivity figure already includes both speakers at the stated input per speaker, choose +0 dB there.</p>
 <datalist id="impedances"><option value="3"><option value="4"><option value="6"><option value="8"><option value="12"><option value="16"></datalist>
 <details class="sc-lookup" data-lookup="speaker"><summary>Find my speaker specs</summary>
-<label>Brand and exact model<input name="speakerModel" placeholder="e.g. Klipsch RP-600M II"></label>
-<p>Look for the sensitivity basis and nominal impedance in the manual. Independent tests may show how far impedance dips. Browse the <a href="https://www.spinorama.org/" target="_blank" rel="noopener">Spinorama speaker index</a>.</p>
-<div class="sc-searches"></div></details>
+<label>Brand and exact model<input name="speakerModel" maxlength="120" placeholder="e.g. Paradigm Phantom v1" aria-describedby="speaker-search-guide"></label>
+<p id="speaker-search-guide" class="sc-lookup-guide">Search only for fields used here: <strong>sensitivity and its 2.83 V/1 W basis, nominal impedance, and separately labelled power-handling values</strong>. Advanced fields can use measured minimum/maximum impedance and phase. A recommended amplifier range is <strong>not</strong> the speaker's damage limit. Manufacturer ratings and independent tests may use different conditions.</p>
+<p class="sc-search-status" role="status">Enter the manufacturer and exact model to show targeted Google searches.</p>
+<div class="sc-searches" role="group" aria-label="Speaker specification Google links"></div>
+<p class="sc-lookup-extra">Independent measurements may help: <a href="https://www.spinorama.org/" target="_blank" rel="noopener noreferrer">Spinorama speaker index</a>. Leave undocumented fields blank.</p></details>
 </fieldset>
 <fieldset><legend>Listening goal</legend>
 <div class="sc-fields">
@@ -88,9 +91,11 @@
 <div id="ratings"></div>
 <button class="sc-button" id="add-rating" type="button">Add a power rating</button>
 <details class="sc-lookup" data-lookup="amp"><summary>Find my amplifier specs</summary>
-<label>Brand and exact model<input name="ampModel" placeholder="e.g. Yamaha A-S801"></label>
-<p>Check the load, distortion limit, frequency range, and channels driven before comparing results. Browse <a href="https://www.stereophile.com/" target="_blank" rel="noopener">Stereophile</a> or <a href="https://www.audioholics.com/amplifier-reviews" target="_blank" rel="noopener">Audioholics amplifier reviews</a>.</p>
-<div class="sc-searches"></div></details>
+<label>Brand and exact model<input name="ampModel" maxlength="120" placeholder="e.g. Yamaha A-720" aria-describedby="amp-search-guide"></label>
+<p id="amp-search-guide" class="sc-lookup-guide">Find <strong>watts per channel</strong> at the stated 8, 6 or 4 Ω load, the <strong>continuous/burst/unspecified</strong> rating type, and test conditions (THD/THD+N, test frequency or band, and channels driven). For advanced fields, search input sensitivity, input impedance, gain and distortion measurements. <strong>Peak, dynamic and maximum watts are not continuous ratings.</strong></p>
+<p class="sc-search-status" role="status">Enter the manufacturer and exact model to show targeted Google searches.</p>
+<div class="sc-searches" role="group" aria-label="Amplifier specification Google links"></div>
+<p class="sc-lookup-extra">Independent testing: <a href="https://www.stereophile.com/" target="_blank" rel="noopener noreferrer">Stereophile</a> or <a href="https://www.audioholics.com/amplifier-reviews" target="_blank" rel="noopener noreferrer">Audioholics</a>. Enter verified figures yourself and keep each test condition with its rating.</p></details>
 </fieldset>
 <details class="sc-advanced"><summary>Fine-tune the estimate</summary>
 <fieldset><legend>Room and speaker load</legend><div class="sc-fields">
@@ -131,12 +136,7 @@
 <h2 id="result-title">Your estimate</h2>
 <p id="result-status" role="status">Enter your speaker specs and listening goal to get started.</p>
 <div id="result-body"></div>
-<section id="spec-search" aria-labelledby="spec-search-title" data-google-engine="046ede62253d54a0f" hidden>
-<h2 id="spec-search-title" tabindex="-1">Spec search</h2>
-<p id="spec-search-status" role="status"></p>
-<div id="spec-search-links" class="sc-searches"></div>
-<div id="spec-search-results"></div>
-</section>
+
 </section>
 </form>
 <section class="sc-notes">
