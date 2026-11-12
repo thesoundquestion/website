@@ -1094,6 +1094,114 @@
       }
     ]
   },
+  "playback-sources": {
+    "title": "Playback sources: vinyl, CD, DACs and sound cards",
+    "specification": "A DAC is a function, not necessarily a separate box.",
+    "topic": "playback signal paths and source conversion",
+    "terms": [
+      "playback source",
+      "vinyl",
+      "record",
+      "turntable",
+      "phono",
+      "cartridge",
+      "moving magnet",
+      "moving coil",
+      "riaa",
+      "cd",
+      "cd transport",
+      "compact disc",
+      "digital",
+      "dac",
+      "sound card",
+      "audio interface",
+      "streamer",
+      "usb",
+      "bluetooth",
+      "cassette",
+      "line level",
+      "input",
+      "output",
+      "mastering",
+      "resampling"
+    ],
+    "sections": [
+      "signal-path",
+      "source-types",
+      "where-changes-happen",
+      "riaa",
+      "connection-check",
+      "takeaways",
+      "sources"
+    ],
+    "answers": {
+      "simple": {
+        "text": "The music can begin on a record, CD, computer or streamer. A turntable cartridge needs phono gain and RIAA playback equalization; digital playback needs a DAC somewhere before an ordinary analogue amplifier input. Those functions can already be inside the source or the amplifier.",
+        "section": "signal-path"
+      },
+      "spec": {
+        "text": "A DAC converts digital audio into analogue audio. A complete CD player, internal sound card or streamer with RCA outputs already has a DAC. An external DAC is optional unless a digital-only source feeds an analogue-only amplifier or you have a specific performance or connectivity reason.",
+        "section": "signal-path"
+      },
+      "hear": {
+        "text": "Differences can come from record surface noise, cartridge response and tracking, DAC noise/distortion, output levels, operating-system processing or different masters. A source category by itself does not guarantee a distinctive sound. Level-match and compare the same mastering.",
+        "section": "where-changes-happen"
+      },
+      "buy": {
+        "text": "Check the output type and the input type first. Raw turntables usually need an appropriate phono preamp; digital-only CD transports or streamers need a DAC before analogue line inputs. A clean CD player, sound card or streamer with RCA line out already includes the required DAC.",
+        "section": "connection-check"
+      },
+      "related": {
+        "text": "Next, learn how source output voltage and amplifier input sensitivity interact. Our DAC measurements lesson explains noise, distortion, and output level rather than treating sample-rate support as a sound-quality score.",
+        "href": "/decoder/source-levels/#decode-the-spec"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/source-levels/#decode-the-spec",
+      "/decoder/dac-specifications/#decode-the-spec",
+      "/decoder/sample-rate/#decode-the-spec",
+      "/decoder/bit-depth/#decode-the-spec"
+    ],
+    "plots": {},
+    "questions": [
+      {
+        "phrases": [
+          "does a cd player need a separate dac",
+          "do i need a dac with a cd player",
+          "is a cd transport the same as a cd player"
+        ],
+        "text": "A CD player with analogue RCA outputs has an internal DAC. A digital-only transport needs a DAC downstream, either in the receiver or in a separate converter. Whether an external DAC improves sound depends on the actual devices, not the word external.",
+        "section": "source-types"
+      },
+      {
+        "phrases": [
+          "can i connect my turntable to aux",
+          "what is a phono preamp for",
+          "why does vinyl need riaa"
+        ],
+        "text": "A typical raw moving-magnet or moving-coil cartridge sends a small, RIAA-encoded signal. A compatible phono preamp adds gain and complementary playback equalization. A turntable with its phono stage switched on can supply an ordinary line input instead.",
+        "section": "riaa"
+      },
+      {
+        "phrases": [
+          "is an internal sound card worse than a usb dac",
+          "are sound cards bad compared to dacs",
+          "should i replace the sound card with a dac"
+        ],
+        "text": "A sound card already contains a DAC. Some measure very well; others have higher noise or less convenient connectivity. Compare actual analogue-output performance and source settings before deciding an external DAC would help.",
+        "section": "source-types"
+      },
+      {
+        "phrases": [
+          "is vinyl warmer than a cd",
+          "why does vinyl sound different from streaming",
+          "does digital sound cold"
+        ],
+        "text": "Vinyl playback can add measurable cartridge response variation, noise or distortion, and CD or streaming releases may have different masters. The medium label alone does not establish a fixed warm or cold character. Check mastering and playback levels first.",
+        "section": "where-changes-happen"
+      }
+    ]
+  },
   "source-levels": {
     "title": "Source levels and amplifier input sensitivity",
     "specification": "Source: 2.0 V RMS at 0 dBFS · Amp: 200 mV RMS input sensitivity",
@@ -1325,13 +1433,13 @@
           "441"
         ],
         "examples": {
-          "480": {
-            "label": "48 kHz",
-            "text": "At 48 kHz there are 480 samples in 10 milliseconds and a theoretical boundary of 24 kHz."
-          },
           "441": {
             "label": "44.1 kHz",
             "text": "At 44.1 kHz there are 441 samples in 10 milliseconds and a theoretical boundary of 22.05 kHz."
+          },
+          "480": {
+            "label": "48 kHz",
+            "text": "At 48 kHz there are 480 samples in 10 milliseconds and a theoretical boundary of 24 kHz."
           },
           "960": {
             "label": "96 kHz",
@@ -1418,13 +1526,13 @@
           "8"
         ],
         "examples": {
-          "16": {
-            "label": "16-bit",
-            "text": "16-bit PCM has 65,536 levels and about 98.1 dB ideal SNR here, before dither and hardware noise."
-          },
           "8": {
             "label": "8-bit",
             "text": "8-bit PCM has 256 levels and about 49.9 dB ideal SNR here. It is a low-resolution illustration of why rounding errors matter on quiet material."
+          },
+          "16": {
+            "label": "16-bit",
+            "text": "16-bit PCM has 65,536 levels and about 98.1 dB ideal SNR here, before dither and hardware noise."
           },
           "24": {
             "label": "24-bit",
@@ -1607,10 +1715,6 @@
           "0"
         ],
         "examples": {
-          "30": {
-            "label": "30° sideways",
-            "text": "At 8 kHz this example is 6 dB lower 30° to the side. The upper notes drop more than the lower notes in this particular drawing."
-          },
           "0": {
             "label": "0° on axis",
             "text": "The difference is 0 dB at every point because the speaker is compared with itself straight ahead. The curve measures a difference between positions."
@@ -1618,6 +1722,10 @@
           "15": {
             "label": "15° sideways",
             "text": "At 8 kHz this example is 3 dB down. A smaller angle produces a smaller high-frequency change in this example."
+          },
+          "30": {
+            "label": "30° sideways",
+            "text": "At 8 kHz this example is 6 dB lower 30° to the side. The upper notes drop more than the lower notes in this particular drawing."
           },
           "60": {
             "label": "60° sideways",
