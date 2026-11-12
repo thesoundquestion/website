@@ -95,7 +95,7 @@ export const SOUND_PROFILES = Object.freeze({
 });
 const UNKNOWN = Object.freeze({text:'No reliable model-specific sound profile has been reviewed yet. Tonal balance, bass and imaging are not inferred from driver materials or brand.',type:'Not independently characterized',url:null});
 export function soundProfileFor(item) {
-  return SOUND_PROFILES[item?.id] || SOUND_PROFILES[item?.title] || UNKNOWN;
+  return SOUND_PROFILES[item?.soundTarget] || SOUND_PROFILES[item?.id] || SOUND_PROFILES[item?.title] || UNKNOWN;
 }
 const ROOM_LABELS = Object.freeze({desk:'desk / nearfield',bedroom:'bedroom / small room',living_room:'living room',outdoors:'outdoors',party:'event / party'});
 /** Explains EXACTLY which editorial tags and context matched, not a sonic score. */
