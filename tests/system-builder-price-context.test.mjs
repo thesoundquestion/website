@@ -15,7 +15,7 @@ runInContext(src('../system-builder/catalog-adapter.js'),sandbox);
 const inventory=sandbox.window.systemBuilderInventory;
 const amp={name:'Yamaha A-720',record:inventory.amp.find(x=>x.model==='Yamaha A-720')};
 const request={useCase:'living_room',goal:'all_rounder',region:'CA',currency:'CAD',
-    budget:null,budgetStrict:true,used:true,power:'mains',connection:'analog'};
+    budget:null,budgetStrict:true,used:true,power:'mains',connection:'analog',referenceDate:'2026-11-12'};
 const candidates=(data={})=>shortlistSpeakersForOwnedAmplifier({...request,...data,amp,speakers:inventory.speaker});
 
 test('normal retail is verified against three independently linked Canadian pair listings',()=>{
@@ -28,12 +28,15 @@ test('normal retail is verified against three independently linked Canadian pair
   assert.equal(ctx.usedExampleRange,null);
 });
 
-test('sale discounts never become assumed regular market values',()=>{
+test('broad ongoing sale is labelled and regular Canadian pair price stays distinct',()=>{
   const result=candidates({goal:'low_volume'});
   const p=result.selected.find(x=>x.title==='Paradigm Monitor SE Atom');
   assert.ok(p);
-  assert.equal(p.subtotal,359.99);
-  assert.equal(p.priceComponents[0].amount,359.99);
+  assert.equal(p.subtotal,269.99);
+  assert.equal(p.priceComponents[0].amount,269.99);
+  assert.equal(p.pricingStatus,'seasonal_promotional_pair');
+  assert.equal(p.promotionalOffer.regularListed,359.99);
+  assert.equal(p.marketContext.regular[0].amount,359.99);
   assert.ok(p.marketContext.notes.includes('advertised prices'));
 });
 
@@ -69,10 +72,15 @@ test('regional-only amounts never leak into UK or US plans',()=>{
   assert.ok(us.selected.every(x=>x.marketContext===null));
 });
 
-test('strict CAD budget below the normal Atom price does not invent a regular affordable price',()=>{
-  const result=candidates({budget:300});
-  assert.ok(!result.selected.some(x=>x.title==='Paradigm Monitor SE Atom'));
-  assert.ok(result.excluded.some(x=>x.title==='Paradigm Monitor SE Atom'));
+test('budget 300 can use a documented broad seasonal Atom promotion but not after it expires',()=>{
+  const during=candidates({budget:300,referenceDate:'2026-11-12'});
+  const atom=during.selected.find(x=>x.title==='Paradigm Monitor SE Atom');
+  assert.ok(atom);
+  assert.equal(atom.subtotal,269.99);
+  assert.equal(atom.pricingStatus,'seasonal_promotional_pair');
+  const expired=candidates({budget:300,referenceDate:'2027-01-05'});
+  assert.ok(!expired.selected.some(x=>x.title==='Paradigm Monitor SE Atom'));
+  assert.ok(expired.excluded.some(x=>x.title==='Paradigm Monitor SE Atom'));
 });
 
 test('a low Canadian budget with used enabled shows vintage model discovery without purchase guarantee',()=>{
