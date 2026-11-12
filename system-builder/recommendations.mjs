@@ -78,7 +78,7 @@ export const EXAMPLES = Object.freeze([
   },
   {
     id:'headphone-hd560', architecture:'headphone_first', title:'Open-back home listening: Sennheiser HD 560S',
-    kind:'Headphone + existing suitable output', places:['desk','bedroom','living_room'], power:'mains',
+    kind:'Headphone + existing suitable output', places:['desk','bedroom','living_room'], power:'source_dependent',
     connections:['analog'],goals:['natural','imaging','all_rounder','low_volume'],
     parts:[{name:'Sennheiser HD 560S headphones',count:1,role:'Open-back wired headphone',url:'https://ca.sennheiser-hearing.com/collections/hd-series-headphones'}],
     why:'A wired open-back option for quiet environments when isolation and sound leakage are acceptable.',
@@ -88,7 +88,7 @@ export const EXAMPLES = Object.freeze([
   },
   {
     id:'headphone-hd600', architecture:'headphone_first', title:'Open-back home alternative: Sennheiser HD 600',
-    kind:'Headphone + verified source output', places:['desk','bedroom','living_room'], power:'mains',
+    kind:'Headphone + verified source output', places:['desk','bedroom','living_room'], power:'source_dependent',
     connections:['analog'],goals:['natural','low_volume','imaging'],
     parts:[{name:'Sennheiser HD 600 headphones',count:1,role:'Open-back wired headphone',url:'https://support.sennheiser-hearing.com/hc/en-fr/articles/38292415494173-HD-600-Specifications'}],
     why:'A higher-priced, open-back comparison target with well-documented factory specifications, worth auditioning rather than automatically upgrading.',
@@ -168,7 +168,7 @@ export function shortlistExamples(input = {}) {
     const product = EXAMPLES.find(x => x.id === id);
     if (!product || !targetArchitectures.includes(product.architecture)) continue;
     if (product.usedOnly && !used) continue;
-    if (neededPower && product.power !== 'battery') {
+    if (neededPower && product.power !== 'battery' && product.power !== 'source_dependent') {
       excluded.push({title:product.title,reason:'Battery operation required; this example uses wall power.'}); continue;
     }
     const snapshot = region === 'CA' && currency === 'CAD' ? product.priceCA : null;
@@ -178,13 +178,16 @@ export function shortlistExamples(input = {}) {
       continue;
     }
     if (selected.length >= max) continue;
+    if (arch === 'open' && selected.some(x=>x.architecture===product.architecture) &&
+        new Set(selected.map(x=>x.architecture)).size < 3) continue;
     const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
     selected.push({ ...product, subtotal, priceComponents:snapshot?.components || [],
       pricingStatus: subtotal === null ? 'regional_price_missing' : 'partial_subtotal',
       connectionStatus: needsConnection ? 'adapter_needed' : 'native_possible',
       levelCaution:input.level === 'high' && ['powered-mr4','powered-ora'].includes(product.id),
       placementCaution:(Number(input.distanceFt)>10 && ['powered-mr4','powered-ora','studio-jbl','studio-kali'].includes(product.id)),
-      sceneCaution:!product.places.includes(scene)
+      sceneCaution:!product.places.includes(scene),
+      sourceBatteryCaution:neededPower && product.power === 'source_dependent'
     });
   }
   return {selected,excluded,region,currency,budget,sourceDate:'2026-11-12'};
