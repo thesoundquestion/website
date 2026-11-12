@@ -18,7 +18,7 @@ export const EXAMPLES = Object.freeze([
     tradeoff:'Important electrical caveat: Yamaha specifies 8 Ω or higher speakers; PSB quotes 8 Ω nominal but a 4 Ω minimum. This is NOT a verified safe pairing. Confirm suitability directly with Yamaha before purchase; otherwise choose a verified match. Neither product alone provides deep sub-bass.',
     extra:['Source must be RCA analogue or Bluetooth. USB, optical and TV HDMI require separately priced conversion/control hardware.',
       'Passive speaker wire is required. Confirm amplifier load permissions under real operating conditions.'],
-    priceCA:{components:[{label:'Yamaha R-S202',amount:299.95,url:'https://www.soundroom.ca/products/r-s202b'},{label:'PSB Alpha P3 pair',amount:449,url:'https://www.psbspeakers.com/collections/alpha'}]}
+    priceCA:{components:[{label:'Yamaha R-S202',amount:299.95,url:'https://www.soundroom.ca/products/r-s202b'},{label:'PSB Alpha P3 pair',amount:449,url:'https://audioshop.on.ca/collections/psb/products/psb-alpha-p3-bookshelf-speakers'}]}
   },
   {
     id:'passive-as301-p5', architecture:'passive_separates', title:'Expandable stereo: Yamaha A-S301 + PSB Alpha P5',
@@ -32,7 +32,7 @@ export const EXAMPLES = Object.freeze([
     tradeoff:'Not a verified speaker/amplifier load match until the P5 minimum-impedance curve, amplifier permitted loads and room output needs are checked. Sub Out on the A-S301 is not evidence that its main speakers are high-passed.',
     extra:['Speaker cable is required; stands, streamer and optional subwoofer are separate.',
       'For Bluetooth, USB or HDMI, add and price an appropriate source or converter.'],
-    priceCA:{components:[{label:'Yamaha A-S301',amount:649.95,url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},{label:'PSB Alpha P5 pair',amount:699,url:'https://www.psbspeakers.com/collections/alpha'}]}
+    priceCA:{components:[{label:'Yamaha A-S301',amount:649.95,url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},{label:'PSB Alpha P5 pair',amount:699,url:'https://audioshop.on.ca/products/psb-p5-bookshelf-speakers'}]}
   },
   {
     id:'powered-mr4', architecture:'consumer_powered_pair', title:'Low-cost wired desk: Edifier MR4 stereo pair',
