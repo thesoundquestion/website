@@ -136,6 +136,6 @@ test('owned amp does not silently claim HDMI, USB or optical support',()=>{
 test('UI explains when an explicitly selected architecture cannot reuse the owned amp',()=>{
   const app=src('../system-builder/app.mjs');
   assert.ok(app.includes('!own.speaker.name && !speakerFocus'));
-  assert.ok(app.includes('Choose “Passive speakers + separate amp”'));
+  assert.ok(app.includes('A separate compatible route retaining it is still shown below.'));
   assert.ok(app.includes('if (item.sourceCaution)'));
 });
