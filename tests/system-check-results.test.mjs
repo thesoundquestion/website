@@ -175,3 +175,47 @@ test('output search links use the restored external Google helper with encoded e
   assert.equal(links[0].target,'_blank');
   assert.equal(links[0].rel,'noopener noreferrer');
 });
+
+
+test('ordinary listening low wattage is described as favorable while near-rated peaks get a caution', () => {
+  const result = run({...base, averageV: Math.sqrt(2*8), averageW: 2,
+    peakV: Math.sqrt(65*8), peakW:65,
+    entries:[{watts:80,load:8,type:'continuous',conditions:'20 Hz–20 kHz, 0.08% THD'}]});
+  const yours = result.cards[0].allText;
+  assert.match(yours,/Typical listening: Light average demand/);
+  assert.match(yours,/2.5% of the continuous rating/);
+  assert.match(yours,/Musical peaks: Peak demand is very close to rated continuous output/);
+  assert.match(yours,/less than about 1 dB margin/);
+  assert.match(yours,/Actual THD\/THD\+N is not known/);
+  assert.doesNotMatch(yours,/distortion is definitely audible|already clipping/);
+});
+test('low peak demand has substantial rated reserve', () => {
+  const result = run({...base,peakV:Math.sqrt(20*8),peakW:20,
+    entries:[{watts:80,load:8,type:'continuous'}]});
+  assert.match(result.cards[0].allText,/Musical peaks: Peak demand is 25% of the continuous rating, leaving at least 3 dB/);
+});
+test('short bursts above continuous power are qualified rather than assumed clean', () => {
+  const result = run({...base,peakV:Math.sqrt(110*8),peakW:110,
+    entries:[{watts:80,load:8,type:'continuous'},{watts:140,load:8,type:'burst'}]});
+  assert.match(result.cards[0].allText,/Musical peaks: Peak demand exceeds the continuous rating/);
+  assert.match(result.cards[0].allText,/falls within an entered short-burst rating/);
+  assert.doesNotMatch(result.cards[0].allText,/Peak demand is using 78/);
+});
+test('projected other-impedance power never implies clean operation', () => {
+  const result = run({...base, load:6,
+    entries:[{watts:80,load:8,type:'continuous'}]});
+  assert.match(result.cards[0].allText,/Typical listening: Power was projected from a different impedance/);
+  assert.match(result.cards[0].allText,/Musical peaks: Power was projected from a different impedance/);
+});
+test('elevated average power warns about sustained operation without claiming measured distortion', () => {
+  const result = run({...base,averageV:Math.sqrt(60*8),averageW:60,
+    entries:[{watts:80,load:8,type:'continuous'}]});
+  assert.match(result.cards[0].allText,/Typical listening: Elevated sustained demand/);
+  assert.match(result.cards[0].allText,/onset is unmeasured/);
+});
+test('without average listening target, no ordinary-listening inference is shown', () => {
+  const result = run({...base,averageV:null,averageW:null,average:null,
+    entries:[{watts:80,load:8,type:'continuous'}]});
+  assert.doesNotMatch(result.cards[0].allText,/Typical listening:/);
+  assert.match(result.cards[0].allText,/Musical peaks:/);
+});
