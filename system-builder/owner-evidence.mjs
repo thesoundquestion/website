@@ -64,6 +64,16 @@ export const OWNER_EVIDENCE = Object.freeze({
       {url:'https://www.reddit.com/r/BudgetAudiophile/comments/11n6v8s/',context:'Owner with bass expectations in larger room, March 2023'}
     ]
   },
+  'Q Acoustics 3010i': {
+    band:'some',relevantGoals:['all_rounder','natural','imaging','low_volume'],
+    label:'Some firsthand owner experience',
+    short:'Owners used this compact 3010i in desktop and mixed surround systems. One later moved to the much larger 3030i for fuller bass, which is a useful expectation for a small pair.',
+    caution:'Other 3000i versions and the newer 3010c are different speakers. Owner setups vary, and a limited bass impression is not measured clean maximum output.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1fbataj',context:'Owner upgraded from 3010i desktop pair to 3030i for deeper low end, September 2024'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1g9oxcs',context:'Owner using 3010i in Yamaha RX-V385 system, October 2024'}
+    ]
+  },
   'Q Acoustics 3020i': {
     band:'some', relevantGoals:['all_rounder','natural','low_volume','imaging'],
     label:'Some firsthand owner support',
