@@ -136,3 +136,7 @@
 .sb-card-match strong,.sb-card-sound strong{color:#e1f6ff;font-weight:750}
 .sb-card-sound{color:#d3e4ee}
 @media(max-width:760px){.sb-card-match,.sb-card-sound{font-size:.81rem}}
+
+/* Keep owned equipment visible; optional complete replacements never dominate the result. */
+.sb-card-retained{font-size:.77rem;line-height:1.45;color:#b8f4e8;margin:.35rem 0 .2rem;font-weight:650}
+.sb-new-comparison>p,.sb-new-comparison>ul{font-size:.81rem;line-height:1.5}
