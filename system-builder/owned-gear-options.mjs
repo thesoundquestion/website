@@ -4,6 +4,7 @@
  */
 import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier,ampSpeakerScreening} from './owned-amp-speakers.mjs';
+import {assessAmplifierCandidate} from './amplifier-fit.mjs';
 
 const kinds=['speaker','amp','source','headphone'];
 const has=x=>Boolean(x?.name);
@@ -129,6 +130,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       excluded.push({title:idea.model,reason:'Known amplifier listing exceeds firm budget.'});continue;
     }
     const rationale=explainAmplifierChoice({idea,record,speaker,request});
+    const fit=assessAmplifierCandidate({idea,record,speaker,request});
     const message=rationale.summary;
     const used=['speaker'];const parts=[part(speaker,'Already owned; no new speaker purchase'),
       {name:idea.model,count:1,role:'Only new amplifier candidate, subject to verification',url:record.url}];
@@ -136,7 +138,12 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     selected.push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       title:speaker.name+' + '+idea.model,kind:'Keep your speakers · add an amplifier',
       architecture:'passive_separates',soundTarget:speaker.name,why:message,
-      amplifierReason:rationale.summary,amplifierEvidence:rationale.evidence,amplifierSource:rationale.source,
+      amplifierReason:rationale.summary,amplifierEvidence:[
+        ...rationale.evidence,fit.powerNote,fit.headroomNote,fit.distortionNote,
+        ...[fit.ownerNote,fit.peakNote].filter(Boolean),
+        'Ordering considers load and test-condition evidence plus practical power fit, not an audible-quality score. Use System Check for required listening level.'
+      ],amplifierSource:rationale.source,
+      amplifierFit:fit,amplifierFitRank:fit.sortValue,
       tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
       parts,subtotal:price,priceComponents:price===null?[]:[{label:idea.model,amount:price,url:idea.url}],
       pricingStatus:price===null?'regional_price_missing':'partial_subtotal',
@@ -145,9 +152,10 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
         'Published amplifier continuous-test loads: '+record.ratings.filter(x=>x[2]==='continuous').map(x=>x[1]+' Ω').join(', ')+'. Test loads are not blanket permission for every speaker.',
         'Check the speaker’s impedance minimum/phase, amplifier manual, clean output at the seat and connections.']},
       own,used,message));
-    if(selected.length>=3)break;
   }
-  return {selected,excluded,mode:'keep_speakers'};
+  selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
+    a.title.localeCompare(b.title));
+  return {selected:selected.slice(0,3),excluded,mode:'keep_speakers'};
 }
 function keepHeadphone(own,request){
   const used=['headphone'],parts=[part(own.headphone,'Already owned; keep this headphone')];
