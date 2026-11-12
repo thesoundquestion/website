@@ -12,6 +12,22 @@
  */
 export const BUILDER_ONLY_SPEAKERS = Object.freeze([
   {
+    model:'Q Acoustics 3010i',type:'speaker',
+    values:Object.freeze({load:6,minimum:4,sensitivity:86,basis:'voltage'}),
+    ratings:Object.freeze([]),
+    note:'Maker specifications: 6 Ω nominal, 4 Ω minimum, 86 dB at 2.83 V/1 m. The frequency-response figure of 65 Hz–30 kHz uses combined +3/-6 dB limits; do not mislabel it ±3 dB.',
+    url:'https://www.qacoustics.co.uk/products/q-acoustics-3010i',
+    details:Object.freeze({
+      configuration:'Passive compact 2-way stereo pair',
+      drivers:'100 mm (4-inch) bass unit; 22 mm treble unit',
+      frequencyResponse:'65 Hz–30 kHz (+3/-6 dB, manufacturer)',
+      responseBasis:'Manufacturer, not independently measured anechoic',
+      recommendedStereoPower:'15–75 W (manufacturer recommendation, not amplifier power requirement)',
+      reviewedOn:'2026-11-12',reviewStatus:'builder-only-sourced'
+    }),
+    evidence:'Builder-only source-checked supplement; NOT an original System Check preset'
+  },
+  {
     model:'Polk Monitor XT15',
     type:'speaker',
     values:Object.freeze({load:8,minimum:4.1,sensitivity:86,basis:'voltage'}),
