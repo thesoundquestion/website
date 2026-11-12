@@ -34,7 +34,7 @@ function setup() {
   const fields = Object.fromEntries([
     'speakerModel', 'sensitivity', 'basis', 'load', 'minimum', 'minimumHz',
     'phase', 'maximum', 'speakerPowerContinuous', 'speakerPowerPeak',
-    'speakerPowerNominal', 'speakerPowerMaxInput', 'speakerRecommendedAmpMax'
+    'speakerPowerNominal', 'speakerPowerMaxInput', 'speakerRecommendedAmpMax', 'inputZ', 'inputSensitivity', 'gain', 'outputZ', 'curveLoad', 'curveHz', 'curveType', 'curve', 'ampModel'
   ].map(name => [name, new Field()]));
   const select = new Field(), note = new Field(), provenance = new Field(), suggestions = new Field();
   const picker = {
@@ -47,7 +47,8 @@ function setup() {
     'speakerPowerMaxInput', 'speakerRecommendedAmpMax'
   ];
   const presetFields = {
-    speaker: ['sensitivity', 'basis', 'load', 'minimum', 'minimumHz', 'phase', 'maximum', ...speakerPowerFields]
+    speaker: ['sensitivity', 'basis', 'load', 'minimum', 'minimumHz', 'phase', 'maximum', ...speakerPowerFields],
+    amp: ['inputZ','inputSensitivity','gain','outputZ','curveLoad','curveHz','curveType','curve']
   };
   const context = {
     location: { search: '' }, URLSearchParams, Number,
