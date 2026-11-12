@@ -51,7 +51,7 @@ test('new amp suggestions carry source and speaker reference but not unsourced a
 test('browser card distinguishes amplifier why from actual speaker acoustic description',()=>{
   const app=read('../system-builder/app.mjs');
   assert.match(app,/item.amplifierReason \? 'Why this amplifier: '/);
-  assert.match(app,/item.amplifierReason \|\| item.ownershipMessage/);
+  assert.match(app,/item.amplifierReason \|\| item.speakerRationale \|\| item.ownershipMessage/);
   assert.match(app,/const showSound = sound.type !== 'Not independently characterized'/);
   assert.match(app,/item.soundTarget \? 'Your speaker’s sound: '/);
   assert.match(app,/item.amplifierEvidence\?\.length/);
