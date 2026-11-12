@@ -127,7 +127,8 @@ function keepSource(own,request){
     const msg='Keep your '+own.source.name+' as the source for this system. The remaining speakers and amplification are examples, not a reason to replace the source.';
     return attach({...item,why:msg,parts:[part(own.source,'Already owned source, suitable input to verify'),...item.parts],
       extra:[...(item.extra||[]),sourceNote(own,item.connections||[],item.architecture==='headphone_first')],
-      sourceCaution:sourceNote(own,item.connections||[],item.architecture==='headphone_first')},own,['source'],msg);
+      sourceCaution:sourceNote(own,item.connections||[],item.architecture==='headphone_first'),
+      sourceBatteryCaution:request.power==='battery'},own,['source'],msg);
   });
   return {selected,excluded:r.excluded,mode:'keep_source'};
 }
@@ -175,6 +176,28 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
     plan=keepAmp(own,request,inventory);
   else if(has(own.source)&&!has(own.speaker)&&!has(own.amp)&&!has(own.headphone))
     plan=keepSource(own,request);
+  else if(has(own.speaker)&&has(own.amp)) {
+    const item=existingPair(own,request);
+    item.pathwayCaution='This keeps your passive stereo system for a separate mains-powered listening route; it does not meet the selected '+arch+' / '+request.power+' requirement.';
+    plan={selected:[item],excluded:[],mode:'keep_separate_pair'};
+  }
+  else if(has(own.speaker)){
+    const alt=shortlistAmpsForOwnedSpeakers({own,request,inventory});
+    for(const item of alt.selected)
+      item.pathwayCaution='This preserves your passive speakers in a separate stereo route, not the requested '+arch+' / '+request.power+' route.';
+    plan={...alt,mode:'keep_separate_speaker'};
+  }
+  else if(has(own.amp)){
+    const alt=keepAmp(own,request,inventory);
+    for(const item of alt.selected)
+      item.pathwayCaution='This preserves your amplifier for a separate passive stereo route, not the requested '+arch+' / '+request.power+' route.';
+    plan={...alt,mode:'keep_separate_amp'};
+  }
+  else if(has(own.headphone)){
+    const item=keepHeadphone(own,request);
+    item.pathwayCaution='Your headphones can still serve a separate personal listening path, but they do not satisfy the requested '+arch+' / '+request.power+' route.';
+    plan={selected:[item],excluded:[],mode:'keep_separate_headphones'};
+  }
   else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
   if(!plan.selected.length)plan.selected=[keepSeparate(own,request)];
   return {...plan,comparisonReasons:comparisonReasons(own,request)};
