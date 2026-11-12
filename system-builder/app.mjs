@@ -1,4 +1,5 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
+import {shortlistExamples} from './recommendations.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -176,6 +177,95 @@ document.addEventListener('DOMContentLoaded', () => {
     body.append(summary);
     addText(body,'p','We can outline feasible routes and checks, but cannot claim a purchased system will create a particular soundstage or cleaner recording without comparable evidence and real-room verification.');
 
+    // Actual named equipment comes first. Each card is an editorial starting point,
+    // never an automatic compatibility certification or a regional value winner.
+    const shop = section('Specific equipment to investigate');
+    addText(shop,'p','These are named, source-linked starting points selected for your route, not sound-quality rankings. A listed component subtotal is not the cost of a finished working system. Every pairing and purchase remains conditional.');
+    if (anyOwned && data.has('keepWorking')) {
+      const ownCard = el('article','sb-recommend sb-keep');
+      addText(ownCard,'div','Keep what you already own · first option','sb-status');
+      const kept = [
+        own.speaker.name && 'speakers: ' + own.speaker.name,
+        own.amp.name && 'amplifier: ' + own.amp.name,
+        own.source.name && 'source: ' + own.source.name,
+        own.headphone.name && 'headphones: ' + own.headphone.name
+      ].filter(Boolean);
+      addText(ownCard,'h4','Try your existing equipment first');
+      addText(ownCard,'p','Existing: ' + kept.join('; ') + '. Already-owned working parts are not charged a second purchase price.');
+      addText(ownCard,'p','Confirm the exact speaker load, amplifier permission, usable connection and listening headroom before deciding whether anything needs replacing. Unknown is not a passed compatibility test.');
+      link(ownCard,'/system-check/','Check your existing amplifier and speakers');
+      shop.append(ownCard);
+    }
+    const budget = budgetText ? Number(budgetText) : null;
+    const shortlist = shortlistExamples({
+      architecture:arch, useCase, goal:primary, level:String(data.get('level')),
+      distanceFt, power:powered, connection:String(data.get('connection')),
+      region:String(data.get('region')), currency,
+      budget:Number.isFinite(budget) ? budget : null,
+      budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
+    });
+    const grid = el('div','sb-recommendations');
+    for (const item of shortlist.selected) {
+      const card = el('article','sb-recommend');
+      addText(card,'div',item.kind+' · conditional example','sb-status');
+      addText(card,'h4',item.title);
+      addText(card,'p',item.why);
+      const partList = el('ul','sb-buy-parts');
+      for (const part of item.parts) {
+        const li = el('li');
+        addText(li,'strong',(part.count > 1 ? part.count+' × ' : '') + part.name);
+        addText(li,'span',' — '+part.role);
+        if (part.url) link(li,part.url,'Factory / specification link');
+        partList.append(li);
+      }
+      addText(card,'h5','Parts and equipment');
+      card.append(partList);
+      if (item.subtotal !== null) {
+        addText(card,'p','Observed Canadian component subtotal: '+item.subtotal.toLocaleString('en-CA',{style:'currency',currency:'CAD'})+' (checked 12 Nov 2026). NOT a typical price, complete cost, shipping/tax quote or availability guarantee.','sb-buy-price');
+        for (const p of item.priceComponents)
+          link(card,p.url,(p.quantity > 1 ? p.quantity+' × ' : '') + p.label + ' listed '+Number(p.amount).toLocaleString('en-CA',{style:'currency',currency:'CAD'}) + (p.quantity > 1 ? ' each' : ''));
+      } else addText(card,'p','Regional purchase price not verified. This option is NOT budget-qualified; obtain representative local prices before deciding.','sb-buy-price');
+      if (budget !== null) {
+        addText(card,'p',item.subtotal === null ?
+          'Your '+currency+' '+budget+' ceiling cannot be checked against this unpriced option.' :
+          'Your '+currency+' '+budget+' ceiling: '+(item.subtotal <= budget ?
+          'the listed parts alone do not exceed it, but missing hardware, taxes or delivery can still break the budget.' :
+          'this example already exceeds it on the listed parts alone.'),
+          'sb-help');
+      }
+      addText(card,'h5','Why to hesitate');
+      addText(card,'p',item.tradeoff);
+      const checks = [...item.extra];
+      if (item.connectionStatus === 'adapter_needed')
+        checks.unshift('Your requested source connection is not native to this example. A verified converter/receiver and its cost must be added before it works.');
+      if (item.levelCaution)
+        checks.unshift('Occasionally loud playback selected: do not assume this compact speaker can achieve the desired clean level at your seat.');
+      if (item.placementCaution)
+        checks.unshift('Listening position exceeds 10 ft: verify clean output at your actual seat before treating a nearfield product as a room solution.');
+      if (item.sceneCaution)
+        checks.unshift('This is not primarily designed for the selected venue. Check coverage, environment and placement before buying.');
+      if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first')
+        checks.push('A subwoofer, any crossover/router and integration work are NOT in this subtotal. A SUB OUT alone never proves a high-passed main channel.');
+      list(card,checks);
+      grid.append(card);
+    }
+    if (shortlist.selected.length) shop.append(grid);
+    else addText(shop,'p','No listed example passed the architecture, required-power and known-component budget gates. Do not treat an unpriced alternative as safely within budget. Try a different route or verify real used offers.','sb-report-note');
+    if (shortlist.excluded.length && budget !== null) {
+      addText(shop,'h4','Excluded by the firm budget or power requirement');
+      list(shop,shortlist.excluded.slice(0,4).map(x=>x.title+': '+x.reason),'sb-help');
+    }
+    if (bassMode !== 'no_sub' && data.get('subOwned') !== 'yes' && arch !== 'headphone_first') {
+      const subAdd = el('div','sb-sub-add');
+      addText(subAdd,'h4','Subwoofer purchase is still missing');
+      addText(subAdd,'p','Two real models to investigate: SVS SB-1000 Pro (sealed) and RSL Speedwoofer 10E (ported). These are not automatically compatible with every path, and neither has a verified representative '+currency+' total here.');
+      link(subAdd,'https://www.svsound.com/products/sb-1000-pro-subwoofer','SVS model information');
+      link(subAdd,'https://rslspeakers.com/pages/speedwoofer-10e','RSL model information');
+      shop.append(subAdd);
+    }
+    if (!anyOwned && arch === 'open')
+      addText(shop,'p','Different architectures are shown to make the trade-off tangible: a complete powered pair versus passive speakers with an amp versus two individually sold studio monitors. They are not interchangeable just because their prices look close.');
+    
     const goals = section('What matters for your listening goals');
     addText(goals,'p',mainGoal.focus + '.');
     if (secondary.length) list(goals,secondary.map(x => x.label + ': ' + x.focus + '.'));
