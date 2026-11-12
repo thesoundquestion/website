@@ -421,34 +421,6 @@ const systemCheckGear = {
       ]
     },
     {
-      "model": "Klipsch RP-600M II",
-      "values": {
-        "sensitivity": 86,
-        "basis": "voltage",
-        "load": 8
-      },
-      "note": "Uses the 86 dB average from Erin’s Audio Corner’s free-field data as reported by Spinorama. Klipsch publishes 94.5 dB under its room-referenced convention and lists 8 Ω compatibility.",
-      "url": "https://www.spinorama.org/speakers/Klipsch%20RP-600M%20II/ErinsAudioCorner/index_eac-no-grille.html",
-      "extra": [
-        "Klipsch spec sheet",
-        "https://assets.klipsch.com/product-specsheets/RP-600M-II_Spec-Sheet_v02.pdf"
-      ]
-    },
-    {
-      "model": "Klipsch RP-8000F II",
-      "values": {
-        "sensitivity": 91.7,
-        "basis": "voltage",
-        "load": 8
-      },
-      "note": "Uses the 91.7 dB average from Erin’s Audio Corner’s free-field data as reported by Spinorama. Klipsch publishes 98 dB under its room-referenced convention and lists 8 Ω compatibility.",
-      "url": "https://www.spinorama.org/speakers/Klipsch%20RP-8000F%20II/ErinsAudioCorner/index_eac.html",
-      "extra": [
-        "Klipsch spec sheet",
-        "https://assets.klipsch.com/product-specsheets/RP-8000F-II_Spec-Sheet_v02.pdf"
-      ]
-    },
-    {
       "model": "Paradigm Monitor SE 6000F",
       "values": {
         "sensitivity": 90,
