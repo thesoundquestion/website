@@ -21,3 +21,16 @@
 
 /* Fill the lesson column on desktop without sacrificing chart readability. */
 @media(min-width:950px){.rsp-case{display:grid;grid-template-columns:minmax(0,1.48fr) minmax(290px,1fr);column-gap:1.15rem;align-items:start}.rsp-case-title{grid-column:1/-1}.rsp-case .rsp-figure{grid-column:1;grid-row:2}.rsp-case .rsp-notes{grid-column:2;grid-row:2}.rsp-figure figcaption{font-size:.78rem}}
+
+/* Room effects overlay uses the same visual controls as other lesson traces. */
+.rsp-overlay-controls{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem .8rem;padding:.75rem 1.15rem;border-bottom:1px solid #344e65;background:#102337}
+.rsp-overlay-controls[hidden]{display:none!important}
+.rsp-overlay-controls .rsp-room-swatch{--trace-color:#8de8c5}
+.rsp-overlay-controls .rsp-room-button[aria-pressed="false"]{opacity:.78}
+.rsp-overlay-controls .rsp-room-button[aria-pressed="false"] .rsp-room-swatch{opacity:.35}
+.rsp-overlay-hint{font-size:.79rem;line-height:1.55;color:#bbd6e4;flex:1 1 260px}
+.rsp-plot [data-room-overlay][hidden]{display:none!important}
+.rsp-widget.rsp-room-hidden .rsp-key-room{opacity:.4;text-decoration:line-through}
+.rsp-widget.rsp-room-hidden .rsp-key-speaker{font-weight:750;color:#e4f6ff}
+.rsp-widget.rsp-room-hidden .rsp-plot path[data-speaker-alone]{stroke-width:3.6;stroke-dasharray:none}
+@media(max-width:550px){.rsp-overlay-controls{padding:.75rem .85rem}.rsp-overlay-hint{flex-basis:100%}}
