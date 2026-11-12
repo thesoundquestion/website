@@ -233,10 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const sound = soundProfileFor(item);
       // A speaker's listening profile must never be presented as the amplifier's
       // sound. Unknown owned-speaker profiles do not get a generic "Sound" card.
-      const showSound = !item.soundTarget || sound.type !== 'Not independently characterized';
+      const showSound = sound.type !== 'Not independently characterized';
       if (showSound) {
         const soundLine = el('p','sb-card-sound');
-        addText(soundLine,'strong',item.soundTarget ? 'Your speaker’s sound: ' : 'Sound: ');
+        addText(soundLine,'strong',sound.ownerSources?.length ? 'Owner experiences: ' : (item.soundTarget ? 'Your speaker’s sound: ' : 'Sound: '));
         soundLine.append(document.createTextNode(sound.text));
         card.append(soundLine);
       }
@@ -277,8 +277,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (showSound) {
         addText(details,'h5',item.soundTarget ? 'Your speaker’s sound: evidence' : 'Sound description: evidence');
-        addText(details,'p',sound.type+'. Reported tonal character is not a guaranteed match for your room, hearing or preferred volume.','sb-card-reference');
-        if (sound.url) link(details,sound.url,'Read the source');
+        addText(details,'p',sound.type+'. These are individual listening experiences or reviewed observations, not a precision sound-quality score.','sb-card-reference');
+        if (sound.ownerSources?.length) {
+          addText(details,'p',sound.ownerCaution,'sb-card-reference');
+          for (const source of sound.ownerSources)
+            link(details,source.url,source.context);
+        } else if (sound.url) link(details,sound.url,'Read the source');
       }
       if (!item.editorialGoalFocus)
         addText(details,'p','An alternative approach for comparison, not a verified performance match to your main priority.');
