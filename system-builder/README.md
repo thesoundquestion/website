@@ -1,4 +1,4 @@
-# System Builder v0.9 | practical owner-evidence fallback preview branch
+# System Builder v1.0 preview | practical owner-evidence fallback preview branch
 
 This is a static, zero-backend, browser-only preview for **Recording to Room → System Builder**. The Cloudflare **feature-branch preview is live** at https://feature-system-builder-previ.thesoundquestion.pages.dev/system-builder/ but the production `main` branch is unchanged. The original System Check, Compare My Gear, gear catalog and validated calculations are not modified.
 
@@ -126,3 +126,23 @@ The user now receives usable named speaker options at much lower budgets, not on
 **Current head regression:** **211/211 tests PASS**, zero failures on GitHub Actions. Verified run [43316705547](https://github.com/thesoundquestion/website/actions/runs/43316705547). The earlier 176-test and 14 direct cases are superseded as release evidence. Cloudflare Pages also reported a successful feature-branch deployment. **Manual latest-revision small-screen, keyboard and screen-reader QA remains outstanding**; draft PR stays unmerged.
 
 Private governing research: [Batch 10 affordable speaker coverage](https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_AFFORDABLE_SPEAKER_COVERAGE_BATCH_10_2026_11_12.md). Original third-party owner review posts/measurements are never scraped or reproduced; commercial publishing of third-party endorsements remains subject to rights and advertising review.
+
+
+## v1.0 preview · Practical US and UK budgets + actual frontend repair (2026-11-12)
+
+**Purpose:** Move beyond Canada with real regional *ordinary advertised stereo-pair* price references and new source-linked models, without inventing measured acoustic ratings or a local market transaction average.
+
+- **US:** Polk Monitor XT15 **US$179/pair**, Monitor XT20 **US$279/pair**, Signature Elite ES15 **US$299/pair**, with at least two genuinely independent seller/manufacturer sources at ordinary price per exact model. Individual sales do not become normal prices.
+- **UK:** original Q Acoustics 3010i **£169/pair** (new isolated Builder-only source catalog record, 6Ω nominal/4Ω minimum); original 3020i **£199/pair**; original Wharfedale Diamond 12.1 **~£249/pair** (existing System Check preset, 8Ω compatible but 4Ω actual minimum). Explicitly separate later 3010c/3020c and 12.1i variants.
+- **Buyer value:** A firm budget now puts a real within-budget named speaker ahead of five unpriced possibilities. Candidate selection still retains the owned amplifier (no new amp charge), declared listening goal, room caveats, and genuine load checks. US/UK/EU never inherit Canadian prices or inferred currency conversion.
+- **Source standard:** international-price-context.mjs records two or more independent seller domains and close published regular pair asking prices. It segregates one-shop promotions, historic Wharfedale discounts and unknown used transactions. Price ≠ verified stock or amount paid.
+- **Editorial evidence:** Wharfedale Diamond 12.1 and Q Acoustics 3010i have linked original summaries of actual owner experiences with relevant positives/limitations; quantitative audio preference scores are still forbidden.
+- **Scope:** **16 curated speaker discovery models**, **15 exact-model firsthand-owner evidence records** (plus other limited editorial audition profiles) and **3 Builder-only supplemental speaker identity records**. The original 130 System Check records and engineering code are unchanged.
+
+**Critical functional repair:** The previous app.mjs preview file had a malformed truncated price line and duplicated trailing content. It could not be parsed as a browser JavaScript module, even though old unit tests passed. The file was repaired and shortened to one complete event-handler/card renderer. Native Intl.NumberFormat now respects actual CAD, USD and GBP. The preview workflow now runs node --check on every Builder .mjs before full regression tests, so syntax errors can't hide behind passing logic assertions.
+
+**CI:** An early current-turn run had 224/227 passing because three older assertions assumed outdated UI text or expected all models visible in a top-five shortlist with no budget. Tests were corrected to exercise actual firm-budget logic. The subsequent GitHub Actions run (2026-11-12; https://github.com/thesoundquestion/website/actions/runs/43321834985 was earlier failed and superseded) has **227/227 passing** at commit 4d92c07, as confirmed from job logs, along with the new module syntax check. Later exact source-link updates and subsequent changes must pass CI again at their final HEAD before release; don't claim head green until confirmed.
+
+**Release boundary:** Feature branch only, PR #1 remains draft/unmerged. Production site and System Check calculators were not changed. Latest-revision real mobile, keyboard and screen-reader/browser-flow checks and rights/advertising review are still outstanding.
+
+Private report: https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_REGIONAL_PRICING_AND_BROWSER_FIX_BATCH_11_2026_11_12.md .
