@@ -63,3 +63,22 @@
 @media(max-width:800px){.sb-checkgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.sb-summary,.sb-method-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){.sb-grid,.sb-checkgrid,.sb-summary,.sb-pathways,.sb-method-grid{grid-template-columns:1fr}.sb-step{gap:.7rem}.sb-step>span{width:2.2rem;height:2.2rem}.sb-panel{padding:1rem}.sb-actions .button{width:100%}.sb-hero-meta span{font-size:.69rem}}
 @media(prefers-reduced-motion:reduce){.sb *{scroll-behavior:auto}}
+
+/* Concrete buying examples. Keep specifics visible, push the engineering appendix down. */
+.sb-recommendations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1rem 0}
+.sb-recommend{min-width:0;border:1px solid #4b7390;background:#142b40;border-radius:13px;padding:1.1rem 1.25rem;margin:.9rem 0}
+.sb-recommend h4{font-size:1.14rem;line-height:1.3;margin:.45rem 0 .7rem}
+.sb-recommend h5{font-size:.92rem;color:#c4e9fa;margin:.9rem 0 .3rem}
+.sb-recommend p{margin:.6rem 0;line-height:1.6}
+.sb-recommend .sb-buy-parts{padding-left:1.15rem}
+.sb-buy-parts li{margin:.8rem 0}
+.sb-buy-parts span{font-size:.87rem;color:#b4cedf}
+.sb-buy-parts .sb-source-link{display:block;margin:.15rem 0;font-size:.8rem}
+.sb-buy-price{padding:.7rem .85rem;background:#193c50;border-left:3px solid #70bfd7;color:#eaf8fd;font-weight:640}
+.sb-keep{border-color:#568b84;background:#162e36}
+.sb-sub-add{border-top:1px solid #33556c;padding:1rem 0}
+.sb-audit{margin-top:1.35rem;border:1px solid #385d74;border-radius:12px;padding:1rem 1.15rem;background:#0f2133}
+.sb-audit>summary{cursor:pointer;font-weight:750;color:#b7e6fb;line-height:1.6}
+.sb-audit>summary:focus-visible{outline:3px solid #7adfff;outline-offset:3px}
+.sb-audit[open]>summary{padding-bottom:.7rem}
+@media(max-width:760px){.sb-recommendations{grid-template-columns:1fr}}
