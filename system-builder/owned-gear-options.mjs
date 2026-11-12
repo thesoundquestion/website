@@ -117,7 +117,8 @@ function keepAmp(own,request,inventory){
     const used=['amp'];const parts=[part(own.amp,'Already owned; no new amplifier purchase'),...item.parts];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned; verify matching amp input'));}
     const msg='Keep your '+own.amp.name+' and investigate '+item.title+' for the missing stereo speakers. The amplifier’s load suitability is still conditional.';
-    return attach({...item,why:msg,parts,extra:[...(item.extra||[]),...(has(own.source)?[sourceNote(own,['analog'])]:[])]},own,used,msg);
+    return attach({...item,why:msg,parts,preferenceMatchAvailable:true,
+      extra:[...(item.extra||[]),...(has(own.source)?[sourceNote(own,['analog'])]:[])]},own,used,msg);
   });
   return {selected,excluded:r.excluded,mode:'keep_amp'};
 }
@@ -125,7 +126,8 @@ function keepSource(own,request){
   const r=shortlistExamples(request);
   const selected=r.selected.map(item=>{
     const msg='Keep your '+own.source.name+' as the source for this system. The remaining speakers and amplification are examples, not a reason to replace the source.';
-    return attach({...item,why:msg,parts:[part(own.source,'Already owned source, suitable input to verify'),...item.parts],
+    return attach({...item,why:msg,preferenceMatchAvailable:true,
+      parts:[part(own.source,'Already owned source, suitable input to verify'),...item.parts],
       extra:[...(item.extra||[]),sourceNote(own,item.connections||[],item.architecture==='headphone_first')],
       sourceCaution:sourceNote(own,item.connections||[],item.architecture==='headphone_first'),
       sourceBatteryCaution:request.power==='battery'},own,['source'],msg);
