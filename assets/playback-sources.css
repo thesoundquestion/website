@@ -1,0 +1,74 @@
+/* The Sound Question — Playback Sources lesson. Scoped to .ps-lesson. */
+.ps-lesson{--ps-border:#375b75;--ps-cyan:#8fdff9;--ps-amber:#f2c596;--ps-muted:#b6cddd}
+.ps-lesson [id]{scroll-margin-top:100px}
+.ps-lesson .ps-intro{max-width:1120px;margin:0 auto}
+.ps-lesson h2{font-size:clamp(1.5rem,2.65vw,2.35rem);line-height:1.2}
+.ps-lesson h3{font-size:clamp(1.05rem,1.7vw,1.3rem)}
+.ps-lesson p,.ps-lesson li{line-height:1.75}
+.ps-lesson .ps-tag{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.11em;color:#9ce1f5}
+.ps-lesson .ps-section{padding-block:clamp(25px,4vw,52px);border-top:1px solid #26435b}
+.ps-lesson .ps-copy{max-width:880px}
+.ps-lesson .ps-summary{font-size:1.03rem;max-width:74ch}
+.ps-lesson .ps-controls{display:flex;flex-wrap:wrap;gap:.48rem;margin:1rem 0}
+.ps-lesson .ps-controls button{color:#def1ff;background:#102c42;border:1px solid #426984;border-radius:7px;cursor:pointer;font:650 .86rem system-ui;padding:.68rem .94rem;min-height:44px}
+.ps-lesson .ps-controls button[aria-pressed="true"]{color:#091c2e;background:var(--ps-cyan);border-color:var(--ps-cyan)}
+.ps-lesson .ps-controls button:hover:not([aria-pressed="true"]),.ps-lesson .ps-controls button:focus-visible{background:#22506b;outline-offset:3px}
+.ps-lesson .ps-board{padding:clamp(1rem,2vw,1.7rem);background:radial-gradient(ellipse at 40% 0,rgba(46,116,155,.19),transparent 66%),linear-gradient(150deg,#0a192a,#10283b 86%);border:1px solid var(--ps-border);border-radius:15px;box-shadow:inset 0 1px rgba(181,238,255,.06)}
+.ps-lesson .ps-topline{display:flex;flex-wrap:wrap;align-items:start;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
+.ps-lesson .ps-topline h3{margin:.2rem 0 .35rem}
+.ps-lesson .ps-topline p{max-width:68ch;margin:.1rem 0;color:#c0d4e6}
+.ps-lesson .ps-legend{display:flex;gap:.7rem;flex-wrap:wrap;color:#bcd4e6;font-size:.8rem}
+.ps-lesson .ps-dot{display:inline-block;width:.68rem;height:.68rem;border-radius:50%;margin-right:.2rem;background:#75c8f4;vertical-align:baseline}
+.ps-lesson .ps-dot.phono{background:#edbd88}
+.ps-lesson .ps-dot.conversion{background:#9de8cc}
+.ps-lesson .ps-chain{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.48rem;align-items:stretch;margin:.8rem 0 1rem}
+.ps-lesson .ps-chain-node{position:relative;min-width:0;background:rgba(24,55,79,.9);border:1px solid #3e6a82;border-radius:9px;padding:1rem .7rem;min-height:130px;display:flex;flex-direction:column;justify-content:center;gap:.45rem}
+.ps-lesson .ps-chain-node:not(:last-child)::after{content:"➜";position:absolute;z-index:2;right:-.63rem;top:50%;transform:translateY(-50%);font-size:1rem;color:#b8effc;text-shadow:0 0 8px #072032}
+.ps-lesson .ps-chain-node[data-signal="analog"]{border-color:#a97d55}
+.ps-lesson .ps-chain-node[data-signal="convert"]{border-color:#66bba6}
+.ps-lesson .ps-chain-node strong{display:block;color:#f0f9ff;line-height:1.3;font-size:.96rem}
+.ps-lesson .ps-chain-node span{display:block;color:#b7d0de;font-size:.8rem;line-height:1.45}
+.ps-lesson .ps-chain-node small{color:#9ee1f4;font-size:.67rem;letter-spacing:.07em;font-weight:700;text-transform:uppercase}
+.ps-lesson .ps-explanation{border-left:3px solid var(--ps-cyan);background:rgba(5,23,38,.46);border-radius:4px;padding:.8rem 1rem;line-height:1.7;color:#dceef9}
+.ps-lesson .ps-explanation strong{color:white}
+.ps-lesson .ps-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.9rem;margin:1rem 0 0}
+.ps-lesson .ps-card{background:#112638;border:1px solid #34556d;border-radius:11px;padding:1.25rem;min-width:0}
+.ps-lesson .ps-card h3{margin:0 0 .65rem;color:#eaf9ff}
+.ps-lesson .ps-card p{font-size:.92rem;margin:.4rem 0}
+.ps-lesson .ps-card strong{color:#fff}
+.ps-lesson .ps-card .ps-tag{display:block;margin-bottom:.5rem}
+.ps-lesson .ps-card a,.ps-lesson a:not(.button){color:#98dffa}
+.ps-lesson .ps-card details{margin-top:.65rem}
+.ps-lesson details>summary{cursor:pointer;color:#b8e9ff;font-weight:700;padding:.35rem 0}
+.ps-lesson .ps-split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:1.2rem;align-items:start}
+.ps-lesson .ps-myth{border:1px solid #466884;background:#132c3c;padding:1.1rem 1.25rem;border-radius:10px}
+.ps-lesson .ps-myth h3{margin:.25rem 0 .5rem}
+.ps-lesson .ps-myth p{margin:.4rem 0;font-size:.92rem}
+.ps-lesson .ps-figure{margin:0;background:#081a2a;border:1px solid #385d79;border-radius:13px;padding:1rem}
+.ps-lesson .ps-figure svg{display:block;width:100%;height:auto}
+.ps-lesson .ps-figure figcaption{color:#b6d0df;font-size:.81rem;line-height:1.6;margin:.65rem 0 0}
+.ps-lesson .ps-chart-legend{display:flex;gap:1rem;flex-wrap:wrap;color:#cde1ed;font-size:.84rem}
+.ps-lesson .ps-chart-legend input{accent-color:#75c8f4}
+.ps-lesson .ps-chart-legend label{cursor:pointer}
+.ps-lesson .ps-chart-caption{font-size:.85rem;color:#c5d7e6}
+.ps-lesson .ps-svg-axis{fill:#b8ccdd;font:12px system-ui}
+.ps-lesson .ps-svg-grid{stroke:#2a4d67;stroke-width:1}
+.ps-lesson .ps-svg-base{stroke:#b7ddfc;stroke-width:2}
+.ps-lesson .ps-svg-riaa{stroke:#edbf94;stroke-width:3;fill:none;stroke-linecap:round}
+.ps-lesson .ps-connection{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;max-width:1000px}
+.ps-lesson .ps-connection label{font-size:.89rem;color:#d6e9f6;font-weight:700}
+.ps-lesson .ps-connection select{display:block;width:100%;color:#effaff;background:#0b2133;border:1px solid #4c7592;border-radius:8px;padding:.8rem;margin-top:.4rem;min-height:48px}
+.ps-lesson .ps-result{margin-top:1.1rem;border:1px solid #356c75;background:#103039;border-radius:9px;padding:1rem 1.2rem}
+.ps-lesson .ps-result[data-state="missing"]{border-color:#b78161;background:#362c2b}
+.ps-lesson .ps-result[data-state="warning"]{border-color:#ad9561;background:#302e28}
+.ps-lesson .ps-result strong{font-size:1.06rem}
+.ps-lesson .ps-result p{margin:.35rem 0 0;font-size:.92rem}
+.ps-lesson .ps-small{color:var(--ps-muted);font-size:.85rem;line-height:1.7}
+.ps-lesson .ps-source-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem 1rem;padding-left:1.3rem}
+.ps-lesson .ps-source-list li{font-size:.9rem;padding:.2rem}
+.ps-lesson .ps-next-links{display:flex;flex-wrap:wrap;gap:.6rem}
+.ps-lesson .ps-jump{display:flex;flex-wrap:wrap;gap:.45rem .85rem;margin-top:1.2rem;font-size:.9rem}
+.ps-lesson .ps-jump a{padding:.4rem .1rem}
+@media(max-width:980px){.ps-lesson .ps-chain{grid-template-columns:repeat(3,minmax(0,1fr))}.ps-lesson .ps-chain-node:nth-child(3)::after{display:none}.ps-lesson .ps-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:730px){.ps-lesson .ps-chain{grid-template-columns:1fr;gap:.7rem}.ps-lesson .ps-chain-node{min-height:0;padding:.75rem 1rem}.ps-lesson .ps-chain-node::after{display:none}.ps-lesson .ps-card-grid,.ps-lesson .ps-connection,.ps-lesson .ps-split,.ps-lesson .ps-source-list{grid-template-columns:1fr}.ps-lesson .ps-controls button{flex:1 1 7rem}}
+@media(prefers-reduced-motion:reduce){.ps-lesson *{scroll-behavior:auto}}
