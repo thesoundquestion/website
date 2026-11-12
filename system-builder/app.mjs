@@ -3,6 +3,7 @@ import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
+import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -94,9 +95,17 @@ document.addEventListener('DOMContentLoaded', () => {
         option.value = record.model;
         select.append(option);
       }
+      if (kind === 'speaker') {
+        for (const record of BUILDER_ONLY_SPEAKERS) {
+          if ((inventory.speaker || []).some(x=>x.model===record.model)) continue;
+          const option=el('option','',record.model+' (Builder addition)');
+          option.value=record.model;
+          select.append(option);
+        }
+      }
     }
     const count = Object.values(inventory).reduce((n, records) => n + records.length, 0);
-    state.textContent = count + ' existing System Check presets loaded (read-only). Unknown technical fields are not filled in.';
+    state.textContent = count + ' existing System Check presets loaded (read-only) · '+BUILDER_ONLY_SPEAKERS.length+' Builder-only price-verified speakers. Unknown technical fields are not filled in.';
   } else {
     state.textContent = 'The saved preset catalog did not load. Unlisted model inputs remain available; no specs will be assumed.';
   }
@@ -138,7 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function chosenGear(data, kind) {
     const exact = String(data.get(kind) || '');
     const custom = String(data.get(kind+'Other') || '').trim();
-    const record = (inventory?.[kind] || []).find(x => x.model === exact) || null;
+    const record = (inventory?.[kind] || []).find(x => x.model === exact) ||
+      (kind==='speaker' ? builderOnlySpeakerFor(exact) : null);
     return {name: custom || record?.model || '', record: custom ? null : record, unlisted: !!custom};
   }
   let reportContainer = null;
@@ -286,6 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
       if (item.sourceCaution)
         addText(card,'p',item.sourceCaution,'sb-card-alert');
+      if (item.budgetCaution)
+        addText(card,'p',item.budgetCaution,'sb-card-minor');
       if (item.pathwayCaution)
         addText(card,'p',item.pathwayCaution,'sb-card-alert');
       if (budget !== null && item.subtotal === null && !['owned-complete','owned-headphones','owned-other-route'].includes(item.id))
