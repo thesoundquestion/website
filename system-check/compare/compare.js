@@ -326,6 +326,7 @@ function showComparison() {
     if (device.reviewStatus === 'period-technical-source') return withCondition('Period technical literature cross-checked', device.reviewedOn || '');
     if (device.reviewStatus === 'regional-distributor') return withCondition('Regional distributor source · not fully verified', device.reviewedOn || '');
     if (device.reviewStatus === 'period-distributor') return withCondition('Archived distributor literature · test basis limited', device.reviewedOn || '');
+    if (device.reviewStatus === 'not-verified') return withCondition('Model-specific specifications not verified', 'Unconfirmed construction and response figures remain blank.');
     return withCondition('Not fully reviewed', 'Use the source links below; unconfirmed fields may be blank.');
   }));
   addRow('Notes and sources', devices.map(deviceLinks));
