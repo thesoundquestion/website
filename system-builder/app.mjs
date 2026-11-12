@@ -184,6 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
       (arch === 'open' || arch === 'passive_separates') && powered !== 'battery' &&
       useCase !== 'party' && primary !== 'party';
     const shop = section(speakerFocus ? 'Speakers for your ' + own.amp.name : 'A few options worth a look');
+    if (own.amp.name && !own.speaker.name && !speakerFocus) {
+      addText(shop,'p',powered === 'battery' ?
+        'Battery operation is required. Your existing '+own.amp.name+' has not been verified for off-grid use, so this is not an amp-and-passive-speaker recommendation.' :
+        'Your selected '+(options[arch]?.title || 'event/listening')+' route does not reuse '+own.amp.name+'. Choose “Passive speakers + separate amp” to see speaker-only suggestions for your equipment.','sb-brief-note');
+    }
     if (anyOwned && data.has('keepWorking')) {
       const keep = el('div','sb-keep-inline');
       const ownedNames = Object.values(own).filter(x=>x.name).map(x=>x.name);
@@ -234,6 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p','Battery-powered source/output required separately.','sb-card-alert');
       else if (item.levelCaution || item.placementCaution)
         addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
+      if (item.sourceCaution)
+        addText(card,'p',item.sourceCaution,'sb-card-alert');
       if (budget !== null && item.subtotal === null)
         addText(card,'p','Budget fit not confirmed.','sb-card-minor');
 
@@ -268,6 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const checks = [...item.extra];
       if (item.connectionStatus === 'adapter_needed')
         checks.unshift('No native connection for your chosen input: add and price a suitable adapter, receiver or interface.');
+      if (item.sourceCaution)
+        checks.unshift(item.sourceCaution);
       if (item.sourceBatteryCaution)
         checks.unshift('The headphones require a compatible, battery-powered source/headphone output, not included in the shown price.');
       if (item.levelCaution || item.placementCaution)
