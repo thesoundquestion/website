@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css?v=compare-gear">
 <script defer src="/system-check/gear.js?v=speaker-power-autofill-20261112b"></script>
-<script defer src="/system-check/calculator.js?v=output-searchlink-20261112"></script>
+<script defer src="/system-check/calculator.js?v=rating-distortion-20261112"></script>
 <script type="module" src="/system-check/spec-search.mjs?v=external-google"></script>
 <title>System Check | The Sound Question</title>
 </head>
@@ -128,7 +128,8 @@
 <label>Measurement<select name="curveType"><option>THD+N</option><option>THD</option></select></label>
 </div>
 <label>Curve points (watts, percent)<textarea name="curve" rows="3" placeholder="10, 0.01&#10;50, 0.02&#10;100, 0.2"></textarea></label>
-<p>Enter one point per line from a single test. For 0.01%, enter 0.01. <a href="/decoder/amplifier-distortion/">How to read distortion curves</a></p></fieldset>
+<p>Enter one point per line from a single bench test. For 0.01%, enter 0.01. <strong>Do not enter a published THD limit as a curve point</strong> unless it really was measured at that power, load, frequency and input path. <a href="/decoder/amplifier-distortion/">How to read distortion curves</a></p>
+<p id="amp-distortion-research" class="sc-distortion-research" aria-live="polite">Choose an amplifier preset to check whether independent distortion curves have been located. Ratings may autofill even when measured curve coordinates are unavailable.</p></fieldset>
 </details>
 <button class="button button-primary" type="submit">Calculate system headroom</button>
 </div>

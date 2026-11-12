@@ -239,3 +239,6 @@ Additional 2026-11-12 sources: original JBL L100 Century 50 W continuous program
 
 ### 2026-11-12 result-link regression fix
 The embedded Google CSE removal inadvertently also removed `searchLink()`, which the output generator still uses to offer speaker-impedance and lower-load amplifier searches. Restored as an ordinary encoded Google link with `target=_blank` and `rel=noopener noreferrer`. This function has no search API, credentials, scraping, data imports or effect on engineering formulas. Added regression coverage, and bumped calculator cache version.
+
+### System Check amplifier distortion audit and output qualification (2026-11-12)
+System Check now surfaces the exact published THD/THD+N test conditions in the primary result, including the difference between a one-frequency and a stated multi-frequency power rating. It does **not** infer listening-level distortion or clipping from a power rating. Four catalogued amplifiers now link to genuine independent published measurement material; numeric curve points remain blank until a compatible verified measurement series is available. See `system-check/AMPLIFIER_DISTORTION_RESEARCH_2026_11_12.md`.

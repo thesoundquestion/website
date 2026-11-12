@@ -178,6 +178,88 @@ function curveReading(peakV, averageV, speakerLoad) {
   addText('p', 'These figures describe the bench test. Audibility depends on the signal, speaker and listening conditions.');
 }
 
+// A power rating's THD figure qualifies that RATING. It is not a full
+// distortion-vs-power measurement and cannot determine listening-level THD.
+function describeRatedDistortion(conditions) {
+  const text = String(conditions || '');
+  const match = text.match(/(≤|<=|<|up to\s*)?\s*(\d+(?:\.\d+)?)\s*%\s*(THD(?:\s*\+\s*N)?)/i);
+  const percent = match ? Number(match[2]) : null;
+  const metric = match ? match[3].replace(/\s+/g, '').toUpperCase() : null;
+  const ceiling = match ? /≤|<=|<|up to/i.test(match[1] || '') : false;
+  const hasFullBand = /(?:\d+(?:\.\d+)?\s*(?:Hz|kHz)\s*[–—-]\s*\d+(?:\.\d+)?\s*(?:Hz|kHz))/i.test(text);
+  const hasOneK = /\b1\s*kHz\b/i.test(text);
+  const qualified = /\b(?:listed at|applies at|at 80%|measured at 80%)\b/i.test(text);
+  return {
+    percent, metric, ceiling, qualified,
+    scope: hasFullBand ? 'stated frequency band' : hasOneK ? 'single 1 kHz test' : 'test frequency not fully specified',
+    text
+  };
+}
+
+function renderDistortionRatingContext(entries, speakerLoad) {
+  const panel = document.createElement('section');
+  panel.className = 'sc-distortion-context';
+  panel.setAttribute('aria-label', 'Amplifier distortion and rating conditions');
+  const heading = document.createElement('h3');
+  heading.textContent = 'How clean is the published power?';
+  panel.append(heading);
+  const lead = document.createElement('p');
+  lead.textContent = 'Power headroom uses the entered wattage and load. The published THD/THD+N conditions tell you how that rating was qualified; they do not show distortion at your actual listening level.';
+  panel.append(lead);
+  const sameLoad = entries.filter(r => r.load === speakerLoad);
+  if (!sameLoad.length) {
+    const p = document.createElement('p');
+    p.className = 'sc-distortion-caution';
+    p.textContent = 'No rating was entered at your speaker’s nominal ' + show(speakerLoad) + ' Ω. A projected wattage figure from another load cannot verify either distortion or clean power at this load.';
+    panel.append(p);
+  } else {
+    const list = document.createElement('ul');
+    list.className = 'sc-distortion-ratings';
+    for (const rating of sameLoad) {
+      const li = document.createElement('li');
+      const spec = describeRatedDistortion(rating.conditions);
+      const primary = document.createElement('strong');
+      primary.textContent = show(rating.watts) + ' W/ch, ' + show(rating.load) + ' Ω (' +
+        (rating.type === 'burst' ? 'short burst' : rating.type === 'continuous' ? 'continuous rating' : 'duration unspecified') + ')';
+      li.append(primary);
+      const detail = document.createElement('p');
+      const statement = spec.metric
+        ? (spec.ceiling ? 'Claimed maximum ' : 'Stated ') + show(spec.percent) + '% ' + spec.metric
+          + ' · ' + spec.scope + (spec.qualified ? ' · separate or qualified test statement' : '')
+        : 'No numerical THD or THD+N condition is attached to this rating';
+      detail.textContent = statement + '. ' + (rating.conditions ? 'Source wording: ' + rating.conditions + '.' : '');
+      li.append(detail);
+      if (spec.metric && spec.scope === 'single 1 kHz test') {
+        const note = document.createElement('p');
+        note.className = 'sc-distortion-caution';
+        note.textContent = 'A 1 kHz rating does not establish equivalent distortion across the full audio band.';
+        li.append(note);
+      }
+      if (rating.sourceUrl) {
+        const source = document.createElement('a');
+        source.href = rating.sourceUrl;
+        source.target = '_blank';
+        source.rel = 'noopener noreferrer';
+        source.textContent = 'Check the source conditions ↗';
+        li.append(source);
+      }
+      list.append(li);
+    }
+    panel.append(list);
+    if (sameLoad.length > 1) {
+      const warning = document.createElement('p');
+      warning.className = 'sc-distortion-caution';
+      warning.textContent = 'Multiple power ratings at the same impedance may use different frequencies, distortion limits or test durations. The highest wattage is not automatically the cleanest or most broadly documented rating.';
+      panel.append(warning);
+    }
+  }
+  const conclusion = document.createElement('p');
+  conclusion.className = 'sc-distortion-conclusion';
+  conclusion.textContent = 'Distortion at your requested average and peak power remains unverified unless an appropriate measured THD/THD+N-versus-power series is entered below. A published rating limit is NOT a measured distortion curve, an audibility judgment or a proven clipping threshold.';
+  panel.append(conclusion);
+  body.append(panel);
+}
+
 function renderConnections(volts, entries, speakerLoad) {
   const source = num('sourceVoltage');
   const sourceZ = num('sourceZ');
@@ -467,6 +549,14 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     supplied.className = 'sc-load-capacity';
     supplied.textContent = 'Available / assumed: ' + show(available) + ' W/ch · ' + sourceBasis;
     row.append(supplied);
+    const conditions = chosen.source.conditions?.trim();
+    if (conditions) {
+      const qualification = document.createElement('p');
+      qualification.className = 'sc-load-test-conditions';
+      qualification.textContent = (chosen.projected ? 'Source-rating conditions only (not verified at this load): ' : 'Power-rating test conditions: ') + conditions
+        + '. These qualify the published watts; they do not predict distortion at your listening level.';
+      row.append(qualification);
+    }
 
     const headroom = document.createElement('p');
     headroom.className = 'sc-load-headroom';
@@ -628,6 +718,7 @@ function calculate() {
   if (averageV !== null) rows.unshift([db(average) + ' dB average', show(averageW) + ' W', show(averageV) + ' V', show(averageV / load) + ' A']);
   status.textContent = mode === 'upgrade' ? 'Here’s the output to look for at your seat.' : 'Here’s what your speakers ask for at your seat.';
   summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average });
+  if (mode === 'check') renderDistortionRatingContext(enteredRatings, load);
   if (minimum > 0) {
     const hz = num('minimumHz');
     const phase = num('phase');
@@ -774,6 +865,25 @@ function mountGearPresets(catalog) {
       if (kind === 'amp') {
         ratings.replaceChildren();
         gear.ratings.forEach(rating => addRating(...rating, gear.url));
+        const researchPanel = document.querySelector('#amp-distortion-research');
+        if (researchPanel) {
+          researchPanel.replaceChildren();
+          const research = gear.distortionResearch;
+          const message = document.createElement('span');
+          message.textContent = research
+            ? 'Independent distortion plots located. Graph coordinates are NOT auto-entered: '
+              + research.note + ' '
+            : 'The preset fills available published rating conditions and electrical inputs. No independently verified numeric distortion curve is stored for this model. ';
+          researchPanel.append(message);
+          if (research) {
+            const link = document.createElement('a');
+            link.href = research.url;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = research.label + ' ↗';
+            researchPanel.append(link);
+          }
+        }
       }
       if (kind === 'speaker' || kind === 'amp') {
         const model = field(kind + 'Model');
