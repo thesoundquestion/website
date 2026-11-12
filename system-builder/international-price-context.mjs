@@ -42,11 +42,18 @@ export const INTERNATIONAL_PAIR_PRICE_OBSERVATIONS=Object.freeze({
     }
   }),
   GB:Object.freeze({
+    'Q Acoustics 3010i':{
+      notes:'The maker and one independent local UK shop list the exact original compact 3010i pair at £169. Richer Sounds says its old 3010i listings are no longer available; do not infer universal stock or substitute 3010c.',
+      regular:[
+        {amount:169,merchant:'Q Acoustics UK direct',url:'https://www.qacoustics.co.uk/products/q-acoustics-3010i',unit:'pair'},
+        {amount:169,merchant:'New Forest Tech Services',url:'https://www.newforesttech.services/shop',unit:'pair'}
+      ]
+    },
     'Q Acoustics 3020i':{
-      notes:'Q Acoustics direct lists the 3020i stereo pair for £199; one independent UK trade seller lists the pair at £199, and Peter Tyson separately advertises that same price as a store special (its higher compare-at figure is not treated as market value). Exact original 3020i, not 3020c.',
+      notes:'Q Acoustics direct and independent New Forest Tech Services both list the 3020i pair at £199; Peter Tyson separately advertises £199 as a special (its higher compare-at figure is not treated as market value). Exact original 3020i, not 3020c.',
       regular:[
         {amount:199,merchant:'Q Acoustics UK direct',url:'https://www.qacoustics.co.uk/products/q-acoustics-3020i',unit:'pair'},
-        {amount:199,merchant:'Armour Home Electronics (UK retailer)',url:'https://www.ebay.co.uk/itm/127611750462',unit:'pair'}
+        {amount:199,merchant:'New Forest Tech Services',url:'https://www.newforesttech.services/product-page/q-acoustics-3020i',unit:'pair'}
       ],
       promotionExamples:[
         {amount:199,merchant:'Peter Tyson (special listing)',url:'https://petertyson.co.uk/q-acoustics-q-3020i-bookshelf-speakers-english-walnut',unit:'pair',note:'retailer calls £199 a special; not counted as independent normal price'}
