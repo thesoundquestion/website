@@ -75,6 +75,17 @@ export const OWNER_EVIDENCE = Object.freeze({
       {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1wkahyf/',context:'Nearfield owner comment, November 2026'}
     ]
   },
+  'Wharfedale Diamond 12.1': {
+    band:'some', relevantGoals:['all_rounder','natural','imaging','low_volume'],
+    label:'Some exact-model owner experiences',
+    short:'Several original 12.1 owners enjoy their speakers for varied music and modest amplification; one newer owner also raised a cabinet/driver cosmetic concern.',
+    caution:'Room placement, stand height and listening level vary; no standardized subjective score is implied. Keep original 12.1 separate from later 12.1i and do not confuse an appearance complaint with a proven acoustic defect.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1ro0fai/',context:'Two original 12.1 owners using compact Fosi amplifiers, March 2026'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1uq76su/',context:'Original 12.1 owner discussing music use against JBL alternative, July 2026'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1ibd4id/',context:'New and used original 12.1 owners discussing cosmetic marks, January 2025'}
+    ]
+  },
   'Wharfedale Diamond 12.2': {
     band:'repeated', relevantGoals:['all_rounder','natural','bass','low_volume'],
     label:'Several owners, different systems',
