@@ -5,7 +5,7 @@
 .rsp-room-summary dl{display:grid;grid-template-columns:minmax(0,120px) minmax(0,1fr);gap:.45rem .8rem;font-size:.83rem;line-height:1.55;margin:1rem 0}
 .rsp-room-summary dt{color:#a3d3e7;font-weight:750}.rsp-room-summary dd{margin:0;color:#e5eff8}
 .rsp-room-summary p{font-size:.83rem;line-height:1.7;color:#b5d2e2;margin:.9rem 0 0}
-.rsp-widget{min-width:0}.rsp-case{padding:clamp(.75rem,2vw,1.4rem)}
+.rsp-widget{min-width:0;display:block}.rsp-case{padding:clamp(.75rem,2vw,1.4rem)}
 .rsp-case-title{margin:.3rem 0 1rem}.rsp-case-title h3{font-size:1.28rem;color:#ecfaff;margin:0 0 .4rem}.rsp-case-title p{font-size:.93rem;line-height:1.7;color:#c1d9e8;margin:0}
 .rsp-figure{min-width:0;margin:0}.rsp-plot{width:100%;height:auto;display:block;background:#0b1b2c;border-radius:12px}
 .rsp-axis{font-size:18px;fill:#bdcfe0;font-family:system-ui,sans-serif}.rsp-graph-title{font-size:18px;font-weight:700;fill:#dcefff;font-family:system-ui,sans-serif}
@@ -18,3 +18,6 @@
 .rsp-widget [data-plot-case][hidden]{display:none!important}
 @media(max-width:720px){.rsp-room-summary{grid-template-columns:1fr}.rsp-room-summary dl{grid-template-columns:125px 1fr}.rsp-notes{padding:.85rem 1rem}.rsp-figure figcaption{font-size:.8rem}}
 @media(max-width:400px){.rsp-room-summary dl{grid-template-columns:1fr;gap:.1rem}.rsp-room-summary dd{margin:0 0 .45rem}.rsp-axis,.rsp-graph-title{font-size:20px}.rsp-notes li{font-size:.88rem}}
+
+/* Fill the lesson column on desktop without sacrificing chart readability. */
+@media(min-width:950px){.rsp-case{display:grid;grid-template-columns:minmax(0,1.48fr) minmax(290px,1fr);column-gap:1.15rem;align-items:start}.rsp-case-title{grid-column:1/-1}.rsp-case .rsp-figure{grid-column:1;grid-row:2}.rsp-case .rsp-notes{grid-column:2;grid-row:2}.rsp-figure figcaption{font-size:.78rem}}
