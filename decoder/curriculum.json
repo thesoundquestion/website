@@ -217,6 +217,12 @@
       "category": "speakers",
       "title": "Speaker dispersion and off-axis response",
       "description": "Why sound changes away from the centre seat, how to read horizontal/vertical response and speaker directivity."
+    },
+    {
+      "slug": "recording-sources",
+      "category": "recording",
+      "title": "Microphones, DI and virtual instruments",
+      "description": "Trace microphones, direct instrument inputs, hardware synths and software instruments into a recording; see how mic placement and a room change the captured sound."
     }
   ],
   "categories": {
@@ -247,6 +253,13 @@
       "anchor": "source-lessons",
       "description": "Follow vinyl, CD, sound cards, streaming and DACs into the amplifier, then decode levels and audio formats.",
       "switch_to": "speakers"
+    },
+    "recording": {
+      "label": "Recording & Production",
+      "adjective": "recording",
+      "anchor": "recording-lessons",
+      "description": "Follow the recording from microphones, DI and virtual instruments through mixing, mastering and playback.",
+      "switch_to": "sources"
     }
   }
 }

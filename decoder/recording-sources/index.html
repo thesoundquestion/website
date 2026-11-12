@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#080d15">
+<meta name="description" content="Discover four ways music enters a recording: microphones, direct instrument input, hardware synths and software instruments. Explore placement and room pickup in a fictional 12 by 15 ft room.">
+<meta property="og:type" content="article"><meta property="og:site_name" content="The Sound Question">
+<meta property="og:title" content="Microphones, DI and Virtual Instruments | The Sound Question">
+<meta property="og:description" content="How sound is captured or created, from an acoustic room and microphone to a guitar DI or software instrument.">
+<meta property="og:url" content="https://thesoundquestion.pages.dev/decoder/recording-sources/">
+<link rel="canonical" href="https://thesoundquestion.pages.dev/decoder/recording-sources/">
+<link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/decoder-lessons.css?v=equipment-tools">
+<link rel="stylesheet" href="/assets/recording-sources.css">
+<title>Microphones, DI and Virtual Instruments | The Sound Question</title>
+<script defer src="/assets/decoder-lessons.js"></script></head>
+<body><a class="skip-link" href="#main">Skip to content</a><div class="site-shell">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="/"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a><nav class="main-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/journey/">The Journey</a><a href="/decoder/" aria-current="page">Spec Decoder</a><a href="/system-check/">System Check</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></div></header>
+<main id="main" class="rs-page">
+<div class="container dl-lesson-top rs-top"><div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Recording and production</span><span>/</span><span>How a recording begins</span></nav>
+<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/speaker-frequency-response/" aria-label="Next lesson: Speaker frequency response">Next lesson: Speaker frequency response →</a><!-- LESSON_TOP_NAV_END --></div>
+<p class="section-kicker">LESSON 20 · RECORDING &amp; PRODUCTION · PART 1</p>
+<h1>Where does a recording's sound <span class="gradient-text">really begin?</span></h1>
+<p class="lead">Before the DAC, amplifier or loudspeaker gets a vote, someone has to capture or <em>create</em> the sounds. Today that may involve a microphone in a room, a guitar plugged straight into an interface, a keyboard synthesizer, or a computer generating the instrument.</p>
+<div class="rs-thesis"><strong>The useful distinction:</strong> A microphone captures sound pressure; a DI captures an instrument's electrical signal; a software instrument may create audio without recording a new acoustic event at all. All three can produce outstanding recordings, or disappointing ones.</div>
+<div class="rs-jump" aria-label="On this page"><a href="#paths">Four recording paths ↓</a><a href="#room">Microphone placement ↓</a><a href="#choices">What the choices change ↓</a><a href="#beyond">Analogue versus digital ↓</a></div>
+</div>
+<section class="rs-section" id="paths"><div class="container"><p class="section-kicker">01 / FOUR RECORDING ROUTES</p><h2>The song can enter the computer in different ways.</h2>
+<p class="rs-intro">Tap each route. Watch where a physical sound, analogue signal, ADC, MIDI message or newly generated waveform enters the process. The diagrams show typical possibilities; not every product supports every connection.</p>
+<div class="dl-figure rs-interactive" data-lesson-plot="recording-sources">
+<div class="dl-graph-toolbar" role="group" aria-label="Choose a way of recording" hidden>
+<button type="button" class="dl-option is-current" data-select-case="mic" aria-pressed="true">Microphone</button><button type="button" class="dl-option" data-select-case="di" aria-pressed="false">Guitar / bass DI</button><button type="button" class="dl-option" data-select-case="hardware" aria-pressed="false">Hardware synth</button><button type="button" class="dl-option" data-select-case="virtual" aria-pressed="false">Software instrument</button>
+</div>
+<article data-plot-case="mic" class="rs-path-case">
+<div class="rs-case-head"><p class="rs-eyebrow">ACOUSTIC CAPTURE</p><h3>Capture the sound in the room</h3><p>Acoustic pressure becomes an electrical signal.</p></div>
+<div class="rs-flow" aria-label="Capture the sound in the room: signal flow"><div class="rs-node"><span class="rs-node-number">01</span><strong>Performer + room</strong><span>Physical sound waves</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">02</span><strong>Microphone</strong><span>Sound → analogue voltage</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">03</span><strong>Mic preamp</strong><span>Gain before the converter</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">04</span><strong>ADC</strong><span>Analogue → digital samples</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">05</span><strong>DAW track</strong><span>Edit and mix</span></div></div>
+<ul class="rs-points"><li>The instrument, room, mic position and polar pattern shape the sound before mixing.</li><li>The mic hears direct sound and some reflections or other performers, depending on placement.</li><li>A microphone's analogue signal normally requires an ADC to become a digital track.</li></ul></article>
+<article data-plot-case="di" class="rs-path-case" hidden>
+<div class="rs-case-head"><p class="rs-eyebrow">DIRECT INSTRUMENT</p><h3>Record a direct electrical instrument signal</h3><p>No room microphone is necessary for the dry track.</p></div>
+<div class="rs-flow" aria-label="Record a direct electrical instrument signal: signal flow"><div class="rs-node"><span class="rs-node-number">01</span><strong>Guitar / bass pickup</strong><span>Analogue electrical audio</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">02</span><strong>Hi-Z / DI input</strong><span>Match level and impedance</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">03</span><strong>Interface ADC</strong><span>Analogue → digital samples</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">04</span><strong>Amp / cab plugin</strong><span>Optional tone shaping</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">05</span><strong>DAW track</strong><span>Mix or re-amp later</span></div></div>
+<ul class="rs-points"><li>A dry DI guitar can be re-amped or sent through amplifier/cabinet simulation after recording.</li><li>DI generally means direct injection, not 'digital input'. The guitar signal is usually analogue before the ADC.</li><li>The recording room is largely bypassed in the dry path, but an added room impulse response or later re-amping can create ambience.</li></ul></article>
+<article data-plot-case="hardware" class="rs-path-case" hidden>
+<div class="rs-case-head"><p class="rs-eyebrow">ELECTRONIC INSTRUMENT</p><h3>An instrument may create its own waveform</h3><p>A hardware synth can be analogue, digital or hybrid.</p></div>
+<div class="rs-flow" aria-label="An instrument may create its own waveform: signal flow"><div class="rs-node"><span class="rs-node-number">01</span><strong>Keyboard / sequencer</strong><span>Notes and controls</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">02</span><strong>Hardware synthesizer</strong><span>Oscillators / samples / filters</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">03</span><strong>Audio output</strong><span>Analogue or digital, model-specific</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">04</span><strong>ADC if analogue</strong><span>Not needed on digital output</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">05</span><strong>DAW track</strong><span>Record rendered audio</span></div></div>
+<ul class="rs-points"><li>An analogue synthesizer typically sends analogue audio to an interface ADC.</li><li>A digital synthesizer might still use an analogue output, so its signal then needs conversion for recording.</li><li>A model with a supported digital audio connection can avoid an extra analogue capture stage.</li></ul></article>
+<article data-plot-case="virtual" class="rs-path-case" hidden>
+<div class="rs-case-head"><p class="rs-eyebrow">IN THE BOX</p><h3>Create the instrument inside the computer</h3><p>MIDI instructions tell a virtual instrument what to play.</p></div>
+<div class="rs-flow" aria-label="Create the instrument inside the computer: signal flow"><div class="rs-node"><span class="rs-node-number">01</span><strong>MIDI notes / control</strong><span>Timing, pitch, velocity, not sound</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">02</span><strong>Software instrument</strong><span>Synthesis or sample playback</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">03</span><strong>Digital audio</strong><span>Generated inside the DAW</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">04</span><strong>Effects / automation</strong><span>Optional processing</span></div><span class="rs-flow-arrow" aria-hidden="true">→</span><div class="rs-node"><span class="rs-node-number">05</span><strong>DAW mix bus</strong><span>No input ADC necessary</span></div></div>
+<ul class="rs-points"><li>MIDI is control data, not a recording of an acoustic waveform.</li><li>A virtual piano or drum library can still contain previously microphone-recorded samples, complete with their original sound.</li><li>Synthesis and samples can sound convincing or distinctly artificial; the result depends on design, performance and production.</li></ul></article><div class="dl-plot-status" data-plot-status role="status" hidden></div></div>
+<div class="rs-takeaway"><strong>DI ≠ digital.</strong> A guitar plugged into an instrument input usually sends an <em>analogue</em> signal. A digital file is created after conversion. By contrast, a software synthesizer can generate audio directly in the DAW, without a microphone or recording-input ADC.</div>
+</div></section>
+
+<section class="rs-section rs-section--alternate" id="mic"><div class="container">
+<p class="section-kicker">02 / MICROPHONE CHOICE</p><h2>What kind of microphone, and which way is it listening?</h2>
+<div class="rs-three"><article><h3>Moving-coil dynamic</h3><p>Common for vocals, loud stages and close instruments. Output level, response and suitability depend on the model. Often robust, but not automatically less detailed.</p></article>
+<article><h3>Condenser</h3><p>Uses an electrically biased capsule and active electronics. Often chosen for nuanced sources and lower self-noise, but overload, pattern and frequency response still depend on design.</p></article>
+<article><h3>Ribbon</h3><p>A thin conductive ribbon moves in a magnetic field, a type of dynamic transducer. Often bidirectional in classic designs. Some are delicate or need extra gain; modern models vary.</p></article></div>
+<p>Manufacturers offer different responses, polar patterns and maximum sound-pressure capabilities. Price and microphone category alone cannot tell you what a voice will sound like.</p>
+<div class="dl-figure rs-interactive rs-polar-widget" data-lesson-plot="mic-polar">
+<div class="dl-graph-toolbar" role="group" aria-label="Compare idealized microphone polar patterns" hidden>
+<button class="dl-option is-current" type="button" data-select-case="cardioid" aria-pressed="true">Cardioid</button>
+<button class="dl-option" type="button" data-select-case="omni" aria-pressed="false">Omnidirectional</button>
+<button class="dl-option" type="button" data-select-case="figure8" aria-pressed="false">Figure-eight</button></div>
+<article data-plot-case="cardioid" class="rs-polar-case"><figure class="rs-polar-figure"><svg viewBox="0 0 390 282" role="img" aria-label="Cardioid idealized microphone polar pattern; orientation shown with a front arrow, not a measured microphone response" xmlns="http://www.w3.org/2000/svg">
+<rect width="390" height="282" rx="12" fill="#0b2034"/>
+<g transform="translate(195 149)" fill="none" stroke="#45677e" stroke-width="1.3"><circle r="30"/><circle r="60"/><circle r="90"/><line x1="-105" y1="0" x2="105" y2="0"/><line x1="0" y1="-105" x2="0" y2="105"/></g>
+<path d="M195 59 C253 60 284 110 271 157 C260 200 223 223 195 149 C167 223 130 200 119 157 C106 110 137 60 195 59 Z" fill="#79caed" fill-opacity=".2" stroke="#90e9d0" stroke-width="4"/>
+<path d="M195 22L187 35M195 22L203 35" stroke="#fbd4a6" stroke-width="2" fill="none"/><text x="211" y="29" font-size="15" fill="#fff0d7">Front</text>
+<text x="195" y="272" text-anchor="middle" fill="#c5deef" font-size="14">Idealized, not product measurements</text>
+</svg><figcaption>Cardioid: idealized pickup shape, not a precise frequency-dependent measurement.</figcaption></figure><div><h3>Cardioid</h3><p>Favours sound in front and reduces pickup at the rear in an idealized pattern. At very close range, many directional mics show a proximity-effect bass increase.</p></div></article>
+<article data-plot-case="omni" hidden class="rs-polar-case"><figure class="rs-polar-figure"><svg viewBox="0 0 390 282" role="img" aria-label="Omnidirectional idealized microphone polar pattern; orientation shown with a front arrow, not a measured microphone response" xmlns="http://www.w3.org/2000/svg">
+<rect width="390" height="282" rx="12" fill="#0b2034"/>
+<g transform="translate(195 149)" fill="none" stroke="#45677e" stroke-width="1.3"><circle r="30"/><circle r="60"/><circle r="90"/><line x1="-105" y1="0" x2="105" y2="0"/><line x1="0" y1="-105" x2="0" y2="105"/></g>
+<path d="M195 59 A90 90 0 1 1 194.99 59 Z" fill="#79caed" fill-opacity=".2" stroke="#90e9d0" stroke-width="4"/>
+<path d="M195 22L187 35M195 22L203 35" stroke="#fbd4a6" stroke-width="2" fill="none"/><text x="211" y="29" font-size="15" fill="#fff0d7">Front</text>
+<text x="195" y="272" text-anchor="middle" fill="#c5deef" font-size="14">Idealized, not product measurements</text>
+</svg><figcaption>Omnidirectional: idealized pickup shape, not a precise frequency-dependent measurement.</figcaption></figure><div><h3>Omnidirectional</h3><p>A pressure-operated ideal omni responds similarly from every horizontal direction. It does not exhibit the directional pressure-gradient proximity effect, but distance still changes the direct-to-room balance.</p></div></article>
+<article data-plot-case="figure8" hidden class="rs-polar-case"><figure class="rs-polar-figure"><svg viewBox="0 0 390 282" role="img" aria-label="Figure-eight idealized microphone polar pattern; orientation shown with a front arrow, not a measured microphone response" xmlns="http://www.w3.org/2000/svg">
+<rect width="390" height="282" rx="12" fill="#0b2034"/>
+<g transform="translate(195 149)" fill="none" stroke="#45677e" stroke-width="1.3"><circle r="30"/><circle r="60"/><circle r="90"/><line x1="-105" y1="0" x2="105" y2="0"/><line x1="0" y1="-105" x2="0" y2="105"/></g>
+<path d="M195 149 C160 113 164 58 195 58 C226 58 230 113 195 149 C160 185 164 240 195 240 C226 240 230 185 195 149 Z" fill="#79caed" fill-opacity=".2" stroke="#90e9d0" stroke-width="4"/>
+<path d="M195 22L187 35M195 22L203 35" stroke="#fbd4a6" stroke-width="2" fill="none"/><text x="211" y="29" font-size="15" fill="#fff0d7">Front</text>
+<text x="195" y="272" text-anchor="middle" fill="#c5deef" font-size="14">Idealized, not product measurements</text>
+</svg><figcaption>Figure-eight: idealized pickup shape, not a precise frequency-dependent measurement.</figcaption></figure><div><h3>Figure-eight</h3><p>Picks up front and back with deep nulls to either side in the ideal model. Bidirectional ribbon and some condenser configurations can show strong proximity effect.</p></div></article><div class="dl-plot-status" data-plot-status role="status" hidden></div>
+</div><p class="rs-note">A polar diagram shows direction sensitivity, not a mic's complete tonal response. Real patterns change with frequency, and off-axis sound may be coloured. Real-world responses are rarely mathematically perfect hearts, circles or figure-eights.</p>
+</div></section>
+
+<section class="rs-section" id="room"><div class="container"><p class="section-kicker">03 / MOVE THE MIC</p><h2>The room and placement become part of the recording.</h2>
+<p class="rs-intro">Keep the singer and fictional 12 × 15 ft room the same. Change microphone distance and imagine how the balance of direct sound and room reflections might shift. <strong>This is a placement demonstration, not a simulation of measured room acoustics.</strong></p>
+<div class="dl-figure rs-interactive" data-lesson-plot="mic-placement">
+<div class="dl-graph-toolbar" role="group" aria-label="Choose a microphone distance" hidden>
+<button type="button" class="dl-option is-current" data-select-case="close" aria-pressed="true">Close: 0.5 ft</button><button type="button" class="dl-option" data-select-case="mid" aria-pressed="false">Moderate: 2 ft</button><button type="button" class="dl-option" data-select-case="far" aria-pressed="false">Farther: 6 ft</button></div>
+<article data-plot-case="close" class="rs-room-case"><figure><svg viewBox="0 0 770 365" class="rs-room-svg" role="img" aria-label="Schematic top-down 12 ft by 15 ft recording room. A singer stands on the left and a microphone is placed Close: 0.5 ft in front, with direct and reflected sound indicated symbolically. This is not an acoustic simulation." xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="770" height="365" rx="15" fill="#081a2b"/>
+<rect x="108" y="44" width="595" height="270" rx="9" fill="#122c40" stroke="#7899b2" stroke-width="2"/>
+<path d="M108 32H703 M108 25V40 M703 25V40" stroke="#9ebbd2" fill="none"/>
+<text x="405" y="24" text-anchor="middle" fill="#dff4ff" font-size="17" font-weight="700">15 ft room length</text>
+<path d="M94 44V314" stroke="#a3c4d8" fill="none"/>
+<text x="81" y="184" text-anchor="middle" fill="#dff4ff" font-size="16" transform="rotate(-90 81 184)">12 ft wide</text>
+<circle cx="190" cy="153" r="13" fill="#ffd6a2"/><path d="M175 171Q190 166 205 171V206H175Z" fill="#ffc092"/>
+<text x="190" y="228" fill="#fff1db" text-anchor="middle" font-size="16">Singer</text>
+<line x1="209" y1="157" x2="286" y2="156" stroke="#88e6cc" stroke-width="4" stroke-linecap="round"/>
+<path d="M300 135V190" stroke="#b4d4ed" stroke-width="5" stroke-linecap="round"/><rect x="287" y="143" width="26" height="36" rx="12" fill="#e5f5ff" stroke="#548dae" stroke-width="2"/>
+<text x="300" y="219" text-anchor="middle" fill="#c4e4f6" font-size="16">Mic · Close: 0.5 ft</text>
+<path d="M204 153L283 61L289 146" stroke="#f3c78f" stroke-width="2" stroke-dasharray="7 7" fill="none" opacity=".9"/>
+<path d="M204 153L296 298L292 172" stroke="#f3c78f" stroke-width="2" stroke-dasharray="7 7" fill="none" opacity=".9"/>
+<g font-size="15" fill="#d3e7f6"><text x="495" y="70">Dashed = reflected paths</text><text x="495" y="90">Solid = direct path</text><text x="495" y="330">Schematic only · not to scale</text></g>
+</svg><figcaption>Fictional 12 × 15 ft room. Distances are labelled teaching scenarios; the drawing is not geometrically scaled or acoustically measured.</figcaption></figure><div class="rs-room-take"><h3>Close: 0.5 ft</h3><p>More direct sound relative to the room; often better isolation. A directional mic may add proximity-effect bass.</p><p>A singer six inches from a directional mic can have pronounced plosives or bass lift. A pop filter and consistent positioning can help.</p></div></article>
+<article data-plot-case="mid" hidden class="rs-room-case"><figure><svg viewBox="0 0 770 365" class="rs-room-svg" role="img" aria-label="Schematic top-down 12 ft by 15 ft recording room. A singer stands on the left and a microphone is placed Moderate: 2 ft in front, with direct and reflected sound indicated symbolically. This is not an acoustic simulation." xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="770" height="365" rx="15" fill="#081a2b"/>
+<rect x="108" y="44" width="595" height="270" rx="9" fill="#122c40" stroke="#7899b2" stroke-width="2"/>
+<path d="M108 32H703 M108 25V40 M703 25V40" stroke="#9ebbd2" fill="none"/>
+<text x="405" y="24" text-anchor="middle" fill="#dff4ff" font-size="17" font-weight="700">15 ft room length</text>
+<path d="M94 44V314" stroke="#a3c4d8" fill="none"/>
+<text x="81" y="184" text-anchor="middle" fill="#dff4ff" font-size="16" transform="rotate(-90 81 184)">12 ft wide</text>
+<circle cx="190" cy="153" r="13" fill="#ffd6a2"/><path d="M175 171Q190 166 205 171V206H175Z" fill="#ffc092"/>
+<text x="190" y="228" fill="#fff1db" text-anchor="middle" font-size="16">Singer</text>
+<line x1="209" y1="157" x2="381" y2="156" stroke="#88e6cc" stroke-width="4" stroke-linecap="round"/>
+<path d="M395 135V190" stroke="#b4d4ed" stroke-width="5" stroke-linecap="round"/><rect x="382" y="143" width="26" height="36" rx="12" fill="#e5f5ff" stroke="#548dae" stroke-width="2"/>
+<text x="395" y="219" text-anchor="middle" fill="#c4e4f6" font-size="16">Mic · Moderate: 2 ft</text>
+<path d="M204 153L378 61L384 146" stroke="#f3c78f" stroke-width="2" stroke-dasharray="7 7" fill="none" opacity=".9"/>
+<path d="M204 153L391 298L387 172" stroke="#f3c78f" stroke-width="2" stroke-dasharray="7 7" fill="none" opacity=".9"/>
+<g font-size="15" fill="#d3e7f6"><text x="495" y="70">Dashed = reflected paths</text><text x="495" y="90">Solid = direct path</text><text x="495" y="330">Schematic only · not to scale</text></g>
+</svg><figcaption>Fictional 12 × 15 ft room. Distances are labelled teaching scenarios; the drawing is not geometrically scaled or acoustically measured.</figcaption></figure><div class="rs-room-take"><h3>Moderate: 2 ft</h3><p>A different balance of direct sound and room reflections; not automatically the most natural choice.</p><p>Small changes in aim may change voice tone. Reflections, mic pattern and the room's surfaces matter.</p></div></article>
+<article data-plot-case="far" hidden class="rs-room-case"><figure><svg viewBox="0 0 770 365" class="rs-room-svg" role="img" aria-label="Schematic top-down 12 ft by 15 ft recording room. A singer stands on the left and a microphone is placed Farther: 6 ft in front, with direct and reflected sound indicated symbolically. This is not an acoustic simulation." xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="770" height="365" rx="15" fill="#081a2b"/>
+<rect x="108" y="44" width="595" height="270" rx="9" fill="#122c40" stroke="#7899b2" stroke-width="2"/>
+<path d="M108 32H703 M108 25V40 M703 25V40" stroke="#9ebbd2" fill="none"/>
+<text x="405" y="24" text-anchor="middle" fill="#dff4ff" font-size="17" font-weight="700">15 ft room length</text>
+<path d="M94 44V314" stroke="#a3c4d8" fill="none"/>
+<text x="81" y="184" text-anchor="middle" fill="#dff4ff" font-size="16" transform="rotate(-90 81 184)">12 ft wide</text>
+<circle cx="190" cy="153" r="13" fill="#ffd6a2"/><path d="M175 171Q190 166 205 171V206H175Z" fill="#ffc092"/>
+<text x="190" y="228" fill="#fff1db" text-anchor="middle" font-size="16">Singer</text>
+<line x1="209" y1="157" x2="574" y2="156" stroke="#88e6cc" stroke-width="4" stroke-linecap="round"/>
+<path d="M588 135V190" stroke="#b4d4ed" stroke-width="5" stroke-linecap="round"/><rect x="575" y="143" width="26" height="36" rx="12" fill="#e5f5ff" stroke="#548dae" stroke-width="2"/>
+<text x="588" y="219" text-anchor="middle" fill="#c4e4f6" font-size="16">Mic · Farther: 6 ft</text>
+<path d="M204 153L571 61L577 146" stroke="#f3c78f" stroke-width="2" stroke-dasharray="7 7" fill="none" opacity=".9"/>
+<path d="M204 153L584 298L580 172" stroke="#f3c78f" stroke-width="2" stroke-dasharray="7 7" fill="none" opacity=".9"/>
+<g font-size="15" fill="#d3e7f6"><text x="495" y="70">Dashed = reflected paths</text><text x="495" y="90">Solid = direct path</text><text x="495" y="330">Schematic only · not to scale</text></g>
+</svg><figcaption>Fictional 12 × 15 ft room. Distances are labelled teaching scenarios; the drawing is not geometrically scaled or acoustically measured.</figcaption></figure><div class="rs-room-take"><h3>Farther: 6 ft</h3><p>A smaller direct-to-room ratio may make ambience and other instruments more apparent.</p><p>A farther mic may capture welcome spaciousness in a good room or excessive reflections in a poor one.</p></div></article><div class="dl-plot-status" data-plot-status role="status" hidden></div></div>
+<div class="rs-columns"><div><h3>Closer often means more direct sound.</h3><p>The direct signal typically falls with distance. As the mic moves farther away, reflected sound can become more important. In an ideal free field, doubling distance reduces direct sound pressure by about 6 dB; a real room adds reflections and boundaries, so that rule does not predict a precise in-room recording level.</p></div>
+<div><h3>Mic angle and bass matter too.</h3><p>Moving a directional microphone closer may exaggerate bass through <em>proximity effect</em>. Turning a microphone slightly off-axis can reduce plosives or change brightness, depending on the mic. An ideal pressure omni does not have the same proximity-effect mechanism.</p></div></div>
+</div></section>
+
+<section class="rs-section rs-section--alternate" id="choices"><div class="container">
+<p class="section-kicker">04 / WHAT YOU ACTUALLY HEAR</p><h2>Connect capture decisions to the listening glossary.</h2>
+<div class="rs-glossary-grid">
+<article><h3><a href="/decoder/audiophile-glossary/#warm">Warm</a> / <a href="/decoder/audiophile-glossary/#bright">bright</a></h3><p>Mic angle, proximity, source radiation and amp-cabinet placement can change tonal balance before a mixer adds EQ.</p></article>
+<article><h3><a href="/decoder/audiophile-glossary/#soundstage">Soundstage</a> / <a href="/decoder/audiophile-glossary/#imaging">imaging</a></h3><p>Stereo microphone technique and captured ambience can establish directional and distance cues. The mix and playback room can change how those cues appear.</p></article>
+<article><h3><a href="/decoder/audiophile-glossary/#separation">Separation</a> / <a href="/decoder/audiophile-glossary/#congestion">congestion</a></h3><p>Mic bleed, overlapping instrument ranges, arrangement and time alignment all influence what later mix processing can separate.</p></article>
+<article><h3><a href="/decoder/audiophile-glossary/#dynamic">Dynamic</a> / <a href="/decoder/audiophile-glossary/#punchy">punchy</a></h3><p>Performance, drum capture and transient shape matter before compressors or mastering limiters reshape them. Capture alone does not dictate a finished song's dynamics.</p></article>
+</div>
+<div class="rs-takeaway">A playback system can reproduce or colour the information it receives, but it cannot restore microphone detail that was never captured or undo an irreversibly flattened mix. DSP can create new spatial effects, though those are not missing original information magically recovered.</div>
+</div></section>
+
+<section class="rs-section" id="beyond"><div class="container">
+<p class="section-kicker">05 / ANALOGUE VERSUS DIGITAL</p><h2>Why doesn't a modern recording automatically sound better?</h2>
+<p>A carefully performed live band can sound natural and engaging on tape or in a modern digital studio. A virtual-instrument production can be equally inventive and dynamic. What differs is <em>what the engineer and artist can choose</em>: capture a shared room, isolate a DI track, quantize drums, replace a snare sound, automate effects or build a convincingly artificial space.</p>
+<div class="rs-two-cards"><article><h3>What digital tools make easier</h3><ul><li>Clean capture, consistent edits and non-destructive changes.</li><li>Re-amping, layered sampled instruments and precise automation.</li><li>Mixing music with no newly miked instrument, or blending live recordings with software.</li><li>Reproducible mixes and immersive spatial production.</li></ul></article><article><h3>Where production can still disappoint</h3><ul><li>Excessive editing or quantization can change the feel of a performance.</li><li>Poorly chosen samples, cabinet simulations or room effects can sound unnatural.</li><li>Heavy compression and limiting can reduce peak-to-average contrast.</li><li>A poor room or microphone position can capture problems that EQ cannot fully undo.</li></ul></article></div>
+<p>None of those traits belongs exclusively to one era. Comparing an older release with a remaster of the same album is particularly tricky because the **mastering itself** may be different.</p>
+</div></section>
+
+<section class="rs-section rs-section--alternate" id="next"><div class="container">
+<p class="section-kicker">FOLLOW THE SIGNAL</p><h2>What happens after capture?</h2>
+<div class="rs-next-grid"><a href="/decoder/sample-rate/"><strong>Sample rate and bandwidth</strong><span>What the converter captures and why the sample rate changes the working bandwidth →</span></a><a href="/decoder/bit-depth/"><strong>Bit depth and dynamic range</strong><span>How recording headroom and theoretical noise differ from musical dynamics →</span></a><a href="/decoder/playback-sources/"><strong>Playback sources</strong><span>Follow the finished master back out to your DAC, amplifier and speakers →</span></a></div>
+<p>The upcoming recording-series lessons will go deeper on the engineering uses of oversampling and 32-bit float, how mixers create soundstage and separation, and how original masters, remasters and vinyl cuts can differ.</p>
+</div></section>
+
+<section class="rs-section" id="sources"><div class="container"><p class="section-kicker">SOURCES &amp; INTEGRITY</p>
+<h2>Where the technical explanations come from</h2><p>All diagrams, pattern shapes and flow illustrations are original educational artwork. The placement scenarios and patterns are illustrative, not manufacturer measurements or predictions of a real recording.</p>
+<ul class="rs-source-list"><li><a href="https://www.shure.com/en-US/docs/education/Microphone-Techniques-for-Recording" target="_blank" rel="noopener noreferrer">Shure · Microphone techniques for recording</a></li><li><a href="https://www.shure.com/en-US/insights/how-to-record-and-mix-vocals" target="_blank" rel="noopener noreferrer">Shure · Recording and mixing vocals</a></li><li><a href="https://userguides.focusrite.com/hc/en-gb/articles/27308026213394-Introduction-to-recording-electric-guitar-with-your-audio-interface" target="_blank" rel="noopener noreferrer">Focusrite · Direct guitar recording versus miking an amp</a></li><li><a href="https://support.focusrite.com/hc/en-gb/articles/208364625-Using-a-Focusrite-interface-when-re-amping-guitars" target="_blank" rel="noopener noreferrer">Focusrite · Using an interface for guitar re-amping</a></li><li><a href="https://www.ableton.com/en/manual/working-with-instruments-and-effects/" target="_blank" rel="noopener noreferrer">Ableton Live 12 · Working with instruments and effects</a></li></ul><p class="rs-note">Reviewed 11 November 2026. We link to the source explanations; no third-party figures, recordings or branded multitrack audio are republished here.</p></div></section>
+<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
+<div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 20 of 20 · Recording &amp; Production</span></div>
+<a class="dl-next-card" href="/decoder/speaker-frequency-response/"><span class="dl-next-copy"><span class="dl-next-kicker">NEXT TOPIC · SPEAKERS</span><strong>Speaker frequency response</strong><span>Understand why speakers sound balanced, bright, warm or forward.</span></span><span class="dl-next-arrow" aria-hidden="true">→</span></a>
+<div class="dl-nav-utilities"><a href="/decoder/speaker-dispersion/">← Previous: Speaker dispersion and off-axis response</a><a href="/decoder/">All lessons ↗</a></div>
+<aside class="dl-topic-switch"><div><p class="dl-switch-label">FINISHED THIS RECORDING SERIES?</p><h3>Want to learn about sources &amp; dacs?</h3><p>Follow vinyl, CD, sound cards, streaming and DACs into the amplifier, then decode levels and audio formats.</p></div><a class="dl-switch-link" href="/decoder/#source-lessons">Explore source lessons ↗</a></aside></nav><!-- LESSON_NAV_END -->
+</main><footer class="site-footer"><div class="container footer-inner"><div class="footer-brand"><img src="/assets/mark.svg" width="29" height="29" alt=""><span>The Sound Question</span></div><div class="footer-links"><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a><a href="/privacy/">Privacy</a></div><p>From the first sound to the final listen. Understand what shapes what you hear.</p><small>© 2026 The Sound Question. Free to explore, no account required.</small></div></footer></div></body></html>
