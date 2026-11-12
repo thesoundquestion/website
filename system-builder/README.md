@@ -1,4 +1,4 @@
-# System Builder v0.8 | practical owner-evidence fallback preview branch
+# System Builder v0.9 | practical owner-evidence fallback preview branch
 
 This is a static, zero-backend, browser-only preview for **Recording to Room → System Builder**. The Cloudflare **feature-branch preview is live** at https://feature-system-builder-previ.thesoundquestion.pages.dev/system-builder/ but the production `main` branch is unchanged. The original System Check, Compare My Gear, gear catalog and validated calculations are not modified.
 
@@ -108,3 +108,21 @@ Research authority: private `thesoundquestion/research/SYSTEM_BUILDER_OWNER_EVID
 **Validation status:** Earlier full website Node suite passed 176/176. This update adds 11 price-context test cases and 2 additional exact-model owner-evidence tests. A separate exact-current-GitHub-source evaluation against the original System Check speaker/amp catalog verified **14/14** cases including regular-vs-sale price separation, model identity, used budget path, and R-S202 load restrictions. A remote checkout using the mutable branch ref had stale module content during rapid updates; a **fresh exact-head full Node test run and responsive/manual accessibility QA are still required before release**. Do not claim a new all-tests-passed count without that run.
 
 Private [Batch 09 research report](https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_OWNER_MARKET_RESEARCH_BATCH_09_2026_11_12.md) and [machine-readable evidence ledger](https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_OWNER_MARKET_EVIDENCE_BATCH_09_2026_11_12.json) document the 12 models, 32 linked discussion observations, and Canadian price/source classifications. Keep raw research private and evaluate advertising rights before monetized use of third-party endorsements.
+
+
+## v0.9 · Realistic entry-budget options and automated regression (2026-11-12)
+
+The user now receives usable named speaker options at much lower budgets, not only unpriced high-tier gear or generic "try used" advice. **Missing measurements are not an automatic rejection, but known safety and real price limits remain meaningful.**
+
+- Two **Builder-only supplemental passive pairs**, Polk Monitor XT15 (regular CA$249 pair) and Polk Monitor XT20 (regular CA$349 pair), with source-checked manufacturer minimum impedance **4.1Ω / 4.3Ω** and independently sourced **8Ω nominal** listings. The supplemental file does not touch the 130 original System Check presets, calculations or Compare My Gear records. Both models can be selected as already owned inside Builder.
+- XT15 has a carefully qualified independent listening review; XT20 has contrasting actual owner experiences in two discussions. The curated model-selection scope rises to **14 passive speaker suggestions**, with **13 exact-model source-linked owner-context entries**. We do not create a numeric fidelity, match or owner sentiment score.
+- Canadian regular-price references for XT15 from three sellers at CA$249/pair and XT20 from three at CA$349/pair, with the maker's separate CA$279 XT20 promotion kept distinct.
+- Paradigm Monitor SE Atom's **seasonal, multi-dealer CA$269.99 pair offer** is eligible while the externally announced Oct 16, 2026–Jan 4, 2027 promotion is in force, with at least two independent dealers corroborating the price. Its **~CA$360 regular asking benchmark** remains separate, and the seasonal price automatically stops qualifying after Jan 4. There is no ordinary-market "cheapest listing anywhere" rule.
+- Vintage Paradigm Titan v3 research now contains three Canadian seller asking examples **CA$125–195**. None is called a completed-sale amount, an available listing or a representative used-price median. Low budgets below those examples do not receive a false affordable used-price claim.
+- For a firm CAD budget, a priced new pair or validated broad seasonal offer ranks ahead of unpriced alternatives after listening-priority/room eligibility. Owner reports remain useful where prices/performance measurements are limited. Explicit manufacturer electrical restrictions still exclude unsuitable speaker/amp combinations (especially 8Ω-only R-S202 with near-4Ω-minimum Polk XT models).
+- Cards remain compact, with the specific speaker's reason visible and further pricing/source evidence in collapsed details. Already-owned amplifier remains at zero incremental purchase cost.
+- A small .github/workflows/system-builder-preview-tests.yml action now runs ALL Node site tests on pushes to this preview branch, replacing many resource-heavy remote desktop test sessions. The action does not merge or deploy production.
+
+**Current head regression:** **211/211 tests PASS**, zero failures on GitHub Actions. Verified run [43316705547](https://github.com/thesoundquestion/website/actions/runs/43316705547). The earlier 176-test and 14 direct cases are superseded as release evidence. Cloudflare Pages also reported a successful feature-branch deployment. **Manual latest-revision small-screen, keyboard and screen-reader QA remains outstanding**; draft PR stays unmerged.
+
+Private governing research: [Batch 10 affordable speaker coverage](https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_AFFORDABLE_SPEAKER_COVERAGE_BATCH_10_2026_11_12.md). Original third-party owner review posts/measurements are never scraped or reproduced; commercial publishing of third-party endorsements remains subject to rights and advertising review.
