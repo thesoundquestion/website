@@ -49,5 +49,5 @@ test('research methodology is opt-in, while the form and results remain discover
 test('small-width layouts preserve readable compact cards and keyboard focus', () => {
   assert.match(css,/@media\(max-width:360px\)/);
   assert.match(css,/\.sb-card-details>summary:focus-visible/);
-  assert.match(css,/\.sb-recommendations\{grid-template-columns:1fr/);
+  assert.match(css,/\.sb-recommendations,[^\n]*\{grid-template-columns:1fr\}/);
 });
