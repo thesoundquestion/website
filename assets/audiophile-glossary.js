@@ -30,4 +30,24 @@ input.addEventListener("input",refresh);clear.addEventListener("click",()=>{inpu
   const initial=window.location.hash.startsWith('#visual-')?window.location.hash.slice(8):'width';
   select(keys.has(initial)?initial:'width');
   controls.hidden=false;
+  const search=document.querySelector('#ag-query');
+  const gallery=document.querySelector('#visual-examples');
+  if(search&&gallery){
+    const keywords=[
+      ['width',['soundstage','stage width','wide','narrow']],
+      ['imaging',['imaging','focused','diffuse']],
+      ['separation',['separation','congestion','congested','crowded']],
+      ['depth',['depth','holographic','layered','flat stage']],
+      ['distance',['forward','laid-back','laid back','distance']]
+    ];
+    function syncSearch(){
+      const term=search.value.trim().toLowerCase();
+      if(!term){gallery.hidden=false;return;}
+      const pair=keywords.find(([,words])=>words.some(word=>word.includes(term)||term.includes(word)));
+      gallery.hidden=!pair;
+      if(pair)select(pair[0]);
+    }
+    search.addEventListener('input',syncSearch);
+    syncSearch();
+  }
 })();
