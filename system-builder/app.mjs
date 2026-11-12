@@ -588,7 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 +Math.round(item.usedExampleRange.min)+'–'+Math.round(item.usedExampleRange.max) : (item.subtotal === null ? 'Price to verify' : priceFormat(item.subtotal))));
-      addText(price,'span',noPurchase ? 'No new hardware priced' : (item.usedExampleRange ? 'Used asking examples · not verified sale prices' : (item.subtotal === null ? 'No local price checked' : 'CAD · listed parts only')));
+      addText(price,'span',noPurchase ? 'No new hardware priced' : (item.usedExampleRange ? 'Used asking examples · not verified sale prices' : item.promotionalOffer ? 'CAD · seasonal dealer sale; regular price shown in details' : (item.subtotal === null ? 'No local price checked' : 'CAD · listed parts only')));
       head.append(price);
       card.append(head);
       if (item.reuseNames?.length)
