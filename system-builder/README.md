@@ -1,4 +1,4 @@
-# System Builder v0.7 | practical owner-evidence fallback preview branch
+# System Builder v0.8 | practical owner-evidence fallback preview branch
 
 This is a static, zero-backend, browser-only preview for **Recording to Room → System Builder**. The Cloudflare **feature-branch preview is live** at https://feature-system-builder-previ.thesoundquestion.pages.dev/system-builder/ but the production `main` branch is unchanged. The original System Check, Compare My Gear, gear catalog and validated calculations are not modified.
 
@@ -94,3 +94,17 @@ Research authority: private `thesoundquestion/research/SYSTEM_BUILDER_OWNER_EVID
 - Model-specific listening impressions are optional, attributed and labelled as uncontrolled listening experience. They do not create a Yamaha/Marantz/etc house sound or affect order without a meaningful, model-specific sound preference. Reviews of discontinued equipment are not evidence of current stock.
 - The default stays three cards, with explanation first and detailed source/review links under disclosures. No visible numeric fit scores. Use System Check for listening-position headroom rather than inventing an extra power/SPL model.
 - Background: FTC 2024 Amplifier Rule (https://www.ftc.gov/news-events/news/press-releases/2024/06/ftc-issues-final-amendments-amplifier-rule-make-testing-methods-more-useful-consumers); Crown (https://www.crownaudio.com/en-US/how-much-amplifier-power); JBL (https://jblpro.com/en-US/site_elements/danger-low-power).
+
+
+## v0.8 · Expanded owner experience and real Canadian price references (2026-11-12)
+
+- **12 exact passive speaker owner-context profiles** now cover Polk ES15/ES20, ELAC DB63/B6.2, KEF Q150, Q Acoustics 3020i, Paradigm Monitor SE Atom/Titan v3, Wharfedale Diamond 12.2 (original), DALI Oberon 1, JBL Stage 250B and Klipsch R-50M. Each has linked original analysis of firsthand setup reports; user disagreements, vintage condition, model revisions and missing evidence remain visible. No copied owner posts, numerical preference scores or third-party raw measurements.
+- **Canadian pair-price source pilot:** new market-price-context.mjs distinguishes regular three-merchant Paradigm Monitor SE Atom pair prices around CAD 360, temporary sale observations around CAD 270, and vintage Titan v3 used asking examples of CAD 125–150 from two dated listings. These are **not transaction medians or normal used-price averages**. Additional single-listing ES20 and self-reported Wharfedale 12.2 examples appear in the expandable details, not as guaranteed typical prices.
+- Monitor SE Atom now has an actual dated regular pair-price reference instead of unknown cost. Other unpriced models remain discoverable but are never assigned zero cost.
+- When used equipment is enabled and a Canadian budget is especially tight, the used Titan can be a leading *conditional used discovery* candidate with refoaming/condition caveats. No availability or completed-sale price is promised. Missing comparable acoustic measurements do not remove otherwise sensible suggestions; known electrical and safety restrictions still screen the actual pairing.
+- The top compact card names the specific speaker reason even if the user already owns an amplifier. Full source links and price observations remain inside the disclosure, not an expanded beginner-facing wall of warnings.
+- Original System Check and Compare My Gear data and calculators are unchanged; no production merge.
+
+**Validation status:** Earlier full website Node suite passed 176/176. This update adds 11 price-context test cases and 2 additional exact-model owner-evidence tests. A separate exact-current-GitHub-source evaluation against the original System Check speaker/amp catalog verified **14/14** cases including regular-vs-sale price separation, model identity, used budget path, and R-S202 load restrictions. A remote checkout using the mutable branch ref had stale module content during rapid updates; a **fresh exact-head full Node test run and responsive/manual accessibility QA are still required before release**. Do not claim a new all-tests-passed count without that run.
+
+Private [Batch 09 research report](https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_OWNER_MARKET_RESEARCH_BATCH_09_2026_11_12.md) and [machine-readable evidence ledger](https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_OWNER_MARKET_EVIDENCE_BATCH_09_2026_11_12.json) document the 12 models, 32 linked discussion observations, and Canadian price/source classifications. Keep raw research private and evaluate advertising rights before monetized use of third-party endorsements.
