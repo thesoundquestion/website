@@ -93,6 +93,11 @@ export const SOUND_PROFILES = Object.freeze({
     text:'Independent loudspeaker measurements document finite deep-bass reach and a response that is not perfectly even. The coaxial driver alone does not prove superior imaging in your room.',
     type:'Independent measurement interpretation',url:'https://www.spinorama.org/speakers/KEF%20Q150/ErinsAudioCorner/index_eac.html'
   },
+  'Q Acoustics 3010i': {
+    text:'One independent listening review praises lively, clear music playback from the compact original 3010i but notes less scale with dense recordings than larger speakers. Several owners also use them in small systems.',
+    type:'Independent hands-on listening review and limited owner experience',
+    url:'https://www.whathifi.com/q-acoustics/3010i/review'
+  },
   'Q Acoustics 3020i': {
     text:'An independent review describes warm, rich mids, firm bass for the size, detailed treble and a broad stereo presentation. It benefits from some space away from a wall.',
     type:'Independent listening review',url:'https://www.whathifi.com/q-acoustics/3020i/review'
