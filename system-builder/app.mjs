@@ -140,8 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   let reportContainer = null;
   function section(title) {
-    const node = el('section');
-    addText(node, 'h3', title);
+    // The regular shortlist stays visible; the engineering appendix is opt-in.
+    // Its individual sections are independently expandable for quick scanning.
+    const withinAudit = !!reportContainer;
+    const node = el(withinAudit ? 'details' : 'section', withinAudit ? 'sb-audit-part' : '');
+    addText(node, withinAudit ? 'summary' : 'h3', title);
     (reportContainer || body).append(node);
     return node;
   }
@@ -165,38 +168,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const currency = String(data.get('currency') || 'other');
     const region = form.elements.namedItem('region').selectedOptions[0].textContent;
 
-    const summary = el('div','sb-summary');
-    for (const [caption,value] of [
-      ['Main priority',mainGoal.label],
-      ['Listening position',distanceFt.toLocaleString() + ' ft · ' + form.elements.namedItem('level').selectedOptions[0].textContent],
-      ['Signal route',arch === 'open' ? 'Multiple architecture pathways' : (options[arch]?.title || arch)]
-    ]) {
-      const cell = el('div');
-      addText(cell,'span',caption);
-      addText(cell,'strong',value);
-      summary.append(cell);
-    }
-    body.append(summary);
-    addText(body,'p','We can outline feasible routes and checks, but cannot claim a purchased system will create a particular soundstage or cleaner recording without comparable evidence and real-room verification.');
+    const profile = el('p','sb-profile');
+    profile.textContent = [
+      mainGoal.label,
+      distanceFt.toLocaleString() + ' ft',
+      form.elements.namedItem('level').selectedOptions[0].textContent,
+      budgetText ? budgetText + ' ' + currency + ' budget' : (region + ' · budget not set')
+    ].join(' · ');
+    body.append(profile);
 
     // Actual named equipment comes first. Each card is an editorial starting point,
     // never an automatic compatibility certification or a regional value winner.
-    const shop = section('Specific equipment to investigate');
-    addText(shop,'p','These are named, source-linked starting points selected for your route, not sound-quality rankings. A listed component subtotal is not the cost of a finished working system. Every pairing and purchase remains conditional.');
+    const shop = section('A few options worth a look');
     if (anyOwned && data.has('keepWorking')) {
-      const ownCard = el('article','sb-recommend sb-keep');
-      addText(ownCard,'div','Keep what you already own · first option','sb-status');
-      const kept = [
-        own.speaker.name && 'speakers: ' + own.speaker.name,
-        own.amp.name && 'amplifier: ' + own.amp.name,
-        own.source.name && 'source: ' + own.source.name,
-        own.headphone.name && 'headphones: ' + own.headphone.name
-      ].filter(Boolean);
-      addText(ownCard,'h4','Try your existing equipment first');
-      addText(ownCard,'p','Existing: ' + kept.join('; ') + '. Already-owned working parts are not charged a second purchase price.');
-      addText(ownCard,'p','Confirm the exact speaker load, amplifier permission, usable connection and listening headroom before deciding whether anything needs replacing. Unknown is not a passed compatibility test.');
-      link(ownCard,'/system-check/','Check your existing amplifier and speakers');
-      shop.append(ownCard);
+      const keep = el('div','sb-keep-inline');
+      const ownedNames = Object.values(own).filter(x=>x.name).map(x=>x.name);
+      addText(keep,'strong','Before you buy: consider keeping your gear');
+      addText(keep,'p',ownedNames.join(' · '));
+      const keepMore = el('details','sb-card-details');
+      addText(keepMore,'summary','What should I check?');
+      addText(keepMore,'p','Verify the amplifier/speaker load, source connection and clean listening level before replacing anything. Owning a component does not automatically make it suitable for every setup.');
+      link(keepMore,'/system-check/','Test your existing equipment with System Check');
+      keep.append(keepMore);
+      shop.append(keep);
     }
     const budget = budgetText ? Number(budgetText) : null;
     const shortlist = shortlistExamples({
@@ -207,76 +201,113 @@ document.addEventListener('DOMContentLoaded', () => {
       budget:Number.isFinite(budget) ? budget : null,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
     });
-    const grid = el('div','sb-recommendations');
-    for (const item of shortlist.selected) {
-      const card = el('article','sb-recommend');
-      addText(card,'div',item.kind+' · conditional example','sb-status');
-      addText(card,'h4',item.title);
-      addText(card,'p',item.why);
+    const priceFormat = value => value.toLocaleString('en-CA',{style:'currency',currency:'CAD'});
+    const renderCard = item => {
+      const card = el('article','sb-recommend sb-recommend-compact');
+      const head = el('div','sb-card-head');
+      const heading = el('div','sb-card-heading');
+      addText(heading,'span',item.kind,'sb-kind');
+      addText(heading,'h4',item.title.replace(/^[^:]{3,45}:\s*/,'')); 
+      head.append(heading);
+      const price = el('div','sb-card-price');
+      addText(price,'strong',item.subtotal === null ? 'Price to verify' : priceFormat(item.subtotal));
+      addText(price,'span',item.subtotal === null ? 'No local price checked' : 'CAD · listed parts only');
+      head.append(price);
+      card.append(head);
+      addText(card,'p',item.why,'sb-card-why');
+
+      // Only material blockers and urgent caveats interrupt the skim view.
+      if (item.id === 'passive-rs202-p3')
+        addText(card,'p','Check speaker load: P3 minimum 4 Ω; R-S202 specifies 8 Ω+. Not a confirmed safe pairing.','sb-card-alert');
+      else if (item.connectionStatus === 'adapter_needed')
+        addText(card,'p','Your chosen source connection needs extra hardware.','sb-card-alert');
+      else if (item.sourceBatteryCaution)
+        addText(card,'p','Battery-powered source/output required separately.','sb-card-alert');
+      else if (item.levelCaution || item.placementCaution)
+        addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
+      if (budget !== null && item.subtotal === null)
+        addText(card,'p','Budget fit not confirmed.','sb-card-minor');
+
+      const details = el('details','sb-card-details');
+      addText(details,'summary','What is included, drawbacks & sources');
       if (!item.editorialGoalFocus)
-        addText(card,'p','This is a contrasting architecture or budget example, not a model specifically validated for your main listening priority.','sb-help');
+        addText(details,'p','An alternative approach for comparison, not a verified performance match to your main priority.');
       if (item.secondaryFocus.length)
-        addText(card,'p','Also relevant to your other interests: '+item.secondaryFocus.map(x=>GOALS[x]?.label||x).join(', ')+'. This is editorial use-case relevance, not an acoustic test result.','sb-help');
-      const partList = el('ul','sb-buy-parts');
+        addText(details,'p','Also connects to: '+item.secondaryFocus.map(x=>GOALS[x]?.label||x).join(', ')+'. Not a measurement-based match.');
+      addText(details,'h5','Equipment and connections');
+      const parts = el('ul','sb-buy-parts');
       for (const part of item.parts) {
         const li = el('li');
         addText(li,'strong',(part.count > 1 ? part.count+' × ' : '') + part.name);
-        addText(li,'span',' — '+part.role);
-        if (part.url) link(li,part.url,'Factory / specification link');
-        partList.append(li);
+        addText(li,'span',' · '+part.role);
+        if (part.url) link(li,part.url,'Specifications');
+        parts.append(li);
       }
-      addText(card,'h5','Parts and equipment');
-      card.append(partList);
-      if (item.subtotal !== null) {
-        addText(card,'p','Observed Canadian component subtotal: '+item.subtotal.toLocaleString('en-CA',{style:'currency',currency:'CAD'})+' (checked 12 Nov 2026). NOT a typical price, complete cost, shipping/tax quote or availability guarantee.','sb-buy-price');
-        for (const p of item.priceComponents)
-          link(card,p.url,(p.quantity > 1 ? p.quantity+' × ' : '') + p.label + ' listed '+Number(p.amount).toLocaleString('en-CA',{style:'currency',currency:'CAD'}) + (p.quantity > 1 ? ' each' : ''));
-      } else addText(card,'p','Regional purchase price not verified. This option is NOT budget-qualified; obtain representative local prices before deciding.','sb-buy-price');
-      if (budget !== null) {
-        addText(card,'p',item.subtotal === null ?
-          'Your '+currency+' '+budget+' ceiling cannot be checked against this unpriced option.' :
-          'Your '+currency+' '+budget+' ceiling: '+(item.subtotal <= budget ?
-          'the listed parts alone do not exceed it, but missing hardware, taxes or delivery can still break the budget.' :
-          'this example already exceeds it on the listed parts alone.'),
-          'sb-help');
+      details.append(parts);
+      if (item.priceComponents.length) {
+        addText(details,'h5','Canadian price references · 12 Nov 2026');
+        for (const p of item.priceComponents) {
+          const line = addText(details,'p',(p.quantity > 1 ? p.quantity+' × ' : '') + p.label +
+            ': ' + priceFormat(p.amount) + (p.quantity > 1 ? ' each' : ''),'sb-card-reference');
+          link(line,p.url,'Price source');
+        }
       }
-      addText(card,'h5','Why to hesitate');
-      addText(card,'p',item.tradeoff);
+      addText(details,'h5','Trade-offs');
+      addText(details,'p',item.tradeoff);
       const checks = [...item.extra];
       if (item.connectionStatus === 'adapter_needed')
-        checks.unshift('Your requested source connection is not native to this example. A verified converter/receiver and its cost must be added before it works.');
-      if (item.levelCaution)
-        checks.unshift('Occasionally loud playback selected: do not assume this compact speaker can achieve the desired clean level at your seat.');
+        checks.unshift('No native connection for your chosen input: add and price a suitable adapter, receiver or interface.');
       if (item.sourceBatteryCaution)
-        checks.unshift('Headphones do not need wall power, but your source/headphone output must be battery-capable for off-grid listening. That source is not included in the quoted price.');
-      if (item.placementCaution)
-        checks.unshift('Listening position exceeds 10 ft: verify clean output at your actual seat before treating a nearfield product as a room solution.');
+        checks.unshift('The headphones require a compatible, battery-powered source/headphone output, not included in the shown price.');
+      if (item.levelCaution || item.placementCaution)
+        checks.unshift('Verify clean output at your intended distance and level, especially with compact nearfield designs.');
       if (item.sceneCaution)
-        checks.unshift('This is not primarily designed for the selected venue. Check coverage, environment and placement before buying.');
+        checks.unshift('Check whether this product is appropriate for the chosen venue and coverage.');
       if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first')
-        checks.push('A subwoofer, any crossover/router and integration work are NOT in this subtotal. A SUB OUT alone never proves a high-passed main channel.');
-      list(card,checks);
-      grid.append(card);
+        checks.push('Subwoofer, integration and any required crossover are not included; SUB OUT alone does not verify a mains high-pass.');
+      if (budget !== null)
+        checks.push(item.subtotal === null
+          ? 'No qualified local price for comparison with your '+budget+' '+currency+' ceiling.'
+          : 'The '+priceFormat(item.subtotal)+' shown covers only identified components. Missing hardware, delivery and taxes can exceed your '+budget+' '+currency+' budget.');
+      list(details,checks);
+      card.append(details);
+      return card;
+    };
+
+    if (shortlist.selected.length) {
+      const visible = shortlist.selected.slice(0,3);
+      const grid = el('div','sb-recommendations');
+      for (const item of visible) grid.append(renderCard(item));
+      shop.append(grid);
+      if (shortlist.selected.length > visible.length) {
+        const more = el('details','sb-more');
+        addText(more,'summary','Show '+(shortlist.selected.length-visible.length)+' more option'+(shortlist.selected.length-visible.length===1?'':'s'));
+        const moreGrid = el('div','sb-recommendations');
+        for (const item of shortlist.selected.slice(visible.length)) moreGrid.append(renderCard(item));
+        more.append(moreGrid);
+        shop.append(more);
+      }
+      addText(shop,'p','Illustrative options, not certified matches. Canadian amounts are dated component listings, not full system costs or typical market prices.','sb-brief-note');
+    } else {
+      addText(shop,'p','No example meets the chosen architecture, power and known-price limits. Try a different route or investigate local used options.','sb-report-note');
     }
-    if (shortlist.selected.length) shop.append(grid);
-    else addText(shop,'p','No listed example passed the architecture, required-power and known-component budget gates. Do not treat an unpriced alternative as safely within budget. Try a different route or verify real used offers.','sb-report-note');
     if (shortlist.excluded.length && budget !== null) {
-      addText(shop,'h4','Excluded by the firm budget or power requirement');
-      list(shop,shortlist.excluded.slice(0,4).map(x=>x.title+': '+x.reason),'sb-help');
+      const excluded = el('details','sb-more');
+      addText(excluded,'summary','Why some options were left out');
+      list(excluded,shortlist.excluded.slice(0,5).map(x=>x.title+': '+x.reason));
+      shop.append(excluded);
     }
     if (((bassMode !== 'no_sub' && data.get('subOwned') !== 'yes') || (primary === 'bass' && bassMode === 'no_sub')) && arch !== 'headphone_first') {
-      const subAdd = el('div','sb-sub-add');
-      addText(subAdd,'h4',bassMode === 'no_sub' ? 'If you later choose deeper bass' : 'Subwoofer purchase is still missing');
-      addText(subAdd,'p','Two real models to investigate: SVS SB-1000 Pro (sealed) and RSL Speedwoofer 10E (ported). These are not automatically compatible with every path, and neither has a verified representative '+currency+' total here.');
-      link(subAdd,'https://www.svsound.com/products/sb-1000-pro-subwoofer','SVS model information');
-      link(subAdd,'https://rslspeakers.com/pages/speedwoofer-10e','RSL model information');
+      const subAdd = el('details','sb-more');
+      addText(subAdd,'summary',bassMode === 'no_sub' ? 'Optional deeper bass ideas' : 'Subwoofer models to investigate');
+      addText(subAdd,'p','SVS SB-1000 Pro (sealed) and RSL Speedwoofer 10E (ported). Integration and regional prices still need verification.');
+      link(subAdd,'https://www.svsound.com/products/sb-1000-pro-subwoofer','SVS specifications');
+      link(subAdd,'https://rslspeakers.com/pages/speedwoofer-10e','RSL specifications');
       shop.append(subAdd);
     }
-    if (!anyOwned && arch === 'open')
-      addText(shop,'p','Different architectures are shown to make the trade-off tangible: a complete powered pair versus passive speakers with an amp versus two individually sold studio monitors. They are not interchangeable just because their prices look close.');
-    
+
     const detail = el('details','sb-audit');
-    addText(detail,'summary','Read the detailed compatibility checks, costs, ownership and evidence');
+    addText(detail,'summary','Want the technical explanation? Explore compatibility, pricing & evidence');
     body.append(detail);
     reportContainer = detail;
     const goals = section('What matters for your listening goals');
