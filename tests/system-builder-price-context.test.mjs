@@ -68,7 +68,7 @@ test('a self reported used purchase is not treated as a verified sale sample',()
 test('Canadian market-only records never leak; US gets distinct source-backed USD pair prices',()=>{
   assert.equal(priceContextFor('Paradigm Monitor SE Atom','GB','GBP'),null);
   assert.equal(priceContextFor('Paradigm Titan v3','US','USD'),null);
-  const us=candidates({region:'US',currency:'USD'});
+  const us=candidates({region:'US',currency:'USD',budget:280});
   assert.ok(us.selected.some(x=>x.title==='Polk Monitor XT15'&&x.subtotal===179));
   assert.ok(us.selected.some(x=>x.title==='Polk Monitor XT20'&&x.subtotal===279));
   assert.ok(us.selected.every(x=>x.pricingCurrency==='USD'));
