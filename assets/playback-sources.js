@@ -188,6 +188,8 @@
   // Curves are original calculations, not recorded or measured performance.
   const plot=document.querySelector('#ps-riaa-svg');
   if(plot){
+    const fallback = plot.querySelector('text');
+    if (fallback) fallback.remove();
     const ns='http://www.w3.org/2000/svg',W=720,H=324,left=55,right=695,top=22,bottom=276;
     const frequencies=[20,50,100,200,500,1000,2000,5000,10000,20000],amps=[-20,-10,0,10,20];
     const x=f=>left+(Math.log10(f)-Math.log10(20))/(Math.log10(20000)-Math.log10(20))*(right-left);
