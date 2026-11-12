@@ -16,7 +16,7 @@
 | Category | Presets | Detail records | Model-specific manufacturer reviewed | Other reviewed/source-limited | Missing or not verified |
 |---|---:|---:|---:|---:|---:|
 | Speaker | 59 | 59 | 47 | 6 | 6 |
-| DAC/source | 7 | 7 | 6 | 1 | 0 |
+| DAC/source | 19 | 19 | 18 | 1 | 0 |
 | Headphone | 10 | 10 | 6 | 4 | 0 |
 
 Review tiers in the UI: **manufacturer checked**, **manufacturer + archived distributor**, **manufacturer documentation conflict**, **period technical source**, **secondary vintage transcription**, **regional or archived distributor**, and **not fully reviewed / missing**. These are evidence categories, not quality rankings.
@@ -55,7 +55,7 @@ Review tiers in the UI: **manufacturer checked**, **manufacturer + archived dist
 
 ## Sound-card source expansion (2026-11-11)
 
-This appended release supersedes the original **DAC/source: 7** count in the snapshot table above; the new count is **19** (12 added). Full references, review statuses and caveats appear beside each model in `system-check/compare/specs.js`. Four distinctions matter: front line-out vs headphone figures, sound-card/DAC dynamic range vs independently tested analogue SNR, stereo direct-mode vs DSP-surround rate, and the specific model generation.
+The DAC/source count is now **19**, including **12 additional sound cards**. The table above reflects this update. Full references, review statuses and caveats appear beside each model in `system-check/compare/specs.js`. Four distinctions matter: front line-out vs headphone figures, sound-card/DAC dynamic range vs independently tested analogue SNR, stereo direct-mode vs DSP-surround rate, and the specific model generation.
 
 **X-Fi Titanium HD warning:** official Creative brochure `https://media.dustin.eu/media/d200001003267145/sound-blaster-x-fi-titanium-hd-produktinformation.pdf` lists 24/192 front RCA, while launch release `https://sg.creative.com/corporate/pressroom?id=13137` lists 24/96. Both must remain visible, without resolving the conflict by guess. The PCM1794A converter is attributed only to bit-tech's contemporary identification `https://www.bit-tech.net/reviews/tech/audio/creative-x-fi-tianium-hd-review/1/`. The manufacturer brochure gives 2Vrms, 122dB A-weighted (20k LPF) SNR, .001% THD+N (20k LPF) and 10Hz–90kHz at −3.5dB for the front RCA path. No verified RCA output impedance.
 
