@@ -2216,7 +2216,7 @@
         "section": "mix-and-master"
       },
       "spec": {
-        "text": "2 V RMS gives the same average power as a steady 2 V across the example’s fixed 8 Ω resistance, which is 0.5 W. Two signals can share that average and still have very different peaks.",
+        "text": "RMS is how the chart measures average electrical level. At 2 V RMS, all three versions use 0.5 W of average power into the example’s 8 Ω load. Their loudest hits can still ask the amp for different amounts of power.",
         "section": "playback-demand"
       },
       "hear": {
@@ -2247,12 +2247,12 @@
         ],
         "examples": {
           "peak": {
-            "label": "Match the peaks",
-            "text": "All three reach 10 V. The heavy-limiting version has more level between hits, so it uses more average power into the fixed load."
+            "label": "Match peak level",
+            "text": "The strongest hit in each version reaches 10 V. The heavily limited version stays at a higher level between hits, so the amp delivers more average power."
           },
           "rms": {
-            "label": "Match the average (RMS)",
-            "text": "All three average 0.5 W into 8 Ω. The restrained master has the tallest drum accent, which needs more peak voltage and current."
+            "label": "Match average level",
+            "text": "All three use 0.5 W on average into the 8 Ω example load. The restrained version still has the biggest drum hit, so the amp needs to deliver a bigger burst at that moment."
           }
         }
       },

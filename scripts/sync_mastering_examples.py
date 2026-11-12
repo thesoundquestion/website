@@ -228,9 +228,9 @@ def level_cards(series):
     for (label, color, _), signal in series:
         level = Levels.measure(signal)
         values = (
-            ("Sample peak", f"{level.peak:.2f} V"),
-            ("RMS", f"{level.rms:.2f} V"),
-            ("Crest factor", f"{level.crest:.1f} dB"),
+            ("Peak level", f"{level.peak:.2f} V"),
+            ("Average level", f"{level.rms:.2f} V"),
+            ("Peak above average", f"{level.crest:.1f} dB"),
             ("Average power", f"{level.average_watts:.2f} W"),
             ("Power at peak", f"{level.instantaneous_watts:.2f} W"),
         )
@@ -252,13 +252,13 @@ def figures():
     versions = [(REFERENCE, to_volts(original, voltage_scale)), (REMASTER, to_volts(remastered, voltage_scale))]
     return {
         "LEVEL_WAVES": chart([
-            ("peak", "Three synthetic masters at a matched 10 volt sample peak. Heavy limiting leaves larger voltages between drum hits. Time runs from zero to four seconds.", wave_plot(peaks)),
-            ("rms", "Three synthetic masters at a matched 2 volts RMS. The restrained master has the largest drum hit. Time runs from zero to four seconds.", wave_plot(averages)),
+            ("peak", "Three versions with the same peak level of 10 volts. The heavily limited version stays at a higher level between drum hits. Time runs from zero to four seconds.", wave_plot(peaks)),
+            ("rms", "Three versions with the same average level of 2 volts RMS. The restrained version has the largest drum hit. Time runs from zero to four seconds.", wave_plot(averages)),
         ]),
         "LEVEL_PEAK_CARDS": level_cards(peaks),
         "LEVEL_RMS_CARDS": level_cards(averages),
         "REMASTER_PLOTS": chart([
-            ("dynamics", "Original and remastered synthetic signals at the same playback gain. The remaster has a lower sample peak and higher RMS.", wave_plot(versions)),
+            ("dynamics", "Original and remastered versions at the same playback setting. The remaster has a lower peak level and a higher average level.", wave_plot(versions)),
             ("tone", "Equalizer gain before dynamics processing. Bass is boosted and treble is reduced for the later master. The original is flat at zero decibels.", eq_plot()),
         ]),
         "REMASTER_CARDS": level_cards(versions),
