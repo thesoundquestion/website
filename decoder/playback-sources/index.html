@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080d15">
+  <meta name="description" content="Vinyl, CD, sound cards, external DACs and streaming explained: where conversion happens, what changes the sound, and how to connect playback sources correctly.">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="The Sound Question">
+  <meta property="og:title" content="Playback Sources: Vinyl, CD, DACs and Sound Cards | The Sound Question">
+  <meta property="og:description" content="Follow the music from vinyl grooves, CD transports, computer software and streamers to your amplifier. Includes interactive signal paths, RIAA curve and setup checker.">
+  <meta property="og:url" content="https://thesoundquestion.pages.dev/decoder/playback-sources/">
+  <link rel="canonical" href="https://thesoundquestion.pages.dev/decoder/playback-sources/">
+  <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/decoder-lessons.css?v=equipment-tools">
+  <link rel="stylesheet" href="/assets/playback-sources.css?v=first-edition">
+  <title>Playback Sources: Vinyl, CD, DACs and Sound Cards | The Sound Question</title>
+  <script defer src="/assets/playback-sources.js?v=first-edition"></script>
+  <script defer src="/assets/decoder-lessons.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="site-shell">
+<header class="site-header"><div class="container header-inner">
+  <a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+  <nav class="main-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/journey/">The Journey</a><a href="/decoder/" aria-current="page">Spec Decoder</a><a href="/system-check/">System Check</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav>
+</div></header>
+<main class="ps-lesson" id="main">
+  <div class="container dl-lesson-top ps-intro">
+    <div class="dl-lesson-utility">
+      <nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Playback sources</span></nav>
+      <!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/source-levels/">Next lesson: Source levels and amplifier input sensitivity →</a><!-- LESSON_TOP_NAV_END -->
+    </div>
+    <p class="section-kicker">LESSON 13 · SOURCES &amp; DACS</p>
+    <h1>Playback sources: from the recording to your amplifier.</h1>
+    <p class="lead">Vinyl, CDs, sound cards, USB DACs and streamers are often compared as though they do the same job. Some store music, some read it, some convert it, and some do several of those things at once.</p>
+    <p class="ps-summary"><strong>The useful question is not “Which format sounds best?” It's “What happens to the signal at each step, and where could something change?”</strong></p>
+    <dl class="dl-term-grid">
+      <div><dt>Medium or file</dt><dd>Where the recording is stored: a groove, a CD, a file or a network service.</dd></div>
+      <div><dt>Transport / player</dt><dd>Reads the recording, retrieves data or handles playback.</dd></div>
+      <div><dt>Converter / phono stage</dt><dd>Turns digital audio into analogue, or makes a cartridge signal suitable for an amplifier.</dd></div>
+      <div><dt>Amplifier</dt><dd>Raises an analogue signal's available power for speakers. It may also contain a DAC or phono preamp.</dd></div>
+    </dl>
+    <div class="dl-example-spec" role="note">
+      <span class="dl-spec-tag">START WITH THE SIGNAL PATH</span>
+      <strong>A DAC is a function, not necessarily a separate box.</strong>
+      <p>A CD player's RCA sockets and a computer sound card's RCA sockets can both carry analogue signals that have already passed through a DAC.</p>
+    </div>
+    <nav class="ps-jump dl-lesson-jumps" aria-label="On this page">
+      <a href="#signal-path">Compare signal paths ↓</a>
+      <a href="#source-types">Explore source types ↓</a>
+      <a href="#where-changes-happen">Where sound changes ↓</a>
+      <a href="#riaa">Vinyl playback EQ ↓</a>
+      <a href="#connection-check">Check your connections ↓</a>
+      <a href="#takeaways">Choosing a source ↓</a>
+    </nav>
+  </div>
+
+  <section class="ps-section" id="signal-path">
+    <div class="container">
+      <p class="ps-tag">INTERACTIVE 01 · THE PATH TO THE SPEAKERS</p>
+      <h2>Same music, different routes.</h2>
+      <p class="ps-copy">Select a source. Follow each stage from where the recording lives to the amplifier. Labels describe the signal <em>at that point</em>, not a universal ranking of sound quality.</p>
+      <div class="ps-controls" data-ps-controls role="group" aria-label="Choose the playback path" hidden>
+        <button type="button" data-ps-path="vinyl" aria-pressed="true">Vinyl</button>
+        <button type="button" data-ps-path="cd" aria-pressed="false">CD player</button>
+        <button type="button" data-ps-path="soundcard" aria-pressed="false">Sound card</button>
+        <button type="button" data-ps-path="usb" aria-pressed="false">USB DAC</button>
+        <button type="button" data-ps-path="streamer" aria-pressed="false">Streamer</button>
+        <button type="button" data-ps-path="tape" aria-pressed="false">Cassette</button>
+      </div>
+      <div class="ps-board">
+        <div class="ps-topline"><div><h3 data-ps-title>Vinyl record with a moving-magnet cartridge</h3><p data-ps-description>Mechanical motion becomes a low-voltage analogue signal. The phono stage supplies gain and complementary RIAA playback equalization.</p></div>
+          <div class="ps-legend"><span><i class="ps-dot phono" aria-hidden="true"></i> Analogue</span><span><i class="ps-dot" aria-hidden="true"></i> Digital</span><span><i class="ps-dot conversion" aria-hidden="true"></i> Processing / conversion</span></div>
+        </div>
+        <div class="ps-chain" data-ps-chain aria-label="Signal path from selected source to speakers">
+          <div class="ps-chain-node" data-signal="analog"><small>Analogue</small><strong>Vinyl groove</strong><span>Physical movement</span></div>
+          <div class="ps-chain-node" data-signal="analog"><small>Analogue</small><strong>Stylus + MM cartridge</strong><span>Small electrical signal</span></div>
+          <div class="ps-chain-node" data-signal="convert"><small>Processing</small><strong>Phono stage</strong><span>Gain + RIAA playback EQ</span></div>
+          <div class="ps-chain-node" data-signal="analog"><small>Analogue</small><strong>Amplifier line input</strong><span>Line-level analogue signal</span></div>
+          <div class="ps-chain-node" data-signal="output"><small>Output</small><strong>Speakers</strong><span>Acoustic pressure</span></div>
+        </div>
+        <div class="ps-explanation" data-ps-caption aria-live="polite">A turntable with a built-in phono stage can feed an ordinary line input. Without one, a typical moving-magnet cartridge needs a suitable MM phono input or an external phono preamplifier.</div>
+        <p class="ps-small">Conceptual paths: individual devices can combine blocks or insert extra processing. The amplifier's loudspeaker power stage is simplified. All stage diagrams are original illustrations, not product schematics.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ps-section" id="source-types">
+    <div class="container">
+      <p class="ps-tag">THE EQUIPMENT · WHAT EACH COMPONENT ACTUALLY DOES</p>
+      <h2>Six ways to get music into an amplifier.</h2>
+      <p class="ps-copy">Pay attention to whether the equipment delivers <strong>raw cartridge output, analogue line-level audio or digital data</strong>. The connector alone does not tell you the whole story.</p>
+      <div class="ps-card-grid">
+        <article class="ps-card"><span class="ps-tag">01 / ANALOGUE MEDIUM</span><h3>Vinyl record</h3>
+          <p>The stylus follows a modulated groove. The cartridge generates a small signal, then the phono stage supplies gain and RIAA playback equalization.</p>
+          <p><strong>Look for:</strong> MM/MC cartridge compatibility, cartridge loading, correct tracking, rumble, surface noise and phono-stage accuracy.</p>
+          <details><summary>Why the phono input matters</summary><p>A normal AUX/CD/TAPE input does not add the gain or playback equalization needed by a typical moving-magnet cartridge. Some turntables have a built-in phono stage with a LINE/PHONO switch. Make sure you don't apply phono equalization twice.</p></details>
+        </article>
+        <article class="ps-card"><span class="ps-tag">02 / DIGITAL MEDIUM</span><h3>CD player or transport</h3>
+          <p>A standard audio CD carries two-channel <strong>16-bit, 44.1 kHz PCM</strong>. A complete player contains a DAC for analogue RCA output. A transport can deliver digital data to another DAC.</p>
+          <p><strong>Look for:</strong> whether the outputs are optical/coaxial digital, analogue RCA, or both; mechanical reliability; and the actual DAC/output measurements.</p>
+          <details><summary>Can an external DAC improve a CD player?</summary><p>Only if the connection and implementation solve a measurable or audible limitation. A functioning CD player with clean analogue output has already converted the data; adding another DAC is not automatically an upgrade.</p></details>
+        </article>
+        <article class="ps-card"><span class="ps-tag">03 / COMPUTER AUDIO</span><h3>Internal sound card</h3>
+          <p>Music software decodes audio. The operating system and driver may mix or resample it. The sound card's DAC produces an analogue output for a receiver or powered speakers.</p>
+          <p><strong>Look for:</strong> analogue output voltage, noise, THD+N, driver/OS settings, clocking and the presence of unwanted DSP.</p>
+          <details><summary>Does a sound card equal a cheap DAC?</summary><p>No. A sound card is an audio interface that includes one or more DAC functions. A card with excellent analogue measurements can perform just as transparently as an external DAC. Installation, noise coupling and connection needs vary.</p></details>
+        </article>
+        <article class="ps-card"><span class="ps-tag">04 / EXTERNAL CONVERSION</span><h3>USB DAC</h3>
+          <p>A computer or compatible device sends digital audio over USB. The DAC converts it into analogue audio. Some units also include a headphone amplifier, volume control or ADC.</p>
+          <p><strong>Look for:</strong> supported host/input formats, real output performance, RCA versus balanced voltage, output impedance and controls.</p>
+          <details><summary>What does 32-bit / 768 kHz actually tell us?</summary><p>It mostly describes an accepted input format, not the noise floor or sound quality of the analogue output. <a href="/decoder/bit-depth/">Bit depth</a> and <a href="/decoder/sample-rate/">sample rate</a> are meaningful concepts, but large advertised numbers are not a listening verdict.</p></details>
+        </article>
+        <article class="ps-card"><span class="ps-tag">05 / NETWORK PLAYBACK</span><h3>Network streamer</h3>
+          <p>A streamer receives music over a network, buffers or decodes it, and outputs either digital audio or analogue audio via an internal DAC.</p>
+          <p><strong>Look for:</strong> local-file support, music-service limitations, audio-format support, app reliability, analogue-output measurements and usable connectivity.</p>
+          <details><summary>Wi-Fi, Ethernet or Bluetooth?</summary><p>Wi-Fi/Ethernet can carry lossless digital audio streams. Bluetooth audio often involves lossy codecs, but the exact result depends on the devices and codec. The connection method alone does not tell you whether two releases use the same master.</p></details>
+        </article>
+        <article class="ps-card"><span class="ps-tag">06 / OTHER ANALOGUE SOURCES</span><h3>Cassette, reel-to-reel and tuner</h3>
+          <p>These generally supply analogue line-level output after their own playback circuitry. Tape decks apply suitable playback equalization and gain internally.</p>
+          <p><strong>Look for:</strong> tape speed, alignment, head condition, hiss, wow/flutter, noise reduction and source condition.</p>
+          <details><summary>Are older sources automatically lower fidelity?</summary><p>No universal verdict follows from age alone. Mechanical and analogue noise limitations are real, but maintenance, mastering and recording quality matter enormously, and a listener may prefer a particular presentation.</p></details>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="ps-section" id="where-changes-happen">
+    <div class="container">
+      <p class="ps-tag">ACCURACY · COLOUR · PERSONAL PREFERENCE</p>
+      <h2>Where could a source actually change the sound?</h2>
+      <div class="ps-split">
+        <div class="ps-copy">
+          <p>Changing the box or medium does not guarantee a change at your ears. Look for an identifiable mechanism and ask whether the magnitude is meaningful.</p>
+          <div class="ps-card">
+            <h3>Potentially measurable changes</h3>
+            <p><strong>Vinyl:</strong> surface noise, wow/flutter, groove/tracing distortion, cartridge frequency response, channel separation and phono EQ error.</p>
+            <p><strong>Digital hardware:</strong> DAC noise, distortion, filtering, output level, and sometimes output-impedance/load interactions.</p>
+            <p><strong>Computer playback:</strong> resampling, system mixing, replay gain, clipping and intentionally enabled DSP.</p>
+            <p><strong>Recorded programme:</strong> different mastering, level or dynamic-range treatment can overwhelm the small differences between competent playback devices.</p>
+          </div>
+          <p class="ps-small">For detailed measurements and listening implications, continue with <a href="/decoder/dac-specifications/">DAC specifications</a>, <a href="/decoder/source-levels/">source levels</a>, <a href="/decoder/lossy-lossless/">lossy versus lossless</a> and <a href="/decoder/audiophile-glossary/">subjective listening terminology</a>.</p>
+        </div>
+        <aside class="ps-myth">
+          <span class="ps-tag">CLAIM CHECK</span><h3>“Vinyl is warm. Digital is cold.”</h3>
+          <p>Neither medium has one inevitable tonal signature. A vinyl cartridge, its loading, tracking and mastering may create measurable differences. A digital release may use a different master.</p>
+          <p>When two sources are clean, level-matched and reproduce the <em>same</em> programme, a controlled comparison is more informative than adjectives or price tags.</p>
+          <p><strong>Preference isn't an error.</strong> Enjoying a coloured presentation and accurately identifying its cause are separate questions.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="ps-section" id="riaa">
+    <div class="container">
+      <p class="ps-tag">INTERACTIVE 02 · VINYL PLAYBACK EQ</p>
+      <h2>Why a record cartridge needs a phono stage.</h2>
+      <div class="ps-split">
+        <div class="ps-copy">
+          <p>During standard RIAA disc mastering, low frequencies are reduced and high frequencies boosted relative to a reference. Playback applies the complementary frequency shaping to restore the intended balance.</p>
+          <p>The <strong>orange curve</strong> shows the theoretical RIAA <em>playback stage response</em> relative to 1 kHz. The blue line shows a perfectly flat line-level stage for comparison.</p>
+          <p>This is <strong>not</strong> the overall response of a vinyl record, cartridge or turntable. The complete playback response also depends on the record, cartridge, loading, alignment and equalization accuracy.</p>
+          <details class="ps-myth"><summary>Optional maths: the RIAA time constants</summary><p>The idealized analogue playback response is proportional to <code>(1 + s·318 µs) / [(1 + s·3180 µs)(1 + s·75 µs)]</code>, evaluated at <code>s = j2πf</code> and normalized to 0 dB at 1 kHz. These are the standard 3180, 318 and 75 µs time constants, corresponding to transition regions near 50, 500 and 2122 Hz.</p><p>Only the calculated ideal transfer function is plotted. A real phono stage will have finite tolerances and potentially additional low-frequency filtering.</p></details>
+        </div>
+        <figure class="ps-figure">
+          <div class="ps-chart-legend">
+            <label><input id="ps-riaa-toggle" type="checkbox" checked> <span style="color:#edbf94">●</span> RIAA playback</label>
+            <label><input id="ps-flat-toggle" type="checkbox" checked> <span style="color:#b7ddfc">●</span> Flat line input</label>
+          </div>
+          <svg id="ps-riaa-svg" viewBox="0 0 720 324" role="img" aria-labelledby="ps-riaa-title ps-riaa-description">
+            <title id="ps-riaa-title">Theoretical RIAA playback equalization versus flat line-level response</title>
+            <desc id="ps-riaa-description">Calculated RIAA playback gain relative to 1 kilohertz rises in the bass and falls in the treble. A flat line stage stays at zero decibels. The exact graph is drawn locally by JavaScript.</desc>
+            <text x="36" y="157" fill="#bed9e7" font-size="17">Enable JavaScript to render the calculated RIAA curve.</text>
+          </svg>
+          <figcaption><strong>Original calculated illustration:</strong> ideal RIAA playback-stage relative response from 20 Hz–20 kHz. Both overlays are independently switchable. No third-party graph data or proprietary figure has been copied.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="ps-section" id="connection-check">
+    <div class="container">
+      <p class="ps-tag">INTERACTIVE 03 · CONNECT YOUR EQUIPMENT</p>
+      <h2>Does your source need an extra box?</h2>
+      <p class="ps-copy">Choose the output you actually have and the amplifier input you intend to use. The checker identifies missing <em>functions</em>, not recommended brands or exact compatible cables.</p>
+      <div class="ps-board">
+        <div class="ps-connection">
+          <label for="ps-source-type">Source and output
+            <select id="ps-source-type">
+              <option value="mm" selected>Turntable · MM cartridge, raw PHONO out</option>
+              <option value="mc">Turntable · MC cartridge, raw PHONO out</option>
+              <option value="tt-line">Turntable · internal phono stage ON, LINE out</option>
+              <option value="cd-line">CD player · RCA analogue out</option>
+              <option value="cd-digital">CD transport · optical digital out</option>
+              <option value="pc-line">Computer / sound card · analogue line out</option>
+              <option value="pc-usb">Computer · USB digital audio</option>
+              <option value="stream-line">Streamer · analogue RCA out</option>
+              <option value="stream-digital">Streamer · optical digital out</option>
+              <option value="tape-line">Cassette deck · analogue line out</option>
+            </select>
+          </label>
+          <label for="ps-amplifier-input">Amplifier or receiver input
+            <select id="ps-amplifier-input">
+              <option value="line" selected>Analogue AUX / CD / TAPE line input</option>
+              <option value="mm">Moving-magnet PHONO input</option>
+              <option value="mc">Moving-coil PHONO input</option>
+              <option value="optical">Optical digital input with built-in DAC</option>
+              <option value="usb">USB digital-audio input with built-in DAC</option>
+            </select>
+          </label>
+        </div>
+        <div class="ps-result" data-state="missing" id="ps-match-result" role="status" aria-live="polite">
+          <strong>A phono stage is missing</strong><p>A raw moving-magnet cartridge needs a suitable MM phono preamp with RIAA playback equalization before an ordinary line input.</p>
+        </div>
+        <p class="ps-small">Illustrative compatibility logic only. Connector shape, ground arrangements, cartridge requirements, digital protocol support and available input gain must be verified in the actual equipment manuals. Start at low volume after changing connections.</p>
+      </div>
+      <div class="ps-myth" style="margin-top:1rem"><h3>Two easy mistakes to avoid</h3><p><strong>1.</strong> Do not connect a turntable's amplified LINE output to an MM/MC PHONO input unless the turntable's internal phono stage is switched off and the cartridge matches that input. <strong>2.</strong> An optical or USB cable does not become an analogue RCA connection without the proper DAC hardware.</p></div>
+    </div>
+  </section>
+
+  <section class="ps-section" id="takeaways">
+    <div class="container">
+      <p class="ps-tag">BUYING AND SETUP · WHAT MATTERS MOST</p>
+      <h2>Which playback source should you actually use?</h2>
+      <div class="ps-card-grid">
+        <div class="ps-card"><h3>Start with connectivity</h3><p>Check whether the amplifier takes RCA line, phono, USB audio, optical or coaxial digital. Buy the missing function, not an extra box for its own sake.</p></div>
+        <div class="ps-card"><h3>Compare matching measurements</h3><p>Output level, frequency response with tolerance, noise, distortion, channel separation and load compatibility can be relevant. A high bit-depth figure alone proves little.</p></div>
+        <div class="ps-card"><h3>Keep the recording constant</h3><p>If you compare CD, vinyl and streaming, check that they're using the same mastering and playback level. Different releases undermine a simple format-versus-format conclusion.</p></div>
+      </div>
+      <p class="ps-copy">For your system, a PC with an X-Fi Titanium HD feeding an amplifier through its RCA outputs already contains the required DAC. You would need a separate converter only for a specific feature, connectivity or measurable performance reason, not because the converter is inside a computer.</p>
+      <div class="ps-next-links"><a class="button button-primary" href="/decoder/source-levels/">Continue to source output levels →</a><a class="button button-secondary" href="/decoder/dac-specifications/">Understand DAC specifications →</a><a class="button button-secondary" href="/system-check/compare/?type=source">Compare DACs &amp; sound cards →</a></div>
+    </div>
+  </section>
+
+  <section class="ps-section" id="sources">
+    <div class="container">
+      <p class="ps-tag">SOURCE NOTES · READ FURTHER</p><h2>What this lesson is based on.</h2>
+      <p class="ps-copy">The illustrations are original teaching diagrams and a calculated idealized equalization response. The references below document the underlying playback formats, signal handling and RIAA principles. They do not imply that we measured any particular commercial source.</p>
+      <ul class="ps-source-list">
+        <li><a href="https://sbe.org/handbook/fundamentals/Audio/Audio-Compact_Disk.pdf" target="_blank" rel="noopener noreferrer">Society of Broadcast Engineers / CD recording and reproduction chapter</a>: 16-bit / 44.1 kHz CD audio and signal path.</li>
+        <li><a href="https://www.youtube.com/watch?v=CNNfMtCp3k0" target="_blank" rel="noopener noreferrer">Association for Recorded Sound Collections, Gary Galo</a>: RIAA playback equalization and cartridge types.</li>
+        <li><a href="https://learn.microsoft.com/en-us/windows/win32/coreaudio/user-mode-audio-components" target="_blank" rel="noopener noreferrer">Microsoft Windows Core Audio documentation</a>: shared-mode playback and system mixing.</li>
+        <li><a href="https://learn.microsoft.com/en-us/windows/win32/coreaudio/exclusive-mode-streams" target="_blank" rel="noopener noreferrer">Microsoft exclusive-mode audio streams</a>: when and how applications bypass shared mixing.</li>
+        <li><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/usb-2-0-audio-drivers" target="_blank" rel="noopener noreferrer">Microsoft USB Audio 2.0 driver</a>: USB audio is a digital-interface protocol.</li>
+        <li><a href="https://cf3.zzounds.com/media/download/adi2_e.pdf" target="_blank" rel="noopener noreferrer">RME ADI-2 user guide</a>: an example of ADC/DAC and analogue-output signal-flow architecture.</li>
+      </ul>
+      <p class="ps-small">Revised 11 November 2026 · Educational overview, not a product review. Exact input compatibility and fidelity depend on model, configuration and recording.</p>
+    </div>
+  </section>
+
+  <!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
+    <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 13 of 19 · Sources &amp; DACs</span></div>
+    <a class="dl-next-card" href="/decoder/source-levels/"><span class="dl-next-copy"><span class="dl-next-kicker">UP NEXT · SOURCES &amp; DACS</span><strong>Source levels and amplifier input sensitivity</strong><span>Why a 2 V source does not automatically overload an input rated at 200 mV sensitivity.</span></span><span class="dl-next-arrow" aria-hidden="true">→</span></a>
+    <div class="dl-nav-utilities"><a href="/decoder/headphone-output-impedance/">← Previous: Headphone output impedance and source matching</a><a href="/decoder/">All lessons ↗</a></div>
+  </nav><!-- LESSON_NAV_END -->
+</main>
+<footer class="site-footer"><div class="container footer-inner">
+  <div class="footer-brand"><img src="/assets/mark.svg" width="29" height="29" alt=""><span>The Sound Question</span></div>
+  <div class="footer-links"><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a><a href="/privacy/">Privacy</a></div>
+  <p>From the first sound to the final listen. Understand what shapes what you hear.</p>
+  <small>© 2026 The Sound Question. Free to explore, no account required.</small>
+</div></footer>
+</div>
+</body>
+</html>
