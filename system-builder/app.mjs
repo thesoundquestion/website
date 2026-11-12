@@ -138,14 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const record = (inventory?.[kind] || []).find(x => x.model === exact) || null;
     return {name: custom || record?.model || '', record: custom ? null : record, unlisted: !!custom};
   }
+  let reportContainer = null;
   function section(title) {
     const node = el('section');
     addText(node, 'h3', title);
-    body.append(node);
+    (reportContainer || body).append(node);
     return node;
   }
   function report(data) {
     body.replaceChildren();
+    reportContainer = null;
     const primary = String(data.get('goal') || 'all_rounder');
     const mainGoal = GOALS[primary] || GOALS.all_rounder;
     const secondary = extras.filter(x => x.checked && x.value !== primary).map(x => GOALS[x.value]).filter(Boolean);
@@ -266,6 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!anyOwned && arch === 'open')
       addText(shop,'p','Different architectures are shown to make the trade-off tangible: a complete powered pair versus passive speakers with an amp versus two individually sold studio monitors. They are not interchangeable just because their prices look close.');
     
+    const detail = el('details','sb-audit');
+    addText(detail,'summary','Read the detailed compatibility checks, costs, ownership and evidence');
+    body.append(detail);
+    reportContainer = detail;
     const goals = section('What matters for your listening goals');
     addText(goals,'p',mainGoal.focus + '.');
     if (secondary.length) list(goals,secondary.map(x => x.label + ': ' + x.focus + '.'));
