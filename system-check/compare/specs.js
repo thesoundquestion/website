@@ -1,5 +1,5 @@
 'use strict';
-/* Model-specific Compare My Gear metadata. Source type and disputed specifications are recorded per entry. */
+/* Compare My Gear supplemental source-checked specs, uncertainty and document conflicts. */
 const compareGearDetails = {
   "version": "2026-11-11",
   "notice": "Supplemental, source-linked model facts. A blank value means the source did not establish the specification.",
@@ -53,18 +53,24 @@ const compareGearDetails = {
       "drivers": "5.25″ woven aramid-fibre woofer; 1″ cloth-dome tweeter",
       "enclosure": "Front-ported bass reflex",
       "frequencyResponse": "46 Hz–35 kHz",
-      "responseBasis": "Manufacturer range; tolerance not stated",
+      "responseBasis": "Manufacturer frequency range; tolerance not stated",
       "crossover": "2.2 kHz",
-      "reference": "https://elac.com/download/df52/owners-manual_1.0.0.pdf"
+      "reference": "https://elac.com/download/df52/owners-manual_1.0.0.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "detailNote": "ELAC Debut 2.0 B5.2 factory manual; endpoints are not a ±3 dB assertion."
     },
     "ELAC Debut 2.0 B6.2": {
       "configuration": "2-way",
       "drivers": "6.5″ woven aramid-fibre woofer; 1″ cloth-dome tweeter",
       "enclosure": "Front-ported bass reflex",
       "frequencyResponse": "44 Hz–35 kHz",
-      "responseBasis": "Manufacturer range; tolerance not stated",
+      "responseBasis": "Manufacturer frequency range; tolerance not stated",
       "crossover": "2.2 kHz",
-      "reference": "https://elac.com/download/df52/owners-manual_1.0.0.pdf"
+      "reference": "https://elac.com/download/df52/owners-manual_1.0.0.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "detailNote": "ELAC Debut 2.0 B6.2 factory manual; endpoints are not a ±3 dB assertion."
     },
     "ELAC Debut 3.0 DB53": {
       "configuration": "2-way",
