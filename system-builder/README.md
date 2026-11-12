@@ -30,7 +30,7 @@ node --test tests/system-builder-eligibility.test.mjs tests/system-builder-data.
 node --test tests/*.test.mjs
 ```
 
-107 / 107 top-level Node tests pass on the recommendation branch (13 new shortlist-specific tests plus previous 94). An additional headless Edge QA run on a local HTTP-served branch checkout submitted four real form scenarios successfully: CAD 200 wired desk, battery PA, passive dynamic with used watchlist, and battery headphone with suitable source required. The public branch preview was independently checked over HTTPS and serves the new recommendation module. These tests verify the core gate invariants and read-only 130-preset import. They do not claim the 32 synthetic research acceptance fixtures have all been automated, nor do they replace a real browser/screen-reader QA or Cloudflare deployment check.
+110 / 110 top-level Node tests pass on the recommendation branch (16 new shortlist-specific tests plus previous 94). An additional headless Edge QA run on a local HTTP-served branch checkout submitted four real form scenarios successfully: CAD 200 wired desk, battery PA, passive dynamic with used watchlist, and battery headphone with suitable source required. The public branch preview was independently checked over HTTPS and serves the new recommendation module. These tests verify the core gate invariants and read-only 130-preset import. They do not claim the 32 synthetic research acceptance fixtures have all been automated, nor do they replace a real browser/screen-reader QA or Cloudflare deployment check.
 
 ## Release barriers
 
