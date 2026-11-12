@@ -1,0 +1,27 @@
+/* Mixing Lesson 22 — all diagrams synthetic or original. */ 
+.mx-page{overflow-x:clip}.mx-intro{padding-bottom:3rem}.mx-intro h1{max-width:1050px;font-size:clamp(2.45rem,5vw,4.9rem);line-height:1.13}.mx-intro .lead{max-width:1020px}
+.mx-lead-note{border:1px solid #42778b;border-left:4px solid #97e3d6;background:#112d40;border-radius:10px;padding:1rem 1.2rem;margin:1.25rem 0;max-width:1030px;color:#d6e8f3;line-height:1.75}
+.mx-jump,.mx-link-row{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.25rem 0}.mx-jump a{border:1px solid #42637a;padding:.4rem .75rem;border-radius:90px;color:#c6e8f5;text-decoration:none;font-size:.85rem}.mx-jump a:hover{background:#1b3d53}
+.mx-section{padding:clamp(2.7rem,6vw,4.7rem) 0;border-top:1px solid #2b445a}.mx-section--alt{background:linear-gradient(160deg,#0f1d2b,#091522)}
+.mx-section h2{max-width:1000px;font-size:clamp(1.6rem,3.6vw,2.7rem);line-height:1.2;margin:.45rem 0 1.1rem}.mx-intro-copy{max-width:960px;line-height:1.84}
+.mx-interactive{min-width:0;display:block;background:#10293c;border:1px solid #41637c;border-radius:12px;overflow:hidden;margin:1.4rem 0}
+.mx-interactive [data-plot-case][hidden],.mx-interactive .dl-graph-toolbar[hidden],.mx-controls[hidden]{display:none!important}
+.mx-interactive .dl-graph-toolbar{display:flex;flex-wrap:wrap;gap:.55rem;padding:.85rem;background:#133044;border-bottom:1px solid #41637a}
+.mx-case,.mx-phase-case,.mx-format-case{padding:clamp(.75rem,2.3vw,1.4rem)}.mx-case-head h3,.mx-phase-case h3,.mx-format-case h3{color:#ecf9ff;font-size:1.22rem;line-height:1.4;margin:.35rem 0}
+.mx-case-head p,.mx-phase-case p,.mx-format-case p{font-size:.9rem;line-height:1.76;color:#c5dbea}
+.mx-tag{color:#a1e5e5;letter-spacing:.055em;font-size:.75rem;font-weight:800}
+.mx-controls{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem .6rem;padding:.7rem .9rem;background:#102235;border-bottom:1px solid #426078}
+.mx-controls-caption{letter-spacing:.07em;color:#b6d2e1;font-size:.72rem;font-weight:800}.mx-toggle{display:inline-flex;align-items:center;gap:.3rem;border:1px solid #5e7e92;background:#17394e;color:#e0f0f8;border-radius:7px;padding:.45rem .55rem;font-size:.79rem;font-weight:650;min-height:35px;cursor:pointer}.mx-toggle[aria-pressed="false"]{opacity:.66}.mx-toggle:focus-visible,.mx-interactive button:focus-visible{outline:3px solid #ffd4a0;outline-offset:2px}.mx-swatch{height:11px;width:15px;border-top:3px solid var(--tone);display:inline-block}.mx-swatch--amb{--tone:#d9c5fc;border-top-style:dotted}
+.mx-charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1rem 0}.mx-charts figure{min-width:0;margin:0;padding:.65rem;background:#102537;border:1px solid #3b5b70;border-radius:9px}
+.mx-charts h4{font-size:.97rem;color:#e5faff;margin:.2rem 0 .65rem}.mx-charts figcaption{color:#bcd5e2;font-size:.78rem;line-height:1.55;margin:.6rem .2rem .1rem}.mx-stage,.mx-spectrum,.mx-mono-svg,.mx-format-svg{display:block;width:100%;height:auto}
+.mx-axis{fill:#b8cfdb;font:13px system-ui}.mx-svg-title{fill:#dceff9;font:bold 17px system-ui}.mx-stage-label{font:bold 14px system-ui}
+.mx-case-notes,.mx-two article,.mx-glossary article,.mx-albums article{border:1px solid #416078;background:#112e40;border-radius:10px;padding:1rem 1.1rem}
+.mx-case-notes h4{color:#e8f8ff;font-size:1rem;margin:.15rem 0 .6rem}.mx-case-notes li{color:#d1e2ed;line-height:1.7;margin-bottom:.45rem;font-size:.89rem}.mx-case-notes ul{margin:.4rem 0 0;padding-left:1.35rem}
+.mx-two,.mx-glossary,.mx-albums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.45rem 0}.mx-two h3,.mx-glossary h3,.mx-albums h3{color:#e8f9ff;font-size:1.04rem;margin:.15rem 0 .65rem}.mx-two p,.mx-glossary p,.mx-albums p{color:#c4dbe8;font-size:.9rem;line-height:1.77}.mx-glossary a,.mx-albums a,.mx-sources a{color:#a7e9f6}.mx-caveat,.mx-notation{line-height:1.72;color:#bed3e1;font-size:.83rem;max-width:1000px}
+.mx-phase-case>h3{margin:0 0 1rem}.mx-phase-case .mx-mono-svg{max-width:880px;margin:auto}.mx-phase-case>p{max-width:920px}
+.mx-format-inner{display:grid;grid-template-columns:1.15fr 1fr;gap:1.25rem;align-items:center}.mx-format-inner>div{min-width:0}.mx-note{border-left:3px solid #f1c992;padding:.45rem .8rem;background:#192f43}
+.mx-albums .mx-edition{font-size:.83rem;font-style:italic;color:#c0dfd8}.mx-albums article:hover{border-color:#759ab0}
+.mx-sources{max-width:1050px;line-height:1.85}.mx-sources li{margin-bottom:.25rem}.mx-link-row .button{margin:0}
+.mx-interactive svg [data-mix-stem][hidden],.mx-interactive svg [data-mix-ambience][hidden],.mx-interactive svg [data-mono-baseline][hidden],.mx-interactive svg [data-mono-result][hidden]{display:none!important}
+@media(max-width:900px){.mx-charts{grid-template-columns:1fr}.mx-format-inner{grid-template-columns:1fr}}
+@media(max-width:560px){.mx-intro h1{font-size:clamp(2.3rem,8vw,3.2rem)}.mx-two,.mx-glossary,.mx-albums{grid-template-columns:1fr}.mx-interactive .dl-graph-toolbar{padding:.6rem}.mx-interactive .dl-graph-toolbar .dl-option{flex:1 1 42%;min-width:0}.mx-controls{padding:.6rem .65rem}.mx-case,.mx-phase-case,.mx-format-case{padding:.65rem}.mx-charts{gap:.65rem}.mx-charts figure{padding:.45rem}.mx-stage-label{font-size:13px}.mx-axis{font-size:12px}.mx-link-row .button{width:100%;text-align:center}}
