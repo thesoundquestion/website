@@ -24,8 +24,9 @@
 .ps-lesson .ps-chain{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.48rem;align-items:stretch;margin:.8rem 0 1rem}
 .ps-lesson .ps-chain-node{position:relative;min-width:0;background:rgba(24,55,79,.9);border:1px solid #3e6a82;border-radius:9px;padding:1rem .7rem;min-height:130px;display:flex;flex-direction:column;justify-content:center;gap:.45rem}
 .ps-lesson .ps-chain-node:not(:last-child)::after{content:"➜";position:absolute;z-index:2;right:-.63rem;top:50%;transform:translateY(-50%);font-size:1rem;color:#b8effc;text-shadow:0 0 8px #072032}
-.ps-lesson .ps-chain-node[data-signal="analog"]{border-color:#a97d55}
+.ps-lesson .ps-chain-node[data-signal="analogue"],.ps-lesson .ps-chain-node[data-signal="analog"]{border-color:#a97d55}
 .ps-lesson .ps-chain-node[data-signal="convert"]{border-color:#66bba6}
+.ps-lesson .ps-chain-node[data-signal="digital"]{border-color:#65add7}
 .ps-lesson .ps-chain-node strong{display:block;color:#f0f9ff;line-height:1.3;font-size:.96rem}
 .ps-lesson .ps-chain-node span{display:block;color:#b7d0de;font-size:.8rem;line-height:1.45}
 .ps-lesson .ps-chain-node small{color:#9ee1f4;font-size:.67rem;letter-spacing:.07em;font-weight:700;text-transform:uppercase}
