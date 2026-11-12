@@ -242,6 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
         checks.unshift('Your requested source connection is not native to this example. A verified converter/receiver and its cost must be added before it works.');
       if (item.levelCaution)
         checks.unshift('Occasionally loud playback selected: do not assume this compact speaker can achieve the desired clean level at your seat.');
+      if (item.sourceBatteryCaution)
+        checks.unshift('Headphones do not need wall power, but your source/headphone output must be battery-capable for off-grid listening. That source is not included in the quoted price.');
       if (item.placementCaution)
         checks.unshift('Listening position exceeds 10 ft: verify clean output at your actual seat before treating a nearfield product as a room solution.');
       if (item.sceneCaution)
