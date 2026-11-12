@@ -19,7 +19,7 @@ const base={amp:amp('Yamaha A-720'),speakers:inventory.speaker,useCase:'living_r
 
 test('the owner-evidence pilot is exact-model, source-linked, original summary only',()=>{
   const models=Object.keys(OWNER_EVIDENCE);
-  assert.equal(models.length,6);
+  assert.equal(models.length,12);
   for(const model of models){
     const e=ownerEvidenceFor(model);
     assert.ok(inventory.speaker.some(x=>x.model===model));
@@ -37,7 +37,7 @@ test('review availability is not a score of perceived acoustic quality',()=>{
   assert.equal(ownerEvidenceTier('Polk Signature Elite ES20','bass'),1);
   assert.equal(ownerEvidenceTier('Polk Signature Elite ES20','imaging'),3);
   assert.equal(ownerEvidenceTier('Paradigm Monitor SE Atom','all_rounder'),2);
-  assert.equal(ownerEvidenceTier('Klipsch R-50M','dynamic'),3);
+  assert.equal(ownerEvidenceTier('Klipsch R-50M','dynamic'),1);
   assert.equal(ownerEvidenceTier('completely unknown model','natural'),3);
 });
 
@@ -65,8 +65,8 @@ test('a known owner-supported model is used instead of an unrelated measurement 
 });
 
 test('models without curated owner evidence retain editorial or manufacturer description',()=>{
-  const x=soundProfileFor({title:'DALI Oberon 1'});
-  assert.match(x.type,/Independent listening review/);
+  const x=soundProfileFor({id:'powered-ora',title:'Kanto ORA'});
+  assert.match(x.type,/Independent measurements and review/);
   assert.equal(x.ownerSources,undefined);
   const unknown=soundProfileFor({title:'Nonexistent speaker XYZ'});
   assert.equal(unknown.type,'Not independently characterized');
@@ -90,7 +90,7 @@ test('missing owner stories never disqualify an eligible speaker',()=>{
   const result=shortlistSpeakersForOwnedAmplifier({...base,goal:'dynamic'});
   assert.ok(result.selected.some(x=>x.title==='Klipsch R-50M'));
   const klipsch=result.selected.find(x=>x.title==='Klipsch R-50M');
-  assert.equal(klipsch.ownerEvidenceBasis,'spec_led');
+  assert.equal(klipsch.ownerEvidenceBasis,'some');
 });
 
 test('documented 8-ohm-only amplifier restriction still blocks demanding KEF route',()=>{
@@ -129,4 +129,27 @@ test('an own-speaker route does not assign an amplifier a speaker owner profile'
   const x=soundProfileFor({title:'Yamaha A-S301'});
   assert.equal(x.type,'Not independently characterized');
   assert.equal(x.ownerSources,undefined);
+});
+
+test('expanded owner records separate generations and admit real dissent',()=>{
+  const dali=ownerEvidenceFor('DALI Oberon 1');
+  assert.equal(dali.sources.length,2);
+  assert.match(dali.short,/fatigue/i);
+  const wharf=ownerEvidenceFor('Wharfedale Diamond 12.2');
+  assert.ok(wharf.sources.length>=3);
+  assert.match(wharf.caution,/12\.2i/);
+  const oldElac=ownerEvidenceFor('ELAC Debut 2.0 B6.2');
+  assert.ok(oldElac && oldElac.sources.length>=2);
+  assert.match(oldElac.caution,/DB63/);
+  const titan=ownerEvidenceFor('Paradigm Titan v3');
+  assert.match(titan.caution,/foam|surround/i);
+  assert.ok(!ownerEvidenceFor('Wharfedale Diamond 12.2i'));
+  assert.ok(!ownerEvidenceFor('Klipsch R-50M II'));
+});
+
+test('rare or unreviewed exact models remain discoverable, not deleted by owner tiers',()=>{
+  const original=shortlistSpeakersForOwnedAmplifier({...base,goal:'dynamic'});
+  assert.ok(original.selected.some(x=>x.title==='Klipsch R-50M'));
+  assert.ok(original.selected.every(x=>Number.isFinite(x.speakerValues.load)||
+    /Load unknown/.test(x.loadCaution)));
 });
