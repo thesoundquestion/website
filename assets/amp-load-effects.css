@@ -1,0 +1,36 @@
+/* Amp load interaction, embedded in speaker frequency response lesson */
+.ampx-figure{min-width:0;margin:1.2rem 0 1.9rem}
+.ampx-figure>h3{font-size:clamp(1.15rem,2vw,1.55rem);margin:0 0 .75rem}
+.ampx-figure>p{line-height:1.75;margin:0 0 1.1rem}
+.ampx-amp-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin:1rem 0 1.15rem}
+.ampx-amp-guide>div{display:grid;grid-template-columns:17px 1fr;column-gap:.65rem;align-items:center;padding:.85rem .95rem;border:1px solid #3a5872;border-radius:9px;background:#0d263a}
+.ampx-amp-guide strong{font-size:.88rem;color:#eaf7fc}
+.ampx-amp-guide small{grid-column:2;color:#b9d4e3;font-size:.8rem;line-height:1.6}
+.ampx-dot{display:block;width:13px;height:13px;border-radius:50%}
+.ampx-dot-low{background:#8ee4ef}.ampx-dot-high{background:#ffd08e}
+.ampx-widget{min-width:0;display:block}
+.ampx-widget .ampx-case[hidden],.ampx-widget .ampx-overlay-controls[hidden]{display:none!important}
+.ampx-widget .ampx-high-curve[hidden]{display:none!important}
+.ampx-overlay-controls{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem .75rem;background:#0e273b;border-bottom:1px solid #345671;padding:.8rem 1.05rem}
+.ampx-overlay-controls .dl-trace-hint{flex-basis:auto;margin:0;font-size:.76rem;font-weight:750}
+.ampx-overlay-help{font-size:.79rem;color:#b9d3e4;line-height:1.6;flex:1 1 280px}
+.ampx-case{padding:clamp(.9rem,2vw,1.35rem)}
+.ampx-case-heading h4{font-size:1.15rem;margin:0 0 .35rem;color:#eefbff}
+.ampx-case-heading p{font-size:.9rem;line-height:1.7;color:#bfd8e9;margin:0 0 1.1rem}
+.ampx-charts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;align-items:start}
+.ampx-chart-panel{min-width:0;background:#0d2538;border:1px solid #375873;border-radius:10px;padding:.75rem}
+.ampx-chart-panel>h5{font-size:.92rem;color:#e9f9ff;margin:0 0 .65rem;display:flex;align-items:center;gap:.6rem}
+.ampx-step{display:inline-flex;border-radius:50%;width:27px;height:27px;align-items:center;justify-content:center;background:#a0deef;color:#0a2336;flex:none;font-weight:850}
+.ampx-svg{display:block;width:100%;height:auto}
+.ampx-svg-head{fill:#dceefb;font:700 16px system-ui}
+.ampx-svg-axis{fill:#b9cede;font:16px system-ui}
+.ampx-graph-note{font-size:.79rem;line-height:1.65;color:#c0d7e7;margin:.7rem .15rem .1rem}
+.ampx-listener{margin:1.1rem 0 .1rem;border-left:3px solid #8fe0d0;background:#102d3d;padding:.85rem 1.15rem;border-radius:7px}
+.ampx-listener h5{font-size:1rem;margin:0 0 .6rem;color:#eafaff}
+.ampx-listener ul{margin:.2rem 0;padding-left:1.25rem;display:grid;gap:.45rem}
+.ampx-listener li{font-size:.91rem;line-height:1.7;color:#d5e8f4}
+.ampx-integrity{line-height:1.75;color:#bcd8e6;font-size:.84rem;margin:1rem 0}
+.ampx-integrity code{font-size:.83rem}
+.ampx-widget.ampx-high-hidden .ampx-dot-high{opacity:.5}
+@media(max-width:850px){.ampx-charts{grid-template-columns:1fr}.ampx-amp-guide{grid-template-columns:1fr}}
+@media(max-width:550px){.ampx-chart-panel{padding:.6rem}.ampx-case{padding:.7rem}.ampx-listener{padding:.75rem .9rem}.ampx-overlay-controls{padding:.7rem .85rem}.ampx-overlay-help{flex-basis:100%}.ampx-amp-guide strong{font-size:.84rem}}
