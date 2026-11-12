@@ -20,7 +20,7 @@ const base={amp:amp('Yamaha A-720'),speakers:inventory.speaker,useCase:'living_r
 
 test('the owner-evidence pilot is exact-model, source-linked, original summary only',()=>{
   const models=Object.keys(OWNER_EVIDENCE);
-  assert.equal(models.length,14);
+  assert.equal(models.length,15);
   for(const model of models){
     const e=ownerEvidenceFor(model);
     assert.ok(inventory.speaker.some(x=>x.model===model) ||
