@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const details = el('details','sb-card-details');
       addText(details,'summary','What is included, drawbacks & sources');
+      addText(details,'p',item.why,'sb-card-why-full');
       if (!item.editorialGoalFocus)
         addText(details,'p','An alternative approach for comparison, not a verified performance match to your main priority.');
       if (item.secondaryFocus.length)
