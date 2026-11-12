@@ -1,4 +1,4 @@
-# System Builder v0.6 | ownership-first, explainable recommendation preview branch
+# System Builder v0.7 | practical owner-evidence fallback preview branch
 
 This is a static, zero-backend, browser-only preview for **Recording to Room → System Builder**. The Cloudflare **feature-branch preview is live** at https://feature-system-builder-previ.thesoundquestion.pages.dev/system-builder/ but the production `main` branch is unchanged. The original System Check, Compare My Gear, gear catalog and validated calculations are not modified.
 
@@ -68,3 +68,20 @@ Research baseline: Recording to Room v0.9, Equipment Research Plan v1.6, Weighti
 - These are **initial checks**, not a claim that a published resistive-load rating certifies speaker compatibility, that power ratings predict vocal timbre/imaging, or that the suggested amp can play cleanly at the requested seat/level.
 - For a keep-speakers amplifier recommendation, a non-verified listening profile is no longer rendered as a generic **Sound** statement about the amplifier. A model-specific *speaker* profile is labelled as such where actually available. Amplifiers receive electrical/source justification instead.
 - Keep all original named product and source links, electrical safety cautions, ownership paths, and the optional full-system comparison.
+
+
+## v0.7 · Source-linked owner experiences are a real recommendation fallback (2026-11-12)
+
+**Problem addressed:** Missing standardized acoustic measurements or thin exact-model reviews must not cause the Builder to fail to recommend otherwise viable speaker candidates. The primary user experience remains 2–3 specific compact equipment cards, with technical detail behind disclosures.
+
+- New `owner-evidence.mjs` contains a small **manually curated, exact-model** set of six passive speakers: Polk Signature Elite ES15/ES20, ELAC Debut 3.0 DB63, KEF Q150, Q Acoustics 3020i, Paradigm Monitor SE Atom. Each has independently written brief summaries, critical counterexamples/uncertainty, owner-discussion URLs and qualitative evidence-availability tiers. No copied user posts, username databases, API access, scraping or numerical preference scores.
+- `sound-profiles.mjs` now prefers the manually reviewed **owner experience** notes for the precise speaker model over lab references that do not qualify a listening-preference claim. The UI says "Owner experiences" and links to multiple source discussions under **What is included, drawbacks & sources**. It still uses existing editorial/manufacturer descriptions when firsthand reviews are missing.
+- `owned-amp-speakers.mjs` ranks candidates **lexicographically**, first by declared listening goal and use case, next by the availability of relevant repeat owner experiences, and finally by stable editorial order. The tier is evidence context, **not** an 0–100 sound-quality score or numerical weighting coefficient. Known 8 Ω-only amplifier restrictions still exclude a demanding speaker as a suggested pairing; review praise never overrides a hard safety gate.
+- A missing speaker nominal impedance value is now **conditional rather than a silent exclusion**. It carries an explicit prominent **do not connect before verifying** notice. Fully known incompatible loads are still rejected for that pairing.
+- Speaker cards with no credible model-specific sound evidence avoid an additional unhelpful "unknown sound" paragraph. That is a display simplification, not a reason to remove the model.
+- Completely new system bundles, used equipment prices, active speakers and measurement-based quantitative scoring remain gated by their own sourcing/eligibility work. This is a **limited first pilot**, not evidence that the full catalog has been independently reviewed.
+- The primary legal/provenance constraints from research Batch 06–08 continue to apply. Linked owner posts are not rehosted testimonials. Before commercial/affiliate reliance on third-party testimonial-based promotional representations, seek the appropriate rights and advertising-law review.
+
+**Validation:** 14 new owner-fallback policy tests cover exact-model evidence, mixed positive/negative reports, priority-sensitive ordering, no-data recommendations, load restrictions, unknown nominal impedance, unpriced regions, and compact expandable source links. The full Node suite passed **176/176** after updating the earlier "unknown sound" visibility assertion. Headless Edge validated owner-first flows; R-S202 visible shortlist excludes KEF Q150 even though a separate owner source link **mentions** that model in a comparison. Final deployed revision and full accessibility still require release QA.
+
+Research authority: private `thesoundquestion/research/SYSTEM_BUILDER_OWNER_EVIDENCE_FALLBACK_BATCH_08_2026_11_12.md` and companion source-ledger JSON. The private research documents are not copied to the public repo, and this small linked editorial module does not import their raw content.
