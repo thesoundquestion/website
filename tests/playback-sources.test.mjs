@@ -31,7 +31,7 @@ test('19 lessons, matching tutor answers and complete numbered navigation', () =
 
 test('intro, interactive controls, chapter anchors and useful source links exist', () => {
   assert.equal(newEntry.category,'sources');
-  assert.ok(html.includes('class="dl-lesson-top'));
+  assert.match(html, /class="[^"]*dl-lesson-top/);
   assert.ok(html.includes('src="/assets/decoder-lessons.js"'));
   for(const id of ['signal-path','source-types','where-changes-happen','riaa','connection-check','takeaways','sources']){
     assert.ok(html.includes('id="'+id+'"'),id);
