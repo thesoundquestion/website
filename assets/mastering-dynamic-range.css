@@ -1,0 +1,220 @@
+.ma-page {
+  --ma-line: #36536b;
+  --ma-panel: #102438;
+  --ma-text: #c5d8e7;
+  --ma-link: #9ee9f7;
+}
+
+.ma-intro h1 { max-width: 19ch; }
+.ma-intro .lead { max-width: 68ch; }
+.ma-jump { display: flex; flex-wrap: wrap; gap: .45rem .75rem; margin-top: 1.55rem; }
+.ma-jump a {
+  padding: .4rem .65rem;
+  color: var(--ma-link);
+  border: 1px solid var(--ma-line);
+  border-radius: 7px;
+  font-size: .86rem;
+  font-weight: 650;
+}
+.ma-jump a:hover { background: #1a3b51; }
+
+.ma-section { padding-block: clamp(2.65rem, 6.6vw, 5rem); }
+.ma-section.ma-alt {
+  background: linear-gradient(135deg, #0c1b2b, #101e31);
+  border-block: 1px solid #263e54;
+}
+.ma-section h2 {
+  max-width: 28ch;
+  margin: 0 0 1rem;
+  font-size: clamp(1.85rem, 4.8vw, 3.1rem);
+  line-height: 1.09;
+}
+.ma-section h3 { margin: 0 0 .5rem; font-size: clamp(1.08rem, 2vw, 1.35rem); line-height: 1.25; }
+.ma-section p, .ma-section dd, .ma-section li { color: var(--ma-text); line-height: 1.66; }
+.ma-section p { margin: .8rem 0; }
+.ma-section .container > p { max-width: 77ch; }
+.ma-section a { color: var(--ma-link); text-decoration: underline; text-underline-offset: .18em; }
+.ma-page :is(a, summary):focus-visible { outline: 2px solid #eefaff; outline-offset: 4px; }
+.ma-section strong, .ma-section dt { color: #edf7ff; }
+.ma-section :is(p, li, dd) { overflow-wrap: break-word; }
+
+.ma-flow, .ma-split, .ma-approaches, .ma-definitions, .ma-history, .ma-levels { display: grid; gap: .8rem; }
+.ma-flow {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.35rem;
+  padding: 0;
+  margin: 1.45rem 0;
+  list-style: none;
+}
+.ma-flow li {
+  position: relative;
+  padding: .9rem;
+  background: linear-gradient(160deg, #15354a, #102438);
+  border: 1px solid #477087;
+  border-top: 2px solid #89d6ec;
+  border-radius: 8px;
+}
+.ma-flow li:not(:last-child)::after {
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - .22rem);
+  right: -.94rem;
+  width: .48rem;
+  height: .48rem;
+  border-top: 2px solid #89d6ec;
+  border-right: 2px solid #89d6ec;
+  transform: rotate(45deg);
+  content: "";
+}
+.ma-flow strong, .ma-flow span { display: block; }
+.ma-flow span { margin-top: .32rem; font-size: .9rem; line-height: 1.5; }
+
+.ma-split, .ma-definitions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ma-approaches, .ma-levels { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ma-split, .ma-approaches, .ma-definitions, .ma-history { margin: 1.25rem 0; }
+.ma-split article, .ma-approaches article, .ma-definitions > div, .ma-history article {
+  min-width: 0;
+  padding: clamp(.9rem, 2.2vw, 1.3rem);
+  background: var(--ma-panel);
+  border: 1px solid var(--ma-line);
+  border-radius: 9px;
+}
+.ma-split p:last-child, .ma-approaches p:last-child, .ma-history p:last-child { margin-bottom: 0; }
+.ma-definitions dt, .ma-editions dt { font-weight: 750; }
+.ma-definitions dd, .ma-editions dd { margin: .25rem 0 0; }
+.ma-note, .ma-case-feature {
+  padding: .9rem clamp(.9rem, 2.5vw, 1.5rem);
+  background: #11273b;
+  border: 1px solid #3a627b;
+  border-radius: 8px;
+}
+.ma-note { border-left: 3px solid #93d7eb; }
+.ma-case-feature { margin-top: 1.45rem; }
+.ma-editions { margin: .55rem 0 .85rem; }
+.ma-editions > div {
+  display: grid;
+  grid-template-columns: minmax(10rem, .32fr) minmax(0, 1fr);
+  gap: .25rem 1rem;
+  padding: .75rem 0;
+  border-top: 1px solid #35536b;
+}
+.ma-editions dd { margin: 0; }
+.ma-details { max-width: 84ch; }
+.ma-details > :is(p, ul) { margin-top: 0; }
+.ma-details ul, .ma-listen, .ma-sources ul { padding-left: 1.35rem; }
+.ma-details li, .ma-listen li, .ma-sources li { margin-bottom: .55rem; }
+.ma-listen { max-width: 81ch; margin-block: 1.3rem; }
+.ma-section p.ma-before-graph { margin-top: 1.45rem; }
+
+.ma-figure.dl-figure {
+  display: block;
+  max-width: 940px;
+  margin: 1.1rem 0;
+  background: linear-gradient(150deg, #142d43, #0c1a29);
+}
+.ma-figure .dl-option { min-height: 44px; }
+.ma-figure .dl-trace-controls { margin: 0; padding: .45rem .85rem .65rem; }
+.ma-figure .dl-trace-hint { flex: 0 0 100%; margin: 0 0 .1rem; font-size: .8rem; }
+.ma-figure .dl-trace-controls[hidden], .ma-figure [data-case-description][hidden], .ma-figure [data-plot-case][hidden] { display: none; }
+.ma-figure .ma-axis-title {
+  margin: .7rem .9rem .3rem;
+  color: #e3f3fd;
+  font-size: .9rem;
+  font-weight: 700;
+}
+.ma-graph.dl-graph { background: #0b1e31; max-height: none; }
+.ma-grid-frame { fill: #0a1929; stroke: #426581; }
+.ma-gridline, .ma-zero, .ma-hit, .ma-trace {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+.ma-gridline { stroke: #254358; stroke-width: .8; }
+.ma-zero { stroke: #547d97; stroke-width: 1.15; }
+.ma-hit { stroke: #95b7ce; stroke-dasharray: 2 5; stroke-width: 1; }
+.ma-trace { stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.ma-tick { fill: #d5e8f5; font-family: system-ui, sans-serif; font-size: 17px; }
+.ma-reading { padding: .55rem .9rem 0; }
+.ma-reading > p { max-width: 79ch; margin: .45rem 0 .8rem; }
+.ma-reading[data-case-description="dynamics"] .ma-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ma-level {
+  min-width: 0;
+  padding: .75rem;
+  background: #0d2134;
+  border: 1px solid #36536b;
+  border-top: 2px solid var(--trace);
+  border-radius: 7px;
+}
+.ma-level h4 { margin: 0 0 .35rem; color: var(--trace); font-size: .95rem; }
+.ma-level dl { margin: 0; font-size: .8rem; font-variant-numeric: tabular-nums; }
+.ma-level dl div { display: flex; flex-wrap: wrap; gap: .1rem .5rem; justify-content: space-between; padding: .2rem 0; }
+.ma-level dl dt { color: #c1d6e6; font-weight: 500; }
+.ma-level dl dd { color: #f1f8ff; margin: 0; font-weight: 700; white-space: nowrap; }
+.ma-figure .ma-caption { margin: .85rem .9rem 1rem; color: #abc5d9; font-size: .86rem; line-height: 1.56; }
+.ma-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ma-route { padding: 1rem .9rem .1rem; }
+.ma-route .ma-flow { margin-top: .7rem; }
+.ma-route[data-plot-case="vinyl"] .ma-flow li { border-top-color: #ffc280; }
+.ma-route[data-plot-case="vinyl"] .ma-flow li::after { border-color: #ffc280; }
+.ma-history article { border-left: 3px solid #79bbdc; }
+.ma-history .ma-edition-label { color: #a7cedf; margin: 0 0 .4rem; font-size: .83rem; font-weight: 700; }
+.ma-power table { width: 100%; margin: .75rem 0; border-collapse: collapse; font-size: .92rem; }
+.ma-power :is(th, td) { padding: .42rem .38rem; border-bottom: 1px solid #37526a; text-align: left; }
+.ma-power td { white-space: nowrap; color: #def4ff; font-variant-numeric: tabular-nums; }
+.ma-power thead { background: #19364c; }
+.ma-power tbody th { color: var(--ma-text); font-weight: 600; }
+.ma-system {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem 1.5rem;
+  margin-top: 1.65rem;
+  padding: 1.2rem;
+  border: 1px solid #4984a0;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #18374d, #11273b);
+}
+.ma-system div { max-width: 62ch; }
+.ma-system p { margin: .2rem 0 0; }
+.ma-section .ma-system-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .62rem .9rem;
+  background: #a4e9f7;
+  color: #071725;
+  border-radius: 7px;
+  font-weight: 780;
+  text-decoration: none;
+}
+.ma-section .ma-system-link:hover { background: #cff6ff; }
+
+@media (max-width: 740px) {
+  .ma-flow, .ma-split, .ma-approaches, .ma-definitions { grid-template-columns: 1fr; }
+  .ma-flow li:not(:last-child)::after {
+    top: auto;
+    right: calc(50% - .24rem);
+    bottom: -.91rem;
+    transform: rotate(135deg);
+  }
+  .ma-editions > div { grid-template-columns: 1fr; }
+  .ma-tick { font-size: 23px; }
+}
+
+@media (max-width: 545px) {
+  .ma-levels, .ma-reading[data-case-description="dynamics"] .ma-levels { grid-template-columns: 1fr; }
+  .ma-level dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 .7rem; }
+  .ma-level dl div { display: block; }
+  .ma-level dl dd { margin-top: .05rem; }
+  .ma-tick { font-size: 27px; }
+}

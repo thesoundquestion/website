@@ -235,6 +235,12 @@
       "category": "recording",
       "title": "Mixing, soundstage and spatial audio",
       "description": "Watch pan, EQ, ambience and mic timing alter a fictional mix; understand binaural recording, QSound, 5.1, Atmos and the listener's soundstage."
+    },
+    {
+      "slug": "mastering-dynamic-range",
+      "category": "recording",
+      "title": "Mastering, remastering and dynamic range",
+      "description": "Compare three masters of the same performance, learn why editions sound different, and see how matching peaks or average level changes what the amp has to deliver."
     }
   ],
   "categories": {

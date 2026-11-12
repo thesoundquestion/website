@@ -17,8 +17,9 @@ test('each published lesson has six prompts, its printed spec and a bank matchin
   assert.deepEqual(Object.keys(bank), curriculum.lessons.map(item => item.slug));
   for (const [slug, lesson] of Object.entries(bank)) {
     const html = read('decoder/' + slug + '/index.html');
-    assert.ok(html.includes('src="/assets/decoder-lessons.js"'), slug);
-    const specText = html.match(/class="dl-example-spec"[^>]*>[\s\S]*?<strong>([^<]+)<\/strong>/)?.[1];
+    assert.match(html, /src="\/assets\/decoder-lessons\.js(?:\?[^"]*)?"/, slug);
+    const specText = html.match(/\bdata-tutor-spec>([^<]+)<\//)?.[1]
+      ?? html.match(/class="dl-example-spec"[^>]*>[\s\S]*?<strong>([^<]+)<\/strong>/)?.[1];
     assert.equal(lesson.specification, specText?.replaceAll('&amp;', '&'), slug);
     const figures = [...html.matchAll(/data-lesson-plot="([^"]+)"/g)];
     assert.deepEqual(Object.keys(lesson.plots), figures.map(match => match[1]), slug);
@@ -61,10 +62,10 @@ test('the local matcher picks the selected example and the separate headroom gra
   const headroom = graph('amplifier-power', 'amplifier-headroom', 'enough', 'headroom');
   assert.match(matchQuestion(power, 'How do I read this graph?').text, /95 W/);
   const comparison = matchQuestion(headroom, 'Why do these graph examples differ?');
-  assert.match(comparison.text, /80 W · limited reserve/);
-  assert.match(comparison.text, /Compare with “25 W · clips peaks/);
+  assert.match(comparison.text, /80 W amp/);
+  assert.match(comparison.text, /Compare with “25 W amp\.”/);
   assert.equal(comparison.href, '/decoder/amplifier-power/#headroom');
-  assert.match(matchQuestion(headroom, 'What is headroom?').text, /70 W/);
+  assert.match(matchQuestion(headroom, 'What is headroom?').text, /60 W/);
 });
 
 test('typed answers prefer authored phrases and link to appropriate explanations', () => {

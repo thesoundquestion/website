@@ -2,13 +2,13 @@
 
 ## Current release
 
-The 19 published Spec Sheet Decoder lessons use the prepared-answer bank and local text matching. Each lesson has five prepared explanations and a graph question that follows the selected example. An inline disclosure keeps the panel small until a reader opens it. The shortcut below each interactive plot opens the tutor with that plot selected. Section links, illustrations and navigation belong to the original lesson pages.
+The 23 published Spec Sheet Decoder lessons use the prepared-answer bank and local text matching. Each lesson has five prepared explanations and a graph question that follows the selected example. An inline disclosure keeps the panel small until a reader opens it. The shortcut below each interactive plot opens the tutor with that plot selected. Section links, illustrations and navigation belong to the original lesson pages.
 
 The [frontend flag](../../assets/lesson-tutor/config.js) is off and the public site has no tutor API route. The current incremental inference and database cost is **$0**. The answer bank loads on demand from the website. The visitor’s typed question stays in the browser.
 
 ## Maintain the answers
 
-- [The approved bank](../../assets/lesson-tutor/approved-answers.json) is shared by the browser and the server. Keep each key aligned with the slug in [curriculum.json](../../decoder/curriculum.json). Copy the exact printed specification and choose the sections that explain it.
+- [The approved bank](../../assets/lesson-tutor/approved-answers.json) is shared by the browser and the server. Keep each key aligned with the slug in [curriculum.json](../../decoder/curriculum.json). Copy the exact printed specification or example value and choose the sections that explain it. Use the `data-tutor-spec` marker on the example value in lessons without a specification card.
 - Write the simple, specification, listening, buying and related answers first. Keep the direct explanation short, define unfamiliar words and explain the conditions that affect what a person hears. Identify fictional and calculated examples. Link the [Ohm’s law reference](../../decoder/ohms-law/index.html) where voltage, current, impedance and power meet.
 - Use the page’s existing section IDs, plot keys and example IDs. Each plot needs a short description of its axes or scale and one interpretation per option. The first two preferred reference cases supply the comparison question.
 - When an approved answer can address a recurring question, add its common phrasings, text and section under that lesson’s questions. Use feedback readers volunteer through the site’s existing contact channels. The tutor does not log questions for review.
@@ -74,6 +74,6 @@ Run from the repository root with Node 24 or newer.
 node --test tests/lesson-tutor/*.test.mjs
 ~~~
 
-The suite validates all 18 lesson specifications, plot cases, prompt answers and target anchors. It exercises the SQLite reservation SQL through a D1-shaped test binding and uses a stand-in for Workers AI. Coverage includes disabled and paid settings, invalid requests, scope and safety refusals, graph context, inaccurate premises, invented figures, quota exhaustion, duplicate and concurrent requests, expiring clarification tokens, provider failures and timeouts.
+The suite validates published lessons’ specifications or example values, plot cases, prompt answers and target anchors. It exercises the SQLite reservation SQL through a D1-shaped test binding and uses a stand-in for Workers AI. Coverage includes disabled and paid settings, invalid requests, scope and safety refusals, graph context, inaccurate premises, invented figures, quota exhaustion, duplicate and concurrent requests, expiring clarification tokens, provider failures and timeouts.
 
 Browser checks on the static build covered desktop keyboard operation, the two amplifier power plots, 320 px and 390 px layouts, headphone jack context, local typed matching and section links. Live model behavior and account quotas still require the Free-plan smoke test.

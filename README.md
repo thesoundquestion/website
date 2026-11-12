@@ -41,7 +41,7 @@ The decoder teaches through labelled **fictional specifications**, calculated ex
 
 ## Ask The Sound Question
 
-The Decoder's 19 lessons include a compact tutor with prepared answers and local typed-question matching. The tutor reads each lesson's selected graph and links to the relevant explanation. The answer bank loads when the panel is opened. Typed questions stay in the browser in the current release.
+The Decoder’s 23 lessons include a compact tutor with prepared answers and local typed-question matching. The tutor reads each lesson’s selected example and links to the relevant explanation. The answer bank loads when the panel is opened. Typed questions stay in the browser in the current release.
 
 Maintain the [approved answers](assets/lesson-tutor/approved-answers.json) alongside the lessons. Run the [tutor tests](deployment/lesson-tutor/README.md#verification) when changing lesson specifications, example IDs or anchors. The [development handoff](deployment/lesson-tutor/README.md) covers editorial changes, privacy, operating limits and the optional Cloudflare Workers AI setup.
 
@@ -215,7 +215,14 @@ The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `
 - Canonical private section research and release record lives in `thesoundquestion/research/RECORDING_CHAIN_SECTION_HANDOFF.md`. Next planned chapter is mixing and soundstage/spatial processing; dedicated mastering/remastering deep dive remains high priority.
 
 ## Lesson 22: Mixing, soundstage and spatial production (2026-11-12)
-- Published `/decoder/mixing-soundstage/` as Recording & Production Lesson 22 after the recording-resolution chapter, updated curriculum/index/sitemap and course-wide 22-lesson navigation. Next planned: the substantial original-master/remaster/vinyl and loudness-war deep dive.
+- Published `/decoder/mixing-soundstage/` as Recording & Production Lesson 22 after the recording-resolution chapter. Lesson 23 continues the series with mastering and dynamic range.
 - Three original visual comparisons: (a) four mixes of the same hypothetical vocal/guitar/bass/drum stems (crowded center, pan, EQ+balance, added ambience), with consistent schematic stereo stage and fictional overlapping relative-frequency-energy traces; independently toggleable stem and ambience overlays; (b) mathematically calculated mono cancellation for two equal correlated signals at 0 / 0.25 / 1 ms delay using 20log10|cos(πfΔt)|, 50Hz–12kHz, -30dB graph floor and independent baseline/result overlays; (c) stereo/binaural/QSound/discrete 5.1/Dolby Atmos beds+objects format diagrams and explanations.
 - Four edition-specific external listening research examples: Roger Waters *Amused to Death* original 1992 QSound (2015 has different 5.1), Madonna 1990 *The Immaculate Collection* QSound, Pearl Jam 2000 *Binaural*, Steven Wilson *The Raven That Refused To Sing* 2013 96/24 5.1 versus distinct 2026 Atmos and binaural editions. Sources include release docs and contemporaneous ads. There is no commercial audio played, downloaded or republished.
 - Scoped original SVG and CSS, local-only JS controls; native button/aria pressed and no-JS content fallback. Graphs are clearly marked synthetic and not an audible equivalence proof. Stereo playback perception, headphones and mono-sum distinctions explained; mixing and mastering not conflated.
+
+## Lesson 23 · Mastering, remastering and dynamic range
+
+- Published `/decoder/mastering-dynamic-range/` as the fourth Recording & Production lesson. The curriculum, index, sitemap and navigation cover 23 lessons.
+- One original stereo phrase powers the restrained, moderate and heavily limited examples, the peak/RMS comparisons, and the same-mix remaster. Voltage ranges, RMS, sample peak, crest factor and ideal 8 Ω power all come from the displayed signals. The EQ plot shows the applied filter gain. Vinyl and digital paths use original diagrams.
+- The lesson links to exact releases and engineer accounts for Yes, Clapton, Elbow, Dire Straits, Metallica and Daft Punk. Playback normalization is tied to current platform documentation and ITU/EBU standards.
+- Run `python3 scripts/sync_mastering_examples.py` after changing the synthetic signal, processing or plot settings. It regenerates the marked HTML sections with standard-library Python. Deployment still serves the committed static files directly.

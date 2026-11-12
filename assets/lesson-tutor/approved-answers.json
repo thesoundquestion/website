@@ -23,7 +23,9 @@
       "compare",
       "understand",
       "listening",
-      "buying"
+      "buying",
+      "measured-speakers",
+      "amplifier-pairing"
     ],
     "answers": {
       "simple": {
@@ -75,6 +77,62 @@
           "issue": {
             "label": "Warning sign",
             "text": "A tall, narrow peak beside a deep dip can make nearby notes sound very different in level. In a measured speaker this would be a reason to check the measurement and investigate further."
+          }
+        }
+      },
+      "speaker-response-rooms": {
+        "section": "measured-speakers",
+        "reading": "Read from bass to treble. These fictional profiles show possible tonal balances and how placement can change what reaches a seat.",
+        "referenceCases": [
+          "balanced",
+          "bright"
+        ],
+        "examples": {
+          "balanced": {
+            "label": "Balanced",
+            "text": "A generally even middle and a gradual bass roll-off keep a wide range of notes in similar proportion."
+          },
+          "bright": {
+            "label": "Bright / forward",
+            "text": "A broad rise in the presence region and treble can make vocals, guitars and cymbals feel closer or brighter."
+          },
+          "warm": {
+            "label": "Warm / full",
+            "text": "Extra upper bass and lower mids can give notes more body. The upper range has a gentler balance."
+          },
+          "vshape": {
+            "label": "V-shaped",
+            "text": "The bass and upper treble stand out relative to the middle. A singer can feel farther back in the mix."
+          },
+          "uneven": {
+            "label": "Uneven / resonant",
+            "text": "Narrow rises and dips can draw attention to a few frequencies and make nearby notes feel unequal."
+          }
+        }
+      },
+      "amp-speaker-load-effects": {
+        "section": "amplifier-pairing",
+        "reading": "The top plot shows the example speaker’s impedance. The other plot shows the electrical level change from two amplifier output impedances, matched at 1 kHz.",
+        "referenceCases": [
+          "bass",
+          "mid"
+        ],
+        "examples": {
+          "bass": {
+            "label": "Bass change",
+            "text": "A broad bass impedance hump changes the level by up to about 1.8 dB between the two amplifiers in this model."
+          },
+          "mid": {
+            "label": "Midrange change",
+            "text": "The change follows a feature in the speaker’s midrange impedance, reaching about 1.5 dB between the amplifiers."
+          },
+          "treble": {
+            "label": "Treble change",
+            "text": "A rising speaker impedance in the high frequencies produces up to about 1.9 dB difference in the example."
+          },
+          "minimal": {
+            "label": "Minimal effect",
+            "text": "A flatter speaker load leaves only a few tenths of a decibel difference across the example."
           }
         }
       }
@@ -501,23 +559,23 @@
       },
       "amplifier-headroom": {
         "section": "headroom",
-        "reading": "This fictional graph moves through a few moments of music left to right. The vertical scale shows watts, with each tick four times the previous one. The dashed line shows what the music asks of the amplifier.",
+        "reading": "The dashed line shows what a fictional drum passage asks of the amp. Output power uses the left scale and modeled distortion uses the right scale. The 4 Ω and 8 Ω test loads ask for different current.",
         "referenceCases": [
           "small",
           "enough"
         ],
         "examples": {
           "small": {
-            "label": "25 W · clips peaks",
-            "text": "The loudest peaks ask for about 60–70 W. The 25 W ceiling cuts off their tops in the drawing. That illustrates clipping under these particular demands."
+            "label": "25 W amp",
+            "text": "The peak needs about 60 W into 8 Ω, where this amp stops at 25 W. It needs about 119 W into 4 Ω, where the amp stops at 30 W. Both clip the peak in this model."
           },
           "enough": {
-            "label": "80 W · limited reserve",
-            "text": "The peaks fit below 80 W but reach close to its ceiling. An actual distortion curve would tell you how clean the amp stays near those peaks."
+            "label": "80 W amp",
+            "text": "The 60 W peak fits into the 80 W limit at 8 Ω with about 1.3 dB of room. Into 4 Ω the amp supplies the average level and clips the 119 W peak at its 100 W limit."
           },
           "extra": {
-            "label": "200 W · extra reserve",
-            "text": "The 60–70 W peaks also fit below 200 W, with more power in reserve. Compare measured distortion at those same output levels to see whether the extra reserve changes anything in this setup."
+            "label": "150 W amp",
+            "text": "The 60 W peak fits into the 150 W limit at 8 Ω. The 119 W peak also fits into the 180 W limit at 4 Ω. The modeled amp delivers both peaks without clipping."
           }
         }
       }
@@ -529,9 +587,9 @@
           "how much headroom",
           "why want more headroom",
           "why do i need headroom",
-          "what happens at 70 watts"
+          "what happens at 60 watts"
         ],
-        "text": "Headroom is the room left for loud peaks. Here a 70 W peak is only 10 W below the 80 W ceiling. The drawing shows that the peak fits. To know how clean it will be, check what distortion each amplifier produces at 70 W into a similar load.",
+        "text": "Headroom is the room left for loud peaks. In this model the 60 W peak has 1.3 dB of room below the 80 W limit into 8 Ω. Into 4 Ω the same voltage asks for about 119 W and the amp clips at its 100 W limit.",
         "section": "headroom"
       },
       {
@@ -551,10 +609,10 @@
         "phrases": [
           "can distortion rise before clipping",
           "why does thd rise before clipping",
-          "why do the 80 watt and 200 watt amps have different distortion",
+          "why do the 80 watt and 150 watt amps have different distortion",
           "how do i read the headroom distortion graph"
         ],
-        "text": "An amplifier can add more distortion as it approaches its output limit, even before the tops of the peaks visibly flatten. At the same 70 W demand, the fictional curves show 0.11% THD+N for the 80 W example and 0.011% for the 200 W example. Real amplifiers can behave differently. Compare measured curves into the same load.",
+        "text": "The pink line shows the model’s distortion rising as the amp nears its limit. Into 8 Ω the 80 W example has less room before its limit on the tallest hit than the 150 W example. Compare measured distortion at the same output and load when checking real amps.",
         "section": "headroom-distortion-curve"
       }
     ]
@@ -1743,6 +1801,515 @@
         ],
         "text": "Every point on the 0° trace subtracts the speaker’s straight-ahead response from itself. The difference is zero at every frequency. To see how even the speaker actually sounds straight ahead, look at its absolute frequency-response curve.",
         "section": "compare"
+      }
+    ]
+  },
+  "recording-sources": {
+    "title": "Microphones, DI and virtual instruments",
+    "specification": "12 × 15 ft",
+    "topic": "recording sources",
+    "terms": [
+      "microphone",
+      "direct input",
+      "di",
+      "synth",
+      "pickup pattern",
+      "cardioid",
+      "room reflections",
+      "mic placement",
+      "proximity effect"
+    ],
+    "sections": [
+      "paths",
+      "mic",
+      "room",
+      "choices",
+      "beyond"
+    ],
+    "answers": {
+      "simple": {
+        "text": "A recording can start with a microphone capturing air movement, an electrical signal from an instrument, or a sound built by a synth or software. Those routes capture different things.",
+        "section": "paths"
+      },
+      "spec": {
+        "text": "The 12 × 15 ft room is a fixed teaching example. Changing mic distance changes the balance of direct sound and reflections. The diagram illustrates that relationship without measuring the room.",
+        "section": "room"
+      },
+      "hear": {
+        "text": "Close to the mic, the voice often stands out more clearly against the room. Farther back, the same voice can sound more spacious or pick up reflections that make words less distinct.",
+        "section": "room"
+      },
+      "buy": {
+        "text": "Choose a pickup pattern and input type for the part you want to record. A directional mic can help reject room sound from certain angles, and a DI takes the instrument signal directly.",
+        "section": "choices"
+      },
+      "related": {
+        "text": "Once you pick the input, the next lesson shows how to leave space for the loudest note.",
+        "href": "/decoder/recording-resolution/#gain"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/recording-resolution/#gain",
+      "/decoder/mixing-soundstage/#multitrack"
+    ],
+    "plots": {
+      "recording-sources": {
+        "section": "paths",
+        "reading": "Follow the selected sound from its source into the recording.",
+        "referenceCases": [
+          "mic",
+          "di"
+        ],
+        "examples": {
+          "mic": {
+            "label": "Microphone",
+            "text": "The mic turns air movement into an electrical signal. Its placement affects how much of the instrument and the room you capture."
+          },
+          "di": {
+            "label": "Guitar / bass DI",
+            "text": "A direct input captures the instrument’s electrical signal. You can add an amp sound later or record a separate mic on the amp."
+          },
+          "hardware": {
+            "label": "Hardware synth",
+            "text": "The synth creates the sound internally. Its audio output can go straight to a suitable recording input."
+          },
+          "virtual": {
+            "label": "Software instrument",
+            "text": "The software makes the sound from note and control information, then sends audio into the mix."
+          }
+        }
+      },
+      "mic-polar": {
+        "section": "mic",
+        "reading": "The shape shows relative pickup around a microphone at one illustrative frequency.",
+        "referenceCases": [
+          "cardioid",
+          "omni"
+        ],
+        "examples": {
+          "cardioid": {
+            "label": "Cardioid",
+            "text": "The microphone is most sensitive at the front and much less sensitive at the rear."
+          },
+          "omni": {
+            "label": "Omnidirectional",
+            "text": "The illustrated mic picks up sound about equally from different directions."
+          },
+          "figure8": {
+            "label": "Figure-eight",
+            "text": "The two lobes show strong front and rear pickup with less sound picked up from the sides."
+          }
+        }
+      },
+      "mic-placement": {
+        "section": "room",
+        "reading": "The singer and fictional room stay in place as the microphone moves.",
+        "referenceCases": [
+          "close",
+          "mid"
+        ],
+        "examples": {
+          "close": {
+            "label": "Close: 0.5 ft",
+            "text": "The voice is strong compared with reflections. A close directional microphone can also bring up the bass and breath sounds."
+          },
+          "mid": {
+            "label": "Moderate: 2 ft",
+            "text": "More reflected sound reaches the mic relative to the voice. Aim and the room’s surfaces affect the result."
+          },
+          "far": {
+            "label": "Farther: 6 ft",
+            "text": "The room can become more audible. That can give a take space or obscure some of the words."
+          }
+        }
+      }
+    }
+  },
+  "recording-resolution": {
+    "title": "Recording resolution, gain and oversampling",
+    "specification": "−12 dBFS",
+    "topic": "recording headroom",
+    "terms": [
+      "headroom",
+      "clipping",
+      "dbfs",
+      "24 bit",
+      "32 bit float",
+      "sample rate",
+      "aliasing",
+      "oversampling",
+      "converter"
+    ],
+    "sections": [
+      "chain",
+      "gain",
+      "float",
+      "aliasing",
+      "settings"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Set recording level so the quiet part is usable and the loudest unexpected note still fits. Bit depth helps describe small levels, and sample rate determines the highest frequencies a recording can represent.",
+        "section": "chain"
+      },
+      "spec": {
+        "text": "A peak at −12 dBFS leaves 12 dB of room below digital full scale. A note 6 dB louder would still fit in this example.",
+        "section": "gain"
+      },
+      "hear": {
+        "text": "An overloaded take can sound rough because the tops of its biggest waves flatten. Turning down the clipped recording makes that shape quieter.",
+        "section": "gain"
+      },
+      "buy": {
+        "text": "Check the mic and preamp’s real noise and overload limits along with the recording format. A float file has extra numerical room, and the analog input still has a physical limit.",
+        "section": "float"
+      },
+      "related": {
+        "text": "See how a mastering limiter handles the peaks once the mix is finished.",
+        "href": "/decoder/mastering-dynamic-range/#same-recording"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/bit-depth/#compare",
+      "/decoder/mastering-dynamic-range/#same-recording"
+    ],
+    "plots": {
+      "recording-gain": {
+        "section": "gain",
+        "reading": "Compare the shape and height of the same illustrative recording signal as input gain changes.",
+        "referenceCases": [
+          "safe",
+          "quiet"
+        ],
+        "examples": {
+          "safe": {
+            "label": "−12 dBFS",
+            "text": "The tallest rehearsal note leaves 12 dB for an unexpected peak."
+          },
+          "quiet": {
+            "label": "−24 dBFS",
+            "text": "There is lots of room for a peak. Whether the recorded noise matters depends on the analog chain and the source."
+          },
+          "hot": {
+            "label": "−3 dBFS",
+            "text": "The note fits with only 3 dB of room for a bigger hit."
+          },
+          "clip": {
+            "label": "3 dB over the limit",
+            "text": "The incoming peaks go beyond the ceiling and the recorded shape flattens."
+          }
+        }
+      },
+      "float-paths": {
+        "section": "float",
+        "reading": "Follow the signal to see where a peak can fit or get clipped.",
+        "referenceCases": [
+          "fixed",
+          "daw"
+        ],
+        "examples": {
+          "fixed": {
+            "label": "Recorder clips",
+            "text": "The input exceeds what the recorder captures, and the saved waveform contains that damage."
+          },
+          "daw": {
+            "label": "Too loud in software",
+            "text": "A floating-point stage can hold an over-scale value. Turning it down before a fixed-output limit can bring the intact peak back into range."
+          },
+          "recorder": {
+            "label": "32-bit float recorder",
+            "text": "A recorder designed to capture a wide input range can leave more flexibility when setting the level later."
+          },
+          "analogue": {
+            "label": "Mic or preamp clips",
+            "text": "If the hardware flattens a peak before conversion, the file stores the already changed shape."
+          }
+        }
+      },
+      "rate-alias": {
+        "section": "aliasing",
+        "reading": "The chart shows where a generated harmonic lands when processing at different rates.",
+        "referenceCases": [
+          "naive",
+          "high"
+        ],
+        "examples": {
+          "naive": {
+            "label": "48 kHz effect",
+            "text": "A 30 kHz harmonic made inside the effect folds to 18 kHz at a 48 kHz processing rate."
+          },
+          "high": {
+            "label": "Work at 96 kHz",
+            "text": "The 30 kHz harmonic fits under the higher Nyquist limit during processing."
+          },
+          "plugin": {
+            "label": "48 kHz · effect at 2×",
+            "text": "The effect temporarily works at 96 kHz and filters out the extra harmonic before returning to 48 kHz."
+          }
+        }
+      }
+    }
+  },
+  "mixing-soundstage": {
+    "title": "Mixing, soundstage and spatial audio",
+    "specification": "0.25 ms",
+    "topic": "mixing",
+    "terms": [
+      "soundstage",
+      "stereo",
+      "imaging",
+      "panning",
+      "phase",
+      "mono",
+      "binaural",
+      "qsound",
+      "atmos",
+      "surround"
+    ],
+    "sections": [
+      "multitrack",
+      "mono",
+      "formats",
+      "recordings",
+      "glossary",
+      "next"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Mixing decides how loud, how far left or right, and how close each part of a performance seems. The recording and playback setup both contribute to the picture you hear.",
+        "section": "multitrack"
+      },
+      "spec": {
+        "text": "0.25 ms is a tiny timing gap between two otherwise identical microphone signals in the example. When combined to mono, their first dip is at about 2 kHz, which can soften part of a snare’s snap.",
+        "section": "mono"
+      },
+      "hear": {
+        "text": "Panning can make a guitar easier to locate, and lower levels or small tone changes can help a voice stay audible over the guitars. Room reflections affect how sharply those positions come through.",
+        "section": "multitrack"
+      },
+      "buy": {
+        "text": "Check which mix is included in an edition. The stereo, surround and binaural versions may give you different placements and require different playback setups.",
+        "section": "formats"
+      },
+      "related": {
+        "text": "The mastering lesson follows the finished stereo mix through remastering and release.",
+        "href": "/decoder/mastering-dynamic-range/#editions"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/recording-sources/#room",
+      "/decoder/mastering-dynamic-range/#editions"
+    ],
+    "plots": {
+      "mix-demo": {
+        "section": "multitrack",
+        "reading": "The stage shows pan placement. The lower plot shows schematic bands where parts can compete.",
+        "referenceCases": [
+          "crowded",
+          "pan"
+        ],
+        "examples": {
+          "crowded": {
+            "label": "Crowded center",
+            "text": "Several parts share the middle, and the guitar can make some vocal notes harder to pick out."
+          },
+          "pan": {
+            "label": "Pan for space",
+            "text": "Placing parts at different points left and right gives the ear more position cues."
+          },
+          "eq": {
+            "label": "Balance + EQ",
+            "text": "Small level and tone changes can make it easier to follow the vocal or bass."
+          },
+          "depth": {
+            "label": "Add ambience",
+            "text": "The added room effect gives some sounds a longer tail and can change how near they seem."
+          }
+        }
+      },
+      "phase-demo": {
+        "section": "mono",
+        "reading": "Compare how the same two sounds add together after they are combined to mono.",
+        "referenceCases": [
+          "coincident",
+          "quarter"
+        ],
+        "examples": {
+          "coincident": {
+            "label": "Same timing",
+            "text": "Identical sounds arrive together and add without the dips shown in the delayed cases."
+          },
+          "quarter": {
+            "label": "Small delay",
+            "text": "A small delay softens some upper frequencies first, which can change the edge of the hit."
+          },
+          "one": {
+            "label": "Longer delay",
+            "text": "With the longer delay, the first dip moves lower and the drum can lose some body."
+          }
+        }
+      },
+      "spatial-demo": {
+        "section": "formats",
+        "reading": "Each picture shows where the format gets its cues for placement.",
+        "referenceCases": [
+          "stereo",
+          "binaural"
+        ],
+        "examples": {
+          "stereo": {
+            "label": "Stereo",
+            "text": "The left and right channels create positions between two speakers by sharing a sound at different levels."
+          },
+          "binaural": {
+            "label": "Binaural",
+            "text": "Differences at the two ears can create a sense of direction over headphones. A recording or a renderer can supply those cues."
+          },
+          "qsound": {
+            "label": "QSound",
+            "text": "The mix changes cues in a two-channel signal to make certain sounds seem to extend beyond the speakers."
+          },
+          "surround": {
+            "label": "5.1 surround",
+            "text": "The mix can send separate parts to real speaker positions, with a dedicated low-frequency-effects channel."
+          },
+          "atmos": {
+            "label": "Dolby Atmos",
+            "text": "A renderer uses audio and position information to play back the mix on the available layout."
+          }
+        }
+      }
+    }
+  },
+  "mastering-dynamic-range": {
+    "title": "Mastering, remastering and dynamic range",
+    "specification": "2 V RMS",
+    "topic": "mastering",
+    "terms": [
+      "remaster",
+      "remix",
+      "compression",
+      "limiting",
+      "clipping",
+      "loudness",
+      "lufs",
+      "crest factor",
+      "rms",
+      "true peak",
+      "vinyl",
+      "headroom"
+    ],
+    "sections": [
+      "mix-and-master",
+      "editions",
+      "same-recording",
+      "remaster-example",
+      "delivery",
+      "loudness-war",
+      "meters",
+      "normalization",
+      "playback-demand"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Mixing combines the separate tracks. Mastering usually starts from the finished mix and prepares it for release. Tone and the contrast between the loud hits and their backing can change at that stage.",
+        "section": "mix-and-master"
+      },
+      "spec": {
+        "text": "2 V RMS gives the same average power as a steady 2 V across the example’s fixed 8 Ω resistance, which is 0.5 W. Two signals can share that average and still have very different peaks.",
+        "section": "playback-demand"
+      },
+      "hear": {
+        "text": "At a matched listening level, follow the snare’s first crack, how the ring fades, and the bass beneath it. A denser master can bring the backing closer to the accents. EQ can make the same balance of instruments feel warmer or brighter.",
+        "section": "remaster-example"
+      },
+      "buy": {
+        "text": "Check the year, format and mastering or mixing credits. The same reissue may include the original mix with new mastering and a separate remix. Match levels when comparing the same passage.",
+        "section": "editions"
+      },
+      "related": {
+        "text": "The amplifier power lesson shows what clean headroom means when the music asks for a short, loud peak.",
+        "href": "/decoder/amplifier-power/#headroom"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/amplifier-power/#headroom",
+      "/decoder/mixing-soundstage/#multitrack",
+      "/decoder/playback-sources/#riaa"
+    ],
+    "plots": {
+      "mastering-levels": {
+        "section": "same-recording",
+        "reading": "The lines show the voltage range of one channel of the same four-second synthetic performance.",
+        "referenceCases": [
+          "peak",
+          "rms"
+        ],
+        "examples": {
+          "peak": {
+            "label": "Match the peaks",
+            "text": "All three reach 10 V. The heavy-limiting version has more level between hits, so it uses more average power into the fixed load."
+          },
+          "rms": {
+            "label": "Match the average (RMS)",
+            "text": "All three average 0.5 W into 8 Ω. The restrained master has the tallest drum accent, which needs more peak voltage and current."
+          }
+        }
+      },
+      "same-mix-remaster": {
+        "section": "remaster-example",
+        "reading": "Compare the waveform in Peaks and body, or the applied EQ in Tonal balance.",
+        "referenceCases": [
+          "dynamics",
+          "tone"
+        ],
+        "examples": {
+          "dynamics": {
+            "label": "Peaks and body",
+            "text": "At the same playback gain, the remaster has lower peaks and more level between them."
+          },
+          "tone": {
+            "label": "Tonal balance",
+            "text": "The original is flat at 0 dB added EQ. The later master adds a bass lift and a treble trim before its dynamics processing."
+          }
+        }
+      },
+      "mastering-delivery": {
+        "section": "delivery",
+        "reading": "Follow the approved mix to the release and then to playback.",
+        "referenceCases": [
+          "digital",
+          "vinyl"
+        ],
+        "examples": {
+          "digital": {
+            "label": "CD and streaming",
+            "text": "The engineer checks the digital format and peaks. Streaming playback may adjust gain, and a CD uses 16-bit, 44.1 kHz PCM."
+          },
+          "vinyl": {
+            "label": "Vinyl",
+            "text": "The cutter sets groove level and spacing, using RIAA EQ and other adjustments as needed. The phono stage applies the complementary playback curve."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "can normalization restore dynamics",
+          "does spotify restore peaks"
+        ],
+        "text": "Turning a master down makes the entire waveform quieter, including any peaks that were already reduced during mastering. It can help you compare editions at a similar listening level.",
+        "section": "normalization"
+      },
+      {
+        "phrases": [
+          "what is a remaster",
+          "remaster versus remix",
+          "is a remaster a remix"
+        ],
+        "text": "A remaster prepares an existing mix again, so it can change overall tone, level or peaks. A remix starts from separated tracks or parts and builds a new balance.",
+        "section": "editions"
       }
     ]
   }
