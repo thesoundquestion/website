@@ -73,7 +73,9 @@ test('price examples are priced per pair and only apply to Canada CAD',()=>{
   assert.equal(polk.priceComponents[0].amount,399);
   assert.match(polk.priceComponents[0].url,/polkaudio\.com/);
   const usa=shortlistSpeakersForOwnedAmplifier({...defaults,region:'US',currency:'USD'});
-  assert.ok(usa.selected.every(x=>x.subtotal===null));
+  assert.ok(usa.selected.some(x=>x.title==='Polk Monitor XT15'&&x.subtotal===179));
+  assert.ok(usa.selected.some(x=>x.title==='Polk Monitor XT20'&&x.subtotal===279));
+  assert.ok(usa.selected.every(x=>x.pricingCurrency==='USD'));
 });
 
 test('firm budget applies to speaker purchase, not an unnecessary new receiver',()=>{
