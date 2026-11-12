@@ -2,6 +2,7 @@ import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './en
 import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
+import {ownershipPlan} from './owned-gear-options.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -184,24 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const speakerFocus = !!own.amp.name && !own.speaker.name &&
       (arch === 'open' || arch === 'passive_separates') && powered !== 'battery' &&
       useCase !== 'party' && primary !== 'party';
-    const shop = section(speakerFocus ? 'Speakers for your ' + own.amp.name : 'A few options worth a look');
+    const shop = section(anyOwned ? 'Build around your owned equipment' : (speakerFocus ? 'Speakers for your ' + own.amp.name : 'A few options worth a look'));
     if (own.amp.name && !own.speaker.name && !speakerFocus) {
       addText(shop,'p',powered === 'battery' ?
         'Battery operation is required. Your existing '+own.amp.name+' has not been verified for off-grid use, so this is not an amp-and-passive-speaker recommendation.' :
         'Your selected '+(options[arch]?.title || 'event/listening')+' route does not reuse '+own.amp.name+'. Choose “Passive speakers + separate amp” to see speaker-only suggestions for your equipment.','sb-brief-note');
     }
-    if (anyOwned && data.has('keepWorking')) {
-      const keep = el('div','sb-keep-inline');
-      const ownedNames = Object.values(own).filter(x=>x.name).map(x=>x.name);
-      addText(keep,'strong',speakerFocus ? 'Keep your amplifier. Add speakers.' : 'Before you buy: consider keeping your gear');
-      addText(keep,'p',speakerFocus ? own.amp.name + ' is already owned and adds $0 to your new speaker budget.' : ownedNames.join(' · '));
-      const keepMore = el('details','sb-card-details');
-      addText(keepMore,'summary','What should I check?');
-      addText(keepMore,'p','Verify the amplifier/speaker load, source connection and clean listening level before replacing anything. Owning a component does not automatically make it suitable for every setup.');
-      link(keepMore,'/system-check/','Test your existing equipment with System Check');
-      keep.append(keepMore);
-      shop.append(keep);
-    }
+    if (anyOwned)
+      addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
     const budget = budgetText ? Number(budgetText) : null;
     const request = {
       architecture:arch, useCase, goal:primary, level:String(data.get('level')),
@@ -212,9 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
       budget:Number.isFinite(budget) ? budget : null,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
     };
-    const shortlist = speakerFocus
+    const ownership = anyOwned ? ownershipPlan({own,request,inventory}) : null;
+    const shortlist = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
-      : shortlistExamples(request);
+      : shortlistExamples(request));
     const priceFormat = value => value.toLocaleString('en-CA',{style:'currency',currency:'CAD'});
     const renderCard = item => {
       const card = el('article','sb-recommend sb-recommend-compact');
@@ -224,13 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(heading,'h4',item.title.replace(/^[^:]{3,45}:\s*/,'')); 
       head.append(heading);
       const price = el('div','sb-card-price');
-      addText(price,'strong',item.subtotal === null ? 'Price to verify' : priceFormat(item.subtotal));
-      addText(price,'span',item.subtotal === null ? 'No local price checked' : 'CAD · listed parts only');
+      const noPurchase = item.id === 'owned-complete' || item.id === 'owned-headphones' || item.id === 'owned-other-route';
+      addText(price,'strong',noPurchase ? 'Reuse first' : (item.subtotal === null ? 'Price to verify' : priceFormat(item.subtotal)));
+      addText(price,'span',noPurchase ? 'No new hardware priced' : (item.subtotal === null ? 'No local price checked' : 'CAD · listed parts only'));
       head.append(price);
       card.append(head);
+      if (item.reuseNames?.length)
+        addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
       const fit = el('p','sb-card-match');
-      addText(fit,'strong','Why this one: ');
-      fit.append(document.createTextNode(recommendationWhy(item,request,
+      addText(fit,'strong',item.ownershipMessage ? 'Why keep it: ' : 'Why this one: ');
+      fit.append(document.createTextNode(item.ownershipMessage || recommendationWhy(item,request,
         Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
       card.append(fit);
       const sound = soundProfileFor(item);
@@ -252,12 +247,20 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
       if (item.sourceCaution)
         addText(card,'p',item.sourceCaution,'sb-card-alert');
-      if (budget !== null && item.subtotal === null)
+      if (budget !== null && item.subtotal === null && !['owned-complete','owned-headphones','owned-other-route'].includes(item.id))
         addText(card,'p','Budget fit not confirmed.','sb-card-minor');
 
       const details = el('details','sb-card-details');
       addText(details,'summary','What is included, drawbacks & sources');
       addText(details,'p',item.why,'sb-card-why-full');
+      if (item.reuseNames?.length) {
+        addText(details,'h5','What stays in your system');
+        list(details,item.reuseNames);
+      }
+      if (item.keptSeparate?.length) {
+        addText(details,'h5','Also owned, kept for other use');
+        list(details,item.keptSeparate);
+      }
       addText(details,'h5','Sound description: evidence');
       addText(details,'p',sound.type+'. Reported tonal character is not a guaranteed match for your room, hearing or preferred volume.','sb-card-reference');
       if (sound.url) link(details,sound.url,'Read the source');
@@ -323,7 +326,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (request.character !== 'faithful')
         addText(shop,'p','Your sound-character preference is recorded, but this preview does not yet verify or re-rank models by your preferred tonal flavour.','sb-brief-note');
-      addText(shop,'p',speakerFocus ?
+      addText(shop,'p',ownership ?
+        'These recommendations start with your equipment. Reuse still requires compatible connections, electrical loading and suitable clean output. Unknown prices and missing parts are not treated as free.' :
+        speakerFocus ?
         'These are speaker-only candidates, not confirmed electrical matches. Listed CAD amounts cover a speaker pair only; your owned amplifier costs nothing extra. Check full impedance, cabling and listening level before buying.' :
         'Illustrative options, not certified matches. Canadian amounts are dated component listings, not full system costs or typical market prices.','sb-brief-note');
     } else {
@@ -336,6 +341,27 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(excluded,'summary','Why some options were left out');
       list(excluded,shortlist.excluded.slice(0,5).map(x=>x.title+': '+x.reason));
       shop.append(excluded);
+    }
+    // Complete replacements are comparison-only when any component is owned.
+    // The user must see why one might be justified before product alternatives.
+    if (ownership) {
+      const alternatives = el('details','sb-more sb-new-comparison');
+      addText(alternatives,'summary','Compare new equipment: when would replacing yours make sense?');
+      addText(alternatives,'p','A different product is not automatically a sound-quality upgrade. These are examples to investigate only if your retained setup cannot satisfy a documented requirement.');
+      if (ownership.comparisonReasons.length)
+        list(alternatives,ownership.comparisonReasons);
+      if (ownership.mode !== 'keep_source') {
+        const alternativesList = shortlistExamples(request).selected.slice(0,3);
+        if (alternativesList.length) {
+          const moreGrid = el('div','sb-recommendations');
+          for (const item of alternativesList) moreGrid.append(renderCard(item));
+          alternatives.append(moreGrid);
+        } else
+          addText(alternatives,'p','No complete example passes the selected architecture, power and known-price filters. Your existing gear has not been ruled out.','sb-brief-note');
+      } else {
+        addText(alternatives,'p','The suggestions above already reuse your source. Buying a replacement source would need an actual missing connection or demonstrated limitation.','sb-brief-note');
+      }
+      shop.append(alternatives);
     }
     if (((bassMode !== 'no_sub' && data.get('subOwned') !== 'yes') || (primary === 'bass' && bassMode === 'no_sub')) && arch !== 'headphone_first') {
       const subAdd = el('details','sb-more');
