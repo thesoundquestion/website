@@ -61,3 +61,10 @@ Research baseline: Recording to Room v0.9, Equipment Research Plan v1.6, Weighti
 - Complete new systems remain available **only as a collapsed comparison** under reasons that could justify replacement (load restriction, missing input, inadequate clean output, event/battery requirement or demonstrated listening limitation). Neither a model name nor a listening-preference tag proves a product sounds better.
 - Unknown input voltage, speaker load curve, safe headroom, local purchase price or exact revision stay unresolved. No invented measured scores, no full speaker/amp pair compatibility certification, and no source/earphone direct-drive assumptions.
 - Run `node --test tests/system-builder-*.test.mjs` and full site suite. Test presets and unlisted entries, four owned-component combinations, opposite architectures and low budgets in real browser before merging to main.
+
+## v0.6.1 · Specific amplifier explanations (2026-11-12)
+
+- In owned-speakers/missing-amplifier scenarios, each amplifier card now says **Why this amplifier**, based on its own documented continuous power and test load, the owned speaker's known nominal load, the user's requested connection type, and a clear statement of remaining unknowns. Individual details show the actual test-condition note and a link to the original catalog specification source.
+- These are **initial checks**, not a claim that a published resistive-load rating certifies speaker compatibility, that power ratings predict vocal timbre/imaging, or that the suggested amp can play cleanly at the requested seat/level.
+- For a keep-speakers amplifier recommendation, a non-verified listening profile is no longer rendered as a generic **Sound** statement about the amplifier. A model-specific *speaker* profile is labelled as such where actually available. Amplifiers receive electrical/source justification instead.
+- Keep all original named product and source links, electrical safety cautions, ownership paths, and the optional full-system comparison.
