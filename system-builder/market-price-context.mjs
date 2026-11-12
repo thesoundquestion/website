@@ -10,6 +10,27 @@
  * Source observations manually checked 2026-11-12.
  */
 export const CANADIAN_PAIR_PRICE_OBSERVATIONS=Object.freeze({
+  'Polk Monitor XT15':{
+    label:'New regular listed pair CA$249',
+    notes:'Manufacturer, Visions and Crutchfield each list the exact two-speaker XT15 pair for CA$249. It is a regular retail asking reference, not a guaranteed in-stock transaction price or cross-country price median.',
+    regular:[
+      {amount:249,merchant:'Polk Audio Canada',url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html',unit:'pair'},
+      {amount:249,merchant:'Visions Electronics',url:'https://www.visions.ca/polk-audio-monitor-xt15-compact-high-resolution-bookshelf-loudspeakers-pair',unit:'pair'},
+      {amount:249,merchant:'Crutchfield Canada',url:'https://www.crutchfield.ca/p_107MXT15/Polk-Audio-Monitor-XT15.html',unit:'pair'}
+    ]
+  },
+  'Polk Monitor XT20':{
+    label:'New regular listed pair CA$349',
+    notes:'Three Canadian regular advertised pair references are CA$349; manufacturer also shows a CA$279 promotional price. Backorders and colour/stock differences matter. Do not treat a temporary sale as the normal attainable reference.',
+    regular:[
+      {amount:349,merchant:'Crutchfield Canada',url:'https://www.crutchfield.ca/p_107MXT20/Polk-Audio-Monitor-XT20.html',unit:'pair'},
+      {amount:349,merchant:'Gibbys Electronics',url:'https://gibbyselectronicsupermarket.ca/collections/bookshelf-speakers/products/polk-audio-monitor-xt20-high-resolution-bookshelf-loudspeakers',unit:'pair'},
+      {amount:349,merchant:'Visions (regular price)',url:'https://www.visions.ca/polk-audio-monitor-xt20-compact-high-resolution-bookshelf-loudspeakers-pair',unit:'pair'}
+    ],
+    promotion:[
+      {amount:279,merchant:'Polk Audio Canada (advertised sale)',url:'https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/monitor-xt20/300151.html',unit:'pair'}
+    ]
+  },
   'Paradigm Monitor SE Atom':{
     label:'New regular listed pair ~CA$360',
     notes:'Three Canadian retailer listings for the exact stereo pair cluster around CA$360; promotional listings can be lower. These are advertised prices, not transactions or a general market average.',
@@ -24,11 +45,12 @@ export const CANADIAN_PAIR_PRICE_OBSERVATIONS=Object.freeze({
     ]
   },
   'Paradigm Titan v3':{
-    label:'Used asking examples CA$125–150',
-    notes:'Two Canadian vintage stereo-pair listings from 2025–2026 were around CA$125–150. One was marked sold but the actual agreed price is unknown. These are examples, NOT a proven average or a guaranteed available deal. Condition and refoaming/service costs matter.',
+    label:'Used asking examples CA$125–195',
+    notes:'Three Canadian vintage stereo-pair listings from 2025–2026 were around CA$125–195. One was marked sold but the actual agreed price is unknown. These are examples, NOT a proven average or a guaranteed available deal. Condition and refoaming/service costs matter.',
     usedAsks:[
       {amount:125,market:'Canuck Audio Mart',date:'2026-06-16',status:'sold_marked_asking_only',url:'https://www.canuckaudiomart.com/details/650332704-paradigm-titan-v3-speakers-new-foam/',condition:'stated refoamed'},
-      {amount:149.95,market:'Canuck Audio Mart',date:'2025-05-31',status:'expired_dealer_asking_only',url:'https://www.canuckaudiomart.com/details/650219859-paradigm-titan-v3-bookshelf-speakers-black-excellent-trade-in-90-day-acx-wrnty-75-off/',condition:'dealer trade-in, warranty claim'}
+      {amount:149.95,market:'Canuck Audio Mart',date:'2025-05-31',status:'expired_dealer_asking_only',url:'https://www.canuckaudiomart.com/details/650219859-paradigm-titan-v3-bookshelf-speakers-black-excellent-trade-in-90-day-acx-wrnty-75-off/',condition:'dealer trade-in, warranty claim'},
+      {amount:195,market:'US Audio Mart (Canadian seller)',date:'2026-01-04',status:'sold_marked_asking_only',url:'https://www.usaudiomart.com/details/650281890-paradigm-titan-v3-bookshelf-speakers-made-in-canada-restored/',condition:'seller described as restored; final paid amount unknown'}
     ],
     excludedOlder:[
       {amount:120,date:'2022-08-04',reason:'historical outside recent quote window',url:'https://www.canuckaudiomart.com/details/649885041-paradigm-titan-v3-bookshelf-speakers/'}
