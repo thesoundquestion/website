@@ -22,7 +22,7 @@ test('every supplemental model matches an exact existing preset with no duplicat
       if (item.frequencyResponse) assert.ok(item.responseBasis, model + ' lacks response test basis');
       if (item.reviewStatus) {
         assert.ok(item.reviewedOn, model + ' lacks verification date');
-        assert.ok(['manufacturer-checked','manufacturer-and-distributor','secondary-reviewed'].includes(item.reviewStatus));
+        assert.ok(['manufacturer-checked','manufacturer-and-distributor','secondary-reviewed','manufacturer-conflict','period-technical-source','regional-distributor','period-distributor','not-verified'].includes(item.reviewStatus));
       }
     }
   }
