@@ -130,3 +130,9 @@
  .sb-card-price{text-align:left;max-width:100%;display:flex;align-items:baseline;gap:.4rem}
  .sb-card-price span{margin:0}
 }
+
+/* Personalized reasons and evidence-backed sound notes stay readable without a long report. */
+.sb-card-match,.sb-card-sound{font-size:.82rem;line-height:1.43;margin:.45rem 0}
+.sb-card-match strong,.sb-card-sound strong{color:#e1f6ff;font-weight:750}
+.sb-card-sound{color:#d3e4ee}
+@media(max-width:760px){.sb-card-match,.sb-card-sound{font-size:.81rem}}
