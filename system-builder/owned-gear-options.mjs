@@ -172,7 +172,7 @@ function keepAmp(own,request,inventory){
     const used=['amp'];const parts=[part(own.amp,'Already owned; no new amplifier purchase'),...item.parts];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned; verify matching amp input'));}
     const msg='Keep your '+own.amp.name+' and investigate '+item.title+' for the missing stereo speakers. The amplifier’s load suitability is still conditional.';
-    return attach({...item,why:msg,parts,preferenceMatchAvailable:true,
+    return attach({...item,why:msg,speakerRationale:item.why,parts,preferenceMatchAvailable:true,
       extra:[...(item.extra||[]),...(has(own.source)?[sourceNote(own,['analog'])]:[])]},own,used,msg);
   });
   return {selected,excluded:r.excluded,mode:'keep_amp'};
