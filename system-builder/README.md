@@ -1,4 +1,4 @@
-# System Builder v0.1 | guarded preview branch
+# System Builder v0.3 | compact named-equipment preview branch
 
 This is a static, zero-backend, browser-only preview for **Recording to Room → System Builder**. The Cloudflare **feature-branch preview is live** at https://feature-system-builder-previ.thesoundquestion.pages.dev/system-builder/ but the production `main` branch is unchanged. The original System Check, Compare My Gear, gear catalog and validated calculations are not modified.
 
@@ -9,8 +9,9 @@ This is a static, zero-backend, browser-only preview for **Recording to Room →
 - Existing speaker, amp, source and headphone selection bridged **read-only** from the 130 source presets and supplemental Compare My Gear specs. Unlisted model support with explicit unknowns.
 - Separate no-sub, sub+verified mains HPF, sub+full-range mains and unknown-routing branches; never assume a SUB OUT creates HPF or automatic headroom.
 - Checks for complete signal path, battery vs mains, published speaker nominal impedance vs amp ratings, whole-system cost, sources and setup-first.
-- The first named shortlist is now shown **above** the long technical report. It contains 11 editorial system examples (budget/step-up passive pairs, powered stereo pairs, two separate active monitor alternatives, open-back headphones, battery and mains party PA, a used watchlist) plus optional named subwoofer research leads, all with individual source links and candid cautions.
+- The first named shortlist is now shown **above** the long technical report. It contains 12 editorial system examples (budget/step-up passive pairs, powered stereo pairs, two separate active monitor alternatives, open-back headphones, battery and mains party PA, a used watchlist) plus optional named subwoofer research leads, all with individual source links and candid cautions.
 - Prices are individually verified Canadian offer/list snapshots checked 2026-11-12, not representative averages or completed systems. A strict budget blocks examples with known listed component subtotal already above the ceiling. Unknown source/volume/control/sub/taxes/transport costs are NOT treated as zero.
+- The short results preview shows up to **3 compact product cards** by default, displaying model names, observed partial prices, one brief reason and urgent incompatibility warnings. Extra candidates, each card's full parts/trade-offs/sources, the individual chapters of the compatibility audit, and methodology use native keyboard-operable <details>/<summary> disclosures. Original rationale remains available untruncated in the expanded cards. Safety-critical speaker/amp load warnings remain visibly prominent even while cards are collapsed.
 - The detailed ownership, headroom and bass audit is behind an accessible expandable section; a model and a claimed source input do not certify impedance, level or full-system compatibility.
 - All outcomes qualitative and conditional; no product scores, scraping, retailer APIs, login, local storage or transmitted form data.
 - Independent data can be cited as links under its reuse policy; numerical catalog scoring remains gated by rights and comparable methodology.
@@ -26,11 +27,11 @@ Future normalized catalog data should carry model revision, evidence tier, metho
 ## Test
 
 ```sh
-node --test tests/system-builder-eligibility.test.mjs tests/system-builder-data.test.mjs tests/system-builder-recommendations.test.mjs
+node --test tests/system-builder-eligibility.test.mjs tests/system-builder-data.test.mjs tests/system-builder-recommendations.test.mjs tests/system-builder-compact-results.test.mjs
 node --test tests/*.test.mjs
 ```
 
-110 / 110 top-level Node tests pass on the recommendation branch (16 new shortlist-specific tests plus previous 94). An additional headless Edge QA run on a local HTTP-served branch checkout submitted four real form scenarios successfully: CAD 200 wired desk, battery PA, passive dynamic with used watchlist, and battery headphone with suitable source required. The public branch preview was independently checked over HTTPS and serves the new recommendation module. These tests verify the core gate invariants and read-only 130-preset import. They do not claim the 32 synthetic research acceptance fixtures have all been automated, nor do they replace a real browser/screen-reader QA or Cloudflare deployment check.
+117 / 117 top-level Node tests pass on the compact-result branch (16 shortlist-specific + 7 compact-UX checks + the previous 94). An additional headless Edge QA run on a local HTTP-served branch checkout submitted four real form scenarios successfully: CAD 200 wired desk, battery PA, passive dynamic with used watchlist, and battery headphone with suitable source required. The feature-branch Cloudflare preview is live. Additional headless Edge smoke checks confirmed 7/7 compact-display behaviours including first-three cards, closed native details, safety warning visibility, and expandable audit chapters. These tests verify the core gate invariants and read-only 130-preset import. They do not claim the 32 synthetic research acceptance fixtures have all been automated, nor do they replace a real browser/screen-reader QA or Cloudflare deployment check.
 
 ## Release barriers
 
