@@ -1774,11 +1774,11 @@ const systemCheckGear = {
         "sourceConnection": "RCA",
         "sourceSnr": [
           "122 dB",
-          "A-weighted, RCA output"
+          "20 kHz low-pass filter, A-weighted; front RCA output"
         ],
         "sourceThdn": [
           "0.001%",
-          "RCA output"
+          "20 kHz low-pass filter; front RCA output"
         ]
       },
       "note": "2 V RMS full-scale on the front-channel RCA line output. Creative specifies 0.001% THD+N and 122 dB A-weighted SNR. RCA output impedance is unverified.",
