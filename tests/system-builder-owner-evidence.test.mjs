@@ -20,7 +20,7 @@ const base={amp:amp('Yamaha A-720'),speakers:inventory.speaker,useCase:'living_r
 
 test('the owner-evidence pilot is exact-model, source-linked, original summary only',()=>{
   const models=Object.keys(OWNER_EVIDENCE);
-  assert.equal(models.length,13);
+  assert.equal(models.length,14);
   for(const model of models){
     const e=ownerEvidenceFor(model);
     assert.ok(inventory.speaker.some(x=>x.model===model) ||
@@ -113,10 +113,11 @@ test('a missing nominal speaker rating is a warning, not disappearance',()=>{
   assert.match(item.extra.join(' '),/Do NOT connect/);
 });
 
-test('regional unpriced records still appear as prices to verify, not zero-dollar bargains',()=>{
+test('UK buyers receive the actually priced Q Acoustics, while unknown-priced options stay unknown',()=>{
   const result=shortlistSpeakersForOwnedAmplifier({...base,region:'GB',currency:'GBP',budget:200});
-  assert.ok(result.selected.length>0);
-  assert.ok(result.selected.every(x=>x.subtotal===null&&x.pricingStatus==='regional_price_missing'));
+  assert.ok(result.selected.some(x=>x.title==='Q Acoustics 3020i'&&x.subtotal===199));
+  assert.ok(result.selected.some(x=>x.subtotal===null&&x.pricingStatus==='regional_price_missing'));
+  assert.ok(result.selected.every(x=>x.subtotal===null||x.subtotal<=200));
 });
 
 test('implementation keeps the reviews in optional expanded sources and defaults to compact cards',()=>{
