@@ -37,16 +37,16 @@ export const INTERNATIONAL_PAIR_PRICE_OBSERVATIONS=Object.freeze({
       notes:'Polk US and Crutchfield US each list a new ES15 stereo pair at US$299 as a regular reference. Do not use Canadian pricing for US visitors.',
       regular:[
         {amount:299,merchant:'Polk Audio US',url:'https://www.polkaudio.com/en-us/product/home-speakers/bookshelf/signature-elite-es15/300363.html',unit:'pair'},
-        {amount:299,merchant:'Crutchfield US',url:'https://www.crutchfield.com/shopsearch/polk_audio_monitor.html',unit:'pair'}
+        {amount:299,merchant:'Crutchfield US',url:'https://www.crutchfield.com/p_107ES15WH/Polk-Audio-Signature-Elite-ES15-White.html',unit:'pair'}
       ]
     }
   }),
   GB:Object.freeze({
     'Q Acoustics 3010i':{
-      notes:'The maker and one independent local UK shop list the exact original compact 3010i pair at £169. Richer Sounds says its old 3010i listings are no longer available; do not infer universal stock or substitute 3010c.',
+      notes:'The maker and New Forest Technology Services list the original compact 3010i pair at £169. Availability and finish can vary; do not infer universal stock or substitute the newer 3010c.',
       regular:[
         {amount:169,merchant:'Q Acoustics UK direct',url:'https://www.qacoustics.co.uk/products/q-acoustics-3010i',unit:'pair'},
-        {amount:169,merchant:'New Forest Tech Services',url:'https://www.newforesttech.services/shop',unit:'pair'}
+        {amount:169,merchant:'New Forest Technology Services',url:'https://www.newforesttech.services/product-page/q-acoustics-3010i',unit:'pair'}
       ]
     },
     'Q Acoustics 3020i':{
