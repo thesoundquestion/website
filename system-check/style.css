@@ -106,3 +106,10 @@
 .sc-distortion-research{margin:.6rem 0;padding:.8rem;border:1px solid #3d6e82;border-radius:7px;background:#112c3a;color:#d6eaf3;font-size:.84rem;line-height:1.7}
 .sc-distortion-research a{color:#9ce2fa;font-weight:700;overflow-wrap:anywhere}
 @media(max-width:760px){.sc-distortion-ratings{grid-template-columns:1fr}.sc-distortion-context{padding:.8rem}}
+
+/* Power-demand interpretation: distinguish typical listening from transients */
+.sc-demand-distortion{font-size:.84rem;line-height:1.62;padding:.65rem .75rem;border-left:3px solid #688a9f;border-radius:5px;background:#10283a;margin:.7rem 0 .2rem}
+.sc-demand-distortion--favorable{border-left-color:#8bcdbf;background:#153132}
+.sc-demand-distortion--caution{border-left-color:#e0b889;background:#352e29}
+.sc-demand-distortion--risk{border-left-color:#ef9b93;background:#3b2830}
+.sc-demand-distortion--unknown{border-left-color:#a2adbb;background:#29303b}

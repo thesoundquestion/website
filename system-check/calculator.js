@@ -322,6 +322,41 @@ function coversDemand(demand, watts) {
   return demand <= watts * (1 + 1e-12);
 }
 
+// Plain-language operating-region inference, not calculated THD.
+// Thresholds are display heuristics (10%, 50%, ~80%), never distortion limits.
+function describeDemandDistortionRegion({ classification, demand, chosen, continuous }) {
+  if (!chosen) return { level: 'unknown', text: 'No applicable amplifier power rating: the distortion risk from output level cannot be assessed.' };
+  if (chosen.projected) return { level: 'unknown', text: 'Power was projected from a different impedance. This does not establish the amplifier’s clean operating range at this speaker load.' };
+  if (!Number.isFinite(demand) || demand < 0 || !(chosen.watts > 0)) return { level: 'unknown', text: 'Not enough information to assess the operating region.' };
+  const percent = (watts) => powerPercent(demand / watts);
+  if (classification === 'average') {
+    if (chosen.source.type !== 'continuous') return { level: 'unknown', text: 'Average-level cleanliness cannot be inferred from a burst or unspecified-duration power rating.' };
+    if (demand > chosen.watts) return { level: 'risk', text: 'Average demand exceeds the stated continuous rating. Sustained strain, rising distortion or protection behavior is possible; an actual clipping threshold is not known.' };
+    if (demand <= chosen.watts * 0.1) return { level: 'favorable', text: 'Light average demand (' + percent(chosen.watts) + ' of the continuous rating): a properly working amplifier would generally be expected to operate comfortably here, so output-limit distortion is unlikely. Actual THD/THD+N is not known; low-level noise or crossover distortion can still occur.' };
+    if (demand <= chosen.watts * 0.5) return { level: 'favorable', text: 'Moderate average demand (' + percent(chosen.watts) + ' of the continuous rating): comfortably below the published output limit, generally favorable for clean operation. This is not a measured distortion result.' };
+    return { level: 'caution', text: 'Elevated sustained demand (' + percent(chosen.watts) + ' of the continuous rating): less power-supply and thermal reserve. Distortion or protection may become more relevant, but its onset is unmeasured.' };
+  }
+  // Peak interpretation uses the continuous specification when available, even
+  // if a higher short-burst rating was selected for the main headroom comparison.
+  const ref = continuous && continuous.watts > 0 ? continuous : chosen.source;
+  if (!ref || !(ref.watts > 0)) return { level: 'unknown', text: 'No valid output-power reference for the musical peak.' };
+  if (ref.type !== 'continuous') {
+    const within = demand <= chosen.watts * (1 + 1e-12);
+    return { level: within ? 'unknown' : 'risk', text: within
+      ? 'The estimated peak is ' + percent(chosen.watts) + ' of the entered burst rating. A short-duration capacity is stated, but its cleanliness and continuous-power margin are not established.'
+      : 'The estimated peak exceeds the entered burst rating. Distortion, clipping or protection is possible; the actual limit is unmeasured.' };
+  }
+  if (demand > ref.watts * (1 + 1e-12)) {
+    const hasSupportingBurst = chosen.source.type === 'burst' && demand <= chosen.watts * (1 + 1e-12);
+    return { level: 'caution', text: hasSupportingBurst
+      ? 'Peak demand exceeds the continuous rating (' + percent(ref.watts) + ' of that rating), but falls within an entered short-burst rating. The transient may be supported; actual distortion and peak duration capability are not established.'
+      : 'Peak demand exceeds the published continuous rating (' + percent(ref.watts) + '). Additional brief output may exist, but clean reproduction is not established; rising distortion, clipping or protection is possible.' };
+  }
+  if (demand >= ref.watts * 0.8) return { level: 'caution', text: 'Peak demand is very close to rated continuous output (' + percent(ref.watts) + ', less than about 1 dB margin). Rising distortion is possible near an amplifier’s limits, but this rating does not prove it is already occurring.' };
+  if (demand > ref.watts * 0.5) return { level: 'caution', text: 'Peak demand is using ' + percent(ref.watts) + ' of the continuous rating, with less than 3 dB of reserve. Clean reproduction may still be possible, but there is limited margin for higher peaks or load uncertainty.' };
+  return { level: 'favorable', text: 'Peak demand is ' + percent(ref.watts) + ' of the continuous rating, leaving at least 3 dB of rated-power reserve. Output-limit distortion is less concerning at this level, although actual distortion remains unmeasured.' };
+}
+
 function sameVoltageWatts(rating, load) {
   return rating.watts * rating.load / load;
 }
@@ -567,6 +602,20 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     headroom.textContent = 'Headroom: ' + signedDb + ' dB · ' + signedPct
       + (pct >= 0 ? ' of available power in reserve' : ' (needs ' + powerPercent(-pct / 100) + ' more power)');
     row.append(headroom);
+
+    // Show average and transient operating-region implications separately,
+    // without pretending a rated THD number describes the listening level.
+    if (classification === 'average' || classification === 'peak') {
+      const guidance = describeDemandDistortionRegion({
+        classification, demand, chosen,
+        continuous: classification === 'peak' ? chooseRating(chosen.source.load, 'continuous') : null
+      });
+      const line = document.createElement('p');
+      line.className = 'sc-demand-distortion sc-demand-distortion--' + guidance.level;
+      const lead = classification === 'average' ? 'Typical listening: ' : 'Musical peaks: ';
+      line.textContent = lead + guidance.text;
+      row.append(line);
+    }
 
     if (!covers) {
       const boundary = document.createElement('p');
