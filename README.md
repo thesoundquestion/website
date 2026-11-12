@@ -236,3 +236,6 @@ System Check now opens targeted **ordinary Google searches** only. Removed embed
 - Manual selection from the saved speaker dropdown continues to work. No Google results are scraped or auto-imported. Unknown numeric values remain blank and speaker safety verdicts continue to distinguish nominal, continuous, peak, maximum input and amplifier recommendation.
 
 Additional 2026-11-12 sources: original JBL L100 Century 50 W continuous program handling and Polk ES60 300 W recommended-amplifier upper range. Catalogue coverage is 50/59 speaker presets for at least one published power-related value; unknown revisions remain blank.
+
+### 2026-11-12 result-link regression fix
+The embedded Google CSE removal inadvertently also removed `searchLink()`, which the output generator still uses to offer speaker-impedance and lower-load amplifier searches. Restored as an ordinary encoded Google link with `target=_blank` and `rel=noopener noreferrer`. This function has no search API, credentials, scraping, data imports or effect on engineering formulas. Added regression coverage, and bumped calculator cache version.

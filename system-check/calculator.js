@@ -64,6 +64,19 @@ function syncLevels() {
 // External specification searches live independently in spec-search.mjs.
 // Calculator engineering logic and manual-entry fields remain unchanged.
 
+// Result-only Google links remain useful even without the former embedded engine.
+// This helper never fetches results or populates calculator fields.
+function searchLink(label, model, terms) {
+  const link = document.createElement('a');
+  const query = [String(model ?? '').trim(), String(terms ?? '').trim()].filter(Boolean).join(' ');
+  link.textContent = label + ' ↗';
+  link.href = 'https://www.google.com/search?' + new URLSearchParams({ q: query }).toString();
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  return link;
+}
+
+
 function readRatings() {
   const entries = [];
   for (const row of ratings.children) {

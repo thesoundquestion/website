@@ -61,3 +61,13 @@ test('custom search engine is removed while calculator and manual inputs remain'
   assert.match(calc, /function calculate\(\)/);
   assert.match(calc, /form\.addEventListener\('submit'/);
 });
+
+// Guard against accidentally deleting the results helper when simplifying search UI.
+import { readFileSync as readCalculatorSource } from 'node:fs';
+test('System Check result links retain their external Google builder', () => {
+  const calc = readCalculatorSource(new URL('../system-check/calculator.js', import.meta.url), 'utf8');
+  assert.match(calc, /function searchLink\(label, model, terms\)/);
+  assert.match(calc, /searchLink\('Find an impedance measurement'/);
+  assert.match(calc, /searchLink\('Find a lower-load amp test'/);
+  assert.doesNotMatch(calc, /cse\.google\.com|google\.search\.cse|__gcse/);
+});

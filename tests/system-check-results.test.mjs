@@ -7,6 +7,8 @@ import vm from 'node:vm';
 const js = readFileSync(new URL('../system-check/calculator.js', import.meta.url), 'utf8');
 const src = js.slice(js.indexOf('function powerPercent('), js.indexOf('\nfunction calculate()'));
 assert.ok(src.startsWith('function powerPercent(') && src.includes('function summarizePower('));
+const searchHelper = js.slice(js.indexOf('function searchLink('), js.indexOf('\nfunction readRatings()'));
+assert.ok(searchHelper.startsWith('function searchLink('), 'Output searchLink helper must exist');
 class Node {
   constructor(tag) { this.tagName = tag; this.className = ''; this.textContent = ''; this.children = []; this.attributes = {}; }
   append(...children) { this.children.push(...children); }
@@ -19,14 +21,14 @@ function run(config) {
   const context = {
     document: { createElement(tag) { return new Node(tag); } },
     body,
-    field(name) { return { value: '', valueAsNumber: config.power?.[name] ?? NaN, dataset: config.sourceUrl && config.power?.[name] ? { powerSourceUrl: config.sourceUrl } : {} }; },
+    field(name) { return { value: config.model?.[name] ?? '', valueAsNumber: config.power?.[name] ?? NaN, dataset: config.sourceUrl && config.power?.[name] ? { powerSourceUrl: config.sourceUrl } : {} }; },
     show(value) { return new Intl.NumberFormat('en-CA', { maximumSignificantDigits: 3 }).format(value); },
     db(value) { return value.toFixed(1); },
     addText(tag,value) { const n = new Node(tag); n.textContent = value; body.append(n); return n; },
-    searchLink() { return new Node('a'); },
+    URLSearchParams,
     Intl, Math, Set, Number,
   };
-  const calculate = vm.runInNewContext(src + '\nsummarizePower', context);
+  const calculate = vm.runInNewContext(searchHelper + '\n' + src + '\nsummarizePower', context);
   calculate(config);
   const cards = body.subtrees.filter(n=>n.tagName==='article' && n.className.includes('sc-load-card'));
   return { cards, body, text:body.allText };
@@ -156,4 +158,20 @@ test('speaker catalogue carries power-source provenance and preserves unknown vi
   assert.equal(exact('JBL L100 Classic').speakerRecommendedAmpMax,200);
   assert.equal(exact('JBL L100 Century (original)').speakerPowerContinuous,50);
   assert.equal(exact('Polk Signature Elite ES60').speakerRecommendedAmpMax,300);
+});
+
+
+test('output search links use the restored external Google helper with encoded exact models', () => {
+  const result = run({...base, minimum:3.5, model: {ampModel:'Yamaha A-720'}, entries:[
+    {watts:80,load:8,type:'continuous'}, {watts:100,load:4,type:'continuous'}
+  ]});
+  const links = result.body.subtrees.filter(x => x.tagName === 'a' && x.textContent.includes('Find a lower-load amp test'));
+  assert.equal(links.length,1);
+  const url = new URL(links[0].href);
+  assert.equal(url.origin,'https://www.google.com');
+  assert.equal(url.pathname,'/search');
+  assert.match(url.searchParams.get('q'),/Yamaha A-720/);
+  assert.match(url.searchParams.get('q'),/3\.5 ohm amplifier power bench measurements/);
+  assert.equal(links[0].target,'_blank');
+  assert.equal(links[0].rel,'noopener noreferrer');
 });
