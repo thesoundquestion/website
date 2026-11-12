@@ -80,6 +80,11 @@ export const SOUND_PROFILES = Object.freeze({
     text:'An independent review describes balanced, unforced treble and midrange with rhythmic, weighty bass. It is revealing of poor recordings and does not reproduce the deepest notes.',
     type:'Independent listening review',url:'https://www.whathifi.com/reviews/elac-debut-20-b62'
   },
+  'Wharfedale Diamond 12.1': {
+    text:'Some exact-model listeners describe it as enjoyable with modest stereo amplifiers; an independent hands-on review describes a composed and relatively forgiving presentation for its size.',
+    type:'Limited owner reports and independent hands-on review',
+    url:'https://www.whathifi.com/speakers/hi-fi-speakers/hi-fi-deal-alert-the-superb-wharfedale-diamond-12-1-speakers-drop-in-price-in-the-black-friday-sales'
+  },
   'Wharfedale Diamond 12.2': {
     text:'A published review describes weighty, controlled bass, articulate instruments and convincing stereo space. Other listeners describe warm mids and smooth upper treble.',
     type:'Independent listening review',url:'https://www.hifichoice.com/content/wharfedale-diamond-122'
