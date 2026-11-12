@@ -21,7 +21,7 @@ const base={amp:amp('Yamaha A-720'),speakers:inventory.speaker,goal:'all_rounder
 const leads=overrides=>shortlistSpeakersForOwnedAmplifier({...base,...overrides});
 
 test('two Builder-only budget records do not mutate the original System Check presets',()=>{
-  assert.equal(BUILDER_ONLY_SPEAKERS.length,2);
+  assert.equal(BUILDER_ONLY_SPEAKERS.length,3);
   assert.ok(BUILDER_ONLY_SPEAKERS.every(x=>!inventory.speaker.some(s=>s.model===x.model)));
   assert.ok(BUILDER_ONLY_SPEAKERS.every(x=>x.evidence.includes('NOT an original System Check preset')));
   assert.equal(builderOnlySpeakerFor('Polk Monitor XT15').values.minimum,4.1);
