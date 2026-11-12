@@ -1,4 +1,4 @@
-# System Builder v0.5 | explainable, evidence-linked recommendations preview branch
+# System Builder v0.6 | ownership-first, explainable recommendation preview branch
 
 This is a static, zero-backend, browser-only preview for **Recording to Room → System Builder**. The Cloudflare **feature-branch preview is live** at https://feature-system-builder-previ.thesoundquestion.pages.dev/system-builder/ but the production `main` branch is unchanged. The original System Check, Compare My Gear, gear catalog and validated calculations are not modified.
 
@@ -51,3 +51,13 @@ Research baseline: Recording to Room v0.9, Equipment Research Plan v1.6, Weighti
 - The card keeps price, individualized reason, sonic description and urgent warnings visible. Detailed explanations, evidence links, parts and trade-offs remain in the existing native disclosures. The `character` choice is not yet a ranking input and the UI admits this explicitly.
 - Review descriptions are original short paraphrases with links, not copied source charts or numerical rankings. The separate rights and comparability gate remains unchanged. Prioritization is unchanged.
 - Check `node --test tests/system-builder-*.test.mjs`, full regression suite, small screens, keyboard access and live preview before merging. Production remains untouched.
+
+## v0.6 · Owned gear is the starting point (2026-11-12)
+
+- The ownership-first planner in `owned-gear-options.mjs` runs whenever **any** owned speaker, amplifier, source/DAC or headphones are entered. Every owned component is either included in the proposed path or named as retained for a separate listening use. The keep/setup checkbox does not disable ownership consideration.
+- Owned speakers alone: shortlist actual catalog amplifiers, retaining the speakers. Owned amplifier alone: shortlist speakers, retaining the amplifier. Both: keep the actual pair first; assess published compatibility caveats and show partial-reuse alternatives if a concrete manufacturer load restriction is identified.
+- Owned source: include and explain its output connection in new-system suggestions, without silently charging for or replacing it. Owned headphones: retain the headphones first in a headphone path; verify output/drive rather than assuming an RCA DAC line out is a headphone jack.
+- Mixed equipment and an explicitly different system architecture (powered, party/PA or battery) still produce an acknowledged compatible reuse route, clearly labelled as **not** meeting that new format automatically.
+- Complete new systems remain available **only as a collapsed comparison** under reasons that could justify replacement (load restriction, missing input, inadequate clean output, event/battery requirement or demonstrated listening limitation). Neither a model name nor a listening-preference tag proves a product sounds better.
+- Unknown input voltage, speaker load curve, safe headroom, local purchase price or exact revision stay unresolved. No invented measured scores, no full speaker/amp pair compatibility certification, and no source/earphone direct-drive assumptions.
+- Run `node --test tests/system-builder-*.test.mjs` and full site suite. Test presets and unlisted entries, four owned-component combinations, opposite architectures and low budgets in real browser before merging to main.
