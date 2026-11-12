@@ -90,3 +90,12 @@ test('imaging and bass priorities lead to different example sets without match s
   assert.ok(imaging.selected.every(i=>!('matchScore' in i)));
   assert.ok(bass.selected.every(i=>!('matchScore' in i)));
 });
+
+test('secondary priorities annotate conditional relevance but are never converted to numerical scores',()=>{
+  const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',useCase:'desk',secondary:['low_volume','bass']});
+  const mr4=x.selected.find(i=>i.id==='powered-mr4');
+  const ora=x.selected.find(i=>i.id==='powered-ora');
+  assert.deepEqual(mr4.secondaryFocus,['low_volume']);
+  assert.deepEqual(ora.secondaryFocus,['low_volume','bass']);
+  assert.ok(!x.selected.some(i=>'matchScore' in i));
+});
