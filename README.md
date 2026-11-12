@@ -229,3 +229,8 @@ The amplifier-power lesson uses a fictional 25 W, 80 W and 200 W comparison in `
 
 ### System Check Google lookup cleanup (2026-11-12)
 System Check now opens targeted **ordinary Google searches** only. Removed embedded Google CSE loader, results UI and engine ID. See `system-check/SPEC_SEARCH_EXTERNAL_GOOGLE_2026_11_12.md` for search categories, tested source models and limitations. The calculation engine and equipment database are preserved. Run `node --test tests/system-check-results.test.mjs tests/system-check-search.test.mjs`.
+
+### Model-specific speaker power autofill (2026-11-12)
+- Exact typed manufacturer/model matches in System Check now select the existing speaker preset and populate all available numeric fields, including published power handling and recommended amplifier upper wattage. The model field provides native datalist suggestions. Partial or ambiguous model matches do not trigger autofill, and variants/revisions are not conflated.
+- If the visitor changes away from a matched model, stale unedited preset values are cleared, while fields they changed manually are preserved. Power-source provenance is shown with the published field's original meaning; a vintage secondary transcription is not labelled manufacturer verified.
+- Manual selection from the saved speaker dropdown continues to work. No Google results are scraped or auto-imported. Unknown numeric values remain blank and speaker safety verdicts continue to distinguish nominal, continuous, peak, maximum input and amplifier recommendation.

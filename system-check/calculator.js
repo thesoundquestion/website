@@ -327,7 +327,7 @@ function appendSpeakerPowerSafety(card, { peakW, averageW }) {
     .find(input => input?.dataset?.powerSourceUrl);
   if (sourceInput) {
     const source = document.createElement('a');
-    source.textContent = 'Manufacturer speaker-power specifications';
+    source.textContent = 'Published speaker-power source';
     source.href = sourceInput.dataset.powerSourceUrl;
     source.target = '_blank';
     source.rel = 'noopener noreferrer';
@@ -674,6 +674,26 @@ const presetFields = {
   source: ['sourceVoltage', 'sourceZ']
 };
 
+function normalizeSpeakerPresetModel(value) {
+  return String(value ?? '')
+    .normalize('NFKC')
+    .replace(/[\u2010-\u2015\u2212]/g, '-')
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .replace(/\bv[.\s]*(\d+)\b/g, 'v$1')
+    .replace(/\s*\((?:original|us\/canada)\)$/, '')
+    .trim();
+}
+
+function findExactSpeakerPresetIndex(value, options) {
+  const model = normalizeSpeakerPresetModel(value);
+  if (!model) return -1;
+  // Only exact unambiguous matches. Never confuse revisions such as RP-600M and RP-600M II.
+  const matches = options.reduce((indexes, gear, i) =>
+    normalizeSpeakerPresetModel(gear.model) === model ? indexes.concat(i) : indexes, []);
+  return matches.length === 1 ? matches[0] : -1;
+}
+
 function mountGearPresets(catalog) {
   const selections = new URLSearchParams(location.search);
   for (const picker of document.querySelectorAll('[data-gear]')) {
@@ -690,18 +710,27 @@ function mountGearPresets(catalog) {
       note.replaceChildren();
       if (!gear) {
         if (kind === 'speaker') {
-          for (const name of speakerPowerFields) {
-            field(name).value = '';
-            delete field(name).dataset.powerSourceUrl;
+          // Clearing an autofilled preset must not leave old speaker specs on a new model.
+          // Keep fields which visitors have edited themselves.
+          for (const name of presetFields.speaker) {
+            const input = field(name);
+            const stored = input.dataset.presetValue;
+            if (stored !== undefined && input.value === stored) {
+              input.value = name === 'basis' ? 'voltage' : '';
+            }
+            delete input.dataset.presetValue;
+            delete input.dataset.powerSourceUrl;
           }
           const provenance = document.querySelector('#speaker-power-provenance');
-          if (provenance) provenance.textContent = 'Enter speaker-specific handling ratings manually, or choose a verified preset. Unknown limits are not assumed to be safe.';
+          if (provenance) provenance.textContent = 'No saved power specification selected. Enter published values for the exact speaker model; unknown categories remain blank.';
         }
         return;
       }
       for (const name of presetFields[kind] || []) {
         const fallback = name === 'basis' ? 'voltage' : name === 'curveType' ? 'THD+N' : '';
-        field(name).value = gear.values?.[name] ?? fallback;
+        const control = field(name);
+        control.value = gear.values?.[name] ?? fallback;
+        if (kind === 'speaker') control.dataset.presetValue = control.value;
       }
       if (kind === 'speaker') {
         const powerNote = document.querySelector('#speaker-power-provenance');
@@ -714,14 +743,17 @@ function mountGearPresets(catalog) {
         }
         if (powerNote) {
           powerNote.replaceChildren();
-          powerNote.append(gear.values?.speakerPowerNote
-            || 'No verified power-handling values for this exact speaker preset. Empty fields remain unverified.');
+          const available = speakerPowerFields.filter(name => Number.isFinite(gear.values?.[name]));
+          powerNote.append(available.length
+            ? available.length + ' published power-related value' + (available.length === 1 ? '' : 's') + ' filled. '
+              + (gear.values?.speakerPowerNote || 'See the exact published rating and its test conditions.')
+            : 'No published power-related values currently stored for this exact model. Leave unknown fields blank or enter sourced figures manually.');
           if (gear.values?.speakerPowerSource) {
             const link = document.createElement('a');
             link.href = gear.values.speakerPowerSource;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
-            link.textContent = 'Verify published handling ratings';
+            link.textContent = 'Read published source';
             powerNote.append(' ', link);
           }
         }
@@ -758,6 +790,29 @@ function mountGearPresets(catalog) {
       note.append(' · ', compare);
     });
 
+    if (kind === 'speaker') {
+      const modelInput = field('speakerModel');
+      const suggestions = document.querySelector('#speaker-model-suggestions');
+      if (suggestions) {
+        suggestions.replaceChildren(...options.map(gear => new Option(gear.model, gear.model)));
+      }
+      modelInput.addEventListener('input', () => {
+        const index = findExactSpeakerPresetIndex(modelInput.value, options);
+        if (index >= 0) {
+          if (select.value !== String(index)) {
+            select.value = String(index);
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+          return;
+        }
+        if (select.value !== '') {
+          select.value = '';
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          if (modelInput.value.trim()) note.textContent = 'No exact saved preset match. Enter this model’s published specifications manually or choose a model from the suggestions.';
+        }
+      });
+    }
+
     const selected = options.findIndex(gear => gear.model === selections.get(kind));
     if (selected >= 0) {
       select.value = String(selected);
@@ -766,6 +821,11 @@ function mountGearPresets(catalog) {
       if (details) details.open = true;
     }
   }
+}
+
+// Distinguish a visitor-edited value from one copied out of a saved preset.
+for (const name of presetFields.speaker) {
+  field(name).addEventListener('input', () => delete field(name).dataset.presetValue);
 }
 
 for (const name of speakerPowerFields) {
