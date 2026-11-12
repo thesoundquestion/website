@@ -35,3 +35,29 @@
   gap: .65rem;
   margin-block: 1rem 1.5rem;
 }
+
+/* Power and headroom verdicts: selected speakers vs alternate hypothetical loads */
+.sc-load-results{margin:1rem 0 1.3rem;min-width:0}
+.sc-load-results>h3{margin:1rem 0 .5rem}
+.sc-load-intro{font-size:.89rem;line-height:1.65;color:#bfdaea}
+.sc-load-stack{display:grid;gap:.85rem;margin-top:.95rem}
+.sc-load-card{border:1px solid #3d617b;border-radius:11px;background:#11283b;padding:clamp(.8rem,2vw,1rem);min-width:0}
+.sc-load-card--yours{border:2px solid #a1e4ec;background:#122e40;box-shadow:inset 4px 0 0 #a1e4ec}
+.sc-load-heading{font-size:1.05rem;margin:0 0 .2rem;color:#e8f7ff;line-height:1.4}
+.sc-load-card--yours .sc-load-heading{font-size:1.18rem;color:#c3f9fc}
+.sc-load-subheading{color:#b6d1e4;font-size:.83rem;line-height:1.6;margin:.25rem 0 .9rem!important}
+.sc-load-metrics{display:grid;gap:.7rem}
+.sc-load-metric{border-radius:8px;padding:.75rem .8rem;background:#0b1d2e;border:1px solid #37546b;min-width:0}
+.sc-load-metric>p{margin:.28rem 0;line-height:1.52}
+.sc-load-metric-title{color:#eff9ff;font-size:.94rem;font-weight:750}
+.sc-load-verdict{font-size:.93rem;font-weight:750}
+.sc-load-verdict--pass{color:#a4edcb}
+.sc-load-verdict--fail{color:#ffb6a8}
+.sc-load-verdict--unverified{color:#f0d49c}
+.sc-load-capacity{color:#c1d5e5;font-size:.82rem}
+.sc-load-headroom{color:#ecf9ff;font-weight:700;font-variant-numeric:tabular-nums;font-size:.87rem}
+.sc-load-boundary{color:#e2d8b9;font-size:.84rem;line-height:1.65!important;padding-top:.4rem;border-top:1px solid #416077}
+.sc-load-burst-note{margin:.85rem 0 0!important;padding:.65rem .75rem;border-left:3px solid #b2c9de;background:#162f42;border-radius:4px;font-size:.82rem;line-height:1.55}
+.sc-load-caution{padding:.8rem .95rem;border-left:4px solid #e1c78a;border-radius:5px;background:#202b3b;line-height:1.65;font-size:.88rem}
+@media(min-width:1050px){.sc-load-card{padding:1.1rem}.sc-load-metrics{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}}
+@media(max-width:440px){.sc-load-card{padding:.75rem}.sc-load-metric{padding:.65rem}.sc-load-heading{overflow-wrap:anywhere}}

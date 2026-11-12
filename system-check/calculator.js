@@ -348,118 +348,225 @@ function appendRatingSource(element, rating) {
   element.append(' ', link);
 }
 
-function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW }) {
-  if (mode === 'upgrade' || !entries.length) {
-    addText('h3', 'What to look for');
-    addText('p', powerTarget(load, peakW, averageW));
-    if (mode === 'check') addText('p', 'Add your amp’s power rating and the impedance it was tested at to check whether it covers this target.');
+function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average }) {
+  // Use the actual speaker load first and exactly two familiar alternative loads.
+  // Different speakers have different sensitivities: alternatives share only the
+  // current speaker's requested voltage, not an assumed measured acoustic output.
+  const standardLoads = [4, 6, 8].filter(candidate => candidate !== load)
+    .sort((a, b) => Math.abs(a - load) - Math.abs(b - load) || a - b).slice(0, 2)
+    .sort((a, b) => a - b);
+  const testLoads = [load, ...standardLoads];
+  const noBurstInput = !entries.some(entry => entry.type === 'burst');
+
+  const section = document.createElement('section');
+  section.className = 'sc-load-results';
+  section.setAttribute('aria-label', 'Amplifier headroom results by speaker impedance');
+  const heading = document.createElement('h3');
+  heading.textContent = mode === 'upgrade' || !entries.length
+    ? 'Power needed at each speaker load'
+    : 'Does your amplifier meet the goal?';
+  section.append(heading);
+
+  const explanation = document.createElement('p');
+  explanation.className = 'sc-load-intro';
+  explanation.textContent = 'All loads use the same target speaker-terminal voltage. Required watts change with impedance; real speakers also differ in sensitivity, impedance phase and current demand. Only Your Speakers uses the nominal speaker load you entered.';
+  section.append(explanation);
+
+  const stack = document.createElement('div');
+  stack.className = 'sc-load-stack';
+  section.append(stack);
+
+  function chooseRating(testLoad, type) {
+    return entries.filter(rating => rating.type === type && rating.load === testLoad)
+      .sort((a, b) => b.watts - a.watts)[0] || null;
+  }
+
+  function projectRating(testLoad, type) {
+    const options = entries.filter(rating => rating.type === type && rating.load !== testLoad)
+      .sort((a, b) => Math.abs(a.load - testLoad) - Math.abs(b.load - testLoad)
+        || a.load - b.load);
+    const source = options[0];
+    return source ? { watts: sameVoltageWatts(source, testLoad), source, projected: true } : null;
+  }
+
+  function directRating(rating) {
+    return rating ? { watts: rating.watts, source: rating, projected: false } : null;
+  }
+
+  function metricLine(row, label, demand, enteredSPL, chosen, duration, classification) {
+    const title = document.createElement('p');
+    title.className = 'sc-load-metric-title';
+    title.textContent = label + ' · Required ' + show(demand) + ' W/ch';
+    row.append(title);
+
+    if (!chosen) {
+      const status = document.createElement('p');
+      status.className = 'sc-load-verdict sc-load-verdict--unverified';
+      status.textContent = 'Unverified · no usable ' + duration + ' amplifier rating';
+      row.append(status);
+      return { code: 'unverified', projected: false };
+    }
+
+    const available = chosen.watts;
+    const covers = coversDemand(demand, available);
+    const dbMargin = 10 * Math.log10(available / demand);
+    const reserve = (1 - demand / available) * 100;
+    const sourceType = chosen.source.type === 'burst' ? 'short-burst' : 'continuous';
+    const sourceBasis = chosen.projected
+      ? 'projected from ' + show(chosen.source.watts) + ' W at ' + show(chosen.source.load) + ' Ω (' + sourceType + ', constant-voltage assumption)'
+      : 'entered ' + sourceType + ' rating at ' + show(chosen.source.load) + ' Ω';
+
+    let statusText;
+    let verdict;
+    if (chosen.projected) {
+      verdict = 'unverified';
+      statusText = covers ? 'Unverified · projected to cover target' : 'Unverified · projected shortfall';
+    } else if (!covers && classification === 'peak' && chosen.source.type !== 'burst') {
+      verdict = 'unverified';
+      statusText = 'Unverified · peak exceeds continuous rating';
+    } else {
+      verdict = covers ? 'pass' : 'fail';
+      statusText = covers ? 'Pass' : 'Fail';
+    }
+
+    const badge = document.createElement('p');
+    badge.className = 'sc-load-verdict sc-load-verdict--' + verdict;
+    badge.textContent = statusText;
+    row.append(badge);
+
+    const supplied = document.createElement('p');
+    supplied.className = 'sc-load-capacity';
+    supplied.textContent = 'Available / assumed: ' + show(available) + ' W/ch · ' + sourceBasis;
+    row.append(supplied);
+
+    const headroom = document.createElement('p');
+    headroom.className = 'sc-load-headroom';
+    const pct = Math.abs(reserve) < .05 ? 0 : reserve;
+    const decibels = Math.abs(dbMargin) < .05 ? 0 : dbMargin;
+    const signedDb = (decibels > 0 ? '+' : '') + db(decibels);
+    const signedPct = (pct > 0 ? '+' : '') + powerPercent(pct / 100);
+    headroom.textContent = 'Headroom: ' + signedDb + ' dB · ' + signedPct
+      + (pct >= 0 ? ' of available power in reserve' : ' (needs ' + powerPercent(-pct / 100) + ' more power)');
+    row.append(headroom);
+
+    if (!covers) {
+      const boundary = document.createElement('p');
+      boundary.className = 'sc-load-boundary';
+      const estimatedSPL = enteredSPL + dbMargin;
+      const limitLabel = chosen.projected ? 'Projected voltage-equivalent boundary'
+        : chosen.source.type === 'burst' ? 'At the entered short-burst rating, estimated level boundary'
+        : 'At the entered continuous rating, estimated level boundary';
+      boundary.textContent = limitLabel + ': about ' + db(estimatedSPL)
+        + ' dB SPL at the assumed seat, versus ' + db(enteredSPL) + ' dB target ('
+        + db(Math.abs(dbMargin)) + ' dB short). '
+        + (chosen.source.type === 'burst' && !chosen.projected
+          ? 'This is the rated-power threshold, not an independently measured clipping point.'
+          : chosen.projected
+            ? 'This extrapolation is not a measured clipping threshold.'
+            : 'Actual short-burst clipping level is unknown without a burst test.');
+      row.append(boundary);
+    }
+    return { code: verdict, projected: chosen.projected };
+  }
+
+  let hasUnknown = false;
+  let hasDefinitiveFailure = false;
+  let anyProjection = false;
+
+  for (const testLoad of testLoads) {
+    const actual = testLoad === load;
+    const card = document.createElement('article');
+    card.className = 'sc-load-card' + (actual ? ' sc-load-card--yours' : ' sc-load-card--estimate');
+    const name = document.createElement('h4');
+    name.className = 'sc-load-heading';
+    name.textContent = actual
+      ? 'Your Speakers'
+      : 'Estimated Performance with ' + show(testLoad) + ' Ω Speakers';
+    card.append(name);
+    const subtitle = document.createElement('p');
+    subtitle.className = 'sc-load-subheading';
+    subtitle.textContent = show(testLoad) + ' Ω '
+      + (actual ? 'nominal speaker load you entered' : 'hypothetical test load; same voltage as Your Speakers');
+    card.append(subtitle);
+
+    const avgDemand = averageV === null ? null : averageV ** 2 / testLoad;
+    const peakDemand = peakV ** 2 / testLoad;
+    const cont = chooseRating(testLoad, 'continuous');
+    const burst = chooseRating(testLoad, 'burst');
+    const projectedCont = cont ? null : projectRating(testLoad, 'continuous');
+    const projectedBurst = burst ? null : projectRating(testLoad, 'burst');
+
+    const items = document.createElement('div');
+    items.className = 'sc-load-metrics';
+    card.append(items);
+
+    if (avgDemand !== null) {
+      const avgItem = document.createElement('div');
+      avgItem.className = 'sc-load-metric';
+      const assessment = metricLine(avgItem, 'Average', avgDemand, average,
+        directRating(cont) || projectedCont, 'continuous', 'average');
+      items.append(avgItem);
+      if (assessment.code === 'fail') hasDefinitiveFailure = true;
+      if (assessment.code === 'unverified') hasUnknown = true;
+      if (assessment.projected) anyProjection = true;
+    }
+
+    const peakItem = document.createElement('div');
+    peakItem.className = 'sc-load-metric';
+    let peakRating;
+    if (burst && (!cont || burst.watts >= cont.watts)) peakRating = directRating(burst);
+    else if (cont) peakRating = directRating(cont);
+    else peakRating = projectedBurst || projectedCont;
+
+    const peakAssessment = metricLine(peakItem, 'Short peaks', peakDemand, peak, peakRating,
+      'short-burst or continuous', 'peak');
+    items.append(peakItem);
+    if (peakAssessment.code === 'fail') hasDefinitiveFailure = true;
+    if (peakAssessment.code === 'unverified') hasUnknown = true;
+    if (peakAssessment.projected) anyProjection = true;
+
+    if (!burst && mode === 'check' && entries.length) {
+      const note = document.createElement('p');
+      note.className = 'sc-load-burst-note';
+      note.textContent = 'No short-burst power rating entered at ' + show(testLoad)
+        + ' Ω. Passing a continuous rating is conservative; exceeding it does not confirm clipping.';
+      card.append(note);
+    }
+    stack.append(card);
+  }
+
+  body.append(section);
+  if (!entries.length || mode === 'upgrade') {
+    addText('p', 'Pass/fail and headroom against an amplifier cannot be determined until continuous and/or short-burst output ratings are entered.');
     return;
   }
 
-  const ranked = [...entries].sort((a, b) => b.watts - a.watts);
-  const testLoads = [load, ...new Set(entries.map(entry => entry.load)
-    .filter(testLoad => testLoad !== load).sort((a, b) => a - b))];
-
-  function nearestRating(testLoad, type) {
-    return ranked.filter(rating => rating.type === type && rating.load !== testLoad)
-      .sort((a, b) => Math.abs(a.load - testLoad) - Math.abs(b.load - testLoad) || a.load - b.load)[0];
+  if (noBurstInput) {
+    const note = addText('p',
+      'Burst-rating disclaimer: no short-burst wattage was entered. A continuous power rating is not a measured clipping limit for brief musical peaks. If the peak requirement is above continuous output, the result is Unverified, not a confirmed fail; the dB SPL boundary shown is only the continuous-rated level.');
+    note.className = 'sc-load-caution';
+  } else if (testLoads.some(testLoad => !chooseRating(testLoad, 'burst'))) {
+    addText('p', 'Short-burst ratings were not supplied at every load. Any continuous-only or projected result is qualified inside its load card.');
   }
 
-  function outcome(demand, watts, estimated) {
-    const passes = coversDemand(demand, watts);
-    if (passes) {
-      return (estimated ? 'Unverified · estimated ' : 'Pass · ')
-        + powerPercent(Math.max(0, 1 - demand / watts)) + ' in reserve';
-    }
-    return (estimated ? 'Unverified · needs about ' : 'Fail · needs ')
-      + powerPercent(demand / watts - 1) + ' more power';
-  }
+  if (anyProjection) addText('p',
+    'Estimated Performance uses the nearest entered load rating projected at unchanged output voltage (P = V² / R). This is not a verified amplifier test at that impedance; a lower impedance may demand more current than the amplifier can supply.');
 
-  const checks = testLoads.map(testLoad => {
-    const atLoad = ranked.filter(rating => rating.load === testLoad);
-    const continuous = atLoad.find(rating => rating.type === 'continuous');
-    const burst = atLoad.find(rating => rating.type === 'burst');
-    const nearbyContinuous = continuous ? null : nearestRating(testLoad, 'continuous');
-    const peakDemand = peakV ** 2 / testLoad;
-    const averageDemand = averageV === null ? null : averageV ** 2 / testLoad;
-    const basis = new Set();
-    const cells = [show(testLoad) + ' Ω' + (testLoad === load ? ' (speaker rating)' : ' (test load)')];
+  if (hasDefinitiveFailure) addText('p',
+    'A Fail marks an entered continuous or burst rating below the required power for that duration. The stated dB SPL boundary is a model estimate, not a measured clipping onset.');
+  else if (hasUnknown) addText('p',
+    'Unverified is not the same as Fail. More measured output-power and short-burst data are needed to establish the true limit.');
 
-    if (averageDemand !== null) {
-      if (continuous) {
-        cells.push(outcome(averageDemand, continuous.watts, false));
-      } else if (nearbyContinuous) {
-        basis.add(nearbyContinuous);
-        cells.push(outcome(averageDemand, sameVoltageWatts(nearbyContinuous, testLoad), true));
-      } else {
-        cells.push('Unverified · needs a continuous rating');
-      }
-    }
-
-    let missingBurst = false;
-    const peakRating = burst && (!continuous || burst.watts >= continuous.watts) ? burst : continuous;
-    if (peakRating && (burst || coversDemand(peakDemand, peakRating.watts))) {
-      cells.push(outcome(peakDemand, peakRating.watts, false));
-    } else {
-      const estimatedPeak = [nearestRating(testLoad, 'burst'), nearbyContinuous]
-        .filter(rating => rating && (!continuous || sameVoltageWatts(rating, testLoad) > continuous.watts))
-        .sort((a, b) => sameVoltageWatts(b, testLoad) - sameVoltageWatts(a, testLoad))[0];
-
-      if (estimatedPeak) {
-        const watts = sameVoltageWatts(estimatedPeak, testLoad);
-        basis.add(estimatedPeak);
-        missingBurst = estimatedPeak.type === 'continuous' && !coversDemand(peakDemand, watts);
-        cells.push(missingBurst ? 'Unverified · above estimated continuous output' : outcome(peakDemand, watts, true));
-      } else if (continuous) {
-        missingBurst = true;
-        cells.push('Unverified · above continuous rating');
-      } else {
-        cells.push('Unverified · needs a power rating with a known duration');
-      }
-    }
-    return { testLoad, peakDemand, averageDemand, cells, basis, missingBurst };
-  });
-
-  addText('h3', 'Does your amp meet the goal?');
-  body.append(table(averageV === null ? ['Impedance', 'Short peaks'] : ['Impedance', 'Average level', 'Short peaks'], checks.map(check => check.cells)));
-
-  const openChecks = checks.filter(({ cells }) => cells.slice(1).some(cell => !cell.startsWith('Pass')));
-  if (openChecks.length) {
-    addText('h3', 'What to look for');
-    for (const check of openChecks) addText('p', powerTarget(check.testLoad, check.peakDemand, check.averageDemand));
-    if (openChecks.some(check => check.testLoad !== load)) {
-      addText('p', 'Use the other test-load targets where those impedances are relevant to your speakers.');
-    }
-  }
-  const ampModel = field('ampModel').value.trim();
-  if (ampModel && checks[0].cells.slice(1).some(cell => cell.startsWith('Unverified'))) {
-    addText('p', '').append(searchLink('Find an amplifier test at ' + show(load) + ' Ω', ampModel, show(load) + ' ohm continuous and burst power bench test'));
-  }
-  if (checks.some(check => check.missingBurst)) {
-    addText('p', 'An amp may deliver more power for a short burst. To check peaks above its continuous output, look for a burst rating at that impedance.');
-  }
-  if (checks.some(check => check.basis.size)) {
-    addText('h3', 'What the estimates use');
-    for (const { testLoad, basis } of checks) {
-      for (const rating of basis) {
-        const duration = rating.type === 'burst' ? 'burst' : 'continuous';
-        const origin = rating.sourceUrl ? 'The preset’s ' : 'Your entered ';
-        const estimate = addText('p', origin + show(rating.watts) + ' W into ' + show(rating.load) + ' Ω (' + duration + ') projects to about '
-          + show(sameVoltageWatts(rating, testLoad)) + ' W into ' + show(testLoad) + ' Ω if the amp maintains the same voltage.'
-          + (rating.conditions ? ' The entered test conditions were ' + rating.conditions.replace(/[.]+$/, '') + '.' : ''));
-        appendRatingSource(estimate, rating);
-      }
-    }
-    addText('p', 'An actual test at the target impedance is needed to verify those estimates. Lower impedances ask for more current and can make the amp reach its limit sooner.');
-  }
   if (entries.some(entry => entry.type === 'unknown')) {
-    addText('p', 'Give ratings with an unspecified duration a continuous or burst label to use them in this assessment.');
+    addText('p', 'Power ratings with an unspecified duration are not used in the verdict until labelled continuous or short-burst.');
   }
-  if (minimum < load && !entries.some(entry => entry.load <= minimum)) {
-    const lowLoadNote = addText('p', 'Your speaker dips to ' + show(minimum) + ' Ω. A lower-impedance amp test would help check those peaks.');
-    if (ampModel) lowLoadNote.append(' ', searchLink('Find a lower-load bench test', ampModel, show(minimum) + ' ohm amplifier power bench measurements'));
+  if (minimum > 0 && minimum < load && !entries.some(entry => entry.load <= minimum)) {
+    const ampModel = field('ampModel').value.trim();
+    const note = addText('p', 'Your speakers dip to ' + show(minimum) + ' Ω. A lower-load bench test would help assess real current demand, independent of the nominal-load comparison above.');
+    if (ampModel) note.append(' ', searchLink('Find a lower-load amp test', ampModel,
+      show(minimum) + ' ohm amplifier power bench measurements'));
   }
-  addText('p', 'Reserve is a percentage of rated or estimated amplifier power.');
+  addText('p', 'Headroom is 10 log₁₀(available watts ÷ required watts) in dB. The percentage is the fraction of available power unused: 100 × (1 − required ÷ available). A negative percentage means more power is needed, not negative physical power.');
 }
 
 function calculate() {
@@ -489,7 +596,7 @@ function calculate() {
   const rows = [[db(peak) + ' dB peak', show(peakW) + ' W', show(peakV) + ' V', show(peakV / load) + ' A']];
   if (averageV !== null) rows.unshift([db(average) + ' dB average', show(averageW) + ' W', show(averageV) + ' V', show(averageV / load) + ' A']);
   status.textContent = mode === 'upgrade' ? 'Here’s the output to look for at your seat.' : 'Here’s what your speakers ask for at your seat.';
-  summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW });
+  summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average });
   if (minimum > 0) {
     const hz = num('minimumHz');
     const phase = num('phase');
