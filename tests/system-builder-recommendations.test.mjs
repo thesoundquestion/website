@@ -7,7 +7,7 @@ const defaults = {architecture:'open',useCase:'living_room',goal:'all_rounder',
   budget:null,budgetStrict:true,used:true,distanceFt:8};
 
 test('named catalog is an editorial shortlist, not a scored ranking',()=>{
-  assert.ok(EXAMPLES.length>=10);
+  assert.equal(EXAMPLES.length,12);
   assert.ok(EXAMPLES.every(x=>x.title && x.why && x.tradeoff && x.parts.length && x.parts.every(p=>p.name&&p.count>0)));
   assert.ok(EXAMPLES.every(x=>x.parts.filter(p=>p.url).every(p=>p.url.startsWith('https://'))));
   assert.ok(EXAMPLES.every(x=>!('matchScore' in x)&&!('soundQualityScore' in x)));
@@ -76,4 +76,17 @@ test('no example certifies a full price or real-world compatibility',()=>{
   const x=shortlistExamples({...defaults});
   assert.ok(x.selected.every(i=>i.pricingStatus==='partial_subtotal'||i.pricingStatus==='regional_price_missing'));
   assert.ok(x.selected.every(i=>!('electricallyVerified' in i)));
+});
+
+test('battery-required open search presents battery event options rather than mains stereo gear',()=>{
+  const x=shortlistExamples({...defaults,architecture:'open',power:'battery',useCase:'outdoors'});
+  assert.ok(x.selected.length);
+  assert.ok(x.selected.every(i=>i.architecture==='party_pa'&&i.power==='battery'));
+});
+test('imaging and bass priorities lead to different example sets without match scores',()=>{
+  const imaging=shortlistExamples({...defaults,goal:'imaging'});
+  const bass=shortlistExamples({...defaults,goal:'bass'});
+  assert.notEqual(imaging.selected[0].id,bass.selected[0].id);
+  assert.ok(imaging.selected.every(i=>!('matchScore' in i)));
+  assert.ok(bass.selected.every(i=>!('matchScore' in i)));
 });
