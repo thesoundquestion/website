@@ -154,4 +154,6 @@ test('speaker catalogue carries power-source provenance and preserves unknown vi
   assert.equal(exact('KEF Q1 Meta').speakerRecommendedAmpMax,150);
   assert.equal(exact('KEF Q150').speakerPowerContinuous,undefined);
   assert.equal(exact('JBL L100 Classic').speakerRecommendedAmpMax,200);
+  assert.equal(exact('JBL L100 Century (original)').speakerPowerContinuous,50);
+  assert.equal(exact('Polk Signature Elite ES60').speakerRecommendedAmpMax,300);
 });

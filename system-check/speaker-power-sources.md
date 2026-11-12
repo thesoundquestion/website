@@ -1,6 +1,6 @@
 # Speaker power handling provenance, 2026-11-11
 
-48 of 59 speaker presets now include model-specific published speaker-power information (including explicitly labelled amplifier recommendations and secondary vintage transcriptions). Definitions are kept separate. Each augmented preset in `system-check/gear.js` carries its source URL, original-spec description and numeric values.
+50 of 59 speaker presets now include model-specific published speaker-power information (including explicitly labelled amplifier recommendations and secondary vintage transcriptions). Definitions are kept separate. Each augmented preset in `system-check/gear.js` carries its source URL, original-spec description and numeric values.
 
 Field meanings:
 - `speakerPowerContinuous`: **explicitly** published speaker continuous handling. Compare to long-term / average electrical demand; a peak beyond it is not automatic damage.
@@ -67,3 +67,7 @@ The site now autofills **available** categories rather than insisting on continu
 - **Polk Reserve R200**: speakerRecommendedAmpMax=200; source: https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/reserve-r200/300029.html; note: Polk Reserve R200 product specifications recommend amplifier power 30–200 W; this is not speaker continuous or peak handling.
 - **Polk Signature Elite ES15**: speakerRecommendedAmpMax=100; source: https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es15/300363-new.html; note: Polk ES15 product specifications recommend amplifier power 20–100 W; the maximum recommended amplifier wattage is not a speaker handling limit.
 - **Polk Signature Elite ES20**: speakerRecommendedAmpMax=125; source: https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es20/300364-01-00-005.html; note: Polk ES20 product specifications recommend amplifier power 20–125 W; separate from speaker input handling.
+
+## Additional 2026-11-12 model-specific sources
+- Original JBL L100 Century: 50 W continuous **program** capacity in the factory manual; not L100 Classic/MkII and not a pure sine-wave rating. https://support.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw06bf89c3/pdfs/L100%20CENTURY%5EJBL%5Eom%5E%5E%5E%5E.pdf
+- Polk Signature Elite ES60: 50–300 W suitable amplification; only 300 W *recommended amplifier maximum* is populated. https://www.polkaudio.com/en-ca/product/home-speakers/floor-standing/signature-elite-es60/300369-03-00-005.html

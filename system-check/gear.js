@@ -272,7 +272,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 91.2,
         "basis": "power",
-        "load": 8
+        "load": 8,
+        "speakerPowerContinuous": 50,
+        "speakerPowerSource": "https://support.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw06bf89c3/pdfs/L100%20CENTURY%5EJBL%5Eom%5E%5E%5E%5E.pdf",
+        "speakerPowerNote": "Original JBL L100 Century manual: 50 W continuous PROGRAM capacity, based on a programme-like test signal; not an amplifier recommendation, sine-wave rating or current L100 Classic rating."
       },
       "note": "JBL lists 78 dB at 1 W / 15 ft. The 91.2 dB preset is an estimate at 3.28 ft using free-field distance loss.",
       "url": "https://support.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw06bf89c3/pdfs/L100%20CENTURY%5EJBL%5Eom%5E%5E%5E%5E.pdf"
@@ -654,7 +657,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 90,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerRecommendedAmpMax": 300,
+        "speakerPowerSource": "https://www.polkaudio.com/en-ca/product/home-speakers/floor-standing/signature-elite-es60/300369-03-00-005.html",
+        "speakerPowerNote": "Polk Signature Elite ES60 recommends 50–300 W/channel amplification. The 300 W figure is amplifier guidance, not speaker continuous handling."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Polk lists compatibility with 4 Ω and 8 Ω amplifier outputs. The preset uses 8 Ω as a calculation reference.",
       "url": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw08b8483e/downloads/Polk_Infosheet_ES50-ES55-ES60_759558.pdf"
