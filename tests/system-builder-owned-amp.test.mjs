@@ -123,3 +123,19 @@ test('website report routes owned amplifier without selected speakers to targete
   assert.match(app,/speakerFocus \? 'Speakers for your '/);
   assert.match(app,/if \(item\.loadCaution\)/);
 });
+
+test('owned amp does not silently claim HDMI, USB or optical support',()=>{
+  for (const connection of ['hdmi','usb','optical','bluetooth']) {
+    const x=shortlistSpeakersForOwnedAmplifier({...defaults,connection});
+    assert.ok(x.selected.length);
+    assert.ok(x.selected.every(s=>/may be required/.test(s.sourceCaution)));
+    assert.ok(x.selected.every(s=>s.connectionStatus==='owned_amp_source_unverified'));
+  }
+});
+
+test('UI explains when an explicitly selected architecture cannot reuse the owned amp',()=>{
+  const app=src('../system-builder/app.mjs');
+  assert.match(app,/!own.speaker.name && !speakerFocus/);
+  assert.match(app,/Choose “Passive speakers + separate amp”/);
+  assert.match(app,/if (item.sourceCaution)/);
+});
