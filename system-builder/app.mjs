@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shortlist = shortlistExamples({
       architecture:arch, useCase, goal:primary, level:String(data.get('level')),
       distanceFt, power:powered, connection:String(data.get('connection')),
+      secondary:extras.filter(x=>x.checked&&x.value!==primary).map(x=>x.value),
       region:String(data.get('region')), currency,
       budget:Number.isFinite(budget) ? budget : null,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
@@ -214,6 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(card,'p',item.why);
       if (!item.editorialGoalFocus)
         addText(card,'p','This is a contrasting architecture or budget example, not a model specifically validated for your main listening priority.','sb-help');
+      if (item.secondaryFocus.length)
+        addText(card,'p','Also relevant to your other interests: '+item.secondaryFocus.map(x=>GOALS[x]?.label||x).join(', ')+'. This is editorial use-case relevance, not an acoustic test result.','sb-help');
       const partList = el('ul','sb-buy-parts');
       for (const part of item.parts) {
         const li = el('li');
