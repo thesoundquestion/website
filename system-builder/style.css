@@ -142,3 +142,8 @@
 .sb-new-comparison>p,.sb-new-comparison>ul{font-size:.81rem;line-height:1.5}
 
 .sb-card-preference{font-size:.78rem;line-height:1.43;color:#b4d8ec;margin:.3rem 0}
+
+/* Model-specific amplifier/headroom evidence, distinct from speaker sound. */
+.sb-card-power,.sb-card-thd,.sb-card-review{font-size:.78rem;line-height:1.46;margin:.35rem 0;color:#c7e1ed}
+.sb-card-power strong,.sb-card-thd strong,.sb-card-review strong{color:#e1f5ff}
+.sb-card-review{color:#aecfe2}
