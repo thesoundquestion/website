@@ -1,4 +1,5 @@
 import {ownerEvidenceFor, ownerEvidenceTier} from './owner-evidence.mjs';
+import {priceContextFor} from './market-price-context.mjs';
 
 /**
  * Speaker-only options when a visitor owns an amplifier but no speakers.
@@ -22,9 +23,9 @@ export const SPEAKER_IDEAS = Object.freeze([
    downside:'Horn design is a preference/trade-off, not a guaranteed imaging or clarity improvement. Factory sensitivity is room-referenced and is not directly comparable to other anechoic figures.',
    ca:{amount:549,url:'https://www.klipsch.ca/products/r-50m-bookshelf-speakers'}},
   {model:'Paradigm Monitor SE Atom', goals:['all_rounder','natural','imaging','low_volume'], scenes:['desk','bedroom','living_room'],
-   reason:'A familiar Canadian passive bookshelf option with documented anechoic and in-room sensitivity figures; examine its compact-room suitability.',
-   downside:'Actual impedance minimum and high-level compression are not established by this preset. Budget for stands or shelf placement.',
-   ca:null},
+   reason:'A compact Canadian passive stereo pair with multiple Canadian regular retail price references and a straightforward small-room use case.',
+   downside:'Maximum clean output and complete reactive impedance are not established here. Check space for stands, placement and actual listening level.',
+   ca:{amount:359.99,url:'https://www.soundroom.ca/products/monitor-se-atom'}},
   {model:'ELAC Debut 3.0 DB63', goals:['bass','dynamic','all_rounder','natural'], scenes:['bedroom','living_room'],
    reason:'A newer 6.5-inch passive design with a published 6 Ω nominal load and factory 4.8 Ω minimum; use these real figures for amplifier screening.',
    downside:'A 4.8 Ω minimum can make it inappropriate for 8 Ω-only amplifier requirements; do not use a burst-power figure as load permission.',
@@ -114,6 +115,10 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     const sceneA=x?.scenes.includes(scene)?0:1;
     const sceneB=y?.scenes.includes(scene)?0:1;
     if(sceneA!==sceneB)return sceneA-sceneB;
+    const budgetUsedFirst=allowedUsed && Number.isFinite(budget) && budget>0 && budget<260 && region==='CA' && currency==='CAD';
+    const usedA=budgetUsedFirst && x?.usedOnly && priceContextFor(a,region,currency)?.usedExampleRange ? 0 : 1;
+    const usedB=budgetUsedFirst && y?.usedOnly && priceContextFor(b,region,currency)?.usedExampleRange ? 0 : 1;
+    if(usedA!==usedB)return usedA-usedB;
     const ownerA=ownerEvidenceTier(a,goal);
     const ownerB=ownerEvidenceTier(b,goal);
     if(ownerA!==ownerB)return ownerA-ownerB;
@@ -138,6 +143,7 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     }
     const priced=region==='CA'&&currency==='CAD'&&idea.ca;
     const subtotal=priced?idea.ca.amount:null;
+    const marketContext=priceContextFor(model,region,currency);
     if(firm && budget!==null && subtotal!==null && subtotal>budget) {
       excluded.push({title:model,reason:'Speaker-pair observed price exceeds the firm budget. Owned amplifier adds zero purchase cost.'});continue;
     }
@@ -156,6 +162,8 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       tradeoff:idea.downside,
       parts:[{name:model+' stereo pair',count:1,role:'Only new major component; keep your '+screen.ampName+' if verified suitable',url:record.url}],
       priceComponents:priced?[{label:model+' pair',amount:subtotal,url:idea.ca.url}]:[],
+      marketContext,
+      usedExampleRange:idea.usedOnly && allowedUsed ? marketContext?.usedExampleRange || null : null,
       subtotal,
       pricingStatus:subtotal===null?'regional_price_missing':'partial_subtotal',
       sourceDate:'2026-11-12',
