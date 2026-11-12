@@ -230,6 +230,32 @@ document.addEventListener('DOMContentLoaded', () => {
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
+      if (item.amplifierFit) {
+        const fitInfo=item.amplifierFit;
+        const p=el('p','sb-card-power');
+        addText(p,'strong','Power & headroom: ');
+        const handling=fitInfo.speaker;
+        const power=fitInfo.amp;
+        const load=power.exact ? power.watts+' W at '+power.ohms+' Ω' : 'no exact-load published watt figure';
+        const compared=handling.watts!==null && power.exact
+          ? ' vs. '+handling.watts+' W '+handling.label
+          : ' · no usable speaker power-handling comparison';
+        p.append(document.createTextNode(load+compared+'. Actual clean level needs System Check.'));
+        card.append(p);
+        const thd=el('p','sb-card-thd');
+        addText(thd,'strong','Distortion evidence: ');
+        thd.append(document.createTextNode(fitInfo.amp.distortionEvidence==='strong' ||
+          fitInfo.amp.distortionEvidence==='documented'
+          ? fitInfo.amp.thd+'% THD at rated power across 20 Hz–20 kHz; not an audible-quality score.'
+          : 'A comparable full-band low-distortion rating is not documented for this load.'));
+        card.append(thd);
+        if (fitInfo.context) {
+          const impression=el('p','sb-card-review');
+          addText(impression,'strong','Reviewer/lab context: ');
+          impression.append(document.createTextNode(fitInfo.context.text));
+          card.append(impression);
+        }
+      }
       const sound = soundProfileFor(item);
       // A speaker's listening profile must never be presented as the amplifier's
       // sound. Unknown owned-speaker profiles do not get a generic "Sound" card.
@@ -274,6 +300,14 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(details,'h5','Why this amplifier: technical evidence and checks');
         list(details,item.amplifierEvidence);
         if (item.amplifierSource) link(details,item.amplifierSource,'Published amplifier specifications');
+        if (item.amplifierFit?.speaker?.source)
+          link(details,item.amplifierFit.speaker.source,'Published speaker power specification');
+        if (item.amplifierFit?.context) {
+          addText(details,'h5','Model-specific listening reports, not a brand sound signature');
+          addText(details,'p',item.amplifierFit.context.tier,'sb-card-reference');
+          for (const report of item.amplifierFit.context.sources)
+            link(details,report.url,report.label);
+        }
       }
       if (showSound) {
         addText(details,'h5',item.soundTarget ? 'Your speaker’s sound: evidence' : 'Sound description: evidence');
