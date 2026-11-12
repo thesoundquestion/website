@@ -1,5 +1,6 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {shortlistExamples} from './recommendations.mjs';
+import {shortlistSpeakersForOwnedAmplifier} from './owned-amp-speakers.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -179,12 +180,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Actual named equipment comes first. Each card is an editorial starting point,
     // never an automatic compatibility certification or a regional value winner.
-    const shop = section('A few options worth a look');
+    const speakerFocus = !!own.amp.name && !own.speaker.name &&
+      (arch === 'open' || arch === 'passive_separates') && powered !== 'battery' &&
+      useCase !== 'party' && primary !== 'party';
+    const shop = section(speakerFocus ? 'Speakers for your ' + own.amp.name : 'A few options worth a look');
     if (anyOwned && data.has('keepWorking')) {
       const keep = el('div','sb-keep-inline');
       const ownedNames = Object.values(own).filter(x=>x.name).map(x=>x.name);
-      addText(keep,'strong','Before you buy: consider keeping your gear');
-      addText(keep,'p',ownedNames.join(' · '));
+      addText(keep,'strong',speakerFocus ? 'Keep your amplifier. Add speakers.' : 'Before you buy: consider keeping your gear');
+      addText(keep,'p',speakerFocus ? own.amp.name + ' is already owned and adds $0 to your new speaker budget.' : ownedNames.join(' · '));
       const keepMore = el('details','sb-card-details');
       addText(keepMore,'summary','What should I check?');
       addText(keepMore,'p','Verify the amplifier/speaker load, source connection and clean listening level before replacing anything. Owning a component does not automatically make it suitable for every setup.');
@@ -193,14 +197,17 @@ document.addEventListener('DOMContentLoaded', () => {
       shop.append(keep);
     }
     const budget = budgetText ? Number(budgetText) : null;
-    const shortlist = shortlistExamples({
+    const request = {
       architecture:arch, useCase, goal:primary, level:String(data.get('level')),
       distanceFt, power:powered, connection:String(data.get('connection')),
       secondary:extras.filter(x=>x.checked&&x.value!==primary).map(x=>x.value),
       region:String(data.get('region')), currency,
       budget:Number.isFinite(budget) ? budget : null,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
-    });
+    };
+    const shortlist = speakerFocus
+      ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
+      : shortlistExamples(request);
     const priceFormat = value => value.toLocaleString('en-CA',{style:'currency',currency:'CAD'});
     const renderCard = item => {
       const card = el('article','sb-recommend sb-recommend-compact');
@@ -217,7 +224,9 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(card,'p',item.why,'sb-card-why');
 
       // Only material blockers and urgent caveats interrupt the skim view.
-      if (item.id === 'passive-rs202-p3')
+      if (item.loadCaution)
+        addText(card,'p',item.loadCaution,'sb-card-alert');
+      else if (item.id === 'passive-rs202-p3')
         addText(card,'p','Check speaker load: P3 minimum 4 Ω; R-S202 specifies 8 Ω+. Not a confirmed safe pairing.','sb-card-alert');
       else if (item.connectionStatus === 'adapter_needed')
         addText(card,'p','Your chosen source connection needs extra hardware.','sb-card-alert');
@@ -235,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(details,'p','An alternative approach for comparison, not a verified performance match to your main priority.');
       if (item.secondaryFocus.length)
         addText(details,'p','Also connects to: '+item.secondaryFocus.map(x=>GOALS[x]?.label||x).join(', ')+'. Not a measurement-based match.');
+      if (item.ownedAmpName) addText(details,'p','Amplifier already owned: '+item.ownedAmpName+' (no additional purchase price included). Speaker suitability remains conditional.','sb-card-reference');
       addText(details,'h5','Equipment and connections');
       const parts = el('ul','sb-buy-parts');
       for (const part of item.parts) {
@@ -288,9 +298,13 @@ document.addEventListener('DOMContentLoaded', () => {
         more.append(moreGrid);
         shop.append(more);
       }
-      addText(shop,'p','Illustrative options, not certified matches. Canadian amounts are dated component listings, not full system costs or typical market prices.','sb-brief-note');
+      addText(shop,'p',speakerFocus ?
+        'These are speaker-only candidates, not confirmed electrical matches. Listed CAD amounts cover a speaker pair only; your owned amplifier costs nothing extra. Check full impedance, cabling and listening level before buying.' :
+        'Illustrative options, not certified matches. Canadian amounts are dated component listings, not full system costs or typical market prices.','sb-brief-note');
     } else {
-      addText(shop,'p','No example meets the chosen architecture, power and known-price limits. Try a different route or investigate local used options.','sb-report-note');
+      addText(shop,'p',speakerFocus ?
+        'No speaker candidate from the current curated catalog passed the conservative load and known-price checks. Recheck the amplifier manual and your budget rather than assuming an unverified match.' :
+        'No example meets the chosen architecture, power and known-price limits. Try a different route or investigate local used options.','sb-report-note');
     }
     if (shortlist.excluded.length && budget !== null) {
       const excluded = el('details','sb-more');
