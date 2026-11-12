@@ -152,6 +152,7 @@ export function shortlistExamples(input = {}) {
   const region = String(input.region || '');
   const currency = String(input.currency || '');
   const used = input.used !== false;
+  const secondary = Array.isArray(input.secondary) ? input.secondary.filter(x=>typeof x==='string') : [];
   const selected = [], excluded = [];
   const targetArchitectures = arch === 'open' ?
     (scene === 'party' || aim === 'party' || neededPower ? ['party_pa'] : ['passive_separates','consumer_powered_pair','active_studio']) :
@@ -186,6 +187,7 @@ export function shortlistExamples(input = {}) {
     const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
     selected.push({ ...product, subtotal, priceComponents:snapshot?.components || [],
       editorialGoalFocus: product.goals.includes(aim),
+      secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
       pricingStatus: subtotal === null ? 'regional_price_missing' : 'partial_subtotal',
       connectionStatus: needsConnection ? 'adapter_needed' : 'native_possible',
       levelCaution:input.level === 'high' && ['powered-mr4','powered-ora'].includes(product.id),
