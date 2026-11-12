@@ -62,6 +62,52 @@ const amps=[
   {model:'WiiM Amp',inputs:['analog','optical']},
   {model:'Sony STR-DH190',inputs:['analog','bluetooth']}
 ];
+/**
+ * Explain an amplifier shortlist using actual catalog ratings and the visitor's
+ * owned speaker / connection / listening goal. Not a universal sound signature.
+ */
+export function explainAmplifierChoice({idea,record,speaker,request={}}) {
+  const nominal=speaker?.record?.values?.load;
+  const continuous=(record?.ratings||[]).filter(r=>Array.isArray(r)&&r[2]==='continuous'&&
+    Number.isFinite(r[0])&&Number.isFinite(r[1]));
+  const atNominal=Number.isFinite(nominal) ? continuous.find(r=>r[1]===nominal) : null;
+  const rated=atNominal||continuous[0]||null;
+  const ratingText=rated ? rated[0]+' W at '+rated[1]+' Ω (published continuous rating)' :
+    'no verified continuous power figure in our catalog';
+  const speakerText=Number.isFinite(nominal)?
+    speaker.name+' is listed as '+nominal+' Ω nominal' :
+    speaker.name+' has no validated nominal impedance in our catalog';
+  const connection=String(request.connection||'undecided');
+  const connections=Array.isArray(idea.inputs)?idea.inputs:[];
+  const sourceMatches=connection!=='undecided'&&connections.includes(connection);
+  const connectionNote=connection==='undecided' ?
+    'Your input/volume-control path still needs checking' :
+    sourceMatches ? 'Its catalogued '+connection+' input matches your requested connection type; verify the exact jack and signal level' :
+      'A native '+connection+' input is not documented in this shortlist; suitable external hardware may be needed';
+  const goalNotes={
+    dynamic:'For your dynamic-impact goal, this rating gives a headroom figure to investigate, not a clean-SPL guarantee',
+    bass:'For your bass goal, amplifier power alone cannot extend the speakers’ low-frequency response',
+    imaging:'For your imaging goal, room symmetry and speaker placement matter; these watt ratings cannot establish imaging quality',
+    natural:'For your natural-timbre goal, power and impedance specs do not prove a particular tonal character',
+    low_volume:'For quiet listening, hiss and low-volume channel balance need testing; higher wattage alone proves neither',
+    all_rounder:'For balanced listening, the key is a suitable load, source path and enough clean level rather than a brand sound signature',
+    party:'For high-output use, sustained output and coverage must be checked; a home stereo rating alone cannot establish event suitability'
+  };
+  const fit=goalNotes[request.goal]||goalNotes.all_rounder;
+  const summary='Keeps your '+speaker.name+'. '+idea.model+' has '+ratingText+
+    '; '+speakerText+'. '+connectionNote+'. This is a first-stage equipment match, not verified safe loading or clean output.';
+  const evidence=[
+    'Published rating: '+(rated ? rated[0]+' W at '+rated[1]+' Ω'+(rated[3]?' — '+rated[3]:'') :
+      'no verified comparable continuous power rating in the preset')+'.',
+    'Load basis: '+speakerText+'. Check the actual impedance minimum, phase and amplifier manual before connecting.',
+    'Source: '+connectionNote+'.',
+    'Preference: '+fit+'. No measurable sound signature or audible improvement is inferred from amplifier brand, type or power rating.'
+  ];
+  return {summary,evidence,source:record?.url||null,goalNote:fit,
+    ratingWatts:rated?.[0]??null,ratingOhms:rated?.[1]??null,
+    inputFit:connection==='undecided'?'unknown':sourceMatches?'listed':'requires_check'};
+}
+
 /** Speaker ownership requires shopping for an amp, not replacing the speakers. */
 export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={}) {
   const speaker=own.speaker||{};
@@ -82,14 +128,15 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     if(request.budgetStrict!==false&&Number.isFinite(request.budget)&&price!==null&&price>request.budget){
       excluded.push({title:idea.model,reason:'Known amplifier listing exceeds firm budget.'});continue;
     }
-    const message='Keep your '+speaker.name+' and consider '+idea.model+' as the missing amplifier. '+
-      'This is a preliminary electrical screen, not a verified impedance or sound-quality match.';
+    const rationale=explainAmplifierChoice({idea,record,speaker,request});
+    const message=rationale.summary;
     const used=['speaker'];const parts=[part(speaker,'Already owned; no new speaker purchase'),
       {name:idea.model,count:1,role:'Only new amplifier candidate, subject to verification',url:record.url}];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned source, connection check required'));}
     selected.push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       title:speaker.name+' + '+idea.model,kind:'Keep your speakers · add an amplifier',
       architecture:'passive_separates',soundTarget:speaker.name,why:message,
+      amplifierReason:rationale.summary,amplifierEvidence:rationale.evidence,amplifierSource:rationale.source,
       tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
       parts,subtotal:price,priceComponents:price===null?[]:[{label:idea.model,amount:price,url:idea.url}],
       pricingStatus:price===null?'regional_price_missing':'partial_subtotal',
