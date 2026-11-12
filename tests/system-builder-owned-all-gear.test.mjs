@@ -32,7 +32,8 @@ test('owned speakers without amplifier get amplifier-only candidates, not new sp
   assert.equal(r.mode,'keep_speakers');
   assert.ok(r.selected.some(x=>x.parts.some(p=>p.name==='Yamaha A-S301')));
   assert.ok(r.selected.every(x=>x.reuseNames.includes(SPEAKER.name)));
-  assert.ok(r.selected.every(x=>x.parts.every(p=>!p.role.includes('new speaker'))));
+  assert.ok(r.selected.every(x=>x.parts.some(p=>p.name===SPEAKER.name && p.role.includes('Already owned'))));
+  assert.ok(r.selected.every(x=>x.parts.every(p=>p.name===SPEAKER.name || !/speaker.*to purchase/i.test(p.role))));
   assert.ok(r.selected.every(x=>x.soundTarget===SPEAKER.name));
 });
 test('owned amplifier without speakers retains that amplifier in each named speaker option',()=>{
