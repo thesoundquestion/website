@@ -1,3 +1,5 @@
+import {ownerEvidenceFor, ownerEvidenceTier} from './owner-evidence.mjs';
+
 /**
  * Speaker-only options when a visitor owns an amplifier but no speakers.
  * This is editorial discovery, NOT a guarantee of impedance/current, headroom,
@@ -100,17 +102,34 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     low_volume:['Polk Signature Elite ES15','Paradigm Monitor SE Atom','DALI Oberon 1','Wharfedale Diamond 12.2','Polk Signature Elite ES20','Q Acoustics 3020i','KEF Q150','Klipsch R-50M','ELAC Debut 3.0 DB63','JBL Stage 250B','Paradigm Titan v3','ELAC Debut 2.0 B6.2']
   };
   const ids=goalsOrder[goal]||goalsOrder.all_rounder;
-  for(const model of ids) {
+  // Listener priorities and room come first. Among similarly suitable options,
+  // several relevant first-person owner accounts are more useful than an
+  // unverified claimed sound signature. No invented acoustic match score.
+  const ordered=[...ids].sort((a,b)=>{
+    const x=SPEAKER_IDEAS.find(v=>v.model===a);
+    const y=SPEAKER_IDEAS.find(v=>v.model===b);
+    const goalA=x?.goals.includes(goal)?0:1;
+    const goalB=y?.goals.includes(goal)?0:1;
+    if(goalA!==goalB)return goalA-goalB;
+    const sceneA=x?.scenes.includes(scene)?0:1;
+    const sceneB=y?.scenes.includes(scene)?0:1;
+    if(sceneA!==sceneB)return sceneA-sceneB;
+    const ownerA=ownerEvidenceTier(a,goal);
+    const ownerB=ownerEvidenceTier(b,goal);
+    if(ownerA!==ownerB)return ownerA-ownerB;
+    return ids.indexOf(a)-ids.indexOf(b);
+  });
+  for(const model of ordered) {
     const idea=SPEAKER_IDEAS.find(x=>x.model===model);
     const record=byModel.get(model);
     if(!idea || !record)continue;
     if(idea.usedOnly&&!allowedUsed)continue;
     const nominal=record.values?.load;
-    if(!Number.isFinite(nominal)) {
-      excluded.push({title:model,reason:'Published nominal impedance unavailable'});continue;
-    }
+    // Missing load information must not automatically prevent discovery.
+    // It does require a plainly visible do-not-connect-before-check warning.
+    const loadUnknown=!Number.isFinite(nominal);
     // Conservative screening; insufficient documentation never becomes "safe".
-    if(nominal<screen.discoveryFloor) {
+    if(!loadUnknown && nominal<screen.discoveryFloor) {
       excluded.push({title:model,reason:'Nominal load below the conservative amplifier search limit ('+screen.discoveryFloor+' Ω). Not a definitive safety determination.'});continue;
     }
     const minimum=record.values?.minimum;
@@ -123,7 +142,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       excluded.push({title:model,reason:'Speaker-pair observed price exceeds the firm budget. Owned amplifier adds zero purchase cost.'});continue;
     }
     if(selected.length>=5)break;
-    const caution=screen.explicitNominalFloor ?
+    const caution=loadUnknown ?
+      'This speaker’s nominal load is not verified. Do NOT connect to '+screen.ampName+' until its load and the amplifier manufacturer’s permission are confirmed.' :
+      screen.explicitNominalFloor ?
       'Your '+screen.ampName+' manufacturer load guidance still needs checking against the speaker’s full impedance curve; a nominal '+nominal+' Ω label is not a safety certificate.' :
       'Your amplifier has '+(screen.minPublishedTestOhms??'no verified')+' Ω published continuous-load test data; that is NOT a promise of compatibility with this speaker’s unknown phase/minimum or your volume.';
     selected.push({
@@ -150,7 +171,11 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       extra:[caution,'Check the exact speaker revision, nominal and minimum impedance, phase angle, and your amplifier manual before connecting.',
         'Speaker cable, source connectivity and any necessary stands are extra. No new amplifier has been included in the price.',
         'Use System Check to evaluate clean level at your actual listening position; manufacturer sensitivity figures may use different conventions.'],
-      loadCaution:screen.explicitNominalFloor?'Confirm load: '+screen.ampName+' requires suitable speakers; '+nominal+' Ω nominal alone does not prove a safe match.':null,
+      loadCaution:loadUnknown ?
+        'Load unknown: do not connect these speakers to '+screen.ampName+' until the manufacturer’s requirements are checked.' :
+        screen.explicitNominalFloor?'Confirm load: '+screen.ampName+' requires suitable speakers; '+nominal+' Ω nominal alone does not prove a safe match.':null,
+      ownerEvidenceLabel:ownerEvidenceFor(model)?.label || 'Model specifications; listening reports not verified',
+      ownerEvidenceBasis:ownerEvidenceFor(model)?.band || 'spec_led',
       ownedAmpName:screen.ampName,
       speakerValues:record.values
     });
