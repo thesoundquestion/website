@@ -45,6 +45,15 @@ The Decoder's 19 lessons include a compact tutor with prepared answers and local
 
 Maintain the [approved answers](assets/lesson-tutor/approved-answers.json) alongside the lessons. Run the [tutor tests](deployment/lesson-tutor/README.md#verification) when changing lesson specifications, example IDs or anchors. The [development handoff](deployment/lesson-tutor/README.md) covers editorial changes, privacy, operating limits and the optional Cloudflare Workers AI setup.
 
+## Audiophile Decoder: spatial visual comparisons (11 November 2026)
+
+The listening glossary at `/decoder/audiophile-glossary/` now includes a **Visual listening glossary** directly after the search section, showing an unchanged stereo room and an illustrated ghost band in contrasting examples. Five accessible comparison topics: **narrow/wide soundstage**, **diffuse/precise imaging**, **crowded/clear separation**, **flat/layered depth**, and **forward/laid-back presentation**.
+
+- Ten **original, locally hosted SVG illustrations** are in `assets/glossary-visuals/`; no third-party image embeds, licensing or paid services. SVG images have their own text alternative via page <img> alt and an SVG description.
+- `assets/audiophile-glossary.js` progressively enhances five comparisons into a compact selector with `aria-pressed`, term-specific deep links and glossary-search synchronization. Without JavaScript, all five comparisons remain visible and the existing 32 glossary definitions/search semantics are preserved.
+- `assets/audiophile-glossary.css` supplies mobile-friendly two-image cards that stack on smaller screens. Leave the original typography and causes sections intact. Avoid using visual proximity, blurring or size as proof that an amplifier caused the perception: the figures illustrate language, not verified acoustical measurements.
+- Direct illustration links appear on **soundstage, imaging, separation, congestion, holographic, forward, laid-back** entries. Keep link destinations and tab IDs aligned if adding or renaming scenes. Regression tests are in `tests/glossary-visuals.test.mjs` (run `node --test tests/glossary-visuals.test.mjs`).
+
 ## Brand direction (November 2026)
 
 **The Sound Question: From the microphone to your ears.** The website is a beginner-first guide to the complete music and audio journey: performance, capture, mixing, mastering, formats, sources and conversion, amplification, speakers/headphones, rooms, hearing and personal preferences. Not every recording begins with a microphone or follows one identical signal path. The homepage and `journey/` provide the broad map; `decoder/` remains the dedicated equipment-specification teaching tool, and `library/` publishes supporting materials and reviewed downloads.
