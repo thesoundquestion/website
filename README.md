@@ -242,3 +242,6 @@ The embedded Google CSE removal inadvertently also removed `searchLink()`, which
 
 ### System Check amplifier distortion audit and output qualification (2026-11-12)
 System Check now surfaces the exact published THD/THD+N test conditions in the primary result, including the difference between a one-frequency and a stated multi-frequency power rating. It does **not** infer listening-level distortion or clipping from a power rating. Four catalogued amplifiers now link to genuine independent published measurement material; numeric curve points remain blank until a compatible verified measurement series is available. See `system-check/AMPLIFIER_DISTORTION_RESEARCH_2026_11_12.md`.
+
+### Amplifier model input presets (2026-11-12)
+Entering an exact catalogued amplifier model now selects its existing preset, including published power ratings, stated THD test conditions and any independent laboratory reading link. Approximate/partial names or unknown revisions do not select another model. On leaving a match, untouched catalogue-sourced power rows and electrical values are cleared, while visitor-edited rows and values are preserved. All 42 amplifier presets currently have **no verified numeric distortion-versus-power points**; this remains intentionally unpopulated.

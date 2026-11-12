@@ -813,20 +813,29 @@ function mountGearPresets(catalog) {
       const gear = select.value === '' ? null : options[Number(select.value)];
       note.replaceChildren();
       if (!gear) {
-        if (kind === 'speaker') {
-          // Clearing an autofilled preset must not leave old speaker specs on a new model.
-          // Keep fields which visitors have edited themselves.
-          for (const name of presetFields.speaker) {
+        if (kind === 'speaker' || kind === 'amp') {
+          // Keep manually edited values when a model is changed or cleared.
+          for (const name of presetFields[kind]) {
             const input = field(name);
             const stored = input.dataset.presetValue;
             if (stored !== undefined && input.value === stored) {
-              input.value = name === 'basis' ? 'voltage' : '';
+              input.value = name === 'basis' ? 'voltage' : name === 'curveType' ? 'THD+N' : '';
             }
             delete input.dataset.presetValue;
             delete input.dataset.powerSourceUrl;
           }
-          const provenance = document.querySelector('#speaker-power-provenance');
-          if (provenance) provenance.textContent = 'No saved power specification selected. Enter published values for the exact speaker model; unknown categories remain blank.';
+          if (kind === 'speaker') {
+            const provenance = document.querySelector('#speaker-power-provenance');
+            if (provenance) provenance.textContent = 'No saved power specification selected. Enter published values for the exact speaker model; unknown categories remain blank.';
+          } else {
+            // Only catalogue-sourced rows are removed, not manually edited ratings.
+            for (const row of Array.from(ratings.children)) {
+              if (row.dataset.sourceUrl) row.remove();
+            }
+            if (!ratings.children.length) addRating();
+            const panel = document.querySelector('#amp-distortion-research');
+            if (panel) panel.textContent = 'No amplifier preset selected. Enter verified test values manually; published THD limits are not measured distortion curves.';
+          }
         }
         return;
       }
@@ -834,7 +843,7 @@ function mountGearPresets(catalog) {
         const fallback = name === 'basis' ? 'voltage' : name === 'curveType' ? 'THD+N' : '';
         const control = field(name);
         control.value = gear.values?.[name] ?? fallback;
-        if (kind === 'speaker') control.dataset.presetValue = control.value;
+        if (kind === 'speaker' || kind === 'amp') control.dataset.presetValue = control.value;
       }
       if (kind === 'speaker') {
         const powerNote = document.querySelector('#speaker-power-provenance');
@@ -913,9 +922,9 @@ function mountGearPresets(catalog) {
       note.append(' · ', compare);
     });
 
-    if (kind === 'speaker') {
-      const modelInput = field('speakerModel');
-      const suggestions = document.querySelector('#speaker-model-suggestions');
+    if (kind === 'speaker' || kind === 'amp') {
+      const modelInput = field(kind + 'Model');
+      const suggestions = document.querySelector(kind === 'speaker' ? '#speaker-model-suggestions' : '#amp-model-suggestions');
       if (suggestions) {
         suggestions.replaceChildren(...options.map(gear => new Option(gear.model, gear.model)));
       }
@@ -947,8 +956,10 @@ function mountGearPresets(catalog) {
 }
 
 // Distinguish a visitor-edited value from one copied out of a saved preset.
-for (const name of presetFields.speaker) {
-  field(name).addEventListener('input', () => delete field(name).dataset.presetValue);
+for (const kind of ['speaker', 'amp']) {
+  for (const name of presetFields[kind]) {
+    field(name).addEventListener('input', () => delete field(name).dataset.presetValue);
+  }
 }
 
 for (const name of speakerPowerFields) {
