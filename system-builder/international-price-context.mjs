@@ -67,8 +67,8 @@ export const INTERNATIONAL_PAIR_PRICE_OBSERVATIONS=Object.freeze({
 });
 const CURRENCY=Object.freeze({US:'USD',GB:'GBP'});
 function hostname(url) {
-  try {return new URL(url).hostname.replace(/^www\./,'').toLowerCase();}
-  catch {return '';}
+  const match=/^https?:\/\/([^/?#]+)/i.exec(String(url||''));
+  return match ? match[1].replace(/^www\./,'').toLowerCase() : '';
 }
 export function internationalPriceContextFor(model,region,currency){
   if(CURRENCY[region]!==currency)return null;
