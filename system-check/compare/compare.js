@@ -43,8 +43,11 @@ const equipment = {
       ['sourceConnection', 'Output connection', 'select', [['RCA', 'RCA'], ['XLR', 'XLR'], ['3.5 mm', '3.5 mm'], ['Other', 'Other']]],
       ['sourceSnr', 'Signal-to-noise ratio', 'text', 'dB and test conditions'],
       ['sourceThdn', 'THD+N', 'text', '% and test conditions'],
+      ['deviceType', 'Device type / computer connection', 'text', 'e.g. PCIe sound card or USB DAC'],
+      ['dacDynamicRange', 'Stereo DAC dynamic range (DNR)', 'text', 'dB and measurement conditions'],
+      ['outputChannels', 'Analogue channel support', 'text', 'e.g. stereo or 5.1'],
       ['converter', 'DAC chip / converter architecture', 'text', 'e.g. AK4493SEQ'],
-      ['digitalInputs', 'Digital inputs and streaming', 'text', 'e.g. USB / optical / coaxial'],
+      ['digitalInputs', 'Digital connections and streaming', 'text', 'e.g. USB / optical / coaxial'],
       ['pcmUSB', 'PCM support via USB', 'text', 'e.g. 24-bit / 192 kHz'],
       ['pcmPCIe', 'PCM / DAC via PCIe computer audio', 'text', 'e.g. 24-bit / 96 kHz RCA output'],
       ['pcmSpdif', 'PCM via optical/coax', 'text', 'e.g. 24-bit / 96 kHz'],
@@ -228,14 +231,18 @@ function dacMeasurement(value) {
 
 function sourceRows(devices) {
   addSection('Conversion, digital formats and connectivity');
+  rowOfSpecs('Device type / interface', devices, 'deviceType');
   rowOfSpecs('DAC converter / architecture', devices, 'converter');
-  rowOfSpecs('Digital inputs / streaming', devices, 'digitalInputs');
+  rowOfSpecs('Analogue output channels', devices, 'outputChannels');
+  rowOfSpecs('Digital connections / streaming', devices, 'digitalInputs');
   rowOfSpecs('PCM via USB', devices, 'pcmUSB');
   if (devices.some(({ values }) => values.pcmPCIe)) rowOfSpecs('PCM / DAC via PCIe audio', devices, 'pcmPCIe');
   rowOfSpecs('PCM via optical / coaxial', devices, 'pcmSpdif');
   rowOfSpecs('DSD input support', devices, 'dsd');
-  addSection('Analogue output and measured performance');
+  addSection('Analogue output and published performance');
   rowOfSpecs('Analogue frequency response', devices, 'analogResponse');
+  if (devices.some(({ values }) => values.dacDynamicRange)) addRow('DAC dynamic range (DNR)', devices.map(({ values }) => dacMeasurement(values.dacDynamicRange)));
+
   const values = devices.map(device => device.values);
   const voltage = values.map(spec => spec.sourceVoltage);
   addRow('Line output connection', values.map(spec => spec.sourceConnection || missing));
@@ -247,7 +254,7 @@ function sourceRows(devices) {
   addRow('Signal-to-noise ratio', values.map(spec => dacMeasurement(spec.sourceSnr)));
   addRow('THD+N', values.map(spec => dacMeasurement(spec.sourceThdn)));
   const connectionMatches = values[0].sourceConnection && values[0].sourceConnection === values[1].sourceConnection;
-  const conditions = 'Digital format support describes compatibility, not effective analogue resolution or audible quality. Compare noise and distortion when output, signal level, bandwidth and weighting match.';
+  const conditions = 'Digital format support describes compatibility, not effective analogue resolution or audible quality. Manufacturer DAC dynamic range (DNR), whole-card SNR and measured analogue-output SNR may use different test conditions and should not be treated as the same figure. Compare noise and distortion only when output, signal level, bandwidth and weighting match.';
   if (!connectionMatches || voltage.some(value => !(value > 0))) return conditions;
   const difference = Math.abs(20 * Math.log10(voltage[0] / voltage[1]));
   if (difference < .05) return 'The listed full-scale voltages match. ' + conditions;
@@ -280,7 +287,7 @@ function currentDevice(index) {
     const preset = systemCheckGear[kind].find(device => device.model === selection.model);
     if (!preset) return undefined;
     const details = detailFor(kind, preset.model);
-    return { ...preset, values: { ...preset.values, ...details }, detailedReference: details.reference, secondReference: details.secondReference, detailNote: details.detailNote, reviewStatus: details.reviewStatus, reviewedOn: details.reviewedOn };
+    return { ...preset, values: { ...preset.values, ...details }, detailedReference: details.reference, secondReference: details.secondReference, thirdReference: details.thirdReference, detailNote: details.detailNote, reviewStatus: details.reviewStatus, reviewedOn: details.reviewedOn };
   }
   const { name, watts, duration, conditions, ...values } = selection.values;
   const ratings = watts > 0 && values.load > 0 ? [[watts, values.load, duration || 'unknown', conditions ?? '']] : [];
@@ -298,6 +305,7 @@ function deviceLinks(device) {
   if (device.url) notes.append(linkedText('Preset source', device.url, true));
   if (device.detailedReference && device.detailedReference !== device.url) notes.append(linkedText('Detailed specifications', device.detailedReference, true));
   if (device.secondReference) notes.append(linkedText('Additional specification reference', device.secondReference, true));
+  if (device.thirdReference) notes.append(linkedText('Converter-chip identification reference', device.thirdReference, true));
   if (device.detailNote) notes.append(withCondition('', device.detailNote));
   if (device.extra) notes.append(linkedText(device.extra[0], device.extra[1], true));
   if (device.url && kind !== 'headphone') {

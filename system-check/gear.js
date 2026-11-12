@@ -1687,6 +1687,87 @@ const systemCheckGear = {
   ],
   "source": [
     {
+      "model": "ASUS Xonar Essence STX II (RCA)",
+      "values": {
+        "sourceVoltage": 2,
+        "sourceConnection": "RCA",
+        "sourceSnr": [
+          "124 dB",
+          "A-weighted, front RCA output (ASUS manual)"
+        ],
+        "sourceThdn": [
+          "0.0003%",
+          "Front RCA output; 1 kHz, −3 dB (ASUS manual)"
+        ]
+      },
+      "url": "https://dlcdnets.asus.com/pub/ASUS/Audio_Card/Essence_STX_II/E9122_Essence_STX_II_User_Manual.pdf",
+      "note": "Essence STX II stereo PCIe card, not original STX or STX II 7.1 with additional daughterboard. 2 V RMS front RCA, TI PCM1792A. Headphone 7 V figure does not apply to RCA line-out. Molex power required."
+    },
+    {
+      "model": "ASUS Xonar SE (front 3.5 mm)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceSnr": [
+          "116 dB",
+          "ASUS published SNR; output and weighting unspecified"
+        ],
+        "sourceThdn": [
+          "0.00251%",
+          "ASUS published card THD+N; test conditions unspecified"
+        ]
+      },
+      "url": "https://www.asus.com/us/motherboards-components/sound-cards/all-series/xonar-se/techspec/",
+      "note": "ASUS Xonar SE 5.1 PCIe, not Essence. Realtek S1220A codec, Cmedia 6620A processor. ASUS also lists 2 V RMS HEADPHONE output: not treated as line output voltage."
+    },
+    {
+      "model": "Creative Sound Blaster AE-7 (front 3.5 mm)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceThdn": [
+          "0.0001%",
+          "Creative stereo DAC published THD+N"
+        ]
+      },
+      "url": "https://support.creative.com/kb/ShowArticle.aspx?sid=200208",
+      "note": "AE-7 SB1800 front stereo output via 3.5 mm. ESS9018K2M on front stereo, Sound Core3D DAC on surround. 1 Ω published figure is for headphones, NOT front line out."
+    },
+    {
+      "model": "Creative Sound Blaster AE-9 (RCA front out)",
+      "values": {
+        "sourceConnection": "RCA",
+        "sourceThdn": [
+          "0.0001%",
+          "Creative stereo DAC THD+N; check manufacturer conditions"
+        ]
+      },
+      "url": "https://ca.creative.com/p/sound-blaster/sound-blaster-ae-9",
+      "note": "AE-9 front stereo RCA line output (not the headphone jacks on its Audio Control Module). External 6-pin PCIe power is required for the control module; RCA output voltage/impedance not verified."
+    },
+    {
+      "model": "Creative Sound Blaster Audigy Rx (front 3.5 mm)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceSnr": [
+          "106 dB",
+          "Creative model-wide published SNR, output/test basis unspecified"
+        ]
+      },
+      "url": "https://support.creative.com/kb/ShowArticle.aspx?sid=120331",
+      "note": "PCIe Audigy Rx SB1550 with shared front/headphone 3.5 mm output. Not Audigy Fx. No reliable separate front-line voltage or output impedance."
+    },
+    {
+      "model": "Creative Sound Blaster X-Fi Titanium (SB0880, 3.5 mm front)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceSnr": [
+          "109 dB",
+          "Creative series rating; test conditions not specified"
+        ]
+      },
+      "url": "https://support.creative.com/kb/ShowArticle.aspx?sid=54521",
+      "note": "Original X-Fi Titanium SB0880, not Titanium HD. Creative lists stereo 24/192 and 7.1 24/96; front stereo analog jack. Voltage and analogue output impedance not verified."
+    },
+    {
       "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)",
       "values": {
         "sourceVoltage": 2,
@@ -1702,6 +1783,74 @@ const systemCheckGear = {
       },
       "note": "2 V RMS full-scale on the front-channel RCA line output. Creative specifies 0.001% THD+N and 122 dB A-weighted SNR. RCA output impedance is unverified.",
       "url": "https://media.dustin.eu/media/d200001003267145/sound-blaster-x-fi-titanium-hd-produktinformation.pdf"
+    },
+    {
+      "model": "Creative Sound Blaster X3 (USB, front 3.5 mm)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceThdn": [
+          "0.0004%",
+          "Creative stereo DAC figure"
+        ]
+      },
+      "url": "https://us.creative.com/p/archived-products/sound-blaster-x3",
+      "note": "USB-C external X3 (not X4), front 3.5 mm speaker output, up to 7.1 analogue channels. Maximum stereo Direct Mode 32/192; DAC dynamics figure is manufacturer DNR, not independent line-out SNR."
+    },
+    {
+      "model": "Creative Sound Blaster X4 (USB, front 3.5 mm)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceThdn": [
+          "0.001%",
+          "Creative stereo DAC figure"
+        ]
+      },
+      "url": "https://ca.creative.com/p/sound-blaster/sound-blaster-x4",
+      "note": "USB-C external X4 (not X3). Stereo Direct Mode 24/192; surround up to 24/96. Creative's 10 Ω figure belongs to the headphone amplifier, not the front speaker line output."
+    },
+    {
+      "model": "Creative Sound Blaster X5 (USB, RCA line out)",
+      "values": {
+        "sourceConnection": "RCA"
+      },
+      "url": "https://ca.creative.com/p/sound-blaster/sound-blaster-x5",
+      "note": "USB-C X5 with dual CS43198 chips and RCA stereo line output. Manufacturer's THD −115 dB is not explicitly THD+N; therefore it is NOT copied into the THD+N comparison. Line voltage and source impedance not confirmed."
+    },
+    {
+      "model": "Creative Sound Blaster Z SE (front 3.5 mm)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceSnr": [
+          "116 dB",
+          "Creative published card SNR; weighting/output unspecified"
+        ]
+      },
+      "url": "https://ca.creative.com/p/sound-blaster/sound-blaster-z-se",
+      "note": "PCIe Z SE, not the original Z or ZxR. Creative publishes up to 24/192; the 116 dB SNR is not an independently measured front line-output result. No verified line voltage or source impedance."
+    },
+    {
+      "model": "Creative Sound BlasterX AE-5 Plus (front 3.5 mm)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceThdn": [
+          "0.00032%",
+          "Creative stereo DAC figure, output/test basis unspecified"
+        ]
+      },
+      "url": "https://support.creative.com/kb/ShowArticle.aspx?sid=138952",
+      "note": "AE-5 Plus (same listed audio hardware as AE-5), not AE-7 or AE-9. ESS front stereo DAC differs from surround-channel converters. Optical out available. No confirmed front line-out voltage; headphone output specs are separate."
+    },
+    {
+      "model": "Creative Sound BlasterX G6 (line/optical 3.5 mm)",
+      "values": {
+        "sourceConnection": "3.5 mm",
+        "sourceThdn": [
+          "≈0.0002%",
+          "Creative DAC specification; not a separate loaded line-out test"
+        ]
+      },
+      "url": "https://ca.creative.com/p/sound-blaster/sound-blasterx-g6",
+      "note": "USB G6 SB1770. Output is an analogue 3.5 mm line / mini-TOSLINK optical combination, separate from its headphone port. Creative's 1 Ω impedance is HEADPHONE-only; do not use as line-out impedance. 32/384 direct mode is platform/driver dependent."
     },
     {
       "model": "FiiO K11 (RCA line out)",

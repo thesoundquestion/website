@@ -131,3 +131,72 @@ test('original amplifier comparison remains intact', () => {
   assert.ok(data.some(row => row.label.includes('Ω') && row.left.includes('W/ch')));
   assert.ok(data.some(row => row.label === 'Input sensitivity'));
 });
+
+test('sound card additions are exact model presets with checked detail records', () => {
+  const expected = [
+    'Creative Sound Blaster X-Fi Titanium (SB0880, 3.5 mm front)',
+    'Creative Sound Blaster Z SE (front 3.5 mm)',
+    'Creative Sound BlasterX AE-5 Plus (front 3.5 mm)',
+    'Creative Sound Blaster AE-7 (front 3.5 mm)',
+    'Creative Sound Blaster AE-9 (RCA front out)',
+    'Creative Sound Blaster Audigy Rx (front 3.5 mm)',
+    'Creative Sound BlasterX G6 (line/optical 3.5 mm)',
+    'Creative Sound Blaster X3 (USB, front 3.5 mm)',
+    'Creative Sound Blaster X4 (USB, front 3.5 mm)',
+    'Creative Sound Blaster X5 (USB, RCA line out)',
+    'ASUS Xonar Essence STX II (RCA)',
+    'ASUS Xonar SE (front 3.5 mm)'
+  ];
+  assert.equal(gear.source.length, 19);
+  assert.equal(Object.keys(details.source).length, 19);
+  for (const model of expected) {
+    const preset = gear.source.find(item => item.model === model);
+    assert.ok(preset, 'missing sound card: ' + model);
+    assert.ok(details.source[model]?.deviceType, 'missing device type for ' + model);
+    assert.ok(details.source[model]?.converter, 'missing DAC identity/unknown warning for ' + model);
+    assert.ok(details.source[model]?.reference?.startsWith('https://'), 'no source for ' + model);
+  }
+});
+
+test('Titanium HD exposes its complete RCA DAC rating but does not hide primary-source conflict', () => {
+  const hd = 'Creative Sound Blaster X-Fi Titanium HD (RCA)';
+  const preset = gear.source.find(x => x.model === hd);
+  const meta = details.source[hd];
+  assert.equal(preset.values.sourceVoltage, 2);
+  assert.ok(preset.values.sourceSnr[0].includes('122 dB'));
+  assert.ok(preset.values.sourceThdn[0].includes('0.001%'));
+  assert.ok(meta.converter.includes('PCM1794A') && meta.converter.includes('review'));
+  assert.ok(meta.pcmPCIe.includes('24-bit / 192 kHz') && meta.pcmPCIe.includes('24-bit / 96 kHz'));
+  assert.ok(meta.analogResponse.includes('−3.5 dB'));
+  assert.equal(meta.reviewStatus, 'manufacturer-conflict');
+  assert.ok(meta.reference.endsWith('.pdf'));
+  assert.ok(meta.secondReference.includes('creative.com'));
+  assert.ok(meta.thirdReference.includes('bit-tech.net'));
+  const rows = renderFixture('source', hd, 'ASUS Xonar Essence STX II (RCA)');
+  assert.ok(rows.some(r => r.label === 'DAC converter / architecture' && r.left.includes('PCM1794A') && r.right.includes('PCM1792A')));
+  assert.ok(rows.some(r => r.label === 'PCM / DAC via PCIe audio' && r.left.includes('192 kHz')));
+  assert.ok(rows.some(r => r.label === 'Analogue frequency response' && r.left.includes('90 kHz')));
+  assert.ok(rows.some(r => r.label === 'Maximum line output' && r.left.includes('2') && r.right.includes('2')));
+  assert.ok(rows.some(r => r.label === 'Specification source review' && r.left.includes('Conflicting manufacturer')));
+});
+
+test('computer DAC dynamic range remains distinguishable from line-output SNR', () => {
+  const rows = renderFixture('source', 'Creative Sound Blaster AE-7 (front 3.5 mm)', 'Creative Sound Blaster X5 (USB, RCA line out)');
+  assert.ok(rows.some(r => r.label === 'Device type / interface' && r.left.includes('PCIe') && r.right.includes('USB')));
+  assert.ok(rows.some(r => r.label === 'DAC dynamic range (DNR)' && r.left.includes('127 dB') && r.right.includes('130 dB')));
+  assert.ok(rows.some(r => r.label === 'Analogue output channels'));
+  assert.ok(rows.some(r => r.label === 'Maximum line output' && r.left.includes('—') && r.right.includes('—')));
+  assert.ok(rows.some(r => r.label === 'Output impedance' && r.left.includes('—') && r.right.includes('—')));
+  const a = gear.source.find(x=>x.model==='ASUS Xonar SE (front 3.5 mm)');
+  const b = gear.source.find(x=>x.model==='Creative Sound Blaster X4 (USB, front 3.5 mm)');
+  assert.ok(!('sourceVoltage' in a.values), 'do not copy the Xonar SE headphone 2 Vrms as line level');
+  assert.ok(!('sourceZ' in b.values), 'do not copy X4 headphone 10 ohms as line impedance');
+});
+
+test('sound-card models compare to ordinary DACs without breaking existing rows', () => {
+  const rows = renderFixture('source', 'Creative Sound BlasterX G6 (line/optical 3.5 mm)', 'Topping E30 II (RCA)');
+  assert.ok(rows.some(r => r.label === 'PCM via USB' && r.left.includes('384 kHz') && r.right.includes('768 kHz')));
+  assert.ok(rows.some(r => r.label === 'Line output connection' && r.left.includes('3.5 mm') && r.right.includes('RCA')));
+  assert.ok(rows.some(r => r.label === 'THD+N' && r.left.includes('0.0002%') && r.right.includes('0.00015%')));
+  assert.ok(rows.some(r => r.label === 'Output impedance' && r.left.includes('—') && r.right.includes('20')));
+});

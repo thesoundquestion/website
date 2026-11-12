@@ -682,75 +682,193 @@ const compareGearDetails = {
     }
   },
   "source": {
+    "ASUS Xonar Essence STX II (RCA)": {
+      "deviceType": "Internal PCIe hi-fi stereo sound card",
+      "converter": "Texas Instruments PCM1792A (front stereo DAC); ASUS AV100 controller",
+      "digitalInputs": "PCIe; coaxial / TOSLINK S/PDIF combo output",
+      "pcmPCIe": "Analogue stereo playback 16/24-bit at 44.1, 48, 96 or 192 kHz",
+      "pcmSpdif": "S/PDIF output PCM up to 24-bit / 192 kHz",
+      "analogResponse": "10 Hz–90 kHz (−3 dB, 24-bit/96 kHz format)",
+      "outputChannels": "2-channel front RCA; headphone output separate",
+      "reference": "https://dlcdnets.asus.com/pub/ASUS/Audio_Card/Essence_STX_II/E9122_Essence_STX_II_User_Manual.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "Official ASUS manual, p. 6: 124 dB A-weighted RCA output SNR, THD+N 0.0003% at 1 kHz/−3 dB, 2 V RMS front RCA and PCM1792A. Do not confuse 7 V RMS headphone output.",
+      "reviewedOn": "2026-11-11"
+    },
+    "ASUS Xonar SE (front 3.5 mm)": {
+      "deviceType": "Internal PCIe sound card",
+      "converter": "Realtek S1220A DAC/ADC, Cmedia 6620A processor",
+      "digitalInputs": "PCIe audio; optical S/PDIF output",
+      "pcmPCIe": "Up to 24-bit / 192 kHz (manufacturer)",
+      "outputChannels": "5.1 analogue channels",
+      "reference": "https://www.asus.com/us/motherboards-components/sound-cards/all-series/xonar-se/techspec/",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "ASUS quotes 116 dB SNR, 0.00251% THD+N without specifying the analogue front-output test setup. 2 Vrms on the spec page is a HEADPHONE output figure, NOT an RCA or speaker line-out figure.",
+      "reviewedOn": "2026-11-11"
+    },
+    "Creative Sound Blaster AE-7 (front 3.5 mm)": {
+      "deviceType": "Internal PCIe sound card (SB1800)",
+      "converter": "ESS ES9018K2M SABRE (front stereo); Sound Core3D (surround)",
+      "digitalInputs": "PCIe; TOSLINK optical output",
+      "pcmPCIe": "Stereo Direct Mode PCM up to 32-bit / 384 kHz; DSP mode up to 32-bit / 96 kHz",
+      "pcmSpdif": "TOSLINK output up to 24-bit / 96 kHz",
+      "dsd": "DSD64 in stereo Direct Mode",
+      "outputChannels": "5.1 analogue / virtual 7.1 headphone",
+      "dacDynamicRange": [
+        "127 dB",
+        "Creative stereo/surround DAC DNR (manufacturer)"
+      ],
+      "reference": "https://support.creative.com/kb/ShowArticle.aspx?sid=200208",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "THD+N 0.0001% published for stereo DAC. 1 Ω headphone impedance is not 3.5-mm front line-out impedance.",
+      "reviewedOn": "2026-11-11"
+    },
+    "Creative Sound Blaster AE-9 (RCA front out)": {
+      "deviceType": "Internal PCIe sound card with Audio Control Module",
+      "converter": "ESS ES9038Q2M SABRE (stereo DAC)",
+      "digitalInputs": "PCIe; optical TOSLINK input/output",
+      "pcmPCIe": "Stereo Direct Mode PCM up to 32-bit / 384 kHz; DSP mode up to 32-bit / 96 kHz",
+      "dsd": "DSD64 (Direct Mode)",
+      "outputChannels": "Front stereo RCA + 5.1 analogue / virtual 7.1 headphone",
+      "dacDynamicRange": [
+        "129 dB",
+        "Creative stereo DAC dynamic range (manufacturer)"
+      ],
+      "reference": "https://ca.creative.com/p/sound-blaster/sound-blaster-ae-9",
+      "secondReference": "https://support.creative.com/kb/ShowArticle.aspx?sid=200207",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "RCA front-channel path is separate from ACM headphone outputs. Manufacturer's DAC 129 dB DNR and 0.0001% THD+N are not independent RCA load measurements.",
+      "reviewedOn": "2026-11-11"
+    },
+    "Creative Sound Blaster Audigy Rx (front 3.5 mm)": {
+      "deviceType": "Internal PCIe sound card (SB1550)",
+      "converter": "Creative E-MU / Audigy Rx processor; DAC chip not verified",
+      "digitalInputs": "PCIe; optical TOSLINK output",
+      "pcmPCIe": "Stereo PCM up to 24-bit / 192 kHz",
+      "outputChannels": "Up to 7.1 analogue channels",
+      "reference": "https://support.creative.com/kb/ShowArticle.aspx?sid=120331",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "Creative's 106 dB model-wide SNR is not accompanied by a matched front-line output test basis.",
+      "reviewedOn": "2026-11-11"
+    },
+    "Creative Sound Blaster X-Fi Titanium (SB0880, 3.5 mm front)": {
+      "deviceType": "Internal PCIe sound card (SB0880)",
+      "converter": "Creative X-Fi-series DAC; exact front-channel converter chip not verified",
+      "digitalInputs": "PCIe audio; optical S/PDIF input/output",
+      "pcmPCIe": "Stereo analogue playback up to 24-bit / 192 kHz; 7.1 up to 24-bit / 96 kHz",
+      "outputChannels": "Up to 7.1 analogue channels",
+      "reference": "https://support.creative.com/kb/ShowArticle.aspx?sid=54521",
+      "detailNote": "Creative's X-Fi Titanium comparison does NOT include the Titanium HD: the 109 dB SNR must not be assigned to the HD version.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
     "Creative Sound Blaster X-Fi Titanium HD (RCA)": {
-      "converter": "Creative X-Fi Titanium HD stereo RCA DAC",
-      "digitalInputs": "PCIe audio; S/PDIF optical input/output",
+      "converter": "Texas Instruments / Burr-Brown PCM1794A (contemporary review identification; not named in Creative's brochure)",
+      "digitalInputs": "PCIe; optical S/PDIF input and output; RCA analogue in/out",
       "pcmUSB": "Not applicable · PCIe sound card",
       "pcmSpdif": null,
       "dsd": null,
-      "analogResponse": null,
-      "reference": "https://sg.creative.com/corporate/pressroom?id=13137",
-      "detailNote": "Creative's primary announcement specifies 24-bit / 96 kHz conversion at the RCA line outputs. It does not establish a 24/192 RCA mode; host software/driver availability varies.",
-      "reviewStatus": "manufacturer-checked",
+      "analogResponse": "10 Hz–90 kHz (−3.5 dB, front RCA; Creative product brochure)",
+      "reference": "https://media.dustin.eu/media/d200001003267145/sound-blaster-x-fi-titanium-hd-produktinformation.pdf",
+      "detailNote": "SPEC CONFLICT: Creative's 2010 launch announcement says RCA 24/96, while its detailed official 2010 brochure lists front-channel DAC resolution 24/192. The latter also gives 2 V RMS, 122 dB A-weighted SNR using a 20 kHz low-pass filter, 0.001% THD+N and 10 Hz–90 kHz (−3.5 dB). Contemporary bit-tech review identifies a Burr-Brown PCM1794A DAC; Creative does not explicitly identify that chip. Host driver/OS modes may impose lower limits; do not claim 24/192 is available in every Linux setup.",
+      "reviewStatus": "manufacturer-conflict",
       "reviewedOn": "2026-11-11",
-      "pcmPCIe": "RCA DAC specified up to 24-bit / 96 kHz; actual driver modes may vary"
+      "pcmPCIe": "Creative detailed brochure: RCA front stereo DAC up to 24-bit / 192 kHz; launch announcement instead lists 24-bit / 96 kHz",
+      "deviceType": "Internal PCIe sound card (SB1270)",
+      "outputChannels": "Stereo analogue RCA; encoded multichannel via optical output",
+      "secondReference": "https://sg.creative.com/corporate/pressroom?id=13137",
+      "thirdReference": "https://www.bit-tech.net/reviews/tech/audio/creative-x-fi-tianium-hd-review/1/"
     },
-    "iFi ZEN DAC V2 (fixed RCA)": {
-      "converter": "Burr-Brown DAC architecture",
-      "digitalInputs": "USB-B input (USB 2.0/3.0 compatible)",
-      "pcmUSB": "PCM up to 24-bit / 384 kHz",
-      "pcmSpdif": null,
-      "dsd": "USB DSD64–DSD256",
-      "analogResponse": null,
-      "reference": "https://downloads.ifi-audio.com/wp-content/uploads/2021/04/iFi_ZENDAC_V2_Lowdown.pdf",
-      "detailNote": "This is the regular ZEN DAC V2, not the ZEN DAC Signature V2; 2.1 V fixed RCA, ≤100 Ω output impedance.",
+    "Creative Sound Blaster X3 (USB, front 3.5 mm)": {
+      "deviceType": "External USB-C multichannel sound card",
+      "converter": "Creative X3 DAC architecture; DAC chip not published",
+      "digitalInputs": "USB-C; analogue line-in; optical TOSLINK output",
+      "pcmUSB": "Stereo Direct Mode up to PCM 32-bit / 192 kHz",
+      "pcmSpdif": "TOSLINK output PCM up to 24-bit / 192 kHz",
+      "outputChannels": "7.1 analogue speaker channels",
+      "dacDynamicRange": [
+        "115 dB",
+        "Creative stereo DAC dynamic range"
+      ],
+      "reference": "https://us.creative.com/p/archived-products/sound-blaster-x3",
       "reviewStatus": "manufacturer-checked",
+      "detailNote": "115 dB is manufacturer stereo DAC DNR, not a front-line THD+N or output-voltage measurement.",
       "reviewedOn": "2026-11-11"
     },
-    "Schiit Modi+ (RCA)": {
-      "converter": "ESS ES9018",
-      "digitalInputs": "USB-C / Unison USB; optical Toslink; coaxial S/PDIF",
-      "pcmUSB": "PCM 16–24-bit / 44.1–192 kHz",
-      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
-      "analogResponse": "20 Hz–20 kHz (±0.1 dB), archived distributor specification",
-      "reference": "https://www.schiit.com/public/upload/PDF/modi%20plus%20manual.pdf",
-      "secondReference": "https://www.jaben.com/products/schiit-audio-modi-plus",
-      "detailNote": "Official Modi+ manual confirms USB/optical/coax inputs; archived distributor specifications supply chip, sample-rate and analogue-performance limits. Do not substitute current Modi 5 specifications.",
-      "reviewStatus": "manufacturer-and-distributor",
+    "Creative Sound Blaster X4 (USB, front 3.5 mm)": {
+      "deviceType": "External USB-C multichannel sound card (SB1815)",
+      "converter": "Creative X4 stereo DAC; chip not specified",
+      "digitalInputs": "USB-C; 3.5 mm combo analogue/optical input; optical output",
+      "pcmUSB": "Stereo PCM up to 24-bit / 192 kHz (Direct/DSP); surround up to 24-bit / 96 kHz",
+      "pcmSpdif": "TOSLINK output PCM up to 24-bit / 192 kHz",
+      "outputChannels": "7.1 analogue speaker channels",
+      "dacDynamicRange": [
+        "114 dB",
+        "Creative stereo DAC dynamic range"
+      ],
+      "reference": "https://ca.creative.com/p/sound-blaster/sound-blaster-x4",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "Creative's published 10 Ω headphone output impedance does not characterize its analogue front line output.",
       "reviewedOn": "2026-11-11"
     },
-    "SMSL SU-1 (RCA)": {
-      "converter": "AKM AK4493S",
-      "digitalInputs": "USB-C, optical S/PDIF, coaxial S/PDIF",
-      "pcmUSB": "USB PCM 16–32-bit / 44.1–768 kHz",
-      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
-      "dsd": "DSD512 (USB)",
-      "analogResponse": null,
-      "reference": "https://smsl-audio.com/upload/portal/download/SU1Manual.pdf",
+    "Creative Sound Blaster X5 (USB, RCA line out)": {
+      "deviceType": "External USB-C stereo DAC / sound card",
+      "converter": "2 × Cirrus Logic CS43198 DACs",
+      "digitalInputs": "USB-C; TOSLINK optical input/output; RCA analogue input; USB-A audio host",
+      "pcmUSB": "Line out up to PCM 32-bit / 384 kHz",
+      "pcmSpdif": "TOSLINK input PCM up to 24-bit / 96 kHz; output up to 24-bit / 192 kHz",
+      "dsd": "Native DSD64/128/256 and DoP64/128",
+      "outputChannels": "Stereo RCA line output",
+      "dacDynamicRange": [
+        "130 dB",
+        "Creative DAC dynamic range, not a separately verified RCA SNR"
+      ],
+      "reference": "https://ca.creative.com/p/sound-blaster/sound-blaster-x5",
       "reviewStatus": "manufacturer-checked",
+      "detailNote": "Creative quotes DAC THD −115 dB, not separately identified as THD+N. No numerical RCA sourceVoltage/sourceZ is entered without a line-output-specific source.",
       "reviewedOn": "2026-11-11"
     },
-    "Topping E30 II (RCA)": {
-      "converter": "Dual AKM AK4493S",
-      "digitalInputs": "USB, optical S/PDIF, coaxial S/PDIF",
-      "pcmUSB": "USB PCM 16–32-bit / 44.1–768 kHz",
-      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
-      "dsd": "USB native DSD64–512 / DoP DSD64–256",
-      "analogResponse": "20 Hz–20 kHz (±0.3 dB, USB 96 kHz test)",
-      "reference": "https://dl.topping.audio/usermanual/e30ii.pdf",
+    "Creative Sound Blaster Z SE (front 3.5 mm)": {
+      "deviceType": "Internal PCIe sound card",
+      "converter": "Creative Sound Core3D audio processor; separate DAC chip not verified",
+      "digitalInputs": "PCIe; optical S/PDIF input and output",
+      "pcmPCIe": "Up to 24-bit / 192 kHz (manufacturer)",
+      "outputChannels": "5.1 analogue / virtual 7.1 headphone",
+      "reference": "https://ca.creative.com/p/sound-blaster/sound-blaster-z-se",
       "reviewStatus": "manufacturer-checked",
+      "detailNote": "Max digital format is not evidence of effective analogue precision, and 116 dB quoted SNR is not headphone-only or measured line performance.",
       "reviewedOn": "2026-11-11"
     },
-    "WiiM Pro Plus (RCA)": {
-      "converter": "AKM AK4493SEQ",
-      "digitalInputs": "Wi-Fi/Ethernet streaming; Bluetooth; optical input; RCA analogue input; optical/coax outputs",
-      "pcmUSB": "No USB digital-audio input",
-      "pcmSpdif": "Optical input and optical/coax output: PCM up to 24-bit / 192 kHz",
-      "dsd": null,
-      "analogResponse": "20 Hz–20 kHz (±0.1 dB)",
-      "reference": "https://test.wiimhome.com/products/wiim-pro-plus/",
-      "detailNote": "24/192 is the supported digital I/O format, not a statement that the streaming service always supplies that resolution. WiiM states up to 32/384 processing for its analog DAC path.",
+    "Creative Sound BlasterX AE-5 Plus (front 3.5 mm)": {
+      "deviceType": "Internal PCIe sound card (SB1740)",
+      "converter": "ESS ES9016K2M SABRE32 Ultra (front stereo); Sound Core3D DAC (surround)",
+      "digitalInputs": "PCIe; optical TOSLINK output",
+      "pcmPCIe": "Stereo Direct Mode PCM up to 32-bit / 384 kHz; DSP mode up to 32-bit / 96 kHz",
+      "outputChannels": "5.1 analogue / virtual 7.1 headphone",
+      "dacDynamicRange": [
+        "122 dB",
+        "Creative stereo-DAC DNR/SNR; not a verified analogue line-out A-weighted measurement"
+      ],
+      "reference": "https://support.creative.com/kb/ShowArticle.aspx?sid=138952",
       "reviewStatus": "manufacturer-checked",
+      "detailNote": "AE-5/AE-5 Plus share Creative's published audio specifications; digital encoding extras differ.",
+      "reviewedOn": "2026-11-11"
+    },
+    "Creative Sound BlasterX G6 (line/optical 3.5 mm)": {
+      "deviceType": "External micro-USB sound card / DAC (SB1770)",
+      "converter": "Creative SB-Axx1 processing; stereo DAC chip not identified in primary sheet",
+      "digitalInputs": "USB; combined 3.5 mm analogue line / mini-TOSLINK optical input and output",
+      "pcmUSB": "Stereo PCM 16/24/32-bit up to 384 kHz in Direct Mode; Windows driver/mode dependent",
+      "pcmSpdif": "Optical input PCM support up to 32-bit / 192 kHz per Creative (not DAC output resolution)",
+      "dsd": "DoP DSD64/DSD128 in Direct Mode",
+      "outputChannels": "Stereo line out / virtual 7.1 headphone",
+      "dacDynamicRange": [
+        "130 dB",
+        "A-weighted DAC dynamic range, Creative"
+      ],
+      "reference": "https://ca.creative.com/p/sound-blaster/sound-blasterx-g6",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "Creative's 1 Ω claim is for headphone output only. The USB DAC's 130 dB DNR is not equivalent to a 130 dB tested analogue line-out SNR.",
       "reviewedOn": "2026-11-11"
     },
     "FiiO K11 (RCA line out)": {
@@ -764,7 +882,71 @@ const compareGearDetails = {
       "detailNote": "CS43198 K11, not K11 R2R. Max rates vary by digital input; line output 1.95 V RMS.",
       "sourceStatus": null,
       "reviewStatus": "manufacturer-checked",
-      "reviewedOn": "2026-11-11"
+      "reviewedOn": "2026-11-11",
+      "deviceType": "Desktop USB DAC/headphone amplifier"
+    },
+    "iFi ZEN DAC V2 (fixed RCA)": {
+      "converter": "Burr-Brown DAC architecture",
+      "digitalInputs": "USB-B input (USB 2.0/3.0 compatible)",
+      "pcmUSB": "PCM up to 24-bit / 384 kHz",
+      "pcmSpdif": null,
+      "dsd": "USB DSD64–DSD256",
+      "analogResponse": null,
+      "reference": "https://downloads.ifi-audio.com/wp-content/uploads/2021/04/iFi_ZENDAC_V2_Lowdown.pdf",
+      "detailNote": "This is the regular ZEN DAC V2, not the ZEN DAC Signature V2; 2.1 V fixed RCA, ≤100 Ω output impedance.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "deviceType": "USB desktop DAC/headphone amplifier"
+    },
+    "Schiit Modi+ (RCA)": {
+      "converter": "ESS ES9018",
+      "digitalInputs": "USB-C / Unison USB; optical Toslink; coaxial S/PDIF",
+      "pcmUSB": "PCM 16–24-bit / 44.1–192 kHz",
+      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
+      "analogResponse": "20 Hz–20 kHz (±0.1 dB), archived distributor specification",
+      "reference": "https://www.schiit.com/public/upload/PDF/modi%20plus%20manual.pdf",
+      "secondReference": "https://www.jaben.com/products/schiit-audio-modi-plus",
+      "detailNote": "Official Modi+ manual confirms USB/optical/coax inputs; archived distributor specifications supply chip, sample-rate and analogue-performance limits. Do not substitute current Modi 5 specifications.",
+      "reviewStatus": "manufacturer-and-distributor",
+      "reviewedOn": "2026-11-11",
+      "deviceType": "Desktop DAC / digital source"
+    },
+    "SMSL SU-1 (RCA)": {
+      "converter": "AKM AK4493S",
+      "digitalInputs": "USB-C, optical S/PDIF, coaxial S/PDIF",
+      "pcmUSB": "USB PCM 16–32-bit / 44.1–768 kHz",
+      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
+      "dsd": "DSD512 (USB)",
+      "analogResponse": null,
+      "reference": "https://smsl-audio.com/upload/portal/download/SU1Manual.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "deviceType": "Desktop DAC / digital source"
+    },
+    "Topping E30 II (RCA)": {
+      "converter": "Dual AKM AK4493S",
+      "digitalInputs": "USB, optical S/PDIF, coaxial S/PDIF",
+      "pcmUSB": "USB PCM 16–32-bit / 44.1–768 kHz",
+      "pcmSpdif": "Optical/coax PCM 16–24-bit / 44.1–192 kHz",
+      "dsd": "USB native DSD64–512 / DoP DSD64–256",
+      "analogResponse": "20 Hz–20 kHz (±0.3 dB, USB 96 kHz test)",
+      "reference": "https://dl.topping.audio/usermanual/e30ii.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "deviceType": "Desktop DAC / digital source"
+    },
+    "WiiM Pro Plus (RCA)": {
+      "converter": "AKM AK4493SEQ",
+      "digitalInputs": "Wi-Fi/Ethernet streaming; Bluetooth; optical input; RCA analogue input; optical/coax outputs",
+      "pcmUSB": "No USB digital-audio input",
+      "pcmSpdif": "Optical input and optical/coax output: PCM up to 24-bit / 192 kHz",
+      "dsd": null,
+      "analogResponse": "20 Hz–20 kHz (±0.1 dB)",
+      "reference": "https://test.wiimhome.com/products/wiim-pro-plus/",
+      "detailNote": "24/192 is the supported digital I/O format, not a statement that the streaming service always supplies that resolution. WiiM states up to 32/384 processing for its analog DAC path.",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "deviceType": "Network music streamer / DAC"
     }
   },
   "headphone": {
