@@ -140,3 +140,5 @@
 /* Keep owned equipment visible; optional complete replacements never dominate the result. */
 .sb-card-retained{font-size:.77rem;line-height:1.45;color:#b8f4e8;margin:.35rem 0 .2rem;font-weight:650}
 .sb-new-comparison>p,.sb-new-comparison>ul{font-size:.81rem;line-height:1.5}
+
+.sb-card-preference{font-size:.78rem;line-height:1.43;color:#b4d8ec;margin:.3rem 0}
