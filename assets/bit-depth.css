@@ -1,19 +1,57 @@
-/* Decoder lesson 16: bit-depth diagrams and compare UI */
-.bd-quant-svg{display:block;width:100%;height:auto}
-.bd-exact-note{margin:1.2rem 0 0;max-width:980px;border:1px solid #39627a;border-left:4px solid #7fcceb;border-radius:10px;padding:1rem 1.15rem;background:#10273a}
-.bd-exact-note strong{color:#e6f9ff}.bd-exact-note p{line-height:1.72;font-size:.94rem;margin:.5rem 0 0}
-.bd-case{padding:clamp(1rem,2.5vw,1.55rem)}.bd-case-head{display:flex;flex-wrap:wrap;gap:.7rem 1.5rem;align-items:baseline;justify-content:space-between}.bd-case-head h3{font-size:1.5rem;color:#effbff;margin:0}.bd-case-head p{flex:1 1 310px;color:#bfd7e7;line-height:1.65;margin:0;font-size:.96rem}
-.bd-case-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin:1.5rem 0}.bd-case-kpis>div{background:#10263b;border:1px solid #3c5970;border-radius:10px;padding:1rem;display:flex;flex-direction:column;gap:.5rem}
-.bd-case-kpis span{font-size:.84rem;color:#b6d1e3}.bd-case-kpis strong{font-size:clamp(1.28rem,2.5vw,1.85rem);font-variant-numeric:tabular-nums;color:#eefaff}
-.bd-ruler{background:#0d2237;border:1px solid #375774;padding:1rem;border-radius:9px}.bd-ruler>p{font-size:.86rem;line-height:1.6;margin:0 0 .85rem;color:#c4dfef}
-.bd-track{height:35px;border:1px solid #59778e;background:repeating-linear-gradient(90deg,#102438 0,#102438 calc(25% - 1px),#2e4961 calc(25% - 1px),#2e4961 25%);overflow:hidden;border-radius:6px}
-.bd-track>span{height:100%;display:block;background:linear-gradient(90deg,#65bee9,#a4e3c7);border-right:3px solid #eefeff}
-.bd-axis{display:flex;justify-content:space-between;gap:.3rem;color:#afcadc;font-size:.8rem;font-variant-numeric:tabular-nums;margin:.5rem 0 0}
-.bd-takeaway{font-size:.92rem;line-height:1.8;color:#bed3e5;margin:1.15rem 0 .2rem}
-.bd-caveat{font-size:.83rem;line-height:1.75;color:#b2cbdc;max-width:900px;padding-top:.85rem}
-.bd-two-up,.bd-flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin:1.5rem 0}
-.bd-two-up>div,.bd-flow>div{border:1px solid #3a5c74;border-radius:11px;background:#10283a;padding:1.05rem 1.2rem}
-.bd-two-up h3{font-size:1.1rem;margin:0 0 .5rem}.bd-two-up p{margin:0;font-size:.94rem;line-height:1.7}
-.bd-flow strong{display:block;color:#edf9ff;margin:0 0 .6rem}.bd-flow span{font-size:.92rem;line-height:1.7;color:#b8d2e3}
-@media(max-width:700px){.bd-case-kpis,.bd-two-up,.bd-flow{grid-template-columns:1fr}.bd-case-head{display:block}.bd-case-head p{margin:.5rem 0 0}.bd-ruler{padding:.75rem}.bd-axis{font-size:.71rem}}
-@media(max-width:360px){.bd-axis{font-size:.65rem}}
+
+/* Lesson 17: hands-on bit-depth exercises, pedagogical 3/5-bit and real 8/16/24-bit examples */
+.bd-foundation{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,1fr);gap:clamp(1.1rem,3vw,2rem);align-items:start}
+.bd-foundation-copy p{line-height:1.76;margin:0 0 1rem;color:#cee1ef}
+.bd-foundation-visual{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.bd-level-example{background:#10273a;border:1px solid #476880;border-radius:12px;padding:1.05rem}
+.bd-level-example p{font-size:.95rem;font-weight:750;color:#e9f8ff;margin:0 0 .8rem}
+.bd-level-example span{display:block;font-size:.84rem;line-height:1.66;color:#bad6e6;margin-top:.85rem}
+.bd-ladder{height:185px;border-radius:8px;background:linear-gradient(90deg,#0d2235,#1c394d);border:1px solid #52748c;display:flex;flex-direction:column;justify-content:space-between;padding:.6rem}
+.bd-ladder i{display:block;border-top:2px solid #87d2e8;width:100%}.bd-ladder--many i{border-top-width:1px;opacity:.65}
+.bd-demo{border:1px solid #527b92;border-radius:14px;background:#102438;padding:clamp(1rem,2.3vw,1.65rem);box-shadow:0 16px 40px #040f1c33}
+.bd-demo-toolbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.bd-control-heading{font-size:.93rem;font-weight:750;color:#e6f7ff}
+.bd-choice{display:flex;gap:.45rem;flex-wrap:wrap}
+.bd-choice button,.bd-presets button{appearance:none;border:1px solid #4d7085;background:#0d2537;color:#d5ecf9;border-radius:8px;padding:.62rem .82rem;cursor:pointer;font:inherit;font-size:.92rem;font-weight:700}
+.bd-choice button small{display:block;font-size:.72rem;opacity:.8;margin-top:.12rem;font-weight:500}
+.bd-choice button[aria-pressed="true"],.bd-presets button[aria-pressed="true"]{background:#20516a;border-color:#8bd6ed;color:#fff;box-shadow:0 0 0 1px #74cbe44f}
+.bd-choice button:focus-visible,.bd-presets button:focus-visible,.bd-loudness-control input:focus-visible{outline:3px solid #ffce92;outline-offset:3px}
+.bd-stage{display:block;width:100%;height:auto;max-height:400px;overflow:visible}
+.bd-svg-bg{fill:#0b1b2b;stroke:#385874}
+.bd-svg-grid{stroke:#34526b;stroke-width:1;opacity:.54}
+.bd-svg-axis{stroke:#7c98ab;stroke-width:1.5}
+.bd-svg-label{fill:#b9d6e7;font-size:12px;font-family:system-ui,sans-serif}
+.bd-svg-reference{stroke:#f3c28e;stroke-width:2.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bd-svg-gap{stroke:#a6d8dc;stroke-width:1.5;opacity:.64}
+.bd-svg-saved{fill:#81d6ee;stroke:#0b1b2b;stroke-width:1.25}
+.bd-svg-actual{fill:none;stroke:#f3c28e;stroke-width:1.4;opacity:.9}
+.bd-demo-visual{min-width:0}
+.bd-legend{display:flex;gap:.75rem 1.2rem;flex-wrap:wrap;margin:.5rem 0 0;color:#c6e0eb;font-size:.81rem}
+.bd-legend span{display:flex;align-items:center;gap:.4rem}
+.bd-key{width:16px;height:4px;display:inline-block;border-radius:6px;background:#a8d8e2}
+.bd-key--original{background:#f3c28e}.bd-key--stored{background:#81d6ee}.bd-key--gap{background:#b6c1d3}
+.bd-demo-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin:1rem 0}
+.bd-demo-stats>div{border:1px solid #37566a;background:#152f42;border-radius:9px;padding:.88rem 1rem;display:flex;flex-direction:column;gap:.35rem}
+.bd-demo-stats span{font-size:.8rem;color:#b8d8e7}.bd-demo-stats strong{font-variant-numeric:tabular-nums;font-size:clamp(1.1rem,2.3vw,1.46rem);color:#f4fdff}
+.bd-demo-explanation{padding:.85rem 1rem;border-left:3px solid #84cfd6;background:#163b47;color:#e2f5f6;font-size:.94rem;font-weight:600;line-height:1.7;margin:.65rem 0}
+.bd-model-note{font-size:.86rem;color:#b9d0de;line-height:1.72;margin:1rem 0 0}
+.bd-model-note strong{color:#e1f3ff}
+.bd-loudness-control{padding:1rem;border-radius:10px;background:#143349;border:1px solid #3c6d83;margin-bottom:1rem}
+.bd-loudness-control label{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-weight:750;color:#e8f7ff}
+.bd-loudness-control input{display:block;width:100%;margin:1rem 0 .2rem;accent-color:#8ad9ea;cursor:pointer}
+.bd-slider-scale{display:flex;justify-content:space-between;gap:.5rem;color:#b2cfdd;font-size:.77rem}
+.bd-loudness-control p{font-size:.79rem;color:#b5d0e1;margin:.6rem 0;line-height:1.6}
+.bd-presets{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.85rem}
+.bd-presets button{font-size:.78rem;padding:.45rem .65rem}
+.bd-master-contrast{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.2rem 0}
+.bd-master-contrast>div{border-radius:12px;border:1px solid #45677b;background:#102638;padding:1rem;min-width:0}
+.bd-master-contrast h3{font-size:1rem;color:#e5f9ff;margin:0 0 .75rem}
+.bd-master-contrast svg{width:100%;display:block;height:auto}
+.bd-master-contrast p{color:#c0d8e6;font-size:.88rem;line-height:1.6;margin:.75rem 0 0}
+.bd-two-up{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1.3rem 0}
+.bd-two-up>div{border:1px solid #3e6176;border-radius:10px;background:#10293b;padding:1rem}
+.bd-two-up h3{margin:0 0 .4rem;color:#effcff;font-size:1rem}
+.bd-two-up p{margin:0;color:#c4dfeb;line-height:1.7;font-size:.92rem}
+@media(max-width:800px){.bd-foundation{grid-template-columns:1fr}.bd-ladder{height:120px}}
+@media(max-width:650px){.bd-master-contrast,.bd-two-up,.bd-demo-stats{grid-template-columns:1fr}.bd-demo-toolbar{display:block}.bd-choice{margin-top:.65rem}.bd-foundation-visual{gap:.6rem}.bd-level-example{padding:.72rem}.bd-legend{font-size:.73rem}.bd-demo{padding:.78rem}.bd-stage{min-height:185px}}
+@media(prefers-reduced-motion:reduce){.bd-choice button,.bd-presets button{transition:none}}

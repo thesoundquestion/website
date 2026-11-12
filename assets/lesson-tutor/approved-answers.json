@@ -1523,9 +1523,9 @@
     ]
   },
   "bit-depth": {
-    "title": "Bit depth and dynamic range",
-    "specification": "16-bit signed linear PCM · 65,536 possible sample values",
-    "topic": "digital bit depth and dither",
+    "title": "Bit depth: more level choices, not better music",
+    "specification": "16-bit CD audio offers 65,536 different sample level values; 24-bit offers 16,777,216",
+    "topic": "bit depth, rounding audio sample levels, recording headroom, quiet audio and dither",
     "terms": [
       "bit depth",
       "16 bit",
@@ -1545,25 +1545,26 @@
       "decode-the-spec",
       "compare",
       "understand",
+      "dynamics",
       "dither",
       "listening",
       "buying"
     ],
     "answers": {
       "simple": {
-        "text": "Bit depth sets how many different levels can be stored for each sample. More possible levels mean smaller rounding steps. Dither is a tiny amount of noise added during rounding so the error behaves more like steady noise than distortion tied to the music.",
-        "section": "understand"
+        "text": "Bit depth is the number of choices available for the height of each sound snapshot. More bits mean smaller rounding gaps, not more samples per second or a louder song. Try the simple 8/32/256-level wave in the first exercise.",
+        "section": "compare"
       },
       "spec": {
-        "text": "16-bit linear PCM offers 65,536 possible codes for each sample. The example’s approximately 98 dB is the calculated rounding-noise ratio for an ideal full-level sine wave. Playback hardware and recording noise have separate limits.",
+        "text": "16-bit PCM stores one of 65,536 possible level values at each sample moment. 24-bit offers 16,777,216 values, with 256 times finer spacing. Signed PCM and the quantization math are explained under optional technical vocabulary.",
         "section": "decode-the-spec"
       },
       "hear": {
-        "text": "A deliberately low bit depth can make quiet fades sound grainy. With suitable dither, rounding produces a steadier background sound. Whether you hear differences between ordinary releases depends on the master, the noise in the recording and the listening conditions.",
-        "section": "listening"
+        "text": "In the extremely quiet no-dither demo, too few digital level choices cause visible rounding. Properly applied dither can preserve quiet signals as low-level noise rather than a harsh cutoff. A well-mastered 16-bit release can already sound excellent; different masters often matter more than bit depth.",
+        "section": "understand"
       },
       "buy": {
-        "text": "When recording in 24-bit you can leave room below clipping while keeping rounding noise low. For listening, check which master you are getting and whether the setup is quiet enough for the difference to matter. The file’s bit count and the converter’s measured noise are separate figures.",
+        "text": "For recording, 24-bit provides generous numerical space to leave input headroom for loud notes while keeping rounding noise very low. For buying music, choose the better master rather than assuming a 24-bit label adds dynamics, instrument separation or imaging.",
         "section": "buying"
       },
       "related": {
@@ -1577,8 +1578,8 @@
     ],
     "plots": {
       "bit-depth": {
-        "section": "compare",
-        "reading": "These are textbook calculations. Each horizontal ruler shows ideal quantization SNR for a full-scale sine wave in decibels.",
+        "section": "understand",
+        "reading": "An intentionally magnified, undithered sine wave. Gold is the same quiet test signal; blue dots show its stored values at unchanged sample times. The slider changes signal amplitude while the controls switch real 8/16/24-bit PCM.",
         "referenceCases": [
           "16",
           "8"
@@ -1586,15 +1587,15 @@
         "examples": {
           "8": {
             "label": "8-bit",
-            "text": "8-bit PCM has 256 levels and about 49.9 dB ideal SNR here. It is a low-resolution illustration of why rounding errors matter on quiet material."
+            "text": "8-bit stores 256 possible levels, so a very quiet signal can round to zero in this no-dither example."
           },
           "16": {
             "label": "16-bit",
-            "text": "16-bit PCM has 65,536 levels and about 98.1 dB ideal SNR here, before dither and hardware noise."
+            "text": "16-bit stores 65,536 possible levels. At about −90 dBFS peak, only around one numerical step remains from zero to the peak in this deliberately no-dither demonstration."
           },
           "24": {
             "label": "24-bit",
-            "text": "24-bit PCM has 16,777,216 levels and about 146.2 dB ideal SNR here. Actual converters also have analogue noise."
+            "text": "24-bit stores 16,777,216 possible levels. Even at −90 dBFS peak, there are hundreds of steps above zero; real converters have analogue noise limits."
           }
         }
       }
