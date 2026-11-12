@@ -1,0 +1,20 @@
+/* The Sound Question: fictional 12x15-ft room frequency-response comparison */
+.rsp-room-summary{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1.1rem;align-items:center;border:1px solid #335775;border-radius:12px;background:#0d2336;padding:clamp(.85rem,2vw,1.25rem);margin:1.35rem 0 1.6rem}
+.rsp-room{display:block;width:100%;height:auto;max-width:570px;margin:auto}
+.rsp-room-summary h3{font-size:1.12rem;margin:0 0 .55rem;color:#ecfaff}
+.rsp-room-summary dl{display:grid;grid-template-columns:minmax(0,120px) minmax(0,1fr);gap:.45rem .8rem;font-size:.83rem;line-height:1.55;margin:1rem 0}
+.rsp-room-summary dt{color:#a3d3e7;font-weight:750}.rsp-room-summary dd{margin:0;color:#e5eff8}
+.rsp-room-summary p{font-size:.83rem;line-height:1.7;color:#b5d2e2;margin:.9rem 0 0}
+.rsp-widget{min-width:0}.rsp-case{padding:clamp(.75rem,2vw,1.4rem)}
+.rsp-case-title{margin:.3rem 0 1rem}.rsp-case-title h3{font-size:1.28rem;color:#ecfaff;margin:0 0 .4rem}.rsp-case-title p{font-size:.93rem;line-height:1.7;color:#c1d9e8;margin:0}
+.rsp-figure{min-width:0;margin:0}.rsp-plot{width:100%;height:auto;display:block;background:#0b1b2c;border-radius:12px}
+.rsp-axis{font-size:18px;fill:#bdcfe0;font-family:system-ui,sans-serif}.rsp-graph-title{font-size:18px;font-weight:700;fill:#dcefff;font-family:system-ui,sans-serif}
+.rsp-figure figcaption{display:flex;gap:.45rem 1.2rem;flex-wrap:wrap;margin:.7rem .1rem 1.2rem;font-size:.83rem;line-height:1.5;color:#cce2ea}
+.rsp-key{display:inline-flex;align-items:center;gap:.55rem}.rsp-key i{display:inline-block;width:23px;height:0;border-top:3px solid #8de8c5}.rsp-key .rsp-key-speaker{border-color:#9bc6db;border-top-style:dashed}
+.rsp-notes{padding:1rem 1.2rem;border:1px solid #3b5d73;background:#10283b;border-radius:10px}.rsp-notes h4{font-size:1rem;margin:0 0 .6rem;color:#e8f9ff}
+.rsp-notes ul{padding-left:1.2rem;margin:.4rem 0 .1rem;display:grid;gap:.65rem}.rsp-notes li{font-size:.92rem;line-height:1.66;color:#d4e8f5}
+.rsp-reading-note{margin:1.5rem 0 0;border-left:3px solid #87cddf;padding:.35rem 0 .45rem 1.2rem}
+.rsp-reading-note h3{font-size:1.13rem;margin:.2rem 0 .65rem}.rsp-reading-note p{line-height:1.8;font-size:.94rem}
+.rsp-widget [data-plot-case][hidden]{display:none!important}
+@media(max-width:720px){.rsp-room-summary{grid-template-columns:1fr}.rsp-room-summary dl{grid-template-columns:125px 1fr}.rsp-notes{padding:.85rem 1rem}.rsp-figure figcaption{font-size:.8rem}}
+@media(max-width:400px){.rsp-room-summary dl{grid-template-columns:1fr;gap:.1rem}.rsp-room-summary dd{margin:0 0 .45rem}.rsp-axis,.rsp-graph-title{font-size:20px}.rsp-notes li{font-size:.88rem}}
