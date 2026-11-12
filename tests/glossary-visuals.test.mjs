@@ -28,8 +28,9 @@ test('five comparisons, all ten local illustrations, and no duplicate HTML IDs',
    assert.match(s,/<use href="#/);
  }
  for(const key of ['soundstage','imaging','separation','congestion','holographic','forward','laid-back']){
-   const re=new RegExp('<article class="ag-term" id="'+key+'"[\s\S]*?<\/article>');
-   const card=html.match(re)?.[0];
+   const start=html.indexOf('<article class="ag-term" id="'+key+'"');
+   const end=html.indexOf('</article>',start);
+   const card=start>=0&&end>start?html.slice(start,end):null;
    assert.ok(card?.includes('data-ag-open-visual='),key);
  }
 });
