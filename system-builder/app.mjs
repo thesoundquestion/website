@@ -186,11 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
       (arch === 'open' || arch === 'passive_separates') && powered !== 'battery' &&
       useCase !== 'party' && primary !== 'party';
     const shop = section(anyOwned ? 'Build around your owned equipment' : (speakerFocus ? 'Speakers for your ' + own.amp.name : 'A few options worth a look'));
-    if (own.amp.name && !own.speaker.name && !speakerFocus) {
+    if (own.amp.name && !own.speaker.name && !speakerFocus)
       addText(shop,'p',powered === 'battery' ?
-        'Battery operation is required. Your existing '+own.amp.name+' has not been verified for off-grid use, so this is not an amp-and-passive-speaker recommendation.' :
-        'Your selected '+(options[arch]?.title || 'event/listening')+' route does not reuse '+own.amp.name+'. Choose “Passive speakers + separate amp” to see speaker-only suggestions for your equipment.','sb-brief-note');
-    }
+        'Your existing '+own.amp.name+' is not verified for battery operation. A separate passive-stereo route keeping it is shown for wall-powered listening.' :
+        'Your chosen '+(options[arch]?.title || 'event/listening')+' route may not use '+own.amp.name+' directly. A separate compatible route retaining it is still shown below.','sb-brief-note');
     if (anyOwned)
       addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
     const budget = budgetText ? Number(budgetText) : null;
@@ -228,6 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
       fit.append(document.createTextNode(item.ownershipMessage || recommendationWhy(item,request,
         Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
       card.append(fit);
+      if (item.ownershipMessage && item.preferenceMatchAvailable)
+        addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
+          Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
       const sound = soundProfileFor(item);
       const soundLine = el('p','sb-card-sound');
       addText(soundLine,'strong','Sound: ');
@@ -247,6 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
       if (item.sourceCaution)
         addText(card,'p',item.sourceCaution,'sb-card-alert');
+      if (item.pathwayCaution)
+        addText(card,'p',item.pathwayCaution,'sb-card-alert');
       if (budget !== null && item.subtotal === null && !['owned-complete','owned-headphones','owned-other-route'].includes(item.id))
         addText(card,'p','Budget fit not confirmed.','sb-card-minor');
 
