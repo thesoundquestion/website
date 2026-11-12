@@ -1,5 +1,5 @@
 'use strict';
-/* Model-specific specification supplement, source review tracked per entry. */
+/* Compare My Gear: per-model source links and review status. Disputed sources remain explicitly flagged. */
 const compareGearDetails = {
   "version": "2026-11-11",
   "notice": "Supplemental, source-linked model facts. A blank value means the source did not establish the specification.",
@@ -331,11 +331,12 @@ const compareGearDetails = {
       "enclosure": "Front-ported bass reflex",
       "frequencyResponse": "40 Hz–40 kHz",
       "responseBasis": "Manufacturer −6 dB",
-      "crossover": "450 Hz / 3.5 kHz",
-      "reference": "https://global.jbl.com/JBLL100CLASSICUAM.html",
-      "detailNote": "Original L100 Classic, not the 75th Anniversary or Mk II. JBL's manufacturer page lists 3.5 kHz for the second crossover.",
-      "reviewStatus": "manufacturer-checked",
-      "reviewedOn": "2026-11-11"
+      "crossover": "450 Hz / 3.5 kHz (JBL 2018 quick specs)",
+      "reference": "https://global.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dwa141b3a0/pdfs/JBL_L100_Classic_Quick_Specs.pdf",
+      "detailNote": "JBL official documents conflict. The 2018 quick-specification sheet and an owner's manual list 450 Hz / 3.5 kHz, while a 2020 JBL specification sheet lists 450 Hz / 2.5 kHz. The selected values come from the 2018 source; crossover may differ by production revision or documentation error.",
+      "reviewStatus": "manufacturer-conflict",
+      "reviewedOn": "2026-11-11",
+      "secondReference": "https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw1e4dfbc0/pdfs/SC03671_JBL_L100_Classic_Spec%20Sheet_EN_LR.pdf"
     },
     "Wharfedale Diamond 12.1": {
       "configuration": "2-way",
@@ -568,6 +569,79 @@ const compareGearDetails = {
       "detailNote": "Secondary transcription of vintage specifications, not an independently verified manufacturer data sheet or measurement; use cautiously.",
       "reviewStatus": "secondary-reviewed",
       "reviewedOn": "2026-11-11"
+    },
+    "Klipsch R-51M": {
+      "configuration": "2-way",
+      "drivers": "5.25″ spun-copper IMG woofer; 1″ aluminium LTS horn-loaded tweeter",
+      "enclosure": "Rear bass reflex",
+      "frequencyResponse": "62 Hz–21 kHz",
+      "responseBasis": "Manufacturer ±3 dB",
+      "crossover": "1.66 kHz",
+      "reference": "https://assets.klipsch.com/product-specsheets/R-51M_Spec-Sheet_v01.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11"
+    },
+    "Klipsch R-50M": {
+      "configuration": "2-way",
+      "drivers": "5.25″ spun-copper TCP woofer; 1″ aluminium LTS tweeter in Tractrix horn",
+      "enclosure": "Rear bass reflex",
+      "frequencyResponse": "58 Hz–21 kHz",
+      "responseBasis": "Manufacturer ±3 dB",
+      "crossover": "1.56 kHz",
+      "reference": "https://assets.klipsch.com/product-specsheets/Reference-R-50M-Spec-Sheet.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "Klipsch sensitivity 92 dB uses room/half-space test convention; direct comparison to anechoic values may be misleading.",
+      "reviewedOn": "2026-11-11"
+    },
+    "Klipsch RP-600M (original)": {
+      "configuration": "2-way",
+      "drivers": "6.5″ Cerametallic woofer; 1″ titanium LTS vented tweeter in Tractrix horn",
+      "enclosure": "Rear bass reflex",
+      "frequencyResponse": "45 Hz–25 kHz",
+      "responseBasis": "Manufacturer ±3 dB",
+      "crossover": "1.5 kHz",
+      "reference": "https://assets.klipsch.com/product-specsheets/RP-600M_Spec-Sheet_v01.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "Original RP-600M, not RP-600M II. Compare's 89.6 dB sensitivity preset is an independent Stereophile estimate, not Klipsch's 96 dB marketing specification.",
+      "reviewedOn": "2026-11-11"
+    },
+    "Yamaha NS-1000M": {
+      "configuration": "3-way, 3 active drivers",
+      "drivers": "12″ treated-paper cone woofer; 3.5″ beryllium-dome midrange; 1.2″ beryllium-dome tweeter",
+      "enclosure": "Sealed / acoustic suspension",
+      "frequencyResponse": "40 Hz–20 kHz",
+      "responseBasis": "Period factory range; tolerance not stated",
+      "crossover": "500 Hz / 6 kHz",
+      "reference": "https://www.hifinews.com/node/130017",
+      "secondReference": "https://www.hifiengine.com/manual_library/yamaha/ns-1000m.shtml",
+      "reviewStatus": "period-technical-source",
+      "detailNote": "Vintage factory brochure specifications cross-checked with Hi-Fi News engineering overview. Period response range is not a measured modern ±3 dB curve.",
+      "reviewedOn": "2026-11-11"
+    },
+    "JBL L100 Century (original)": {
+      "configuration": "3-way, 3 active drivers",
+      "drivers": "12″ pulp-cone woofer; 5″ cone midrange; 1.4″ paper-cone tweeter",
+      "enclosure": "Front bass reflex",
+      "frequencyResponse": null,
+      "responseBasis": null,
+      "crossover": "1.5 kHz / 6 kHz",
+      "reference": "https://support.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw06bf89c3/pdfs/L100%20CENTURY%5EJBL%5Eom%5E%5E%5E%5E.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "detailNote": "Original 1970s L100 Century, not modern L100 Classic. The period JBL manual specifies crossover and 78 dB/1 W at 15 ft, rather than a modern nominal 1 m sensitivity test.",
+      "reviewedOn": "2026-11-11"
+    },
+    "Pioneer HPM-100": {
+      "configuration": "4-way, 4 active radiators",
+      "drivers": "12″ carbon-blend cone woofer; 4″ cone midrange; 1.75″ cone tweeter; high-polymer-film supertweeter",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "30 Hz–25 kHz",
+      "responseBasis": "Period catalogue range; tolerance not stated",
+      "crossover": "1.2 kHz / 4 kHz / 12 kHz",
+      "reference": "https://www.hifi-archiv.info/Pioneer/1978-1.pdf",
+      "secondReference": "https://www.worldradiohistory.com/UK/Hi-Fi-Choice/1975-1982/Hi-Fi%20Choice%20Iss.%20010%20Loudspeakers%201978.pdf",
+      "reviewStatus": "manufacturer-conflict",
+      "detailNote": "Period Pioneer catalogue and Hi-Fi Choice show 1.2/4/12 kHz, but other published HPM-100 documents specify 3/4/12 kHz, possibly due to revision or transcription. This entry must not be treated as one universal HPM-100 crossover.",
+      "reviewedOn": "2026-11-11"
     }
   },
   "source": {
@@ -664,7 +738,10 @@ const compareGearDetails = {
       "frequencyResponse": "20 Hz–20 kHz",
       "responseBasis": "Original e-series brochure; tolerance not stated",
       "connector": "3.5 mm analogue",
-      "reference": "https://www.digitec-derouet.com/photos/sr_80_e.pdf"
+      "reference": "https://www.digitec-derouet.com/photos/sr_80_e.pdf",
+      "reviewStatus": "period-distributor",
+      "detailNote": "Archived prestige e-series literature, with limited test-condition detail; frequency endpoint is not a flatness criterion.",
+      "reviewedOn": "2026-11-11"
     },
     "Grado SR80x": {
       "transducer": "Dynamic, open-back on-ear",
@@ -673,7 +750,10 @@ const compareGearDetails = {
       "frequencyResponse": "20 Hz–20 kHz",
       "responseBasis": "Manufacturer range; tolerance not stated",
       "connector": "3.5 mm analogue",
-      "reference": "https://gradocanada.ca/product/sr80x"
+      "reference": "https://www.gradothailand.com/en/product/sr80x/",
+      "reviewStatus": "regional-distributor",
+      "detailNote": "Regional product sheet, not independently confirmed original manufacturer test data. Driver construction and nominal endpoint are descriptive only.",
+      "reviewedOn": "2026-11-11"
     },
     "Moondrop Chu II": {
       "transducer": "Dynamic in-ear monitor",
@@ -722,12 +802,15 @@ const compareGearDetails = {
     "Sony MDR-7506": {
       "transducer": "Dynamic closed-back over-ear",
       "driverSize": "40 mm",
-      "diaphragm": "PET dome; neodymium magnet",
+      "diaphragm": "PET diaphragm, neodymium magnet",
       "frequencyResponse": "10 Hz–20 kHz",
-      "responseBasis": "Manufacturer range; tolerance not stated",
-      "connector": "Coiled cable, 3.5 mm / 6.3 mm adapter",
-      "reference": "https://pro.sony/en_NA/pdf/mdr-7506",
-      "detailNote": "Pro Sony datasheet specifies 63 Ω. Some regional consumer pages incorrectly show 24 Ω; the preset uses the Pro datasheet."
+      "responseBasis": "Sony professional datasheet; tolerance not stated",
+      "connector": "Fixed coiled analogue cable; 3.5 mm / 6.3 mm adapter",
+      "reference": "https://pro.sony/s3/cms-static-content/file/93/1237485312093.pdf",
+      "detailNote": "Sony's professional datasheet and service manual cite 63 Ω, but some current regional consumer specification pages list 24 Ω for MDR-7506. Existing 63 Ω comparison follows professional documentation. Confirm the exact regional model/label before using headphone impedance in electrical calculations.",
+      "secondReference": "https://www.sony.co.uk/electronics/headband-headphones/mdr-7506/specifications",
+      "reviewStatus": "manufacturer-conflict",
+      "reviewedOn": "2026-11-11"
     },
     "Audio-Technica ATH-M50x": {
       "transducer": "Dynamic closed-back over-ear",
@@ -759,7 +842,10 @@ const compareGearDetails = {
       "frequencyResponse": "20 Hz–20 kHz",
       "responseBasis": "Manufacturer range; tolerance not stated",
       "connector": "Fixed 3.5 mm analogue cable with adapter",
-      "reference": "https://www.gradothailand.com/en/product/sr60x/"
+      "reference": "https://www.gradothailand.com/en/product/sr60x/",
+      "reviewStatus": "regional-distributor",
+      "detailNote": "Regional Grado product source used. Frequency endpoint and driver-diameter listings need a direct Grado manual cross-check before manufacturer-verified status.",
+      "reviewedOn": "2026-11-11"
     }
   }
 };
