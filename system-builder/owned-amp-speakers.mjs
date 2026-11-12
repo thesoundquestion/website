@@ -1,6 +1,7 @@
 import {ownerEvidenceFor, ownerEvidenceTier} from './owner-evidence.mjs';
 import {priceContextFor,broadActivePromotionFor} from './market-price-context.mjs';
 import {BUILDER_ONLY_SPEAKERS} from './supplemental-speakers.mjs';
+import {internationalPriceContextFor, corroboratedInternationalPairPriceFor} from './international-price-context.mjs';
 
 /**
  * Speaker-only options when a visitor owns an amplifier but no speakers.
@@ -42,6 +43,10 @@ export const SPEAKER_IDEAS = Object.freeze([
   {model:'ELAC Debut 2.0 B6.2', goals:['bass','all_rounder','dynamic'], scenes:['bedroom','living_room'],
    reason:'A 6 Ω passive bookshelf alternative with a documented sensitivity basis, useful for exploring a simpler two-channel arrangement.',
    downside:'Older retail stock or used condition may vary. Published 6 Ω nominal is not a full impedance/phase curve.',
+   ca:null},
+  {model:'Wharfedale Diamond 12.1', goals:['all_rounder','natural','imaging','low_volume'], scenes:['desk','bedroom','living_room'],
+   reason:'An original British 5-inch standmount with documented textile tweeter, a familiar easy-listening audition option and an ordinary UK pair-price reference.',
+   downside:'Manufacturer minimum impedance is 4 Ω despite the nominal 8 Ω-compatible description. Smaller cabinets and a rear port mean room placement and bass expectations matter. Not the newer 12.1i.',
    ca:null},
   {model:'Wharfedale Diamond 12.2', goals:['natural','bass','all_rounder'], scenes:['bedroom','living_room'],
    reason:'An 8 Ω-compatible bookshelf design with a documented 4 Ω minimum to investigate when the amplifier can handle its real load.',
@@ -107,12 +112,12 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
   const byModel=new Map(BUILDER_ONLY_SPEAKERS.map(x=>[x.model,x]));
   for (const record of catalog)byModel.set(record.model,record);
   const goalsOrder={
-    all_rounder:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','Klipsch R-50M','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','KEF Q150','Q Acoustics 3020i','DALI Oberon 1'],
-    natural:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','Polk Signature Elite ES20','Wharfedale Diamond 12.2','ELAC Debut 3.0 DB63','DALI Oberon 1','Q Acoustics 3020i','Paradigm Titan v3','KEF Q150','Klipsch R-50M','ELAC Debut 2.0 B6.2','JBL Stage 250B'],
-    imaging:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','KEF Q150','DALI Oberon 1','Wharfedale Diamond 12.2','Klipsch R-50M','Q Acoustics 3020i','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Paradigm Titan v3'],
-    dynamic:['Klipsch R-50M','Polk Monitor XT20','Polk Monitor XT15','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Polk Signature Elite ES15','Paradigm Monitor SE Atom','Wharfedale Diamond 12.2','Paradigm Titan v3','DALI Oberon 1','KEF Q150','Q Acoustics 3020i'],
-    bass:['Polk Signature Elite ES20','Polk Monitor XT20','Polk Monitor XT15','ELAC Debut 3.0 DB63','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','Paradigm Monitor SE Atom','Klipsch R-50M','Polk Signature Elite ES15','KEF Q150','Q Acoustics 3020i','DALI Oberon 1'],
-    low_volume:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','DALI Oberon 1','Wharfedale Diamond 12.2','Polk Signature Elite ES20','Q Acoustics 3020i','KEF Q150','Klipsch R-50M','ELAC Debut 3.0 DB63','JBL Stage 250B','Paradigm Titan v3','ELAC Debut 2.0 B6.2']
+    all_rounder:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','Klipsch R-50M','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','KEF Q150','Q Acoustics 3020i','DALI Oberon 1'],
+    natural:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','Polk Signature Elite ES20','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 3.0 DB63','DALI Oberon 1','Q Acoustics 3020i','Paradigm Titan v3','KEF Q150','Klipsch R-50M','ELAC Debut 2.0 B6.2','JBL Stage 250B'],
+    imaging:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','KEF Q150','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Klipsch R-50M','Q Acoustics 3020i','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Paradigm Titan v3'],
+    dynamic:['Klipsch R-50M','Polk Monitor XT20','Polk Monitor XT15','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Polk Signature Elite ES15','Paradigm Monitor SE Atom','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Paradigm Titan v3','DALI Oberon 1','KEF Q150','Q Acoustics 3020i'],
+    bass:['Polk Signature Elite ES20','Polk Monitor XT20','Polk Monitor XT15','ELAC Debut 3.0 DB63','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','Paradigm Monitor SE Atom','Klipsch R-50M','Polk Signature Elite ES15','KEF Q150','Q Acoustics 3020i','DALI Oberon 1'],
+    low_volume:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Polk Signature Elite ES20','Q Acoustics 3020i','KEF Q150','Klipsch R-50M','ELAC Debut 3.0 DB63','JBL Stage 250B','Paradigm Titan v3','ELAC Debut 2.0 B6.2']
   };
   const ids=goalsOrder[goal]||goalsOrder.all_rounder;
   // Listener priorities and room come first. Among similarly suitable options,
@@ -127,17 +132,19 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     const sceneA=x?.scenes.includes(scene)?0:1;
     const sceneB=y?.scenes.includes(scene)?0:1;
     if(sceneA!==sceneB)return sceneA-sceneB;
-    // Under a *firm* Canadian budget, an evidenced attainable new pair is
-    // more helpful than an unpriced suggestion. A dated used asking band is
-    // only a conditional lead, and never outranks a budget-fitting new quote.
-    if(firm && budget!==null && region==='CA' && currency==='CAD') {
+    // A dated, region-specific ordinary pair price is more actionable than
+    // a completely unpriced model under a FIRM budget. Never convert foreign
+    // amounts or treat an isolated used asking price as a completed sale.
+    if(firm && budget!==null) {
       const evidenceKind=model=>{
         const info=SPEAKER_IDEAS.find(v=>v.model===model);
         const active=broadActivePromotionFor(model,region,currency,input.referenceDate);
-        const normal=info?.ca?.amount;
-        const effective=active?.amount??normal;
+        const international=corroboratedInternationalPairPriceFor(model,region,currency);
+        const canadian=region==='CA'&&currency==='CAD'?info?.ca?.amount:null;
+        const effective=active?.amount??international?.amount??canadian;
         if(Number.isFinite(effective) && effective<=budget)return 0;
-        const asks=allowedUsed && info?.usedOnly ? priceContextFor(model,region,currency)?.usedExampleRange : null;
+        const asks=region==='CA'&&currency==='CAD'&&allowedUsed && info?.usedOnly ?
+          priceContextFor(model,region,currency)?.usedExampleRange : null;
         if(asks && asks.min<=budget)return 1;
         return 2;
       };
@@ -166,11 +173,16 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     if(screen.discoveryFloor>=8 && Number.isFinite(minimum) && minimum<6) {
       excluded.push({title:model,reason:'Published minimum '+minimum+' Ω is more demanding than this 8 Ω-only screening route; model requires independent compatibility review.'});continue;
     }
-    const priced=region==='CA'&&currency==='CAD'&&idea.ca;
-    const marketContext=priceContextFor(model,region,currency);
+    const canadianPriced=region==='CA'&&currency==='CAD'&&idea.ca;
+    const ordinaryInternational=corroboratedInternationalPairPriceFor(model,region,currency);
+    const marketContext=priceContextFor(model,region,currency) ||
+      internationalPriceContextFor(model,region,currency);
     const promotionalOffer=broadActivePromotionFor(model,region,currency,input.referenceDate);
-    const promoChosen=!!promotionalOffer && (!priced||promotionalOffer.amount<idea.ca.amount);
-    const subtotal=promoChosen ? promotionalOffer.amount : priced ? idea.ca.amount : null;
+    const promoChosen=!!promotionalOffer &&
+      (!canadianPriced||promotionalOffer.amount<idea.ca.amount);
+    const subtotal=promoChosen ? promotionalOffer.amount :
+      ordinaryInternational ? ordinaryInternational.amount :
+      canadianPriced ? idea.ca.amount : null;
     if(firm && budget!==null && subtotal!==null && subtotal>budget) {
       excluded.push({title:model,reason:'Speaker-pair observed price exceeds the firm budget. Owned amplifier adds zero purchase cost.'});continue;
     }
@@ -188,7 +200,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       why:idea.reason,
       tradeoff:idea.downside,
       parts:[{name:model+' stereo pair',count:1,role:'Only new major component; keep your '+screen.ampName+' if verified suitable',url:record.url}],
-      priceComponents:subtotal!==null?[{label:model+' pair'+(promoChosen?' (seasonal promotion)':''),amount:subtotal,url:promoChosen?promotionalOffer.url:idea.ca.url}]:[],
+      priceComponents:subtotal!==null?[{label:model+' pair'+(promoChosen?' (seasonal promotion)':''),amount:subtotal,
+        url:promoChosen?promotionalOffer.url:(ordinaryInternational?.url || idea.ca?.url)}]:[],
+      pricingCurrency:currency,
       promotionalOffer:promoChosen?promotionalOffer:null,
       marketContext,
       usedExampleRange:idea.usedOnly && allowedUsed ? marketContext?.usedExampleRange || null : null,
