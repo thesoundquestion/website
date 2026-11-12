@@ -107,7 +107,7 @@ test('speaker handling source warns only for excess average continuous or peak d
   const r=run({...base,power:{speakerPowerContinuous:5,speakerPowerPeak:40},sourceUrl:'https://example.org/speaker-manual',entries:[{watts:100,load:8,type:'continuous'},{watts:100,load:8,type:'burst'}]});
   assert.match(r.cards[0].allText,/Speaker stress warning: the estimated average demand 8 W per speaker exceeds the published continuous-handling rating of 5 W/);
   assert.match(r.cards[0].allText,/Speaker stress warning: peak demand 80 W per speaker exceeds the manufacturer/);
-  const link=r.cards[0].subtrees.find(x=>x.tagName==='a' && x.textContent.includes('Manufacturer speaker-power'));
+  const link=r.cards[0].subtrees.find(x=>x.tagName==='a' && x.textContent.includes('Published speaker-power source'));
   assert.equal(link.href,'https://example.org/speaker-manual');
 });
 
