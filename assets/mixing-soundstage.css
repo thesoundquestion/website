@@ -25,3 +25,10 @@
 .mx-interactive svg [data-mix-stem][hidden],.mx-interactive svg [data-mix-ambience][hidden],.mx-interactive svg [data-mono-baseline][hidden],.mx-interactive svg [data-mono-result][hidden]{display:none!important}
 @media(max-width:900px){.mx-charts{grid-template-columns:1fr}.mx-format-inner{grid-template-columns:1fr}}
 @media(max-width:560px){.mx-intro h1{font-size:clamp(2.3rem,8vw,3.2rem)}.mx-two,.mx-glossary,.mx-albums{grid-template-columns:1fr}.mx-interactive .dl-graph-toolbar{padding:.6rem}.mx-interactive .dl-graph-toolbar .dl-option{flex:1 1 42%;min-width:0}.mx-controls{padding:.6rem .65rem}.mx-case,.mx-phase-case,.mx-format-case{padding:.65rem}.mx-charts{gap:.65rem}.mx-charts figure{padding:.45rem}.mx-stage-label{font-size:13px}.mx-axis{font-size:12px}.mx-link-row .button{width:100%;text-align:center}}
+/* Scenario pan labels remain readable even when multiple instruments share the centre. */
+.mx-stage-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem .7rem;margin:.65rem .2rem;color:#c6dce9;font-size:.78rem;line-height:1.45}
+.mx-stage-legend>span{min-width:0;overflow-wrap:anywhere}
+.mx-stage-legend strong{color:#ecf9ff}
+.mx-stage-key{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--stem-tone);margin-right:.35rem;vertical-align:baseline}
+.mx-stage-monogram{paint-order:stroke;stroke:#0b2034;stroke-width:1.2px}
+@media(max-width:420px){.mx-stage-legend{grid-template-columns:1fr 1fr;font-size:.72rem;gap:.25rem .35rem}}
