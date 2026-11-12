@@ -240,7 +240,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const compared=handling.watts!==null && power.exact
           ? ' vs. '+handling.watts+' W '+handling.label
           : ' · no usable speaker power-handling comparison';
-        p.append(document.createTextNode(load+compared+'. Actual clean level needs System Check.'));
+        const headroom=fitInfo.powerBand==='in_range' ?
+          'Broadly aligned on paper; real peak reserve still needs checking.' :
+          fitInfo.powerBand==='larger_reserve' ?
+          'Extra available power calls for sensible volume limits, not automatic better sound.' :
+          fitInfo.powerBand==='lower_reserve' || fitInfo.powerBand==='small_relative_to_rating' ?
+          'Less power on paper is not automatically inadequate at your normal volume.' :
+          'No handling-based power target can be justified from the current data.';
+        p.append(document.createTextNode(load+compared+'. '+headroom));
         card.append(p);
         const thd=el('p','sb-card-thd');
         addText(thd,'strong','Distortion evidence: ');
