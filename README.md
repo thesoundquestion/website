@@ -41,7 +41,7 @@ The decoder teaches through labelled **fictional specifications**, calculated ex
 
 ## Ask The Sound Question
 
-The Decoder's 18 lessons include a compact tutor with prepared answers and local typed-question matching. The tutor reads each lesson's selected graph and links to the relevant explanation. The answer bank loads when the panel is opened. Typed questions stay in the browser in the current release.
+The Decoder's 19 lessons include a compact tutor with prepared answers and local typed-question matching. The tutor reads each lesson's selected graph and links to the relevant explanation. The answer bank loads when the panel is opened. Typed questions stay in the browser in the current release.
 
 Maintain the [approved answers](assets/lesson-tutor/approved-answers.json) alongside the lessons. Run the [tutor tests](deployment/lesson-tutor/README.md#verification) when changing lesson specifications, example IDs or anchors. The [development handoff](deployment/lesson-tutor/README.md) covers editorial changes, privacy, operating limits and the optional Cloudflare Workers AI setup.
 
