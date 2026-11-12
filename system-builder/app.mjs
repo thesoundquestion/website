@@ -212,6 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(card,'div',item.kind+' · conditional example','sb-status');
       addText(card,'h4',item.title);
       addText(card,'p',item.why);
+      if (!item.editorialGoalFocus)
+        addText(card,'p','This is a contrasting architecture or budget example, not a model specifically validated for your main listening priority.','sb-help');
       const partList = el('ul','sb-buy-parts');
       for (const part of item.parts) {
         const li = el('li');
@@ -259,9 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(shop,'h4','Excluded by the firm budget or power requirement');
       list(shop,shortlist.excluded.slice(0,4).map(x=>x.title+': '+x.reason),'sb-help');
     }
-    if (bassMode !== 'no_sub' && data.get('subOwned') !== 'yes' && arch !== 'headphone_first') {
+    if (((bassMode !== 'no_sub' && data.get('subOwned') !== 'yes') || (primary === 'bass' && bassMode === 'no_sub')) && arch !== 'headphone_first') {
       const subAdd = el('div','sb-sub-add');
-      addText(subAdd,'h4','Subwoofer purchase is still missing');
+      addText(subAdd,'h4',bassMode === 'no_sub' ? 'If you later choose deeper bass' : 'Subwoofer purchase is still missing');
       addText(subAdd,'p','Two real models to investigate: SVS SB-1000 Pro (sealed) and RSL Speedwoofer 10E (ported). These are not automatically compatible with every path, and neither has a verified representative '+currency+' total here.');
       link(subAdd,'https://www.svsound.com/products/sb-1000-pro-subwoofer','SVS model information');
       link(subAdd,'https://rslspeakers.com/pages/speedwoofer-10e','RSL model information');
