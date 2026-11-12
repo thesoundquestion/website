@@ -133,9 +133,6 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     const goalA=x?.goals.includes(goal)?0:1;
     const goalB=y?.goals.includes(goal)?0:1;
     if(goalA!==goalB)return goalA-goalB;
-    const sceneA=x?.scenes.includes(scene)?0:1;
-    const sceneB=y?.scenes.includes(scene)?0:1;
-    if(sceneA!==sceneB)return sceneA-sceneB;
     // A dated, region-specific ordinary pair price is more actionable than
     // a completely unpriced model under a FIRM budget. Never convert foreign
     // amounts or treat an isolated used asking price as a completed sale.
@@ -155,6 +152,12 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       const budgetA=evidenceKind(a),budgetB=evidenceKind(b);
       if(budgetA!==budgetB)return budgetA-budgetB;
     }
+    // Within a firm budget, a documented buyable pair is more actionable
+    // than five unpriced leads, even if it comes with a small-room caveat.
+    // Outside priced choices, the actual room/use-case stays important.
+    const sceneA=x?.scenes.includes(scene)?0:1;
+    const sceneB=y?.scenes.includes(scene)?0:1;
+    if(sceneA!==sceneB)return sceneA-sceneB;
     const ownerA=ownerEvidenceTier(a,goal);
     const ownerB=ownerEvidenceTier(b,goal);
     if(ownerA!==ownerB)return ownerA-ownerB;
