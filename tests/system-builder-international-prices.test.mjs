@@ -73,6 +73,25 @@ test('original UK Wharfedale 12.1 and Q 3020i have separately sourced sterling r
   assert.equal(corroboratedInternationalPairPriceFor('Wharfedale Diamond 12.1i','GB','GBP'),null);
 });
 
+test('UK firm budget 169 still produces a real compact pair even in a larger room',()=>{
+  const r=results({region:'GB',currency:'GBP',budget:169});
+  assert.equal(r.selected[0].title,'Q Acoustics 3010i');
+  assert.equal(r.selected[0].subtotal,169);
+  assert.equal(r.selected[0].sceneCaution,true);
+  assert.ok(r.selected[0].marketContext.regular.length>=2);
+  assert.ok(r.selected[0].parts.every(x=>!/Yamaha A-720/.test(x.name)));
+});
+
+test('Q Acoustics 3010i is a separate Builder-only model with 6-ohm nominal and 4-ohm minimum',()=>{
+  const ctx=internationalPriceContextFor('Q Acoustics 3010i','GB','GBP');
+  assert.equal(corroboratedInternationalPairPriceFor('Q Acoustics 3010i','GB','GBP').amount,169);
+  assert.equal(ctx.regular.length,2);
+  assert.equal(internationalPriceContextFor('Q Acoustics 3010c','GB','GBP'),null);
+  const profile=soundProfileFor({title:'Q Acoustics 3010i'});
+  assert.match(profile.type,/owner/i);
+  assert.match(profile.ownerCaution,/3010c/);
+});
+
 test('UK budget 199 gives a priced Q Acoustics pair and not the 249 Wharfedale',()=>{
   const r=results({region:'GB',currency:'GBP',budget:199});
   assert.equal(r.selected[0].title,'Q Acoustics 3020i');
