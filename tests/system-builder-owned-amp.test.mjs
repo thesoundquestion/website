@@ -66,13 +66,13 @@ test('headphone and powered systems are never presented as speaker additions for
   assert.ok(r.selected.every(x=>!x.parts.some(p=>/receiver|amplifier/i.test(p.name))));
 });
 
-test('price examples are priced per pair and only apply to Canada CAD',()=>{
+test('Canadian and US stereo pair references use the visitor’s region and currency',()=>{
   const r=shortlistSpeakersForOwnedAmplifier(defaults);
   const polk=r.selected.find(x=>x.title==='Polk Signature Elite ES15');
   assert.equal(polk.subtotal,399);
   assert.equal(polk.priceComponents[0].amount,399);
   assert.match(polk.priceComponents[0].url,/polkaudio\.com/);
-  const usa=shortlistSpeakersForOwnedAmplifier({...defaults,region:'US',currency:'USD'});
+  const usa=shortlistSpeakersForOwnedAmplifier({...defaults,region:'US',currency:'USD',budget:280});
   assert.ok(usa.selected.some(x=>x.title==='Polk Monitor XT15'&&x.subtotal===179));
   assert.ok(usa.selected.some(x=>x.title==='Polk Monitor XT20'&&x.subtotal===279));
   assert.ok(usa.selected.every(x=>x.pricingCurrency==='USD'));
