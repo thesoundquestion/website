@@ -84,11 +84,13 @@ test('promotion disappears after published date and reverts to regular price',()
   assert.ok(r.excluded.some(x=>x.title==='Paradigm Monitor SE Atom'));
 });
 
-test('unknown locations cannot inherit Canadian pair pricing or seasonal sale',()=>{
+test('UK regions use sterling references, not Canadian promotions or converted CAD prices',()=>{
   assert.equal(broadActivePromotionFor('Paradigm Monitor SE Atom','US','USD','2026-11-12'),null);
   const r=leads({region:'GB',currency:'GBP',budget:250});
-  assert.ok(r.selected.length>0);
-  assert.ok(r.selected.every(x=>x.subtotal===null&&x.marketContext===null));
+  assert.ok(r.selected.some(x=>x.title==='Q Acoustics 3020i'&&x.subtotal===199));
+  assert.ok(r.selected.some(x=>x.title==='Wharfedale Diamond 12.1'&&x.subtotal===249));
+  assert.ok(r.selected.every(x=>x.subtotal===null||x.subtotal<=250));
+  assert.ok(r.selected.every(x=>x.pricingCurrency==='GBP'));
 });
 
 test('a CAD 100 budget does not put the known CAD 125-195 used asking band first',()=>{
