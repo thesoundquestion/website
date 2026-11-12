@@ -1,3 +1,5 @@
+import {ownerEvidenceFor} from './owner-evidence.mjs';
+
 /**
  * Model-specific, short editorial sound notes for the System Builder preview.
  * Sources are LINKED, not scraped, scored or redistributed measurement datasets.
@@ -95,6 +97,20 @@ export const SOUND_PROFILES = Object.freeze({
 });
 const UNKNOWN = Object.freeze({text:'No reliable model-specific sound profile has been reviewed yet. Tonal balance, bass and imaging are not inferred from driver materials or brand.',type:'Not independently characterized',url:null});
 export function soundProfileFor(item) {
+  const model=item?.soundTarget || item?.title || '';
+  const owners=ownerEvidenceFor(model);
+  if(owners) {
+    // Prefer multiple exact-model user experiences over absent/unsuitable lab
+    // metrics, but describe them as reports, never acoustic measurement facts.
+    return {
+      text:owners.short,
+      type:owners.label+' (subjective, setup-dependent)',
+      url:owners.sources[0]?.url || null,
+      ownerSources:owners.sources,
+      ownerCaution:owners.caution
+    };
+  }
+  // Scarce owner evidence is never a reason to hide a feasible candidate.
   return SOUND_PROFILES[item?.soundTarget] || SOUND_PROFILES[item?.id] || SOUND_PROFILES[item?.title] || UNKNOWN;
 }
 const ROOM_LABELS = Object.freeze({desk:'desk / nearfield',bedroom:'bedroom / small room',living_room:'living room',outdoors:'outdoors',party:'event / party'});
