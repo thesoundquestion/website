@@ -1,5 +1,5 @@
 import {ownerEvidenceFor, ownerEvidenceTier} from './owner-evidence.mjs';
-import {priceContextFor} from './market-price-context.mjs';
+import {priceContextFor,broadActivePromotionFor} from './market-price-context.mjs';
 import {BUILDER_ONLY_SPEAKERS} from './supplemental-speakers.mjs';
 
 /**
@@ -133,7 +133,10 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     if(firm && budget!==null && region==='CA' && currency==='CAD') {
       const evidenceKind=model=>{
         const info=SPEAKER_IDEAS.find(v=>v.model===model);
-        if(Number.isFinite(info?.ca?.amount) && info.ca.amount<=budget)return 0;
+        const active=broadActivePromotionFor(model,region,currency,input.referenceDate);
+        const normal=info?.ca?.amount;
+        const effective=active?.amount??normal;
+        if(Number.isFinite(effective) && effective<=budget)return 0;
         const asks=allowedUsed && info?.usedOnly ? priceContextFor(model,region,currency)?.usedExampleRange : null;
         if(asks && asks.min<=budget)return 1;
         return 2;
@@ -164,8 +167,10 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       excluded.push({title:model,reason:'Published minimum '+minimum+' Ω is more demanding than this 8 Ω-only screening route; model requires independent compatibility review.'});continue;
     }
     const priced=region==='CA'&&currency==='CAD'&&idea.ca;
-    const subtotal=priced?idea.ca.amount:null;
     const marketContext=priceContextFor(model,region,currency);
+    const promotionalOffer=broadActivePromotionFor(model,region,currency,input.referenceDate);
+    const promoChosen=!!promotionalOffer && (!priced||promotionalOffer.amount<idea.ca.amount);
+    const subtotal=promoChosen ? promotionalOffer.amount : priced ? idea.ca.amount : null;
     if(firm && budget!==null && subtotal!==null && subtotal>budget) {
       excluded.push({title:model,reason:'Speaker-pair observed price exceeds the firm budget. Owned amplifier adds zero purchase cost.'});continue;
     }
@@ -183,13 +188,14 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       why:idea.reason,
       tradeoff:idea.downside,
       parts:[{name:model+' stereo pair',count:1,role:'Only new major component; keep your '+screen.ampName+' if verified suitable',url:record.url}],
-      priceComponents:priced?[{label:model+' pair',amount:subtotal,url:idea.ca.url}]:[],
+      priceComponents:subtotal!==null?[{label:model+' pair'+(promoChosen?' (seasonal promotion)':''),amount:subtotal,url:promoChosen?promotionalOffer.url:idea.ca.url}]:[],
+      promotionalOffer:promoChosen?promotionalOffer:null,
       marketContext,
       usedExampleRange:idea.usedOnly && allowedUsed ? marketContext?.usedExampleRange || null : null,
       budgetCaution:idea.usedOnly && firm && budget!==null && marketContext?.usedExampleRange?.min>budget ?
         'Known used asking examples start above your budget. This is only a lead for a cheaper local listing, not a confirmed in-budget purchase.' : null,
       subtotal,
-      pricingStatus:subtotal===null?'regional_price_missing':'partial_subtotal',
+      pricingStatus:subtotal===null?'regional_price_missing':promoChosen?'seasonal_promotional_pair':'partial_subtotal',
       sourceDate:'2026-11-12',
       editorialGoalFocus:idea.goals.includes(goal),
       secondaryFocus:second.filter(x=>idea.goals.includes(x)),
