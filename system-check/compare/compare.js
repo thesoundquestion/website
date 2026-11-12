@@ -322,6 +322,10 @@ function showComparison() {
     if (device.reviewStatus === 'manufacturer-checked') return withCondition('Manufacturer specification cross-checked', device.reviewedOn || '');
     if (device.reviewStatus === 'manufacturer-and-distributor') return withCondition('Manufacturer manual + archived distributor checked', device.reviewedOn || '');
     if (device.reviewStatus === 'secondary-reviewed') return withCondition('Secondary source only · check before relying on figures', device.reviewedOn || '');
+    if (device.reviewStatus === 'manufacturer-conflict') return withCondition('Conflicting manufacturer documentation · see notes and both sources', device.reviewedOn || '');
+    if (device.reviewStatus === 'period-technical-source') return withCondition('Period technical literature cross-checked', device.reviewedOn || '');
+    if (device.reviewStatus === 'regional-distributor') return withCondition('Regional distributor source · not fully verified', device.reviewedOn || '');
+    if (device.reviewStatus === 'period-distributor') return withCondition('Archived distributor literature · test basis limited', device.reviewedOn || '');
     return withCondition('Not fully reviewed', 'Use the source links below; unconfirmed fields may be blank.');
   }));
   addRow('Notes and sources', devices.map(deviceLinks));
