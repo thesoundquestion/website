@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createContext,runInContext} from 'node:vm';
 import {OWNER_EVIDENCE,ownerEvidenceFor,ownerEvidenceTier} from '../system-builder/owner-evidence.mjs';
 import {soundProfileFor} from '../system-builder/sound-profiles.mjs';
+import {BUILDER_ONLY_SPEAKERS} from '../system-builder/supplemental-speakers.mjs';
 import {shortlistSpeakersForOwnedAmplifier} from '../system-builder/owned-amp-speakers.mjs';
 
 const file = path => readFileSync(new URL(path,import.meta.url),'utf8');
@@ -19,10 +20,11 @@ const base={amp:amp('Yamaha A-720'),speakers:inventory.speaker,useCase:'living_r
 
 test('the owner-evidence pilot is exact-model, source-linked, original summary only',()=>{
   const models=Object.keys(OWNER_EVIDENCE);
-  assert.equal(models.length,12);
+  assert.equal(models.length,13);
   for(const model of models){
     const e=ownerEvidenceFor(model);
-    assert.ok(inventory.speaker.some(x=>x.model===model));
+    assert.ok(inventory.speaker.some(x=>x.model===model) ||
+      BUILDER_ONLY_SPEAKERS.some(x=>x.model===model));
     assert.ok(e.short.length>25&&e.short.length<300);
     assert.ok(e.caution.length>25);
     assert.ok(e.sources.length>=1);
