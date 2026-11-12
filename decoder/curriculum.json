@@ -223,6 +223,12 @@
       "category": "recording",
       "title": "Microphones, DI and virtual instruments",
       "description": "Trace microphones, direct instrument inputs, hardware synths and software instruments into a recording; see how mic placement and a room change the captured sound."
+    },
+    {
+      "slug": "recording-resolution",
+      "category": "recording",
+      "title": "Recording resolution, gain and oversampling",
+      "description": "Explore 24-bit recording headroom, real clipping limits, 32-bit float and how oversampling prevents a particular digital alias."
     }
   ],
   "categories": {
