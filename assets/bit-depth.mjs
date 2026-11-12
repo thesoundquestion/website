@@ -145,7 +145,9 @@ function initQuiet() {
     if(sample.nonzeroSamples===0) {
       explanation='In this example without dither, all 25 snapshots round to zero at this setting. That does NOT mean a properly dithered real recording abruptly erases everything quieter than one step.';
     } else if(steps<4) {
-      explanation='Only about '+Number(steps.toPrecision(2))+' level steps reach from silence to the note’s peak. The stored dots jump between a few choices, while the gold curve stays smooth. This is why very quiet material is where bit depth becomes important.';
+      const stepCount = Number(steps.toPrecision(2));
+      explanation='Only about '+stepCount+' level '+(stepCount===1 ? 'step reaches' : 'steps reach')+
+        ' from silence to the note’s peak. The stored dots jump between a few choices, while the gold curve stays smooth. This is why very quiet material is where bit depth becomes important.';
     } else if(steps<32){
       explanation='A few available steps now describe the tiny note. Some differences remain visible even though the same 25 moments were sampled.';
     } else {
