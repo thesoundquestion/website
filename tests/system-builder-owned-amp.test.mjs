@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createContext,runInContext} from 'node:vm';
 import {SPEAKER_IDEAS,ampSpeakerScreening,shortlistSpeakersForOwnedAmplifier}
   from '../system-builder/owned-amp-speakers.mjs';
+import {BUILDER_ONLY_SPEAKERS} from '../system-builder/supplemental-speakers.mjs';
 
 const src = path => readFileSync(new URL(path,import.meta.url),'utf8');
 const sandbox={window:{}};
@@ -19,7 +20,9 @@ const defaults={amp:amp('Yamaha A-720'),speakers:inventory.speaker,goal:'all_rou
 
 test('only known passive speaker models from original read-only catalog are considered',()=>{
   assert.ok(SPEAKER_IDEAS.length>=10);
-  assert.ok(SPEAKER_IDEAS.every(x=>inventory.speaker.some(y=>y.model===x.model)));
+  assert.ok(SPEAKER_IDEAS.every(x=>inventory.speaker.some(y=>y.model===x.model) ||
+    BUILDER_ONLY_SPEAKERS.some(y=>y.model===x.model)));
+  assert.ok(BUILDER_ONLY_SPEAKERS.every(x=>!inventory.speaker.some(y=>y.model===x.model)));
   const list=shortlistSpeakersForOwnedAmplifier(defaults);
   assert.ok(list.selected.length>=3);
   assert.ok(list.selected.every(x=>x.architecture==='passive_separates'));
