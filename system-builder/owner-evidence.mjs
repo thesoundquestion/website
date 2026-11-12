@@ -11,6 +11,16 @@
  * Checked 2026-11-12; sources and details can change after that date.
  */
 export const OWNER_EVIDENCE = Object.freeze({
+  'Polk Monitor XT20':{
+    band:'some',relevantGoals:['all_rounder','bass','dynamic','natural'],
+    label:'Owners report different experiences',
+    short:'Some XT20 owners enjoy its punchy bass and relaxed listening; a separate owner calls it less refined and says setup or EQ made a difference.',
+    caution:'The positive bass comments include EDM, amplifier bass boost and rooms of different sizes. A complaint about muddy mids is another personal setup report, not a measured fault or proof that everyone needs EQ.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1db8yol',context:'Two XT20 owners discuss stereo/desktop use and bass, June 2024'},
+      {url:'https://www.reddit.com/r/hometheater/comments/1do6320',context:'XT20 owner reports bass and tonal criticisms in home theater use, June 2024'}
+    ]
+  },
   'Polk Signature Elite ES15': {
     band:'repeated', relevantGoals:['all_rounder','natural','imaging','low_volume'],
     label:'Several firsthand owner reports',
