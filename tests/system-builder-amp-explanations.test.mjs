@@ -52,7 +52,7 @@ test('browser card distinguishes amplifier why from actual speaker acoustic desc
   const app=read('../system-builder/app.mjs');
   assert.match(app,/item.amplifierReason \? 'Why this amplifier: '/);
   assert.match(app,/item.amplifierReason \|\| item.ownershipMessage/);
-  assert.match(app,/const showSound = !item.soundTarget \|\| sound.type !== 'Not independently characterized'/);
+  assert.match(app,/const showSound = sound.type !== 'Not independently characterized'/);
   assert.match(app,/item.soundTarget \? 'Your speaker’s sound: '/);
   assert.match(app,/item.amplifierEvidence\?\.length/);
   assert.match(app,/Published amplifier specifications/);
