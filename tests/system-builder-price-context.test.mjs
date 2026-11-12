@@ -29,7 +29,7 @@ test('normal retail is verified against three independently linked Canadian pair
 });
 
 test('sale discounts never become assumed regular market values',()=>{
-  const result=candidates();
+  const result=candidates({goal:'low_volume'});
   const p=result.selected.find(x=>x.title==='Paradigm Monitor SE Atom');
   assert.ok(p);
   assert.equal(p.subtotal,359.99);
