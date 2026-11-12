@@ -65,6 +65,71 @@ export const OWNER_EVIDENCE = Object.freeze({
       {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1wkahyf/',context:'Nearfield owner comment, November 2026'}
     ]
   },
+  'Wharfedale Diamond 12.2': {
+    band:'repeated', relevantGoals:['all_rounder','natural','bass','low_volume'],
+    label:'Several owners, different systems',
+    short:'Owners describe the original Diamond 12.2 as comfortable for music, sometimes with enough bass for their room. That does not establish deep-bass output.',
+    caution:'Reports are not level-matched or room-independent. Do not mix 12.2 with the newer 12.2i, and do not treat used sale anecdotes as typical market prices.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1qq1mud/',context:'Former owner describing easy listening with Rotel, January 2026'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1x54xj1/',context:'Long-term owner with Marantz NR1506, October 2026'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1wt9k6a/',context:'Separate 12.2 owner comment, September 2026'}
+    ]
+  },
+  'DALI Oberon 1': {
+    band:'some', relevantGoals:['natural','imaging','low_volume','all_rounder'],
+    label:'Two different owner experiences',
+    short:'One owner praised precise stereo positioning; another described fatigue at quiet levels. Treble comfort and placement deserve an audition.',
+    caution:'One report changed multiple amplifier/placement variables and cannot establish the audible cause. Another reports fatigue with a Denon system. No universal sonic trait is measured.',
+    sources:[
+      {url:'https://www.reddit.com/r/audiophile/comments/1pzgv22/',context:'Owner comparison and brightness caveat, December 2025'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1xb5pxh/',context:'Owner reports listening fatigue, October 2026'}
+    ]
+  },
+  'ELAC Debut 2.0 B6.2': {
+    band:'some', relevantGoals:['bass','dynamic','all_rounder','natural'],
+    label:'Owners in several different rooms',
+    short:'Some owners report satisfying bass and value with this exact B6.2 generation. Others still use a sub or question their room and amplifier setup.',
+    caution:'Do not transfer claims from the older Debut B6, newer Debut 3.0 DB63 or related Uni-Fi models. Reports are uncontrolled, often from different rooms.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/164c3l5/',context:'Owner using Marantz PM6007 reports satisfying bass, August 2023'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1iiqiz8/',context:'Owner describes positive budget use, February 2025'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1e0chpo/',context:'Owner troubleshooting an existing B6.2 system, July 2024'}
+    ]
+  },
+  'JBL Stage 250B': {
+    band:'some', relevantGoals:['all_rounder','dynamic','imaging','bass'],
+    label:'A few firsthand listening accounts',
+    short:'Some owners favour Stage 250B clarity and bass over their previous entry-level speakers; the number of detailed comparisons is still small.',
+    caution:'One account uses a powered subwoofer and another compares store demonstrations, so do not infer sub-free bass or an objective measured improvement.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1t25zjv/',context:'Owner compared ES15 and Stage 250B in store, May 2026'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1q3uzu0/',context:'250B owner compared prior JBL series, June 2026'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1nfj48i/',context:'Owned 250B in Sony/Technics system with subwoofer, September 2025'}
+    ]
+  },
+  'Klipsch R-50M': {
+    band:'some', relevantGoals:['dynamic','all_rounder','imaging'],
+    label:'Some exact-model owner reports',
+    short:'Owners report enjoyable music playback, while advice-thread criticism often concerns Klipsch generally rather than confirmed R-50M ownership.',
+    caution:'Do not conflate R-50M with R-50PM, R-51M, RP-600M, or R-50M II. Actual bass and treble preference remain system- and listener-dependent.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1q5ztkc/',context:'JBL MA310 with owned R-50M pair, January 2026'},
+      {url:'https://www.reddit.com/r/Klipsch/comments/1tc9cya/',context:'Owner of four R-50M comments on value, May 2026'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1qyw249/',context:'Owner of R-50M with older JVC receiver, February 2026'}
+    ]
+  },
+  'Paradigm Titan v3': {
+    band:'limited', relevantGoals:['all_rounder','bass','natural'],
+    label:'Limited vintage-owner reports',
+    short:'Some vintage owners value the Titans as inexpensive, enjoyable speakers, but their actual condition matters more than generic sound adjectives.',
+    caution:'Original foam surrounds can deteriorate, and repaired pairs can differ. Test each driver; visually verify the surrounds and the exact v3 revision before making a used offer.',
+    sources:[
+      {url:'https://www.reddit.com/r/audiophile/comments/1f18eyd/',context:'Owned v3 pair and first-hand surround condition discussion, August 2024'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1nzntej/',context:'Owned v3 pair requiring foam repair, October 2025'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1ettrfs/',context:'Vintage v3 owner-condition advice, August 2024'}
+    ]
+  },
   'Paradigm Monitor SE Atom': {
     band:'limited', relevantGoals:['all_rounder','natural'],
     label:'Limited firsthand owner context',
