@@ -1,5 +1,5 @@
 'use strict';
-/* Compare My Gear: per-model source links and review status. Disputed sources remain explicitly flagged. */
+/* Model-specific Compare My Gear metadata. Source type and disputed specifications are recorded per entry. */
 const compareGearDetails = {
   "version": "2026-11-11",
   "notice": "Supplemental, source-linked model facts. A blank value means the source did not establish the specification.",
@@ -170,7 +170,10 @@ const compareGearDetails = {
       "frequencyResponse": "79 Hz–28 kHz",
       "responseBasis": "Manufacturer ±3 dB; free-field",
       "crossover": "2.1 kHz",
-      "reference": "https://ca.kef.com/products/ls50-meta"
+      "reference": "https://assets.kef.com/product-support/ls50-meta/ls50-meta-product-manual.pdf",
+      "reviewStatus": "manufacturer-checked",
+      "reviewedOn": "2026-11-11",
+      "responseExtra": "47 Hz–45 kHz (−6 dB, free field); typical in-room bass 26 Hz (−6 dB)"
     },
     "Cerwin-Vega D-3": {
       "configuration": "3-way",
@@ -311,17 +314,6 @@ const compareGearDetails = {
       "responseBasis": "Manufacturer ±3 dB",
       "crossover": null,
       "reference": "https://assets.klipsch.com/product-specsheets/forte-II-brochure.pdf",
-      "reviewStatus": "manufacturer-checked",
-      "reviewedOn": "2026-11-11"
-    },
-    "Klipsch RP-600M II": {
-      "configuration": "2-way",
-      "drivers": "6.5″ Cerametallic-cone woofer; 1″ vented titanium LTS tweeter in Tractrix horn",
-      "enclosure": "Rear-ported bass reflex",
-      "frequencyResponse": "44 Hz–25 kHz",
-      "responseBasis": "Manufacturer ±3 dB",
-      "crossover": "1.5 kHz",
-      "reference": "https://assets.klipsch.com/product-specsheets/RP-600M-II_Spec-Sheet_v02.pdf",
       "reviewStatus": "manufacturer-checked",
       "reviewedOn": "2026-11-11"
     },
@@ -642,6 +634,45 @@ const compareGearDetails = {
       "reviewStatus": "manufacturer-conflict",
       "detailNote": "Period Pioneer catalogue and Hi-Fi Choice show 1.2/4/12 kHz, but other published HPM-100 documents specify 3/4/12 kHz, possibly due to revision or transcription. This entry must not be treated as one universal HPM-100 crossover.",
       "reviewedOn": "2026-11-11"
+    },
+    "Paradigm Phantom v1": {
+      "configuration": "2-way / 2 drivers",
+      "drivers": "210 mm (8.3″) polypropylene-cone LF/MF with die-cast chassis; 19 mm (0.75″) treated-textile dome tweeter (TTD)",
+      "enclosure": "Bass reflex",
+      "frequencyResponse": "60 Hz–20 kHz",
+      "responseBasis": "Reproduced vintage specification, on-axis ±2 dB",
+      "responseExtra": "60 Hz–15 kHz at 30° off axis (±2 dB); bass extension 40 Hz (DIN)",
+      "crossover": "2.5 kHz, second-order electro-acoustic",
+      "reference": "https://www.canuckaudiomart.com/details/649848571-paradigm-phantom-v1-speakers/",
+      "reviewStatus": "secondary-reviewed",
+      "reviewedOn": "2026-11-11",
+      "detailNote": "Reproduced Phantom V1 period specification from secondhand listing, NOT a current Paradigm manufacturer document. Do not mix with physically different Phantom v3 (6.5″ woofer)."
+    },
+    "Paradigm Titan v3": {
+      "configuration": "2-way / 2 drivers",
+      "drivers": "165 mm (6.5″) polypropylene-cone midwoofer; 19 mm (0.75″) CMC ceramic-metal-composite-dome tweeter",
+      "enclosure": "Bass reflex (resistive port)",
+      "frequencyResponse": "60 Hz–20 kHz",
+      "responseBasis": "Reproduced vintage specification, on-axis ±2 dB",
+      "responseExtra": "60 Hz–16 kHz at 30° off axis (±2 dB); bass extension 50 Hz (DIN)",
+      "crossover": "2.3 kHz, second-order electro-acoustic",
+      "reference": "https://www.canuckaudiomart.com/details/649350799-paradigm-titan-bookshelf-speakers-v3-black-with-wall-mounts/",
+      "secondReference": "https://www.hifi-guide.com/loudspeaker/paradigm-monitor-titan-v-3/",
+      "reviewStatus": "secondary-reviewed",
+      "reviewedOn": "2026-11-11",
+      "detailNote": "Reproduced V3 specifications and cross-checked vintage enthusiast archive; original Paradigm brochure not verified. Do not mix with Titan v1/v2/v4."
+    },
+    "Axiom Audio Vocal Point VP-100 (original)": {
+      "reviewStatus": "not-verified",
+      "reviewedOn": "2026-11-11",
+      "reference": "https://www.axiomaudio.com/faqs",
+      "detailNote": "Exact original VP-100 driver and response specification not confirmed from a model-matching technical document; omitted until available."
+    },
+    "Pioneer S-H352F-K": {
+      "reviewStatus": "not-verified",
+      "reviewedOn": "2026-11-11",
+      "reference": "https://www.generalmanual.com/Speaker/Pioneer-S-H352F-K-3-Way-Floor-Standing-Speaker.htm",
+      "detailNote": "Original variant driver materials, effective frequency limits, crossover and nominal load not reliably established; do not infer specs from another Pioneer model."
     }
   },
   "source": {
