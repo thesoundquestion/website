@@ -1,0 +1,29 @@
+name: System Builder preview checks
+
+on:
+  push:
+    branches:
+      - feature/system-builder-preview-20261112
+  pull_request:
+    paths:
+      - "system-builder/**"
+      - "system-check/gear.js"
+      - "system-check/compare/specs.js"
+      - "tests/**"
+      - ".github/workflows/system-builder-preview-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  node-tests:
+    name: Node regression tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run all site tests
+        run: node --test tests/*.test.mjs
