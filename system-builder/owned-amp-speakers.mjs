@@ -56,6 +56,10 @@ export const SPEAKER_IDEAS = Object.freeze([
    reason:'A compact coaxial-driver speaker to compare for consistent positioning and soundstage preferences, without claiming a measured personal match.',
    downside:'The maker documents a 3.7 Ω minimum despite the nominal 8 Ω figure; this can be a demanding load for some amplifiers.',
    ca:null},
+  {model:'Q Acoustics 3010i', goals:['all_rounder','natural','imaging','low_volume'], scenes:['desk','bedroom'],
+   reason:'A genuinely affordable UK compact stereo pair when shelf space is tight. Exact-model owners and a hands-on review praise pleasant music listening, with limited bass scale.',
+   downside:'The manufacturer specifies a 6 Ω nominal and 4 Ω minimum load. A 4-inch woofer in a small cabinet is not a bass-first choice without a sub; a larger room may favour the 3020i.',
+   ca:null},
   {model:'Q Acoustics 3020i', goals:['natural','imaging','all_rounder'], scenes:['desk','bedroom','living_room'],
    reason:'A compact 6 Ω bookshelf alternative for auditioning placement and tonal presentation with a conventional stereo amplifier.',
    downside:'Published 4 Ω minimum requires an appropriate amplifier. Deep bass and loud clean output remain setup dependent.',
@@ -112,12 +116,12 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
   const byModel=new Map(BUILDER_ONLY_SPEAKERS.map(x=>[x.model,x]));
   for (const record of catalog)byModel.set(record.model,record);
   const goalsOrder={
-    all_rounder:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','Klipsch R-50M','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','KEF Q150','Q Acoustics 3020i','DALI Oberon 1'],
-    natural:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','Polk Signature Elite ES20','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 3.0 DB63','DALI Oberon 1','Q Acoustics 3020i','Paradigm Titan v3','KEF Q150','Klipsch R-50M','ELAC Debut 2.0 B6.2','JBL Stage 250B'],
-    imaging:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','KEF Q150','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Klipsch R-50M','Q Acoustics 3020i','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Paradigm Titan v3'],
-    dynamic:['Klipsch R-50M','Polk Monitor XT20','Polk Monitor XT15','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Polk Signature Elite ES15','Paradigm Monitor SE Atom','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Paradigm Titan v3','DALI Oberon 1','KEF Q150','Q Acoustics 3020i'],
-    bass:['Polk Signature Elite ES20','Polk Monitor XT20','Polk Monitor XT15','ELAC Debut 3.0 DB63','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','Paradigm Monitor SE Atom','Klipsch R-50M','Polk Signature Elite ES15','KEF Q150','Q Acoustics 3020i','DALI Oberon 1'],
-    low_volume:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Polk Signature Elite ES20','Q Acoustics 3020i','KEF Q150','Klipsch R-50M','ELAC Debut 3.0 DB63','JBL Stage 250B','Paradigm Titan v3','ELAC Debut 2.0 B6.2']
+    all_rounder:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','Klipsch R-50M','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i','DALI Oberon 1'],
+    natural:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','Polk Signature Elite ES20','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 3.0 DB63','DALI Oberon 1','Q Acoustics 3010i','Q Acoustics 3020i','Paradigm Titan v3','KEF Q150','Klipsch R-50M','ELAC Debut 2.0 B6.2','JBL Stage 250B'],
+    imaging:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','KEF Q150','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Klipsch R-50M','Q Acoustics 3010i','Q Acoustics 3020i','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Paradigm Titan v3'],
+    dynamic:['Klipsch R-50M','Polk Monitor XT20','Polk Monitor XT15','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Polk Signature Elite ES15','Paradigm Monitor SE Atom','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Paradigm Titan v3','DALI Oberon 1','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i'],
+    bass:['Polk Signature Elite ES20','Polk Monitor XT20','Polk Monitor XT15','ELAC Debut 3.0 DB63','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','Paradigm Monitor SE Atom','Klipsch R-50M','Polk Signature Elite ES15','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i','DALI Oberon 1'],
+    low_volume:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Polk Signature Elite ES20','Q Acoustics 3010i','Q Acoustics 3020i','KEF Q150','Klipsch R-50M','ELAC Debut 3.0 DB63','JBL Stage 250B','Paradigm Titan v3','ELAC Debut 2.0 B6.2']
   };
   const ids=goalsOrder[goal]||goalsOrder.all_rounder;
   // Listener priorities and room come first. Among similarly suitable options,
