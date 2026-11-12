@@ -46,6 +46,11 @@ export const SOUND_PROFILES = Object.freeze({
   'party-jbl': {text:'Designed around live-event speech/music coverage and microphone mixing. A reliable tonal listening profile for this exact PA revision is not established here.',type:'Application and specifications only',url:'https://www.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw855d8ce0/pdfs/JBL_EONONE-MK2-UserGuide.pdf'},
   'party-dzr': {text:'Built for professional sound reinforcement and high audience output, not a verified home-stereo sound signature. Tonal character at your venue has not been established.',type:'Application and specifications only',url:'https://ca.yamaha.com/en/audio/portable-pa/products/speakers/dzr/specs.html'},
   'used-rx485-titan': {text:'No dependable model-and-revision-specific sonic profile has been verified for the Titan v3 pair. Driver and crossover condition can materially alter a used speaker.',type:'Not independently characterized',url:null},
+  'Polk Monitor XT20': {
+    text:'Some owners appreciate the larger Polk XT20 for bass and everyday listening, while others find the mids need careful placement or EQ; a universal tonal match is not established.',
+    type:'Owner listening reports, varied conditions',
+    url:'https://www.reddit.com/r/BudgetAudiophile/comments/1db8yol'
+  },
   'Polk Monitor XT15': {
     text:'One hands-on review describes lively, clear sound and useful punch for a low-cost compact speaker, but less expansive stereo imaging and some leaner lower vocals.',
     type:'Independent hands-on listening review, not an owner consensus',
