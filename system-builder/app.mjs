@@ -1,6 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier} from './owned-amp-speakers.mjs';
+import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -206,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
       architecture:arch, useCase, goal:primary, level:String(data.get('level')),
       distanceFt, power:powered, connection:String(data.get('connection')),
       secondary:extras.filter(x=>x.checked&&x.value!==primary).map(x=>x.value),
+      character:String(data.get('character')),
       region:String(data.get('region')), currency,
       budget:Number.isFinite(budget) ? budget : null,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
@@ -226,7 +228,16 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(price,'span',item.subtotal === null ? 'No local price checked' : 'CAD · listed parts only');
       head.append(price);
       card.append(head);
-      addText(card,'p',item.why,'sb-card-why');
+      const fit = el('p','sb-card-match');
+      addText(fit,'strong','Why this one: ');
+      fit.append(document.createTextNode(recommendationWhy(item,request,
+        Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
+      card.append(fit);
+      const sound = soundProfileFor(item);
+      const soundLine = el('p','sb-card-sound');
+      addText(soundLine,'strong','Sound: ');
+      soundLine.append(document.createTextNode(sound.text));
+      card.append(soundLine);
 
       // Only material blockers and urgent caveats interrupt the skim view.
       if (item.loadCaution)
@@ -247,6 +258,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const details = el('details','sb-card-details');
       addText(details,'summary','What is included, drawbacks & sources');
       addText(details,'p',item.why,'sb-card-why-full');
+      addText(details,'h5','Sound description: evidence');
+      addText(details,'p',sound.type+'. Reported tonal character is not a guaranteed match for your room, hearing or preferred volume.','sb-card-reference');
+      if (sound.url) link(details,sound.url,'Read the source');
       if (!item.editorialGoalFocus)
         addText(details,'p','An alternative approach for comparison, not a verified performance match to your main priority.');
       if (item.secondaryFocus.length)
@@ -307,6 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
         more.append(moreGrid);
         shop.append(more);
       }
+      if (request.character !== 'faithful')
+        addText(shop,'p','Your sound-character preference is recorded, but this preview does not yet verify or re-rank models by your preferred tonal flavour.','sb-brief-note');
       addText(shop,'p',speakerFocus ?
         'These are speaker-only candidates, not confirmed electrical matches. Listed CAD amounts cover a speaker pair only; your owned amplifier costs nothing extra. Check full impedance, cabling and listening level before buying.' :
         'Illustrative options, not certified matches. Canadian amounts are dated component listings, not full system costs or typical market prices.','sb-brief-note');
