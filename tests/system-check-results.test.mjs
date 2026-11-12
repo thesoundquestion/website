@@ -19,7 +19,7 @@ function run(config) {
   const context = {
     document: { createElement(tag) { return new Node(tag); } },
     body,
-    field() { return { value: '' }; },
+    field(name) { return { value: '', valueAsNumber: config.power?.[name] ?? NaN, dataset: config.sourceUrl && config.power?.[name] ? { powerSourceUrl: config.sourceUrl } : {} }; },
     show(value) { return new Intl.NumberFormat('en-CA', { maximumSignificantDigits: 3 }).format(value); },
     db(value) { return value.toFixed(1); },
     addText(tag,value) { const n = new Node(tag); n.textContent = value; body.append(n); return n; },
@@ -86,4 +86,63 @@ test('nonstandard entered speaker nominal load remains selected and is not renam
   assert.match(result.cards[0].allText,/5 Ω nominal speaker load you entered/);
   assert.equal(result.cards[1].children[0].textContent,'Estimated Performance with 4 Ω Speakers');
   assert.equal(result.cards[2].children[0].textContent,'Estimated Performance with 6 Ω Speakers');
+});
+
+test('lower unverified loads warn about amplifier current and protection risk',()=>{
+  const r=run({...base,entries:[{watts:100,load:8,type:'continuous'}]});
+  assert.match(r.cards[1].allText,/Amplifier load-stress warning/);
+  assert.match(r.cards[1].allText,/4 Ω load is below your lowest entered amplifier test rating \(8 Ω\)/);
+  assert.match(r.cards[1].allText,/A RMS per channel/);
+  assert.match(r.cards[1].allText,/overheat, trip protection or clip early/);
+  assert.doesNotMatch(r.cards[0].allText,/Amplifier load-stress warning/);
+});
+
+test('an actual speaker minimum below the lowest tested amp load triggers separate stress warning',()=>{
+  const r=run({...base,minimum:3.5,entries:[{watts:120,load:4,type:'continuous'},{watts:80,load:8,type:'continuous'}]});
+  assert.match(r.cards[0].allText,/Your measured speaker minimum of 3.5 Ω is also below the lowest tested amplifier load of 4 Ω/);
+  assert.doesNotMatch(r.cards[2].allText,/Amplifier load-stress warning/);
+});
+
+test('speaker handling source warns only for excess average continuous or peak demand',()=>{
+  const r=run({...base,power:{speakerPowerContinuous:5,speakerPowerPeak:40},sourceUrl:'https://example.org/speaker-manual',entries:[{watts:100,load:8,type:'continuous'},{watts:100,load:8,type:'burst'}]});
+  assert.match(r.cards[0].allText,/Speaker stress warning: the estimated average demand 8 W per speaker exceeds the published continuous-handling rating of 5 W/);
+  assert.match(r.cards[0].allText,/Speaker stress warning: peak demand 80 W per speaker exceeds the manufacturer/);
+  const link=r.cards[0].subtrees.find(x=>x.tagName==='a' && x.textContent.includes('Manufacturer speaker-power'));
+  assert.equal(link.href,'https://example.org/speaker-manual');
+});
+
+test('recommended amplifier power is never mislabelled as speaker handling threshold',()=>{
+  const r=run({...base,power:{speakerRecommendedAmpMax:50},entries:[{watts:200,load:8,type:'continuous'}]});
+  assert.match(r.cards[0].allText,/Speaker handling unverified/);
+  assert.match(r.cards[0].allText,/Recommended amplifier range ends at 50 W/);
+  assert.match(r.cards[0].allText,/NOT the speaker’s maximum safe input/);
+  assert.doesNotMatch(r.cards[0].allText,/Speaker stress warning:/);
+});
+
+test('unknown-duration maximum input and nominal input emit qualified cautions',()=>{
+  const r=run({...base,power:{speakerPowerMaxInput:40,speakerPowerNominal:5},entries:[{watts:100,load:8,type:'continuous'}]});
+  assert.match(r.cards[0].allText,/average demand 8 W exceeds the published nominal input rating of 5 W/);
+  assert.match(r.cards[0].allText,/peak demand 80 W exceeds the published maximum input of 40 W/);
+  assert.match(r.cards[0].allText,/test duration for this maximum is unspecified/);
+});
+
+test('speaker catalogue carries power-source provenance and preserves unknown vintage models',()=>{
+  const gear=readFileSync(new URL('../system-check/gear.js',import.meta.url),'utf8');
+  const start=gear.indexOf('  "speaker": [');
+  const end=gear.indexOf('  "amp": [',start);
+  const speakers=JSON.parse(gear.slice(start+'  "speaker": '.length,end).trim().replace(/,\s*$/,''));
+  assert.equal(speakers.length,59);
+  const sourced=speakers.filter(x=>x.values.speakerPowerSource);
+  assert.ok(sourced.length>=30);
+  const exact=n=>speakers.find(x=>x.model===n).values;
+  assert.equal(exact('Klipsch RP-600M (original)').speakerPowerContinuous,100);
+  assert.equal(exact('Klipsch RP-600M (original)').speakerPowerPeak,400);
+  assert.equal(exact('Paradigm Monitor SE Atom').speakerPowerMaxInput,50);
+  assert.equal(exact('Paradigm Monitor SE Atom').speakerRecommendedAmpMax,100);
+  assert.equal(exact('Cerwin-Vega XLS-12').speakerPowerContinuous,undefined);
+  assert.equal(exact('Cerwin-Vega XLS-12').speakerPowerPeak,300);
+  assert.equal(exact('DALI Oberon 1').speakerPowerContinuous,undefined);
+  assert.equal(exact('DALI Oberon 1').speakerRecommendedAmpMax,100);
+  assert.equal(exact('Paradigm Phantom v1').speakerPowerContinuous,undefined);
+  assert.equal(exact('Paradigm Titan v3').speakerPowerPeak,undefined);
 });

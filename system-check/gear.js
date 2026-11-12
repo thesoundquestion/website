@@ -65,7 +65,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 90.8,
         "basis": "power",
-        "load": 6
+        "load": 6,
+        "speakerPowerPeak": 300,
+        "speakerPowerSource": "https://cerwinvega.com/products/xls-12",
+        "speakerPowerNote": "Cerwin-Vega product page lists 300 W peak; not a continuous rating."
       },
       "note": "12-inch tower. Sensitivity is for one speaker at 1 W / 3.28 ft.",
       "url": "https://cerwinvega.com/products/xls-12"
@@ -75,7 +78,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 92.3,
         "basis": "power",
-        "load": 6
+        "load": 6,
+        "speakerPowerPeak": 400,
+        "speakerPowerSource": "https://cerwinvega.com/products/xls-15",
+        "speakerPowerNote": "Cerwin-Vega product page lists 400 W peak; not a continuous rating."
       },
       "note": "15-inch tower. Sensitivity is for one speaker at 1 W / 3.28 ft.",
       "url": "https://cerwinvega.com/products/xls-15"
@@ -85,7 +91,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 95.3,
         "basis": "power",
-        "load": 6
+        "load": 6,
+        "speakerPowerPeak": 500,
+        "speakerPowerSource": "https://cerwinvega.com/products/xls-215",
+        "speakerPowerNote": "Cerwin-Vega product page lists 500 W peak; not a continuous rating."
       },
       "note": "Dual 15-inch tower. Sensitivity is for one speaker at 1 W / 3.28 ft.",
       "url": "https://cerwinvega.com/products/xls-215"
@@ -95,7 +104,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 86,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerRecommendedAmpMax": 100,
+        "speakerPowerSource": "https://dali-speakers.com/en-us/products/oberon/oberon-1/",
+        "speakerPowerNote": "Recommended amplifier power up to 100 W only. Not a speaker damage/handling limit."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
@@ -105,7 +117,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 87,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerRecommendedAmpMax": 150,
+        "speakerPowerSource": "https://f.hubspotusercontent10.net/hubfs/8572466/Downloads/OBERON/OBERON_brochure_EN.pdf",
+        "speakerPowerNote": "DALI recommended amplifier max 150 W. No explicit handling rating, so no numeric damage threshold."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
@@ -115,7 +130,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 88,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerRecommendedAmpMax": 150,
+        "speakerPowerSource": "https://f.hubspotusercontent10.net/hubfs/8572466/Downloads/OBERON/OBERON_brochure_EN.pdf",
+        "speakerPowerNote": "DALI recommended amplifier max 150 W, not max speaker input."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
@@ -125,7 +143,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 88.5,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerRecommendedAmpMax": 180,
+        "speakerPowerSource": "https://f.hubspotusercontent10.net/hubfs/8572466/Downloads/OBERON/OBERON_brochure_EN.pdf",
+        "speakerPowerNote": "DALI recommended amplifier max 180 W, not a power-handling limit."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf"
@@ -135,7 +156,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 86,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerMaxInput": 120,
+        "speakerPowerSource": "https://digital.elac.com/download/df52/owners-manual_1.0.0.pdf",
+        "speakerPowerNote": "ELAC lists maximum power input; duration not specified."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://elac.com/download/dc62/owners-manual_1.0.0.pdf"
@@ -145,7 +169,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 87,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerMaxInput": 120,
+        "speakerPowerSource": "https://digital.elac.com/download/df52/owners-manual_1.0.0.pdf",
+        "speakerPowerNote": "ELAC lists maximum power input; duration not specified."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://elac.com/download/dc62/owners-manual_1.0.0.pdf"
@@ -157,7 +184,12 @@ const systemCheckGear = {
         "basis": "voltage",
         "load": 6,
         "minimum": 4.8,
-        "minimumHz": 200
+        "minimumHz": 200,
+        "speakerPowerNominal": 50,
+        "speakerPowerPeak": 70,
+        "speakerRecommendedAmpMax": 120,
+        "speakerPowerSource": "https://w.elac.com/download/dc53/debut-3-owners-manual_1.0.0.pdf",
+        "speakerPowerNote": "Owner's manual: nominal/peak handling 50/70 W; recommended amplifier maximum 120 W. The separate introduction page displays conflicting power figures, so these are explicitly sourced to the manual."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. ELAC lists a 4.8 Ω minimum at 200 Hz.",
       "url": "https://1www.elac.com/download/debut-3-0/debut-3-0-sales-sheet_2.0.0.pdf"
@@ -169,7 +201,12 @@ const systemCheckGear = {
         "basis": "voltage",
         "load": 6,
         "minimum": 4.8,
-        "minimumHz": 200
+        "minimumHz": 200,
+        "speakerPowerNominal": 60,
+        "speakerPowerPeak": 80,
+        "speakerRecommendedAmpMax": 140,
+        "speakerPowerSource": "https://w.elac.com/download/dc53/debut-3-owners-manual_1.0.0.pdf",
+        "speakerPowerNote": "Owner's manual: nominal/peak handling 60/80 W; recommendation up to 140 W. Not a measured failure threshold."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. ELAC lists a 4.8 Ω minimum at 200 Hz.",
       "url": "https://1www.elac.com/download/debut-3-0/debut-3-0-sales-sheet_2.0.0.pdf"
@@ -181,7 +218,12 @@ const systemCheckGear = {
         "basis": "voltage",
         "load": 4,
         "minimum": 3.6,
-        "minimumHz": 500
+        "minimumHz": 500,
+        "speakerPowerNominal": 100,
+        "speakerPowerPeak": 150,
+        "speakerRecommendedAmpMax": 180,
+        "speakerPowerSource": "https://w.elac.com/download/dc53/debut-3-owners-manual_1.0.0.pdf",
+        "speakerPowerNote": "Owner's manual: nominal/peak handling 100/150 W; amplifier recommendation up to 180 W. Manufacturer's introduction page conflicts with manual's nominal/peak figures."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. ELAC’s sales sheet lists 4 Ω nominal and a 3.6 Ω minimum at 500 Hz.",
       "url": "https://1www.elac.com/download/debut-3-0/debut-3-0-sales-sheet_2.0.0.pdf"
@@ -191,7 +233,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 86,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerMaxInput": 120,
+        "speakerPowerSource": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf",
+        "speakerPowerNote": "Original ELAC manual: max power input 120 W; duration not defined."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf"
@@ -201,7 +246,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 87,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerMaxInput": 140,
+        "speakerPowerSource": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf",
+        "speakerPowerNote": "Original ELAC manual: max power input 140 W; duration not defined."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://www.elac.com/download/dfr52/elac-debut-reference-eng.pdf"
@@ -241,7 +289,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 86,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerRecommendedAmpMax": 150,
+        "speakerPowerSource": "https://www.jbl.com/250B.html",
+        "speakerPowerNote": "JBL recommends an amplifier 20–150 W. Do not equate that with continuous speaker power handling."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. This is the Stage 2 model.",
       "url": "https://www.jbl.com/250B.html"
@@ -272,7 +323,10 @@ const systemCheckGear = {
         "sensitivity": 85,
         "basis": "voltage",
         "load": 8,
-        "minimum": 3.5
+        "minimum": 3.5,
+        "speakerRecommendedAmpMax": 100,
+        "speakerPowerSource": "https://international.kef.com/products/ls50-meta",
+        "speakerPowerNote": "KEF recommends 40–100 W amplifier, not a 100 W speaker damage threshold."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF specifies a 3.5 Ω minimum.",
       "url": "https://ca.kef.com/products/ls50-meta"
@@ -380,7 +434,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 96,
         "basis": "power",
-        "load": 8
+        "load": 8,
+        "speakerPowerContinuous": 100,
+        "speakerPowerPeak": 500,
+        "speakerPowerSource": "https://assets.klipsch.com/files/Heresy-II-La-Scala-Belle-Klipsch-brochure-and-specs.pdf",
+        "speakerPowerNote": "Original Heresy II brochure: 100 W max continuous and 500 W peak."
       },
       "note": "Original Heresy II brochure. Sensitivity is for one speaker at 1 W / 3.28 ft.",
       "url": "https://assets.klipsch.com/files/Heresy-II-La-Scala-Belle-Klipsch-brochure-and-specs.pdf"
@@ -390,7 +448,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 92,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerPowerContinuous": 75,
+        "speakerPowerPeak": 300,
+        "speakerPowerSource": "https://assets.klipsch.com/product-specsheets/Reference-R-50M-Spec-Sheet.pdf",
+        "speakerPowerNote": "Klipsch spec sheet explicitly lists CONT/PEAK 75/300 W."
       },
       "note": "Klipsch’s 92 dB figure uses its room-referenced convention. The preset uses 8 Ω compatibility as a calculation reference. Leave room adjustment at zero to avoid counting room contribution twice.",
       "url": "https://assets.klipsch.com/product-specsheets/Reference-R-50M-Spec-Sheet.pdf"
@@ -400,7 +462,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 93,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerPowerContinuous": 85,
+        "speakerPowerPeak": 340,
+        "speakerPowerSource": "https://assets.klipsch.com/product-specsheets/R-51M_Spec-Sheet_v01.pdf",
+        "speakerPowerNote": "Klipsch spec sheet explicitly lists CONT/PEAK 85/340 W."
       },
       "note": "Manufacturer sensitivity and 8 Ω compatibility reference. Use an independent free-field sensitivity measurement if available.",
       "url": "https://assets.klipsch.com/product-specsheets/R-51M_Spec-Sheet_v01.pdf"
@@ -411,7 +477,11 @@ const systemCheckGear = {
         "sensitivity": 89.6,
         "basis": "voltage",
         "load": 8,
-        "minimum": 3.5
+        "minimum": 3.5,
+        "speakerPowerContinuous": 100,
+        "speakerPowerPeak": 400,
+        "speakerPowerSource": "https://assets.klipsch.com/product-specsheets/RP-600M_Spec-Sheet_v01.pdf",
+        "speakerPowerNote": "Original RP-600M, not RP-600M II. Klipsch spec sheet: CONT/PEAK 100/400 W."
       },
       "note": "Uses Stereophile’s 89.6 dB(B) sensitivity estimate and 3.5 Ω minimum, measured between 180 and 220 Hz. The 8 Ω entry is Klipsch’s compatibility reference.",
       "url": "https://www.stereophile.com/content/klipsch-reference-premiere-rp-600m-loudspeaker-measurements",
@@ -425,7 +495,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 90,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerPowerMaxInput": 100,
+        "speakerRecommendedAmpMax": 130,
+        "speakerPowerSource": "https://www.paradigm.com/en/floorstanding/monitor-se-6000f",
+        "speakerPowerNote": "Paradigm separates maximum speaker input 100 W from suitable amplifier range up to 130 W."
       },
       "note": "Uses the 90 dB anechoic figure so you can apply your own room adjustment. Paradigm also lists 93 dB in-room and 8 Ω compatibility.",
       "url": "https://www.paradigm.com/en/floorstanding/monitor-se-6000f"
@@ -435,7 +509,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 86,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerPowerMaxInput": 50,
+        "speakerRecommendedAmpMax": 100,
+        "speakerPowerSource": "https://www.paradigm.com/en/passive/monitor-se-atom",
+        "speakerPowerNote": "Paradigm separates maximum speaker input 50 W from suitable amplifier range up to 100 W."
       },
       "note": "Uses the 86 dB anechoic figure. Paradigm also publishes 89 dB in-room and lists 8 Ω compatibility.",
       "url": "https://www.paradigm.com/en/passive/monitor-se-atom"
@@ -530,7 +608,10 @@ const systemCheckGear = {
         "sensitivity": 88,
         "basis": "voltage",
         "load": 6,
-        "minimum": 4
+        "minimum": 4,
+        "speakerRecommendedAmpMax": 75,
+        "speakerPowerSource": "https://www.qacoustics.com/products/3020i-bookshelf-speaker-pair",
+        "speakerPowerNote": "Manufacturer recommends 25–75 W stereo amplifier. Does not publish a matching continuous/peak speaker rating."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. Q Acoustics lists a 4 Ω minimum.",
       "url": "https://www.qacoustics.com/products/3020i-bookshelf-speaker-pair"
@@ -540,7 +621,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 87,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerMaxInput": 100,
+        "speakerPowerSource": "https://www.sony.ca/en/electronics/support/speakers-wired-speakers/ss-cs5/specifications",
+        "speakerPowerNote": "Sony: maximum input power 100 W; unspecified duration. No continuous/peak pair published here."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. This preset is for the original SS-CS5.",
       "url": "https://www.sony.ca/en/electronics/support/speakers-wired-speakers/ss-cs5/specifications"
@@ -551,7 +635,10 @@ const systemCheckGear = {
         "sensitivity": 88,
         "basis": "voltage",
         "load": 8,
-        "minimum": 4
+        "minimum": 4,
+        "speakerRecommendedAmpMax": 100,
+        "speakerPowerSource": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-1",
+        "speakerPowerNote": "Wharfedale recommends amplifiers up to 100 W; peak power handling field is blank."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. Wharfedale lists 8 Ω compatibility and a 4 Ω minimum.",
       "url": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-1"
@@ -562,7 +649,10 @@ const systemCheckGear = {
         "sensitivity": 88,
         "basis": "voltage",
         "load": 8,
-        "minimum": 4
+        "minimum": 4,
+        "speakerRecommendedAmpMax": 120,
+        "speakerPowerSource": "https://www.wharfedale.co.uk/products/diamond-12-2",
+        "speakerPowerNote": "Wharfedale recommendation only; peak power handling field is blank."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Wharfedale lists 8 Ω compatibility and a 4 Ω minimum.",
       "url": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-2"
@@ -573,7 +663,10 @@ const systemCheckGear = {
         "sensitivity": 89,
         "basis": "voltage",
         "load": 8,
-        "minimum": 5
+        "minimum": 5,
+        "speakerRecommendedAmpMax": 150,
+        "speakerPowerSource": "https://www.wharfedale.co.uk/products/diamond-12-3",
+        "speakerPowerNote": "Wharfedale recommendation only; peak power handling field is blank."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Wharfedale lists 8 Ω compatibility and a 5 Ω minimum.",
       "url": "https://www.wharfedale.co.uk/collections/diamond-12-series/products/diamond-12-3"
@@ -583,7 +676,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 88,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerNominal": 100,
+        "speakerPowerMaxInput": 250,
+        "speakerPowerSource": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-555/specs.html",
+        "speakerPowerNote": "Yamaha: 100 W nominal input; 250 W maximum input, duration unspecified."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-555/specs.html"
@@ -593,7 +690,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 89,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerNominal": 100,
+        "speakerPowerMaxInput": 250,
+        "speakerPowerSource": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-777/specs.html",
+        "speakerPowerNote": "Yamaha: 100 W nominal input; 250 W maximum input, duration unspecified."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-777/specs.html"
@@ -617,7 +718,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 90,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerNominal": 70,
+        "speakerPowerMaxInput": 140,
+        "speakerPowerSource": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-6490/",
+        "speakerPowerNote": "Canadian NS-6490 uses 6 Ω nominal. Yamaha states nominal/max input 70/140 W; US regional specs list 8 Ω nominal. Preserve Canadian version."
       },
       "note": "Yamaha Canada's three-way sealed model specifications. Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-6490/"

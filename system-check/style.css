@@ -61,3 +61,22 @@
 .sc-load-caution{padding:.8rem .95rem;border-left:4px solid #e1c78a;border-radius:5px;background:#202b3b;line-height:1.65;font-size:.88rem}
 @media(min-width:1050px){.sc-load-card{padding:1.1rem}.sc-load-metrics{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}}
 @media(max-width:440px){.sc-load-card{padding:.75rem}.sc-load-metric{padding:.65rem}.sc-load-heading{overflow-wrap:anywhere}}
+
+/* Separate handling categories and visible speaker/amplifier safety cautions */
+.sc-power-inputs{margin:1rem 0;padding:1rem;border:1px solid #3b5c72;border-radius:10px;background:#112638}
+.sc-power-inputs h3{font-size:1.03rem;margin:0 0 .55rem;color:#eaf8ff}
+.sc-power-inputs h3 small{display:inline;font-size:.77rem;color:#bdd7e6;font-weight:450}
+.sc-power-inputs>p{font-size:.84rem;line-height:1.7;color:#c9deeb}
+.sc-power-inputs .sc-fields{margin:.8rem 0}
+.sc-power-inputs label{font-size:.83rem;line-height:1.45}
+.sc-power-source-note{padding-top:.65rem;border-top:1px solid #436279}
+.sc-speaker-safety{margin-top:1.05rem;padding:.75rem .85rem;border:1px solid #6b8d9c;border-left:4px solid #7bcfe6;border-radius:8px;background:#0d273b}
+.sc-speaker-safety h5{font-size:.96rem;color:#f0faff;margin:0 0 .5rem}
+.sc-speaker-safety p{font-size:.82rem;line-height:1.6;padding:.25rem .5rem;margin:.45rem 0}
+.sc-safety-msg--danger{color:#ffcfbf;background:#3c2630;border-left:3px solid #ff9984}
+.sc-safety-msg--caution{color:#ffe4b6;background:#3d3427;border-left:3px solid #edc784}
+.sc-safety-msg--unverified{color:#edd9aa;background:#2d3340;border-left:3px solid #d4bb88}
+.sc-safety-msg--info{color:#c4deec}
+.sc-speaker-safety>a{font-size:.8rem;display:inline-block;margin:.4rem 0 .1rem}
+.sc-amp-stress-warning{margin:.9rem 0 0!important;padding:.8rem .85rem;border-left:4px solid #e7ad82;border-radius:5px;background:#382d2c;color:#ffe0cd;font-size:.85rem;line-height:1.65}
+@media(max-width:520px){.sc-power-inputs{padding:.75rem}.sc-power-inputs .sc-fields{grid-template-columns:1fr}}

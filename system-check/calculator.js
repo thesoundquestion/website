@@ -348,6 +348,124 @@ function appendRatingSource(element, rating) {
   element.append(' ', link);
 }
 
+
+const speakerPowerFields = [
+  'speakerPowerContinuous', 'speakerPowerPeak', 'speakerPowerNominal',
+  'speakerPowerMaxInput', 'speakerRecommendedAmpMax'
+];
+
+function speakerPowerValue(name) {
+  const value = field(name)?.valueAsNumber;
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
+function appendSpeakerPowerSafety(card, { peakW, averageW }) {
+  const continuous = speakerPowerValue('speakerPowerContinuous');
+  const nominal = speakerPowerValue('speakerPowerNominal');
+  const peak = speakerPowerValue('speakerPowerPeak');
+  const maxInput = speakerPowerValue('speakerPowerMaxInput');
+  const recommended = speakerPowerValue('speakerRecommendedAmpMax');
+  const hasHandling = [continuous, nominal, peak, maxInput].some(Number.isFinite);
+  const box = document.createElement('section');
+  box.className = 'sc-speaker-safety';
+  box.setAttribute('aria-label', 'Speaker power handling and risk');
+  const title = document.createElement('h5');
+  title.textContent = 'Speaker power handling · Your Speakers';
+  box.append(title);
+
+  function message(level, description) {
+    const line = document.createElement('p');
+    line.className = 'sc-safety-msg sc-safety-msg--' + level;
+    line.textContent = description;
+    box.append(line);
+  }
+
+  let flagged = false;
+  if (averageW !== null && continuous !== null && averageW > continuous) {
+    flagged = true;
+    message('danger', 'Speaker stress warning: the estimated average demand ' + show(averageW)
+      + ' W per speaker exceeds the published continuous-handling rating of ' + show(continuous)
+      + ' W. Sustained playback at this target may overheat or damage the speaker.');
+  }
+  if (averageW !== null && nominal !== null && averageW > nominal) {
+    flagged = true;
+    message('caution', 'Speaker power caution: average demand ' + show(averageW)
+      + ' W exceeds the published nominal input rating of ' + show(nominal)
+      + ' W. Nominal is not a verified continuous thermal-test limit.');
+  }
+  if (peak !== null && peakW > peak) {
+    flagged = true;
+    message('danger', 'Speaker stress warning: peak demand ' + show(peakW)
+      + ' W per speaker exceeds the manufacturer’s published ' + show(peak)
+      + ' W peak-handling rating. Reduce the target or confirm the actual programme content; this is a risk indicator, not a prediction of immediate failure.');
+  }
+  if (maxInput !== null && Math.max(peakW, averageW ?? 0) > maxInput) {
+    flagged = true;
+    message('caution', 'Speaker power caution: the estimated '
+      + (averageW !== null && averageW > maxInput ? 'average' : 'peak') + ' demand '
+      + show(averageW !== null && averageW > maxInput ? averageW : peakW)
+      + ' W exceeds the published maximum input of ' + show(maxInput)
+      + ' W. The test duration for this maximum is unspecified, so it cannot be treated as a continuous or short-burst rating.');
+  }
+  if (peak === null && continuous !== null && peakW > continuous) {
+    message('info', 'The requested peak exceeds the ' + show(continuous)
+      + ' W continuous speaker rating, but no speaker peak-handling figure was supplied. That alone does not establish short-duration damage or a safe burst limit.');
+  }
+  if (nominal !== null && peak === null && peakW > nominal) {
+    message('info', 'The requested peak exceeds the ' + show(nominal)
+      + ' W nominal input value. Without an explicit peak-handling rating, the safe burst duration remains unknown.');
+  }
+  if (!hasHandling) {
+    message('unverified', 'Speaker handling unverified: no model-specific continuous, nominal, peak or maximum-input rating is entered. The power demand is calculated, but speaker safety cannot be established from sensitivity and impedance alone.');
+  } else if (!flagged) {
+    message('info', 'Requested power is within the entered handling figures where their duration is applicable. This does not guarantee safety: bass excursion, crossover/tweeter heating, clipping, EQ boosts, and actual programme duration can still cause problems.');
+  }
+  if (recommended !== null) {
+    message('info', 'Recommended amplifier range ends at ' + show(recommended)
+      + ' W. This is amplifier selection guidance, NOT the speaker’s maximum safe input or a clipping/damage threshold.');
+  }
+
+  const sourceInput = speakerPowerFields.map(name => field(name))
+    .find(input => input?.dataset?.powerSourceUrl);
+  if (sourceInput) {
+    const source = document.createElement('a');
+    source.textContent = 'Manufacturer speaker-power specifications';
+    source.href = sourceInput.dataset.powerSourceUrl;
+    source.target = '_blank';
+    source.rel = 'noopener noreferrer';
+    box.append(source);
+  }
+  card.append(box);
+}
+
+function appendAmplifierLoadSafety(card, { testLoad, actual, minimum, peakV, entries }) {
+  const usableLoads = entries.filter(r => r.type === 'continuous' || r.type === 'burst')
+    .map(r => r.load).filter(Number.isFinite);
+  const minRatedLoad = usableLoads.length ? Math.min(...usableLoads) : NaN;
+  if (!Number.isFinite(minRatedLoad)) return;
+  const lowerNominal = testLoad < minRatedLoad - 1e-9;
+  const measuredDip = actual && Number.isFinite(minimum) && minimum > 0
+    && minimum < minRatedLoad - 1e-9;
+
+  if (!lowerNominal && !measuredDip) return;
+  const safety = document.createElement('p');
+  safety.className = 'sc-amp-stress-warning';
+  let message = 'Amplifier load-stress warning: ';
+  if (lowerNominal) {
+    message += 'The ' + show(testLoad) + ' Ω load is below your lowest entered amplifier test rating ('
+      + show(minRatedLoad) + ' Ω). At the target voltage it asks for about '
+      + show(peakV / testLoad) + ' A RMS per channel on short peaks. The amplifier may draw excessive current, overheat, trip protection or clip early. A same-voltage wattage projection is NOT evidence of safe operation.';
+  }
+  if (measuredDip) {
+    if (lowerNominal) message += ' ';
+    message += 'Your measured speaker minimum of ' + show(minimum)
+      + ' Ω is also below the lowest tested amplifier load of ' + show(minRatedLoad)
+      + ' Ω, increasing uncertainty about current demand (especially with reactive impedance phase).';
+  }
+  safety.textContent = message;
+  card.append(safety);
+}
+
 function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average }) {
   // Use the actual speaker load first and exactly two familiar alternative loads.
   // Different speakers have different sensitivities: alternatives share only the
@@ -532,6 +650,8 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
         + ' Ω. Passing a continuous rating is conservative; exceeding it does not confirm clipping.';
       card.append(note);
     }
+    appendAmplifierLoadSafety(card, { testLoad, actual, minimum, peakV, entries });
+    if (actual) appendSpeakerPowerSafety(card, { peakW, averageW });
     stack.append(card);
   }
 
@@ -651,7 +771,7 @@ function calculate() {
 }
 
 const presetFields = {
-  speaker: ['sensitivity', 'basis', 'load', 'minimum', 'minimumHz', 'phase', 'maximum'],
+  speaker: ['sensitivity', 'basis', 'load', 'minimum', 'minimumHz', 'phase', 'maximum', ...speakerPowerFields],
   amp: ['inputZ', 'inputSensitivity', 'gain', 'outputZ', 'curveLoad', 'curveHz', 'curveType', 'curve'],
   source: ['sourceVoltage', 'sourceZ']
 };
@@ -670,10 +790,43 @@ function mountGearPresets(catalog) {
     select.addEventListener('change', () => {
       const gear = select.value === '' ? null : options[Number(select.value)];
       note.replaceChildren();
-      if (!gear) return;
+      if (!gear) {
+        if (kind === 'speaker') {
+          for (const name of speakerPowerFields) {
+            field(name).value = '';
+            delete field(name).dataset.powerSourceUrl;
+          }
+          const provenance = document.querySelector('#speaker-power-provenance');
+          if (provenance) provenance.textContent = 'Enter speaker-specific handling ratings manually, or choose a verified preset. Unknown limits are not assumed to be safe.';
+        }
+        return;
+      }
       for (const name of presetFields[kind] || []) {
         const fallback = name === 'basis' ? 'voltage' : name === 'curveType' ? 'THD+N' : '';
         field(name).value = gear.values?.[name] ?? fallback;
+      }
+      if (kind === 'speaker') {
+        const powerNote = document.querySelector('#speaker-power-provenance');
+        for (const name of speakerPowerFields) {
+          const powerInput = field(name);
+          delete powerInput.dataset.powerSourceUrl;
+          if (gear.values?.speakerPowerSource && Number.isFinite(gear.values[name])) {
+            powerInput.dataset.powerSourceUrl = gear.values.speakerPowerSource;
+          }
+        }
+        if (powerNote) {
+          powerNote.replaceChildren();
+          powerNote.append(gear.values?.speakerPowerNote
+            || 'No verified power-handling values for this exact speaker preset. Empty fields remain unverified.');
+          if (gear.values?.speakerPowerSource) {
+            const link = document.createElement('a');
+            link.href = gear.values.speakerPowerSource;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = 'Verify published handling ratings';
+            powerNote.append(' ', link);
+          }
+        }
       }
       if (kind === 'amp') {
         ratings.replaceChildren();
@@ -717,6 +870,15 @@ function mountGearPresets(catalog) {
   }
 }
 
+for (const name of speakerPowerFields) {
+  field(name).addEventListener('input', () => {
+    delete field(name).dataset.powerSourceUrl;
+    const provenance = document.querySelector('#speaker-power-provenance');
+    if (provenance && !speakerPowerFields.some(item => field(item).dataset.powerSourceUrl)) {
+      provenance.textContent = 'Power-handling values edited manually. Verify them against the exact model’s manufacturer documentation.';
+    }
+  });
+}
 if (typeof systemCheckGear !== 'undefined') mountGearPresets(systemCheckGear);
 
 if (!ratings.children.length) addRating();
@@ -743,6 +905,11 @@ document.querySelector('#example').addEventListener('click', () => {
   field('average').value = 87;
   field('gap').value = 15;
   field('load').value = 8;
+  for (const name of speakerPowerFields) {
+    field(name).value = '';
+    delete field(name).dataset.powerSourceUrl;
+  }
+  document.querySelector('#speaker-power-provenance').textContent = 'Fictional lesson example: no speaker power-handling specification has been assumed.';
   field('distance').value = 8;
   field('speakers').value = '3';
   ratings.replaceChildren();
