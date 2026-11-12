@@ -223,18 +223,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
       const fit = el('p','sb-card-match');
-      addText(fit,'strong',item.ownershipMessage ? 'Why keep it: ' : 'Why this one: ');
-      fit.append(document.createTextNode(item.ownershipMessage || recommendationWhy(item,request,
+      addText(fit,'strong',item.amplifierReason ? 'Why this amplifier: ' : item.ownershipMessage ? 'Why keep it: ' : 'Why this one: ');
+      fit.append(document.createTextNode(item.amplifierReason || item.ownershipMessage || recommendationWhy(item,request,
         Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
       card.append(fit);
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
       const sound = soundProfileFor(item);
-      const soundLine = el('p','sb-card-sound');
-      addText(soundLine,'strong','Sound: ');
-      soundLine.append(document.createTextNode(sound.text));
-      card.append(soundLine);
+      // A speaker's listening profile must never be presented as the amplifier's
+      // sound. Unknown owned-speaker profiles do not get a generic "Sound" card.
+      const showSound = !item.soundTarget || sound.type !== 'Not independently characterized';
+      if (showSound) {
+        const soundLine = el('p','sb-card-sound');
+        addText(soundLine,'strong',item.soundTarget ? 'Your speaker’s sound: ' : 'Sound: ');
+        soundLine.append(document.createTextNode(sound.text));
+        card.append(soundLine);
+      }
 
       // Only material blockers and urgent caveats interrupt the skim view.
       if (item.loadCaution)
@@ -265,9 +270,16 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(details,'h5','Also owned, kept for other use');
         list(details,item.keptSeparate);
       }
-      addText(details,'h5','Sound description: evidence');
-      addText(details,'p',sound.type+'. Reported tonal character is not a guaranteed match for your room, hearing or preferred volume.','sb-card-reference');
-      if (sound.url) link(details,sound.url,'Read the source');
+      if (item.amplifierEvidence?.length) {
+        addText(details,'h5','Why this amplifier: technical evidence and checks');
+        list(details,item.amplifierEvidence);
+        if (item.amplifierSource) link(details,item.amplifierSource,'Published amplifier specifications');
+      }
+      if (showSound) {
+        addText(details,'h5',item.soundTarget ? 'Your speaker’s sound: evidence' : 'Sound description: evidence');
+        addText(details,'p',sound.type+'. Reported tonal character is not a guaranteed match for your room, hearing or preferred volume.','sb-card-reference');
+        if (sound.url) link(details,sound.url,'Read the source');
+      }
       if (!item.editorialGoalFocus)
         addText(details,'p','An alternative approach for comparison, not a verified performance match to your main priority.');
       if (item.secondaryFocus.length)
