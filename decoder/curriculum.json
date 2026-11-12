@@ -177,6 +177,12 @@
       "description": "See how a headphone jack and a changing load divide voltage and can alter tonal balance."
     },
     {
+      "slug": "playback-sources",
+      "category": "sources",
+      "title": "Playback sources: vinyl, CD, DACs and sound cards",
+      "description": "Follow music from vinyl, CDs, computers and streamers to the amplifier, with RIAA and connection examples."
+    },
+    {
       "slug": "source-levels",
       "category": "sources",
       "title": "Source levels and amplifier input sensitivity",
@@ -239,7 +245,7 @@
       "label": "Sources & DACs",
       "adjective": "source",
       "anchor": "source-lessons",
-      "description": "Discover what output voltage, input sensitivity and measured DAC performance really mean.",
+      "description": "Follow vinyl, CD, sound cards, streaming and DACs into the amplifier, then decode levels and audio formats.",
       "switch_to": "speakers"
     }
   }
