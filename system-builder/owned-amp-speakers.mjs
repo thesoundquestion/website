@@ -140,7 +140,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       sourceDate:'2026-11-12',
       editorialGoalFocus:idea.goals.includes(goal),
       secondaryFocus:second.filter(x=>idea.goals.includes(x)),
-      connectionStatus:'native_possible',
+      connectionStatus:'owned_amp_source_unverified',
+      sourceCaution:['usb','optical','hdmi','bluetooth'].includes(input.connection) ?
+        'Check whether '+screen.ampName+' actually accepts your selected '+input.connection.toUpperCase()+' source; an adapter or external source may be required.' : null,
       sourceBatteryCaution:false,
       sceneCaution:!idea.scenes.includes(scene),
       placementCaution:Number(input.distanceFt)>12,
