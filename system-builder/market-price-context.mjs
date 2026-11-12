@@ -55,7 +55,7 @@ export function priceContextFor(model, region='CA',currency='CAD') {
   const regular=Array.isArray(info.regular)?info.regular:[];
   const promotion=Array.isArray(info.promotion)?info.promotion:[];
   let usedExampleRange=null;
-  if(used.length>=2 && used.every(x=>x.amount>0&&x.date.startsWith('2025')||x.date?.startsWith('2026')))
+  if(used.length>=2 && used.every(x=>x.amount>0 && /^(2025|2026)-/.test(x.date)))
     usedExampleRange={min:Math.min(...used.map(x=>x.amount)),max:Math.max(...used.map(x=>x.amount)),
       label:info.label,notTransactionPrices:true,notRegionalMedian:true};
   return {notes:info.notes || '',usedExampleRange,
