@@ -144,5 +144,13 @@ test('speaker catalogue carries power-source provenance and preserves unknown vi
   assert.equal(exact('DALI Oberon 1').speakerPowerContinuous,undefined);
   assert.equal(exact('DALI Oberon 1').speakerRecommendedAmpMax,100);
   assert.equal(exact('Paradigm Phantom v1').speakerPowerContinuous,undefined);
+  assert.equal(exact('Paradigm Phantom v1').speakerPowerMaxInput,90);
+  assert.equal(exact('Paradigm Phantom v1').speakerRecommendedAmpMax,150);
+  assert.equal(exact('Paradigm Titan v3').speakerPowerMaxInput,60);
   assert.equal(exact('Paradigm Titan v3').speakerPowerPeak,undefined);
+  assert.equal(exact('Klipsch Forte II').speakerPowerContinuous,100);
+  assert.equal(exact('Klipsch Forte II').speakerPowerPeak,500);
+  assert.equal(exact('KEF Q1 Meta').speakerRecommendedAmpMax,150);
+  assert.equal(exact('KEF Q150').speakerPowerContinuous,undefined);
+  assert.equal(exact('JBL L100 Classic').speakerRecommendedAmpMax,200);
 });

@@ -259,7 +259,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 85,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerPowerMaxInput": 140,
+        "speakerPowerSource": "https://online.elac.com/download/ub52/elac-uni-fi-2-0-en.pdf",
+        "speakerPowerNote": "ELAC Uni-Fi 2.0 brochure gives maximum power input 140 W; duration not specified. This is UB52, not older Uni-Fi UB5."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. This preset is for the Uni-Fi 2.0 UB52.",
       "url": "https://online.elac.com/download/ub52/elac-uni-fi-2-0-en.pdf"
@@ -279,7 +282,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 90,
         "basis": "voltage",
-        "load": 4
+        "load": 4,
+        "speakerRecommendedAmpMax": 200,
+        "speakerPowerSource": "https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw1e4dfbc0/pdfs/SC03671_JBL_L100_Classic_Spec%20Sheet_EN_LR.pdf",
+        "speakerPowerNote": "JBL L100 Classic recommends 25–200 W amplifier power. Not 200 W of guaranteed speaker continuous or peak handling; separate from original L100 Century and MkII."
       },
       "note": "This preset is for the L100 Classic. Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw34a5166a/pdfs/JBL_Synthesis_L100_Classic_Brochure.pdf"
@@ -302,7 +308,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 91,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerRecommendedAmpMax": 225,
+        "speakerPowerSource": "https://www.jbl.com/280F.html",
+        "speakerPowerNote": "JBL Stage 280F product page recommends 20–225 W amplifier power. Separate from a speaker RMS/continuous power-handling test."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://global.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw9bd72c8c/pdfs/Spec%20Sheet%20-%20JBL%20280F.pdf"
@@ -312,7 +321,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 86,
         "basis": "voltage",
-        "load": 6
+        "load": 6,
+        "speakerRecommendedAmpMax": 125,
+        "speakerPowerSource": "https://www.jbl.com/JBLA130BLKAM.html",
+        "speakerPowerNote": "JBL Stage A130 product specifications give recommended amplifier power 20–125 W; not a speaker damage threshold."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft.",
       "url": "https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw7e9d0d59/pdfs/JBL_Arena_Stage_Spec_Sheet_English%20-%20Update%2020241114.pdf"
@@ -337,7 +349,10 @@ const systemCheckGear = {
         "sensitivity": 86,
         "basis": "voltage",
         "load": 4,
-        "minimum": 3.2
+        "minimum": 3.2,
+        "speakerRecommendedAmpMax": 150,
+        "speakerPowerSource": "https://ca.kef.com/products/q1-meta",
+        "speakerPowerNote": "KEF Q1 Meta product specifications list recommended amplifier power 10–150 W; no explicit speaker input handling test."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. KEF lists a 3.2 Ω minimum.",
       "url": "https://ca.kef.com/products/q1-meta"
@@ -348,7 +363,10 @@ const systemCheckGear = {
         "sensitivity": 87,
         "basis": "voltage",
         "load": 4,
-        "minimum": 3.2
+        "minimum": 3.2,
+        "speakerRecommendedAmpMax": 150,
+        "speakerPowerSource": "https://ca.kef.com/products/q3-meta",
+        "speakerPowerNote": "KEF Q3 Meta product specifications list recommended amplifier power 15–150 W; no explicit speaker input handling test."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF specifies a 3.2 Ω minimum.",
       "url": "https://ca.kef.com/products/q3-meta"
@@ -359,7 +377,10 @@ const systemCheckGear = {
         "sensitivity": 87,
         "basis": "voltage",
         "load": 4,
-        "minimum": 3.2
+        "minimum": 3.2,
+        "speakerRecommendedAmpMax": 200,
+        "speakerPowerSource": "https://ca.kef.com/products/q7-meta",
+        "speakerPowerNote": "KEF Q7 Meta product specifications list recommended amplifier power 15–200 W; no explicit speaker input handling test."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF lists 4 Ω nominal and a 3.2 Ω minimum.",
       "url": "https://ca.kef.com/products/q7-meta"
@@ -370,7 +391,10 @@ const systemCheckGear = {
         "sensitivity": 86,
         "basis": "voltage",
         "load": 8,
-        "minimum": 3.7
+        "minimum": 3.7,
+        "speakerRecommendedAmpMax": 100,
+        "speakerPowerSource": "https://au.kef.com/products/q150-bookshelf-speaker",
+        "speakerPowerNote": "Original KEF Q150 specification lists amplifier requirements 10–100 W; this is an amplifier recommendation, not speaker maximum power input."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. KEF lists a 3.7 Ω minimum.",
       "url": "https://au.kef.com/products/q150-bookshelf-speaker"
@@ -381,7 +405,10 @@ const systemCheckGear = {
         "sensitivity": 87,
         "basis": "voltage",
         "load": 8,
-        "minimum": 3.7
+        "minimum": 3.7,
+        "speakerRecommendedAmpMax": 120,
+        "speakerPowerSource": "https://international.kef.com/products/q350-bookshelf-speaker/1000",
+        "speakerPowerNote": "Original KEF Q350 specification lists amplifier requirements 15–120 W; no continuous/peak speaker input limit implied."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. KEF lists a 3.7 Ω minimum.",
       "url": "https://international.kef.com/products/q350-bookshelf-speaker/1000"
@@ -392,7 +419,10 @@ const systemCheckGear = {
         "sensitivity": 87,
         "basis": "voltage",
         "load": 8,
-        "minimum": 3.5
+        "minimum": 3.5,
+        "speakerRecommendedAmpMax": 130,
+        "speakerPowerSource": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf",
+        "speakerPowerNote": "KEF original Q Series specifications list Q550 amplifier requirements 15–130 W; this does not establish a speaker damage limit."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF lists 8 Ω nominal and a 3.5 Ω minimum.",
       "url": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf"
@@ -403,7 +433,10 @@ const systemCheckGear = {
         "sensitivity": 88,
         "basis": "voltage",
         "load": 8,
-        "minimum": 3.8
+        "minimum": 3.8,
+        "speakerRecommendedAmpMax": 150,
+        "speakerPowerSource": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf",
+        "speakerPowerNote": "KEF original Q Series specifications list Q750 amplifier requirements 15–150 W; not a published speaker continuous rating."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF lists 8 Ω nominal and a 3.8 Ω minimum.",
       "url": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf"
@@ -414,7 +447,10 @@ const systemCheckGear = {
         "sensitivity": 91,
         "basis": "voltage",
         "load": 8,
-        "minimum": 3.2
+        "minimum": 3.2,
+        "speakerRecommendedAmpMax": 200,
+        "speakerPowerSource": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf",
+        "speakerPowerNote": "KEF original Q Series specifications list Q950 amplifier requirements 15–200 W; not a published speaker continuous rating."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. KEF lists 8 Ω nominal and a 3.2 Ω minimum.",
       "url": "https://assets.kef.com/uploads/cm/Q_Series_Manual_EN.pdf"
@@ -424,7 +460,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 99,
         "basis": "power",
-        "load": 8
+        "load": 8,
+        "speakerPowerContinuous": 100,
+        "speakerPowerPeak": 500,
+        "speakerPowerSource": "https://assets.klipsch.com/product-specsheets/forte-II-brochure.pdf",
+        "speakerPowerNote": "Original Klipsch Forte II brochure: maximum continuous 100 W; peak 500 W."
       },
       "note": "Original Forte II brochure. Sensitivity is for one speaker at 1 W / 3.28 ft.",
       "url": "https://assets.klipsch.com/product-specsheets/forte-II-brochure.pdf"
@@ -523,7 +563,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 87,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerPowerMaxInput": 90,
+        "speakerRecommendedAmpMax": 150,
+        "speakerPowerSource": "https://www.usaudiomart.com/details/649460949-paradigm-phantom-large-bookshelf-speakers-black-ash/",
+        "speakerPowerNote": "Reproduced Phantom V1 factory specification lists maximum input power 90 W and suitable amplifier range 15–150 W; secondary transcription, not an independently verified continuous/peak test."
       },
       "note": "87 dB anechoic (90 dB in room) and 8 Ω compatibility, from a reproduced v1 specification. The calculator assumes the 2.83 V / 3.28 ft basis. Minimum impedance is unverified.",
       "url": "https://www.canuckaudiomart.com/details/649848571-paradigm-phantom-v1-speakers/"
@@ -533,7 +577,11 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 86,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerPowerMaxInput": 60,
+        "speakerRecommendedAmpMax": 100,
+        "speakerPowerSource": "https://shuntool.com/article/paradign-titan-v3-speakers-rear-mount-screw-size",
+        "speakerPowerNote": "Secondary Titan V3 specification lists 60 W maximum input and 15–100 W suitable amplifier range. Vintage revision provenance is limited; treat as a published claim, not measured continuous/peak handling."
       },
       "note": "86 dB anechoic (89 dB in room) and 8 Ω compatibility, from a secondary v3 specification. The calculator assumes the 2.83 V / 3.28 ft basis. Minimum impedance is unverified.",
       "url": "https://www.canuckaudiomart.com/details/649350799-paradigm-titan-bookshelf-speakers-v3-black-with-wall-mounts/"
@@ -567,7 +615,10 @@ const systemCheckGear = {
         "sensitivity": 86,
         "basis": "voltage",
         "load": 8,
-        "minimum": 3.8
+        "minimum": 3.8,
+        "speakerRecommendedAmpMax": 200,
+        "speakerPowerSource": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/reserve-r200/300029.html",
+        "speakerPowerNote": "Polk Reserve R200 product specifications recommend amplifier power 30–200 W; this is not speaker continuous or peak handling."
       },
       "note": "Sensitivity is for one speaker at 2.83 V / 3.28 ft. Polk lists 8, 6 and 4 Ω amplifier output compatibility and a 3.8 Ω minimum. The preset uses 8 Ω as a calculation reference.",
       "url": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw4c6aec6a/downloads/reserve-r200ae-owners-manual-global.pdf"
@@ -577,7 +628,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 85,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerRecommendedAmpMax": 100,
+        "speakerPowerSource": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es15/300363-new.html",
+        "speakerPowerNote": "Polk ES15 product specifications recommend amplifier power 20–100 W; the maximum recommended amplifier wattage is not a speaker handling limit."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. Polk specifies 4 Ω and 8 Ω amp compatibility. The 8 Ω entry is a calculation reference.",
       "url": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dwf6e3c837/downloads/Polk_Infosheet_ES15-ES20_759558.pdf"
@@ -587,7 +641,10 @@ const systemCheckGear = {
       "values": {
         "sensitivity": 86,
         "basis": "voltage",
-        "load": 8
+        "load": 8,
+        "speakerRecommendedAmpMax": 125,
+        "speakerPowerSource": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es20/300364-01-00-005.html",
+        "speakerPowerNote": "Polk ES20 product specifications recommend amplifier power 20–125 W; separate from speaker input handling."
       },
       "note": "The sensitivity figure is for one speaker at 2.83 V / 3.28 ft. Polk specifies 4 Ω and 8 Ω amp compatibility. The 8 Ω entry is a calculation reference.",
       "url": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dwf6e3c837/downloads/Polk_Infosheet_ES15-ES20_759558.pdf"
