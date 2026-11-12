@@ -39,6 +39,8 @@ export const CANADIAN_PAIR_PRICE_OBSERVATIONS=Object.freeze({
       {amount:359.99,merchant:'audio51',url:'https://www.audio51.ca/product-page/paradigm-monitor-se-atom',unit:'pair'},
       {amount:359.98,merchant:'Unify AV',url:'https://unifyav.ca/products/paradigm-monitor-se-atom-1000b-bookshelf-speakers-pair',unit:'pair'}
     ],
+    promotionWindow:{start:'2026-10-16',end:'2027-01-04',url:'https://www.audio-one.ca/promotions/details',
+      label:'Seasonal Paradigm Monitor SE promotion: 25% off',minimumIndependentDealers:2},
     promotion:[
       {amount:269.99,merchant:'Gibbys (listed promotion)',url:'https://gibbyselectronicsupermarket.ca/collections/deals/products/paradigm-monitor-se-atom-bookshelf-speakers-pair',unit:'pair'},
       {amount:269.99,merchant:'Sonxplus (listed promotion)',url:'https://en.sonxplus.com/collections/haut-parleurs-vendredi-fou-black-friday-2026/products/paradigm-monitor-se-atom-haut-parleurs-d-etagere-noir-mat-paire',unit:'pair'}
@@ -69,6 +71,27 @@ export const CANADIAN_PAIR_PRICE_OBSERVATIONS=Object.freeze({
     ]
   }
 });
+/** A multi-dealer, date-bounded promotion is more repeatably attainable than
+ * one clearance listing, but it is NEVER represented as the normal price.
+ * Model source dates stay visible, and the offer disappears automatically
+ * outside the independently corroborated promotion window. */
+export function broadActivePromotionFor(model, region='CA',currency='CAD',asOfDate=null) {
+  if(region!=='CA'||currency!=='CAD')return null;
+  const info=CANADIAN_PAIR_PRICE_OBSERVATIONS[model];
+  const window=info?.promotionWindow;
+  if(!window || !Array.isArray(info.promotion))return null;
+  const date=typeof asOfDate==='string' ? asOfDate : new Date().toISOString().slice(0,10);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date) || date<window.start||date>window.end)return null;
+  const offers=info.promotion.filter(p=>Number.isFinite(p.amount)&&p.amount>0&&p.unit==='pair');
+  const domains=new Set(offers.map(x=>new URL(x.url).hostname.replace(/^www\./,'')));
+  if(offers.length<(window.minimumIndependentDealers||2)||domains.size<(window.minimumIndependentDealers||2))return null;
+  const low=Math.min(...offers.map(x=>x.amount)),high=Math.max(...offers.map(x=>x.amount));
+  if(high-low>1)return null;
+  return {amount:low,url:offers[0].url,startDate:window.start,endDate:window.end,
+    dealerCount:domains.size,label:window.label,termsUrl:window.url,regularListed:info.regular?.[0]?.amount??null,
+    priceType:'seasonal_multi_dealer_promotion_not_normal_price'};
+}
+
 export function priceContextFor(model, region='CA',currency='CAD') {
   if(region!=='CA'||currency!=='CAD')return null;
   const info=CANADIAN_PAIR_PRICE_OBSERVATIONS[model];
