@@ -21,6 +21,12 @@ class Field {
   replaceChildren(...entries) { this.children = entries; this.textContent = ''; }
   append(...entries) { this.children.push(...entries); }
   add(entry) { this.children.push(entry); }
+  cloneNode() {
+    const copy = new Field();
+    copy.textContent = this.textContent;
+    copy.href = this.href;
+    return copy;
+  }
   querySelector() { return null; }
 }
 
