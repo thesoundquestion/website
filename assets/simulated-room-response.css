@@ -34,3 +34,9 @@
 .rsp-widget.rsp-room-hidden .rsp-key-speaker{font-weight:750;color:#e4f6ff}
 .rsp-widget.rsp-room-hidden .rsp-plot path[data-speaker-alone]{stroke-width:3.6;stroke-dasharray:none}
 @media(max-width:550px){.rsp-overlay-controls{padding:.75rem .85rem}.rsp-overlay-hint{flex-basis:100%}}
+
+/* Keep visible legend matched to currently visible traces. */
+.rsp-widget.rsp-room-hidden [data-room-legend]{display:none}
+.rsp-widget.rsp-room-hidden [data-speaker-legend] .rsp-key-speaker{border-top-style:solid}
+.rsp-overlay-controls .rsp-room-button[aria-pressed="false"]{opacity:1;color:#e5f6ff;border-color:#6489a0;background:#122c41}
+.rsp-overlay-controls .rsp-room-button[aria-pressed="false"] .rsp-room-swatch{opacity:.4}
