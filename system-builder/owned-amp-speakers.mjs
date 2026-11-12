@@ -147,7 +147,7 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     if(firm && budget!==null && subtotal!==null && subtotal>budget) {
       excluded.push({title:model,reason:'Speaker-pair observed price exceeds the firm budget. Owned amplifier adds zero purchase cost.'});continue;
     }
-    if(selected.length>=5)break;
+    if(selected.length>=5)continue; // Continue checking exclusions even once the visible shortlist is full.
     const caution=loadUnknown ?
       'This speaker’s nominal load is not verified. Do NOT connect to '+screen.ampName+' until its load and the amplifier manufacturer’s permission are confirmed.' :
       screen.explicitNominalFloor ?
