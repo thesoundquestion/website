@@ -115,6 +115,7 @@ test('typing exact A-S801 populates all published watt and distortion conditions
  assert.equal(h.fields.inputZ.value,47);
  assert.match(h.research.allText,/Independent distortion plots located/);
  assert.match(h.research.allText,/Audioholics independent A-S801/);
+ assert.match(h.note.allText,/Read independent distortion measurements/);
  assert.equal(h.fields.curve.value,'');
  assert.equal(h.suggestions.children.length,42);
 });

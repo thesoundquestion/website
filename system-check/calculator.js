@@ -916,6 +916,14 @@ function mountGearPresets(catalog) {
         more.href = gear.extra[1];
         note.append(' · ', more);
       }
+      if (kind === 'amp' && gear.distortionResearch) {
+        const lab = document.createElement('a');
+        lab.href = gear.distortionResearch.url;
+        lab.target = '_blank';
+        lab.rel = 'noopener noreferrer';
+        lab.textContent = 'Read independent distortion measurements ↗';
+        note.append(' · ', lab);
+      }
       const compare = document.createElement('a');
       compare.href = '/system-check/compare/?' + new URLSearchParams({ type: kind, left: gear.model });
       compare.textContent = 'Compare this gear';
