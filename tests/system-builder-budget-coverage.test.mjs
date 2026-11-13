@@ -101,15 +101,13 @@ test('a CAD 100 budget does not put the known CAD 125-195 used asking band first
   assert.ok(r.excluded.some(x=>x.title==='Polk Monitor XT15'));
 });
 
-test('at CAD 180 the Titan is a conditional used lead with three asks, never a claimed median',()=>{
+test('CAD 180 keeps vintage Titan as a source-backed watch target, not a live classified recommendation',()=>{
   const r=leads({budget:180});
-  const item=r.selected.find(x=>x.title==='Paradigm Titan v3');
-  assert.ok(item);
-  assert.equal(item.subtotal,null);
-  assert.equal(item.usedExampleRange.min,125);
-  assert.equal(item.usedExampleRange.max,195);
-  assert.equal(item.usedExampleRange.notRegionalMedian,true);
-  assert.equal(item.marketContext.usedAsks.length,3);
+  assert.ok(!r.selected.some(x=>x.title==='Paradigm Titan v3'));
+  assert.ok(r.excluded.some(x=>x.title==='Paradigm Titan v3' && /Keep an eye out/.test(x.reason)));
+  const historical=priceContextFor('Paradigm Titan v3','CA','CAD');
+  assert.ok(historical.usedAsks.length===3);
+  assert.ok(historical.usedExampleRange.notRegionalMedian);
 });
 
 test('XT20 owner notes acknowledge dissatisfaction and XT15 editorial notes remain qualified',()=>{
