@@ -9,20 +9,6 @@ import {BUDGET_EXAMPLES} from './budget-examples.mjs';
  */
 export const EXAMPLES = Object.freeze([
   {
-    id:'legacy-rs202-p3-not-recommended', architecture:'passive_separates', title:'Budget passive stereo: Yamaha R-S202 + PSB Alpha P3',
-    kind:'New-system example', places:['living_room','bedroom'], power:'mains',
-    connections:['analog','bluetooth'], goals:['all_rounder','natural','low_volume'],
-    parts:[
-      {name:'Yamaha R-S202 receiver',count:1,role:'Amplification, volume control and Bluetooth',url:'https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s202/specs.html'},
-      {name:'PSB Alpha P3 passive speakers',count:1,role:'One stereo pair, sold as a pair',url:'https://www.psbspeakers.com/products/alpha-p3-compact-bookshelf'}
-    ],
-    why:'A straightforward receiver and compact passive stereo pair with an analogue or Bluetooth source path.',
-    tradeoff:'Important electrical caveat: Yamaha specifies 8 Ω or higher speakers; PSB quotes 8 Ω nominal but a 4 Ω minimum. This is NOT a verified safe pairing. Confirm suitability directly with Yamaha before purchase; otherwise choose a verified match. Neither product alone provides deep sub-bass.',
-    extra:['Source must be RCA analogue or Bluetooth. USB, optical and TV HDMI require separately priced conversion/control hardware.',
-      'Passive speaker wire is required. Confirm amplifier load permissions under real operating conditions.'],
-    priceCA:{components:[{label:'Yamaha R-S202',amount:299.95,url:'https://www.soundroom.ca/products/r-s202b'},{label:'PSB Alpha P3 pair',amount:449,url:'https://audioshop.on.ca/collections/psb/products/psb-alpha-p3-bookshelf-speakers'}]}
-  },
-  {
     id:'passive-as301-p5', architecture:'passive_separates', title:'Expandable stereo: Yamaha A-S301 + PSB Alpha P5',
     kind:'New-system example', places:['living_room','bedroom'], power:'mains',
     connections:['analog','optical'],goals:['all_rounder','natural','imaging','dynamic','bass'],
@@ -127,18 +113,6 @@ export const EXAMPLES = Object.freeze([
     why:'A higher-output event architecture with professional inputs for mains-powered venues.',
     tradeoff:'AC power mandatory, not a backyard battery speaker. Transport, rigging, mixer and venue safety matter. Output and pricing are not checked for your specific audience.',
     extra:['Outdoor use still needs weather protection and safe mounting; check exact non-Dante SKU.'],
-    priceCA:null
-  },
-  {
-    id:'legacy-used-bundle-not-recommended', architecture:'passive_separates', title:'Used-equipment watchlist: Yamaha RX-485 + Paradigm Titan v3',
-    kind:'Research used listings individually', places:['living_room','bedroom'], power:'mains',
-    connections:['analog'],goals:['all_rounder','natural','low_volume'],
-    usedOnly:true,
-    parts:[{name:'Yamaha RX-485 receiver (US/Canada)',count:1,role:'Exact revision/condition required',url:'https://github.com/thesoundquestion/website/blob/main/system-check/gear.js'},
-      {name:'Paradigm Titan v3 passive speakers',count:1,role:'Used stereo pair; driver surrounds and originality need checking',url:'https://github.com/thesoundquestion/website/blob/main/system-check/gear.js'}],
-    why:'A model-specific used-gear search direction rather than paying new-equipment prices by default.',
-    tradeoff:'Not a verified electrical pairing or a guaranteed bargain. Real used prices, condition, repairs, speaker-foam status and amplifier safety all remain unknown.',
-    extra:['Ask for a working demo and photos of both speaker drivers, terminals and receiver internals. Count necessary service cost.'],
     priceCA:null
   },
   ...BUDGET_EXAMPLES
