@@ -12,6 +12,22 @@
  */
 export const BUILDER_ONLY_SPEAKERS = Object.freeze([
   {
+    model:'Fluance SX6 Elite (SX6-BK)',type:'speaker',
+    values:Object.freeze({load:8,sensitivity:89,basis:'voltage',
+      speakerPowerSource:'https://www.fluance.com/sx6-high-definition-two-way-bookshelf-loudspeakers-black-ash',
+      speakerPowerNote:'Maker provides 30–100 W RMS as a range but not a separately verified continuous speaker damage limit; do not infer one from the upper bound.'}),
+    ratings:Object.freeze([]),
+    note:'Black Ash SX6-BK Elite passive stereo pair, 8 Ω nominal, 89±3 dB at 2.83 V/1 m and 60 Hz–20 kHz without a stated tolerance. No published minimum impedance/phase; condition and pairing remain unverified. Other Fluance SX6 revisions have materially different published response specifications.',
+    url:'https://www.fluance.com/sx6-high-definition-two-way-bookshelf-loudspeakers-black-ash',
+    details:Object.freeze({configuration:'Rear-ported passive two-way stereo pair',
+      drivers:'5-inch treated woofer, 1-inch dome tweeter',
+      frequencyResponse:'60 Hz–20 kHz; tolerance unspecified',
+      responseBasis:'Manufacturer with no published ±dB; not an anechoic measurement',
+      reviewedOn:'2026-11-13',reviewStatus:'builder-only-conditional',
+      priceRegionCA:'Unverified. US price or old open-box offer is not a Canadian regular price.'}),
+    evidence:'Builder-only exact SX6-BK source check; not an original System Check preset'
+  },
+  {
     model:'Q Acoustics 3010i',type:'speaker',
     values:Object.freeze({load:6,minimum:4,sensitivity:86,basis:'voltage'}),
     ratings:Object.freeze([]),
