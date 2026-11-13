@@ -29,6 +29,10 @@ The `thesoundquestion/research` repository is **private**. Nothing from it is au
 
 The site currently contains **no analytics scripts, third-party embeds, contact forms or advertising**. Please update the privacy notice if that changes.
 
+## Cloudflare agent integration
+
+AI-agent development guidance and the free-tier / authorization safeguards are in [`AGENTS.md`](AGENTS.md). For the official Cloudflare MCP endpoint, supported clients, setup options, and connection status, see [`deployment/cloudflare-agent-setup.md`](deployment/cloudflare-agent-setup.md). This is development guidance only; it does not install an MCP connection into ChatGPT or change the Pages build.
+
 ## Updating
 
 Edit and commit files to `main`. Cloudflare Pages should automatically deploy. If the build configuration is edited in Cloudflare, ensure that this plain HTML site continues to publish the repository root.
