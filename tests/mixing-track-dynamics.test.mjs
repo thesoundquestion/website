@@ -85,3 +85,11 @@ test('DAW-style comparison is responsive, has keyboard-focus styling, and is cle
   assert.match(styles,/@media\(max-width:570px\)/);
   assert.match(mixing,/not samples from a commercial recording/);
 });
+
+test('the illustrated guitar bass snare and cymbal phrase shares a coherent beat timeline',()=>{
+  assert.ok(trackWaveLevel('guitar',0.25)>trackWaveLevel('guitar',0.245));
+  assert.ok(trackWaveLevel('snare',0.5)>0.85);
+  assert.ok(trackWaveLevel('snare',1.5)>0.85);
+  assert.ok(trackWaveLevel('snare',2.5)>0.85);
+  assert.ok(trackWaveLevel('cymbals',2.0)>trackWaveLevel('cymbals',1.9));
+});
