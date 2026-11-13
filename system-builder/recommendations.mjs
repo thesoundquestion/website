@@ -1,3 +1,5 @@
+import {BUDGET_EXAMPLES} from './budget-examples.mjs';
+
 /**
  * Editorial, source-linked example systems, not a product leaderboard.
  * Checked 2026-11-12. Prices are individual observed Canadian offers/list prices,
@@ -7,7 +9,7 @@
  */
 export const EXAMPLES = Object.freeze([
   {
-    id:'passive-rs202-p3', architecture:'passive_separates', title:'Budget passive stereo: Yamaha R-S202 + PSB Alpha P3',
+    id:'legacy-rs202-p3-not-recommended', architecture:'passive_separates', title:'Budget passive stereo: Yamaha R-S202 + PSB Alpha P3',
     kind:'New-system example', places:['living_room','bedroom'], power:'mains',
     connections:['analog','bluetooth'], goals:['all_rounder','natural','low_volume'],
     parts:[
@@ -128,7 +130,7 @@ export const EXAMPLES = Object.freeze([
     priceCA:null
   },
   {
-    id:'used-rx485-titan', architecture:'passive_separates', title:'Used-equipment watchlist: Yamaha RX-485 + Paradigm Titan v3',
+    id: architecture:'passive_separates', title:'Used-equipment watchlist: Yamaha RX-485 + Paradigm Titan v3',
     kind:'Research used listings individually', places:['living_room','bedroom'], power:'mains',
     connections:['analog'],goals:['all_rounder','natural','low_volume'],
     usedOnly:true,
@@ -138,7 +140,8 @@ export const EXAMPLES = Object.freeze([
     tradeoff:'Not a verified electrical pairing or a guaranteed bargain. Real used prices, condition, repairs, speaker-foam status and amplifier safety all remain unknown.',
     extra:['Ask for a working demo and photos of both speaker drivers, terminals and receiver internals. Count necessary service cost.'],
     priceCA:null
-  }
+  },
+  ...BUDGET_EXAMPLES
 ]);
 
 const allowedArch = ['passive_separates','consumer_powered_pair','active_studio','headphone_first','party_pa'];
@@ -160,15 +163,38 @@ export function shortlistExamples(input = {}) {
   let order;
   if (targetArchitectures.length === 1 && targetArchitectures[0] === 'headphone_first') order = ['headphone-hd560','headphone-hd600'];
   else if (targetArchitectures.length === 1 && targetArchitectures[0] === 'party_pa') order = ['party-soundboks','party-jbl','party-dzr'];
-  else if (scene === 'desk') order = ['powered-mr4','powered-ora','studio-jbl','studio-kali','passive-rs202-p3','passive-as301-p5','used-rx485-titan'];
-  else if (aim === 'imaging') order = ['studio-jbl','powered-ora','passive-as301-p5','studio-kali','passive-rs202-p3','powered-mr4','used-rx485-titan'];
-  else if (aim === 'natural') order = ['passive-as301-p5','studio-kali','powered-mr4','powered-ora','passive-rs202-p3','studio-jbl','used-rx485-titan'];
-  else if (aim === 'low_volume') order = ['powered-mr4','passive-as301-p5','powered-ora','studio-kali','passive-rs202-p3','studio-jbl','used-rx485-titan'];
-  else if (aim === 'bass') order = ['powered-ora','passive-as301-p5','studio-kali','passive-rs202-p3','studio-jbl','powered-mr4','used-rx485-titan'];
-  else if (aim === 'dynamic' || input.level === 'high') order = ['passive-as301-p5','studio-kali','passive-rs202-p3','studio-jbl','powered-ora','powered-mr4','used-rx485-titan'];
-  else order = ['passive-rs202-p3','passive-as301-p5','powered-ora','powered-mr4','studio-kali','studio-jbl','used-rx485-titan'];
+  else if (scene === 'desk') order = ['powered-mr4','powered-ora','studio-jbl','studio-kali','passive-bt20a-xt15','passive-as301-p5'];
+  else if (aim === 'imaging') order = ['studio-jbl','powered-ora','passive-as301-p5','studio-kali','passive-bt20a-xt15','powered-mr4'];
+  else if (aim === 'natural') order = ['passive-as301-p5','studio-kali','powered-mr4','powered-ora','passive-bt20a-xt15','studio-jbl'];
+  else if (aim === 'low_volume') order = ['powered-mr4','passive-as301-p5','powered-ora','studio-kali','passive-bt20a-xt15','studio-jbl'];
+  else if (aim === 'bass') order = ['powered-ora','passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-mr4'];
+  else if (aim === 'dynamic' || input.level === 'high') order = ['passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-ora','powered-mr4'];
+  else order = ['passive-bt20a-xt15','passive-as301-p5','powered-ora','powered-mr4','studio-kali','studio-jbl'];
+  // Give no-owned-equipment shoppers real affordable alternatives.
+  const inputType=String(input.connection||'undecided');
+  const byInput=inputType==='usb' ?
+    ['powered-m60','powered-mr3','powered-r1280db','powered-r1280t','powered-r1280dbs','powered-r1700bts'] :
+    inputType==='optical' ? ['powered-r1280db','powered-r1280dbs','powered-mr3',
+      'powered-r1280t','powered-m60','powered-r1700bts'] :
+    aim==='bass'?['powered-r1700bts','powered-r1280dbs','powered-r1280db','powered-mr3','powered-r1280t','powered-m60'] :
+      ['powered-mr3','powered-r1280t','powered-r1280db',
+        'powered-r1280dbs','powered-m60','powered-r1700bts'];
+  if(arch==='headphone_first'){
+    order = budget!==null&&budget<=200 ?
+      ['headphone-ksc75','headphone-portapro',...order] :
+      [...order,'headphone-ksc75','headphone-portapro'];
+  } else if(targetArchitectures.includes('consumer_powered_pair')){
+    order = budget!==null&&budget<=350 ?
+      [...byInput,...order] : [...order,...byInput];
+  }
+  if(targetArchitectures.includes('passive_separates') &&
+    !order.includes('passive-bt20a-xt15'))order.push('passive-bt20a-xt15');
+  order=[...new Set(order)];
   const max = arch === 'open' ? 4 : 3;
-  for (const id of order) {
+  const allowAffordableFill = strict && budget!==null && targetArchitectures.includes('consumer_powered_pair');
+  for (const [iteration,id] of [...order.map(id=>[0,id]),
+    ...(allowAffordableFill?order.map(id=>[1,id]):[])]) {
+    if (selected.some(x=>x.id===id)) continue;
     const product = EXAMPLES.find(x => x.id === id);
     if (!product || !targetArchitectures.includes(product.architecture)) continue;
     if (product.usedOnly && !used) continue;
@@ -182,16 +208,20 @@ export function shortlistExamples(input = {}) {
       continue;
     }
     if (selected.length >= max) continue;
-    if (arch === 'open' && selected.some(x=>x.architecture===product.architecture) &&
+    if (arch === 'open' && iteration===0 &&
+        selected.some(x=>x.architecture===product.architecture) &&
         new Set(selected.map(x=>x.architecture)).size < 3) continue;
     const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
     selected.push({ ...product, subtotal, priceComponents:snapshot?.components || [],
       editorialGoalFocus: product.goals.includes(aim),
       secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
       pricingStatus: subtotal === null ? 'regional_price_missing' : 'partial_subtotal',
+      priceEvidence:product.priceEvidence||null,
       connectionStatus: needsConnection ? 'adapter_needed' : 'native_possible',
-      levelCaution:input.level === 'high' && ['powered-mr4','powered-ora'].includes(product.id),
-      placementCaution:(Number(input.distanceFt)>10 && ['powered-mr4','powered-ora','studio-jbl','studio-kali'].includes(product.id)),
+      levelCaution:input.level === 'high' &&
+        (product.id.startsWith('powered-') || ['powered-ora','studio-jbl'].includes(product.id)),
+      placementCaution:(Number(input.distanceFt)>10 &&
+        (product.id.startsWith('powered-') || ['studio-jbl','studio-kali'].includes(product.id))),
       sceneCaution:!product.places.includes(scene),
       sourceBatteryCaution:neededPower && product.power === 'source_dependent'
     });
