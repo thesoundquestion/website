@@ -138,7 +138,7 @@ export function partySpeakerEvidence(record) {
   const comparable=known && (basis==='power' ||
     (basis==='voltage' && v.load===8 && !roomReferenced));
   const normalized=known && comparable ?
-    (basis==='power'?sensitivity:sensitivity-10*Math.log10(8/8.0089)) : null;
+    (basis==='power'?sensitivity:sensitivity-10*Math.log10((2.83**2)/v.load)) : null;
   // Voltage-basis values at a nominal 8 Ω are only approximate power-based
   // equivalents; published manufacturer methods can still be inconsistent.
   const tier=Number.isFinite(normalized) ?
