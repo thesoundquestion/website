@@ -120,6 +120,26 @@ export const SOUND_PROFILES = Object.freeze({
     text:'Reviews commonly describe strong bass and a spacious sound for this size, but disagree about treble: some hear it as balanced, others as bright. Positioning and EQ matter.',
     type:'Linked review synthesis; impressions vary',url:'https://www.audiowords.net/reviews/polk-signature-elite-es20'
   },
+  'Cerwin-Vega XLS-215': {
+    text:'The manufacturer documents a dual-15-inch tower and 95.3 dB sensitivity at 1 W / 3.28 ft. This supports high-efficiency screening, not a claim about tonal accuracy, clean maximum SPL or sustained distortion.',
+    type:'Manufacturer specification only; listening profile unverified',
+    url:'https://cerwinvega.com/products/xls-215'
+  },
+  'Cerwin-Vega XLS-15': {
+    text:'The manufacturer quotes 92.3 dB sensitivity at 1 W / 3.28 ft for the 15-inch tower. A dependable independent assessment of tonal balance and sustained high-output compression is not established.',
+    type:'Manufacturer specification only; listening profile unverified',
+    url:'https://cerwinvega.com/products/xls-15'
+  },
+  'Cerwin-Vega XLS-12': {
+    text:'This 12-inch tower is manufacturer-rated at 90.8 dB at 1 W / 3.28 ft. Cabinet size and a peak-watt label cannot establish its real clean volume or subjective sound character.',
+    type:'Manufacturer specification only; listening profile unverified',
+    url:'https://cerwinvega.com/products/xls-12'
+  },
+  'Klipsch R-51M': {
+    text:'Klipsch publishes a 93 dB sensitivity figure and continuous/peak input figures for this compact horn-loaded model. The manufacturer sensitivity convention and cabinet limits prevent a direct real-room party-output comparison.',
+    type:'Manufacturer specification only; listening profile unverified',
+    url:'https://assets.klipsch.com/product-specsheets/R-51M_Spec-Sheet_v01.pdf'
+  },
   'Klipsch R-50M': {
     text:'A listening review reports direct, vivid stereo placement and lively dynamics with some textured midrange. Other reports vary on treble brightness, so auditioning matters.',
     type:'Independent listening review',url:'https://www.hifireport.com/onkyo-tx-8260-and-klipsch-r-50m-system-review/'
