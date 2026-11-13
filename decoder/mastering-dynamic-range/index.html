@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/decoder-lessons.css?v=equipment-tools">
   <link rel="stylesheet" href="/assets/mastering-dynamic-range.css">
+  <script type="module" src="/assets/music-waveform-comparisons.mjs"></script>
   <title>Mastering, remastering and dynamic range | The Sound Question</title>
   <script defer src="/assets/decoder-lessons.js"></script>
 </head>
@@ -89,17 +90,60 @@
 
     <section class="ma-section" id="same-recording"><div class="container">
       <h2>Same drummer, three mastering choices</h2>
-      <p>Picture a kick and snare over a bass line. The <strong>peak level</strong> tells you how big the strongest hit is. The <strong>average level</strong> takes the whole passage into account, including the bass and the drum ring between hits. The chart measures that average electrical level in <strong>volts RMS</strong> so we can work out how much power the amp delivers over the passage.</p>
+      <div class="ma-editor-demo" data-music-mastering>
+        <div class="ma-editor-intro">
+          <h3>One musical excerpt. Three ways to master it.</h3>
+          <p>These are visualizations of the same invented musical phrase, using the kind of waveform you might see in Audacity or a recording program. Listen with your eyes first: notice how much the biggest hits stand out from the music around them.</p>
+        </div>
+        <div class="ma-editor-controls" role="group" aria-label="Compare mastering at different playback levels">
+          <button type="button" data-music-mode="peak" aria-pressed="true" class="is-current">Same stereo volume setting</button>
+          <button type="button" data-music-mode="level" aria-pressed="false">Adjust them to sound similarly loud</button>
+        </div>
+        <div class="ma-editor-timeline" aria-hidden="true"><span>0 seconds</span><span>1</span><span>2</span><span>3</span><span>4.8 seconds</span></div>
+        <div class="ma-editor-row" data-music-master="dynamic">
+          <div class="ma-editor-label"><h4>Very dynamic</h4><p>Big musical contrasts</p></div>
+          <svg viewBox="0 0 720 90" preserveAspectRatio="none" role="img" aria-label="Very dynamic waveform, built from a fictional musical phrase.">
+            <path class="ma-editor-center" d="M0 45H720"/><path data-music-wave class="ma-editor-ink" d="M8 45L32 30L48 60L60 44L140 43L175 15L186 76L210 45L310 35L350 65L380 44L490 18L515 71L550 45L640 26L666 65L710 45"/>
+          </svg>
+          <p>The snare and other accents can jump well above the quieter instruments.</p>
+        </div>
+        <div class="ma-editor-row" data-music-master="moderate">
+          <div class="ma-editor-label"><h4>Moderate</h4><p>Some control, some contrast</p></div>
+          <svg viewBox="0 0 720 90" preserveAspectRatio="none" role="img" aria-label="Moderately compressed waveform, from the same fictional performance.">
+            <path class="ma-editor-center" d="M0 45H720"/><path data-music-wave class="ma-editor-ink" d="M8 45L32 23L48 65L60 44L140 33L175 16L186 72L210 45L310 25L350 65L380 44L490 16L515 71L550 45L640 22L666 65L710 45"/>
+          </svg>
+          <p>The backing sounds steadier, while stronger hits can still stand out.</p>
+        </div>
+        <div class="ma-editor-row" data-music-master="limited">
+          <div class="ma-editor-label"><h4>Heavily limited</h4><p>Less space between peaks</p></div>
+          <svg viewBox="0 0 720 90" preserveAspectRatio="none" role="img" aria-label="Heavily limited waveform, from the same fictional performance.">
+            <path class="ma-editor-center" d="M0 45H720"/><path data-music-wave class="ma-editor-ink" d="M8 45L32 17L48 73L60 44L140 23L175 17L186 73L210 45L310 19L350 69L380 44L490 16L515 72L550 45L640 20L666 69L710 45"/>
+          </svg>
+          <p>More sound fills the gaps, but individual accents may feel less dramatic.</p>
+        </div>
+        <p class="ma-editor-caption" data-music-caption>Same stereo volume setting: the heavily limited version generally sounds louder overall because more of the music stays near the peaks.</p>
+        <p class="ma-editor-method"><strong>What these pictures do and don't show:</strong> One channel of an original synthetic, music-like phrase; the same timing and display scale for every version. The processing is a simplified teaching example, not a measurement or waveform from a commercial song. Waveform density alone cannot tell you whether a master sounds good. The adjusted mode uses matching average electrical signal strength as an approximation, not a measured perceived-loudness (LUFS) match.</p>
+        <span class="ma-editor-screenreader" data-music-status role="status" aria-live="polite"></span>
+        <noscript><p class="ma-editor-method">JavaScript draws the full synthetic waveforms. The explanations above describe the three choices.</p></noscript>
+      </div>
+      <div class="ma-editor-lessons">
+        <p><strong>Why would the dynamic version seem quieter?</strong> With the stereo volume left alone, the highly compressed version may have more sound filling the space between hits. It can grab your attention because the music stays loud more of the time. A dynamic recording often leaves more room for those sudden accents, so its quieter passages may make you reach for the volume knob.</p>
+        <p><strong>Now turn the quieter version up to roughly the same overall loudness.</strong> The snare's crack, the shift from verse to chorus and the pause before a big entrance may stand out more. Turning up didn't invent that contrast. It was already there in the music.</p>
+        <p><strong>What this asks of your stereo:</strong> Those bigger, brief hits need enough extra amplifier power and speaker capacity to come through cleanly. Engineers call that reserve <em>headroom</em>. A heavily limited master can have smaller peaks but keep the amplifier and speakers working harder over time because the sound is more consistently strong. Neither approach is automatically better. <a href="/decoder/mixing-soundstage/#track-dynamics">See how individual guitar, bass, snare and cymbal tracks can be processed differently before mastering.</a></p>
+      </div>
+
+      <h3 class="ma-technical-heading">Want to see the numbers behind this?</h3>
+      <p>The biggest instant of sound is called the <strong>peak</strong>. The <strong>average</strong> describes how strong the signal is across the passage, including everything between the drum hits. The difference between peak and average is one useful clue to musical impact, though it cannot capture every kind of dynamics. The technical example below measures average electrical signal strength in <strong>volts RMS</strong> to show how amplifier power can change.</p>
       <div class="ma-split">
         <article><h3>What a compressor does</h3><p>It turns down the signal when it gets past a chosen level, called the <strong>threshold</strong>. The <strong>ratio</strong> sets how much smaller the rise will be. A slower <strong>attack</strong> can let the first edge of a snare through. A longer <strong>release</strong> keeps the gain down further into the ring of the hit. Raising the level after compression can bring the sound between hits forward. <a href="https://www.fabfilter.com/learn/compression/basic-compressor-controls">FabFilter’s compressor guide.</a></p></article>
         <article><h3>What a limiter and a clipper do</h3><p>A brickwall limiter aims to keep peaks below a ceiling by turning them down quickly. A <strong>look-ahead</strong> limiter delays the signal briefly so it can start turning it down before a peak arrives. <strong>Clipping</strong> reshapes the waveform as it runs into a limit, which creates new frequencies and can sound gritty. That can happen at the edge of a digital file’s range or when an analog circuit runs out of swing. <a href="/decoder/recording-resolution/#gain">See what happens when a signal clips.</a></p></article>
       </div>
 
-      <p class="ma-before-graph"><strong>How to read the graph.</strong> All three lines come from the same four-second performance made for this lesson. Follow the dashed mark to the big drum hit, then look at how far each line moves from zero between hits. Use the buttons to hold either the peak level or the average level equal across all three versions.</p>
+      <p class="ma-before-graph"><strong>How to read the graph.</strong> All three lines come from the same four-second performance made for this lesson. Follow the dashed mark to the big drum hit, then look at how far each line moves from zero between hits. Use its buttons to compare equal peak levels with equal average electrical levels. This is a separate simplified electrical model, not the DAW-style waveform above.</p>
       <figure class="dl-figure ma-figure" id="mastering-waveform" data-lesson-plot="mastering-levels">
         <div class="dl-graph-toolbar" role="group" aria-label="Choose which level to match" hidden>
-          <button type="button" class="dl-option is-current" data-select-case="peak" aria-pressed="true">Match peak level</button>
-          <button type="button" class="dl-option" data-select-case="rms" aria-pressed="false">Match average level</button>
+          <button type="button" class="dl-option is-current" data-select-case="peak" aria-pressed="true">Match strongest peaks</button>
+          <button type="button" class="dl-option" data-select-case="rms" aria-pressed="false">Match average electrical level</button>
         </div>
         <p class="ma-axis-title">Signal voltage (V) over time</p>
 <!-- LEVEL_WAVES_BEGIN -->
