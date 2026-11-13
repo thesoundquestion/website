@@ -81,3 +81,14 @@ test('explicit known party battery and passive electrical constraints remain har
   assert.ok(party.selected.every(x=>x.power==='battery'));
   assert.ok(party.excluded.some(x=>/Battery operation required/.test(x.reason)));
 });
+
+test('deep bass without a sub deprioritizes exact known 3-inch ORA limitation',()=>{
+  const ora=item('powered-ora',{goals:['bass','all_rounder']});
+  const larger=item('passive',{goals:['bass','all_rounder'],
+    architecture:'passive_separates'});
+  assert.ok(first(ora,larger,{...request,goal:'bass',subMode:'no_sub'})>0);
+  assert.ok(first(ora,larger,{...request,goal:'bass',subMode:'sub_unknown'})>0);
+  assert.ok(first(ora,larger,{...request,goal:'bass',subMode:'sub_hpf'})<0);
+  const reasons=explainExampleInteractions(ora,{...request,goal:'bass',subMode:'no_sub'});
+  assert.ok(reasons.some(x=>/3-inch ORA speakers/.test(x)));
+});
