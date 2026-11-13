@@ -85,14 +85,14 @@ test('budget 300 can use a documented broad seasonal Atom promotion but not afte
   assert.ok(expired.excluded.some(x=>x.title==='Paradigm Monitor SE Atom'));
 });
 
-test('a low Canadian budget with used enabled shows vintage model discovery without purchase guarantee',()=>{
+test('a low Canadian budget keeps vintage used models as watch leads, not actionable listings',()=>{
   const r=candidates({budget:180,goal:'all_rounder',used:true});
   assert.ok(r.selected.length>=2);
-  assert.equal(r.selected[0].title,'Paradigm Titan v3');
-  assert.equal(r.selected[0].subtotal,null);
-  assert.equal(r.selected[0].pricingStatus,'regional_price_missing');
-  assert.equal(r.selected[0].usedExampleRange.notTransactionPrices,true);
-  assert.ok(r.selected[0].tradeoff.includes('condition')||r.selected[0].tradeoff.includes('surround'));
+  assert.ok(!r.selected.some(x=>x.title==='Paradigm Titan v3'));
+  assert.ok(r.excluded.some(x=>x.title==='Paradigm Titan v3' && /Keep an eye out/.test(x.reason)));
+  const research=priceContextFor('Paradigm Titan v3');
+  assert.equal(research.usedExampleRange.notTransactionPrices,true);
+  assert.equal(research.usedExampleRange.notRegionalMedian,true);
 });
 
 test('no used opt-in removes vintage discovery even when price would be attractive',()=>{
@@ -100,21 +100,21 @@ test('no used opt-in removes vintage discovery even when price would be attracti
   assert.ok(!r.selected.some(x=>x.title==='Paradigm Titan v3'));
 });
 
-test('owned amp plan keeps the amplifier and passes the same market context to compact UI',()=>{
-  const own={amp};
-  const p=ownershipPlan({own,request:{...request,budget:180},inventory});
-  assert.ok(p.selected.some(x=>x.title==='Paradigm Titan v3'));
-  const titan=p.selected.find(x=>x.title==='Paradigm Titan v3');
-  assert.equal(titan.usedExampleRange.min,125);
-  assert.ok(titan.reuseNames.includes('Yamaha A-720'));
-  assert.ok(titan.parts.some(x=>x.name==='Yamaha A-720'));
+test('owned amplifier remains retained without treating old classified prices as a purchase option',()=>{
+  const p=ownershipPlan({own:{amp},request:{...request,budget:180},inventory});
+  assert.ok(p.selected.length>0);
+  assert.ok(!p.selected.some(x=>x.title==='Paradigm Titan v3'));
+  assert.ok(p.selected.every(x=>x.reuseNames.includes('Yamaha A-720')));
+  assert.ok(p.selected.every(x=>x.parts.some(x=>x.name==='Yamaha A-720')));
 });
 
 test('UI keeps exact source notes behind expandable details and no invented median',()=>{
   const app=src('../system-builder/app.mjs');
   assert.match(app,/item\.marketContext\.regular/);
-  assert.match(app,/item\.marketContext\.usedAsks/);
-  assert.match(app,/Used asking examples/);
+  assert.doesNotMatch(app,/item\.marketContext\.usedAsks/);
+  assert.doesNotMatch(app,/Used asking examples/);
+  assert.match(app,/usedWatchlistFor/);
+  assert.match(app,/Used stereo amplifiers worth keeping an eye out for/);
   assert.match(app,/Why these speakers/);
   assert.doesNotMatch(app,/marketContext\.average|marketContext\.median/);
 });
