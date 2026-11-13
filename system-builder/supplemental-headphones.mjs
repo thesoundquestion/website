@@ -1,3 +1,5 @@
+import {ADDITIONAL_BUDGET_HEADPHONES} from './budget-headphones.mjs';
+
 /**
  * Builder-only exact-model wired headphone identity additions.
  * Separate from original System Check, which remains read-only.
@@ -5,6 +7,7 @@
  * from a naked dB or 1mW spec. No head-amp compatibility guarantee is implied.
  */
 export const BUILDER_ONLY_HEADPHONES=Object.freeze([
+  ...ADDITIONAL_BUDGET_HEADPHONES,
   Object.freeze({
     model:'AKG K371',type:'headphone',
     values:Object.freeze({design:'Closed-back over-ear',load:32,sensitivity:114,basis:'voltage',sensitivityConditions:'1 kHz'}),
