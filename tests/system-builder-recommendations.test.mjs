@@ -7,7 +7,7 @@ const defaults = {architecture:'open',useCase:'living_room',goal:'all_rounder',
   budget:null,budgetStrict:true,used:true,distanceFt:8};
 
 test('named catalog is an editorial shortlist, not a scored ranking',()=>{
-  assert.equal(EXAMPLES.length,12);
+  assert.equal(EXAMPLES.length,19);
   assert.ok(EXAMPLES.every(x=>x.title && x.why && x.tradeoff && x.parts.length && x.parts.every(p=>p.name&&p.count>0)));
   assert.ok(EXAMPLES.every(x=>x.parts.filter(p=>p.url).every(p=>p.url.startsWith('https://'))));
   assert.ok(EXAMPLES.every(x=>!('matchScore' in x)&&!('soundQualityScore' in x)));
@@ -29,13 +29,14 @@ test('quoted JBL monitor price is for two separate cabinets',()=>{
   assert.ok(j.parts.some(p=>p.count===2));
 });
 test('firm budget excludes known subtotal above ceiling',()=>{
-  const x=shortlistExamples({...defaults,architecture:'passive_separates',budget:500});
-  assert.ok(!x.selected.some(x=>x.id==='passive-rs202-p3'));
-  assert.ok(x.excluded.some(x=>x.title.includes('R-S202')&&/budget/.test(x.reason)));
+  const x=shortlistExamples({...defaults,architecture:'passive_separates',budget:400});
+  assert.ok(!x.selected.some(x=>x.id==='passive-bt20a-xt15'));
+  assert.ok(x.excluded.some(x=>x.title.includes('Fosi BT20A Pro')&&/budget/.test(x.reason)));
 });
 test('flexible budget may display over-subtotal example with warning for display',()=>{
   const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',budget:100,budgetStrict:false,useCase:'desk'});
-  assert.ok(x.selected.some(x=>x.id==='powered-mr4'));
+  assert.ok(x.selected.some(x=>x.id==='powered-mr3'));
+  assert.ok(x.selected.some(x=>x.subtotal>100));
 });
 test('no Canadian price represented as another regional price',()=>{
   const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',region:'US',currency:'USD',useCase:'desk'});
@@ -57,20 +58,24 @@ test('requested unsupported native source connection requires separately priced 
   const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',useCase:'desk',connection:'hdmi'});
   assert.ok(x.selected.every(x=>x.connectionStatus==='adapter_needed'));
 });
-test('used watchlist excluded when buyer rules out secondhand gear',()=>{
+test('used models are an unpriced evergreen watchlist, not forced secondhand bundles',()=>{
   const x=shortlistExamples({...defaults,architecture:'passive_separates',used:false});
-  assert.ok(!x.selected.some(x=>x.usedOnly));
   const y=shortlistExamples({...defaults,architecture:'passive_separates',used:true});
-  assert.ok(y.selected.some(x=>x.usedOnly));
+  assert.ok(!x.selected.some(x=>x.usedOnly));
+  assert.ok(!y.selected.some(x=>x.usedOnly));
+  assert.ok(!EXAMPLES.some(x=>x.title.includes('Used-equipment watchlist: Yamaha RX-485')));
 });
 test('an open-system comparison includes different architectures, not four consecutive speakers of one type',()=>{
   const x=shortlistExamples({...defaults});
   assert.ok(new Set(x.selected.map(x=>x.architecture)).size>=3);
 });
-test('published R-S202/P3 pairing discloses the manufacturer impedance warning',()=>{
-  const x=EXAMPLES.find(x=>x.id==='passive-rs202-p3');
-  assert.match(x.tradeoff,/4 Ω minimum/);
-  assert.match(x.tradeoff,/NOT a verified safe pairing/);
+test('legacy R-S202/P3 example has been retired; affordable Fosi/Polk pair includes load caution',()=>{
+  assert.ok(!EXAMPLES.some(x=>x.title.includes('R-S202 + PSB Alpha P3')));
+  const x=EXAMPLES.find(x=>x.id==='passive-bt20a-xt15');
+  assert.ok(x);
+  assert.match(x.loadCaution,/4.1 Ω/);
+  assert.match(x.tradeoff,/not a certified|NOT a certified/i);
+  assert.equal(x.priceCA.components.reduce((n,p)=>n+p.amount,0),438.99);
 });
 test('no example certifies a full price or real-world compatibility',()=>{
   const x=shortlistExamples({...defaults});
