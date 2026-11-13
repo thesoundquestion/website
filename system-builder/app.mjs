@@ -5,6 +5,8 @@ import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
+import {BUILDER_ONLY_AMPS, builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
+import {usedWatchlistFor} from './used-amp-watchlist.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -97,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
         select.append(option);
       }
       const supplements=kind==='speaker' ? BUILDER_ONLY_SPEAKERS :
-        kind==='headphone' ? BUILDER_ONLY_HEADPHONES : [];
+        kind==='headphone' ? BUILDER_ONLY_HEADPHONES :
+        kind==='amp' ? BUILDER_ONLY_AMPS : [];
       for (const record of supplements) {
         if ((inventory[kind] || []).some(x=>x.model===record.model)) continue;
         const option=el('option','',record.model+' (Builder addition)');
@@ -106,7 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     const count = Object.values(inventory).reduce((n, records) => n + records.length, 0);
-    state.textContent = count + ' existing System Check presets loaded (read-only) · '+BUILDER_ONLY_SPEAKERS.length+' source-linked Builder-only speakers · '+BUILDER_ONLY_HEADPHONES.length+' source-linked Builder-only headphones. Unknown technical fields remain unknown.';
+    state.textContent = count + ' existing System Check presets loaded (read-only) · '+
+      BUILDER_ONLY_SPEAKERS.length+' sourced passive speakers · '+
+      BUILDER_ONLY_HEADPHONES.length+' wired headphones · '+
+      BUILDER_ONLY_AMPS.length+' conditional compact amplifiers. Powered pairs are separate complete-system choices. Unknown fields remain unknown.';
   } else {
     state.textContent = 'The saved preset catalog did not load. Unlisted model inputs remain available; no specs will be assumed.';
   }
@@ -150,7 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const custom = String(data.get(kind+'Other') || '').trim();
     const record = (inventory?.[kind] || []).find(x => x.model === exact) ||
       (kind==='speaker' ? builderOnlySpeakerFor(exact) :
-        kind==='headphone' ? builderOnlyHeadphoneFor(exact) : null);
+        kind==='headphone' ? builderOnlyHeadphoneFor(exact) :
+        kind==='amp' ? builderOnlyAmpFor(exact) : null);
     return {name: custom || record?.model || '', record: custom ? null : record, unlisted: !!custom};
   }
   let reportContainer = null;
@@ -383,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       details.append(parts);
       if (item.priceComponents.length) {
-        addText(details,'h5','Canadian price references · 12 Nov 2026');
+        addText(details,'h5','Canadian published asking references · not typical transaction prices');
         for (const p of item.priceComponents) {
           const line = addText(details,'p',(p.quantity > 1 ? p.quantity+' × ' : '') + p.label +
             ': ' + priceFormat(p.amount) + (p.quantity > 1 ? ' each' : ''),'sb-card-reference');
@@ -445,6 +452,33 @@ document.addEventListener('DOMContentLoaded', () => {
       list(excluded,shortlist.excluded.slice(0,5).map(x=>x.title+': '+x.reason));
       shop.append(excluded);
     }
+
+    // Evergreen models rather than expired classified ads. This is deliberately
+    // NOT an automatically priced shopping recommendation or safe-pair verdict.
+    if (request.used && powered!=='battery' &&
+        (arch==='open'||arch==='passive_separates')) {
+      const saved = usedWatchlistFor({wantedInput:request.connection,powered});
+      if (saved.length) {
+        const watch = el('details','sb-more sb-used-watchlist');
+        addText(watch,'summary','Used stereo amplifiers worth keeping an eye out for · model watchlist');
+        addText(watch,'p',
+          'These are established models to recognise when shopping second-hand, not current listings or confirmed local bargains. No used price, stock status or automatic speaker compatibility is claimed.','sb-brief-note');
+        for(const candidate of saved){
+          const block=el('div','sb-used-watch-model');
+          addText(block,'h4',candidate.model+' · '+candidate.type);
+          addText(block,'p','Why consider it: '+candidate.audience);
+          addText(block,'p','Documented basis: '+candidate.evidence,'sb-card-reference');
+          addText(block,'p','Inspect before buying: '+candidate.checks,'sb-card-reference');
+          if(candidate.inputCaution)addText(block,'p',candidate.inputCaution,'sb-card-alert');
+          link(block,candidate.source,'Read manufacturer manual/specifications');
+          watch.append(block);
+        }
+        addText(watch,'p',
+          'Budget for possible service, transportation, suitable mains voltage, accessories and a real working demonstration. “Keep an eye out” means compare any future offer to its condition; it is never a predicted deal price.','sb-brief-note');
+        shop.append(watch);
+      }
+    }
+
     // Complete replacements are comparison-only when any component is owned.
     // The user must see why one might be justified before product alternatives.
     if (ownership) {
