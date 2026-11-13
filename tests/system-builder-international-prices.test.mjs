@@ -17,7 +17,7 @@ const catalog=sandbox.window.systemBuilderInventory;
 const amp=name=>({name,record:catalog.amp.find(x=>x.model===name)||null});
 const defaults={amp:amp('Yamaha A-720'),speakers:catalog.speaker,goal:'all_rounder',
   useCase:'living_room',power:'mains',level:'moderate',connection:'analog',
-  region:'US',currency:'USD',budgetStrict:true,used:true};
+  region:'US',currency:'USD',budgetStrict:true,used:true,referenceDate:'2026-11-13'};
 const results=x=>shortlistSpeakersForOwnedAmplifier({...defaults,...x});
 
 test('international price observations have independently linked regular PAIR offers',()=>{
@@ -52,11 +52,10 @@ test('US firm budget 179 puts an actual priced XT15 pair first',()=>{
   assert.ok(!r.selected.some(x=>x.title==='Polk Monitor XT20'));
 });
 
-test('US budget below 179 is not treated as permission to invent a discounted XT15',()=>{
-  const r=results({budget:170});
-  assert.ok(!r.selected.some(x=>x.title==='Polk Monitor XT15'));
-  assert.ok(r.excluded.some(x=>x.title==='Polk Monitor XT15'));
-  assert.ok(r.selected.every(x=>x.subtotal===null||x.subtotal<=170));
+test('US budget below 179 leaves the documented XT15 reference unchanged',()=>{
+  const r=results({useCase:'bedroom',goal:'low_volume',budget:170});
+  assert.equal(r.selected.find(x=>x.title==='Polk Monitor XT15').subtotal,179);
+  assert.ok(!r.excluded.some(x=>x.title==='Polk Monitor XT15'));
 });
 
 test('US budget 280 includes the ordinary XT20 pair plus the more compact XT15',()=>{
@@ -73,11 +72,11 @@ test('original UK Wharfedale 12.1 and Q 3020i have separately sourced sterling r
   assert.equal(corroboratedInternationalPairPriceFor('Wharfedale Diamond 12.1i','GB','GBP'),null);
 });
 
-test('UK firm budget 169 still produces a real compact pair even in a larger room',()=>{
-  const r=results({region:'GB',currency:'GBP',budget:169});
+test('UK compact pair keeps its sterling reference in a suitable desk setup',()=>{
+  const r=results({region:'GB',currency:'GBP',budget:169,useCase:'desk'});
   assert.equal(r.selected[0].title,'Q Acoustics 3010i');
   assert.equal(r.selected[0].subtotal,169);
-  assert.equal(r.selected[0].sceneCaution,true);
+  assert.equal(r.selected[0].sceneCaution,false);
   assert.ok(r.selected[0].marketContext.regular.length>=2);
   assert.ok(r.selected[0].parts.every(x=>!/Yamaha A-720/.test(x.name)));
 });
@@ -92,19 +91,18 @@ test('Q Acoustics 3010i is a separate Builder-only model with 6-ohm nominal and 
   assert.match(profile.ownerCaution,/3010c/);
 });
 
-test('UK budget 199 gives a priced Q Acoustics pair and not the 249 Wharfedale',()=>{
+test('a UK reference of 199 breaks a tie without ruling out the Wharfedale',()=>{
   const r=results({region:'GB',currency:'GBP',budget:199});
   assert.equal(r.selected[0].title,'Q Acoustics 3020i');
   assert.equal(r.selected[0].subtotal,199);
   assert.equal(r.selected[0].pricingCurrency,'GBP');
-  assert.ok(!r.selected.some(x=>x.title==='Wharfedale Diamond 12.1'));
+  assert.ok(!r.excluded.some(x=>x.title==='Wharfedale Diamond 12.1'));
 });
 
 test('UK budget 249 makes the original Wharfedale 12.1 a named new-pair option',()=>{
   const r=results({region:'GB',currency:'GBP',budget:249,goal:'natural'});
   assert.ok(r.selected.some(x=>x.title==='Wharfedale Diamond 12.1'&&x.subtotal===249));
   assert.ok(r.selected.some(x=>x.title==='Q Acoustics 3020i'&&x.subtotal===199));
-  assert.ok(r.selected.every(x=>x.subtotal===null||x.subtotal<=249));
 });
 
 test('UK 3020i shop special does not silently turn higher compare-at amount into baseline',()=>{
@@ -119,9 +117,8 @@ test('UK past Wharfedale promotion is historical, not automatic 2026 price',()=>
   const ctx=internationalPriceContextFor('Wharfedale Diamond 12.1','GB','GBP');
   assert.equal(ctx.historicalPromotion[0].amount,179);
   assert.equal(ctx.historicalPromotion[0].date,'2025-11-25');
-  const r=results({region:'GB',currency:'GBP',budget:180});
-  assert.ok(!r.selected.some(x=>x.title==='Wharfedale Diamond 12.1'));
-  assert.ok(r.excluded.some(x=>x.title==='Wharfedale Diamond 12.1'));
+  const r=results({region:'GB',currency:'GBP',budget:180,useCase:'desk'});
+  assert.equal(r.selected.find(x=>x.title==='Wharfedale Diamond 12.1').subtotal,249);
 });
 
 test('amp hard restriction still excludes UK 4Ω minimum and 6Ω Q even when affordable',()=>{

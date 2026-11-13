@@ -9,7 +9,7 @@ import {DENON_S650H_NAME, ownedSubwooferPath, poweredSubPairFor} from '../system
 import {usedWatchlistFor} from '../system-builder/used-amp-watchlist.mjs';
 
 const basic = {architecture:'open', goal:'bass', useCase:'bedroom', power:'mains',
-  connection:'optical', budgetStrict:true, region:'CA', currency:'CAD',
+  connection:'optical', budgetStrict:true, region:'CA', currency:'CAD', referenceDate:'2026-11-13',
   subMode:'plan_sub', subCount:1, subOwned:'no'};
 const select = overrides => shortlistExamples({...basic,...overrides});
 const find = (result, id) => result.selected.find(item => item.id === id);
@@ -26,13 +26,13 @@ test('2.1 budgets include a stereo pair and one powered sub in the selected curr
   }
 });
 
-test('priced 2.0 survives an unaffordable 2.1 request as a distinct option', () => {
+test('a small budget can compare both a 2.1 setup and the stereo pair on its own', () => {
   const result = select({region:'GB', currency:'GBP', budget:150});
-  assert.equal(result.selected[0].id,'powered-r1280dbs');
-  assert.equal(result.selected[0].subtotal,139);
-  assert.ok(result.selected.every(item=>!item.bassSetup));
-  assert.ok(result.excluded.some(item=>item.title==='Edifier R1280DBs + T5'));
-  assert.equal(find(select({region:'GB',currency:'GBP',budget:150,budgetStrict:false}),'stereo-sub-edifier').subtotal,268);
+  assert.equal(result.selected[0].id,'stereo-sub-edifier');
+  assert.equal(result.selected[0].subtotal,268);
+  assert.equal(find(result,'powered-r1280dbs').subtotal,139);
+  assert.ok(!find(result,'powered-r1280dbs').bassSetup);
+  assert.ok(!result.excluded.some(item=>item.title==='Edifier R1280DBs + T5'));
 });
 
 test('WiiM example prices local passive speakers, wire and sub lead for HDMI ARC', () => {
@@ -76,7 +76,7 @@ test('no local number leaks to a mismatched currency or an unpriced region', () 
   const item = find(mismatch,'stereo-sub-edifier');
   assert.equal(item.subtotal,null);
   assert.deepEqual(item.priceComponents,[]);
-  assert.ok(!find(mismatch,'stereo-sub-wiim'));
+  assert.equal(find(mismatch,'stereo-sub-wiim').subtotal,null);
   const unpriced = select({region:'AU',currency:'AUD',budget:400});
   assert.equal(find(unpriced,'stereo-sub-edifier').subtotal,null);
 });
@@ -95,7 +95,7 @@ test('reuse the exact powered pair and keep a separate passive amp out of that s
   assert.deepEqual(plan.selected[0].reuseNames,['Edifier R1280DBs']);
   assert.match(plan.selected[0].keptSeparate[0],/Yamaha R-S202/);
   assert.equal(ownedSubwooferPath(own,basic).subtotal,199.99);
-  assert.equal(ownedSubwooferPath(own,{...basic,budget:150}).overBudget,true);
+  assert.equal(ownedSubwooferPath(own,{...basic,budget:150}).subtotal,199.99);
   assert.equal(ownedSubwooferPath(own,{...basic,connection:'hdmi'}),null);
   assert.equal(poweredSubPairFor('Edifier R1280DB'),undefined);
   assert.equal(poweredSubPairFor('Kanto ORA4'),undefined);
@@ -112,6 +112,22 @@ test('retained WiiM and ORA price only sub hardware, with no new sub cost assume
   assert.equal(ownedSubwooferPath(amp,{...basic,connection:'usb'}),null);
   const ora = {speaker:{name:'Kanto ORA'}};
   assert.equal(ownedSubwooferPath(ora,{...basic,connection:'usb'}).subtotal,204.24);
+});
+
+test('2.1 bundles and a sub-only purchase retain the same parts and links after expiry', () => {
+  const request = {...basic,connection:'hdmi',budget:100};
+  const current = find(select(request),'stereo-sub-wiim');
+  const expiredRequest = {...request,referenceDate:'2026-12-13'};
+  const expired = find(select(expiredRequest),current.id);
+  assert.deepEqual(expired.parts,current.parts);
+  const own = {amp:{name:'WiiM Amp'}};
+  for (const [before,after] of [[current,expired],
+    [ownedSubwooferPath(own,request),ownedSubwooferPath(own,expiredRequest)]]) {
+    assert.ok(before.subtotal>0);
+    assert.equal(after.subtotal,null);
+    assert.equal(after.priceDate,null);
+    assert.deepEqual(after.priceComponents,before.priceComponents.map(({amount,...retailer})=>retailer));
+  }
 });
 
 test('North American Denon has its own load rule and a regional unpriced used watchlist entry', () => {

@@ -16,7 +16,7 @@ for(const p of ['../system-check/gear.js','../system-check/compare/specs.js','..
 const inventory=sandbox.window.systemBuilderInventory;
 const opts={architecture:'open',useCase:'desk',goal:'all_rounder',region:'CA',
   currency:'CAD',power:'mains',level:'moderate',connection:'analog',budgetStrict:true,
-  budget:null,used:true,distanceFt:6};
+  budget:null,used:true,distanceFt:6,referenceDate:'2026-11-13'};
 const check=(budget,extra={})=>shortlistExamples({...opts,budget,...extra});
 
 test('new inventory supplements original 130 without duplicate model identities',()=>{
@@ -46,10 +46,12 @@ test('R1280T/R1280DB/R1280DBs remain distinct, exact-input powered pairs with ma
 test('Canadian 200 dollar no-owned-equipment route returns multiple complete powered examples',()=>{
   const x=check(200);
   assert.ok(x.selected.length>=2);
-  assert.ok(x.selected.every(x=>x.subtotal<=200));
   assert.ok(x.selected.some(x=>x.id==='powered-r1280t'));
   assert.ok(x.selected.some(x=>x.id==='powered-mr3'));
-  assert.ok(x.selected.every(x=>x.architecture==='consumer_powered_pair'));
+  assert.ok(x.selected.slice(0,2).every(x=>x.architecture==='consumer_powered_pair'));
+  const expired=check(200,{referenceDate:'2026-12-13'});
+  assert.deepEqual(expired.selected.slice(0,2).map(x=>x.id),x.selected.slice(0,2).map(x=>x.id));
+  assert.ok(expired.selected.every(x=>x.subtotal===null));
 });
 test('optical and USB alternatives are ordered by actual native connectivity',()=>{
   const opt=check(230,{architecture:'consumer_powered_pair',connection:'optical'});
@@ -58,11 +60,12 @@ test('optical and USB alternatives are ordered by actual native connectivity',()
   const usb=check(250,{architecture:'consumer_powered_pair',connection:'usb'});
   assert.equal(usb.selected[0].id,'powered-m60');
   assert.equal(usb.selected[0].connectionStatus,'native_possible');
-  assert.ok(usb.selected.filter(x=>x.id!=='powered-m60').every(x=>x.connectionStatus==='adapter_needed'));
+  assert.equal(usb.selected.find(x=>x.id==='powered-ora').connectionStatus,'native_possible');
+  assert.equal(usb.selected.find(x=>x.id==='powered-mr3').connectionStatus,'adapter_needed');
 });
 test('headphone starts below 100 dollars with source-output caveats rather than auto DAC purchase',()=>{
   const r=check(100,{architecture:'headphone_first',connection:'analog'});
-  assert.deepEqual(r.selected.map(x=>x.id),['headphone-ksc75','headphone-portapro']);
+  assert.deepEqual(r.selected.slice(0,2).map(x=>x.id),['headphone-ksc75','headphone-portapro']);
   assert.ok(r.selected.every(x=>x.priceComponents.length===1 && x.parts.length===1));
   assert.ok(r.selected.every(x=>x.tradeoff.includes('fit')||x.tradeoff.includes('Fit')||x.tradeoff.includes('bass')));
 });
@@ -87,16 +90,15 @@ test('compact BT20A Pro and AIYIMA ratings do not fabricate continuous wattage o
   assert.equal(builderOnlyAmpFor('Fosi Audio BT20A Pro').details.caOrdinaryAsking,189.99);
   assert.equal(builderOnlyAmpFor('Fosi Audio BT20A MAX'),null);
 });
-test('owned speakers + strict 250 CAD budget highlight retained speaker and budget mini amp',()=>{
+test('owned speakers can compare a compact amp alongside better-documented models',()=>{
   const speaker={name:'Paradigm Phantom v1',record:inventory.speaker.find(x=>x.model==='Paradigm Phantom v1')};
   const x=shortlistAmpsForOwnedSpeakers({own:{speaker},inventory,
-    request:{goal:'natural',useCase:'living_room',connection:'analog',budgetStrict:true,budget:250,region:'CA',currency:'CAD'}});
-  assert.ok(x.selected.length);
-  assert.equal(x.selected[0].title,'Paradigm Phantom v1 + Fosi Audio BT20A Pro');
-  assert.equal(x.selected[0].subtotal,189.99);
-  assert.ok(x.selected[0].reuseNames.includes(speaker.name));
-  assert.match(x.selected[0].amplifierReason,/no verified matching-load continuous power/i);
-  assert.equal(x.selected[0].amplifierFit.amp.watts,null);
+    request:{...opts,goal:'natural',useCase:'living_room',budget:250}});
+  const fosi=x.selected.find(x=>x.title==='Paradigm Phantom v1 + Fosi Audio BT20A Pro');
+  assert.equal(fosi.subtotal,189.99);
+  assert.ok(fosi.reuseNames.includes(speaker.name));
+  assert.match(fosi.amplifierReason,/no verified matching-load continuous power/i);
+  assert.equal(fosi.amplifierFit.amp.watts,null);
 });
 test('budget supplemental amp entered as owned is retained; not quietly replaced',()=>{
   const amp={name:'Fosi Audio BT20A Pro',record:builderOnlyAmpFor('Fosi Audio BT20A Pro')};
@@ -131,5 +133,5 @@ test('budget and watchlist UX is actually wired into app and not mistaken for us
   assert.match(s,/request.used && powered!=='battery'/);
   assert.match(s,/Used stereo amplifiers worth keeping an eye out for/);
   assert.match(s,/not current listings or confirmed local bargains/);
-  assert.match(s,/Advertised prices · /);
+  assert.match(s,/Retail price reference · /);
 });

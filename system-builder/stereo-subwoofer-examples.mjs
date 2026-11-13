@@ -1,3 +1,5 @@
+import {retailPriceReference} from './price-references.mjs';
+
 // Regional new-retail references checked 2026-11-13. Used listings stay in research.
 const DATE = '2026-11-13';
 const EDIFIER_MANUAL = 'https://usa-oss.edifier.com/Uploads/images/2021/07/15/2021071511185516263191358605.pdf';
@@ -115,7 +117,7 @@ export const STEREO_SUB_EXAMPLES = Object.freeze([
     soundTarget: 'Edifier R1280DBs + T5',
     tradeoff: 'Best considered for short listening distances. Sub level and room placement can make bass sound too strong, especially close to a corner.',
     extra: ['For optical TV use stereo PCM. Verify the leads and remote are in the box. Use line-level Sub Out for the T5.'],
-    bassSetup: edifierRouting,
+    bassSetup: edifierRouting, stereoAlternative: 'powered-r1280dbs',
     priceByRegion: priceSnapshots(market => [pairPrice(market), subPrice(market)])
   },
   {
@@ -131,14 +133,14 @@ export const STEREO_SUB_EXAMPLES = Object.freeze([
     soundTarget: 'powered-ora',
     tradeoff: 'Best at a short listening distance. The original ORA has no optical or HDMI input. Use the physical volume control.',
     extra: ['The speaker and subwoofer each require wall power. Check space for the sub and leave room to adjust its position.'],
-    bassSetup: oraRouting,
+    bassSetup: oraRouting, stereoAlternative: 'powered-ora',
     priceByRegion: priceSnapshots(market => [price('Kanto ORA stereo pair', market.ora), subPrice(market),
       leadPrice(market), price('USB-C data cable', market.usb)])
   },
   {
     id: 'stereo-sub-wiim', architecture: 'passive_separates', title: 'WiiM Amp + passive speakers + Edifier T5',
     kind: 'Passive 2.1 with adjustable bass routing', places: homeScenes, power: 'mains',
-    connections: WIIM_INPUTS, goals: ['bass', 'all_rounder', 'natural'], requiresRegionalQuote: true,
+    connections: WIIM_INPUTS, goals: ['bass', 'all_rounder', 'natural'],
     parts: [
       {name: 'WiiM Amp (original)', count: 1,
         role: 'Stereo amp and network streamer with line input, Bluetooth, optical and HDMI ARC. RCA, optical and HDMI source leads are supplied new.', url: WIIM_MANUAL},
@@ -220,8 +222,7 @@ export function ownedSubwooferPath(own, request) {
   const buying = request.subOwned === 'no';
   const components = buying && market?.currency === request.currency ?
     [subPrice(market), ...(route.needsLead ? [leadPrice(market)] : [])] : [];
-  const subtotal = components.length ? Math.round(components.reduce((sum, p) => sum + p.amount, 0) * 100) / 100 : null;
-  const overBudget = subtotal !== null && Number.isFinite(request.budget) && subtotal > request.budget;
-  return {...route, buying, components, subtotal, overBudget, date: DATE,
+  const prices = retailPriceReference({date: DATE, components}, request.referenceDate);
+  return {...route, buying, ...prices,
     wantsOwnedSub: request.subOwned === 'yes', needsMainSpeakers: !poweredPair && !own.speaker?.name};
 }

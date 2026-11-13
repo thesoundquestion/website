@@ -1,7 +1,10 @@
 import {ownerEvidenceFor, ownerEvidenceTier} from './owner-evidence.mjs';
-import {priceContextFor,broadActivePromotionFor} from './market-price-context.mjs';
+import {priceContextFor} from './market-price-context.mjs';
 import {BUILDER_ONLY_SPEAKERS} from './supplemental-speakers.mjs';
 import {internationalPriceContextFor, corroboratedInternationalPairPriceFor} from './international-price-context.mjs';
+import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
+
+const CA_PRICE_DATE='2026-11-12';
 
 /**
  * Speaker-only options when a visitor owns an amplifier but no speakers.
@@ -69,14 +72,14 @@ export const SPEAKER_IDEAS = Object.freeze([
    ca:{amount:249,url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html'}},
   {model:'Polk Monitor XT20', goals:['all_rounder','bass','dynamic','natural'], scenes:['bedroom','living_room'],
    reason:'A larger but still affordable passive pair. Some owners describe punchy bass and easy long listening, while others find the presentation needs placement or EQ.',
-   downside:'The manufacturer rates the -3 dB limit at 57 Hz; bass at a listening seat is room-dependent. Current promotional offers are not the regular price.',
+   downside:'The manufacturer rates the -3 dB limit at 57 Hz. Bass at a listening seat depends on placement and the room.',
    ca:{amount:349,url:'https://www.crutchfield.ca/p_107MXT20/Polk-Audio-Monitor-XT20.html'}},
   {model:'Klipsch R-50M', goals:['dynamic','all_rounder','imaging','party'], scenes:['bedroom','living_room'],
    reason:'A horn-loaded compact pair to audition for a different dispersion/presentation approach, with an explicit factory sensitivity reference.',
    downside:'Horn design is a preference/trade-off, not a guaranteed imaging or clarity improvement. Factory sensitivity is room-referenced and is not directly comparable to other anechoic figures.',
    ca:{amount:549,url:'https://www.klipsch.ca/products/r-50m-bookshelf-speakers'}},
   {model:'Paradigm Monitor SE Atom', goals:['all_rounder','natural','imaging','low_volume'], scenes:['desk','bedroom','living_room'],
-   reason:'A compact Canadian passive stereo pair with multiple Canadian regular retail price references and a straightforward small-room use case.',
+   reason:'A compact Canadian passive stereo pair for a small room.',
    downside:'Maximum clean output and complete reactive impedance are not established here. Check space for stands, placement and actual listening level.',
    ca:{amount:359.99,url:'https://www.soundroom.ca/products/monitor-se-atom'}},
   {model:'ELAC Debut 3.0 DB63', goals:['bass','dynamic','all_rounder','natural'], scenes:['bedroom','living_room'],
@@ -236,8 +239,6 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
   const second=Array.isArray(input.secondary)?input.secondary:[];
   const region=String(input.region||'');
   const currency=String(input.currency||'');
-  const budget=Number.isFinite(input.budget)&&input.budget>=0?input.budget:null;
-  const firm=input.budgetStrict!==false;
   const allowedUsed=input.used!==false;
   const selected=[],excluded=[];
   if (input.power==='battery') return {selected,excluded,screen,reason:'A mains-powered home amplifier does not meet a mandatory battery requirement; a portable source/amplifier must be verified first.',mode:'speaker_only'};
@@ -256,12 +257,22 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
   };
   const partyMode=goal==='party'||scene==='party';
   const ids=partyMode?goalsOrder.party:(goalsOrder[goal]||goalsOrder.all_rounder);
+  const ideas=new Map(SPEAKER_IDEAS.map(idea=>[idea.model,idea]));
+  const pricesByModel=new Map(ids.map(model=>{
+    const context=priceContextFor(model,region,currency) || internationalPriceContextFor(model,region,currency);
+    const regular=region==='CA'&&currency==='CAD' ? ideas.get(model)?.ca :
+      corroboratedInternationalPairPriceFor(model,region,currency);
+    const links=context?.regular.map(({merchant,url})=>({merchant,url})) || [];
+    const snapshot=regular ? {date:context?.sourceDate || CA_PRICE_DATE,
+      components:[{label:model+' pair',amount:regular.amount,url:regular.url}]} : null;
+    return [model,{...retailPriceReference(snapshot,input.referenceDate),marketContext:links.length?{regular:links}:null}];
+  }));
   // Listener priorities and room come first. Among similarly suitable options,
   // several relevant first-person owner accounts are more useful than an
   // unverified claimed sound signature. No invented acoustic match score.
   const ordered=[...ids].sort((a,b)=>{
-    const x=SPEAKER_IDEAS.find(v=>v.model===a);
-    const y=SPEAKER_IDEAS.find(v=>v.model===b);
+    const x=ideas.get(a);
+    const y=ideas.get(b);
     const goalA=x?.goals.includes(partyMode?'party':goal)?0:1;
     const goalB=y?.goals.includes(partyMode?'party':goal)?0:1;
     if(goalA!==goalB)return goalA-goalB;
@@ -273,44 +284,21 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
         aEvidence.normalized!==bEvidence.normalized)
         return bEvidence.normalized-aEvidence.normalized;
     }
-    // A dated, region-specific ordinary pair price is more actionable than
-    // a completely unpriced model under a FIRM budget. Never convert foreign
-    // amounts or treat an isolated used asking price as a completed sale.
-    if(firm && budget!==null) {
-      const evidenceKind=model=>{
-        const info=SPEAKER_IDEAS.find(v=>v.model===model);
-        const active=broadActivePromotionFor(model,region,currency,input.referenceDate);
-        const international=corroboratedInternationalPairPriceFor(model,region,currency);
-        const canadian=region==='CA'&&currency==='CAD'?info?.ca?.amount:null;
-        const effective=active?.amount??international?.amount??canadian;
-        if(Number.isFinite(effective) && effective<=budget)return 0;
-        const asks=region==='CA'&&currency==='CAD'&&allowedUsed && info?.usedOnly ?
-          priceContextFor(model,region,currency)?.usedExampleRange : null;
-        if(asks && asks.min<=budget)return 1;
-        return 2;
-      };
-      const budgetA=evidenceKind(a),budgetB=evidenceKind(b);
-      if(budgetA!==budgetB)return budgetA-budgetB;
-    }
-    // Within a firm budget, a documented buyable pair is more actionable
-    // than five unpriced leads, even if it comes with a small-room caveat.
-    // Outside priced choices, the actual room/use-case stays important.
     const sceneA=x?.scenes.includes(scene)?0:1;
     const sceneB=y?.scenes.includes(scene)?0:1;
     if(sceneA!==sceneB)return sceneA-sceneB;
-    // After hard electrical and price checks, use secondary priorities to
-    // distinguish otherwise viable candidates. These are editorial tags,
-    // not calibrated sound measurements or a claim of better fidelity.
     const secondaryA=second.filter(g=>g!==goal&&x?.goals.includes(g)).length;
     const secondaryB=second.filter(g=>g!==goal&&y?.goals.includes(g)).length;
     if(secondaryA!==secondaryB)return secondaryB-secondaryA;
+    const budgetOrder=compareBudgetReferences(pricesByModel.get(a).subtotal,pricesByModel.get(b).subtotal,input);
+    if(budgetOrder)return budgetOrder;
     const ownerA=ownerEvidenceTier(a,goal);
     const ownerB=ownerEvidenceTier(b,goal);
     if(ownerA!==ownerB)return ownerA-ownerB;
     return ids.indexOf(a)-ids.indexOf(b);
   });
   for(const model of ordered) {
-    const idea=SPEAKER_IDEAS.find(x=>x.model===model);
+    const idea=ideas.get(model);
     const record=byModel.get(model);
     if(!idea || !record)continue;
     // Do not convert historic classified asking examples into a "buy now"
@@ -341,20 +329,8 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     if(screen.discoveryFloor>=8 && Number.isFinite(minimum) && minimum<6) {
       excluded.push({title:model,reason:'Published minimum '+minimum+' Ω is more demanding than this 8 Ω-only screening route; model requires independent compatibility review.'});continue;
     }
-    const canadianPriced=region==='CA'&&currency==='CAD'&&idea.ca;
-    const ordinaryInternational=corroboratedInternationalPairPriceFor(model,region,currency);
-    const marketContext=priceContextFor(model,region,currency) ||
-      internationalPriceContextFor(model,region,currency);
-    const promotionalOffer=broadActivePromotionFor(model,region,currency,input.referenceDate);
-    const promoChosen=!!promotionalOffer &&
-      (!canadianPriced||promotionalOffer.amount<idea.ca.amount);
-    const subtotal=promoChosen ? promotionalOffer.amount :
-      ordinaryInternational ? ordinaryInternational.amount :
-      canadianPriced ? idea.ca.amount : null;
-    if(firm && budget!==null && subtotal!==null && subtotal>budget) {
-      excluded.push({title:model,reason:'Speaker-pair observed price exceeds the firm budget. Owned amplifier adds zero purchase cost.'});continue;
-    }
     if(selected.length>=5)continue; // Continue checking exclusions even once the visible shortlist is full.
+    const prices=pricesByModel.get(model);
     const caution=loadUnknown ?
       'This speaker’s nominal load is not verified. Your amplifier has '+
       (screen.minPublishedTestOhms??'no verified')+
@@ -373,16 +349,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
         ' Sensitivity reduces watts needed for a given level, but does not certify sustained clean SPL.' : idea.reason,
       tradeoff:idea.downside,
       parts:[{name:model+' stereo pair',count:1,role:'Only new major component; keep your '+screen.ampName+' if verified suitable',url:record.url}],
-      priceComponents:subtotal!==null?[{label:model+' pair'+(promoChosen?' (seasonal promotion)':''),amount:subtotal,
-        url:promoChosen?promotionalOffer.url:(ordinaryInternational?.url || idea.ca?.url)}]:[],
+      ...prices,
       pricingCurrency:currency,
-      promotionalOffer:promoChosen?promotionalOffer:null,
-      marketContext,
-      usedExampleRange:idea.usedOnly && allowedUsed ? marketContext?.usedExampleRange || null : null,
-      budgetCaution:idea.usedOnly && firm && budget!==null && marketContext?.usedExampleRange?.min>budget ?
-        'Known used asking examples start above your budget. This is only a lead for a cheaper local listing, not a confirmed in-budget purchase.' : null,
-      subtotal,
-      pricingStatus:subtotal===null?'regional_price_missing':promoChosen?'seasonal_promotional_pair':'partial_subtotal',
+      pricingStatus:prices.subtotal===null?'regional_price_missing':'partial_subtotal',
       sourceDate:'2026-11-12',
       editorialGoalFocus:idea.goals.includes(goal),
       secondaryFocus:second.filter(x=>idea.goals.includes(x)),
@@ -409,9 +378,7 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
           'Also considered: '+second.filter(g=>idea.goals.includes(g)).join(', ')+'.']:[]),
         ...(scene==='party'?['Party context favors efficient speakers, but clean continuous output and coverage remain unknown.']:[]),
         ...(Number(input.distanceFt)>12?[
-          'A listening distance beyond 12 ft warrants an individual clean-headroom check in System Check.']:[]),
-        ...(firm&&budget!==null&&subtotal===null?[
-          'A qualified local purchase price is unknown; a firm budget is not confirmed.']:[])
+          'A listening distance beyond 12 ft warrants an individual clean-headroom check in System Check.']:[])
       ],
       partySensitivityEvidence:partyMode?partySpeakerEvidence(record):null
     });

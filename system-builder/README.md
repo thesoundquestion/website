@@ -2,6 +2,12 @@
 
 This is a static, zero-backend, browser-only preview for **Recording to Room → System Builder**. The Cloudflare **feature-branch preview is live** at https://feature-system-builder-previ.thesoundquestion.pages.dev/system-builder/ but the production `main` branch is unchanged. The original System Check, Compare My Gear, gear catalog and validated calculations are not modified.
 
+## Current price policy
+
+- Record regular advertised retail references with the check date, region, currency, exact model, unit count and source links. Prefer corroborated normal pricing where possible. Call single listings and parts subtotals references. An ordinary advertised price alone cannot establish the average a buyer pays.
+- The Builder shows numbers only in expanded details for 30 calendar days after the check, including the check date. On day 30 the browser hides the amounts and retains the retailer links. This also covers amplifier and speaker purchases for existing systems and a subwoofer added to owned equipment. The static site needs no price API, scraping or scheduled refresh.
+- The budget helps visitors consider simpler systems and can break a practical tie when a recent, matching-market reference is within their ceiling. A saved price can neither exclude a setup nor confirm the buyer’s total. Compare the complete parts list against current prices, availability, delivery and taxes. Keep promotion prices and used listing amounts in historical research. The used watchlist focuses on exact models, condition and what to test.
+
 ## Scope
 
 - Seven listening goals; one primary plus at most two secondary; faithful-source vs preferred sound character.
@@ -10,9 +16,8 @@ This is a static, zero-backend, browser-only preview for **Recording to Room →
 - Separate no-sub, sub+verified mains HPF, sub+full-range mains and unknown-routing branches; never assume a SUB OUT creates HPF or automatic headroom.
 - Checks for complete signal path, battery vs mains, published speaker nominal impedance vs amp ratings, whole-system cost, sources and setup-first.
 - The first named shortlist is now shown **above** the long technical report. It contains 12 editorial system examples (budget/step-up passive pairs, powered stereo pairs, two separate active monitor alternatives, open-back headphones, battery and mains party PA, a used watchlist) plus optional named subwoofer research leads, all with individual source links and candid cautions.
-- Prices are individually verified Canadian offer/list snapshots checked 2026-11-12, not representative averages or completed systems. A strict budget blocks examples with known listed component subtotal already above the ceiling. Unknown source/volume/control/sub/taxes/transport costs are NOT treated as zero.
-- Selecting an already-owned amplifier **without speakers** now changes the actual recommendation strategy to *speaker pairs for that amp*, not full packages with another amplifier. Curated, source-linked candidates resolve from the read-only 59-speaker System Check catalog; the owned amplifier has **zero incremental purchase cost**. The shortlist screens conservatively using published continuous-load ratings and explicit manufacturer restrictions where available (not burst power or nominal impedance alone). It remains conditional pending the full impedance/phase and amplifier manual, input path and actual level. Price examples currently include dated CAD pair listings for Polk ES15, Polk ES20 and Klipsch R-50M; no unpriced/used speaker is claimed to be within budget. If a visitor instead explicitly requests powered speakers, party, headphones or battery operation, the output says the existing amplifier is not reused for that route.
-- The short results preview shows up to **3 compact product cards** by default, displaying model names, observed partial prices, an **individualized 'Why this one' explanation** based on actual selected goal tags, room context, secondary priorities and retained amp, a **short model-specific sound description** (or explicit unknown) and urgent incompatibility warnings. Sound notes link to their review, lab interpretation, or manufacturer provenance in each card's expansion. They never manufacture acoustic precision or imply that preference tags are measured performance. Extra candidates, each card's full parts/trade-offs/sources, the individual chapters of the compatibility audit, and methodology use native keyboard-operable <details>/<summary> disclosures. Original rationale remains available untruncated in the expanded cards. Safety-critical speaker/amp load warnings remain visibly prominent even while cards are collapsed.
+- Selecting an already-owned amplifier **without speakers** produces speaker pairs for that amp. The source-linked shortlist screens conservatively using published continuous-load ratings and explicit manufacturer restrictions. Check the full impedance curve and phase, amplifier manual, input path and listening level before connecting. If the visitor selects an incompatible architecture, the Builder offers reuse on a separate path.
+- The short results preview shows up to **3 compact product cards** by default with model names, an individualized reason, a short model-specific sound description when sourced, and urgent incompatibility warnings. Open a native keyboard-operable disclosure for parts, dated price references when available, trade-offs and links. The compatibility audit and extra candidates have their own disclosures.
 - The detailed ownership, headroom and bass audit is behind an accessible expandable section; a model and a claimed source input do not certify impedance, level or full-system compatibility.
 - All outcomes qualitative and conditional; no product scores, scraping, retailer APIs, login, local storage or transmitted form data.
 - Independent data can be cited as links under its reuse policy; numerical catalog scoring remains gated by rights and comparable methodology.
@@ -25,7 +30,9 @@ The pure policy module `engine.mjs` adapts the private research `system-builder-
 
 Future normalized catalog data should carry model revision, evidence tier, method/test conditions, rights, currency, typical regional price (not isolated listing), availability date, safety recall scope, and actual user-configured subwoofer routing. The qualitative UI must remain usable if pricing is unknown.
 
-## Test
+## Test and earlier implementation notes
+
+The dated implementation notes below document earlier preview revisions. Use the current price policy above when extending the Builder.
 
 ```sh
 node --test tests/system-builder-eligibility.test.mjs tests/system-builder-data.test.mjs tests/system-builder-recommendations.test.mjs tests/system-builder-compact-results.test.mjs tests/system-builder-owned-amp.test.mjs
@@ -200,9 +207,9 @@ The current rules, example combinations, non-implemented measurement gates and f
 
 ## 2026-11-13 · Stereo with one subwoofer
 
-Choose **I want to add a subwoofer / 2.1** to see a full parts list for the source you selected. Dated new retail subtotals cover the main stereo pair, one powered subwoofer and required leads for the illustrated source. For example, **Edifier R1280DBs + T5** costs CA$429.98, US$399.98 or £268 before unquoted delivery and taxes. **Kanto ORA + T5** includes a USB-C data lead and uses the original ORA’s automatic 100 Hz crossover. **WiiM Amp + Polk XT15 or Q Acoustics 3010i + T5** gives analog, optical, HDMI ARC and Bluetooth options and uses the original WiiM Amp’s selectable routing. Review the package contents and exact version before updating `stereo-subwoofer-examples.mjs`.
+Choose **I want to add a subwoofer / 2.1** to see the parts list for your source. **Edifier R1280DBs + T5** uses the speakers’ sub output. **Kanto ORA + T5** includes a USB-C data lead and uses the original ORA’s automatic 100 Hz crossover. **WiiM Amp + Polk XT15 or Q Acoustics 3010i + T5** gives analog, optical, HDMI ARC and Bluetooth options and uses the original WiiM Amp’s selectable routing. Review package contents and exact versions before updating `stereo-subwoofer-examples.mjs`.
 
-The firmware or manual must support the way the main speakers are filtered. The Edifier manual confirms bass reduction with a connected sub and gives no cutoff. Use the documented ORA or WiiM path for a specified high-pass. A firm budget can return a stereo-only starting point when the 2.1 example exceeds it. Selection still checks the venue, source and listening level.
+The firmware or manual must support the way the main speakers are filtered. The Edifier manual confirms bass reduction with a connected sub and gives no cutoff. Use the documented ORA or WiiM path for a specified high-pass. The Builder includes the stereo-only Edifier or ORA option alongside the corresponding 2.1 setup where applicable. Selection still checks the venue, source and listening level.
 
 Choose an owned R1280DBs or original ORA in the speaker list to keep its built-in amplifier. An owned WiiM Amp or North American Denon AVR-S650H can also get a subwoofer connection path. If buying a sub, the price shown for the addition covers only the sub and its listed cable. Reuse an owned sub when it has the appropriate input. Used model leads link to manufacturer documentation and carry no classified offers or prices.
 

@@ -7,6 +7,7 @@ import {R1280DBS_PRICES} from './stereo-subwoofer-examples.mjs';
  * None of these powered systems can be connected to passive-amp outputs.
  */
 const EDIFIER='https://ca.edifier.com/';
+const CA_PRICE_DATE='2026-11-13';
 const pair=(id,model,amount,connections,places,goals,why,tradeoff,notes=[],powerNote='')=>({
   id,architecture:'consumer_powered_pair',
   title:'Budget powered stereo: '+model,
@@ -18,19 +19,19 @@ const pair=(id,model,amount,connections,places,goals,why,tradeoff,notes=[],power
   why,tradeoff,
   extra:[...notes,'No separate power amplifier is required. Use line/headphone/USB/digital input as specified, NEVER the speaker-level output of another amplifier.',
     'Power and frequency range are manufacturer specifications, not a verified clean seat SPL or subwoofer crossover.' ],
-  priceCA:{components:[{label:model+' stereo pair · manufacturer asking reference',amount,
+  priceCA:{date:CA_PRICE_DATE,components:[{label:model+' stereo pair · manufacturer asking reference',amount,
     url:EDIFIER+'products/'+id.slice('powered-'.length)}]},
   priceEvidence:'manufacturer_single_asking_not_market_average',powerNote
 });
 export const BUDGET_EXAMPLES=Object.freeze([
   pair('powered-r1280t','Edifier R1280T',169.99,['analog'],
     ['desk','bedroom','living_room'],['all_rounder','low_volume','natural'],
-    'The lowest-priced simple stereo package in this group: two RCA line inputs, remote and onboard volume/tone controls. No standalone amplifier needed.',
+    'A simple stereo package with two RCA line inputs, a remote and onboard volume and tone controls. No standalone amplifier needed.',
     'RCA analogue only. No Bluetooth, optical, USB or guaranteed subwoofer output. Manufacturer 42 W RMS total is not a clean-room SPL promise.',
     ['Published maker total is 2 × 21 W RMS. Use RCA or a suitable 3.5 mm-to-RCA line/headphone source; verify output level.']),
   pair('powered-r1280db','Edifier R1280DB',199.99,['analog','optical','bluetooth'],
     ['desk','bedroom','living_room'],['all_rounder','low_volume','natural'],
-    'Adds Bluetooth, optical and coaxial digital inputs over the analogue-only R1280T for a modest increment.',
+    'Adds Bluetooth, optical and coaxial digital inputs alongside analogue RCA.',
     'The DB is not the later DBs. Do not assume this exact DB has the DBs subwoofer output or automatic bass management.',
     ['Maker states 42 W RMS total; frequency range alone does not establish full response at volume.']),
   {...pair('powered-r1280dbs','Edifier R1280DBs',229.99,['analog','optical','bluetooth'],
@@ -66,12 +67,12 @@ export const BUDGET_EXAMPLES=Object.freeze([
       {name:'Polk Monitor XT15 passive speaker pair',count:1,role:'One new passive stereo pair, not two individual prices',
         url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html'}
     ],
-    why:'A compact amp and passive stereo pair for listeners who value future speaker replacement. CA$189.99 for the Fosi and CA$249 for the speakers are separately corroborated ordinary listed references.',
+    why:'A compact amp and passive stereo pair for listeners who want to be able to change speakers later.',
     tradeoff:'This is an initial pairing, NOT a certified safe reactive load or clean SPL. Polk reports a 4.1 Ω minimum. Fosi markets 2–8 Ω support but does not give a test-condition-matched continuous power figure with the normal 32 V/5 A supply. Do not infer 300 W per channel from the advertised maximum.',
     extra:['Connect only a suitable RCA line/headphone source or Bluetooth. No optical, USB DAC or TV HDMI without another component.',
       'Check amp/speaker output level at the seat, Fosi 32 V/5 A supply, heat, actual speaker impedance and phase, cable, stands, delivery/taxes.',
       'Fosi manufacturer THD percentage is not identified here at rated continuous both-channel power across the full band.'],
-    priceCA:{components:[
+    priceCA:{date:CA_PRICE_DATE,components:[
       {label:'Fosi BT20A Pro · ordinary CA dealer asking',amount:189.99,
         url:'https://soulfi-audio.ca/product/fosi-audio-bt20a-pro-bluetooth-amplifier/'},
       {label:'Polk XT15 stereo pair · ordinary CA reference',amount:249,
@@ -90,7 +91,7 @@ export const BUDGET_EXAMPLES=Object.freeze([
     why:'A very inexpensive open-air wired option for listeners who can tolerate leakage and an earclip fit. No separate headphone amplifier should be bought without checking the actual source output.',
     tradeoff:'Earclip comfort and seal vary. Almost no noise isolation, and deep bass output depends on fit; not suitable for noisy environments.',
     extra:['Koss lists 60 Ω and 101 dB SPL/mW; sensitivity per milliwatt is not the same as dB per volt. Verify a 3.5 mm output and comfortable volume.'],
-    priceCA:{components:[{label:'Koss KSC75 · Canadian manufacturer asking',amount:36,url:'https://koss.com/en-ca/products/ksc75'}]},
+    priceCA:{date:CA_PRICE_DATE,components:[{label:'Koss KSC75 · Canadian manufacturer asking',amount:36,url:'https://koss.com/en-ca/products/ksc75'}]},
     priceEvidence:'manufacturer_single_asking_not_market_average'
   },
   {
@@ -103,7 +104,7 @@ export const BUDGET_EXAMPLES=Object.freeze([
     why:'A compact collapsible model with documented 60 Ω/101 dB per mW sensitivity; a lower-cost comparison to larger open-back designs.',
     tradeoff:'Open cushions leak sound, bass varies with fit, and this is not the Bluetooth, microphone or Utility variant. Headband and foam pads deserve a comfort check.',
     extra:['A source with a suitable 3.5 mm headphone output is required, not merely a DAC RCA line output.'],
-    priceCA:{components:[{label:'Koss Porta Pro · Canadian manufacturer asking',amount:71,url:'https://koss.com/en-ca/products/porta-pro'}]},
+    priceCA:{date:CA_PRICE_DATE,components:[{label:'Koss Porta Pro · Canadian manufacturer asking',amount:71,url:'https://koss.com/en-ca/products/porta-pro'}]},
     priceEvidence:'manufacturer_single_asking_not_market_average'
   }
 ]);

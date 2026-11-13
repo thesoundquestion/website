@@ -4,7 +4,7 @@ import {EXAMPLES, shortlistExamples} from '../system-builder/recommendations.mjs
 
 const defaults = {architecture:'open',useCase:'living_room',goal:'all_rounder',
   region:'CA',currency:'CAD',level:'moderate',connection:'analog',power:'mains',
-  budget:null,budgetStrict:true,used:true,distanceFt:8};
+  budget:null,budgetStrict:true,used:true,distanceFt:8,referenceDate:'2026-11-13'};
 
 test('named catalog is an editorial shortlist, not a scored ranking',()=>{
   assert.equal(EXAMPLES.length,19);
@@ -28,12 +28,14 @@ test('quoted JBL monitor price is for two separate cabinets',()=>{
   assert.equal(j.priceComponents[0].quantity,2);
   assert.ok(j.parts.some(p=>p.count===2));
 });
-test('firm budget excludes known subtotal above ceiling',()=>{
+test('a past subtotal above a firm ceiling does not block a system',()=>{
   const x=shortlistExamples({...defaults,architecture:'passive_separates',budget:400});
-  assert.ok(!x.selected.some(x=>x.id==='passive-bt20a-xt15'));
-  assert.ok(x.excluded.some(x=>x.title.includes('Fosi BT20A Pro')&&/budget/.test(x.reason)));
+  const starter=x.selected.find(x=>x.id==='passive-bt20a-xt15');
+  assert.equal(starter.subtotal,438.99);
+  assert.equal(starter.priceDate,'2026-11-13');
+  assert.ok(!x.excluded.some(x=>/budget/.test(x.reason)));
 });
-test('flexible budget may display over-subtotal example with warning for display',()=>{
+test('flexible budget can show examples with a higher dated parts reference',()=>{
   const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',budget:100,budgetStrict:false,useCase:'desk'});
   assert.ok(x.selected.some(x=>x.id==='powered-mr3'));
   assert.ok(x.selected.some(x=>x.subtotal>100));

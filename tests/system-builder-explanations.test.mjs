@@ -26,7 +26,7 @@ test('why text uses matched selected priorities only, not imaginary numeric pref
   assert.match(msg,/living room/);
   assert.match(msg,/Keeps your Yamaha A-720/);
   assert.match(msg,/electrical compatibility remains unverified/);
-  assert.match(msg,/before taxes, delivery and any extras/);
+  assert.doesNotMatch(msg,/fit your budget|below your ceiling/);
   assert.doesNotMatch(msg,/100%|score|guarantee/);
 });
 test('unmatched primary and settings never appear as a verified preference fit',()=>{

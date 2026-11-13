@@ -6,7 +6,7 @@ import {shortlistExamples} from '../system-builder/recommendations.mjs';
 
 const request={goal:'all_rounder',useCase:'living_room',level:'moderate',
   architecture:'open',connection:'undecided',distanceFt:8,power:'mains',
-  region:'CA',currency:'CAD',budget:null,budgetStrict:true,secondary:[]};
+  region:'CA',currency:'CAD',budget:null,budgetStrict:true,secondary:[],referenceDate:'2026-11-13'};
 const item=(id,patch={})=>({
   id,architecture:'consumer_powered_pair',goals:['all_rounder'],
   places:['living_room'],connections:['analog'],...patch
@@ -41,14 +41,17 @@ test('high output at distance demotes small nearfield ideas without inventing ma
   assert.ok(notes.some(x=>/requires model-specific evidence/.test(x)));
 });
 
-test('hard budget prefers a region-matched within-ceiling subtotal over unknown price, not cheapest offer',()=>{
+test('a recent matching-market reference breaks practical ties and expires on day 30',()=>{
   const unknown=item('unknown');
-  const priced=item('priced',{priceCA:{components:[{amount:295}]}});
+  const priced=item('priced',{priceCA:{date:'2026-11-13',components:[{amount:295}]}});
   assert.ok(first(priced,unknown,{...request,budget:300})<0);
   assert.ok(first(unknown,priced,{...request,budget:300})>0);
   assert.equal(first(unknown,priced,{...request,budget:null}),-1);
+  assert.equal(first(unknown,priced,{...request,budget:300,referenceDate:'2026-12-13'}),-1);
+  const native=item('native',{connections:['usb']});
+  assert.ok(first(native,priced,{...request,budget:300,connection:'usb'})<0);
   const notes=explainInputInteractions({...request,budget:300});
-  assert.ok(notes.some(x=>/Unknown or partial total costs/.test(x)));
+  assert.ok(notes.some(x=>/Check current prices for all missing parts/.test(x)));
 });
 
 test('party battery outdoors and bass/sub interactions produce distinct disclosures',()=>{
@@ -70,7 +73,6 @@ test('fully specified current examples remain conditional, with linked decision 
   assert.ok(result.selected.length>0);
   assert.ok(result.selected.every(x=>Array.isArray(x.decisionReasons)));
   assert.ok(result.selected.every(x=>!('matchScore' in x)&&!('soundQualityScore' in x)));
-  assert.ok(result.selected.every(x=>x.subtotal===null||x.subtotal<=500));
   assert.ok(result.selected.every(x=>x.connectionStatus==='native_possible'||x.connectionStatus==='adapter_needed'));
   assert.ok(result.selected.some(x=>x.connectionStatus==='native_possible'));
 });

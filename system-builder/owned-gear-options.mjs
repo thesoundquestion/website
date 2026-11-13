@@ -7,12 +7,13 @@ import {shortlistSpeakersForOwnedAmplifier,shortlistPartyPassiveConcepts,ampSpea
 import {assessAmplifierCandidate} from './amplifier-fit.mjs';
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {poweredSubPairFor} from './stereo-subwoofer-examples.mjs';
+import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
 
 const kinds=['speaker','amp','source','headphone'];
 const has=x=>Boolean(x?.name);
 const owned=own=>kinds.filter(k=>has(own[k]));
 const part=(x,role)=>({name:x.name,count:1,role,url:x.record?.url||null});
-const common={subtotal:null,priceComponents:[],pricingStatus:'regional_price_missing',connectionStatus:'owned_path_unverified',
+const common={subtotal:null,priceDate:null,priceComponents:[],pricingStatus:'regional_price_missing',connectionStatus:'owned_path_unverified',
   editorialGoalFocus:true,secondaryFocus:[],sourceBatteryCaution:false,sceneCaution:false,
   placementCaution:false,levelCaution:false};
 function attach(item,own,used,message) {
@@ -76,11 +77,12 @@ function keepPoweredPair(own, request, pair) {
   return {selected:[item], excluded:[], mode:'keep_powered_pair'};
 }
 const amps=[
-  {model:'Fosi Audio BT20A Pro',inputs:['analog','bluetooth'],
-    price:189.99,url:'https://soulfi-audio.ca/product/fosi-audio-bt20a-pro-bluetooth-amplifier/'},
-  {model:'Fosi Audio V3 Stereo',inputs:['analog']},
-  {model:'AIYIMA A07 MAX Stereo',inputs:['analog']},
-  {model:'Yamaha A-S301',inputs:['analog','optical'],price:649.95,url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},
+  {model:'Fosi Audio BT20A Pro',inputs:['analog','bluetooth'],compact:true,
+    price:189.99,priceDate:'2026-11-13',url:'https://soulfi-audio.ca/product/fosi-audio-bt20a-pro-bluetooth-amplifier/'},
+  {model:'Fosi Audio V3 Stereo',inputs:['analog'],compact:true},
+  {model:'AIYIMA A07 MAX Stereo',inputs:['analog'],compact:true},
+  {model:'Yamaha A-S301',inputs:['analog','optical'],price:649.95,priceDate:'2026-11-12',
+    url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},
   {model:'Yamaha A-S501',inputs:['analog','optical']},
   {model:'Cambridge Audio CXA61',inputs:['analog','optical']},
   {model:'WiiM Amp',inputs:['analog','optical']},
@@ -156,10 +158,10 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     if(screen.discoveryFloor>=8&&Number.isFinite(minimum)&&minimum<6){
       excluded.push({title:idea.model,reason:'Published '+minimum+' Ω minimum needs additional review for an 8 Ω-only amplifier.'});continue;
     }
-    const price=request.region==='CA'&&request.currency==='CAD'&&Number.isFinite(idea.price)?idea.price:null;
-    if(request.budgetStrict!==false&&Number.isFinite(request.budget)&&price!==null&&price>request.budget){
-      excluded.push({title:idea.model,reason:'Known amplifier listing exceeds firm budget.'});continue;
-    }
+    const snapshot = request.region==='CA'&&request.currency==='CAD'&&Number.isFinite(idea.price) ? {
+      date:idea.priceDate,components:[{label:idea.model,amount:idea.price,url:idea.url}]
+    } : null;
+    const prices=retailPriceReference(snapshot,request.referenceDate);
     const rationale=explainAmplifierChoice({idea,record,speaker,request});
     const fit=assessAmplifierCandidate({idea,record,speaker,request});
     const message=rationale.summary+
@@ -176,13 +178,13 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
         ...[fit.ownerNote,fit.peakNote].filter(Boolean),
         'Ordering considers load and test-condition evidence plus practical power fit, not an audible-quality score. Use System Check for required listening level.'
       ],amplifierSource:rationale.source,
-      amplifierFit:fit,amplifierFitRank:fit.sortValue,
+      amplifierFit:fit,amplifierFitRank:fit.sortValue,compactAmp:idea.compact===true,
       tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
       loadCaution:!Number.isFinite(nominal) ?
         'Your '+speaker.name+' has no verified nominal impedance. Do not connect to '+idea.model+
         ' until the actual load and amplifier manual permissions are confirmed.' : null,
-      parts,subtotal:price,priceComponents:price===null?[]:[{label:idea.model,amount:price,url:idea.url}],
-      pricingStatus:price===null?'regional_price_missing':'partial_subtotal',
+      parts,...prices,
+      pricingStatus:prices.subtotal===null?'regional_price_missing':'partial_subtotal',
       priceEvidence:idea.model==='Fosi Audio BT20A Pro'?
         'corroborated_ordinary_CAD_asking_32V_PSU_variant_check':null,
       sceneCaution:request.useCase==='party'||request.useCase==='outdoors',levelCaution:request.level==='high',
@@ -191,19 +193,16 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
         'Check the speaker’s impedance minimum/phase, amplifier manual, clean output at the seat and connections.']},
       own,used,message));
   }
-  selected.sort((a,b)=>{
-    // Under a firm budget, favour a corroborated locally priced affordable
-    // candidate over a potentially expensive unpriced amp, without awarding
-    // it an invented sound or continuous-output rating.
-    if(request.budgetStrict!==false&&Number.isFinite(request.budget)){
-      const knownA=a.subtotal!==null&&a.subtotal<=request.budget?0:1;
-      const knownB=b.subtotal!==null&&b.subtotal<=request.budget?0:1;
-      if(knownA!==knownB)return knownA-knownB;
-    }
-    return b.amplifierFitRank-a.amplifierFitRank ||
-      a.title.localeCompare(b.title);
-  });
-  return {selected:selected.slice(0,3),excluded,mode:'keep_speakers'};
+  selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
+    compareBudgetReferences(a.subtotal,b.subtotal,request) || a.title.localeCompare(b.title));
+  const shortlist=selected.slice(0,3);
+  if (shortlist.length===3 && !shortlist.some(item=>item.compactAmp) && request.level!=='high' &&
+      request.goal!=='party' && request.useCase!=='party' && request.useCase!=='outdoors') {
+    // Leave room to compare a simpler amplifier at ordinary listening levels.
+    const compact=selected.find(item=>item.compactAmp && item.amplifierFit.directInput);
+    if (compact) shortlist.push(compact);
+  }
+  return {selected:shortlist,excluded,mode:'keep_speakers'};
 }
 function keepHeadphone(own,request){
   const used=['headphone'],parts=[part(own.headphone,'Already owned; keep this headphone')];

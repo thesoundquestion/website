@@ -230,7 +230,5 @@ export function recommendationWhy(item, request={}, labels={}) {
     ? '. Suggested for '+ROOM_LABELS[request.useCase]+' use' : '';
   const reuse = item.ownedAmpName ? '. Keeps your '+item.ownedAmpName+' instead of pricing a new amplifier; electrical compatibility remains unverified' : '';
   const input = item.connectionStatus === 'adapter_needed' ? '. Your chosen input needs additional equipment' : '';
-  const cap = request.budgetStrict && Number.isFinite(request.budget) && item.subtotal !== null && Number.isFinite(item.subtotal) && item.subtotal <= request.budget
-    ? '. The parts shown fit your budget before taxes, delivery and any extras' : '';
-  return main+matched+place+reuse+input+cap+'.';
+  return main+matched+place+reuse+input+'.';
 }

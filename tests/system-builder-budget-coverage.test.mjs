@@ -37,7 +37,7 @@ test('distinct price references are documented for new XT15 and XT20 stereo pair
   assert.equal(broadActivePromotionFor('Polk Monitor XT20','CA','CAD','2026-11-12'),null);
 });
 
-test('a CAD 249 firm budget produces an actual new speaker pair, not only unpriced names',()=>{
+test('a recent CAD 249 reference can move an otherwise suitable pair up the shortlist',()=>{
   const r=leads({budget:249});
   assert.equal(r.selected[0].title,'Polk Monitor XT15');
   assert.equal(r.selected[0].subtotal,249);
@@ -45,19 +45,19 @@ test('a CAD 249 firm budget produces an actual new speaker pair, not only unpric
   assert.ok(r.selected[0].parts.every(x=>!/receiver|amplifier/i.test(x.name)));
 });
 
-test('a CAD 248 strict ceiling does not falsely claim XT15 costs less',()=>{
+test('a CAD 248 ceiling leaves speaker pairs eligible for checking current prices',()=>{
   const r=leads({budget:248,used:false});
-  assert.ok(!r.selected.some(x=>x.title==='Polk Monitor XT15'));
-  assert.ok(r.excluded.some(x=>x.title==='Polk Monitor XT15'));
+  assert.ok(r.selected.some(x=>x.title==='Polk Signature Elite ES15'&&x.subtotal===399));
+  assert.ok(!r.excluded.some(x=>x.title==='Polk Monitor XT15'));
 });
 
 test('the XT20 promotional single-source offer does not replace the regular CAD 349 reference',()=>{
-  const r=leads({budget:300});
-  assert.ok(!r.selected.some(x=>x.title==='Polk Monitor XT20'));
-  assert.ok(r.excluded.some(x=>x.title==='Polk Monitor XT20'));
+  const r=leads({goal:'bass',budget:300});
+  const xt20=r.selected.find(x=>x.title==='Polk Monitor XT20');
+  assert.equal(xt20.subtotal,349);
 });
 
-test('two independent Atom promo dealers plus dated 25 percent program make CAD 269.99 usable',()=>{
+test('historical Atom research records two independent dealers and the seasonal dates',()=>{
   const p=broadActivePromotionFor('Paradigm Monitor SE Atom','CA','CAD','2026-11-12');
   assert.ok(p);
   assert.equal(p.amount,269.99);
@@ -67,21 +67,24 @@ test('two independent Atom promo dealers plus dated 25 percent program make CAD 
   assert.equal(CANADIAN_PAIR_PRICE_OBSERVATIONS['Paradigm Monitor SE Atom'].regular.length,3);
 });
 
-test('Yamaha R-S202 gets a specific budget-fitting Atom during sale, but not demanding Polk XT models',()=>{
+test('Yamaha R-S202 gets an eligible Atom with its regular reference and excludes incompatible Polk XT models',()=>{
   const r=leads({amp:amp('Yamaha R-S202'),budget:300});
   const atom=r.selected.find(x=>x.title==='Paradigm Monitor SE Atom');
   assert.ok(atom);
-  assert.equal(atom.subtotal,269.99);
-  assert.equal(atom.pricingStatus,'seasonal_promotional_pair');
+  assert.equal(atom.subtotal,359.99);
+  assert.equal(atom.pricingStatus,'partial_subtotal');
   assert.ok(!r.selected.some(x=>x.title==='Polk Monitor XT15'||x.title==='Polk Monitor XT20'));
 });
 
-test('promotion disappears after published date and reverts to regular price',()=>{
+test('an expired regular price leaves the Atom and its retailer links available',()=>{
   assert.equal(broadActivePromotionFor('Paradigm Monitor SE Atom','CA','CAD','2027-01-05'),null);
   assert.equal(broadActivePromotionFor('Paradigm Monitor SE Atom','CA','CAD','2026-10-15'),null);
-  const r=leads({amp:amp('Yamaha R-S202'),budget:300,referenceDate:'2027-01-05'});
-  assert.ok(!r.selected.some(x=>x.title==='Paradigm Monitor SE Atom'));
-  assert.ok(r.excluded.some(x=>x.title==='Paradigm Monitor SE Atom'));
+  const r=leads({amp:amp('Yamaha R-S202'),budget:300,referenceDate:'2026-12-12'});
+  const atom=r.selected.find(x=>x.title==='Paradigm Monitor SE Atom');
+  assert.equal(atom.subtotal,null);
+  assert.equal(atom.priceDate,null);
+  assert.ok(atom.priceComponents[0].url);
+  assert.ok(!Object.hasOwn(atom.priceComponents[0],'amount'));
 });
 
 test('UK regions use sterling references, not Canadian promotions or converted CAD prices',()=>{
@@ -89,16 +92,15 @@ test('UK regions use sterling references, not Canadian promotions or converted C
   const r=leads({region:'GB',currency:'GBP',budget:250});
   assert.ok(r.selected.some(x=>x.title==='Q Acoustics 3020i'&&x.subtotal===199));
   assert.ok(r.selected.some(x=>x.title==='Wharfedale Diamond 12.1'&&x.subtotal===249));
-  assert.ok(r.selected.every(x=>x.subtotal===null||x.subtotal<=250));
   assert.ok(r.selected.every(x=>x.pricingCurrency==='GBP'));
 });
 
-test('a CAD 100 budget does not put the known CAD 125-195 used asking band first',()=>{
+test('a CAD 100 budget keeps vintage asking prices out of the shortlist',()=>{
   const r=leads({budget:100});
   assert.ok(r.selected.length>0);
   assert.notEqual(r.selected[0].title,'Paradigm Titan v3');
-  assert.ok(!r.selected.some(x=>x.subtotal!==null&&x.subtotal>100));
-  assert.ok(r.excluded.some(x=>x.title==='Polk Monitor XT15'));
+  assert.ok(r.selected.some(x=>x.title==='Polk Signature Elite ES15'&&x.subtotal===399));
+  assert.ok(!r.excluded.some(x=>/budget/i.test(x.reason)));
 });
 
 test('CAD 180 keeps vintage Titan as a source-backed watch target, not a live classified recommendation',()=>{
@@ -124,7 +126,7 @@ test('UI supports Builder-only owned speaker selection, price labels and avoids 
   const app=src('../system-builder/app.mjs');
   assert.match(app,/BUILDER_ONLY_SPEAKERS/);
   assert.match(app,/builderOnlySpeakerFor\(exact\)/);
-  assert.match(app,/seasonal dealer sale/);
-  assert.match(app,/item\.budgetCaution/);
+  assert.match(app,/Retail price reference/);
+  assert.doesNotMatch(app,/seasonal dealer sale|item\.budgetCaution/);
   assert.doesNotMatch(app,/overallAcousticMatchScore/);
 });

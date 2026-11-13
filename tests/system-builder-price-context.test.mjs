@@ -28,16 +28,15 @@ test('normal retail is verified against three independently linked Canadian pair
   assert.equal(ctx.usedExampleRange,null);
 });
 
-test('broad ongoing sale is labelled and regular Canadian pair price stays distinct',()=>{
+test('speaker cards include only the dated regular reference and retailer links during a sale',()=>{
   const result=candidates({goal:'low_volume'});
   const p=result.selected.find(x=>x.title==='Paradigm Monitor SE Atom');
   assert.ok(p);
-  assert.equal(p.subtotal,269.99);
-  assert.equal(p.priceComponents[0].amount,269.99);
-  assert.equal(p.pricingStatus,'seasonal_promotional_pair');
-  assert.equal(p.promotionalOffer.regularListed,359.99);
-  assert.equal(p.marketContext.regular[0].amount,359.99);
-  assert.ok(p.marketContext.notes.includes('advertised prices'));
+  assert.equal(p.subtotal,359.99);
+  assert.equal(p.priceComponents[0].amount,359.99);
+  assert.equal(p.priceDate,'2026-11-12');
+  assert.ok(p.marketContext.regular.every(({url,amount})=>url&&amount===undefined));
+  assert.doesNotMatch(JSON.stringify(p),/269\.99|seasonal_promotional_pair|selfReportedPaid|usedAsks/);
 });
 
 test('used asking examples from three sellers do not become an average',()=>{
@@ -74,17 +73,6 @@ test('Canadian market-only records never leak; US gets distinct source-backed US
   assert.ok(us.selected.every(x=>x.pricingCurrency==='USD'));
 });
 
-test('budget 300 can use a documented broad seasonal Atom promotion but not after it expires',()=>{
-  const during=candidates({budget:300,referenceDate:'2026-11-12'});
-  const atom=during.selected.find(x=>x.title==='Paradigm Monitor SE Atom');
-  assert.ok(atom);
-  assert.equal(atom.subtotal,269.99);
-  assert.equal(atom.pricingStatus,'seasonal_promotional_pair');
-  const expired=candidates({budget:300,referenceDate:'2027-01-05'});
-  assert.ok(!expired.selected.some(x=>x.title==='Paradigm Monitor SE Atom'));
-  assert.ok(expired.excluded.some(x=>x.title==='Paradigm Monitor SE Atom'));
-});
-
 test('a low Canadian budget keeps vintage used models as watch leads, not actionable listings',()=>{
   const r=candidates({budget:180,goal:'all_rounder',used:true});
   assert.ok(r.selected.length>=2);
@@ -108,10 +96,11 @@ test('owned amplifier remains retained without treating old classified prices as
   assert.ok(p.selected.every(x=>x.parts.some(x=>x.name==='Yamaha A-720')));
 });
 
-test('UI keeps exact source notes behind expandable details and no invented median',()=>{
+test('UI shows dated regular price references and retailer links inside card details',()=>{
   const app=src('../system-builder/app.mjs');
-  assert.match(app,/item\.marketContext\.regular/);
-  assert.doesNotMatch(app,/item\.marketContext\.usedAsks/);
+  assert.match(app,/renderPriceReferences\(details,item,'h5'\)/);
+  assert.match(app,/marketContext\?\.regular/);
+  assert.doesNotMatch(app,/selfReportedPaid|marketContext\.promotion|marketContext\.usedAsks/);
   assert.doesNotMatch(app,/Used asking examples/);
   assert.match(app,/usedWatchlistFor/);
   assert.match(app,/Used stereo amplifiers worth keeping an eye out for/);

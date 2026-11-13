@@ -15,7 +15,7 @@ const SOURCE=gear('source','Creative Sound Blaster X-Fi Titanium HD (RCA)');
 const HP=gear('headphone','Grado SR80e');
 const base={architecture:'open',goal:'natural',secondary:['imaging'],useCase:'living_room',power:'mains',
   connection:'analog',region:'CA',currency:'CAD',budget:null,budgetStrict:true,used:true,
-  level:'moderate',distanceFt:8};
+  level:'moderate',distanceFt:8,referenceDate:'2026-11-13'};
 const run=(own,request={})=>ownershipPlan({own,request:{...base,...request},inventory});
 const allItems=plan=>plan.selected;
 
@@ -135,11 +135,16 @@ test('unlisted speaker names remain explicitly unknown rather than fabricated sa
   assert.ok(r.selected.every(x=>x.extra.some(s=>/Check the speaker/.test(s))));
   assert.ok(r.selected.every(x=>x.reuseNames.includes('Unlisted DIY Pair')));
 });
-test('firm budget excludes known-over-budget amps but does not pretend unpriced gear costs zero',()=>{
+test('owned-speaker amp choices keep price links when the reference is above budget or expired',()=>{
   const r=run({speaker:SPEAKER},{budget:200});
-  assert.ok(r.selected.every(x=>x.subtotal===null||x.subtotal<=200));
-  assert.ok(r.excluded.some(x=>x.title==='Yamaha A-S301'));
+  const yamaha=r.selected.find(x=>x.title.endsWith(' + Yamaha A-S301'));
+  assert.equal(yamaha.subtotal,649.95);
   assert.ok(r.selected.every(x=>x.subtotal!==0));
+  const expired=run({speaker:SPEAKER},{budget:200,referenceDate:'2026-12-13'});
+  const same=expired.selected.find(x=>x.id===yamaha.id);
+  assert.equal(same.subtotal,null);
+  assert.equal(same.priceComponents[0].url,yamaha.priceComponents[0].url);
+  assert.ok(!Object.hasOwn(same.priceComponents[0],'amount'));
 });
 test('all-new path is only selected when user has not declared any equipment',()=>{
   assert.equal(run({}),null);

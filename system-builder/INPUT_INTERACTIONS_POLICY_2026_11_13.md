@@ -8,13 +8,13 @@ The core pure policy lives in `decision-context.mjs`. Existing editorial example
 
 ## Decision hierarchy
 
-1. **Hard gates first, regardless of preference:** explicitly selected architecture, battery mandate, manufacturer-confirmed incompatible speaker/amp loads, known complete or partial component subtotals already exceeding a firm budget, documented battery/recall/safety restrictions where evidence supports them. Missing price or measurements are *unknown*, not zero.
+1. **Hard gates first:** apply the selected architecture, mandatory battery operation, known incompatible speaker/amp loads and documented safety restrictions. Treat missing prices and measurements as unknown.
 2. **Retain working owned equipment:** an existing suitable amplifier is not rebought for a party listening goal. An explicit portable/PA system or battery requirement may be a separate route, with the old equipment retained for other use. Full electrical/thermal compatibility still needs verification.
 3. **Primary listening goal:** candidates tagged for the primary editorial priority appear before otherwise equivalent goal-mismatched candidates. This tag is a research lead, not a laboratory proof.
 4. **Combination-specific cautions:** high-output listening at distances over 12 ft deprioritizes compact nearfield choices with no substantiated far-field clean-output evidence, without declaring that any remaining choice achieves a target SPL. Deep-bass requests without a verified high-pass demote the exact-model Kanto ORA original, because its three-inch mains cannot be assumed to provide deep bass unaided.
-5. **Regional budget evidence:** when the budget is firm and a geographically matching *observed component subtotal* exists within the ceiling, prefer that sourced option over an unpriced option among otherwise viable alternatives. Never select the cheapest anywhere or mislabel a single retail offer as a representative market price. Missing accessories, amplifiers, stands, cabling, duties and taxes stay missing.
-6. **Use case and source connection:** favor editorial venue suitability and native requested connections over an adapter-dependent setup, but do not automatically make an adapter route impossible if it can be added and priced. Outdoor venue risks still need an independent check.
-7. **Secondary listening goals:** break ties with the number of genuinely matching editorial goal tags. Do not award point scores or let subjective preferences override safety or a known hard budget exclusion.
+5. **Use case and source connection:** favor venue suitability and native connections. Show what hardware an adapter-dependent route needs. Check weather protection, mounting and power separately for outdoor use.
+6. **Secondary listening goals:** compare the number of genuinely matching editorial goal tags after safety and practical needs.
+7. **Regional budget evidence:** a regular price reference from the previous 30 calendar dates, including today, can break a practical tie under a firm spending ceiling. It needs the visitor’s region and currency. Save the observation date and source links. Keep expired links available and hide the amounts automatically. The buyer confirms the total at current prices, including missing components, delivery and taxes.
 8. **Stable fallback:** keep the previous editorial ordering for otherwise equivalent candidates; never invent extra objective precision to break ties.
 
 ## Example input combinations
@@ -29,7 +29,7 @@ The core pure policy lives in `decision-context.mjs`. Existing editorial example
 | Party/PA architecture + owned stereo | Keep stereo as a separate reusable pathway | Full PA system cost, coverage |
 | 8 Ω-only Yamaha R-S202 + 6 Ω party tower | Exclude that specific pairing | No favorable preference overrides known load rule |
 | Outdoor + battery required | Mains-only options excluded | Battery runtime at level, safety, weather/coverage |
-| Firm budget + priced vs unpriced leads | A qualifying regional subtotal improves actionability | Full-system price still unknown |
+| Firm budget + recent, local regular price | Reference can break a tie between otherwise suitable examples | Check today’s price for the complete path |
 
 ## What is NOT implemented yet
 
@@ -42,6 +42,6 @@ The core pure policy lives in `decision-context.mjs`. Existing editorial example
 
 ## Verification and regression
 
-`tests/system-builder-input-interactions.test.mjs` covers secondary-goal ties, native input, high output at distance, source-consistent firm budget decisions, subwoofer interplay, battery and party gates, and the prohibition on fake sound scores. `tests/system-builder-party-speakers.test.mjs` also verifies owned amplifier reuse for party priorities versus explicit PA architectures. Existing tests cover broader compatibility, pricing provenance, equipment ownership and page output.
+`tests/system-builder-input-interactions.test.mjs` covers secondary goals, native input, high output at distance, recent-price tie-breaking, subwoofers, battery and party gates. `tests/system-builder-price-references.test.mjs` covers the expiry boundary and retained links. `tests/system-builder-party-speakers.test.mjs` verifies owned amplifier reuse for party priorities and explicit PA architectures. The suite also covers compatibility, pricing provenance, equipment ownership and page output.
 
 Run `node --check system-builder/*.mjs`, then `node --test tests/*.test.mjs`. Review the GitHub Actions run for the final head. Full browser-accessibility and deployment smoke tests are still a release gate; do not merge into main solely because Node tests pass.

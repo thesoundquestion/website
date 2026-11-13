@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
       distanceFt, power:powered, connection:String(data.get('connection')),
       secondary:extras.filter(x=>x.checked&&x.value!==primary).map(x=>x.value),
       character:String(data.get('character')),
-      region:String(data.get('region')), currency,
+      region:String(data.get('region')), currency, referenceDate:new Date().toISOString().slice(0,10),
       subCount:bassCount, subOwned,
       budget:Number.isFinite(budget) ? budget : null,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
@@ -252,29 +252,46 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(shop,'p',subOwned === 'no' && bassCount === 1 && (!ownership || ownership.mode === 'keep_source') ?
           'The Builder has no complete 2.1 example for this combination. You can start with the stereo ideas below.' :
           'The stereo ideas cover the main system. Check what you need to connect the subwoofer.','sb-brief-note');
-      else if (shortlist.selected.filter(item => item.bassSetup).every(item => item.subtotal === null))
-        addText(shop,'p','Check local prices for these 2.1 ideas before comparing them with your budget.','sb-brief-note');
     }
     const displayCurrency=['CAD','USD','GBP','EUR','AUD'].includes(currency)?currency:'CAD';
     const priceLocale={CAD:'en-CA',USD:'en-US',GBP:'en-GB',EUR:'en-IE',AUD:'en-AU'}[displayCurrency];
     const priceFormat = value => new Intl.NumberFormat(priceLocale,
       {style:'currency',currency:displayCurrency}).format(value);
+    const renderPriceReferences = (parent, {priceDate,priceComponents,subtotal,marketContext}, heading) => {
+      const retailers = marketContext?.regular || [];
+      if (!priceComponents?.length && !retailers.length) return;
+      addText(parent,heading,priceDate ? 'Retail price reference · '+priceDate+' · '+currency : 'Check current prices');
+      if (priceDate)
+        addText(parent,'p','Listed parts at that time: '+priceFormat(subtotal)+'. Check current prices before buying.','sb-card-reference');
+      const seen = new Set();
+      for (const part of priceComponents || []) {
+        const label = (part.quantity > 1 ? part.quantity+' × ' : '')+part.label;
+        const description = priceDate ? label+' · '+priceFormat(part.amount)+(part.quantity > 1 ? ' each' : '') : label;
+        const line = addText(parent,'p',description,'sb-card-reference');
+        if (part.url) {
+          link(line,part.url,'View listing for '+part.label);
+          seen.add(part.url);
+        }
+      }
+      for (const {merchant,url} of retailers) {
+        if (!url || seen.has(url)) continue;
+        link(addText(parent,'p','','sb-card-reference'),url,merchant);
+        seen.add(url);
+      }
+    };
     const renderCard = item => {
       const card = el('article','sb-recommend sb-recommend-compact');
       const head = el('div','sb-card-head');
       const heading = el('div','sb-card-heading');
       addText(heading,'span',item.kind,'sb-kind');
-      addText(heading,'h4',item.title.replace(/^[^:]{3,45}:\s*/,'')); 
+      addText(heading,'h4',item.title.replace(/^[^:]{3,45}:\s*/,''));
       head.append(heading);
-      const price = el('div','sb-card-price');
       const noPurchase = ['owned-complete','owned-headphones','owned-other-route','owned-powered-pair'].includes(item.id);
-      // Individual second-hand asking examples are not a priced option.
-      addText(price,'strong',noPurchase ? 'Reuse first' :
-        (item.subtotal === null ? 'Price to verify' : priceFormat(item.subtotal)));
-      addText(price,'span',noPurchase ? 'No new hardware priced' :
-        item.promotionalOffer ? currency+' · seasonal dealer sale; regular price in details' :
-        (item.subtotal === null ? 'No local price checked' : currency+' · listed parts only'));
-      head.append(price);
+      if (noPurchase) {
+        const badge = el('div','sb-card-price');
+        addText(badge,'strong','Reuse first');
+        head.append(badge);
+      }
       card.append(head);
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
@@ -345,33 +362,12 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
       if (item.sourceCaution)
         addText(card,'p',item.sourceCaution,'sb-card-alert');
-      if (item.budgetCaution)
-        addText(card,'p',item.budgetCaution,'sb-card-minor');
       if (item.pathwayCaution)
         addText(card,'p',item.pathwayCaution,'sb-card-alert');
-      if (budget !== null && item.subtotal === null && !noPurchase)
-        addText(card,'p','Budget fit not confirmed.','sb-card-minor');
 
       const details = el('details','sb-card-details');
       addText(details,'summary','What is included, drawbacks & sources');
       addText(details,'p',item.why,'sb-card-why-full');
-      if (item.marketContext) {
-        addText(details,'h5','Regional price context');
-        addText(details,'p',item.marketContext.notes,'sb-card-reference');
-        for (const p of item.marketContext.regular || []) {
-          const line=addText(details,'p',p.merchant+': '+priceFormat(p.amount)+' per stereo pair (regular listing)','sb-card-reference');
-          link(line,p.url,'Source');
-        }
-        for (const p of item.marketContext.promotion || []) {
-          const line=addText(details,'p',p.merchant+': '+priceFormat(p.amount)+' per stereo pair (promotion, not the normal reference)','sb-card-reference');
-          link(line,p.url,'Source');
-        }
-        // Individual classifieds are intentionally NOT displayed as recommendation evidence.
-        for (const p of item.marketContext.selfReportedPaid || []) {
-          const line=addText(details,'p',p.date+': '+priceFormat(p.amount)+' self-reported purchase · not independently verified.','sb-card-reference');
-          link(line,p.url,'Source');
-        }
-      }
       if (item.reuseNames?.length) {
         addText(details,'h5','What stays in your system');
         list(details,item.reuseNames);
@@ -417,14 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
         parts.append(li);
       }
       details.append(parts);
-      if (item.priceComponents.length) {
-        addText(details,'h5','Advertised prices · '+currency+(item.priceDate ? ' · '+item.priceDate : ''));
-        for (const p of item.priceComponents) {
-          const line = addText(details,'p',(p.quantity > 1 ? p.quantity+' × ' : '') + p.label +
-            ': ' + priceFormat(p.amount) + (p.quantity > 1 ? ' each' : ''),'sb-card-reference');
-          link(line,p.url,'Price source');
-        }
-      }
+      renderPriceReferences(details,item,'h5');
       if(item.decisionReasons?.length){
         addText(details,'h5','How your inputs affected this option');
         list(details,item.decisionReasons);
@@ -442,17 +431,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (item.sourceCaution)
         checks.unshift(item.sourceCaution);
       if (item.sourceBatteryCaution)
-        checks.unshift('The headphones require a compatible, battery-powered source/headphone output, not included in the shown price.');
+        checks.unshift('Allow for a compatible battery-powered source with a headphone output.');
       if (item.levelCaution || item.placementCaution)
         checks.unshift('Verify clean output at your intended distance and level, especially with compact nearfield designs.');
       if (item.sceneCaution)
         checks.unshift('Check whether this product is appropriate for the chosen venue and coverage.');
       if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first' && !item.bassSetup && !noPurchase)
         checks.push('Confirm the subwoofer connection and any crossover needed before pricing the full setup.');
-      if (budget !== null)
-        checks.push(item.subtotal === null
-          ? 'No qualified local price for comparison with your '+budget+' '+currency+' ceiling.'
-          : 'The '+priceFormat(item.subtotal)+' shown covers only identified components. Missing hardware, delivery and taxes can exceed your '+budget+' '+currency+' budget.');
       list(details,checks);
       card.append(details);
       return card;
@@ -473,15 +458,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (request.character !== 'faithful')
         addText(shop,'p','Your sound-character preference is recorded, but this preview does not yet verify or re-rank models by your preferred tonal flavour.','sb-brief-note');
-      addText(shop,'p',ownership ?
-        'Check connections, speaker load and clean output before buying additional equipment.' :
-        speakerFocus ?
-        'Prices shown are for the speaker pair. Check speaker load, cabling and listening level with the amplifier you own.' :
-        'Prices come from dated retail listings. Check stock, delivery, taxes and any parts still needed.','sb-brief-note');
+      addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
     } else {
       addText(shop,'p',speakerFocus ?
-        'No speaker candidate from the current curated catalog passed the conservative load and known-price checks. Recheck the amplifier manual and your budget rather than assuming an unverified match.' :
-        'No example meets the chosen architecture, power and known-price limits. Try a different route or investigate local used options.','sb-report-note');
+        'No speaker candidate passed the conservative load checks. Check the amplifier manual for its speaker requirements.' :
+        'There are no examples for your selected system type and power requirements. Try a different setup.','sb-report-note');
     }
     // Show passive high-efficiency leads next to the event/PA route without
     // pretending that an unpriced speaker pair is a complete party system.
@@ -543,28 +524,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (retainedSubPath) {
       const route = retainedSubPath;
       const panel = el('details','sb-more sb-retained-sub');
-      const summary = !route.buying ? 'Subwoofer connection for your '+route.retained :
-        'Add a sub and keep your '+route.retained+(route.subtotal === null ? '' : ' · '+priceFormat(route.subtotal))+
-        (route.overBudget && request.budgetStrict ? ' · Over budget' : '');
+      const summary = route.buying ? 'Add a sub and keep your '+route.retained : 'Subwoofer connection for your '+route.retained;
       addText(panel,'summary',summary);
       addText(panel,'p',route.bassSetup.label);
-      addText(panel,'p',route.buying ? 'Example subwoofer is the Edifier T5. This is the cost of the sub and any listed lead.' :
+      addText(panel,'p',route.buying ? 'The example uses an Edifier T5. Check whether you need a separate connection cable.' :
         route.wantsOwnedSub ? 'Keep your subwoofer if it accepts the right connection. The T5 wiring below is an example.' :
         'Confirm whether your sub can be reused. The T5 wiring below is an example.');
       if (route.needsMainSpeakers) addText(panel,'p','Price the passive stereo pair and speaker wire separately.');
-      if (route.overBudget)
-        addText(panel,'p','The subwoofer parts alone exceed your '+priceFormat(budget)+' budget.','sb-card-alert');
       addText(panel,'p',route.bassSetup.setup);
       link(panel,route.bassSetup.source,'Manufacturer bass-routing instructions');
-      if (route.buying) {
-        for (const part of route.components) {
-          const line = addText(panel,'p',part.label+' · '+priceFormat(part.amount),'sb-card-reference');
-          link(line,part.url,'Price source');
-        }
-        if (route.components.length)
-          addText(panel,'p','Retail prices checked '+route.date+'. Add any delivery, taxes and other missing equipment.','sb-card-reference');
-        else addText(panel,'p','Local price to verify.','sb-card-reference');
-      }
+      if (route.buying) renderPriceReferences(panel,route,'h4');
       shop.append(panel);
     }
 

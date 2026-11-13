@@ -61,6 +61,8 @@ test('unverified HPF makes candidate conditional', () => {
 });
 test('price snapshots and absent stock remain conditional', () => {
   assert.equal(assessCandidate({...base,parts:base.parts.map(x=>({...x,priceEvidence:'snapshot'}))},request).status,'conditional');
+  assert.equal(assessCandidate({...base,parts:base.parts.map(x=>({...x,priceEvidence:'snapshot'}))},
+    {...request,budget:100}).status,'conditional');
   assert.equal(assessCandidate({...base,parts:base.parts.map(x=>({...x,availability:'not-confirmed'}))},request).status,'conditional');
 });
 test('normal room does not auto-import party PA', () => {

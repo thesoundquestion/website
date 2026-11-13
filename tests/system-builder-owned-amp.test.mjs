@@ -16,7 +16,7 @@ const inventory=sandbox.window.systemBuilderInventory;
 const amp=name=>({name,record:inventory.amp.find(x=>x.model===name)||null});
 const defaults={amp:amp('Yamaha A-720'),speakers:inventory.speaker,goal:'all_rounder',useCase:'living_room',
   region:'CA',currency:'CAD',power:'mains',level:'moderate',distanceFt:8,connection:'analog',
-  budget:null,budgetStrict:true,used:true,secondary:[]};
+  budget:null,budgetStrict:true,used:true,secondary:[],referenceDate:'2026-11-13'};
 
 test('only known passive speaker models from original read-only catalog are considered',()=>{
   assert.ok(SPEAKER_IDEAS.length>=10);
@@ -78,16 +78,16 @@ test('Canadian and US stereo pair references use the visitor’s region and curr
   assert.ok(usa.selected.every(x=>x.pricingCurrency==='USD'));
 });
 
-test('firm budget applies to speaker purchase, not an unnecessary new receiver',()=>{
+test('speaker budget references cover the pair while retaining the owned amplifier',()=>{
   const r=shortlistSpeakersForOwnedAmplifier({...defaults,budget:400});
   assert.ok(r.selected.some(x=>x.title==='Polk Signature Elite ES15'));
-  assert.ok(!r.selected.some(x=>x.title==='Polk Signature Elite ES20'));
-  assert.ok(r.excluded.some(x=>x.title==='Polk Signature Elite ES20'&&/budget/.test(x.reason)));
+  assert.ok(r.selected.every(x=>x.parts.length===1&&x.parts[0].name.endsWith('stereo pair')));
+  assert.ok(!r.excluded.some(x=>/budget/.test(x.reason)));
 });
 
-test('unpriced candidates never pass the budget as zero-dollar claims',()=>{
-  const r=shortlistSpeakersForOwnedAmplifier({...defaults,budget:100});
-  assert.ok(!r.selected.some(x=>x.subtotal!==null && x.subtotal>100));
+test('missing regional prices stay unknown',()=>{
+  const r=shortlistSpeakersForOwnedAmplifier({...defaults,budget:100,region:'AU',currency:'AUD'});
+  assert.ok(r.selected.length);
   assert.ok(r.selected.every(x=>x.subtotal===null&&x.pricingStatus==='regional_price_missing'));
 });
 

@@ -62,7 +62,7 @@ export function assessCandidate(c, r) {
   else if (c.environmentSuitability !== 'verified') conditional.push('Venue suitability unknown');
   const cost = estimateCompleteCost(c, r);
   if (cost.known) {
-    if (Number.isFinite(r.budget) && cost.total > r.budget && r.budgetStrict !== false)
+    if (cost.representative && Number.isFinite(r.budget) && cost.total > r.budget && r.budgetStrict !== false)
       blocked.push('Complete system over budget');
     if (!cost.representative) conditional.push('Regional price is not representative');
     conditional.push(...cost.issues);
