@@ -1,5 +1,6 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {shortlistExamples} from './recommendations.mjs';
+import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
@@ -213,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
     const budget = budgetText ? Number(budgetText) : null;
     const request = {
-      architecture:arch, useCase, goal:primary, level:String(data.get('level')),
+      architecture:arch, useCase, goal:primary, level:String(data.get('level')), subMode:bassMode,
       distanceFt, power:powered, connection:String(data.get('connection')),
       secondary:extras.filter(x=>x.checked&&x.value!==primary).map(x=>x.value),
       character:String(data.get('character')),
@@ -227,6 +228,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const shortlist = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
       : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request));
+    const combinedFactors=explainInputInteractions(request);
+    if(combinedFactors.length){
+      const decision=el('details','sb-more sb-decision-logic');
+      addText(decision,'summary','How your answers change the recommendations');
+      list(decision,combinedFactors);
+      shop.append(decision);
+    }
     const displayCurrency=['CAD','USD','GBP','EUR','AUD'].includes(currency)?currency:'CAD';
     const priceLocale={CAD:'en-CA',USD:'en-US',GBP:'en-GB',EUR:'en-IE',AUD:'en-AU'}[displayCurrency];
     const priceFormat = value => new Intl.NumberFormat(priceLocale,
@@ -392,6 +400,10 @@ document.addEventListener('DOMContentLoaded', () => {
             ': ' + priceFormat(p.amount) + (p.quantity > 1 ? ' each' : ''),'sb-card-reference');
           link(line,p.url,'Price source');
         }
+      }
+      if(item.decisionReasons?.length){
+        addText(details,'h5','How your inputs affected this option');
+        list(details,item.decisionReasons);
       }
       addText(details,'h5','Trade-offs');
       addText(details,'p',item.tradeoff);
