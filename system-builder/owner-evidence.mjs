@@ -11,6 +11,39 @@
  * Checked 2026-11-12; sources and details can change after that date.
  */
 export const OWNER_EVIDENCE = Object.freeze({
+  'Triangle Borea BR03 (passive)':{
+    band:'some',relevantGoals:['all_rounder','natural','imaging','dynamic','bass'],
+    label:'Several exact passive-model owner experiences',
+    short:'Owners often describe the passive BR03 as spacious and lively, with clear vocals and firm bass; room size and speaker placement remain important.',
+    caution:'Owners compare different amps, rooms and KEF/ELAC alternatives. One report prefers the Triangle for nuance while another recommends ELAC for loud rock; no standardized level-matched consensus.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1duh1rv',context:'Living-room owner compares passive BR03 against KEF Q150, July 2024'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/hp0foq',context:'Several owners comment on vocal clarity and bass, July 2020'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1xlfqwl',context:'BR03/ELAC owner compares character and loud rock, November 2026'}
+    ]
+  },
+  'Q Acoustics 3030i':{
+    band:'repeated_mixed',relevantGoals:['all_rounder','natural','bass','dynamic'],
+    label:'Multiple firsthand owners with mixed bass impressions',
+    short:'Several 3030i owners praise low-end weight and easy listening, while another felt the bass lacked the expected punch. Speaker stands, room position and wall distance appear important.',
+    caution:'These are uncontrolled, different rooms and electronics. Do not substitute 3030c owners or turn a 3030i bass reputation into a measured room-independent score.',
+    sources:[
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1fbataj',context:'Owner moves from 3010i to 3030i and praises added bass, September 2024'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/1ova0eh',context:'Owner disappointed by bass and discussing placement, November 2025'},
+      {url:'https://www.reddit.com/r/BudgetAudiophile/comments/nd03e7',context:'Owner praises bass but notes no sub replacement, May 2021'}
+    ]
+  },
+  'Klipsch RP-600M II':{
+    band:'some',relevantGoals:['all_rounder','dynamic','imaging'],
+    label:'Several owners, limited controlled comparisons',
+    short:'Owners of the exact RP-600M II often enjoy its energetic, room-filling presentation. Some mention toe-in, grilles and a subwoofer as worthwhile setup choices.',
+    caution:'Do not conflate RP-600M II with the earlier RP-600M, R-50M or RP-500M II. Owner enthusiasm cannot certify actual sensitivity, full impedance minima, or treble comfort.',
+    sources:[
+      {url:'https://www.reddit.com/r/Klipsch/comments/1pzq7yl',context:'New owner and multiple replies, December 2025'},
+      {url:'https://www.reddit.com/r/Klipsch/comments/1ngc081',context:'Owner reports upgrade vs R-51M and setup caveats, September 2025'},
+      {url:'https://www.reddit.com/r/Klipsch/comments/1hhznph',context:'Owner with WiiM Amp, December 2024'}
+    ]
+  },
   'Polk Monitor XT20':{
     band:'some',relevantGoals:['all_rounder','bass','dynamic','natural'],
     label:'Owners report different experiences',
