@@ -5,7 +5,9 @@
  * All four rows use the same time positions before and after a separate,
  * illustrative track-level compression choice.
  */
-// Fictional common beat grid: quarter notes at 0.5 s, eighth-note guitar\n// strums every 0.25 s, snare on beats 2 and 4, cymbal accents on bars.\nconst DURATION = 4.8;
+// Fictional common beat grid: quarter notes at 0.5 s, eighth-note guitar
+// strums every 0.25 s, snare on beats 2 and 4, cymbal accents on bars.
+const DURATION = 4.8;
 const WIDTH = 720;
 const HEIGHT = 80;
 const TRACKS = ['guitar', 'bass', 'snare', 'cymbals'];
