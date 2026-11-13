@@ -238,13 +238,12 @@ document.addEventListener('DOMContentLoaded', () => {
       head.append(heading);
       const price = el('div','sb-card-price');
       const noPurchase = item.id === 'owned-complete' || item.id === 'owned-headphones' || item.id === 'owned-other-route';
-      addText(price,'strong',noPurchase ? 'Reuse first' : (item.usedExampleRange ?
-        priceFormat(item.usedExampleRange.min)+'–'+priceFormat(item.usedExampleRange.max) :
-        (item.subtotal === null ? 'Price to verify' : priceFormat(item.subtotal))));
+      // Individual second-hand asking examples are not a priced option.
+      addText(price,'strong',noPurchase ? 'Reuse first' :
+        (item.subtotal === null ? 'Price to verify' : priceFormat(item.subtotal)));
       addText(price,'span',noPurchase ? 'No new hardware priced' :
-        (item.usedExampleRange ? 'Used asking examples · not verified sale prices' :
-         item.promotionalOffer ? currency+' · seasonal dealer sale; regular price in details' :
-         (item.subtotal === null ? 'No local price checked' : currency+' · listed parts only')));
+        item.promotionalOffer ? currency+' · seasonal dealer sale; regular price in details' :
+        (item.subtotal === null ? 'No local price checked' : currency+' · listed parts only'));
       head.append(price);
       card.append(head);
       if (item.reuseNames?.length)
