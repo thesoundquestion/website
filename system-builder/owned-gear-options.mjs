@@ -3,7 +3,7 @@
  * visible; no matching catalog name is a certification of electrical or sonic fit.
  */
 import {shortlistExamples} from './recommendations.mjs';
-import {shortlistSpeakersForOwnedAmplifier,ampSpeakerScreening} from './owned-amp-speakers.mjs';
+import {shortlistSpeakersForOwnedAmplifier,shortlistPartyPassiveConcepts,ampSpeakerScreening} from './owned-amp-speakers.mjs';
 import {assessAmplifierCandidate} from './amplifier-fit.mjs';
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 
@@ -207,8 +207,12 @@ function keepAmp(own,request,inventory){
   });
   return {selected,excluded:r.excluded,mode:'keep_amp'};
 }
-function keepSource(own,request){
-  const r=shortlistExamples(request);
+function keepSource(own,request,inventory={}){
+  const partyPassive=(request.goal==='party'||request.useCase==='party') &&
+    request.architecture==='passive_separates' && request.power!=='battery';
+  const r=partyPassive ?
+    shortlistPartyPassiveConcepts({...request,speakers:inventory.speaker||[]}) :
+    shortlistExamples(request);
   const selected=r.selected.map(item=>{
     const msg='Keep your '+own.source.name+' as the source for this system. The remaining speakers and amplification are examples, not a reason to replace the source.';
     return attach({...item,why:msg,preferenceMatchAvailable:true,
@@ -262,7 +266,7 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.amp)&&!has(own.speaker))
     plan=keepAmp(own,request,inventory);
   else if(has(own.source)&&!has(own.speaker)&&!has(own.amp)&&!has(own.headphone))
-    plan=keepSource(own,request);
+    plan=keepSource(own,request,inventory);
   else if(has(own.speaker)&&has(own.amp)) {
     const item=existingPair(own,request);
     item.pathwayCaution='This keeps your passive stereo system for a separate mains-powered listening route; it does not meet the selected '+arch+' / '+request.power+' requirement.';
@@ -277,7 +281,10 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
   else if(has(own.amp)){
     const alt=keepAmp(own,request,inventory);
     for(const item of alt.selected)
-      item.pathwayCaution='This preserves your amplifier for a separate passive stereo route, not the requested '+arch+' / '+request.power+' route.';
+      item.pathwayCaution=(arch==='open' && request.power!=='battery' &&
+        (request.goal==='party'||request.useCase==='party')) ?
+        'Your amplifier can remain in a passive high-output system if the exact speaker load and clean level are verified; this does not certify it as an event PA.' :
+        'This preserves your amplifier for a separate passive stereo route, not the requested '+arch+' / '+request.power+' route.';
     plan={...alt,mode:'keep_separate_amp'};
   }
   else if(has(own.headphone)){
