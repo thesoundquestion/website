@@ -21,7 +21,7 @@ const base={amp:amp('Yamaha A-720'),speakers:inventory.speaker,goal:'all_rounder
 const leads=overrides=>shortlistSpeakersForOwnedAmplifier({...base,...overrides});
 
 test('Builder-only speaker additions do not mutate the original System Check presets',()=>{
-  assert.equal(BUILDER_ONLY_SPEAKERS.length,8);
+  assert.equal(BUILDER_ONLY_SPEAKERS.length,9);
   assert.ok(BUILDER_ONLY_SPEAKERS.every(x=>!inventory.speaker.some(s=>s.model===x.model)));
   assert.ok(BUILDER_ONLY_SPEAKERS.every(x=>x.evidence.includes('Builder-only')));
   assert.equal(builderOnlySpeakerFor('Polk Monitor XT15').values.minimum,4.1);
