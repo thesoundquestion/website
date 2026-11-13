@@ -64,7 +64,7 @@ export const BUILDER_ONLY_SPEAKERS = Object.freeze([
       reviewStatus:'builder-only-sourced'
     }),
     evidence:'Builder-only source-checked supplement; NOT an original System Check preset'
-  }
+  },
   {
     model:'PSB Alpha P3',type:'speaker',
     values:Object.freeze({load:8,minimum:4,speakerRecommendedAmpMax:80,
