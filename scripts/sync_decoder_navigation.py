@@ -12,6 +12,8 @@ import html
 import json
 import re
 from pathlib import Path
+import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 CURRICULUM = json.loads((ROOT / "decoder" / "curriculum.json").read_text(encoding="utf-8"))
@@ -99,3 +101,6 @@ for i, lesson in enumerate(LESSONS):
         page = page.replace(slot, bottom + "\n " + slot, 1)
     path.write_text(page, encoding="utf-8")
     print(f"Updated {lesson['slug']}: next → {LESSONS[(i + 1) % len(LESSONS)]['slug']}")
+
+# Regenerate Journey topic links whenever the published lesson order is synchronized.
+subprocess.run([sys.executable, str(ROOT / 'scripts' / 'sync_journey_topics.py')], check=True)

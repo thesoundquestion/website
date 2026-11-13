@@ -91,6 +91,15 @@ The lesson index cards at `decoder/index.html` must also be updated for any newl
 
 When a new equipment category is introduced, add its label, singular adjective, landing-page anchor, and transition description to `decoder/curriculum.json` under `categories`; the navigation generator then creates the right category-switch prompt automatically.
 
+
+### Journey topic links and lesson-release check
+
+The nine `journey/index.html` **Topics to explore** lists are generated from `journey/topic-links.json`, with links only to lessons actually published in `decoder/curriculum.json`. Topics without a suitable lesson stay as plain text. This preserves readable links even when browser JavaScript is disabled.
+
+When publishing a new lesson, **add at least one relevant Journey stage/topic mapping** to `journey/topic-links.json`. The existing `python3 scripts/sync_decoder_navigation.py` command now refreshes Journey topic links as well. To sync only those links, run `python3 scripts/sync_journey_topics.py`; to verify without writing, run `python3 scripts/sync_journey_topics.py --check`.
+
+The existing GitHub Actions site regression checks now fail on every push/PR when a curriculum lesson has no Journey topic mapping, a target lesson or anchor is missing, or the generated links were not committed. That makes it a release check instead of relying on somebody remembering to inspect the Journey page manually.
+
 ## Responsive layout principles
 
 The site's general layout is content-first, not a full-screen title showcase. On desktop, avoid huge blank sections: navigation, lessons and practical material should be visible early. Use the width available on desktop to place graphs alongside explanations, while preserving the mobile stacked layout. The homepage now offers direct learning choices before the longer journey overview. Do not reduce lesson depth just to reduce scroll.

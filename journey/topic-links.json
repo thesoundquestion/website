@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "description": "Editorial topic labels for the nine Journey stages. Links are generated only for published Decoder lessons; unlinked topics stay as plain text.",
+  "steps": {
+    "performance": [
+      {
+        "label": "Microphones",
+        "lesson": "recording-sources"
+      },
+      {
+        "label": "instruments",
+        "lesson": "recording-sources"
+      },
+      {
+        "label": "performances"
+      },
+      {
+        "label": "acoustic spaces",
+        "lesson": "recording-sources"
+      }
+    ],
+    "capture": [
+      {
+        "label": "Mic types",
+        "lesson": "recording-sources"
+      },
+      {
+        "label": "placement",
+        "lesson": "recording-sources"
+      },
+      {
+        "label": "interfaces",
+        "lesson": "recording-sources"
+      },
+      {
+        "label": "gain and recording levels",
+        "lesson": "recording-resolution"
+      }
+    ],
+    "mixing": [
+      {
+        "label": "EQ",
+        "lesson": "mixing-soundstage"
+      },
+      {
+        "label": "panning",
+        "lesson": "mixing-soundstage"
+      },
+      {
+        "label": "stereo width",
+        "lesson": "mixing-soundstage"
+      },
+      {
+        "label": "reverb",
+        "lesson": "mixing-soundstage"
+      },
+      {
+        "label": "compression",
+        "lesson": "mixing-soundstage",
+        "fragment": "#track-dynamics"
+      },
+      {
+        "label": "arrangement",
+        "lesson": "mixing-soundstage"
+      }
+    ],
+    "mastering": [
+      {
+        "label": "Dynamic range",
+        "lesson": "mastering-dynamic-range"
+      },
+      {
+        "label": "compression",
+        "lesson": "mastering-dynamic-range"
+      },
+      {
+        "label": "clipping",
+        "lesson": "mastering-dynamic-range"
+      },
+      {
+        "label": "loudness",
+        "lesson": "mastering-dynamic-range"
+      },
+      {
+        "label": "remasters",
+        "lesson": "mastering-dynamic-range"
+      }
+    ],
+    "medium": [
+      {
+        "label": "Vinyl",
+        "lesson": "playback-sources"
+      },
+      {
+        "label": "CD",
+        "lesson": "playback-sources"
+      },
+      {
+        "label": "FLAC",
+        "lesson": "lossy-lossless"
+      },
+      {
+        "label": "MP3",
+        "lesson": "lossy-lossless"
+      },
+      {
+        "label": "streaming",
+        "lesson": "playback-sources"
+      },
+      {
+        "label": "lossy and lossless audio",
+        "lesson": "lossy-lossless"
+      },
+      {
+        "label": "sample rates",
+        "lesson": "sample-rate"
+      },
+      {
+        "label": "bit depth",
+        "lesson": "bit-depth"
+      }
+    ],
+    "conversion": [
+      {
+        "label": "DACs",
+        "lesson": "dac-specifications"
+      },
+      {
+        "label": "digital filters"
+      },
+      {
+        "label": "turntables",
+        "lesson": "playback-sources"
+      },
+      {
+        "label": "moving-magnet and moving-coil cartridges",
+        "lesson": "playback-sources"
+      },
+      {
+        "label": "source levels",
+        "lesson": "source-levels"
+      }
+    ],
+    "amplification": [
+      {
+        "label": "Tube and transistor designs",
+        "lesson": "amplifier-classes"
+      },
+      {
+        "label": "amplifier classes",
+        "lesson": "amplifier-classes"
+      },
+      {
+        "label": "power",
+        "lesson": "amplifier-power"
+      },
+      {
+        "label": "distortion",
+        "lesson": "amplifier-distortion"
+      },
+      {
+        "label": "separates"
+      },
+      {
+        "label": "headphone output impedance",
+        "lesson": "headphone-output-impedance"
+      }
+    ],
+    "speakers": [
+      {
+        "label": "Driver materials",
+        "lesson": "speaker-drivers"
+      },
+      {
+        "label": "crossovers",
+        "lesson": "speaker-drivers"
+      },
+      {
+        "label": "frequency response",
+        "lesson": "speaker-frequency-response"
+      },
+      {
+        "label": "bass extension",
+        "lesson": "bass-extension"
+      },
+      {
+        "label": "sensitivity",
+        "lesson": "speaker-sensitivity"
+      },
+      {
+        "label": "dispersion",
+        "lesson": "speaker-dispersion"
+      },
+      {
+        "label": "impedance",
+        "lesson": "speaker-impedance"
+      },
+      {
+        "label": "headphones",
+        "lesson": "headphone-types"
+      },
+      {
+        "label": "IEMs",
+        "lesson": "headphone-types"
+      }
+    ],
+    "ears": [
+      {
+        "label": "Room placement",
+        "lesson": "speaker-dispersion"
+      },
+      {
+        "label": "reflections",
+        "lesson": "speaker-dispersion"
+      },
+      {
+        "label": "headphone fit",
+        "lesson": "headphone-frequency-response"
+      },
+      {
+        "label": "headphone sensitivity",
+        "lesson": "headphone-sensitivity"
+      },
+      {
+        "label": "hearing"
+      },
+      {
+        "label": "personal preference"
+      }
+    ]
+  }
+}

@@ -218,3 +218,8 @@ main{flex:1}
 .path-lesson{grid-template-columns:37px minmax(0,1fr);gap:.55rem}.path-content h2{font-size:1.55rem}
 }
 @media(max-width:400px){.journey-cards{grid-template-columns:1fr}}
+
+/* Journey's generated lesson links remain visible and keyboard-accessible. */
+.path-subtopics a{color:#8bddff;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.path-subtopics a:hover{color:#e0f7ff;text-decoration-thickness:2px}
+.path-subtopics a:focus-visible{outline:2px solid #8bddff;outline-offset:3px;border-radius:2px}

@@ -22,5 +22,7 @@ jobs:
           node --check assets/music-waveform-comparisons.mjs
           node --check assets/mixing-track-dynamics.mjs
           for file in system-builder/*.mjs; do node --check "$file"; done
+      - name: Check Journey links against published lessons
+        run: python3 scripts/sync_journey_topics.py --check
       - name: Run site regression tests
         run: node --test tests/*.test.mjs
