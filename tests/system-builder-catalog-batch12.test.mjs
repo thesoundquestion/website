@@ -16,8 +16,8 @@ for(const file of ['../system-check/gear.js','../system-check/compare/specs.js',
 const inventory=sandbox.window.systemBuilderInventory;
 
 test('five new exact passive speakers, two wired headphones supplement original 130 without duplication',()=>{
-  assert.equal(BUILDER_ONLY_SPEAKERS.length,8);
-  assert.equal(BUILDER_ONLY_HEADPHONES.length,2);
+  assert.equal(BUILDER_ONLY_SPEAKERS.length,9);
+  assert.equal(BUILDER_ONLY_HEADPHONES.length,4);
   assert.equal(Object.values(inventory).reduce((n,arr)=>n+arr.length,0),130);
   const seen=new Set();
   for(const r of [...BUILDER_ONLY_SPEAKERS,...BUILDER_ONLY_HEADPHONES]){
