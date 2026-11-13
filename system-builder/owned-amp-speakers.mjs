@@ -12,6 +12,26 @@ import {internationalPriceContextFor, corroboratedInternationalPairPriceFor} fro
  * Checked 2026-11-12. Never charge for the already-owned amplifier.
  */
 export const SPEAKER_IDEAS = Object.freeze([
+  {model:'PSB Alpha P3',goals:['all_rounder','natural','imaging','low_volume'],scenes:['desk','bedroom','living_room'],
+   reason:'A small, well-reviewed passive pair for limited space. Independent listening notes praise midrange clarity and spaciousness, but its four-inch woofer gives up deep-bass capability.',
+   downside:'PSB specifies an 8 Ω nominal and 4 Ω minimum load. Published 85 dB anechoic is not the 87 dB listening-room figure. Its 10–80 W amplifier suggestion is not a damage threshold.',
+   ca:{amount:449,url:'https://www.psbspeakers.com/collections/alpha'}},
+  {model:'PSB Alpha P5',goals:['all_rounder','natural','imaging','bass'],scenes:['bedroom','living_room'],
+   reason:'A larger PSB standmount with multiple independent reports of natural vocals and stable stereo placement. Compare cabinet size and budget against the smaller P3.',
+   downside:'Its 4 Ω published minimum needs a capable amplifier; 60 W program power and 10–90 W recommended amplification are not interchangeable with continuous power handling.',
+   ca:{amount:699,url:'https://www.psbspeakers.com/collections/alpha'}},
+  {model:'Triangle Borea BR03 (passive)',goals:['all_rounder','natural','imaging','dynamic','bass'],scenes:['bedroom','living_room'],
+   reason:'A larger front-ported bookshelf option. Independent reviewers report clear, agile bass and spacious sound, while noting a possible treble emphasis in some setups.',
+   downside:'Manufacturer specifies an 8 Ω nominal but 4.2 Ω minimum; do not pair automatically with 8 Ω-only amplifiers. Passive BR03 is not the powered BR03 CONNECT.',
+   ca:{amount:599,url:'https://ca.trianglehifi.com/en/products/enceinte-bibliotheque-hi-fi-borea-br03-paire'}},
+  {model:'Q Acoustics 3030i',goals:['all_rounder','natural','bass','dynamic'],scenes:['bedroom','living_room'],
+   reason:'The larger original 3030i model is worth comparing for room-filling bass and relaxed presentation; owner impressions vary with room and stand placement.',
+   downside:'6 Ω average, 4 Ω minimum; an 8 Ω-only amplifier is not certified. The original 3030i is distinct from 3030c, and its depth makes narrow shelves awkward.',
+   ca:null},
+  {model:'Klipsch RP-600M II',goals:['all_rounder','dynamic','imaging'],scenes:['bedroom','living_room'],
+   reason:'A newer Reference Premiere horn-and-woofer design with independent and owner reports of lively, high-output playback. Its published in-room sensitivity is not an anechoic measurement.',
+   downside:'Klipsch says 8 Ω compatible but does not publish minimum impedance in the cited sheet; verify the exact reactive load before connecting. Avoid confusing this with the original RP-600M.',
+   ca:null},
   {model:'Polk Signature Elite ES15', goals:['all_rounder','natural','imaging','low_volume'], scenes:['desk','bedroom','living_room'],
    reason:'Compact bookshelf stereo pair for a desk or modest room; worth evaluating for placement, tonal balance and the listening level you need.',
    downside:'Small cabinets will not supply deep bass at arbitrary listening levels. Confirm actual load and clean output, especially with a demanding receiver.',
@@ -116,12 +136,12 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
   const byModel=new Map(BUILDER_ONLY_SPEAKERS.map(x=>[x.model,x]));
   for (const record of catalog)byModel.set(record.model,record);
   const goalsOrder={
-    all_rounder:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','Klipsch R-50M','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i','DALI Oberon 1'],
-    natural:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','Polk Signature Elite ES20','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 3.0 DB63','DALI Oberon 1','Q Acoustics 3010i','Q Acoustics 3020i','Paradigm Titan v3','KEF Q150','Klipsch R-50M','ELAC Debut 2.0 B6.2','JBL Stage 250B'],
-    imaging:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','KEF Q150','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Klipsch R-50M','Q Acoustics 3010i','Q Acoustics 3020i','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Paradigm Titan v3'],
-    dynamic:['Klipsch R-50M','Polk Monitor XT20','Polk Monitor XT15','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Polk Signature Elite ES15','Paradigm Monitor SE Atom','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Paradigm Titan v3','DALI Oberon 1','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i'],
-    bass:['Polk Signature Elite ES20','Polk Monitor XT20','Polk Monitor XT15','ELAC Debut 3.0 DB63','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','Paradigm Monitor SE Atom','Klipsch R-50M','Polk Signature Elite ES15','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i','DALI Oberon 1'],
-    low_volume:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Polk Signature Elite ES20','Q Acoustics 3010i','Q Acoustics 3020i','KEF Q150','Klipsch R-50M','ELAC Debut 3.0 DB63','JBL Stage 250B','Paradigm Titan v3','ELAC Debut 2.0 B6.2']
+    all_rounder:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','Klipsch R-50M','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i','DALI Oberon 1','PSB Alpha P3','PSB Alpha P5','Triangle Borea BR03 (passive)','Q Acoustics 3030i','Klipsch RP-600M II'],
+    natural:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','Polk Signature Elite ES20','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 3.0 DB63','DALI Oberon 1','Q Acoustics 3010i','Q Acoustics 3020i','Paradigm Titan v3','KEF Q150','Klipsch R-50M','ELAC Debut 2.0 B6.2','JBL Stage 250B','PSB Alpha P3','PSB Alpha P5','Triangle Borea BR03 (passive)','Q Acoustics 3030i'],
+    imaging:['Paradigm Monitor SE Atom','Polk Monitor XT15','Polk Monitor XT20','Polk Signature Elite ES15','KEF Q150','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Klipsch R-50M','Q Acoustics 3010i','Q Acoustics 3020i','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Paradigm Titan v3','PSB Alpha P3','PSB Alpha P5','Triangle Borea BR03 (passive)','Klipsch RP-600M II'],
+    dynamic:['Klipsch R-50M','Polk Monitor XT20','Polk Monitor XT15','Polk Signature Elite ES20','ELAC Debut 3.0 DB63','JBL Stage 250B','ELAC Debut 2.0 B6.2','Polk Signature Elite ES15','Paradigm Monitor SE Atom','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Paradigm Titan v3','DALI Oberon 1','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i','Triangle Borea BR03 (passive)','Q Acoustics 3030i','Klipsch RP-600M II'],
+    bass:['Polk Signature Elite ES20','Polk Monitor XT20','Polk Monitor XT15','ELAC Debut 3.0 DB63','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','ELAC Debut 2.0 B6.2','JBL Stage 250B','Paradigm Titan v3','Paradigm Monitor SE Atom','Klipsch R-50M','Polk Signature Elite ES15','KEF Q150','Q Acoustics 3010i','Q Acoustics 3020i','DALI Oberon 1','PSB Alpha P5','Triangle Borea BR03 (passive)','Q Acoustics 3030i'],
+    low_volume:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Polk Signature Elite ES20','Q Acoustics 3010i','Q Acoustics 3020i','KEF Q150','Klipsch R-50M','ELAC Debut 3.0 DB63','JBL Stage 250B','Paradigm Titan v3','ELAC Debut 2.0 B6.2','PSB Alpha P3','PSB Alpha P5']
   };
   const ids=goalsOrder[goal]||goalsOrder.all_rounder;
   // Listener priorities and room come first. Among similarly suitable options,
