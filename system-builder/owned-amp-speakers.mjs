@@ -296,6 +296,12 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     const sceneA=x?.scenes.includes(scene)?0:1;
     const sceneB=y?.scenes.includes(scene)?0:1;
     if(sceneA!==sceneB)return sceneA-sceneB;
+    // After hard electrical and price checks, use secondary priorities to
+    // distinguish otherwise viable candidates. These are editorial tags,
+    // not calibrated sound measurements or a claim of better fidelity.
+    const secondaryA=second.filter(g=>g!==goal&&x?.goals.includes(g)).length;
+    const secondaryB=second.filter(g=>g!==goal&&y?.goals.includes(g)).length;
+    if(secondaryA!==secondaryB)return secondaryB-secondaryA;
     const ownerA=ownerEvidenceTier(a,goal);
     const ownerB=ownerEvidenceTier(b,goal);
     if(ownerA!==ownerB)return ownerA-ownerB;
@@ -395,6 +401,16 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       ownerEvidenceBasis:ownerEvidenceFor(model)?.band || 'spec_led',
       ownedAmpName:screen.ampName,
       speakerValues:record.values,
+      decisionReasons:[
+        ...(idea.goals.includes(goal)?['The primary listening goal is an editorial fit tag, not a measured acoustic score.']:[]),
+        ...(second.filter(g=>idea.goals.includes(g)).length?[
+          'Also considered: '+second.filter(g=>idea.goals.includes(g)).join(', ')+'.']:[]),
+        ...(scene==='party'?['Party context favors efficient speakers, but clean continuous output and coverage remain unknown.']:[]),
+        ...(Number(input.distanceFt)>12?[
+          'A listening distance beyond 12 ft warrants an individual clean-headroom check in System Check.']:[]),
+        ...(firm&&budget!==null&&subtotal===null?[
+          'A qualified local purchase price is unknown; a firm budget is not confirmed.']:[])
+      ],
       partySensitivityEvidence:partyMode?partySpeakerEvidence(record):null
     });
   }
