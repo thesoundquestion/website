@@ -5,6 +5,7 @@ import {createContext,runInContext} from 'node:vm';
 import {BUILDER_ONLY_SPEAKERS,builderOnlySpeakerFor} from '../system-builder/supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES,builderOnlyHeadphoneFor} from '../system-builder/supplemental-headphones.mjs';
 import {ownerEvidenceFor} from '../system-builder/owner-evidence.mjs';
+import {shortlistAmpsForOwnedSpeakers} from '../system-builder/owned-gear-options.mjs';
 import {soundProfileFor} from '../system-builder/sound-profiles.mjs';
 import {SPEAKER_IDEAS,shortlistSpeakersForOwnedAmplifier} from '../system-builder/owned-amp-speakers.mjs';
 import {priceContextFor} from '../system-builder/market-price-context.mjs';
@@ -109,4 +110,16 @@ test('app offers both new owned speaker and owned headphone identity models with
   assert.match(app,/kind==='headphone' \? BUILDER_ONLY_HEADPHONES/);
   assert.match(app,/kind==='headphone' \? builderOnlyHeadphoneFor\(exact\)/);
   assert.match(app,/original System Check presets|existing System Check presets/);
+});
+
+test('owned RP-600M II with unknown nominal load excludes explicit-floor Sony amp',()=>{
+  const speaker={name:'Klipsch RP-600M II',record:builderOnlySpeakerFor('Klipsch RP-600M II')};
+  const result=shortlistAmpsForOwnedSpeakers({
+    own:{speaker},inventory,request:{goal:'dynamic',connection:'analog',region:'CA',currency:'CAD',used:true,budgetStrict:false}
+  });
+  assert.ok(result.selected.length>0);
+  assert.ok(result.excluded.some(x=>x.title==='Sony STR-DH190' && /no verified numeric nominal/.test(x.reason)));
+  assert.ok(!result.selected.some(x=>x.title.includes('Sony STR-DH190')));
+  assert.ok(result.selected.every(x=>x.loadCaution && /Do not connect/.test(x.loadCaution)));
+  assert.ok(result.selected.every(x=>x.reuseNames.includes(speaker.name)));
 });
