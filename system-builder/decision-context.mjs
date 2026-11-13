@@ -17,6 +17,13 @@ const highDemandAtDistance = request => highDemand(request)&&substantialDistance
 const isNearfieldIdea = example =>
   example?.architecture==='active_studio'||String(example?.id||'').startsWith('powered-')||
   example?.id==='powered-ora';
+// Exact-model editorial caveat already backed by the catalog's own product
+// text: the original ORA uses 3-inch mains, not a full-range deep-bass system.
+// Other models require individual extension evidence before similar treatment.
+const compactBassCaveat = (example,request) =>
+  example?.id==='powered-ora' &&
+  request.goal==='bass' &&
+  request.subMode!=='sub_hpf';
 
 const budgetEvidence = (example,request) => {
   if(request.budgetStrict===false||!Number.isFinite(request.budget)||
@@ -51,10 +58,11 @@ export function compareExamplePriorities(a,b,request={},fallbackIndex=()=>0) {
     // documented high-output solution. This is a suitability caution, not a
     // numerical SPL claim.
     const demand=highDemandAtDistance(request)&&isNearfieldIdea(example)?1:0;
+    const bassNeed=compactBassCaveat(example,request)?1:0;
     const moreGoals=-countsSecondary(example,request);
     // For ordinary desk listening, select input-native, room-suitable systems
     // ahead of otherwise similar choices; goal-tag match remains first.
-    return [primary,budget,demand,venue,input,moreGoals];
+    return [primary,budget,demand,bassNeed,venue,input,moreGoals];
   };
   const x=rank(a),y=rank(b);
   for(let i=0;i<x.length;i++) if(x[i]!==y[i])return x[i]-y[i];
@@ -113,6 +121,8 @@ export function explainExampleInteractions(example,request={}) {
     reasons.push('Also tagged for '+secondary.map(x=>x.replaceAll('_',' ')).join(' and ')+'.');
   if(highDemandAtDistance(request)&&isNearfieldIdea(example))
     reasons.push('Clean output beyond 12 ft at the requested level is unverified for this compact/nearfield route.');
+  if(compactBassCaveat(example,request))
+    reasons.push('Without a verified mains high-pass, the original 3-inch ORA speakers cannot be assumed to provide deep bass unaided.');
   if(Number.isFinite(request.budget)&&request.budgetStrict!==false&&
       budgetEvidence(example,request)===1)
     reasons.push('No confirmed within-budget total exists for this region.');
