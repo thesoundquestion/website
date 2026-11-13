@@ -1,4 +1,5 @@
 import {BUDGET_EXAMPLES} from './budget-examples.mjs';
+import {compareExamplePriorities,explainExampleInteractions} from './decision-context.mjs';
 
 /**
  * Editorial, source-linked example systems, not a product leaderboard.
@@ -164,6 +165,13 @@ export function shortlistExamples(input = {}) {
   if(targetArchitectures.includes('passive_separates') &&
     !order.includes('passive-bt20a-xt15'))order.push('passive-bt20a-xt15');
   order=[...new Set(order)];
+  const priorOrder=new Map(order.map((id,index)=>[id,index]));
+  const byId=new Map(EXAMPLES.map(example=>[example.id,example]));
+  // Explicit goal, budget, distance/venue, native input and secondary choices
+  // now jointly influence which examples reach the shortlist. Safety/battery
+  // exclusions below remain absolute; no sound-quality points are assigned.
+  order.sort((a,b)=>compareExamplePriorities(byId.get(a),byId.get(b),input,
+    example=>priorOrder.get(example?.id)??Infinity));
   const max = arch === 'open' ? 4 : 3;
   const allowAffordableFill = strict && budget!==null && targetArchitectures.includes('consumer_powered_pair');
   for (const [iteration,id] of [...order.map(id=>[0,id]),
@@ -188,6 +196,7 @@ export function shortlistExamples(input = {}) {
     const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
     selected.push({ ...product, subtotal, priceComponents:snapshot?.components || [],
       editorialGoalFocus: product.goals.includes(aim),
+      decisionReasons:explainExampleInteractions(product,input),
       secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
       pricingStatus: subtotal === null ? 'regional_price_missing' : 'partial_subtotal',
       priceEvidence:product.priceEvidence||null,
