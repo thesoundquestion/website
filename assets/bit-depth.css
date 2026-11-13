@@ -55,3 +55,29 @@
 @media(max-width:800px){.bd-foundation{grid-template-columns:1fr}.bd-ladder{height:120px}}
 @media(max-width:650px){.bd-master-contrast,.bd-two-up,.bd-demo-stats{grid-template-columns:1fr}.bd-demo-toolbar{display:block}.bd-choice{margin-top:.65rem}.bd-foundation-visual{gap:.6rem}.bd-level-example{padding:.72rem}.bd-legend{font-size:.73rem}.bd-demo{padding:.78rem}.bd-stage{min-height:185px}}
 @media(prefers-reduced-motion:reduce){.bd-choice button,.bd-presets button{transition:none}}
+
+
+/* Music-like sample-resolution comparison: identical mastering at 8/16/24 bit. */
+.bd-song-example{margin:1.25rem 0 1.05rem;border:1px solid #456a80;background:#0c2638;border-radius:12px;overflow:hidden}
+.bd-song-heading{padding:1rem 1.15rem .55rem}
+.bd-song-heading h3{color:#edfbff;margin:0 0 .4rem;font-size:1.03rem}
+.bd-song-heading p{margin:0;color:#cde4ee;line-height:1.7}
+.bd-editor-time{display:flex;justify-content:space-between;margin:.6rem 1rem .25rem 9.35rem;color:#adc8d5;font-size:.72rem;letter-spacing:.015em}
+.bd-editor-row{--wave-color:#8fd2e9;display:grid;grid-template-columns:8.2rem minmax(0,1fr);align-items:center;gap:.65rem;border-top:1px solid #31526a;padding:.5rem .9rem}
+.bd-editor-row[data-music-bit-depth="8"]{--wave-color:#eac18d}
+.bd-editor-row[data-music-bit-depth="16"]{--wave-color:#88d1e9}
+.bd-editor-row[data-music-bit-depth="24"]{--wave-color:#a6dfa6}
+.bd-editor-label h3{margin:0 0 .18rem;color:#ecf9fd;font-size:.93rem}
+.bd-editor-label p{margin:0;font-size:.77rem;line-height:1.43;color:#bad2df}
+.bd-editor-row svg{display:block;width:100%;height:auto;min-height:64px;max-height:95px;border-radius:5px;background-color:#0a1e30;background-image:linear-gradient(90deg,#5d7d843c 1px,transparent 1px);background-size:20% 100%;border:1px solid #355b74}
+.bd-editor-center{fill:none;stroke:#a9c5d95c;stroke-width:.8}
+.bd-editor-ink{fill:none;stroke:var(--wave-color);stroke-width:1.9;stroke-linecap:round}
+.bd-song-caption{color:#e1f2f9;line-height:1.7;font-size:.92rem;margin:.6rem 1.15rem .3rem}
+.bd-song-method{color:#b5d2e1;font-size:.8rem;line-height:1.66;margin:.25rem 1.15rem 1rem}
+@media(max-width:650px){
+ .bd-editor-row{grid-template-columns:1fr;gap:.28rem;padding:.65rem}
+ .bd-editor-time{margin:.55rem .65rem}
+ .bd-editor-label{display:flex;gap:.35rem;flex-wrap:wrap;align-items:baseline}
+ .bd-editor-label p{margin:0}
+ .bd-editor-row svg{min-height:52px}
+}

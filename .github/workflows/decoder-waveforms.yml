@@ -1,0 +1,25 @@
+name: Decoder waveform regression
+on:
+  push:
+    branches:
+      - feature/decoder-realistic-waveforms-20261113
+      - main
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify waveform module syntax
+        run: |
+          node --check assets/music-waveform-comparisons.mjs
+          node --check assets/mixing-track-dynamics.mjs
+      - name: Run site regression tests
+        run: node --test tests/*.test.mjs
