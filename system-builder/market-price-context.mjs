@@ -10,6 +10,33 @@
  * Source observations manually checked 2026-11-12.
  */
 export const CANADIAN_PAIR_PRICE_OBSERVATIONS=Object.freeze({
+  'PSB Alpha P3':{
+    label:'New regular listed pair CA$449',
+    notes:'PSB Canada, Gibbys, Audioshop and Vinyl Sound list the exact two-speaker P3 pair at CA$449. Ordinary advertised pair reference, not a completed-sale median or guaranteed in-stock offer; a recertified discount is separate.',
+    regular:[
+      {amount:449,merchant:'PSB Speakers (Canada)',url:'https://www.psbspeakers.com/collections/alpha',unit:'pair'},
+      {amount:449,merchant:'Gibbys Electronics',url:'https://gibbyselectronicsupermarket.ca/collections/audio-theatre/products/psb-alpha-p3-bookshelf-speakers-pair',unit:'pair'},
+      {amount:449,merchant:'Audioshop Ontario',url:'https://audioshop.on.ca/collections/psb/products/psb-alpha-p3-bookshelf-speakers',unit:'pair'},
+      {amount:449,merchant:'Vinyl Sound Canada',url:'https://vinylsound.ca/products/psb-alpha-p3',unit:'pair'}
+    ]
+  },
+  'PSB Alpha P5':{
+    label:'New regular listed pair CA$699',
+    notes:'PSB Canada and two unrelated Canadian retailers list CA$699 per original Alpha P5 stereo pair. The Audio Factory has separately advertised recertified/temporary offers; those do not become the ordinary new price.',
+    regular:[
+      {amount:699,merchant:'PSB Speakers (Canada)',url:'https://www.psbspeakers.com/collections/alpha',unit:'pair'},
+      {amount:699,merchant:'Gibbys Electronics',url:'https://gibbyselectronicsupermarket.ca/products/psb-alpha-p5-bookshelf-speakers-pair',unit:'pair'},
+      {amount:699,merchant:'Audioshop Ontario',url:'https://audioshop.on.ca/collections/psb',unit:'pair'}
+    ]
+  },
+  'Triangle Borea BR03 (passive)':{
+    label:'New regular listed pair CA$599',
+    notes:'Triangle Canada and unrelated EQ Audio Video list the passive BR03 stereo pair at CA$599. The actively amplified BR03 CONNECT is NOT included. This is two advertised reference asks, not a statistically measured transaction median.',
+    regular:[
+      {amount:599,merchant:'Triangle Canada',url:'https://ca.trianglehifi.com/en/products/enceinte-bibliotheque-hi-fi-borea-br03-paire',unit:'pair'},
+      {amount:599,merchant:'EQ Audio Video',url:'https://eqaudio.ca/bookshelf-speakers/triangle-borea-br03-bookshelf-speakers-pair/',unit:'pair'}
+    ]
+  },
   'Polk Monitor XT15':{
     label:'New regular listed pair CA$249',
     notes:'Manufacturer, Visions and Crutchfield each list the exact two-speaker XT15 pair for CA$249. It is a regular retail asking reference, not a guaranteed in-stock transaction price or cross-country price median.',
