@@ -119,6 +119,13 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     const record=(inventory.amp||[]).find(x=>x.model===idea.model);
     if(!record)continue;
     const screen=ampSpeakerScreening({name:idea.model,record});
+    // Symmetric with the owned-amplifier speaker filter: a manufacturer
+    // minimum nominal load cannot be satisfied by an unverified label.
+    if(!Number.isFinite(nominal)&&screen.explicitNominalFloor){
+      excluded.push({title:idea.model,reason:idea.model+' specifies at least '+
+        screen.explicitNominalFloor+' Ω nominal load. The owned speaker has no verified numeric nominal impedance, so this combination must not be recommended.'});
+      continue;
+    }
     if(Number.isFinite(nominal)&&nominal<screen.discoveryFloor){
       excluded.push({title:idea.model,reason:'Speaker nominal '+nominal+' Ω is below the conservative '+screen.discoveryFloor+' Ω discovery threshold.'});continue;
     }
@@ -145,6 +152,9 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       ],amplifierSource:rationale.source,
       amplifierFit:fit,amplifierFitRank:fit.sortValue,
       tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
+      loadCaution:!Number.isFinite(nominal) ?
+        'Your '+speaker.name+' has no verified nominal impedance. Do not connect to '+idea.model+
+        ' until the actual load and amplifier manual permissions are confirmed.' : null,
       parts,subtotal:price,priceComponents:price===null?[]:[{label:idea.model,amount:price,url:idea.url}],
       pricingStatus:price===null?'regional_price_missing':'partial_subtotal',
       sceneCaution:request.useCase==='party'||request.useCase==='outdoors',levelCaution:request.level==='high',
