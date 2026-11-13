@@ -5,7 +5,7 @@
  * All four rows use the same time positions before and after a separate,
  * illustrative track-level compression choice.
  */
-const DURATION = 4.8;
+// Fictional common beat grid: quarter notes at 0.5 s, eighth-note guitar\n// strums every 0.25 s, snare on beats 2 and 4, cymbal accents on bars.\nconst DURATION = 4.8;
 const WIDTH = 720;
 const HEIGHT = 80;
 const TRACKS = ['guitar', 'bass', 'snare', 'cymbals'];
@@ -44,11 +44,11 @@ export function trackWaveLevel(track, time, mode = 'before') {
   let raw;
   switch (track) {
     case 'guitar':
-      raw = (0.16 + 0.66 * pulse(t, 0.8, 2.1)) *
+      raw = (0.16 + 0.66 * pulse(t, 0.25, 2.1)) *
         (0.75 + 0.2 * Math.sin(t * 2.6) ** 2);
       break;
     case 'bass':
-      raw = (0.09 + 0.75 * pulse(t + 0.07, 0.6, 3.1)) *
+      raw = (0.09 + 0.75 * pulse(t + 0.03, 0.5, 3.1)) *
         (0.86 + 0.12 * Math.cos(t * 3.1) ** 2);
       break;
     case 'snare':
