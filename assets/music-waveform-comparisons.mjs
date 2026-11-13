@@ -64,8 +64,11 @@ function masters() {
     (_,i)=>syntheticMusicSample(i/RATE));
   const originalPeak=peak(source);
   const unprocessed=scale(source,0.95/originalPeak);
-  const moderateRaw=compress(source,0.24,2.7,0.004,0.10);
-  const heavyRaw=compress(source,0.11,7,0.0015,0.065);
+  // Fast attack on this illustration's brief transients is essential:
+  // slower settings would lower sustained body without catching the peaks,
+  // mis-teaching how a peak-limited master differs from a dynamic one.
+  const moderateRaw=compress(source,0.24,2.7,0.00015,0.025);
+  const heavyRaw=compress(source,0.065,10,0.00002,0.015);
   const peakMatched={
     dynamic:unprocessed,
     moderate:scale(moderateRaw,0.95/peak(moderateRaw)),
