@@ -81,3 +81,21 @@ test('non-party priorities do not silently inherit party-tower ranking',()=>{
   assert.notEqual(r.selected[0].title,'Cerwin-Vega XLS-215');
   assert.ok(r.selected.every(x=>!x.partySensitivityEvidence));
 });
+
+test('a party listening goal does not automatically discard a reusable owned amplifier',()=>{
+  const own={speaker:{name:'',record:null},amp:amp('Yamaha A-720'),
+    source:{name:'',record:null},headphone:{name:'',record:null}};
+  const r=ownershipPlan({own,request,inventory});
+  assert.equal(r.mode,'keep_amp');
+  assert.equal(r.selected[0].title,'Cerwin-Vega XLS-215');
+  assert.ok(r.selected[0].reuseNames.includes('Yamaha A-720'));
+  assert.ok(!r.selected[0].pathwayCaution);
+});
+
+test('an explicit party PA architecture still treats the owned stereo as a separate path',()=>{
+  const own={speaker:{name:'',record:null},amp:amp('Yamaha A-720'),
+    source:{name:'',record:null},headphone:{name:'',record:null}};
+  const r=ownershipPlan({own,request:{...request,architecture:'party_pa'},inventory});
+  assert.equal(r.mode,'keep_separate_amp');
+  assert.match(r.selected[0].pathwayCaution,/separate passive stereo route/);
+});
