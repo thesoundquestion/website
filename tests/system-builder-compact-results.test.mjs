@@ -20,10 +20,12 @@ test('first three product options appear before extra options are expandable', (
 test('card structure keeps reasons, price and urgent warnings above optional details', () => {
   const start = app.indexOf("const renderCard = item =>");
   const more = app.indexOf("const details = el('details','sb-card-details');",start);
-  const warning = app.indexOf("item.id === 'passive-rs202-p3'",start);
+  const warning = app.indexOf("if (item.loadCaution)",start);
   const price = app.indexOf("const price = el('div','sb-card-price');",start);
   assert.ok(start>=0&&price>start&&warning>price&&more>warning);
-  assert.match(app,/Not a confirmed safe pairing/);
+  assert.match(app,/item\.loadCaution/);
+  assert.match(app,/sb-card-alert/);
+  assert.doesNotMatch(app,/item\.id === 'passive-rs202-p3'/);
   assert.match(app,/item.connectionStatus === 'adapter_needed'/);
 });
 
