@@ -5,6 +5,7 @@
 import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier,ampSpeakerScreening} from './owned-amp-speakers.mjs';
 import {assessAmplifierCandidate} from './amplifier-fit.mjs';
+import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 
 const kinds=['speaker','amp','source','headphone'];
 const has=x=>Boolean(x?.name);
@@ -57,6 +58,10 @@ function existingPair(own,request) {
   return attach(item,own,use,message);
 }
 const amps=[
+  {model:'Fosi Audio BT20A Pro',inputs:['analog','bluetooth'],
+    price:189.99,url:'https://soulfi-audio.ca/product/fosi-audio-bt20a-pro-bluetooth-amplifier/'},
+  {model:'Fosi Audio V3 Stereo',inputs:['analog']},
+  {model:'AIYIMA A07 MAX Stereo',inputs:['analog']},
   {model:'Yamaha A-S301',inputs:['analog','optical'],price:649.95,url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},
   {model:'Yamaha A-S501',inputs:['analog','optical']},
   {model:'Cambridge Audio CXA61',inputs:['analog','optical']},
@@ -116,7 +121,8 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
   const minimum=speaker.record?.values?.minimum;
   const selected=[],excluded=[];
   for(const idea of amps) {
-    const record=(inventory.amp||[]).find(x=>x.model===idea.model);
+    const record=(inventory.amp||[]).find(x=>x.model===idea.model)||
+      builderOnlyAmpFor(idea.model);
     if(!record)continue;
     const screen=ampSpeakerScreening({name:idea.model,record});
     // Symmetric with the owned-amplifier speaker filter: a manufacturer
@@ -138,14 +144,16 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     }
     const rationale=explainAmplifierChoice({idea,record,speaker,request});
     const fit=assessAmplifierCandidate({idea,record,speaker,request});
-    const message=rationale.summary;
+    const message=rationale.summary+
+      (!fit.amp.exact ?
+        ' The compact amp has no verified matching-load continuous power measurement; do NOT substitute its advertised maximum watts or bare THD figure.' : '');
     const used=['speaker'];const parts=[part(speaker,'Already owned; no new speaker purchase'),
       {name:idea.model,count:1,role:'Only new amplifier candidate, subject to verification',url:record.url}];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned source, connection check required'));}
     selected.push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       title:speaker.name+' + '+idea.model,kind:'Keep your speakers · add an amplifier',
       architecture:'passive_separates',soundTarget:speaker.name,why:message,
-      amplifierReason:rationale.summary,amplifierEvidence:[
+      amplifierReason:message,amplifierEvidence:[
         ...rationale.evidence,fit.powerNote,fit.headroomNote,fit.distortionNote,
         ...[fit.ownerNote,fit.peakNote].filter(Boolean),
         'Ordering considers load and test-condition evidence plus practical power fit, not an audible-quality score. Use System Check for required listening level.'
@@ -157,14 +165,26 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
         ' until the actual load and amplifier manual permissions are confirmed.' : null,
       parts,subtotal:price,priceComponents:price===null?[]:[{label:idea.model,amount:price,url:idea.url}],
       pricingStatus:price===null?'regional_price_missing':'partial_subtotal',
+      priceEvidence:idea.model==='Fosi Audio BT20A Pro'?
+        'corroborated_ordinary_CAD_asking_32V_PSU_variant_check':null,
       sceneCaution:request.useCase==='party'||request.useCase==='outdoors',levelCaution:request.level==='high',
       extra:[sourceNote(own,idea.inputs),
         'Published amplifier continuous-test loads: '+record.ratings.filter(x=>x[2]==='continuous').map(x=>x[1]+' Ω').join(', ')+'. Test loads are not blanket permission for every speaker.',
         'Check the speaker’s impedance minimum/phase, amplifier manual, clean output at the seat and connections.']},
       own,used,message));
   }
-  selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
-    a.title.localeCompare(b.title));
+  selected.sort((a,b)=>{
+    // Under a firm budget, favour a corroborated locally priced affordable
+    // candidate over a potentially expensive unpriced amp, without awarding
+    // it an invented sound or continuous-output rating.
+    if(request.budgetStrict!==false&&Number.isFinite(request.budget)){
+      const knownA=a.subtotal!==null&&a.subtotal<=request.budget?0:1;
+      const knownB=b.subtotal!==null&&b.subtotal<=request.budget?0:1;
+      if(knownA!==knownB)return knownA-knownB;
+    }
+    return b.amplifierFitRank-a.amplifierFitRank ||
+      a.title.localeCompare(b.title);
+  });
   return {selected:selected.slice(0,3),excluded,mode:'keep_speakers'};
 }
 function keepHeadphone(own,request){
