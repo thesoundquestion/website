@@ -246,7 +246,10 @@ function comparisonReasons(own,request){
 export function ownershipPlan({own={},request={},inventory={}}={}){
   if(!owned(own).length)return null;
   const arch=request.architecture||'open';
-  const event=arch==='party_pa'||request.useCase==='party'||request.goal==='party'||request.power==='battery';
+  // A loud/party listening GOAL is not a request to discard a working
+  // passive stereo. Only an explicit PA architecture or mandatory battery
+  // requirement forces the separate-event-system treatment.
+  const event=arch==='party_pa'||request.power==='battery';
   const headphonePath=arch==='headphone_first'||(arch==='open'&&!has(own.speaker)&&!has(own.amp)&&has(own.headphone));
   let plan;
   if(headphonePath&&has(own.headphone))plan={selected:[keepHeadphone(own,request)],excluded:[],mode:'keep_headphones'};
