@@ -1,4 +1,4 @@
-name: Decoder waveform regression
+name: Site regression
 on:
   push:
     branches:
@@ -17,9 +17,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify waveform module syntax
+      - name: Verify frontend module syntax
         run: |
           node --check assets/music-waveform-comparisons.mjs
           node --check assets/mixing-track-dynamics.mjs
+          for file in system-builder/*.mjs; do node --check "$file"; done
       - name: Run site regression tests
         run: node --test tests/*.test.mjs
