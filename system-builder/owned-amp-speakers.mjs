@@ -192,6 +192,14 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     // Missing load information must not automatically prevent discovery.
     // It does require a plainly visible do-not-connect-before-check warning.
     const loadUnknown=!Number.isFinite(nominal);
+    // Explicit manufacturer nominal-load floors require a verified speaker
+    // nominal figure, not marketing wording like "8 ohm compatible."
+    if(loadUnknown && screen.explicitNominalFloor) {
+      excluded.push({title:model,reason:'The '+screen.ampName+
+        ' requires a verified nominal load of at least '+screen.explicitNominalFloor+
+        ' Ω. Speaker impedance is unknown; do not propose this pairing until verified.'});
+      continue;
+    }
     // Conservative screening; insufficient documentation never becomes "safe".
     if(!loadUnknown && nominal<screen.discoveryFloor) {
       excluded.push({title:model,reason:'Nominal load below the conservative amplifier search limit ('+screen.discoveryFloor+' Ω). Not a definitive safety determination.'});continue;
@@ -215,7 +223,10 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     }
     if(selected.length>=5)continue; // Continue checking exclusions even once the visible shortlist is full.
     const caution=loadUnknown ?
-      'This speaker’s nominal load is not verified. Do NOT connect to '+screen.ampName+' until its load and the amplifier manufacturer’s permission are confirmed.' :
+      'This speaker’s nominal load is not verified. Your amplifier has '+
+      (screen.minPublishedTestOhms??'no verified')+
+      ' Ω published continuous-load test data, which does not establish compatibility. Do NOT connect to '+
+      screen.ampName+' until the load and manufacturer permission are confirmed.' :
       screen.explicitNominalFloor ?
       'Your '+screen.ampName+' manufacturer load guidance still needs checking against the speaker’s full impedance curve; a nominal '+nominal+' Ω label is not a safety certificate.' :
       'Your amplifier has '+(screen.minPublishedTestOhms??'no verified')+' Ω published continuous-load test data; that is NOT a promise of compatibility with this speaker’s unknown phase/minimum or your volume.';
