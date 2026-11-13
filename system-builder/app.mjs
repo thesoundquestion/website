@@ -1,6 +1,6 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {shortlistExamples} from './recommendations.mjs';
-import {shortlistSpeakersForOwnedAmplifier} from './owned-amp-speakers.mjs';
+import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
@@ -221,10 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
       budget:Number.isFinite(budget) ? budget : null,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
     };
+    const partyPassiveRoute=(primary==='party'||useCase==='party') &&
+      arch==='passive_separates' && powered!=='battery';
     const ownership = anyOwned ? ownershipPlan({own,request,inventory}) : null;
     const shortlist = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
-      : shortlistExamples(request));
+      : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request));
     const displayCurrency=['CAD','USD','GBP','EUR','AUD'].includes(currency)?currency:'CAD';
     const priceLocale={CAD:'en-CA',USD:'en-US',GBP:'en-GB',EUR:'en-IE',AUD:'en-AU'}[displayCurrency];
     const priceFormat = value => new Intl.NumberFormat(priceLocale,
@@ -439,6 +441,30 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(shop,'p',speakerFocus ?
         'No speaker candidate from the current curated catalog passed the conservative load and known-price checks. Recheck the amplifier manual and your budget rather than assuming an unverified match.' :
         'No example meets the chosen architecture, power and known-price limits. Try a different route or investigate local used options.','sb-report-note');
+    }
+    // Show passive high-efficiency leads next to the event/PA route without
+    // pretending that an unpriced speaker pair is a complete party system.
+    // Existing owned speakers/amps are not automatically replaced here.
+    if ((primary==='party'||useCase==='party') &&
+        (arch==='open'||arch==='passive_separates') &&
+        powered!=='battery' && !own.speaker.name && !own.amp.name &&
+        arch!=='passive_separates') {
+      const leads=shortlistPartySpeakerLeads({speakers:inventory?.speaker}).slice(0,3);
+      if(leads.length){
+        const subsection=el('div','sb-party-speaker-leads');
+        addText(subsection,'h4','High-sensitivity passive speaker alternatives');
+        addText(subsection,'p','For a mains-powered stereo party setup, these are speaker-only research leads, not complete systems. Each needs a separately checked amplifier, source, cables and full budget. Manufacturer sensitivity is not clean maximum SPL.','sb-brief-note');
+        const entries=el('ul');
+        for(const lead of leads){
+          const li=el('li');
+          addText(li,'strong',lead.model+' · '+lead.evidence.label+'. ');
+          li.append(document.createTextNode('Compare amplifier load, clean output at your distance, space and ordinary pair price. '));
+          link(li,lead.url,'Model specification');
+          entries.append(li);
+        }
+        subsection.append(entries);
+        shop.append(subsection);
+      }
     }
     if (shortlist.excluded.length && budget !== null) {
       const excluded = el('details','sb-more');
