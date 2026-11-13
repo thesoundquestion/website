@@ -88,10 +88,13 @@ test('battery-required open search presents battery event options rather than ma
   assert.ok(x.selected.length);
   assert.ok(x.selected.every(i=>i.architecture==='party_pa'&&i.power==='battery'));
 });
-test('imaging and bass priorities lead to different example sets without match scores',()=>{
+test('different primary goals remain relevant even when one suitable example meets both',()=>{
   const imaging=shortlistExamples({...defaults,goal:'imaging'});
   const bass=shortlistExamples({...defaults,goal:'bass'});
-  assert.notEqual(imaging.selected[0].id,bass.selected[0].id);
+  // A well-suited product can legitimately meet more than one main priority.
+  // Do not manufacture divergent recommendations solely for appearance.
+  assert.ok(imaging.selected[0].goals.includes('imaging'));
+  assert.ok(bass.selected[0].goals.includes('bass'));
   assert.ok(imaging.selected.every(i=>!('matchScore' in i)));
   assert.ok(bass.selected.every(i=>!('matchScore' in i)));
 });
