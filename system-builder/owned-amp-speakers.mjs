@@ -192,7 +192,14 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     const idea=SPEAKER_IDEAS.find(x=>x.model===model);
     const record=byModel.get(model);
     if(!idea || !record)continue;
-    if(idea.usedOnly&&!allowedUsed)continue;
+    // Do not convert historic classified asking examples into a "buy now"
+    // recommendation. Vintage speakers remain selectable when already owned;
+    // acquisition advice belongs in a condition-first evergreen watchlist.
+    if(idea.usedOnly){
+      if(allowedUsed)excluded.push({title:model,
+        reason:'Used vintage research target only. No current listing, dependable transaction price or verified condition is assumed. Keep an eye out and inspect individually.'});
+      continue;
+    }
     const nominal=record.values?.load;
     // Missing load information must not automatically prevent discovery.
     // It does require a plainly visible do-not-connect-before-check warning.
