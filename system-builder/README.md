@@ -146,3 +146,23 @@ Private governing research: [Batch 10 affordable speaker coverage](https://githu
 **Release boundary:** Feature branch only, PR #1 remains draft/unmerged. Production site and System Check calculators were not changed. Latest-revision real mobile, keyboard and screen-reader/browser-flow checks and rights/advertising review are still outstanding.
 
 Private report: https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_REGIONAL_PRICING_AND_BROWSER_FIX_BATCH_11_2026_11_12.md .
+
+## v1.1 preview · Sourced gear library expansion, Batch 12 (2026-11-12)
+
+The Builder's catalog now exposes **130 original read-only System Check records + 8 independent Builder-only passive speaker records + 2 Builder-only wired headphone records = 140 named selectable identities**. This batch added **five passive speakers and two wired headphones** without editing, renaming, or silently overriding System Check source records. The curated passive speaker recommendation set is now **21 models** (previously 16), with **18 linked exact-model owner-experience records** (previously 15). Further unapproved research-only candidates remain staged in the private research repo.
+
+| New model | Field anchors and restrictions |
+| --- | --- |
+| PSB Alpha P3 | 8Ω nominal / 4Ω minimum; 85dB anechoic versus 87dB in-room; 10–80W suggested amp / 60W program. No numerical sensitivity value imported without an explicit comparable 2.83V or 1W basis. Ordinary Canadian stereo pair asking ~CA$449 from multiple independent dealers. |
+| PSB Alpha P5 | 8Ω nominal / 4Ω minimum; 87dB anechoic vs 89dB in-room; 10–90W suggested amp / 60W program. The program rating is not a continuous damage limit. Ordinary Canadian pair asks ~CA$699. |
+| Triangle Borea BR03 (passive) | 8Ω nominal, 4.2Ω actual minimum, 90dB/1W/m manufacturer basis, 46Hz–22kHz ±3dB. Current maker website reports 100W handling; an older Triangle technical sheet states 90W RMS. Therefore do **not** import one unconditional speakerPowerNominal number for amplifier headroom calculations until revision-specific evidence resolves the conflict. Ordinary CA pair asks ~CA$599; not the powered BR03 CONNECT. |
+| Q Acoustics 3030i (original) | 6Ω average / 4Ω minimum, 88dB/2.83V/1m, 25–75W recommended stereo amplifier, not continuous speaker handling; different from 3030c. No representative regional pair price established, so unknown remains unknown. |
+| Klipsch RP-600M II | 100W continuous / 400W peak manufacturer handling; maker says 8Ω **compatible** without verified nominal/minimum load. Its 94.5dB sensitivity is in-room/half-space, not anechoic. Do not fill `values.load` or `values.sensitivity` using those non-equivalent claims. |
+| AKG K371 | Original wired 32Ω closed-back; 114dB SPL/V at 1kHz; selection as *owned* equipment, not an automatic buy recommendation. |
+| FiiO FT1 | Original wired 32Ω closed-back; 113dB/V at 1kHz, equivalent separate 98dB/mW basis; different from FT1 Pro, never assume direct headphone compatibility with a line-level DAC. |
+
+**Safety fix identified by full regression:** When an amplifier has an *explicit manufacturer speaker-load floor* (e.g. Yamaha R-S202's 8Ω nominal minimum), a speaker whose nominal impedance is unverified is excluded from that specific pairing's recommendations instead of passed through with a potentially overlooked warning. That does not ban the speaker from discovery with other amps, and missing evidence never becomes a made-up numeric value. This is especially relevant to the Klipsch “8Ω compatible” wording.
+
+**Experience and prices:** Added linked original editorial paraphrases of model-specific independent reviews and contrasted firsthand owner accounts for Triangle BR03, Q Acoustics 3030i, Klipsch RP-600M II. New CA$449/699/599 prices are supported by at least two distinct independent seller/manufacturer domains and are **normal advertised stereo-pair price observations**, not lowest clearance, final transaction price, current in-stock guarantee, or a statistical national mean. US/UK/AU/EU amounts remain unverified for these models. No customer quotes, restricted measurement charts, scraped datasets or invented preference scores are republished.
+
+**Test plan/results:** `node --check system-builder/*.mjs` (run per file), `node --test tests/system-builder-catalog-batch12.test.mjs` and the complete `node --test tests/*.test.mjs` passed **236/236** after adjusting two obsolete count tests and fixing the previously exposed unknown-load hard gate. Small-screen live browser, keyboard and current head GitHub Actions / Cloudflare preview remain separate release checks. Feature branch only; draft PR #1 stays unmerged. Do not modify the original System Check calculations or auto-release to production.
