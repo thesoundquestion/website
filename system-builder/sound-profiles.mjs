@@ -7,6 +7,31 @@ import {ownerEvidenceFor} from './owner-evidence.mjs';
  * Checked 2026-11-12. Exact model/revision matters. Unknown stays unknown.
  */
 export const SOUND_PROFILES = Object.freeze({
+  'PSB Alpha P3':{
+    text:'A SoundStage independent audition describes open, clean mids and treble beyond its compact dimensions, but limited deep-bass output. A small room or subwoofer may suit it better.',
+    type:'Independent model-specific listening review',
+    url:'https://www.soundstagehifi.com/index.php/equipment-reviews/2-uncategorised/1259-psbs-alpha-p3-loudspeaker-paul-barton-aims-for-high-sound-quality-at-a-very-low-price'
+  },
+  'PSB Alpha P5':{
+    text:'Several independent reviews describe natural vocals and coherent stereo placement with a smooth, slightly warm presentation. Bass is respectable for the enclosure, not subwoofer-deep.',
+    type:'Multiple independent listening reviews',
+    url:'https://www.soundstageaccess.com/index.php/equipment-reviews/959-psb-alpha-p5-loudspeakers'
+  },
+  'Triangle Borea BR03 (passive)':{
+    text:'A model-specific audition found agile bass and a spacious presentation with some treble emphasis; listeners vary in preference with placement and electronics.',
+    type:'Independent listening review and separate owner accounts',
+    url:'https://www.whathifi.com/reviews/triangle-borea-br03'
+  },
+  'Q Acoustics 3030i':{
+    text:'One independent review describes controlled bass, relaxed tonal balance and good scale; owners disagree about how punchy bass feels in different rooms.',
+    type:'Independent listening review and varied owner accounts',
+    url:'https://www.whathifi.com/reviews/q-acoustics-3030i'
+  },
+  'Klipsch RP-600M II':{
+    text:'An independent review describes better composure than the prior RP-600M. Published in-room sensitivity is not a calibrated anechoic comparison; some owners value toe-in and grille changes.',
+    type:'Independent listening review and owner accounts',
+    url:'https://www.erinsaudiocorner.com/loudspeakers/klipsch_rp_600m_ii/'
+  },
   'passive-rs202-p3': {
     text:'PSB describes the compact P3 as balanced and clear, but no independent listening profile has been verified for this preview. Its small cabinet cannot promise deep bass.',
     type:'Manufacturer description only', url:'https://content-psbspeakers-com.s3.amazonaws.com/uploads/2021/03/PSB_Alpha-P3-Data-Sheet.pdf'
