@@ -304,8 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Only material blockers and urgent caveats interrupt the skim view.
       if (item.loadCaution)
         addText(card,'p',item.loadCaution,'sb-card-alert');
-      else if (item.id === 'passive-rs202-p3')
-        addText(card,'p','Check speaker load: P3 minimum 4 Ω; R-S202 specifies 8 Ω+. Not a confirmed safe pairing.','sb-card-alert');
       else if (item.connectionStatus === 'adapter_needed')
         addText(card,'p','Your chosen source connection needs extra hardware.','sb-card-alert');
       else if (item.sourceBatteryCaution)
@@ -335,10 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const line=addText(details,'p',p.merchant+': '+priceFormat(p.amount)+' per stereo pair (promotion, not the normal reference)','sb-card-reference');
           link(line,p.url,'Source');
         }
-        for (const p of item.marketContext.usedAsks || []) {
-          const line=addText(details,'p',p.date+': '+priceFormat(p.amount)+' asked · '+p.condition+'. Listed/sold-marked does not confirm the paid amount.','sb-card-reference');
-          link(line,p.url,'Source');
-        }
+        // Individual classifieds are intentionally NOT displayed as recommendation evidence.
         for (const p of item.marketContext.selfReportedPaid || []) {
           const line=addText(details,'p',p.date+': '+priceFormat(p.amount)+' self-reported purchase · not independently verified.','sb-card-reference');
           link(line,p.url,'Source');
