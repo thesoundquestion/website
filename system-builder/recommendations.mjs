@@ -130,7 +130,7 @@ export const EXAMPLES = Object.freeze([
     priceCA:null
   },
   {
-    id: architecture:'passive_separates', title:'Used-equipment watchlist: Yamaha RX-485 + Paradigm Titan v3',
+    id:'legacy-used-bundle-not-recommended', architecture:'passive_separates', title:'Used-equipment watchlist: Yamaha RX-485 + Paradigm Titan v3',
     kind:'Research used listings individually', places:['living_room','bedroom'], power:'mains',
     connections:['analog'],goals:['all_rounder','natural','low_volume'],
     usedOnly:true,
