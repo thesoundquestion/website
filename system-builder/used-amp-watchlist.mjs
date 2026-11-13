@@ -1,3 +1,5 @@
+import {DENON_S650H_INPUTS, DENON_S650H_MANUAL, DENON_S650H_NAME} from './stereo-subwoofer-examples.mjs';
+
 /**
  * Evergreen second-hand AMPLIFIER search targets, not used sale listings.
  * Prices are intentionally null; a quoted live ask is never a typical sale.
@@ -24,6 +26,11 @@ export const USED_AMPLIFIER_WATCHLIST=Object.freeze([
    evidence:'Denon North American manual: 45 W/channel at 8 Ω, 20 Hz–20 kHz, THD 0.07%; speaker terminals 4–16 Ω nominal.',
    source:'https://manuals.denon.com/pma600ne/na/en/OBAOSYxljoeltq.php',
    checks:'Test optical, Bluetooth, phono, both channels, mute and protection. Confirm original region and clean level; published wattage alone is not a speaker match.'},
+  {model:DENON_S650H_NAME,type:'AV receiver',markets:['CA','US'],inputs:DENON_S650H_INPUTS,
+   audience:'Useful for a TV and passive stereo pair when you also want an adjustable subwoofer crossover.',
+   evidence:'The 120 V version supports 4–16 Ω speakers with the correct setting. Front speakers set to Small can hand low bass to the sub.',
+   source:DENON_S650H_MANUAL,
+   checks:'Confirm the remote, front speaker outputs, subwoofer pre-out and the input you will use. Check HDMI with your TV if needed.'},
   {model:'Onkyo A-9010',type:'Integrated amplifier',audience:'Entry integrated model, if found in the right regional configuration.',
    evidence:'North American Onkyo owner manual specifies 44 W/channel at 8 Ω, 1 kHz, 0.08% THD; 4 Ω uses different test conditions.',
    source:'https://assets.onkyo-av.com/product-manuals/A-9010_En_29402015_150114_web_2022-11-02-203828_sdfw.pdf',
@@ -37,9 +44,10 @@ export const USED_AMPLIFIER_WATCHLIST=Object.freeze([
    source:'https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s202/specs.html',
    checks:'Do not pair by nominal 8 Ω marketing label alone when speaker impedance dips strongly. Check full load, A/B speaker use, Bluetooth/inputs, remote and both channels.'}
 ].map(x=>Object.freeze({...x,usedTypicalPrice:null,listingUrl:null})));
-export function usedWatchlistFor({wantedInput='undecided',powered='mains'}={}){
+export function usedWatchlistFor({wantedInput='undecided',powered='mains',region}={}){
  if(powered==='battery')return [];
- return USED_AMPLIFIER_WATCHLIST.map(x=>({...x,
-  inputCaution:wantedInput==='hdmi'||wantedInput==='usb'?'Most older analog receivers cannot accept this input directly; a separately budgeted converter may be required.':null
+ return USED_AMPLIFIER_WATCHLIST.filter(x=>!x.markets||x.markets.includes(region)).map(x=>({...x,
+  inputCaution:(wantedInput==='hdmi'||wantedInput==='usb')&&!x.inputs?.includes(wantedInput)?
+   'Check whether this input is available. A separately budgeted converter may be needed.':null
  }));
 }

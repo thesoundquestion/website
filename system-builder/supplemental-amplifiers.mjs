@@ -1,7 +1,8 @@
+import {DENON_S650H_MANUAL, DENON_S650H_NAME} from './stereo-subwoofer-examples.mjs';
+
 /**
- * Builder-only budget integrated amplifiers. The absence of `ratings` is
- * deliberate: advertised maximum output and naked THD percentages lack
- * matching two-channel sustained test conditions. Do NOT synthesize RMS.
+ * Builder-only amplifiers and receivers. Enter continuous ratings only when
+ * the published test conditions identify the sustained output and load.
  */
 export const BUILDER_ONLY_AMPS=Object.freeze([
   Object.freeze({
@@ -34,6 +35,13 @@ export const BUILDER_ONLY_AMPS=Object.freeze([
     note:'AIYIMA A07 MAX in STEREO switch position, not bridged mono. Choose an included regional AC adapter before buying: maker 300W×2/4Ω assumes a 48V/12A source, not an ordinary smaller supply. No verified comparable full-band clean sustained output or nominal speaker-load permission is imported. RCA analogue source required.',
     details:Object.freeze({inputs:'RCA analogue only',supply:'24–48 V DC; sold with different optional adapter packages',
       outputPowerVerified:false,thdComparable:false,caOrdinaryAsking:null,reviewedOn:'2026-11-13'})
+  }),
+  Object.freeze({
+    model:DENON_S650H_NAME,type:'amp',values:Object.freeze({}),
+    ratings:Object.freeze([[75,8,'continuous','Denon manual, 20 Hz–20 kHz, 0.08% THD, two channels']]),
+    url:DENON_S650H_MANUAL,
+    note:'North American 120 V model. Denon allows 4–16 Ω speakers with the appropriate setting. For 2.1, set the front speakers to Small and use the receiver crossover.',
+    details:Object.freeze({inputs:'RCA / optical / Bluetooth / HDMI',minNominalOhms:4,reviewedOn:'2026-11-13'})
   })
 ]);
 export function builderOnlyAmpFor(model){return BUILDER_ONLY_AMPS.find(x=>x.model===model)||null;}

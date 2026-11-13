@@ -1,3 +1,5 @@
+import {R1280DBS_PRICES} from './stereo-subwoofer-examples.mjs';
+
 /**
  * Exact-model budget starts for shoppers who enter no owned hardware.
  * All prices are dated Canadian MAKER/DEALER asking references, not verified
@@ -31,11 +33,12 @@ export const BUDGET_EXAMPLES=Object.freeze([
     'Adds Bluetooth, optical and coaxial digital inputs over the analogue-only R1280T for a modest increment.',
     'The DB is not the later DBs. Do not assume this exact DB has the DBs subwoofer output or automatic bass management.',
     ['Maker states 42 W RMS total; frequency range alone does not establish full response at volume.']),
-  pair('powered-r1280dbs','Edifier R1280DBs',229.99,['analog','optical','bluetooth'],
+  {...pair('powered-r1280dbs','Edifier R1280DBs',229.99,['analog','optical','bluetooth'],
     ['desk','bedroom','living_room'],['all_rounder','bass','low_volume'],
     'Adds a dedicated subwoofer output to the R1280DB input set, useful if bass extension may be added later.',
-    'SUB OUT does not establish a high-pass filter on the main speakers. A separate sub, cables and setup are additional costs; one pair is not a party system.',
-    ['The manufacturer lists dual RCA, optical, coaxial and Bluetooth inputs with subwoofer out; verify crossover behaviour for the actual revision.']),
+    'A separate sub and setup add cost. Edifier documents reduced bass from the main pair when a sub is connected. The manual gives no crossover frequency.',
+    ['The new pair includes the speaker link, line and optical leads and remote. Use stereo PCM for optical TV.']),
+    priceByRegion: R1280DBS_PRICES},
   pair('powered-r1700bts','Edifier R1700BTs',269.99,['analog','bluetooth'],
     ['desk','bedroom','living_room'],['all_rounder','bass','dynamic'],
     'A physically larger powered pair with RCA, Bluetooth and a subwoofer output; useful when desk space allows a bigger cabinet.',

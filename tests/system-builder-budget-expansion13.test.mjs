@@ -23,10 +23,10 @@ test('new inventory supplements original 130 without duplicate model identities'
   assert.equal(BUDGET_EXAMPLES.length,9);
   assert.equal(BUILDER_ONLY_SPEAKERS.length,9);
   assert.equal(BUILDER_ONLY_HEADPHONES.length,4);
-  assert.equal(BUILDER_ONLY_AMPS.length,3);
+  assert.equal(BUILDER_ONLY_AMPS.length,4);
   assert.equal(Object.values(inventory).reduce((n,v)=>n+v.length,0),130);
   const all=[...BUILDER_ONLY_SPEAKERS,...BUILDER_ONLY_HEADPHONES,...BUILDER_ONLY_AMPS];
-  assert.equal(new Set(all.map(x=>x.model)).size,16);
+  assert.equal(new Set(all.map(x=>x.model)).size,all.length);
   assert.ok(all.every(x=>!inventory[x.type].some(y=>y.model===x.model)));
   assert.ok(all.every(x=>x.url.startsWith('https://')));
 });
@@ -78,7 +78,7 @@ test('budget passive new stereo has two component prices, load caveat and no pea
   assert.ok(!EXAMPLES.some(x=>x.usedOnly));
 });
 test('compact BT20A Pro and AIYIMA ratings do not fabricate continuous wattage or comparable THD',()=>{
-  for(const x of BUILDER_ONLY_AMPS){
+  for(const x of BUILDER_ONLY_AMPS.filter(x=>x.details.outputPowerVerified===false)){
     assert.equal(x.ratings.length,0);
     assert.equal(x.details.outputPowerVerified,false);
     assert.equal(x.details.thdComparable,false);
@@ -106,7 +106,7 @@ test('budget supplemental amp entered as owned is retained; not quietly replaced
   assert.ok(x.selected.every(x=>!x.parts.some(p=>p.name==='Yamaha A-S301')));
 });
 test('used amplifier search targets are evergreen, cited, never direct individual listings or used prices',()=>{
-  assert.equal(USED_AMPLIFIER_WATCHLIST.length,8);
+  assert.equal(USED_AMPLIFIER_WATCHLIST.length,9);
   assert.equal(usedWatchlistFor({powered:'battery'}).length,0);
   assert.equal(usedWatchlistFor({powered:'mains'}).length,8);
   assert.ok(USED_AMPLIFIER_WATCHLIST.every(x=>
@@ -131,5 +131,5 @@ test('budget and watchlist UX is actually wired into app and not mistaken for us
   assert.match(s,/request.used && powered!=='battery'/);
   assert.match(s,/Used stereo amplifiers worth keeping an eye out for/);
   assert.match(s,/not current listings or confirmed local bargains/);
-  assert.match(s,/Canadian published asking references/);
+  assert.match(s,/Advertised prices · /);
 });

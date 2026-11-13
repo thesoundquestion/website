@@ -215,12 +215,14 @@ export function ampSpeakerScreening(amp) {
     Number.isFinite(x[1]) && x[1]>=2 && x[1]<=16).map(x=>x[1]);
   const minPublishedTestOhms = continuous.length ? Math.min(...continuous) : null;
   const model=String(amp?.name||amp?.record?.model||'');
-  const explicitNominalFloor = model === 'Yamaha R-S202' ? 8 : model === 'Sony STR-DH190' ? 6 : null;
+  const explicitNominalFloor = model === 'Yamaha R-S202' ? 8 : model === 'Sony STR-DH190' ? 6 :
+    amp?.record?.details?.minNominalOhms ?? null;
   const discoveryFloor = explicitNominalFloor || (minPublishedTestOhms !== null ?
     Math.min(8,Math.max(4,minPublishedTestOhms)) : 8);
   const exactManufacturerRule = model === 'Yamaha R-S202' ?
     'Yamaha specifies 8 Ω or higher for a single speaker pair A or B (and 16 Ω or higher for A+B where applicable). A nominal label alone does not establish actual impedance minimum or thermal safety.' :
-    model === 'Sony STR-DH190' ? 'Sony lists 6–16 Ω speakers; verify the exact regional revision and operating conditions.' : '';
+    model === 'Sony STR-DH190' ? 'Sony lists 6–16 Ω speakers; verify the exact regional revision and operating conditions.' :
+    explicitNominalFloor ? 'The manual specifies a '+explicitNominalFloor+' Ω minimum nominal speaker load. Follow the speaker impedance setting in the manual.' : '';
   return {ampName:model||'Unlisted amplifier',discoveryFloor,minPublishedTestOhms,
     explicitNominalFloor,exactManufacturerRule,known:!!amp?.record};
 }

@@ -134,6 +134,8 @@ export const GOALS = Object.freeze({
 export function describeBass(configuration, count = 1) {
   if (configuration === 'no_sub') return { mode: 'no_sub', heading: '2.0: no subwoofer',
     notes: ['A capable 2.0 setup is not penalized for having no subwoofer.', 'Low-frequency capability remains with the main speakers.'] };
+  if (configuration === 'plan_sub') return { mode: 'sub_planned', heading: 'Planning a subwoofer',
+    notes: ['Compare how each setup divides the bass. A crossover can send the lowest notes to the sub and reduce bass from the main speakers.'] };
   if (configuration === 'sub_hpf') return { mode: 'sub_mains_high_passed', heading: '2.1: verified high-pass path',
     notes: ['Main-speaker bass relief is plausible only when the actual wiring, settings and main high-pass have been verified.',
       'Crossover frequency, placement, polarity/phase and seat measurements still determine the blend. No automatic SPL bonus.'] };

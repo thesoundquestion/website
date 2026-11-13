@@ -1,12 +1,11 @@
 import {BUDGET_EXAMPLES} from './budget-examples.mjs';
-import {compareExamplePriorities,explainExampleInteractions} from './decision-context.mjs';
+import {compareExamplePriorities, examplePriceFor, explainExampleInteractions} from './decision-context.mjs';
+import {configureSubExample, requestedSubExamples} from './stereo-subwoofer-examples.mjs';
 
 /**
  * Editorial, source-linked example systems, not a product leaderboard.
- * Checked 2026-11-12. Prices are individual observed Canadian offers/list prices,
- * NOT normal/representative prices and NOT finished-system costs.
- * Candidate-specific safety / acoustic / room compatibility is NOT certified.
- * No customer information is sent anywhere.
+ * Dated local price references cover the listed parts. Equipment fit depends
+ * on the source, configuration and room. The shortlist runs in the browser.
  */
 export const EXAMPLES = Object.freeze([
   {
@@ -164,12 +163,12 @@ export function shortlistExamples(input = {}) {
   }
   if(targetArchitectures.includes('passive_separates') &&
     !order.includes('passive-bt20a-xt15'))order.push('passive-bt20a-xt15');
-  order=[...new Set(order)];
+  const subExamples = requestedSubExamples(input);
+  order=[...new Set([...subExamples.map(item => item.id), ...order])];
   const priorOrder=new Map(order.map((id,index)=>[id,index]));
-  const byId=new Map(EXAMPLES.map(example=>[example.id,example]));
-  // Explicit goal, budget, distance/venue, native input and secondary choices
-  // now jointly influence which examples reach the shortlist. Safety/battery
-  // exclusions below remain absolute; no sound-quality points are assigned.
+  const byId=new Map([...subExamples, ...EXAMPLES].map(example=>[example.id,example]));
+  // Select a requested 2.1 system before stereo fallbacks. Other priorities
+  // still compare like setups, and hard budget, architecture and power limits apply below.
   order.sort((a,b)=>compareExamplePriorities(byId.get(a),byId.get(b),input,
     example=>priorOrder.get(example?.id)??Infinity));
   const max = arch === 'open' ? 4 : 3;
@@ -177,14 +176,15 @@ export function shortlistExamples(input = {}) {
   for (const [iteration,id] of [...order.map(id=>[0,id]),
     ...(allowAffordableFill?order.map(id=>[1,id]):[])]) {
     if (selected.some(x=>x.id===id)) continue;
-    const product = EXAMPLES.find(x => x.id === id);
+    const product = byId.get(id);
     if (!product || !targetArchitectures.includes(product.architecture)) continue;
     if (product.usedOnly && !used) continue;
     if (neededPower && product.power !== 'battery' && product.power !== 'source_dependent') {
       excluded.push({title:product.title,reason:'Battery operation required; this example uses wall power.'}); continue;
     }
-    const snapshot = region === 'CA' && currency === 'CAD' ? product.priceCA : null;
-    const subtotal = snapshot ? Math.round(snapshot.components.reduce((n,p)=>n+p.amount*(p.quantity || 1),0)*100)/100 : null;
+    const snapshot = examplePriceFor(product, input);
+    if (product.requiresRegionalQuote && !snapshot) continue;
+    const subtotal = snapshot?.subtotal ?? null;
     if (strict && budget !== null && subtotal !== null && subtotal > budget) {
       excluded.push({title:product.title,reason:'The evidenced component subtotal alone is over your firm budget.'});
       continue;
@@ -194,7 +194,8 @@ export function shortlistExamples(input = {}) {
         selected.some(x=>x.architecture===product.architecture) &&
         new Set(selected.map(x=>x.architecture)).size < 3) continue;
     const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
-    selected.push({ ...product, subtotal, priceComponents:snapshot?.components || [],
+    selected.push({ ...configureSubExample(product, input), subtotal, priceComponents:snapshot?.components || [],
+      priceDate:snapshot?.date || (snapshot ? '2026-11-12' : null),
       editorialGoalFocus: product.goals.includes(aim),
       decisionReasons:explainExampleInteractions(product,input),
       secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
@@ -202,9 +203,9 @@ export function shortlistExamples(input = {}) {
       priceEvidence:product.priceEvidence||null,
       connectionStatus: needsConnection ? 'adapter_needed' : 'native_possible',
       levelCaution:input.level === 'high' &&
-        (product.id.startsWith('powered-') || ['powered-ora','studio-jbl'].includes(product.id)),
+        (Boolean(product.bassSetup) || product.id.startsWith('powered-') || ['powered-ora','studio-jbl'].includes(product.id)),
       placementCaution:(Number(input.distanceFt)>10 &&
-        (product.id.startsWith('powered-') || ['studio-jbl','studio-kali'].includes(product.id))),
+        (Boolean(product.bassSetup) || product.id.startsWith('powered-') || ['studio-jbl','studio-kali'].includes(product.id))),
       sceneCaution:!product.places.includes(scene),
       sourceBatteryCaution:neededPower && product.power === 'source_dependent'
     });

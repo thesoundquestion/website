@@ -8,6 +8,7 @@ import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speak
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
 import {BUILDER_ONLY_AMPS, builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {usedWatchlistFor} from './used-amp-watchlist.mjs';
+import {homeSubwooferRequest, ownedSubwooferPath, POWERED_SUB_PAIRS, poweredSubPairFor, USED_SUB_MODELS} from './stereo-subwoofer-examples.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -88,7 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const goal = form.elements.namedItem('goal');
   const architecture = form.elements.namedItem('architecture');
   const subMode = form.elements.namedItem('subMode');
+  const subOwnedField = form.elements.namedItem('subOwned');
   const extras = [...form.querySelectorAll('[name="secondary"]')];
+  let subOwnershipChosen = false;
 
   if (inventory) {
     const names = {speaker:'speaker',amp:'amp',source:'source',headphone:'headphone'};
@@ -99,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         option.value = record.model;
         select.append(option);
       }
-      const supplements=kind==='speaker' ? BUILDER_ONLY_SPEAKERS :
+      const supplements=kind==='speaker' ? [...BUILDER_ONLY_SPEAKERS,...POWERED_SUB_PAIRS] :
         kind==='headphone' ? BUILDER_ONLY_HEADPHONES :
         kind==='amp' ? BUILDER_ONLY_AMPS : [];
       for (const record of supplements) {
@@ -113,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     state.textContent = count + ' existing System Check presets loaded (read-only) · '+
       BUILDER_ONLY_SPEAKERS.length+' sourced passive speakers · '+
       BUILDER_ONLY_HEADPHONES.length+' wired headphones · '+
-      BUILDER_ONLY_AMPS.length+' conditional compact amplifiers. Powered pairs are separate complete-system choices. Unknown fields remain unknown.';
+      BUILDER_ONLY_AMPS.length+' additional amplifiers and receivers · '+POWERED_SUB_PAIRS.length+' powered pairs.';
   } else {
     state.textContent = 'The saved preset catalog did not load. Unlisted model inputs remain available; no specs will be assumed.';
   }
@@ -136,7 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('sb-sub-count').hidden = !sub;
     document.getElementById('sb-sub-owned').hidden = !sub;
   }
-  subMode.addEventListener('change', syncSub);
+  subMode.addEventListener('change', () => {
+    if (!subOwnershipChosen) subOwnedField.value = subMode.value === 'plan_sub' ? 'no' : 'yes';
+    syncSub();
+  });
+  subOwnedField.addEventListener('change', () => { subOwnershipChosen = true; });
   syncSub();
 
   form.elements.namedItem('region').addEventListener('change', ev => {
@@ -149,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     other.addEventListener('input', () => { if (other.value.trim()) preset.value = ''; });
   }
   form.addEventListener('reset', () => queueMicrotask(() => {
+    subOwnershipChosen = false;
     syncGoals(); syncSub(); result.hidden = true;
   }));
 
@@ -156,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const exact = String(data.get(kind) || '');
     const custom = String(data.get(kind+'Other') || '').trim();
     const record = (inventory?.[kind] || []).find(x => x.model === exact) ||
-      (kind==='speaker' ? builderOnlySpeakerFor(exact) :
+      (kind==='speaker' ? builderOnlySpeakerFor(exact) || poweredSubPairFor(exact) :
         kind==='headphone' ? builderOnlyHeadphoneFor(exact) :
         kind==='amp' ? builderOnlyAmpFor(exact) : null);
     return {name: custom || record?.model || '', record: custom ? null : record, unlisted: !!custom};
@@ -182,7 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const distanceFt = Number(data.get('distanceFt'));
     const powered = String(data.get('power') || 'mains');
     const bassMode = String(data.get('subMode') || 'no_sub');
-    const bassCount = Number(data.get('subCount')) || 1;
+    const bassCount = bassMode === 'no_sub' ? 0 : Number(data.get('subCount')) || 1;
+    const subOwned = bassMode === 'no_sub' ? null : String(data.get('subOwned') || 'unknown');
     const bass = describeBass(bassMode, bassCount);
     const wantedInput = form.elements.namedItem('connection').selectedOptions[0].textContent;
     const own = Object.fromEntries(['speaker','amp','source','headphone'].map(kind => [kind,chosenGear(data,kind)]));
@@ -219,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
       secondary:extras.filter(x=>x.checked&&x.value!==primary).map(x=>x.value),
       character:String(data.get('character')),
       region:String(data.get('region')), currency,
+      subCount:bassCount, subOwned,
       budget:Number.isFinite(budget) ? budget : null,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
     };
@@ -235,6 +245,16 @@ document.addEventListener('DOMContentLoaded', () => {
       list(decision,combinedFactors);
       shop.append(decision);
     }
+    const hasSubExample = shortlist.selected.some(item => item.bassSetup);
+    const retainedSubPath = ownedSubwooferPath(own, request);
+    if (bassMode === 'plan_sub' && !retainedSubPath && homeSubwooferRequest(request)) {
+      if (!hasSubExample)
+        addText(shop,'p',subOwned === 'no' && bassCount === 1 && (!ownership || ownership.mode === 'keep_source') ?
+          'The Builder has no complete 2.1 example for this combination. You can start with the stereo ideas below.' :
+          'The stereo ideas cover the main system. Check what you need to connect the subwoofer.','sb-brief-note');
+      else if (shortlist.selected.filter(item => item.bassSetup).every(item => item.subtotal === null))
+        addText(shop,'p','Check local prices for these 2.1 ideas before comparing them with your budget.','sb-brief-note');
+    }
     const displayCurrency=['CAD','USD','GBP','EUR','AUD'].includes(currency)?currency:'CAD';
     const priceLocale={CAD:'en-CA',USD:'en-US',GBP:'en-GB',EUR:'en-IE',AUD:'en-AU'}[displayCurrency];
     const priceFormat = value => new Intl.NumberFormat(priceLocale,
@@ -247,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(heading,'h4',item.title.replace(/^[^:]{3,45}:\s*/,'')); 
       head.append(heading);
       const price = el('div','sb-card-price');
-      const noPurchase = item.id === 'owned-complete' || item.id === 'owned-headphones' || item.id === 'owned-other-route';
+      const noPurchase = ['owned-complete','owned-headphones','owned-other-route','owned-powered-pair'].includes(item.id);
       // Individual second-hand asking examples are not a priced option.
       addText(price,'strong',noPurchase ? 'Reuse first' :
         (item.subtotal === null ? 'Price to verify' : priceFormat(item.subtotal)));
@@ -258,9 +278,13 @@ document.addEventListener('DOMContentLoaded', () => {
       card.append(head);
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
+      if (item.bassSetup)
+        addText(card,'p',item.bassSetup.label,'sb-card-minor');
+      else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
+        addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
       const fit = el('p','sb-card-match');
       addText(fit,'strong',item.amplifierReason ? 'Why this amplifier: ' : item.speakerRationale ? 'Why these speakers: ' : item.ownershipMessage ? 'Why keep it: ' : 'Why this one: ');
-      fit.append(document.createTextNode(item.amplifierReason || item.speakerRationale || item.ownershipMessage || recommendationWhy(item,request,
+      fit.append(document.createTextNode(item.amplifierReason || item.speakerRationale || item.ownershipMessage || (item.bassSetup && item.why) || recommendationWhy(item,request,
         Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
       card.append(fit);
       if (item.ownershipMessage && item.preferenceMatchAvailable)
@@ -325,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p',item.budgetCaution,'sb-card-minor');
       if (item.pathwayCaution)
         addText(card,'p',item.pathwayCaution,'sb-card-alert');
-      if (budget !== null && item.subtotal === null && !['owned-complete','owned-headphones','owned-other-route'].includes(item.id))
+      if (budget !== null && item.subtotal === null && !noPurchase)
         addText(card,'p','Budget fit not confirmed.','sb-card-minor');
 
       const details = el('details','sb-card-details');
@@ -394,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       details.append(parts);
       if (item.priceComponents.length) {
-        addText(details,'h5','Canadian published asking references · not typical transaction prices');
+        addText(details,'h5','Advertised prices · '+currency+(item.priceDate ? ' · '+item.priceDate : ''));
         for (const p of item.priceComponents) {
           const line = addText(details,'p',(p.quantity > 1 ? p.quantity+' × ' : '') + p.label +
             ': ' + priceFormat(p.amount) + (p.quantity > 1 ? ' each' : ''),'sb-card-reference');
@@ -408,6 +432,11 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(details,'h5','Trade-offs');
       addText(details,'p',item.tradeoff);
       const checks = [...item.extra];
+      if (item.bassSetup) {
+        addText(details,'h5','Connect and set up the subwoofer');
+        addText(details,'p',item.bassSetup.setup);
+        link(details,item.bassSetup.source,'Manufacturer bass-routing instructions');
+      }
       if (item.connectionStatus === 'adapter_needed')
         checks.unshift('No native connection for your chosen input: add and price a suitable adapter, receiver or interface.');
       if (item.sourceCaution)
@@ -418,8 +447,8 @@ document.addEventListener('DOMContentLoaded', () => {
         checks.unshift('Verify clean output at your intended distance and level, especially with compact nearfield designs.');
       if (item.sceneCaution)
         checks.unshift('Check whether this product is appropriate for the chosen venue and coverage.');
-      if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first')
-        checks.push('Subwoofer, integration and any required crossover are not included; SUB OUT alone does not verify a mains high-pass.');
+      if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first' && !item.bassSetup && !noPurchase)
+        checks.push('Confirm the subwoofer connection and any crossover needed before pricing the full setup.');
       if (budget !== null)
         checks.push(item.subtotal === null
           ? 'No qualified local price for comparison with your '+budget+' '+currency+' ceiling.'
@@ -445,10 +474,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (request.character !== 'faithful')
         addText(shop,'p','Your sound-character preference is recorded, but this preview does not yet verify or re-rank models by your preferred tonal flavour.','sb-brief-note');
       addText(shop,'p',ownership ?
-        'These recommendations start with your equipment. Reuse still requires compatible connections, electrical loading and suitable clean output. Unknown prices and missing parts are not treated as free.' :
+        'Check connections, speaker load and clean output before buying additional equipment.' :
         speakerFocus ?
-        'These are speaker-only candidates, not confirmed electrical matches. Listed CAD amounts cover a speaker pair only; your owned amplifier costs nothing extra. Check full impedance, cabling and listening level before buying.' :
-        'Illustrative options, not certified matches. Canadian amounts are dated component listings, not full system costs or typical market prices.','sb-brief-note');
+        'Prices shown are for the speaker pair. Check speaker load, cabling and listening level with the amplifier you own.' :
+        'Prices come from dated retail listings. Check stock, delivery, taxes and any parts still needed.','sb-brief-note');
     } else {
       addText(shop,'p',speakerFocus ?
         'No speaker candidate from the current curated catalog passed the conservative load and known-price checks. Recheck the amplifier manual and your budget rather than assuming an unverified match.' :
@@ -489,7 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // NOT an automatically priced shopping recommendation or safe-pair verdict.
     if (request.used && powered!=='battery' &&
         (arch==='open'||arch==='passive_separates')) {
-      const saved = usedWatchlistFor({wantedInput:request.connection,powered});
+      const saved = usedWatchlistFor({wantedInput:request.connection,powered,region:request.region});
       if (saved.length) {
         const watch = el('details','sb-more sb-used-watchlist');
         addText(watch,'summary','Used stereo amplifiers worth keeping an eye out for · model watchlist');
@@ -509,6 +538,34 @@ document.addEventListener('DOMContentLoaded', () => {
           'Budget for possible service, transportation, suitable mains voltage, accessories and a real working demonstration. “Keep an eye out” means compare any future offer to its condition; it is never a predicted deal price.','sb-brief-note');
         shop.append(watch);
       }
+    }
+
+    if (retainedSubPath) {
+      const route = retainedSubPath;
+      const panel = el('details','sb-more sb-retained-sub');
+      const summary = !route.buying ? 'Subwoofer connection for your '+route.retained :
+        'Add a sub and keep your '+route.retained+(route.subtotal === null ? '' : ' · '+priceFormat(route.subtotal))+
+        (route.overBudget && request.budgetStrict ? ' · Over budget' : '');
+      addText(panel,'summary',summary);
+      addText(panel,'p',route.bassSetup.label);
+      addText(panel,'p',route.buying ? 'Example subwoofer is the Edifier T5. This is the cost of the sub and any listed lead.' :
+        route.wantsOwnedSub ? 'Keep your subwoofer if it accepts the right connection. The T5 wiring below is an example.' :
+        'Confirm whether your sub can be reused. The T5 wiring below is an example.');
+      if (route.needsMainSpeakers) addText(panel,'p','Price the passive stereo pair and speaker wire separately.');
+      if (route.overBudget)
+        addText(panel,'p','The subwoofer parts alone exceed your '+priceFormat(budget)+' budget.','sb-card-alert');
+      addText(panel,'p',route.bassSetup.setup);
+      link(panel,route.bassSetup.source,'Manufacturer bass-routing instructions');
+      if (route.buying) {
+        for (const part of route.components) {
+          const line = addText(panel,'p',part.label+' · '+priceFormat(part.amount),'sb-card-reference');
+          link(line,part.url,'Price source');
+        }
+        if (route.components.length)
+          addText(panel,'p','Retail prices checked '+route.date+'. Add any delivery, taxes and other missing equipment.','sb-card-reference');
+        else addText(panel,'p','Local price to verify.','sb-card-reference');
+      }
+      shop.append(panel);
     }
 
     // Complete replacements are comparison-only when any component is owned.
@@ -532,13 +589,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       shop.append(alternatives);
     }
-    if (((bassMode !== 'no_sub' && data.get('subOwned') !== 'yes') || (primary === 'bass' && bassMode === 'no_sub')) && arch !== 'headphone_first') {
+    if (((bassMode !== 'no_sub' && subOwned !== 'yes') || (primary === 'bass' && bassMode === 'no_sub')) &&
+        arch !== 'headphone_first' && arch !== 'party_pa' && powered !== 'battery' &&
+        primary !== 'party' && useCase !== 'party' && !hasSubExample && !retainedSubPath) {
       const subAdd = el('details','sb-more');
       addText(subAdd,'summary',bassMode === 'no_sub' ? 'Optional deeper bass ideas' : 'Subwoofer models to investigate');
       addText(subAdd,'p','SVS SB-1000 Pro (sealed) and RSL Speedwoofer 10E (ported). Integration and regional prices still need verification.');
       link(subAdd,'https://www.svsound.com/products/sb-1000-pro-subwoofer','SVS specifications');
       link(subAdd,'https://rslspeakers.com/pages/speedwoofer-10e','RSL specifications');
       shop.append(subAdd);
+    }
+    const usedSub = request.used && homeSubwooferRequest(request) && bassMode !== 'no_sub' &&
+      subOwned !== 'yes' ? USED_SUB_MODELS[request.region] : null;
+    if (usedSub) {
+      const watch = el('details','sb-more sb-used-sub');
+      addText(watch,'summary','Used subwoofer to look for · '+usedSub.model);
+      addText(watch,'p',usedSub.note);
+      addText(watch,'p','Compare the local price plus freight and any missing leads with a new sub. Your amp or speakers determine whether the main speakers play less bass.','sb-brief-note');
+      link(watch,usedSub.source,'Manufacturer instructions');
+      shop.append(watch);
     }
 
     const detail = el('details','sb-audit');
@@ -569,7 +638,8 @@ document.addEventListener('DOMContentLoaded', () => {
             link(ownedSection,x.record.details.reference,'Supplemental specification source');
         }
       }
-      if (arch !== 'headphone_first' && arch !== 'consumer_powered_pair' && arch !== 'active_studio') {
+      if (arch !== 'headphone_first' && arch !== 'consumer_powered_pair' && arch !== 'active_studio' &&
+          !poweredSubPairFor(own.speaker.name)) {
         const audit = inspectOwnedPair(own.speaker.record,own.amp.record);
         if (audit.facts.length) list(ownedSection,audit.facts,'sb-facts');
         if (audit.checks.length) {
@@ -584,7 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (own.headphone.name && arch === 'headphone_first')
         addText(ownedSection,'p','Keep the headphones on the shortlist for a fit and drive check. An impedance number alone does not establish a sufficient/quiet output.');
-      if (own.speaker.name && (arch === 'consumer_powered_pair' || arch === 'active_studio'))
+      if (own.speaker.name && !poweredSubPairFor(own.speaker.name) && (arch === 'consumer_powered_pair' || arch === 'active_studio'))
         addText(ownedSection,'p','Your existing passive-speaker preset is not proof that those speakers work as an active/powered system. External amplification requirements must not be skipped.');
     }
     if (data.get('keepWorking')) addText(ownedSection,'p','Keep/placement-first is a valid outcome. An upgrade is not justified until a real limitation or missing feature is identified.','sb-report-note');
@@ -594,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
       list(subSection,bass.notes);
       if (bassMode !== 'no_sub') {
         addText(subSection,'p','Subwoofers selected: ' + (bassCount >= 3 ? 'three or more' : String(bassCount)) +
-          '. Already owned: ' + String(data.get('subOwned') || 'unknown') +
+          '. Already owned: ' + subOwned +
           '. Owned reusable gear carries zero incremental hardware cost, but setup, routing hardware and integration may still cost money.');
       }
       if (bassMode === 'sub_hpf') addText(subSection,'p','The high-pass claim is based on your selection, not independently verified by this form. Show the exact crossover/router settings and source before taking an amplifier/speaker bass-relief credit.','sb-report-note');

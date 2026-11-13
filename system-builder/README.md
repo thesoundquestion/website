@@ -198,3 +198,13 @@ For party goals, an already-owned compatible stereo amplifier is no longer autom
 
 The current rules, example combinations, non-implemented measurement gates and follow-on research are documented in [INPUT_INTERACTIONS_POLICY_2026_11_13.md](./INPUT_INTERACTIONS_POLICY_2026_11_13.md). Regression: [GitHub Actions run 43428427642](https://github.com/thesoundquestion/website/actions/runs/43428427642) passed **266/266 Node tests** at the documented feature-branch commit, including syntax checks. Production `main` is unchanged; UI/device and Cloudflare deployment review are still required before merging.
 
+## 2026-11-13 · Stereo with one subwoofer
+
+Choose **I want to add a subwoofer / 2.1** to see a full parts list for the source you selected. Dated new retail subtotals cover the main stereo pair, one powered subwoofer and required leads for the illustrated source. For example, **Edifier R1280DBs + T5** costs CA$429.98, US$399.98 or £268 before unquoted delivery and taxes. **Kanto ORA + T5** includes a USB-C data lead and uses the original ORA’s automatic 100 Hz crossover. **WiiM Amp + Polk XT15 or Q Acoustics 3010i + T5** gives analog, optical, HDMI ARC and Bluetooth options and uses the original WiiM Amp’s selectable routing. Review the package contents and exact version before updating `stereo-subwoofer-examples.mjs`.
+
+The firmware or manual must support the way the main speakers are filtered. The Edifier manual confirms bass reduction with a connected sub and gives no cutoff. Use the documented ORA or WiiM path for a specified high-pass. A firm budget can return a stereo-only starting point when the 2.1 example exceeds it. Selection still checks the venue, source and listening level.
+
+Choose an owned R1280DBs or original ORA in the speaker list to keep its built-in amplifier. An owned WiiM Amp or North American Denon AVR-S650H can also get a subwoofer connection path. If buying a sub, the price shown for the addition covers only the sub and its listed cable. Reuse an owned sub when it has the appropriate input. Used model leads link to manufacturer documentation and carry no classified offers or prices.
+
+Run `node --test tests/system-builder-stereo-subwoofer.test.mjs` for regional price, routing, source and reuse checks. The full site suite runs with `node --test tests/*.test.mjs`. See the [private 2.1 research handoff](https://github.com/thesoundquestion/research/blob/main/SYSTEM_BUILDER_STEREO_SUBWOOFER_RESEARCH_BATCH_14_2026_11_13.md).
+

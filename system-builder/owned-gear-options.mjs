@@ -6,6 +6,7 @@ import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartyPassiveConcepts,ampSpeakerScreening} from './owned-amp-speakers.mjs';
 import {assessAmplifierCandidate} from './amplifier-fit.mjs';
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
+import {poweredSubPairFor} from './stereo-subwoofer-examples.mjs';
 
 const kinds=['speaker','amp','source','headphone'];
 const has=x=>Boolean(x?.name);
@@ -56,6 +57,23 @@ function existingPair(own,request) {
       ...(has(own.source)?[sourceNote(own,['analog'])]:[]),
       'Use System Check to assess clean level at the seat before considering any upgrade.']};
   return attach(item,own,use,message);
+}
+function keepPoweredPair(own, request, pair) {
+  const used = ['speaker'];
+  const parts = [{name: pair.model, count: 1, role: 'Already owned powered stereo pair with built-in amplification', url: pair.url}];
+  if (has(own.source)) {
+    used.push('source');
+    parts.push(part(own.source, 'Already owned source. Check its output against the speakers’ inputs.'));
+  }
+  const msg = 'Keep your '+pair.model+' and use its built-in amplification. '+pair.note;
+  const needsAdapter = request.connection && request.connection !== 'undecided' && !pair.inputs.includes(request.connection);
+  const item = attach({...common, id:'owned-powered-pair', title:own.speaker.name,
+    kind:'Keep your powered stereo pair', architecture:'consumer_powered_pair', why:msg,
+    tradeoff:'Use the speakers’ own volume controls. Keep any separate amplifier for passive speakers.',
+    parts, extra:['Connect only source-level signals to the line or optical inputs.'],
+    connectionStatus:needsAdapter ? 'adapter_needed' : 'native_possible',
+    levelCaution:request.level==='high', placementCaution:Number(request.distanceFt)>10}, own, used, msg);
+  return {selected:[item], excluded:[], mode:'keep_powered_pair'};
 }
 const amps=[
   {model:'Fosi Audio BT20A Pro',inputs:['analog','bluetooth'],
@@ -251,8 +269,13 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
   // requirement forces the separate-event-system treatment.
   const event=arch==='party_pa'||request.power==='battery';
   const headphonePath=arch==='headphone_first'||(arch==='open'&&!has(own.speaker)&&!has(own.amp)&&has(own.headphone));
+  const poweredPair=poweredSubPairFor(own.speaker?.name);
   let plan;
   if(headphonePath&&has(own.headphone))plan={selected:[keepHeadphone(own,request)],excluded:[],mode:'keep_headphones'};
+  else if(poweredPair) {
+    if(!event&&(arch==='open'||arch==='consumer_powered_pair')) plan=keepPoweredPair(own,request,poweredPair);
+    else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
+  }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&has(own.amp)){
     const first=existingPair(own,request);
     const selected=[first];

@@ -106,11 +106,12 @@
 <label class="sb-inline"><input type="checkbox" name="keepWorking" checked> Check placement, setup and existing performance before spending on upgrades (entered equipment is always considered for reuse)</label>
 </section>
 <section class="sb-panel" aria-labelledby="sb-sub">
-<div class="sb-step"><span>04</span><div><h2 id="sb-sub">What's happening with the bass?</h2><p>Adding a subwoofer and actually high-passing the main speakers are different things. We do not give out free headroom.</p></div></div>
+<div class="sb-step"><span>04</span><div><h2 id="sb-sub">What's happening with the bass?</h2><p>Choose a stereo pair on its own or add a subwoofer for the lowest notes.</p></div></div>
 <div class="sb-grid">
 <label class="sb-field">Subwoofer configuration
 <select name="subMode" id="sb-sub-mode">
 <option value="no_sub">No subwoofer / 2.0</option>
+<option value="plan_sub">I want to add a subwoofer / 2.1</option>
 <option value="sub_hpf">Subwoofer + mains high-passed (routing confirmed)</option>
 <option value="sub_full">Subwoofer + mains playing full-range</option>
 <option value="sub_unknown">Subwoofer connected; routing unknown</option>
@@ -120,7 +121,7 @@
 <label class="sb-field" id="sb-sub-owned" hidden>Already own the subwoofer(s)?
 <select name="subOwned"><option value="yes">Yes, potentially reusable</option><option value="no">No, would need to buy</option><option value="unknown">Not sure / one of several</option></select></label>
 </div>
-<p class="sb-help">A SUB OUT jack alone does not establish a high-pass to the mains. A verified filter requires the exact model, actual connections, firmware/settings and evidence.</p>
+<p class="sb-help">A high-pass filter turns down the lowest notes in the main speakers. Check how each setup routes the bass. <a href="/decoder/bass-extension/#buying">Read about bass extension</a>.</p>
 </section>
 <section class="sb-panel" aria-labelledby="sb-money">
 <div class="sb-step"><span>05</span><div><h2 id="sb-money">Set the buying constraints</h2><p>Budget applies to the <em>complete missing signal path</em>, not just the price on a speaker box.</p></div></div>
@@ -136,7 +137,7 @@
 </div>
 <label class="sb-inline"><input name="used" type="checkbox" checked> Consider sensible used-equipment routes</label>
 <label class="sb-inline"><input name="service" type="checkbox"> Comfortable repairing or servicing vintage gear</label>
-<p class="sb-help">A small curated set has dated Canadian listing-price examples. Other regions and used values remain unverified. A firm budget rejects options whose known component costs already exceed it, but cannot certify that unpriced extras will fit.</p>
+<p class="sb-help">Selected setups have dated local price references. A firm budget filters options whose known cost exceeds it. Add delivery, taxes and any missing parts to compare with your budget.</p>
 <div class="sb-actions"><button class="button button-primary" type="submit">Show equipment examples</button><button class="button button-secondary" type="reset">Start again</button></div>
 </section>
 </form>

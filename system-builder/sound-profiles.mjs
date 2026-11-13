@@ -13,9 +13,17 @@ export const SOUND_PROFILES = Object.freeze({
   "powered-r1280db": {text:"Edifier markets the R1280DB as a flexible, balanced powered pair. No independent level-matched comparison with R1280T is established here, and its extra inputs should not be mistaken for proof of better sound.",
     type:"Manufacturer description only; independent tonal profile unverified",
     url:"https://ca.edifier.com/products/r1280db"},
-  "powered-r1280dbs": {text:"The R1280DBs adds subwoofer connectivity to the familiar R1280 design. The manufacturer’s sound adjectives do not establish a measured response advantage or that its main pair is high-passed when a sub is attached.",
-    type:"Manufacturer description only; independent tonal profile unverified",
-    url:"https://ca.edifier.com/products/r1280dbs"},
+  "powered-r1280dbs": {text:"Edifier documents less bass from the main pair when a sub is connected. Its manual gives no crossover frequency. The main pair’s tonal balance at your seat depends on placement.",
+    type:"Manufacturer routing documentation",
+    url:"https://usa-oss.edifier.com/Uploads/images/2021/07/15/2021071511185516263191358605.pdf"},
+  "Edifier R1280DBs + T5": {text:"One owner found the bass could dominate with the sub level set too high. Another reported that the sub woke reliably when playing music. Try it at your usual volume.",
+    type:"Individual owner experiences",
+    url:"https://www.reddit.com/r/BudgetAudiophile/comments/1vyxex5/anyone_with_t5_powered_active_subwoofer/",
+    ownerCaution:"These reports describe different rooms and volume settings. Listen for the bass blending with the pair at your seat.",
+    ownerSources:[
+      {context:"R1280DBs and T5 owner on sub level",url:"https://www.reddit.com/r/BudgetAudiophile/comments/1vyxex5/anyone_with_t5_powered_active_subwoofer/"},
+      {context:"R1280DBs and T5 owner on standby",url:"https://forums.hardwarezone.com.sg/threads/pc-speaker-recommendation.6640007/page-47"}
+    ]},
   "powered-r1700bts": {text:"Edifier describes the R1700BTs as a fuller-sounding 4-inch powered pair with a subwoofer connection. Actual low-frequency reach and maximum clean listening level remain unknown at your chosen room and distance.",
     type:"Manufacturer description only; independent tonal profile unverified",
     url:"https://ca.edifier.com/products/r1700bts"},
@@ -223,6 +231,6 @@ export function recommendationWhy(item, request={}, labels={}) {
   const reuse = item.ownedAmpName ? '. Keeps your '+item.ownedAmpName+' instead of pricing a new amplifier; electrical compatibility remains unverified' : '';
   const input = item.connectionStatus === 'adapter_needed' ? '. Your chosen input needs additional equipment' : '';
   const cap = request.budgetStrict && Number.isFinite(request.budget) && item.subtotal !== null && Number.isFinite(item.subtotal) && item.subtotal <= request.budget
-    ? '. Known listed parts are below your ceiling, not a complete-system cost' : '';
+    ? '. The parts shown fit your budget before taxes, delivery and any extras' : '';
   return main+matched+place+reuse+input+cap+'.';
 }

@@ -16,7 +16,7 @@ const highDemand = request => request?.level==='high'||isParty(request);
 const highDemandAtDistance = request => highDemand(request)&&substantialDistance(request);
 const isNearfieldIdea = example =>
   example?.architecture==='active_studio'||String(example?.id||'').startsWith('powered-')||
-  example?.id==='powered-ora';
+  example?.id==='stereo-sub-ora'||example?.id==='stereo-sub-edifier';
 // Exact-model editorial caveat already backed by the catalog's own product
 // text: the original ORA uses 3-inch mains, not a full-range deep-bass system.
 // Other models require individual extension evidence before similar treatment.
@@ -25,13 +25,21 @@ const compactBassCaveat = (example,request) =>
   request.goal==='bass' &&
   request.subMode!=='sub_hpf';
 
+export function examplePriceFor(example, request) {
+  const local = example.priceByRegion?.[request.region];
+  const snapshot = local?.currency === request.currency ? local :
+    request.region === 'CA' && request.currency === 'CAD' ? example.priceCA : null;
+  if (!snapshot?.components?.length) return null;
+  const subtotal = snapshot.components.reduce((sum,p) => sum + Math.round(p.amount*100)*(p.quantity||1),0)/100;
+  return {...snapshot, subtotal};
+}
+
 const budgetEvidence = (example,request) => {
   if(request.budgetStrict===false||!Number.isFinite(request.budget)||
       request.budget<0)return 0;
-  if(request.region!=='CA'||request.currency!=='CAD'||!example.priceCA?.components)return 1;
-  const subtotal=example.priceCA.components.reduce((sum,p)=>
-    sum+p.amount*(p.quantity||1),0);
-  return subtotal<=request.budget?0:2;
+  const price = examplePriceFor(example, request);
+  if (!price) return 1;
+  return price.subtotal<=request.budget?0:2;
 };
 
 const countsSecondary = (example,request) =>
@@ -62,7 +70,10 @@ export function compareExamplePriorities(a,b,request={},fallbackIndex=()=>0) {
     const moreGoals=-countsSecondary(example,request);
     // For ordinary desk listening, select input-native, room-suitable systems
     // ahead of otherwise similar choices; goal-tag match remains first.
-    return [primary,budget,demand,bassNeed,venue,input,moreGoals];
+    const sub = example.bassSetup ? 0 : 1;
+    const localBudget = request.region !== 'CA' && Number.isFinite(request.budget) &&
+      request.budgetStrict !== false && budget === 0 && input === 0 ? 0 : 1;
+    return [sub,localBudget,primary,budget,demand,bassNeed,venue,input,moreGoals];
   };
   const x=rank(a),y=rank(b);
   for(let i=0;i<x.length;i++) if(x[i]!==y[i])return x[i]-y[i];
@@ -94,6 +105,8 @@ export function explainInputInteractions(request={}) {
     notes.push('A declared main-speaker high-pass can reduce bass demand, but crossover settings and actual wiring must still be verified.');
   } else if(request.subMode==='sub_full'||request.subMode==='sub_unknown'){
     notes.push('A connected subwoofer does not automatically relieve the main speakers of low bass.');
+  } else if (request.subMode === 'plan_sub') {
+    notes.push('An available 2.1 setup comes first. The price includes its sub and the listed cables.');
   }
   if(wantedConnection(request)){
     notes.push('Native '+wantedConnection(request).toUpperCase()+' input is preferred when other conditions are similar; adapter-dependent routes remain conditional and must include the extra hardware.');
