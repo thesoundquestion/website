@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#080d15">
+<meta name="description" content="Build an audio listening system around your goals, reuse equipment you already own and check technical compatibility before spending.">
+<link rel="canonical" href="https://thesoundquestion.pages.dev/system-builder/">
+<link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/system-builder/style.css">
+<script defer src="/system-check/gear.js"></script>
+<script defer src="/system-check/compare/specs.js"></script>
+<script defer src="/system-builder/catalog-adapter.js"></script>
+<script type="module" src="/system-builder/app.mjs"></script>
+<title>System Builder Preview | The Sound Question</title>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/system-check/">System Check</a><a href="/system-builder/" aria-current="page">System Builder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav>
+</div></header>
+<main id="main" class="container sb">
+<header class="sb-hero">
+<p class="section-kicker">RECORDING TO ROOM · COMPATIBILITY-FIRST PREVIEW</p>
+<h1>Build around the sound you want.</h1>
+<p class="lead">Start with what matters to your ears, not a brand or a wattage contest. See specific equipment examples, compare what complete systems require, reuse working gear, and learn what to verify before buying.</p>
+<div class="sb-hero-meta"><span>7 listening priorities</span><span>Passive · powered · studio · headphones · party</span><span>No paid search or account</span></div>
+</header>
+<div class="sb-preview"><strong>Examples to explore, not guaranteed matches.</strong> Start with a few named options. Open any card for the technical details, sources and cautions. Prices are partial examples, not complete quotes. Your selections remain in this browser session and are not transmitted by this tool.</div>
+<noscript><p class="sb-noscript">JavaScript is required to generate a pathway report. You can still use the <a href="/system-check/">System Check</a> for amplifier headroom and read the <a href="/decoder/">Decoder lessons</a> for the engineering behind the choices.</p></noscript>
+<form id="sb-form" class="sb-form">
+<section class="sb-panel" aria-labelledby="sb-aim">
+<div class="sb-step"><span>01</span><div><h2 id="sb-aim">What do you want to hear?</h2><p>Pick your top priority, then optionally add up to two supporting goals. Music genres don't secretly decide your equipment.</p></div></div>
+<label class="sb-field">Main listening priority
+<select name="goal" id="sb-goal">
+<option value="all_rounder">Balanced and versatile</option>
+<option value="imaging">Precise imaging and spaciousness</option>
+<option value="dynamic">Dynamic impact and complex recordings</option>
+<option value="natural">Natural vocals and timbre</option>
+<option value="bass">Deep, controlled bass</option>
+<option value="low_volume">Low-volume clarity and detail</option>
+<option value="party">I just wanna party, man!</option>
+</select></label>
+<fieldset class="sb-soft"><legend>Also important <small>(optional, maximum two)</small></legend>
+<div id="sb-extra-goals" class="sb-checkgrid">
+<label><input type="checkbox" name="secondary" value="imaging"> Imaging</label>
+<label><input type="checkbox" name="secondary" value="dynamic"> Dynamics</label>
+<label><input type="checkbox" name="secondary" value="natural"> Vocals / timbre</label>
+<label><input type="checkbox" name="secondary" value="bass"> Bass</label>
+<label><input type="checkbox" name="secondary" value="low_volume"> Quiet detail</label>
+<label><input type="checkbox" name="secondary" value="all_rounder"> Balanced sound</label>
+</div><p id="sb-goal-note" class="sb-help" aria-live="polite">Secondary goals explain trade-offs. They are not unvalidated percentage weights.</p></fieldset>
+<label class="sb-field sb-compact">Presentation preference
+<select name="character"><option value="faithful">Faithful to the recording where practical</option><option value="character">A preferred character / tonal flavour</option><option value="explore">Compare both approaches</option></select>
+</label>
+</section>
+<section class="sb-panel" aria-labelledby="sb-path">
+<div class="sb-step"><span>02</span><div><h2 id="sb-path">Which route fits your space?</h2><p>Complete systems matter. A passive pair needs an amplifier; individually sold active monitors need two cabinets and suitable controls.</p></div></div>
+<div class="sb-grid">
+<label class="sb-field">System approach
+<select name="architecture">
+<option value="open">I'm open to different approaches</option>
+<option value="passive_separates">Passive speakers + separate amp</option>
+<option value="consumer_powered_pair">Powered/integrated stereo pair</option>
+<option value="active_studio">Active studio / desktop monitors</option>
+<option value="headphone_first">Headphones / IEMs first</option>
+<option value="party_pa">Party / portable / PA</option>
+</select></label>
+<label class="sb-field">Where will you listen?
+<select name="useCase"><option value="living_room">Living room / shared room</option><option value="desk">Desk / nearfield</option><option value="bedroom">Bedroom / small room</option><option value="outdoors">Backyard / outdoors</option><option value="party">Gathering / event / party</option></select></label>
+<label class="sb-field">Distance to listening position (ft)
+<input type="number" name="distanceFt" min="0.5" max="300" step="0.5" value="8" required></label>
+<label class="sb-field">Usual listening level
+<select name="level"><option value="quiet">Quiet / background</option><option value="moderate" selected>Comfortable / normal</option><option value="high">Occasionally loud, clean peaks important</option></select></label>
+<label class="sb-field">Source connection you need
+<select name="connection"><option value="undecided">Not sure yet</option><option value="analog">Analogue RCA / 3.5 mm</option><option value="usb">USB audio from a computer</option><option value="optical">Optical / digital input</option><option value="bluetooth">Bluetooth / wireless</option><option value="hdmi">HDMI / TV integration</option></select></label>
+<label class="sb-field">Power available
+<select name="power"><option value="mains">Wall power available</option><option value="battery">Battery operation required</option><option value="flexible">Either is acceptable</option></select></label>
+</div>
+<p class="sb-help">This does not predict sound pressure level from distance or certify safe listening levels. The <a href="/system-check/">System Check</a> has the validated headroom calculator for passive systems.</p>
+</section>
+<section class="sb-panel" aria-labelledby="sb-own">
+<div class="sb-step"><span>03</span><div><h2 id="sb-own">What can you keep?</h2><p>Enter anything you already own or want to keep. The results build around those components first, or explain why your chosen system type cannot reuse them directly. A model name never proves compatibility.</p></div></div>
+<div id="sb-inventory-state" class="sb-help" role="status">Loading the existing System Check catalog…</div>
+<div class="sb-grid">
+<label class="sb-field">My speakers
+<select id="sb-speaker" name="speaker"><option value="">None selected / not owned</option></select></label>
+<label class="sb-field">Different / unlisted speakers
+<input name="speakerOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">My amplifier / receiver
+<select id="sb-amp" name="amp"><option value="">None selected / not owned</option></select></label>
+<label class="sb-field">Different / unlisted amplifier
+<input name="ampOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">My source / DAC
+<select id="sb-source" name="source"><option value="">None selected / not owned</option></select></label>
+<label class="sb-field">Different / unlisted source
+<input name="sourceOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">My headphones / IEMs
+<select id="sb-headphone" name="headphone"><option value="">None selected / not owned</option></select></label>
+<label class="sb-field">Different / unlisted headphones
+<input name="headphoneOther" maxlength="120" placeholder="Exact brand and model"></label>
+</div>
+<label class="sb-inline"><input type="checkbox" name="keepWorking" checked> Check placement, setup and existing performance before spending on upgrades (entered equipment is always considered for reuse)</label>
+</section>
+<section class="sb-panel" aria-labelledby="sb-sub">
+<div class="sb-step"><span>04</span><div><h2 id="sb-sub">What's happening with the bass?</h2><p>Choose a stereo pair on its own or add a subwoofer for the lowest notes.</p></div></div>
+<div class="sb-grid">
+<label class="sb-field">Subwoofer configuration
+<select name="subMode" id="sb-sub-mode">
+<option value="no_sub">No subwoofer / 2.0</option>
+<option value="plan_sub">I want to add a subwoofer / 2.1</option>
+<option value="sub_hpf">Subwoofer + mains high-passed (routing confirmed)</option>
+<option value="sub_full">Subwoofer + mains playing full-range</option>
+<option value="sub_unknown">Subwoofer connected; routing unknown</option>
+</select></label>
+<label class="sb-field" id="sb-sub-count" hidden>Subwoofer count
+<select name="subCount"><option value="1">One</option><option value="2">Two</option><option value="3">Three or more</option></select></label>
+<label class="sb-field" id="sb-sub-owned" hidden>Already own the subwoofer(s)?
+<select name="subOwned"><option value="yes">Yes, potentially reusable</option><option value="no">No, would need to buy</option><option value="unknown">Not sure / one of several</option></select></label>
+</div>
+<p class="sb-help">A high-pass filter turns down the lowest notes in the main speakers. Check how each setup routes the bass. <a href="/decoder/bass-extension/#buying">Read about bass extension</a>.</p>
+</section>
+<section class="sb-panel" aria-labelledby="sb-money">
+<div class="sb-step"><span>05</span><div><h2 id="sb-money">Set the buying constraints</h2><p>Budget applies to the <em>complete missing signal path</em>, not just the price on a speaker box.</p></div></div>
+<div class="sb-grid">
+<label class="sb-field">Region
+<select name="region"><option value="CA">Canada</option><option value="US">United States</option><option value="GB">United Kingdom</option><option value="EU">European Union</option><option value="AU">Australia</option><option value="other">Other / not specified</option></select></label>
+<label class="sb-field">Currency
+<select name="currency"><option value="CAD">CAD</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="EUR">EUR</option><option value="AUD">AUD</option><option value="other">Other / unknown</option></select></label>
+<label class="sb-field">Maximum new spending (optional)
+<input name="budget" type="number" min="0" max="10000000" step="1" placeholder="No limit supplied"></label>
+<label class="sb-field">Budget preference
+<select name="budgetStrict"><option value="strict">Firm ceiling</option><option value="flex">Flexible if supported by evidence</option></select></label>
+</div>
+<label class="sb-inline"><input name="used" type="checkbox" checked> Consider sensible used-equipment routes</label>
+<label class="sb-inline"><input name="service" type="checkbox"> Comfortable repairing or servicing vintage gear</label>
+<p class="sb-help">Selected setups have dated local price references. A firm budget filters options whose known cost exceeds it. Add delivery, taxes and any missing parts to compare with your budget.</p>
+<div class="sb-actions"><button class="button button-primary" type="submit">Show equipment examples</button><button class="button button-secondary" type="reset">Start again</button></div>
+</section>
+</form>
+<section class="sb-results" id="sb-results" aria-live="polite" aria-labelledby="sb-result-title" tabindex="-1" hidden>
+<p class="section-kicker">A FEW IDEAS FOR YOUR SYSTEM</p>
+<h2 id="sb-result-title">Systems worth exploring</h2>
+<div id="sb-result-body"></div>
+</section>
+<details class="sb-method">
+<summary>How these examples are chosen and what the limitations are</summary>
+<div class="sb-method-grid"><div><h3>Facts, not vibes</h3><p>Equipment preset claims link to their source where available. Sensitivity bases, load ratings, peak versus continuous output, and frequency-response tolerances matter.</p></div><div><h3>Unknown is not a zero</h3><p>Unmeasured directivity, clean bass output, room behaviour or used pricing is neither a failing score nor a hidden advantage.</p></div><div><h3>No borrowed measurement database</h3><p>Independent reviews are valuable links. We do not scrape, digitize or redistribute restricted measurements into a commercial-capable ranking system. Read <a href="https://www.erinsaudiocorner.com/measurement-data-policy/">Erin's measurement-data policy</a>.</p></div></div>
+<p>Further reading: <a href="/system-check/">System Check</a> · <a href="/system-check/compare/">Compare My Gear</a> · <a href="/decoder/speaker-impedance/">Speaker impedance</a> · <a href="/decoder/amplifier-power/">Amplifier power</a> · <a href="/decoder/audiophile-glossary/">Audiophile language</a>.</p>
+</details>
+</main>
+<footer class="site-footer"><div class="container"><a href="/">The Sound Question</a></div></footer>
+</body>
+</html>

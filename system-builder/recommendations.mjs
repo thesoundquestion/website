@@ -1,0 +1,214 @@
+import {BUDGET_EXAMPLES} from './budget-examples.mjs';
+import {compareExamplePriorities, examplePriceFor, explainExampleInteractions} from './decision-context.mjs';
+import {configureSubExample, requestedSubExamples} from './stereo-subwoofer-examples.mjs';
+
+/**
+ * Editorial, source-linked example systems, not a product leaderboard.
+ * Dated local price references cover the listed parts. Equipment fit depends
+ * on the source, configuration and room. The shortlist runs in the browser.
+ */
+export const EXAMPLES = Object.freeze([
+  {
+    id:'passive-as301-p5', architecture:'passive_separates', title:'Expandable stereo: Yamaha A-S301 + PSB Alpha P5',
+    kind:'New-system example', places:['living_room','bedroom'], power:'mains',
+    connections:['analog','optical'],goals:['all_rounder','natural','imaging','dynamic','bass'],
+    parts:[
+      {name:'Yamaha A-S301 integrated amplifier',count:1,role:'Amplification, volume control, analogue and optical inputs',url:'https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/a-s301/specs.html'},
+      {name:'PSB Alpha P5 passive speakers',count:1,role:'One stereo pair',url:'https://www.psbspeakers.com/collections/alpha'}
+    ],
+    why:'A conventional separate-amp system with built-in optical conversion and a wider speaker-upgrade path than compact powered boxes.',
+    tradeoff:'Not a verified speaker/amplifier load match until the P5 minimum-impedance curve, amplifier permitted loads and room output needs are checked. Sub Out on the A-S301 is not evidence that its main speakers are high-passed.',
+    extra:['Speaker cable is required; stands, streamer and optional subwoofer are separate.',
+      'For Bluetooth, USB or HDMI, add and price an appropriate source or converter.'],
+    priceCA:{components:[{label:'Yamaha A-S301',amount:649.95,url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},{label:'PSB Alpha P5 pair',amount:699,url:'https://audioshop.on.ca/products/psb-p5-bookshelf-speakers'}]}
+  },
+  {
+    id:'powered-mr4', architecture:'consumer_powered_pair', title:'Low-cost wired desk: Edifier MR4 stereo pair',
+    kind:'Complete powered pair (with compatible analogue source)', places:['desk','bedroom','living_room'], power:'mains',
+    connections:['analog'],goals:['all_rounder','natural','low_volume','imaging'],
+    parts:[{name:'Edifier MR4 powered stereo speakers',count:1,role:'One box contains active right speaker, passive left speaker and connecting cable',url:'https://ca.edifier.com/products/mr4'}],
+    why:'A single powered stereo package with an analogue input, built-in amplification and front-panel volume control. Avoids buying an amp just to start listening at a desk.',
+    tradeoff:'Wired only, no built-in Bluetooth/USB/optical/HDMI. The published 60 Hz frequency-response endpoint does not establish deep bass or room-output headroom. Not a safe assumed party/high-volume system.',
+    extra:['A compatible analogue source and wall outlet are required. Confirm desk space, included cables and whether the desired listening level is practical.'],
+    priceCA:{components:[{label:'Edifier MR4 pair',amount:179.99,url:'https://ca.edifier.com/products/mr4'}]}
+  },
+  {
+    id:'powered-ora', architecture:'consumer_powered_pair', title:'Compact flexible desk: Kanto ORA stereo pair',
+    kind:'Complete powered pair (with a compatible source)', places:['desk','bedroom','living_room'], power:'mains',
+    connections:['analog','usb','bluetooth'],goals:['all_rounder','imaging','natural','bass','low_volume'],
+    parts:[{name:'Kanto ORA original powered stereo pair',count:1,role:'Pair with internal amplification, USB-C, RCA, Bluetooth and sub output',url:'https://kantoaudio.com/powered-speakers/ora/'}],
+    why:'An integrated stereo path for computer and wireless listening. Original ORA documents a 100 Hz main/sub crossover when a sub is connected.',
+    tradeoff:'The small 3-inch woofers limit what to assume about low bass or large-room output. Original ORA is not ORA4, whose routing differs. Additional sub, stands and connection accessories cost extra.',
+    extra:['For a sub, verify the exact ORA revision and connection; do not infer an automatic clean-SPL increase.'],
+    priceCA:{components:[{label:'Kanto ORA pair',amount:399.99,url:'https://www.crutchfield.ca/p_310ORABK/Kanto-ORA-Matte-Black.html'}]}
+  },
+  {
+    id:'studio-jbl', architecture:'active_studio', title:'Nearfield separates: two JBL 305P MkII monitors',
+    kind:'Two individual powered monitors', places:['desk','bedroom'], power:'mains',
+    connections:['analog'],goals:['imaging','natural','all_rounder','dynamic'],
+    parts:[{name:'JBL 305P MkII active monitor',count:2,role:'Order TWO individual loudspeakers; not a pre-packed stereo pair',url:'https://www.jbl.com/305PMKII-.html'},
+      {name:'Suitable stereo level control/interface and signal cables',count:1,role:'Required if the source lacks appropriate analogue outputs and level control',url:null}],
+    why:'A two-monitor route intended for nearfield stereo listening, with each speaker powered independently.',
+    tradeoff:'The quoted monitor price is PER CABINET, and a complete system may need an interface/controller and cables. Verify connection levels, self-noise close to the ears and room placement.',
+    extra:['Not a substitute for a portable party rig. No direct USB, optical, HDMI or Bluetooth input on the monitor itself.'],
+    priceCA:{components:[{label:'JBL 305P MkII, each',amount:279.99,quantity:2,url:'https://www.avshop.ca/recording-studio-monitoring-studio-monitors/jbl-305p-mkii-powered-5in-two-way-studio-monitor-each-black'}]}
+  },
+  {
+    id:'studio-kali', architecture:'active_studio', title:'Larger desk / small room: two Kali LP-6 V2 monitors',
+    kind:'Two individual powered monitors', places:['desk','bedroom','living_room'], power:'mains',
+    connections:['analog'],goals:['natural','imaging','all_rounder','dynamic','bass'],
+    parts:[{name:'Kali Audio LP-6 V2 (2nd Wave) monitor',count:2,role:'Two individually powered cabinets',url:'https://www.kaliaudio.com/lone-pine-studio-monitors'},
+      {name:'Stereo source/volume path and suitable cables',count:1,role:'Check RCA/balanced connection and reliable volume control',url:null}],
+    why:'A larger active-monitor alternative when a desk or small room can accommodate two 6.5-inch cabinets and correct placement.',
+    tradeoff:'Each monitor needs power, space and suitable level control. Two-cabinet subtotal omits potential interface, stands and cables; no guarantee of better sound than cheaper options in an untreated room.',
+    extra:['Check rear boundary-switch settings and listening position. If volume is occasionally high, verify actual output requirements rather than using woofer size as a promise.'],
+    priceCA:{components:[{label:'Kali LP-6 V2, each',amount:329.99,quantity:2,url:'https://www.avshop.ca/recording-studio-monitoring-studio-monitors/kali-audio-lp-6-v2-6-5in-studio-monitor-black-each'}]}
+  },
+  {
+    id:'headphone-hd560', architecture:'headphone_first', title:'Open-back home listening: Sennheiser HD 560S',
+    kind:'Headphone + existing suitable output', places:['desk','bedroom','living_room'], power:'source_dependent',
+    connections:['analog'],goals:['natural','imaging','all_rounder','low_volume'],
+    parts:[{name:'Sennheiser HD 560S headphones',count:1,role:'Open-back wired headphone',url:'https://ca.sennheiser-hearing.com/collections/hd-series-headphones'}],
+    why:'A wired open-back option for quiet environments when isolation and sound leakage are acceptable.',
+    tradeoff:'Not for noisy or shared spaces where isolation matters. Confirm source output/headphone connector, fit and comfortable listening level. A particular soundstage is not guaranteed by open-back construction.',
+    extra:['Headphone output or compatible external adapter is required if the source cannot drive it.'],
+    priceCA:{components:[{label:'Sennheiser HD 560S',amount:199.95,url:'https://ca.sennheiser-hearing.com/collections/hd-series-headphones'}]}
+  },
+  {
+    id:'headphone-hd600', architecture:'headphone_first', title:'Open-back home alternative: Sennheiser HD 600',
+    kind:'Headphone + verified source output', places:['desk','bedroom','living_room'], power:'source_dependent',
+    connections:['analog'],goals:['natural','low_volume','imaging'],
+    parts:[{name:'Sennheiser HD 600 headphones',count:1,role:'Open-back wired headphone',url:'https://support.sennheiser-hearing.com/hc/en-fr/articles/38292415494173-HD-600-Specifications'}],
+    why:'A higher-priced, open-back comparison target with well-documented factory specifications, worth auditioning rather than automatically upgrading.',
+    tradeoff:'Needs a suitable headphone output for the intended level; leakage and fit remain. Higher price is not proof of an audible improvement in your setup.',
+    extra:['Check exact regional cable, comfort and quiet-level channel matching.'],
+    priceCA:{components:[{label:'Sennheiser HD 600 list price',amount:579.95,url:'https://ca.sennheiser-hearing.com/collections/hd-series-headphones'}]}
+  },
+  {
+    id:'party-soundboks', architecture:'party_pa', title:'Portable battery party: SOUNDBOKS 4',
+    kind:'One self-powered party speaker', places:['party','outdoors','living_room'], power:'battery',
+    connections:['bluetooth','analog'],goals:['party','dynamic'],
+    parts:[{name:'SOUNDBOKS 4 (includes battery)',count:1,role:'One powered battery party speaker; stereo/coverage from more units is separate',url:'https://soundboks.ca/products/soundboks-4'}],
+    why:'A real battery-powered event option with self-contained amplification and Bluetooth rather than a mains-only home stereo.',
+    tradeoff:'One box is not a guaranteed stereo pair. Battery duration depends on level, venue coverage is unverified, and SPL marketing maxima do not prove clean sustained output at the crowd.',
+    extra:['Check weight, weather, safe hearing exposure, local serial/recall notices and the event power/coverage plan.'],
+    priceCA:{components:[{label:'SOUNDBOKS 4 with battery',amount:1499,url:'https://soundboks.ca/products/soundboks-4'}]}
+  },
+  {
+    id:'party-jbl', architecture:'party_pa', title:'Microphones and small events: JBL EON ONE MK2',
+    kind:'One battery PA column system', places:['party','outdoors'], power:'battery',
+    connections:['analog','bluetooth'],goals:['party'],
+    parts:[{name:'JBL EON ONE MK2',count:1,role:'One powered battery PA column with built-in mixer inputs',url:'https://www.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw855d8ce0/pdfs/JBL_EONONE-MK2-UserGuide.pdf'}],
+    why:'An event-oriented option where microphone inputs, transport and battery power matter alongside music playback.',
+    tradeoff:'One column is not a full stereo PA. Coverage and clean sustained level for the event need checking. No verified normal regional price is included.',
+    extra:['Confirm battery, mic/input configuration, source path, legal sound levels and any recall/serial guidance.'],
+    priceCA:null
+  },
+  {
+    id:'party-dzr', architecture:'party_pa', title:'Mains-powered PA: Yamaha DZR15 (non-Dante)',
+    kind:'One powered PA cabinet, not a complete stereo rig', places:['party','outdoors'], power:'mains',
+    connections:['analog'],goals:['party','dynamic'],
+    parts:[{name:'Yamaha DZR15 (non-Dante)',count:2,role:'Example stereo pair: two individual powered PA cabinets',url:'https://ca.yamaha.com/en/audio/portable-pa/products/speakers/dzr/specs.html'},
+      {name:'Mixer/controller, safe stands and cabling',count:1,role:'Not included in speaker-only price',url:null}],
+    why:'A higher-output event architecture with professional inputs for mains-powered venues.',
+    tradeoff:'AC power mandatory, not a backyard battery speaker. Transport, rigging, mixer and venue safety matter. Output and pricing are not checked for your specific audience.',
+    extra:['Outdoor use still needs weather protection and safe mounting; check exact non-Dante SKU.'],
+    priceCA:null
+  },
+  ...BUDGET_EXAMPLES
+]);
+
+const allowedArch = ['passive_separates','consumer_powered_pair','active_studio','headphone_first','party_pa'];
+export function shortlistExamples(input = {}) {
+  const arch = allowedArch.includes(input.architecture) ? input.architecture : 'open';
+  const scene = String(input.useCase || 'living_room');
+  const aim = String(input.goal || 'all_rounder');
+  const neededPower = input.power === 'battery' ? 'battery' : null;
+  const strict = input.budgetStrict !== false;
+  const budget = Number.isFinite(input.budget) && input.budget >= 0 ? input.budget : null;
+  const region = String(input.region || '');
+  const currency = String(input.currency || '');
+  const used = input.used !== false;
+  const secondary = Array.isArray(input.secondary) ? input.secondary.filter(x=>typeof x==='string') : [];
+  const selected = [], excluded = [];
+  const targetArchitectures = arch === 'open' ?
+    (scene === 'party' || aim === 'party' || neededPower ? ['party_pa'] : ['passive_separates','consumer_powered_pair','active_studio']) :
+    [arch];
+  let order;
+  if (targetArchitectures.length === 1 && targetArchitectures[0] === 'headphone_first') order = ['headphone-hd560','headphone-hd600'];
+  else if (targetArchitectures.length === 1 && targetArchitectures[0] === 'party_pa') order = ['party-soundboks','party-jbl','party-dzr'];
+  else if (scene === 'desk') order = ['powered-mr4','powered-ora','studio-jbl','studio-kali','passive-bt20a-xt15','passive-as301-p5'];
+  else if (aim === 'imaging') order = ['studio-jbl','powered-ora','passive-as301-p5','studio-kali','passive-bt20a-xt15','powered-mr4'];
+  else if (aim === 'natural') order = ['passive-as301-p5','studio-kali','powered-mr4','powered-ora','passive-bt20a-xt15','studio-jbl'];
+  else if (aim === 'low_volume') order = ['powered-mr4','passive-as301-p5','powered-ora','studio-kali','passive-bt20a-xt15','studio-jbl'];
+  else if (aim === 'bass') order = ['powered-ora','passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-mr4'];
+  else if (aim === 'dynamic' || input.level === 'high') order = ['passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-ora','powered-mr4'];
+  else order = ['passive-bt20a-xt15','passive-as301-p5','powered-ora','powered-mr4','studio-kali','studio-jbl'];
+  // Give no-owned-equipment shoppers real affordable alternatives.
+  const inputType=String(input.connection||'undecided');
+  const byInput=inputType==='usb' ?
+    ['powered-m60','powered-mr3','powered-r1280db','powered-r1280t','powered-r1280dbs','powered-r1700bts'] :
+    inputType==='optical' ? ['powered-r1280db','powered-r1280dbs','powered-mr3',
+      'powered-r1280t','powered-m60','powered-r1700bts'] :
+    aim==='bass'?['powered-r1700bts','powered-r1280dbs','powered-r1280db','powered-mr3','powered-r1280t','powered-m60'] :
+      ['powered-mr3','powered-r1280t','powered-r1280db',
+        'powered-r1280dbs','powered-m60','powered-r1700bts'];
+  if(arch==='headphone_first'){
+    order = budget!==null&&budget<=200 ?
+      ['headphone-ksc75','headphone-portapro',...order] :
+      [...order,'headphone-ksc75','headphone-portapro'];
+  } else if(targetArchitectures.includes('consumer_powered_pair')){
+    order = budget!==null&&budget<=350 ?
+      [...byInput,...order] : [...order,...byInput];
+  }
+  if(targetArchitectures.includes('passive_separates') &&
+    !order.includes('passive-bt20a-xt15'))order.push('passive-bt20a-xt15');
+  const subExamples = requestedSubExamples(input);
+  order=[...new Set([...subExamples.map(item => item.id), ...order])];
+  const priorOrder=new Map(order.map((id,index)=>[id,index]));
+  const byId=new Map([...subExamples, ...EXAMPLES].map(example=>[example.id,example]));
+  // Select a requested 2.1 system before stereo fallbacks. Other priorities
+  // still compare like setups, and hard budget, architecture and power limits apply below.
+  order.sort((a,b)=>compareExamplePriorities(byId.get(a),byId.get(b),input,
+    example=>priorOrder.get(example?.id)??Infinity));
+  const max = arch === 'open' ? 4 : 3;
+  const allowAffordableFill = strict && budget!==null && targetArchitectures.includes('consumer_powered_pair');
+  for (const [iteration,id] of [...order.map(id=>[0,id]),
+    ...(allowAffordableFill?order.map(id=>[1,id]):[])]) {
+    if (selected.some(x=>x.id===id)) continue;
+    const product = byId.get(id);
+    if (!product || !targetArchitectures.includes(product.architecture)) continue;
+    if (product.usedOnly && !used) continue;
+    if (neededPower && product.power !== 'battery' && product.power !== 'source_dependent') {
+      excluded.push({title:product.title,reason:'Battery operation required; this example uses wall power.'}); continue;
+    }
+    const snapshot = examplePriceFor(product, input);
+    if (product.requiresRegionalQuote && !snapshot) continue;
+    const subtotal = snapshot?.subtotal ?? null;
+    if (strict && budget !== null && subtotal !== null && subtotal > budget) {
+      excluded.push({title:product.title,reason:'The evidenced component subtotal alone is over your firm budget.'});
+      continue;
+    }
+    if (selected.length >= max) continue;
+    if (arch === 'open' && iteration===0 &&
+        selected.some(x=>x.architecture===product.architecture) &&
+        new Set(selected.map(x=>x.architecture)).size < 3) continue;
+    const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
+    selected.push({ ...configureSubExample(product, input), subtotal, priceComponents:snapshot?.components || [],
+      priceDate:snapshot?.date || (snapshot ? '2026-11-12' : null),
+      editorialGoalFocus: product.goals.includes(aim),
+      decisionReasons:explainExampleInteractions(product,input),
+      secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
+      pricingStatus: subtotal === null ? 'regional_price_missing' : 'partial_subtotal',
+      priceEvidence:product.priceEvidence||null,
+      connectionStatus: needsConnection ? 'adapter_needed' : 'native_possible',
+      levelCaution:input.level === 'high' &&
+        (Boolean(product.bassSetup) || product.id.startsWith('powered-') || ['powered-ora','studio-jbl'].includes(product.id)),
+      placementCaution:(Number(input.distanceFt)>10 &&
+        (Boolean(product.bassSetup) || product.id.startsWith('powered-') || ['studio-jbl','studio-kali'].includes(product.id))),
+      sceneCaution:!product.places.includes(scene),
+      sourceBatteryCaution:neededPower && product.power === 'source_dependent'
+    });
+  }
+  return {selected,excluded,region,currency,budget,sourceDate:'2026-11-12'};
+}
