@@ -4,6 +4,7 @@ import {shortlistSpeakersForOwnedAmplifier} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
+import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -95,17 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
         option.value = record.model;
         select.append(option);
       }
-      if (kind === 'speaker') {
-        for (const record of BUILDER_ONLY_SPEAKERS) {
-          if ((inventory.speaker || []).some(x=>x.model===record.model)) continue;
-          const option=el('option','',record.model+' (Builder addition)');
-          option.value=record.model;
-          select.append(option);
-        }
+      const supplements=kind==='speaker' ? BUILDER_ONLY_SPEAKERS :
+        kind==='headphone' ? BUILDER_ONLY_HEADPHONES : [];
+      for (const record of supplements) {
+        if ((inventory[kind] || []).some(x=>x.model===record.model)) continue;
+        const option=el('option','',record.model+' (Builder addition)');
+        option.value=record.model;
+        select.append(option);
       }
     }
     const count = Object.values(inventory).reduce((n, records) => n + records.length, 0);
-    state.textContent = count + ' existing System Check presets loaded (read-only) · '+BUILDER_ONLY_SPEAKERS.length+' Builder-only price-verified speakers. Unknown technical fields are not filled in.';
+    state.textContent = count + ' existing System Check presets loaded (read-only) · '+BUILDER_ONLY_SPEAKERS.length+' source-linked Builder-only speakers · '+BUILDER_ONLY_HEADPHONES.length+' source-linked Builder-only headphones. Unknown technical fields remain unknown.';
   } else {
     state.textContent = 'The saved preset catalog did not load. Unlisted model inputs remain available; no specs will be assumed.';
   }
@@ -148,7 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const exact = String(data.get(kind) || '');
     const custom = String(data.get(kind+'Other') || '').trim();
     const record = (inventory?.[kind] || []).find(x => x.model === exact) ||
-      (kind==='speaker' ? builderOnlySpeakerFor(exact) : null);
+      (kind==='speaker' ? builderOnlySpeakerFor(exact) :
+        kind==='headphone' ? builderOnlyHeadphoneFor(exact) : null);
     return {name: custom || record?.model || '', record: custom ? null : record, unlisted: !!custom};
   }
   let reportContainer = null;
