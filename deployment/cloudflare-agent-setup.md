@@ -1,7 +1,7 @@
 # Cloudflare agent setup for The Sound Question
 
-Status: **Project guidance configured; Cloudflare account MCP not yet authorized in ChatGPT.**
-Updated: 2026-11-13
+Status: **Cloudflare Pages settings read-only verified 2026-11-14; earlier connection instructions below retained for historical reference.**
+Updated: 2026-11-14
 
 ## Current production architecture
 
@@ -63,4 +63,19 @@ Do **not** automatically run a global `npx skills add ... --global` on the user'
 
 - The `thesoundquestion/research` repository is private and must not be automatically published.
 - No secrets or OAuth tokens belong in this public repository.
-- The current setup does **not** claim that the ChatGPT Cloudflare MCP connection, OAuth sign-in, or a Pages deployment-status check has been completed.
+- A Cloudflare connection was available for a **read-only Pages project configuration check on 2026-11-14**. No Cloudflare settings or deployments were changed; this does not claim an OAuth login procedure or a new production deployment.
+
+## 2026-11-14 — Verified Pages settings and build-budget workflow
+
+Read-only inspection through an authenticated Cloudflare connection on 2026-11-14 confirmed project `thesoundquestion` uses GitHub `thesoundquestion/website`: production branch `main` with automatic production deployments **enabled**, and preview deployment setting `none` (automatic preview branch deployments **disabled**). This supersedes the historical connection-status warning above only for this verified session; it does **not** mean settings will never change. No settings were modified, and this document update remains on the nonproduction review branch.
+
+**Conserve builds:** keep manuscript, policy, publication and audio-lab work on draft branches while previews remain disabled. For nonrelease commits to the Pages-linked repository, use a commit subject starting with `[CF-Pages-Skip]` to request no build; Cloudflare recognizes this exact skip flag. Read the active project settings before relying on either safeguard. Avoid unneeded commits to `main` and avoid publishing temporary files solely for archive housekeeping.
+
+**Intentional release:** confirm the owner approved the exact content/diff and monthly quota, pass local QA, then publish a single reviewed production change on `main` **without** a skip flag. Verify that Cloudflare actually built and deployed the intended SHA; a GitHub push, archive, preview or deployment-status assumption is not proof of production delivery. Record deployment ID and build usage. Cloudflare Pages Free documentation (checked 2026-11-14) lists **500 builds/month** and **25 MiB maximum size per individual deployed file**. Do not upload the full 62 MB handbook source archive as a Pages asset; preserve it in the Library, verify the selected PDF/images and size-check each actual deliverable. Do not pay for alternate storage without approval.
+
+The handbook-specific publication checklist and the separation of binary Library assets from GitHub text staging live in `staging/handbook-20261114/README.md` on `draft/handbook-review-20261114`. The private master handoff `thesoundquestion/research/WEBSITE_BUILD_MASTER_HANDOFF.md` summarizes the coordinated release gate. The separate `/lab/` route and rights/attribution policy must not be represented as published until verified.
+
+Official references:
+- https://developers.cloudflare.com/pages/configuration/git-integration/github-integration/
+- https://developers.cloudflare.com/pages/configuration/branch-build-controls/
+- https://developers.cloudflare.com/pages/platform/limits/
