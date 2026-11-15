@@ -32,3 +32,16 @@
 @media(max-width:1050px){.lab-hero{grid-template-columns:1fr}.lab-hero-graphic{max-width:640px;min-height:215px}.lab-console{grid-template-columns:1fr}.lab-console-right{border-left:0;border-top:1px solid var(--lab-border)}.lab-console-right .lab-guide ul{columns:2;column-gap:2rem}.lab-console-right .lab-guide li{break-inside:avoid}}
 @media(max-width:650px){.lab-hero{padding-block:2.4rem}.lab-hero h1{font-size:clamp(2.65rem,10vw,4rem)}.lab-topline{align-items:start;flex-direction:column}.lab-review-tag{font-size:.59rem}.lab-import{align-items:start;flex-direction:column}.lab-import-button{width:100%}.lab-variant-button{gap:.5rem;padding:.65rem .45rem}.lab-variant-index{font-size:.7rem}.lab-load-state{font-size:.58rem}.lab-assign{max-width:77px;font-size:.63rem;padding:.4rem}.lab-cue-row{grid-template-columns:repeat(2,1fr)}.lab-transport{flex-wrap:wrap}.lab-clock{font-size:.77rem}.lab-console-right .lab-guide ul{columns:1}.lab-methodline{grid-template-columns:1fr}.lab-details-grid summary{flex-direction:column;align-items:flex-start}.lab-details-grid summary strong{text-align:left}}
 @media(prefers-reduced-motion:reduce){.lab-meter-fill,.lab-variant{transition:none}}
+
+
+/* Source acknowledgement: visible by the player, not hidden in the footer. */
+.lab-source-credit{margin-top:1.15rem;padding:1.1rem 1.35rem;border:1px solid #38516a;border-radius:13px;background:linear-gradient(135deg,#102537,#101d2b)}
+.lab-credit-heading{display:flex;align-items:center;gap:.8rem;margin-bottom:.6rem}
+.lab-credit-heading .section-kicker{margin:0 0 .15rem;font-size:.65rem}
+.lab-credit-heading h3{margin:0;color:#edf7ff;font-size:1.12rem;letter-spacing:-.02em}
+.lab-credit-icon{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:11px;background:#17354b;color:#86d6f8;font-size:1.4rem}
+.lab-source-credit p{font-size:.85rem;line-height:1.68;margin:0 0 .55rem;color:#bfcedd}
+.lab-source-credit p:last-child{margin-bottom:0}
+.lab-source-credit a{color:#91dfff;text-underline-offset:3px}
+.lab-source-credit strong{color:#ecf8ff}
+.lab-source-credit .lab-credit-license{border-top:1px solid #30495d;margin-top:.8rem;padding-top:.68rem;color:#a2bdd0;font-size:.77rem}

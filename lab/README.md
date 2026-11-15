@@ -20,7 +20,7 @@ They will be matched to their mix automatically by filename. A separate “Load 
 
 The page has a **single shared playhead**. Choose Narrow, Reference, or Polished at any point without navigating back to the transport controls; playback position is retained when switching. Quick cue buttons jump to selected moments. Explanatory notes are directly next to the player. Headphones are recommended but not mandatory.
 
-**Audio stays local.** The file picker creates temporary `blob:` URLs for browser playback. No audio is sent to GitHub, Cloudflare or another service. This branch contains **zero full-band copyrighted audio bytes**. The WAVs must not be uploaded for public hosting until the underlying recording licence and attribution have been verified.
+**Audio stays local.** The file picker creates temporary `blob:` URLs for browser playback. No audio is sent to GitHub, Cloudflare or another service. This branch contains **zero full-band copyrighted audio bytes**. The dataset's CC BY 4.0 attribution is documented below; public hosting remains gated on confirming its scope for the underlying music and recording.
 
 ## Scope
 
@@ -34,9 +34,23 @@ The page has a **single shared playhead**. Choose Narrow, Reference, or Polished
 - The earlier *Listening Lab* cymbal/ABX prototype remains a separate experiment; this preview doesn't replace its code or claim to improve its ABX implementation.
 - No main-branch nav update, sitemap update, deployment, or public page is included.
 
+## Recording credit and thank-you
+
+The excerpt is **“Let The Light In” by Tom McKenzie**, from the album *Extraordinary* (released 2025). Original album: https://tommckenzie.bandcamp.com/album/extraordinary
+
+The three 30-second teaching mixes are independently edited versions of **14 mixed-dry / processed-dry stems** from **AlbumDB: A multitrack dataset of a ten-song album with stereo and immersive 7.1.4 masters**, version 1.0 (2026). The dataset's listed creators are **Thomas McKenzie, Eloi Moliner Juanpere and Alec Wright**.
+
+- Original research dataset and source: https://zenodo.org/records/19683001
+- Specific-version DOI: https://doi.org/10.5281/zenodo.19683001
+- Dataset license recorded by Aalto University: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), also catalogued at https://research.aalto.fi/en/datasets/albumdb-a-multitrack-dataset-of-a-ten-song-album-with-stereo-and-/
+- Modification statement: we selected a 0:40–1:10 excerpt and made three independent educational mixes, altering track balances, width, panning, EQ, ambience, automation and other effects. The original commercial stereo master was not used as a remix input. All comparison masters were gain-matched only, without mastering compression or limiting.
+- Thanks to the musician and research collaborators for making real multitracks available for learning and experimentation. No artist or researcher endorsement is implied.
+
+**Publication distinction:** The commercial Bandcamp release displays an "all rights reserved" notice, while the AlbumDB dataset is separately listed as CC BY 4.0. The public audio-hosting step should confirm the dataset's licensing scope and whether any distinct recording/composition rights require additional permission. **Do not remove the audio publication gate based on attribution alone.**
+
 ## Publishing gate
 
-Before making this live: verify the stems' licence, derivatives/redistribution permission, credit wording, and hosting plan; optimize the 30-second recordings (WAV archive vs compressed streaming delivery) while preserving fair comparison; connect validated audio URLs; review UI on headphones and stereo loudspeakers; confirm legal/policy copy; and explicitly approve a deploy.
+Before making this live: confirm the scope of the dataset's CC BY 4.0 licence for derivative audio and any separate commercial-album rights, review the attribution wording, and finalize the hosting plan; optimize the 30-second recordings (WAV archive vs compressed streaming delivery) while preserving fair comparison; connect validated audio URLs; review UI on headphones and stereo loudspeakers; confirm legal/policy copy; and explicitly approve a deploy.
 
 ## Quality checks
 
