@@ -46,3 +46,10 @@
 - Mixing and Mastering have two peer cards on the Labs hub; the full standalone offline Mastering Lab with local WAV picker, real waveform rendering, sound comparisons and simple ABX UI is staged at `/lab/mastering/`.
 - Staged Mastering HTML does not include licensed WAV bytes, is `noindex,nofollow`, and remains a review artifact. Real public audio and final changes require rights/curator approval. No live Cloudflare deployment authorized.
 - Longer-term design proposal: unify navigation on ALL pages, reduce scrolling on mobile, keep mixing/mastering experiments as first-class destinations, and link evidence/source detail contextually. Do not silently implement that sitewide overhaul without user design review.
+
+## November 15: site navigation and selective deeper-learning links
+
+- Added a four-card homepage, direct top About link and simplified mobile hero. The primary navigation now has five consistent choices on core pages: Lessons, Labs, Tools, Library and About. New `/tools/` hub places the three existing audio tools together.
+- Used no-JS mobile disclosure navigation and context-specific lesson links, rather than a global list of unrelated featured content. See `staging/release-consolidation-20261115/NAVIGATION_AND_CROSSLINK_AUDIT.md`.
+- The Labs dataset stages are expandable; full credits remain available. No permissions gate was removed from the release checklist.
+- This requires fresh full repository tests and a visual review on narrow and wide browser widths before production approval.

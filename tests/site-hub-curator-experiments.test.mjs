@@ -17,9 +17,9 @@ function linkTargets(text) {
   return [...text.matchAll(/\bhref="(\/[^"]+)"/g)].map(m => m[1].split(/[?#]/)[0]).filter(Boolean);
 }
 
-test('homepage has six distinct action destinations', () => {
+test('homepage offers four purpose-led entry points', () => {
   const links = [...home.matchAll(/<a class="discovery-card" href="([^"]+)"/g)].map(m => m[1]);
-  assert.deepEqual(links, ['/decoder/', '/labs/', '/system-check/', '/system-builder/', '/system-check/compare/', '/library/']);
+  assert.deepEqual(links, ['/decoder/', '/labs/', '/tools/', '/library/']);
   assert.match(home, /CHOOSE YOUR NEXT QUESTION/);
   assert.match(home, /Follow sound from performance to playback/);
 });
