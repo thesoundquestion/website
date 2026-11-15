@@ -1,67 +1,63 @@
-// Publish only runtime website files; preserve tests and engineering notes in Git.
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, statSync, lstatSync } from 'node:fs';
+// Publish tracked website runtime files only; preserve engineering/tests in Git.
+import { copyFileSync, existsSync, mkdirSync, rmSync, lstatSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const output = path.join(root, '.pages-dist');
-const publicRoutes = [
+const output = path.join(root, 'site-dist');
+const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
-  'library', 'privacy', 'system-builder', 'system-check', 'tools',
-];
-const publicFiles = ['index.html', '404.html', 'robots.txt', 'sitemap.xml'];
-const runtimeExtensions = new Set([
+  'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets',
+]);
+const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml']);
+const runtimeExt = new Set([
   '.html', '.css', '.js', '.mjs', '.json', '.svg', '.webp', '.png',
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
 ]);
-const excludedExtensions = new Set(['.wav', '.flac', '.mp3', '.ogg', '.aiff', '.aif', '.m4a', '.mp4', '.webm']);
+const mediaExt = new Set(['.wav', '.flac', '.mp3', '.ogg', '.aiff', '.aif', '.m4a', '.mp4', '.webm']);
+const git = process.env.TSQ_GIT_EXECUTABLE || 'git';
+const raw = execFileSync(git, ['ls-files', '-z'], { cwd: root });
+const tracked = raw.toString('utf8').split('\0').filter(Boolean);
+if (tracked.length < 80) throw new Error('Too few Git-tracked files in checkout; refusing empty publish');
 
-function shouldCopy(src) {
-  const relative = path.relative(root, src).split(path.sep);
-  if (relative.some((segment) => segment.startsWith('.'))) return false;
-  const st = lstatSync(src);
-  if (st.isSymbolicLink()) throw new Error('Refusing symbolic link in public output: ' + src);
-  if (st.isDirectory()) return true;
-  const ext = path.extname(src).toLowerCase();
-  if (excludedExtensions.has(ext)) throw new Error('Audio/video unexpectedly tracked in public routes: ' + src);
-  return runtimeExtensions.has(ext);
+const files = [];
+for (const entry of tracked) {
+  if (entry.startsWith('/') || entry.includes('\\') || entry.split('/').includes('..')) {
+    throw new Error('Unsafe Git path: ' + entry);
+  }
+  const parts = entry.split('/');
+  const ext = path.extname(entry).toLowerCase();
+  const inPublicRoute = parts.length > 1 && routes.has(parts[0]);
+  const topLevel = parts.length === 1 &&
+    (rootFiles.has(entry) || /^[a-f0-9]{32}\.txt$/i.test(entry));
+  if (!inPublicRoute && !topLevel) continue;
+  if (mediaExt.has(ext)) throw new Error('Publication of tracked audio/video requires separate approval: ' + entry);
+  if (!topLevel && !runtimeExt.has(ext)) continue;
+  if (parts.some(p => p.startsWith('.'))) continue;
+  const from = path.join(root, ...parts);
+  if (!existsSync(from)) throw new Error('Tracked runtime file absent: ' + entry);
+  if (!lstatSync(from).isFile()) throw new Error('Non-regular runtime file: ' + entry);
+  files.push({ entry, from });
 }
-
 rmSync(output, { recursive: true, force: true });
 mkdirSync(output, { recursive: true });
-for (const route of publicRoutes) {
-  const from = path.join(root, route);
-  if (!existsSync(from) || !statSync(from).isDirectory()) throw new Error('Missing public route: ' + route);
-  cpSync(from, path.join(output, route), { recursive: true, filter: shouldCopy });
+let maxBytes = 0;
+for (const {entry, from} of files) {
+  const dest = path.join(output, ...entry.split('/'));
+  mkdirSync(path.dirname(dest), { recursive: true });
+  copyFileSync(from, dest);
+  maxBytes = Math.max(maxBytes, statSync(dest).size);
 }
-const assets = path.join(root, 'assets');
-if (!existsSync(assets)) throw new Error('Runtime assets directory missing');
-cpSync(assets, path.join(output, 'assets'), { recursive: true, filter: shouldCopy });
-
-for (const name of publicFiles) {
-  const from = path.join(root, name);
-  if (!existsSync(from)) throw new Error('Missing top-level site file: ' + name);
-  cpSync(from, path.join(output, name));
+if (files.length > 20000) throw new Error('Cloudflare Free 20,000-file quota exceeded');
+if (maxBytes > 25 * 1024 * 1024) throw new Error('Cloudflare Pages 25 MiB per-file limit exceeded');
+const required = [
+ 'index.html', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
+ 'decoder/index.html', 'labs/index.html', 'lab/index.html',
+ 'lab/mastering/index.html', 'tools/index.html', 'system-check/index.html',
+ 'system-builder/index.html', 'library/make-audio-make-sense/make-audio-make-sense.pdf',
+];
+for (const file of required) {
+ if (!existsSync(path.join(output, ...file.split('/')))) throw new Error('Required runtime file missing: ' + file);
 }
-for (const name of readdirSync(root)) {
-  if (/^[a-f0-9]{32}\.txt$/i.test(name)) cpSync(path.join(root, name), path.join(output, name));
-}
-let count = 0;
-let maxFileSize = 0;
-function validateDir(dir) {
-  for (const item of readdirSync(dir, { withFileTypes: true })) {
-    const absolute = path.join(dir, item.name);
-    if (item.isDirectory()) validateDir(absolute);
-    else {
-      count++;
-      maxFileSize = Math.max(maxFileSize, statSync(absolute).size);
-    }
-  }
-}
-validateDir(output);
-if (count > 20000) throw new Error('Pages Free file-count limit exceeded: ' + count);
-if (maxFileSize > 25 * 1024 * 1024) throw new Error('Pages 25 MiB individual-file limit exceeded');
-for (const required of ['index.html','assets/styles.css','decoder/index.html','labs/index.html','lab/index.html','lab/mastering/index.html','tools/index.html','system-check/index.html','system-builder/index.html']) {
-  if (!existsSync(path.join(output, required))) throw new Error('Missing required runtime output: ' + required);
-}
-console.log('PUBLIC_BUILD_OK files=' + count + ' maxBytes=' + maxFileSize + ' output=.pages-dist');
+console.log('PUBLIC_BUILD_OK trackedFiles=' + files.length + ' maxBytes=' + maxBytes + ' output=site-dist');

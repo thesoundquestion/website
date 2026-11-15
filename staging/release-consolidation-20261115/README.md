@@ -70,3 +70,5 @@
 - The build script includes the original standalone Mixing and Mastering HTML interfaces, website assets, tutor data, illustrated guide PDF, and Google verification text; it intentionally fails if unapproved audio/video appears in public route directories.
 - Cloudflare Pages should use build command `node scripts/build-public-site.mjs` and output directory `.pages-dist`. This is still the existing free GitHub-connected static Pages project, not a new paid service.
 - Release should be one manually triggered Git-based production deployment from `main`, automatic builds remaining disabled; verify that latest deployment reaches success, inspect logs and check public routes before claiming success.
+
+- Packaging correction: build only files returned by `git ls-files`, not every local file. Locally generated FLAC evaluation exports under `assets/audio/` were detected as **untracked**, and must never be accidentally included; preserve these on the laptop. The tested output is `site-dist/` (previous draft `.pages-dist` obsolete). Set `TSQ_GIT_EXECUTABLE` for portable Git when running tests on Windows; Cloudflare's Git checkout can use `git` normally.
