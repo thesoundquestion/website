@@ -6,7 +6,7 @@ const root=path.resolve(import.meta.dirname,'..');
 const read=p=>readFileSync(path.join(root,p),'utf8');
 test('the general Labs hub credits the supplied research material without claiming partnership',()=>{
  const s=read('labs/index.html');
- for(const item of ['AlbumDB','Thomas McKenzie','Eloi Moliner','Alec Wright','Extraordinary','Creative Commons Attribution 4.0','noindex,nofollow','independently produced','original recordings and collaborations','Some timing edits'])assert.ok(s.includes(item),item);
+ for(const item of ['AlbumDB','Thomas McKenzie','Eloi Moliner','Alec Wright','Extraordinary','Creative Commons Attribution 4.0','noindex,nofollow','independently produced','original recordings and music contributed','Some timing edits'])assert.ok(s.includes(item),item);
  assert.match(s,/does not imply endorsement/);
  assert.match(s,/Creative and editorial approval stays with The Sound Question/);
  assert.doesNotMatch(s,/not been listened to|not listened to|generated slop/i);
