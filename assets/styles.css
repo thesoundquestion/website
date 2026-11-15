@@ -223,3 +223,40 @@ main{flex:1}
 .path-subtopics a{color:#8bddff;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 .path-subtopics a:hover{color:#e0f7ff;text-decoration-thickness:2px}
 .path-subtopics a:focus-visible{outline:2px solid #8bddff;outline-offset:3px;border-radius:2px}
+
+
+/* Release staging: compact action hub, curator note and experiments companion. */
+.discovery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.discovery-card{display:flex;flex-direction:column;min-height:0;padding:1.45rem;background:linear-gradient(145deg,rgba(23,37,55,.9),rgba(12,22,35,.95));border:1px solid #2b3c50;border-radius:15px;text-decoration:none;transition:border-color .2s,transform .2s}
+.discovery-card:hover{border-color:#6bb9f1;transform:translateY(-2px)}
+.discovery-card:focus-visible{outline:3px solid #8bddff;outline-offset:3px}
+.discovery-icon{font-size:1.7rem;line-height:1;color:#67d1ff;margin:.75rem 0}
+.discovery-card h3{font-size:1.24rem;line-height:1.25;margin:0 0 .5rem}
+.discovery-card p{font-size:.92rem;line-height:1.55;margin:0 0 1rem}
+.discovery-card .feature-link{margin-top:auto}
+.hub-secondary-links{font-size:.93rem;line-height:1.65;margin:1.3rem 0 0;color:#bbcbdf}
+.hub-secondary-links a{color:#8bddff;text-underline-offset:3px}
+.curator-story{padding:1.1rem 0 0;border-top:1px solid var(--line)}
+.curator-story p{font-size:1rem;line-height:1.75;margin-bottom:1.1rem}
+.curator-intro{font-size:1.08rem}
+.curator-tagline{text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:#80d7f5;margin-top:2rem}
+.curator-source{font-size:.85rem!important;color:#9db0c7}
+.experiment-intro{padding-bottom:clamp(30px,4vw,60px)}
+.experiment-jumps{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.4rem}
+.experiment-jumps a{display:inline-flex;align-items:center;border:1px solid #3a536e;background:rgba(18,31,48,.72);border-radius:999px;padding:.45rem .8rem;color:#d8edff;text-decoration:none;font-weight:700;font-size:.83rem}
+.experiment-jumps a:hover,.experiment-jumps a:focus-visible{border-color:#80d7f5;color:#fff}
+.experiment-table-wrap{max-width:100%;overflow-x:auto;margin:1.2rem 0}
+.experiment-table{width:100%;min-width:540px;border-collapse:collapse;font-size:.91rem;line-height:1.5}
+.experiment-table caption{text-align:left;color:#aebfd3;font-size:.85rem;line-height:1.5;padding:0 0 .8rem}
+.experiment-table th,.experiment-table td{padding:.9rem;border-bottom:1px solid #35506c;text-align:left;vertical-align:top}
+.experiment-table thead th{background:#132439;color:#9fe1ff;font-weight:750}
+.experiment-table tbody th{color:#edf6ff;font-weight:700}
+.experiment-versions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin:1.15rem 0}
+.experiment-versions>div{border:1px solid #35506c;border-radius:12px;background:#102033;padding:1.05rem}
+.experiment-versions h3{font-size:1.07rem;margin:.55rem 0 .4rem}
+.experiment-versions p{font-size:.9rem;line-height:1.55;margin:0}
+.experiment-route{display:flex;flex-wrap:wrap;gap:1rem 1.4rem;margin-top:1.3rem}
+.experiment-route a{color:#8bddff;font-weight:700;text-underline-offset:3px}
+#mixing,#mastering,#method,#evidence,#curator-note{scroll-margin-top:95px}
+@media(max-width:950px){.discovery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.experiment-versions{grid-template-columns:1fr}}
+@media(max-width:540px){.discovery-grid{grid-template-columns:1fr}.discovery-card{padding:1.2rem}.discovery-icon{margin:.55rem 0}.experiment-table{font-size:.87rem}.experiment-jumps a{font-size:.79rem}.experiment-route{flex-direction:column;gap:.65rem}}
