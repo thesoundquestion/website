@@ -1,4 +1,4 @@
-/* The Sound Question / Mixing Lab. Files stay in-browser, no network requests. */
+/* Mixing Lab: lossless published audio via Cloudflare; optional replacement files stay private. */
 (() => {
   'use strict';
   const DURATION = 30;
@@ -15,7 +15,9 @@
   let resumeOnReady = false;
   let requestedVersion = 0;
   let currentPlaying = false;
+  const AUDIO_HOST = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
   const files = Object.create(null);
+  for (const type of TYPES) files[type] = { name: type + '.flac', url: AUDIO_HOST + '/mixing/' + type + '.flac', local: false };
 
   const fmt = (seconds) => {
     const n = Math.max(0, Math.min(DURATION, Number(seconds) || 0));
@@ -39,7 +41,7 @@
       document.querySelector(`[data-mix="${type}"]`).setAttribute('aria-pressed', String(selected));
       document.querySelector(`[data-guide="${type}"]`).hidden = !selected;
       const ready = document.querySelector(`[data-state="${type}"]`);
-      ready.textContent = files[type] ? '✓ Loaded' : 'Not loaded';
+      ready.textContent = files[type] ? (files[type].local ? '✓ Local file' : '✓ Online') : 'Not loaded';
       ready.classList.toggle('is-ready', Boolean(files[type]));
     });
     document.getElementById('widthReadout').textContent = METRIC[current][0];
@@ -79,9 +81,9 @@
   };
   const useFile = (type, file) => {
     if (!file) return;
-    if (!/\.wav$/i.test(file.name) && !/wav/i.test(file.type)) { tell(`Please choose a WAV file for ${type}.`); return; }
-    if (files[type]) URL.revokeObjectURL(files[type].url);
-    files[type] = { name: file.name, url: URL.createObjectURL(file) };
+    if (!/\.(wav|flac)$/i.test(file.name) && !/(wav|flac)/i.test(file.type)) { tell(`Please choose a WAV or FLAC file for ${type}.`); return; }
+    if (files[type]?.local) URL.revokeObjectURL(files[type].url);
+    files[type] = { name: file.name, url: URL.createObjectURL(file), local: true };
     const selected = current === type;
     updateVariant();
     if (selected) setSource(type, false);
@@ -127,7 +129,7 @@
   audio.addEventListener('play', updatePlayButton);
   audio.addEventListener('pause', updatePlayButton);
   audio.addEventListener('ended', () => { updatePlayButton(); tell('Excerpt finished. Choose another mix to compare.'); });
-  audio.addEventListener('error', () => tell('This audio could not be decoded. Check that the file is a supported WAV.'));
+  audio.addEventListener('error', () => tell('Playback failed. Check your connection or replace this recording with a local WAV or FLAC.'));
   playBtn.addEventListener('click', () => {
     if (!files[current]) return;
     if (audio.paused) audio.play().catch(() => tell('Playback unavailable. Try another WAV or browser.'));
@@ -150,7 +152,8 @@
     else pendingSeek = time;
     updateTime();
   }));
-  window.addEventListener('pagehide', () => Object.values(files).forEach(file => URL.revokeObjectURL(file.url)));
+  window.addEventListener('pagehide', () => Object.values(files).filter(file => file.local).forEach(file => URL.revokeObjectURL(file.url)));
   updateVariant();
   updateTime();
+  setSource(current, false);
 })();

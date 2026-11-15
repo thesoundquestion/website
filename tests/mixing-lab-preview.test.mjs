@@ -26,11 +26,14 @@ test('honest source provenance, internal rights gate and listening guidance', ()
   assert.match(html, /href="\/labs\/#recordings"/);
   const checklist = readFileSync(new URL('../staging/release-consolidation-20261115/README.md', import.meta.url), 'utf8');
   assert.match(checklist, /underlying composition/i);
-  assert.match(html, /name="robots" content="noindex,nofollow"/);
+  assert.match(html, /name="robots" content="index,follow"/);
   assert.doesNotMatch(html, /src="[^"\n]+\.(wav|mp3|flac)"/i);
 });
 
-test('local-file audio only, no upload or network telemetry', () => {
+test('hosted audio loads automatically; user replacement files remain local', () => {
+  assert.match(js, /tsq-lab-audio\.thesoundquestion\.workers\.dev/);
+  assert.match(js, /setSource\(current, false\)/);
+  assert.match(js, /\/mixing\//);
   assert.match(js, /URL\.createObjectURL\(file\)/);
   assert.match(js, /URL\.revokeObjectURL/);
   assert.doesNotMatch(js, /\bfetch\s*\(|XMLHttpRequest|navigator\.sendBeacon|\.post\s*\(/);
