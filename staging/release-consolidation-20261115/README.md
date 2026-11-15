@@ -62,3 +62,11 @@
 - Added `tests/end-of-page-navigation.test.mjs` for pagewide coverage and kept the existing sitewide link-integrity regression check. No audio was hosted and no production deployment was made.
 
 - Final navigation-polish pass: on the 23 Decoder lesson pages with existing previous/next lesson sequencing, the new end bar retains only the related action, Home, and Back to top. The existing course controls already provide All lessons, so it is not repeated.
+
+## Controlled production packaging for November 15 deployment
+
+- The automated `tests/*.test.mjs`, helper scripts, research handoff notes, and staging materials are **retained in the GitHub repository** and included in source control for ongoing verification.
+- The Pages build copies only public routes and runtime assets into `.pages-dist/`. It excludes `tests/`, `staging/`, `deployment/`, `docs/`, `scripts/` and engineering-only root Markdown files from the **hosted web output**.
+- The build script includes the original standalone Mixing and Mastering HTML interfaces, website assets, tutor data, illustrated guide PDF, and Google verification text; it intentionally fails if unapproved audio/video appears in public route directories.
+- Cloudflare Pages should use build command `node scripts/build-public-site.mjs` and output directory `.pages-dist`. This is still the existing free GitHub-connected static Pages project, not a new paid service.
+- Release should be one manually triggered Git-based production deployment from `main`, automatic builds remaining disabled; verify that latest deployment reaches success, inspect logs and check public routes before claiming success.
