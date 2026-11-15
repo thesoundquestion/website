@@ -17,12 +17,15 @@ test('three separate, labelled listening options share a transport', () => {
   assert.match(js, /setSource\(btn\.dataset\.mix\)/);
 });
 
-test('honest audio source provenance, licence gate and listening guidance', () => {
+test('honest source provenance, internal rights gate and listening guidance', () => {
   assert.match(html, /14 processed-dry tracks/i);
   assert.match(html, /Headphones recommended/i);
   assert.match(html, /shaker.*already|shaker.*supplied|existing stereo drift/i);
   assert.match(html, /−20 LUFS/);
-  assert.match(html, /redistribution rights/i);
+  assert.match(html, /The Recordings Behind Our Labs/i);
+  assert.match(html, /href="\/labs\/#recordings"/);
+  const checklist = readFileSync(new URL('../staging/release-consolidation-20261115/README.md', import.meta.url), 'utf8');
+  assert.match(checklist, /underlying composition/i);
   assert.match(html, /name="robots" content="noindex,nofollow"/);
   assert.doesNotMatch(html, /src="[^"\n]+\.(wav|mp3|flac)"/i);
 });
