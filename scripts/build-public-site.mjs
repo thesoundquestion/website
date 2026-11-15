@@ -16,6 +16,8 @@ const runtimeExt = new Set([
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
 ]);
 const mediaExt = new Set(['.wav', '.flac', '.mp3', '.ogg', '.aiff', '.aif', '.m4a', '.mp4', '.webm']);
+const retiredHandbook = 'library/make-audio-make-sense/make-audio-make-sense.pdf';
+const illustratedHandbook = 'library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
 const git = process.env.TSQ_GIT_EXECUTABLE || 'git';
 const raw = execFileSync(git, ['ls-files', '-z'], { cwd: root });
 const tracked = raw.toString('utf8').split('\0').filter(Boolean);
@@ -32,6 +34,10 @@ for (const entry of tracked) {
   const topLevel = parts.length === 1 &&
     (rootFiles.has(entry) || /^[a-f0-9]{32}\.txt$/i.test(entry));
   if (!inPublicRoute && !topLevel) continue;
+  if (entry === retiredHandbook) continue; // Retired: do not publish the older three-page PDF.
+  if (entry === illustratedHandbook && statSync(path.join(root, ...parts)).size < 1_000_000) {
+    throw new Error('Illustrated handbook PDF is unexpectedly small; refusing an incomplete release');
+  }
   if (mediaExt.has(ext)) throw new Error('Publication of tracked audio/video requires separate approval: ' + entry);
   if (!topLevel && !runtimeExt.has(ext)) continue;
   if (parts.some(p => p.startsWith('.'))) continue;
@@ -55,7 +61,7 @@ const required = [
  'index.html', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
  'decoder/index.html', 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'tools/index.html', 'system-check/index.html',
- 'system-builder/index.html', 'library/make-audio-make-sense/make-audio-make-sense.pdf',
+ 'system-builder/index.html', illustratedHandbook,
 ];
 for (const file of required) {
  if (!existsSync(path.join(output, ...file.split('/')))) throw new Error('Required runtime file missing: ' + file);
