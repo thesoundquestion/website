@@ -19,7 +19,7 @@ function linkTargets(text) {
 
 test('homepage has six distinct action destinations', () => {
   const links = [...home.matchAll(/<a class="discovery-card" href="([^"]+)"/g)].map(m => m[1]);
-  assert.deepEqual(links, ['/decoder/', '/labs/', '/system-check/', '/system-builder/', '/system-check/compare/', '/library/behind-the-experiments/']);
+  assert.deepEqual(links, ['/decoder/', '/labs/', '/system-check/', '/system-builder/', '/system-check/compare/', '/library/']);
   assert.match(home, /CHOOSE YOUR NEXT QUESTION/);
   assert.match(home, /Follow sound from performance to playback/);
 });
@@ -58,4 +58,11 @@ test('responsive layout and no live deployment placeholder on homepage', () => {
   assert.match(styles, /\.discovery-grid\{display:grid/);
   assert.match(styles, /max-width:540px/);
   assert.doesNotMatch(home, /coming soon/i);
+});
+
+test('About is prominent and evidence explanations contain no private listening testimony',()=>{
+ assert.match(home,/class="button button-secondary" href="\/about\/"[^>]*>About this project/);
+ assert.doesNotMatch(article,/Grado|Paradigm Phantom|During informal listening|my headphones|my speakers/i);
+ assert.match(article,/Why playback can change the sense of space/);
+ assert.match(labs,/href="\/lab\/mastering\/"/);
 });

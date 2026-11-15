@@ -37,3 +37,12 @@
 3. Run full tests, manual responsive/keyboard/audio interaction review and source/rights acceptance.
 4. Reconcile `/labs/` noindex policy and release navigation with genuinely playable public examples.
 5. Obtain owner approval for one `main` release commit and one Cloudflare production deployment. Then disable auto builds again and verify the release.
+
+## Nov 15: revised information hierarchy and consent for personal examples
+
+- Removed a named Grado/Paradigm listening anecdote from the public experiment evidence. The replacement explains spatial playback differences generally, without representing private listening notes as a controlled study. No unapproved private gear or family example should appear in educational content.
+- The complete autobiographical curator excerpt remains on About because it was explicitly requested; any new identifiable personal anecdotes, family projects or equipment case studies require owner approval before publication.
+- Homepage now has an About action near the top. Main homepage cards cover Lessons, Labs, System Check, System Builder, Compare My Gear and the Library; Behind the Experiments is linked from within Labs and Library.
+- Mixing and Mastering have two peer cards on the Labs hub; the full standalone offline Mastering Lab with local WAV picker, real waveform rendering, sound comparisons and simple ABX UI is staged at `/lab/mastering/`.
+- Staged Mastering HTML does not include licensed WAV bytes, is `noindex,nofollow`, and remains a review artifact. Real public audio and final changes require rights/curator approval. No live Cloudflare deployment authorized.
+- Longer-term design proposal: unify navigation on ALL pages, reduce scrolling on mobile, keep mixing/mastering experiments as first-class destinations, and link evidence/source detail contextually. Do not silently implement that sitewide overhaul without user design review.
