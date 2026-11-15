@@ -36,7 +36,8 @@ test('every internal href/src from published page templates resolves to a staged
    let sitePath;
    try { sitePath = decodeURIComponent(u.pathname).replace(/^\//, ''); }
    catch { missing.push([path.relative(root,file),href,'invalid encoding']); continue; }
-   if (!sitePath || sitePath.endsWith('/') || !path.posix.extname(sitePath)) sitePath = sitePath.replace(/\/?$/, '/') + 'index.html';
+   if (!sitePath) sitePath = 'index.html';
+   else if (sitePath.endsWith('/') || !path.posix.extname(sitePath)) sitePath = sitePath.replace(/\/?$/, '/') + 'index.html';
    const target = path.resolve(root, sitePath);
    checked++;
    if (!target.startsWith(root + path.sep) && target !== path.join(root,'index.html')) {
