@@ -53,3 +53,10 @@
 - Used no-JS mobile disclosure navigation and context-specific lesson links, rather than a global list of unrelated featured content. See `staging/release-consolidation-20261115/NAVIGATION_AND_CROSSLINK_AUDIT.md`.
 - The Labs dataset stages are expandable; full credits remain available. No permissions gate was removed from the release checklist.
 - This requires fresh full repository tests and a visual review on narrow and wide browser widths before production approval.
+
+## November 15: end-of-page wayfinding and related routes
+
+- Added a compact, consistent **Where next? / Keep exploring** link bar above the footer on every public page, including standalone Mixing/Mastering pages and the main calculators. Pages provide a meaningful next destination; all internal pages also provide **Home** and **Back to top** links. The homepage offers the onward journey and top rather than linking to itself.
+- Preserved existing previous/next lesson sequencing rather than replacing it with another generic lesson carousel. Context links favor relevant exercises, Labs, tools, or explanatory follow-ups.
+- Link bars use ordinary HTML links, visible keyboard focus, mobile stacking and no JavaScript; the Mastering Lab carries equivalent scoped CSS because it remains a self-contained standalone prototype.
+- Added `tests/end-of-page-navigation.test.mjs` for pagewide coverage and kept the existing sitewide link-integrity regression check. No audio was hosted and no production deployment was made.
