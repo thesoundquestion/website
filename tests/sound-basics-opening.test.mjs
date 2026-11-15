@@ -25,6 +25,6 @@ test('curve control is static-first and responsive',()=>{
  assert.match(page,/data-eq-trace hidden/);
  assert.match(page,/data-sb-mode="speaker" aria-pressed="true"/);
  assert.match(page,/data-sb-mode="eq" aria-pressed="false"/);
- assert.match(script,/overlay.hidden=!eq/);
+ assert.match(script,/overlay\.toggleAttribute\('hidden',!eq\)/);
  assert.match(style,/@media\(max-width:680px\)/);
 });

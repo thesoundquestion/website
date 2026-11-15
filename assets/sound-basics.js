@@ -14,7 +14,7 @@ const descriptions={
 buttons.forEach(button=>button.addEventListener('click',()=>{
  const eq=button.dataset.sbMode==='eq';
  buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
- overlay.hidden=!eq;
+ overlay.toggleAttribute('hidden',!eq);
  legend.hidden=!eq;
  note.innerHTML=eq?descriptions.eq:descriptions.speaker;
 }));
