@@ -4,7 +4,7 @@ import {readFileSync,readdirSync,existsSync} from 'node:fs';
 import path from 'node:path';
 
 const root=path.resolve(import.meta.dirname,'..');
-const omit=new Set(['.git','.github','staging','tests','scripts','deployment','assets','docs']);
+const omit=new Set(['.git','.github','staging','tests','scripts','deployment','assets','docs', 'site-dist', '.pages-dist']);
 function pages(dir=root){
  const found=[];
  for(const d of readdirSync(dir,{withFileTypes:true})){

@@ -14,7 +14,7 @@ assert.match(s,/educational estimates/);
 assert.match(s,/name="robots" content="noindex,nofollow"/);
 });
 test('main site navigation has exactly the intended five destinations, with no JS required for mobile',()=>{
-const skipDirs=new Set(['.git','staging','tests','.github','deployment','docs','scripts','assets']);
+const skipDirs=new Set(['.git','staging','tests','.github','deployment','docs','scripts','assets', 'site-dist', '.pages-dist']);
 function walk(dir=''){
  const list=[];
  for(const entry of readdirSync(path.join(root,dir),{withFileTypes:true})){

@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..');
-const excluded = new Set(['.git', '.github', 'staging', 'tests', 'docs', 'assets', 'deployment', 'scripts']);
+const excluded = new Set(['.git', '.github', 'staging', 'tests', 'docs', 'assets', 'deployment', 'scripts', 'site-dist', '.pages-dist']);
 const cache = new Map();
 function read(file) {
  if (!cache.has(file)) cache.set(file, readFileSync(file, 'utf8'));
