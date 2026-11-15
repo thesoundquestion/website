@@ -10,6 +10,7 @@ const about = read('about/index.html');
 const library = read('library/index.html');
 const article = read('library/behind-the-experiments/index.html');
 const lab = read('lab/index.html');
+const labs = read('labs/index.html');
 const styles = read('assets/styles.css');
 
 function linkTargets(text) {
@@ -18,7 +19,7 @@ function linkTargets(text) {
 
 test('homepage has six distinct action destinations', () => {
   const links = [...home.matchAll(/<a class="discovery-card" href="([^"]+)"/g)].map(m => m[1]);
-  assert.deepEqual(links, ['/decoder/', '/lab/', '/system-check/', '/system-builder/', '/system-check/compare/', '/library/behind-the-experiments/']);
+  assert.deepEqual(links, ['/decoder/', '/labs/', '/system-check/', '/system-builder/', '/system-check/compare/', '/library/behind-the-experiments/']);
   assert.match(home, /CHOOSE YOUR NEXT QUESTION/);
   assert.match(home, /Follow sound from performance to playback/);
 });
@@ -45,7 +46,7 @@ test('comparison analysis identifies evidence boundaries and stereo data', () =>
 });
 
 test('all absolute local links in edited pages point to staged route or files', () => {
-  for (const [name, text] of Object.entries({home,about,library,article,lab})) {
+  for (const [name, text] of Object.entries({home,about,library,article,lab,labs})) {
     for (const target of linkTargets(text)) {
       const relative = target.endsWith('/') ? target.slice(1)+'index.html' : target.slice(1);
       assert.ok(existsSync(path.join(root, relative)), `${name}: ${target} is missing`);
