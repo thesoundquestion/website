@@ -44,6 +44,7 @@ test('lesson progression remains intact and end-page buttons work without JavaSc
   const html=read(file);
   if(relative.startsWith('decoder/')&&relative!=='decoder/index.html'&&html.includes('<!-- LESSON_NAV_BEGIN -->')){
    assert.match(html,/<nav class="dl-continue container" aria-label="Continue learning">/,relative+': course sequencing preserved');
+   assert.doesNotMatch(html, /page-endnav-links\"?><a href=\"\/decoder\/\">All lessons<\/a>/, relative+': duplicate All lessons action');
   }
   assert.doesNotMatch(html,/<button[^>]*class="page-endnav-primary"/i,relative+': next links must be ordinary anchors');
  }

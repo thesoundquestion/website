@@ -60,3 +60,5 @@
 - Preserved existing previous/next lesson sequencing rather than replacing it with another generic lesson carousel. Context links favor relevant exercises, Labs, tools, or explanatory follow-ups.
 - Link bars use ordinary HTML links, visible keyboard focus, mobile stacking and no JavaScript; the Mastering Lab carries equivalent scoped CSS because it remains a self-contained standalone prototype.
 - Added `tests/end-of-page-navigation.test.mjs` for pagewide coverage and kept the existing sitewide link-integrity regression check. No audio was hosted and no production deployment was made.
+
+- Final navigation-polish pass: on the 23 Decoder lesson pages with existing previous/next lesson sequencing, the new end bar retains only the related action, Home, and Back to top. The existing course controls already provide All lessons, so it is not repeated.
