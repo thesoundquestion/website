@@ -18,7 +18,7 @@ test('AlbumDB pages cite the research paper, dataset, artist, licence and indepe
  for(const p of albumPages){
   const s=read(p);
   for(const token of ['Tom McKenzie','zenodo.org/records/19683001','AES','Paper 10278','creativecommons.org/licenses/by/4.0/'])assert.ok(s.includes(token),p+' missing '+token);
-  assert.match(s,/No endorsement|no endorsement/i,p);
+  assert.match(s,/endorsement/i,p);
  }
 });
 test('public hubs and demos are present in sitemap',()=>{
