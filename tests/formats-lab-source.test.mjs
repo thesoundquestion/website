@@ -59,3 +59,18 @@ test('embedded listening control JavaScript parses without a third-party encoder
   assert.match(html, /class="main-nav"/);
   assert.match(html, /class="mobile-nav"/);
 });
+
+test('player script executes only after all its DOM controls exist', () => {
+  const headClose = html.indexOf('</head>');
+  const bodyClose = html.indexOf('</body>');
+  const scriptAt = html.lastIndexOf('<script>');
+  assert.ok(headClose >= 0 && bodyClose > headClose);
+  assert.ok(scriptAt > headClose && scriptAt < bodyClose,
+    'Inline defer in head does not wait for DOM; player script must run at end of body');
+  for (const id of ['playPause','restart','seek','playingNow','durationLabel','playText','playIcon']) {
+    assert.ok(html.indexOf('id="' + id + '"') < scriptAt, 'control missing at script execution: ' + id);
+  }
+  assert.doesNotMatch(html, /<head>[\s\S]*?<script\s+defer>[\s\S]*?<\/head>/);
+  assert.match(html, /if \(resume\) player\.play\(\)/,
+    'Resuming on a user tap must not wait until a later metadata event');
+});
