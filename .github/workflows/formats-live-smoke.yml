@@ -1,0 +1,52 @@
+name: Verify live MP3 Lab URLs (read-only)
+on:
+  push:
+    branches:
+      - draft/mp3-lossless-beginner-lab-20261115
+    paths:
+      - .github/workflows/formats-live-smoke.yml
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check live HTML, audio file checksums and server responses
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, urllib.request
+          base = 'https://thesoundquestion.pages.dev'
+          checks = {
+              '/labs/formats/':['Can you', 'difference?', '/assets/audio/formats/light-128.mp3', 'data-format="320"'],
+              '/labs/':['href="/labs/formats/"', 'EXPERIMENT 03 / MP3 vs LOSSLESS'],
+              '/decoder/lossy-lossless/':['href="/labs/formats/"', 'Try MP3 vs lossless']
+          }
+          audio = {
+              '/assets/audio/formats/light-128.mp3':'7ea7d336bc5bb8011aa560aa3394beef6384ba295c51c9a8a8bd66521b011777',
+              '/assets/audio/formats/light-320.mp3':'7c7d8ed8ff588af53537a37580af8212209ed3b15ea456e0739a31e7cd36b445',
+              '/assets/audio/formats/diva-128.mp3':'b37ad76293aec0020da3697f0051fa03ef70dc30b727b6b8ec625b0295256f9d',
+              '/assets/audio/formats/diva-320.mp3':'b1d87b86ac97d63cfff783d1a0fc15a756fa0485a4b1b48dd572e0483766a1c2',
+          }
+          def fetch(route):
+              req=urllib.request.Request(base+route,headers={'User-Agent':'TheSoundQuestion-PublicRelease-Verification/1.0'})
+              with urllib.request.urlopen(req,timeout=60) as r:
+                  assert r.status==200, (route,r.status)
+                  body=r.read()
+                  return body,r.headers.get('Content-Type','')
+          for route,phrases in checks.items():
+              body,mime=fetch(route)
+              text=body.decode('utf-8')
+              for phrase in phrases:
+                  assert phrase in text,(route,phrase)
+              print('PAGE_OK',route,'bytes',len(body),'mime',mime,flush=True)
+          for route,expected in audio.items():
+              body,mime=fetch(route)
+              assert len(body)>100000 and len(body)<2*1024*1024,(route,len(body))
+              actual=hashlib.sha256(body).hexdigest()
+              assert actual==expected,(route,'sha256 mismatch')
+              assert body[:3]==b'ID3' or body[:1]==b'\xff',(route,'missing MP3 header')
+              print('MP3_OK',route,'bytes',len(body),'sha256',actual,'mime',mime,flush=True)
+          print('LIVE_FORMATS_SMOKE_OK 3 HTML pages and 4 exact MP3 files',flush=True)
+          PY
