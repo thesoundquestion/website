@@ -1,4 +1,87 @@
 {
+  "sound-basics": {
+    "title": "Frequency, dB and distortion",
+    "specification": "60 Hz–15 kHz (±3 dB)",
+    "topic": "sound basics",
+    "terms": [
+      "frequency",
+      "hertz",
+      "decibel",
+      "dB",
+      "distortion",
+      "harmonic",
+      "frequency response",
+      "equalization",
+      "human hearing",
+      "ultrasound",
+      "infrasound",
+      "clipping",
+      "loudness",
+      "speaker response",
+      "masking"
+    ],
+    "sections": [
+      "frequency",
+      "music",
+      "decibels",
+      "response",
+      "distortion",
+      "outside-hearing",
+      "next"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Frequency describes how low or high a sound is. Decibels describe its measured strength compared with a reference. Distortion changes the waveform; nonlinear distortion can add tones not present in the source.",
+        "section": "frequency"
+      },
+      "spec": {
+        "text": "The fictional 60 Hz–15 kHz, plus-or-minus 3 dB speaker example stays relatively level within that stated range, not necessarily below or above it. The graph is an illustration, not a product measurement.",
+        "section": "response"
+      },
+      "hear": {
+        "text": "More bass output may add weight. A midrange rise can bring vocals and guitars forward. A distortion component may add roughness, though audibility depends on type and level. Listening and measurement answer different questions.",
+        "section": "music"
+      },
+      "buy": {
+        "text": "Frequency endpoints alone do not guarantee a good speaker. Look for the decibel tolerance, measurements under comparable conditions, sound radiated to the sides and distortion at realistic volumes.",
+        "section": "response"
+      },
+      "related": {
+        "text": "The next lesson explores real frequency-response specifications and how measurement conditions shape the graph.",
+        "href": "/decoder/speaker-frequency-response/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/speaker-frequency-response/#compare"
+    ],
+    "plots": {},
+    "questions": [
+      {
+        "phrases": [
+          "is 3 db twice as loud",
+          "does 3 db mean double the volume"
+        ],
+        "text": "No. A three-decibel difference in level is not a doubling of perceived loudness. Roughly ten decibels is sometimes described as about twice as loud, but it depends on the listening conditions.",
+        "section": "decibels"
+      },
+      {
+        "phrases": [
+          "do speakers have to play 20 hz",
+          "why can a speaker not play deep bass"
+        ],
+        "text": "A speaker can fall off in deep bass while reproducing midrange well. The quoted frequency limits need a level tolerance to tell you how weak the output has become.",
+        "section": "response"
+      },
+      {
+        "phrases": [
+          "does distortion mean added frequencies",
+          "is guitar distortion always bad"
+        ],
+        "text": "Natural instrument harmonics are part of the source. Nonlinear playback distortion can add new harmonics or other tones that were not in the incoming signal. Musicians can deliberately use distortion as an effect.",
+        "section": "distortion"
+      }
+    ]
+  },
   "speaker-frequency-response": {
     "title": "Speaker frequency response",
     "specification": "55 Hz–20 kHz (±3 dB)",
