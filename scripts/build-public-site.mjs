@@ -11,7 +11,7 @@ const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
   'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets',
 ]);
-const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml']);
+const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', 'favicon.ico']);
 const runtimeExt = new Set([
   '.html', '.css', '.js', '.mjs', '.json', '.svg', '.webp', '.png',
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
