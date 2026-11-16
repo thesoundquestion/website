@@ -33,6 +33,13 @@
       '320': '/assets/audio/formats/diva-320.mp3'
     }
   };
+  // Derived from assets/audio/formats/manifest.json. A small reduction to the
+  // reference and 320-kbps playback keeps sample-RMS near the 128-kbps clip.
+  // Playback gain only: the original FLAC and MP3 assets are unchanged.
+  const MATCHED_VOLUME = {
+    light: { lossless: 0.9511, '128': 1, '320': 0.9512 },
+    diva: { lossless: 0.9510, '128': 1, '320': 0.9510 }
+  };
   const byId = id => document.getElementById(id);
   const player = new Audio();
   player.preload = 'metadata';
@@ -68,6 +75,7 @@
     state.pending = { resume, seconds };
     player.pause();
     player.src = currentSong()[state.format];
+    player.volume = MATCHED_VOLUME[state.song][state.format];
     player.load();
     paint();
   }
@@ -159,7 +167,7 @@
    <label class="seek-label" for="seek">Move through the music</label>
    <input id="seek" type="range" min="0" max="30" value="0" step="0.05" aria-label="Audio position">
    <p id="playingNow" class="playing-now" role="status" aria-live="polite">Ready to listen: Original (lossless).</p>
-   <p class="context-note">Every MP3 was made from this exact same lossless recording. The mix and volume were not changed.</p>
+   <p class="context-note">Every MP3 was made from this same lossless recording. The music was not remixed or remastered. We make a tiny playback-volume adjustment to keep the comparison fair.</p>
    <details class="small-details"><summary>Want to hear the obvious difference first?</summary><p>Our current controls compare two everyday MP3 settings. A much lower bitrate could exaggerate the difference, but it wouldn't represent how most people listen today.</p></details>
   </div>
  </div>
@@ -180,7 +188,7 @@
   <article><span class="explainer-glyph" aria-hidden="true">⇄</span><h3>WAV vs FLAC?</h3><p>They can contain exactly the same sound. FLAC simply packs the digital information more efficiently.</p></article>
  </div>
  <p class="question-line">The real question isn't which file has the bigger number. <strong>It's whether the difference matters to what you hear.</strong></p>
- <details class="technical"><summary>For curious listeners: how we made this comparison</summary><div><p>Both MP3 examples are derived from the same 44.1 kHz lossless source, using LAME constant-bitrate encoding at 128 and 320 kbps. There was no separate mixing, EQ, mastering or volume boost. The files were checked for timing alignment and relative sample levels. Switching moves to approximately the same point in the audio; this is a guided comparison, not a blinded scientific test.</p><p>One short listening test cannot prove that everyone will hear or prefer the same format. Listening conditions and the recording itself can change the result.</p></div></details>
+ <details class="technical"><summary>For curious listeners: how we made this comparison</summary><div><p>Both MP3 examples are derived from the same 44.1 kHz lossless source, using LAME constant-bitrate encoding at 128 and 320 kbps. There was no separate mixing, EQ or mastering. The files were checked for timing alignment and sample levels. At 128 kbps the decoded sample RMS was about 0.44 dB lower than the lossless source, so we slightly lower the reference and 320 kbps playback to match the 128 kbps sample level. This is an approximate RMS-matched guided comparison, not a blinded scientific test. Switching moves to approximately the same point in the music.</p><p>One short listening test cannot prove that everyone will hear or prefer the same format. Listening conditions and the recording itself can change the result.</p></div></details>
 </section>
 <section class="wrap credits"><p class="eyebrow">THE RECORDINGS</p><h2>Real music, shared for learning</h2><p>These are audio examples from The Sound Question's existing Listening Labs, using recordings drawn from <em>Extraordinary</em> by Tom McKenzie. The songs and musical performances are real; the mixes or mastering used here are our educational versions, not the artist's official released masters.</p><p>Source: <a href="https://zenodo.org/records/19683001">AlbumDB research dataset</a> by Thomas McKenzie, Eloi Moliner Juanpere and Alec Wright, listed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>. The Sound Question independently prepared these educational audio adaptations. No endorsement or partnership is implied. Rights scope for public distribution of these further format encodes remains a release check.</p><p><a href="https://thesoundquestion.pages.dev/decoder/lossy-lossless/">Read the short lesson: MP3 and lossless music →</a></p></section>
 <nav class="wrap endnav" aria-label="More to explore"><a href="https://thesoundquestion.pages.dev/labs/">← All Listening Labs</a><a href="https://thesoundquestion.pages.dev/decoder/">Browse lessons →</a></nav>
