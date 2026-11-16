@@ -1,3 +1,5 @@
+> **Status update, 2026-11-16:** This file preserves the 2026-11-15 pre-release record. Its permissions and offline-player gates are superseded for the educational uses described in the artist's affirmative November 16 response and the now-hosted FLAC implementations. See [AlbumDB permission status](../../docs/albumdb-permission-status.md). Browser/audio QA and explicit deployment approval remain required. Cloudflare auto-deployments remain disabled.
+
 # The Sound Question — consolidated release candidate (2026-11-15)
 
 **Branch:** `draft/release-consolidation-20261115` (NONPRODUCTION)

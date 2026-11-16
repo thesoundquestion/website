@@ -11,7 +11,7 @@ for(const href of ['/system-check/','/system-builder/','/system-check/compare/',
  assert.ok(s.includes('href="'+href+'"'),href);
 }
 assert.match(s,/educational estimates/);
-assert.match(s,/name="robots" content="noindex,nofollow"/);
+assert.match(s,/name="robots" content="index,follow"/);
 });
 test('main site navigation has exactly the intended five destinations, with no JS required for mobile',()=>{
 const skipDirs=new Set(['.git','staging','tests','.github','deployment','docs','scripts','assets', 'site-dist', '.pages-dist']);

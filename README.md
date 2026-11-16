@@ -5,9 +5,9 @@ Public website for **The Sound Question** at https://thesoundquestion.pages.dev/
 ## Setup
 
 - **Hosting:** Cloudflare Pages (free tier)
-- **Deployment:** Automatic from the `main` branch of this GitHub repository
+- **Deployment:** GitHub integration connected; Cloudflare automatic production and preview deployments disabled pending explicit owner approval
 - **Framework:** Plain HTML and CSS, no build dependencies
-- **Build output:** repository root (`.`)
+- **Build output:** `site-dist/` via `node scripts/build-public-site.mjs`
 
 ## Pages
 
@@ -35,7 +35,7 @@ AI-agent development guidance and the free-tier / authorization safeguards are i
 
 ## Updating
 
-Edit and commit files to `main`. Cloudflare Pages should automatically deploy. If the build configuration is edited in Cloudflare, ensure that this plain HTML site continues to publish the repository root.
+Use an isolated review branch, run regression checks and obtain approval before merging or triggering a production deployment. Cloudflare automatic Git deployments are disabled. If the build configuration is edited in Cloudflare, ensure that this plain HTML site continues to publish the repository root.
 
 Use relative-to-root links (`/library/`, `/assets/styles.css`) so page paths work on all devices.
 
