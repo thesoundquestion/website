@@ -15,7 +15,7 @@ const newEntry = lessons.find(x => x.slug === 'playback-sources');
 
 test('current curriculum count, matching tutor answers and complete numbered navigation', () => {
   assert.ok(lessons.length>=19);
-  assert.equal(lessons.findIndex(x => x.slug==='playback-sources'),12);
+  assert.equal(lessons.findIndex(x => x.slug==='playback-sources'),13);
   assert.deepEqual(Object.keys(bank),lessons.map(x=>x.slug));
   for(let i=0;i<lessons.length;i++){
     const lesson=lessons[i],page=read('decoder/'+lesson.slug+'/index.html');

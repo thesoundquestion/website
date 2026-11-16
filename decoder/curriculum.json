@@ -3,6 +3,12 @@
   "description": "Published Spec Sheet Decoder lesson order. Keep updated whenever a new lesson is added; run scripts/sync_decoder_navigation.py to rebuild adjacent-lesson links.",
   "lessons": [
     {
+      "slug": "sound-basics",
+      "category": "fundamentals",
+      "title": "Frequency, dB and distortion",
+      "description": "Start here: musical frequencies, decibels, clean sound, and how to read a speaker-response curve."
+    },
+    {
       "slug": "speaker-frequency-response",
       "category": "speakers",
       "title": "Speaker frequency response",
@@ -244,6 +250,13 @@
     }
   ],
   "categories": {
+    "fundamentals": {
+      "label": "Basics",
+      "adjective": "introductory",
+      "anchor": "start-here",
+      "description": "Understand pitch, level and distortion before decoding equipment specifications.",
+      "switch_to": "speakers"
+    },
     "speakers": {
       "label": "Speakers",
       "adjective": "speaker",
