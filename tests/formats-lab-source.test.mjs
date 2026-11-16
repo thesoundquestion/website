@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { Script } from 'node:vm';
 
 const root = path.resolve(import.meta.dirname, '..');
 const html = readFileSync(path.join(root, 'labs/formats/index.html'), 'utf8');
@@ -47,4 +48,14 @@ test('visitor-facing page avoids false endorsements and redirects to learning re
   assert.match(html, /Song|song/);
   assert.match(html, /This is an approximate RMS-matched guided comparison, not a blinded scientific test/);
   assert.match(html, /@media\(max-width:680px\)/);
+});
+
+test('embedded listening control JavaScript parses without a third-party encoder', () => {
+  const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
+  assert.ok(scripts.length > 0, 'expected inline playback controller');
+  for (const script of scripts) assert.doesNotThrow(() => new Script(script[1]));
+  assert.doesNotMatch(html, /cdn\.jsdelivr|lamejs|new OfflineAudioContext/);
+  assert.match(html, /property="og:title"/);
+  assert.match(html, /class="main-nav"/);
+  assert.match(html, /class="mobile-nav"/);
 });
