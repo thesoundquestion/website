@@ -11,7 +11,14 @@ for(const href of ['/system-check/','/system-builder/','/system-check/compare/',
  assert.ok(s.includes('href="'+href+'"'),href);
 }
 assert.match(s,/educational estimates/);
-assert.match(s,/name="robots" content="noindex,nofollow"/);
+assert.match(s,/name="robots" content="index,follow"/);
+assert.ok(s.includes('<link rel="canonical" href="https://thesoundquestion.pages.dev/tools/">'));
+assert.match(read('labs/index.html'), /name="robots" content="noindex,nofollow"/, 'unfinished Labs hub remains excluded');
+const sitemap = read('sitemap.xml');
+for(const page of ['tools','system-builder']) {
+ const entry = '<loc>https://thesoundquestion.pages.dev/' + page + '/</loc>';
+ assert.equal(sitemap.split(entry).length - 1, 1, page+' listed once in sitemap');
+}
 });
 test('main site navigation has exactly the intended five destinations, with no JS required for mobile',()=>{
 const skipDirs=new Set(['.git','staging','tests','.github','deployment','docs','scripts','assets', 'site-dist', '.pages-dist']);

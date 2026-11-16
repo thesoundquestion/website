@@ -26,7 +26,8 @@ test('honest source provenance, internal rights gate and listening guidance', ()
   assert.match(html, /href="\/labs\/#recordings"/);
   const checklist = readFileSync(new URL('../staging/release-consolidation-20261115/README.md', import.meta.url), 'utf8');
   assert.match(checklist, /underlying composition/i);
-  assert.match(html, /name="robots" content="index,follow"/);
+  assert.match(html, /name="robots" content="noindex,follow"/);
+  assert.match(html, /REVIEW DRAFT · NOT PUBLISHED/);
   assert.doesNotMatch(html, /src="[^"\n]+\.(wav|mp3|flac)"/i);
 });
 
