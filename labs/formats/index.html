@@ -151,6 +151,10 @@
     player.src = currentSong()[state.format];
     player.volume = MATCHED_VOLUME[state.song][state.format];
     player.load();
+    // Switching files from a button click must start playback while the
+    // browser still recognizes the user's tap. Waiting for loadedmetadata
+    // to call play() can be blocked in some mobile browsers.
+    if (resume) player.play().catch(() => show('Press Play to continue listening.'));
     paint();
   }
   function resumeIfReady() {
@@ -203,7 +207,9 @@
     paint();
     show('You reached the end. Start again and try another version.');
   });
-  player.addEventListener('error', () => show('That audio file could not load. Check your connection and try again.'));
+  player.addEventListener('error', () => show(state.format === 'lossless'
+    ? 'The original lossless recording could not play here. Try another browser, or tap MP3 320 to confirm your audio works.'
+    : 'This MP3 could not play. Check your connection or try a different format.'));
   window.addEventListener('pagehide', () => player.pause());
   replaceSource(false, 0);
   show('Original (lossless) is selected. Press Play to begin.');
