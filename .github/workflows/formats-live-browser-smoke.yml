@@ -1,0 +1,24 @@
+name: Verify live MP3 Lab audio playback in Chrome
+on:
+  push:
+    branches:
+      - fix/formats-player-dom-ready-20261116
+    paths:
+      - .github/workflows/formats-live-browser-smoke.yml
+permissions:
+  contents: read
+jobs:
+  listen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser-only test dependency
+        run: npm install --no-save --no-package-lock playwright@1.56.0
+      - name: Exercise public FLAC and MP3 playback on desktop and mobile
+        env:
+          FORMATS_BASE_URL: https://thesoundquestion.pages.dev/labs/formats/
+        run: timeout 110s node tests/formats-browser-playback.smoke.mjs
