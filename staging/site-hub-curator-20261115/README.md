@@ -43,3 +43,26 @@
 - New public policy text has no named reviewer-specific usage policy. It does not grant permission for future music/audio hosting; AlbumDB recording/composition rights remain a separate release gate.
 
 **No Cloudflare build.** Source work stays on `draft/site-hub-curator-lab-notes-20261115`, with automatic production and preview Git deployment disabled until owner approves the completed release.
+
+## November 15 — Digital-format listening comparisons preserved for future release
+
+**Decision:** The original cymbal WAV-versus-MP3/ABX experiment has NOT been discarded. It is preserved in the owner's ChatGPT Library but has not been migrated into the new three-mix /lab/ experience. Source provenance and all archive names are documented in `deployment/recorded-audio-cymbal/README.md`; the original offline, isolated-instrument A/B/ABX preview is `/The Sound Question/Website Previews/Listening Lab/The_Sound_Question_Listening_Lab_Preview_v0.3.zip`. GitHub holds provenance only, not the binary MP3/WAV audio.
+
+**Confirmed Library preservation (Nov 15):**
+- `/The Sound Question/Audio/Cymbal Ride 2026-11-13/tsq-cymbal-mp3-comparisons.zip` (6.7 MB): a normalized common 16-bit / 44.1 kHz mono WAV reference, MP3 mono versions at constant 32, 64, 96, 128, 192 and 320 kbps, and an 8-bit teaching export.
+- Original capture was a user-recorded 20-inch Zildjian A Custom Ping Ride via FIFINE K669D and M-Audio M-Track Solo at 48 kHz. The 192 kHz working export was UPSAMPLED and is not a native 192 kHz recording. Keep original capture intact.
+- `/The Sound Question/Website Previews/Listening Lab/The_Sound_Question_Listening_Lab_Preview_v0.3.zip` (15.6 MB): local ABX/A-B prototype with source-selection, trials and listening notes. Do not conflate its experimental status with the new Mixing Lab.
+
+**Current lessons:** `decoder/lossy-lossless/` teaches file bitrates, compression and likely listening artifacts using diagrams but has NO integrated audio playback. `decoder/bit-depth/` has original interactive teaching visuals but no proper recorded 16-bit/24-bit A/B. `decoder/sample-rate/` has interactive original sampling/Nyquist visuals, not a real high-sample-rate A/B. Do not replace well-grounded illustrations with fake audible demonstrations.
+
+**Future MP3 comparison scope:**
+- [ ] Restore the cymbal as a clearly labeled *isolated mono instrument* experiment in the finalized Listening Lab, separately from the multitrack Mixing/Mastering experiments. At minimum show the same WAV reference versus 128 and 320 kbps MP3 (and optionally 64/96/192); very low bitrates are for deliberately extreme demonstrations. Provide A/B and fair blinded ABX where implementation has been validated.
+- [ ] Check sample alignment, encoder padding, playback decoding, level matching and blind/randomization controls. Different encoder versions, source processing or playback loudness must not silently confound a purported bitrate comparison.
+- [ ] Explain listening targets: cymbal attack, shimmering/warbling tails, room/reverb decay and pre-echo; avoid claims that one mono cymbal tests performance on all stereo music. Consider a second, rights-cleared full-band excerpt from one master as a complementary masking/complexity example if available.
+- [ ] Preserve original-recording source credit and processing manifests; choose published excerpts/encodes and actual files carefully, respect per-file Cloudflare upload limits and verify web playback on phones and computers.
+- [ ] Place one contextual crosslink on the `decoder/lossy-lossless/` lesson *after* the format Lab is actually usable, and link back from the Lab to the lesson. Do not add nonfunctional placeholder buttons or advertise a published experiment that is not ready.
+
+**Bit depth and sample rate:** Leave the present explanatory visuals. A future audible comparison should use one verified common high-resolution original, correct sample-rate conversion and dither, documented playback path and controls, and should report if differences are not audible. In particular, an existing 48 kHz source upsampled to 96/192 kHz does NOT demonstrate new high-frequency information. An 8-bit teaching demonstration is not evidence that 16-bit commercial audio is audibly worse than 24-bit. Never misrepresent recording provenance.
+
+**Release sequencing:** Since the owner requires the next deployment be complete, either fully build, validate and include the format Lab in that single approved release or explicitly keep it archived without presenting it as an available interactive site feature. Do not spend Cloudflare builds on intermediate migration or test pushes.
+
