@@ -322,3 +322,14 @@ main{flex:1}
 .page-endnav-links a:hover{border-color:#88d8f8;background:#19334e}
 .page-endnav a:focus-visible{outline:3px solid #9be4ff;outline-offset:3px}
 @media(max-width:750px){.page-endnav{flex-direction:column;align-items:stretch;gap:.8rem;padding-block:1rem}.page-endnav-links{justify-content:flex-start;gap:.45rem}.page-endnav-links a{font-size:.84rem;padding:.48rem .65rem}}
+
+
+/* Curator's Listening Room: music-first homepage destination */
+.home-curator-promo{display:flex;align-items:center;gap:1.35rem;margin-top:1rem;padding:1.4rem 1.5rem;border:1px solid #3a607e;border-radius:16px;background:linear-gradient(110deg,#122b40,#111d2e);text-decoration:none;transition:background .2s,border-color .2s,transform .2s}
+.home-curator-promo:hover{background:linear-gradient(110deg,#193b53,#14273b);border-color:#80caef;transform:translateY(-2px)}
+.home-curator-mark{display:grid;place-items:center;flex:none;width:58px;height:58px;border-radius:14px;background:#193a52;color:#85d9ff;font-size:2rem}
+.home-curator-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:.25rem}
+.home-curator-copy strong{color:#f1f9ff;font-size:1.23rem;line-height:1.25}
+.home-curator-copy>span:last-child{color:var(--muted);font-size:.92rem;line-height:1.55}
+.home-curator-promo .feature-link{margin:0;white-space:nowrap}
+@media(max-width:700px){.home-curator-promo{align-items:flex-start;gap:.85rem;flex-wrap:wrap;padding:1.2rem}.home-curator-mark{width:44px;height:44px;font-size:1.5rem}.home-curator-copy{flex-basis:calc(100% - 62px)}.home-curator-promo .feature-link{margin-left:58px}}
