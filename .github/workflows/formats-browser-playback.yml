@@ -1,0 +1,33 @@
+name: Formats Lab browser playback smoke
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - labs/formats/index.html
+      - tests/formats-browser-playback.smoke.mjs
+      - .github/workflows/formats-browser-playback.yml
+permissions:
+  contents: read
+jobs:
+  playback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser automation without changing project dependencies
+        run: npm install --no-save --no-package-lock playwright@1.56.0
+      - name: Verify Chrome is available
+        run: google-chrome --version
+      - name: Test full FLAC and MP3 playback on desktop and mobile viewports
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/tsq-formats-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid || true' EXIT
+          sleep 1
+          timeout 110s node tests/formats-browser-playback.smoke.mjs
