@@ -1,0 +1,123 @@
+{
+  "origin": "The Sound Question educational adaptations derived from AlbumDB recordings",
+  "source_dataset": "https://zenodo.org/records/19683001",
+  "licence_notice": "Check underlying recording/composition scope and retain AlbumDB attribution; this manifest does not grant rights.",
+  "encoding": "No level change, remix, mastering, EQ or normalization. LAME CBR stereo at native 44.1 kHz.",
+  "ffmpeg": "ffmpeg version 8.0.1-3ubuntu2 Copyright (c) 2000-2025 the FFmpeg developers",
+  "sources": {
+    "light": {
+      "song": "Let The Light In",
+      "source_kind": "TSQ educational reference mix",
+      "source_url": "https://tsq-lab-audio.thesoundquestion.workers.dev/mixing/reference.flac",
+      "source_sha256": "69fb267e48843715f293daa40b722d0943f7acc7be067267b6cff8b701ed686e",
+      "lossless": {
+        "codec": "flac",
+        "sample_rate": 44100,
+        "channels": 2,
+        "seconds": 30.0,
+        "bytes": 5577732,
+        "bit_rate": 1487395,
+        "frames": 1323000,
+        "rms_dbfs": -21.8323,
+        "peak_dbfs": -5.4082
+      },
+      "variants": {
+        "128": {
+          "codec": "mp3",
+          "sample_rate": 44100,
+          "channels": 2,
+          "seconds": 30.0,
+          "bytes": 481070,
+          "bit_rate": 128000,
+          "frames": 1323000,
+          "rms_dbfs": -22.2681,
+          "peak_dbfs": -5.8053,
+          "sha256": "7ea7d336bc5bb8011aa560aa3394beef6384ba295c51c9a8a8bd66521b011777",
+          "alignment": {
+            "samples": 0,
+            "seconds": 0.0,
+            "correlation": 0.998393
+          },
+          "rms_difference_db": -0.4358,
+          "path": "/assets/audio/formats/light-128.mp3"
+        },
+        "320": {
+          "codec": "mp3",
+          "sample_rate": 44100,
+          "channels": 2,
+          "seconds": 30.0,
+          "bytes": 1202676,
+          "bit_rate": 320000,
+          "frames": 1323000,
+          "rms_dbfs": -21.8327,
+          "peak_dbfs": -5.3765,
+          "sha256": "7c7d8ed8ff588af53537a37580af8212209ed3b15ea456e0739a31e7cd36b445",
+          "alignment": {
+            "samples": 0,
+            "seconds": 0.0,
+            "correlation": 0.999866
+          },
+          "rms_difference_db": -0.0004,
+          "path": "/assets/audio/formats/light-320.mp3"
+        }
+      }
+    },
+    "diva": {
+      "song": "Diva",
+      "source_kind": "TSQ educational dynamic master",
+      "source_url": "https://tsq-lab-audio.thesoundquestion.workers.dev/mastering/dynamic.flac",
+      "source_sha256": "ecb3e7c2858a48cb80b980baddcd1de247a958252da32e5bcb52fee67cc5ea64",
+      "lossless": {
+        "codec": "flac",
+        "sample_rate": 44100,
+        "channels": 2,
+        "seconds": 40.0,
+        "bytes": 7550957,
+        "bit_rate": 1510191,
+        "frames": 1764000,
+        "rms_dbfs": -22.3211,
+        "peak_dbfs": -3.2794
+      },
+      "variants": {
+        "128": {
+          "codec": "mp3",
+          "sample_rate": 44100,
+          "channels": 2,
+          "seconds": 40.0,
+          "bytes": 641148,
+          "bit_rate": 128000,
+          "frames": 1764000,
+          "rms_dbfs": -22.7574,
+          "peak_dbfs": -3.4792,
+          "sha256": "b37ad76293aec0020da3697f0051fa03ef70dc30b727b6b8ec625b0295256f9d",
+          "alignment": {
+            "samples": 0,
+            "seconds": 0.0,
+            "correlation": 0.997241
+          },
+          "rms_difference_db": -0.4363,
+          "path": "/assets/audio/formats/diva-128.mp3"
+        },
+        "320": {
+          "codec": "mp3",
+          "sample_rate": 44100,
+          "channels": 2,
+          "seconds": 40.0,
+          "bytes": 1602872,
+          "bit_rate": 320000,
+          "frames": 1764000,
+          "rms_dbfs": -22.3206,
+          "peak_dbfs": -3.3186,
+          "sha256": "b1d87b86ac97d63cfff783d1a0fc15a756fa0485a4b1b48dd572e0483766a1c2",
+          "alignment": {
+            "samples": 0,
+            "seconds": 0.0,
+            "correlation": 0.999653
+          },
+          "rms_difference_db": 0.0005,
+          "path": "/assets/audio/formats/diva-320.mp3"
+        }
+      }
+    }
+  }
+}
