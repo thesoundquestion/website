@@ -1,16 +1,19 @@
 name: System Builder preview checks
 
 on:
-  push:
-    branches:
-      - feature/system-builder-preview-20261112
   pull_request:
+    branches:
+      - main
     paths:
       - "system-builder/**"
       - "system-check/gear.js"
       - "system-check/compare/specs.js"
       - "tests/**"
       - ".github/workflows/system-builder-preview-tests.yml"
+
+concurrency:
+  group: system-builder-preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
