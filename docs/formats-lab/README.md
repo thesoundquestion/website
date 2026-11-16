@@ -1,38 +1,42 @@
-# Beginner-first MP3 versus lossless Lab: unpublished review
+# MP3 vs lossless Listening Lab — actual source, encoding and publication record
 
-**Status:** Standalone draft at `/labs/formats/` on this branch. This is **not** public or release-ready. Production branch `main` and the live navigation were not changed.
+**Page:** `/labs/formats/`  
+**Staging branch:** `draft/mp3-lossless-beginner-lab-20261115`  
+**Status:** MP3 encoding and static source regression completed. Public publication requires one controlled Cloudflare Pages deployment of the approved `main` commit. Automatic deploys remain OFF.
 
-## What has been prepared
+## For first-time visitors
 
-A self-contained, standalone HTML/CSS/JS page asks a single beginner-friendly question: **Can you hear the difference?** It reuses existing hosted FLAC samples already used by other The Sound Question labs:
+The page asks **Can you hear the difference?** before explaining technical terms. Visitors pick one of two songs, press Play and switch between **Original (lossless)**, **MP3 128 kbps** and **MP3 320 kbps**. Brief tips mention cymbals, soft sounds and tails. Terms such as FLAC, MP3 and bitrate have short plain-English explanations, with detailed methods tucked behind a disclosure.
 
-- `/mixing/reference.flac`: “Let The Light In”, the existing 30-second educational reference *mix*.
-- `/mastering/dynamic.flac`: “Diva”, the existing educational dynamic *master*.
+No browser-side encoder, MP3 library, user upload, Web Audio API, account, paywall or blind-test claim is required. MP3 files are ordinary static site assets, while existing FLAC originals continue to stream from the audio Worker.
 
-The full source URLs are recorded directly in `labs/formats/index.html`, under the established `https://tsq-lab-audio.thesoundquestion.workers.dev` host.
+## Provenance and processing
 
-The page presents **Original (lossless)**, **MP3 128 kbps** and **MP3 320 kbps** as choices. The user selects a song, then clicks a single preparation button. In this preview only, JavaScript fetches the original FLAC, decodes it, and uses **lamejs 1.2.1** to derive matching stereo MP3 clips from the *same audio*, with no different mix, EQ, mastering, added gain or other source alterations. The encoder library is loaded from a version-pinned public CDN under its upstream LGPL-3.0 terms (https://github.com/zhuker/lamejs). MP3 data is created in the listener's browser without uploads; optional download links help the owner export files for quality checks and future prehosting.
+- **Let The Light In:** The Sound Question's existing 30-second **educational reference mix** of music from Tom McKenzie's *Extraordinary*, hosted at `https://tsq-lab-audio.thesoundquestion.workers.dev/mixing/reference.flac`. This is NOT the original artist's final master.
+- **Diva:** The Sound Question's existing 40-second **educational dynamic master** of music from the same album, hosted at `https://tsq-lab-audio.thesoundquestion.workers.dev/mastering/dynamic.flac`. This is NOT the original artist's official release master.
+- **Source dataset:** AlbumDB (https://zenodo.org/records/19683001), credited to Thomas McKenzie, Eloi Moliner Juanpere and Alec Wright; listed as CC BY 4.0. We independently adapted the tracks for our previous lessons. Credit and modified-example disclaimer are visible on the format page. Further rights concerns should be reviewed before broad public distribution.
 
-Basic sighted A/B switching, same nominal playhead time, a short listen-for guide and easy everyday-language explanations are included. More detailed methods and credits are collapsed. There is **no unvalidated ABX test** or claim that listeners can always hear a difference. The file deliberately has `noindex,nofollow` and offline-review language. No paid service was added.
+The four MP3s were built in one successful GitHub Actions run at https://github.com/thesoundquestion/website/actions/runs/43797182071 using Ubuntu FFmpeg 8.0.1, libmp3lame, stereo 44.1 kHz constant bitrate at 128 and 320 kbps. **Every MP3 originates from its exact referenced hosted FLAC**, without a separate mix, mastering pass, EQ, or gain adjustment during encoding. No desktop remote session was needed; Desktop Commander was at its monthly limit.
 
-## What was verified
+The full `assets/audio/formats/manifest.json` records each original FLAC's SHA-256, duration and size; all four MP3 SHA-256 values, bitrates, sample counts, decoded offsets, correlation and peak/RMS changes.
 
-- Plain JavaScript parsed with Node 22.
-- Three local Node source tests passed.
-- Chromium DOM/visual snapshot renders at desktop and 390 px mobile widths; tested mobile viewport has no horizontal overflow.
-- **Not verified:** actual network audio fetch, Cross-Origin Resource Sharing headers from the audio Worker, third-party CDN delivery, browser FLAC decoding, generated MP3 audio fidelity, exact time alignment, loudness differences, or mobile playback. This environment cannot directly fetch the existing hosted audio URL. Do not claim live audio playback is QA-approved.
+| Source | MP3 | Bytes | Decoded offset | RMS relative to FLAC |
+|---|---|---:|---:|---:|
+| Let The Light In | 128 kbps | 481,070 | 0 samples | −0.4358 dB |
+| Let The Light In | 320 kbps | 1,202,676 | 0 samples | −0.0004 dB |
+| Diva | 128 kbps | 641,148 | 0 samples | −0.4363 dB |
+| Diva | 320 kbps | 1,602,872 | 0 samples | +0.0005 dB |
 
-The conversation-local preview files are:
+The browser uses a small **playback-only** volume reduction (approximately 0.951 for lossless and 320 kbps; 1.0 for 128 kbps) so the versions have nearly matched sample RMS. This reduces the chance that a small level difference affects the listener's comparison. It is not the same as a LUFS/controlled-laboratory equal-loudness ABX test. Switching is approximate-position A/B, not instantaneous sample-accurate switching.
 
-- `TSQ_MP3_vs_Lossless_Preview.html` (one-file HTML preview, source FLAC and encoder still require internet);
-- `TSQ_MP3_vs_Lossless_Source_Preview.zip` (separated source HTML/CSS/JS/tests and documentation; original audio binaries are not included).
+## Build and quality controls
 
-## Required work before publication
+- The page is linked from the `/labs/` hub and `/decoder/lossy-lossless/`, and included in `sitemap.xml`.
+- `scripts/build-public-site.mjs` **continues to deny all audio/video files by default** and allows only the exact four MP3 paths whose SHA-256 hashes are explicitly pinned in source. Each must be smaller than 2 MiB. Any unexpected/new/replaced audio is rejected.
+- `tests/formats-lab-source.test.mjs` checks audio files, correct bitrates, decoded alignment and beginner content. `tests/public-build-output.test.mjs` checks the four approved MP3s and no other published audio.
+- The existing site-wide Node tests and standard mobile navigation must pass on the GitHub pull request, including public build filtering. Runtime listening on Android/iOS and cross-origin FLAC fetch still warrants post-deployment confirmation.
+- No API key, premium service or additional Cloudflare R2 bucket is required. All four MP3 assets are small enough to serve with the existing static Pages build.
 
-1. Verify licensing/permissions for deriving and hosting audio from AlbumDB-based adaptations, including underlying compositions and original sound recordings; credit original song/album, dataset creators, CC BY 4.0 licence, and modifications as applicable.
-2. Use the existing audio hosting solution to **pre-encode and host the MP3** files once so ordinary visitors don't wait for browser conversions or load a third-party MP3 library. Replace the preparation step with direct play.
-3. Check exact source files, hashes, actual encoded bitrates, decoded duration, MP3 encoder delay/padding, matching time positions, loudness, peak levels and objective source differences. Prefer an original fixed commercial-format stereo master over one of our already remixed or mastered adaptations if licence and bytes are available. Until then clearly label the source for each song as the educational version currently hosted.
-4. Test real listening on Android/iPhone, desktop browsers and headphones with actual source media. Test keyboard/touch/accessibility and error recovery.
-5. Add a Labs hub card and a contextual link from the lossy-versus-lossless lesson **only when the public player is functional**, then update the sitemap and final editorial copy. Keep the copy beginner-first; put any true technical detail behind an optional disclosure.
-6. Align this branch with the latest production `main`, which has advanced concurrently. Run site-wide regression tests before considering any integration.
-7. Keep Cloudflare Git automatic production/preview deploys **OFF** and do not manually deploy without specific owner authorization. Source-only GitHub commits on this draft are not a publishing signal.
+## Deployment safety
+
+Cloudflare automatic Git deployments are intentionally OFF. A normal GitHub commit does not publish the new page. When CI is green and the merge is approved, create **one ad hoc Cloudflare Pages production deployment** for the exact merged `main` commit. Record deployment ID and verify the public MP3 URLs, page and links. Do not re-enable automatic builds, upload raw audio/stems, or run repeated deployments merely to test content.
