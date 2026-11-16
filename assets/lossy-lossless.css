@@ -35,3 +35,9 @@
 [data-plot-case][hidden]{display:none!important}
 @media(max-width:760px){.ll-case-header{grid-template-columns:1fr}.ll-flow,.ll-artifacts{grid-template-columns:1fr}.ll-case-kpis{grid-template-columns:1fr}.ll-case-header>p{margin:.25rem 0}.ll-blocks{gap:2px}.ll-exact-figure{padding:.85rem}.ll-block{padding:.42rem 0}}
 @media(max-width:360px){.ll-metric-row span{font-size:.66rem}.ll-metric-row strong{font-size:.93rem}.ll-axis{font-size:.66rem}.ll-block strong{font-size:.65rem}.ll-block span{font-size:.59rem}}
+
+/* MP3 listening Lab callout: visible before the technical lesson begins. */
+.dl-format-test-callout{margin:1.15rem 0 1.45rem;padding:1.15rem 1.4rem;border:1px solid #42849c;border-radius:13px;background:linear-gradient(130deg,#102b43,#0b2031)}
+.dl-format-test-callout strong{font-size:1.14rem;color:#ecfaff}
+.dl-format-test-callout p{font-size:.92rem;color:#cbddea;margin:.45rem 0 .7rem;line-height:1.58}
+.dl-format-test-callout a{font-size:.94rem;font-weight:750;color:#91edfa;text-underline-offset:3px}
