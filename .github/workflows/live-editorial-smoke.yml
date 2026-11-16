@@ -1,0 +1,21 @@
+name: Read-only editorial release smoke
+on:
+  push:
+    branches:
+      - qa/live-editorial-smoke-20261116
+    paths:
+      - scripts/live-release-editorial-check.mjs
+      - .github/workflows/live-editorial-smoke.yml
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify publicly served production pages and source attribution
+        run: node scripts/live-release-editorial-check.mjs
