@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#071320">
+
+<meta name="description" content="A simple listening test: can you hear a difference between a lossless recording and an MP3 made from the same music?">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Sound Question">
+<meta property="og:title" content="Can You Hear the Difference? | MP3 vs Lossless">
+<meta property="og:description" content="Play real music. Switch between lossless and MP3. Can you hear what changes?">
+<meta property="og:url" content="https://thesoundquestion.pages.dev/labs/formats/">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://thesoundquestion.pages.dev/labs/formats/">
+<title>Can You Hear the Difference? | The Sound Question</title>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23142b44'/%3E%3Cpath d='M8 32h9l5-13 7 30 6-32 7 28 6-13h8' stroke='%2389daef' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#e8f4ff;background:#071320;--cyan:#79dded;--blue:#8babff;--muted:#afc0d1;--border:#34516a;--panel:#0e2031;--max:1120px}*{box-sizing:border-box}body{margin:0;line-height:1.55}a{color:#83dffa;text-underline-offset:.19em}a:hover{color:#d7faff}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #87f4fb;outline-offset:3px}.wrap{width:min(calc(100% - 44px),var(--max));margin-inline:auto}.skip-link{position:absolute;left:-100vw;z-index:99;background:white;color:#071320;padding:.8rem}.skip-link:focus{left:.8rem;top:.8rem}.site-head{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px max(22px,calc((100vw - var(--max))/2));border-bottom:1px solid #1e364b;background:#091726}.brand{color:#edf8ff;text-decoration:none;font-size:1.12rem;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:.35rem}.brand strong{font-weight:800}.brand-mark{display:inline-flex;background:linear-gradient(145deg,#4fb7ff,#7fe1d0);color:#071524;width:34px;height:34px;border-radius:10px;align-items:center;justify-content:center;font-size:1.7rem;margin-right:.35rem}.site-head nav{display:flex;gap:22px}.site-head nav a{font-weight:650;color:#b9cada;text-decoration:none;font-size:.9rem}.site-head nav a[aria-current]{color:#85dfed}.intro{padding-block:65px 32px}.eyebrow,.card-top,.section-head{font-size:.73rem;font-weight:800;letter-spacing:.125em;color:#79cce2}.intro h1{font-size:clamp(2.5rem,5.4vw,4.7rem);letter-spacing:-.058em;line-height:1.06;margin:.68rem 0 1.2rem;max-width:810px}.intro h1 em{color:#88dafa;font-style:normal}.intro .lead{font-size:clamp(1.12rem,2vw,1.38rem);max-width:750px;color:#dae8f6;line-height:1.63;margin-bottom:.7rem}.small-intro{color:var(--muted);font-size:.92rem}.player-section{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.85fr);gap:19px;align-items:start}.listen-card,.hint-card{border:1px solid var(--border);background:linear-gradient(155deg,#12293c,#0b1b2c);border-radius:17px;padding:clamp(18px,3.4vw,31px);box-shadow:0 12px 35px #030a1433}.card-top,.section-head{display:flex;justify-content:space-between;gap:12px}.right-label{color:#94adc3}.listen-card h2{font-size:1.6rem;letter-spacing:-.025em;margin:15px 0}.song-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.song,.format{border:1px solid #3f5b72;text-align:left;color:#dceefa;background:#102439;border-radius:11px;padding:14px;min-width:0;transition:border-color .15s,background .15s}.song:hover,.format:hover{border-color:#8ad7ef}.song.active,.format.active{border-color:#86e6e9;background:#143b4c;box-shadow:inset 0 0 0 1px #82e3e466}.song strong,.song small,.format .format-name,.format small{display:block}.song strong{font-size:.96rem}.song small{color:#bcd0dc;font-size:.79rem;line-height:1.35;margin-top:5px}.song-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#82dccd;margin-right:5px}.context-note{font-size:.86rem;color:#bccbd9;margin:12px 0 18px}.primary{display:inline-flex;justify-content:center;align-items:center;gap:15px;background:linear-gradient(115deg,#86e7e3,#7eacff);color:#071727;border:0;border-radius:10px;padding:13px 20px;font-weight:800;min-height:48px}.primary:hover{filter:brightness(1.07)}#status{min-height:2em;color:#c6d9e9;font-size:.87rem}.busy-bar{height:7px;background:#243d52;border-radius:9px;overflow:hidden}.busy-bar>div{height:100%;width:0;background:#80e2da;transition:width .18s}.listening-area{border-top:1px solid #294a61;margin-top:22px;padding-top:19px}.listening-area h3{font-size:1.13rem;margin:14px 0;color:#edf7ff}.format-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.format{padding:12px}.format-name{font-weight:800;font-size:1.1rem}.format small{color:#bfd0e2;font-size:.75rem;line-height:1.32;margin-top:3px}.transport{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:22px 0 14px}.play{background:#88e2ec;color:#071622;border:0;border-radius:10px;font-weight:800;min-height:48px;padding:11px 29px}.reset{background:none;color:#c4d7e8;border:1px solid #47637b;border-radius:10px;min-height:48px;padding:11px 16px}.seek-label{display:block;color:#c9d8e4;font-size:.84rem;margin:0 0 4px}#seek{width:100%;accent-color:#7fe8e4;min-height:30px}.playing-now{color:#87ddd9;font-weight:650;font-size:.9rem;margin:10px 0}.hint-card .eyebrow{margin:0}.hint-card h2{font-size:1.55rem;line-height:1.2;margin:14px 0 21px}.hint{display:grid;grid-template-columns:30px 1fr;gap:12px;margin:17px 0}.hint>span{display:inline-flex;width:27px;height:27px;align-items:center;justify-content:center;border-radius:8px;background:#16445a;color:#a4eff7;font-size:.73rem;font-weight:800}.hint strong{font-size:.95rem}.hint p{font-size:.87rem;color:#bdcddd;margin:.3rem 0}.aside-note{color:#a7dcda;border-top:1px solid #375468;padding-top:17px;font-size:.87rem;margin-top:18px}.small-details{margin-top:16px;font-size:.83rem;color:#b5c8d9}.small-details summary,.technical summary{cursor:pointer;color:#8ddbf2;font-weight:700}.small-details p{margin-bottom:0}.understand{padding-block:60px 22px}.understand h2{font-size:clamp(1.8rem,3.5vw,2.55rem);margin:6px 0 20px}.explainer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.explainer-grid article{background:#0c2032;border:1px solid #2a4a61;border-radius:13px;padding:21px}.explainer-glyph{font-size:1.9rem;color:#82e6eb}.explainer-grid h3{margin:8px 0;font-size:1.15rem}.explainer-grid p{color:#becfe0;font-size:.89rem;margin:0}.question-line{font-size:1.18rem;max-width:850px;line-height:1.6;margin:24px 0}.technical{border:1px solid #2d4c60;border-radius:10px;padding:15px 18px;max-width:900px}.technical>div{color:#c1d4e6;font-size:.89rem}.credits{padding-block:40px 35px;border-top:1px solid #233f55;margin-top:22px}.credits h2{font-size:1.45rem;margin:.5rem 0}.credits p{font-size:.9rem;color:#bbd0df;max-width:880px}.endnav{padding:23px 0;display:flex;gap:20px;justify-content:space-between;border-top:1px solid #203b51}.site-foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding:18px max(22px,calc((100vw - var(--max))/2));background:#081726;border-top:1px solid #203c54;color:#93a9ba;font-size:.8rem}@media(max-width:900px){.player-section{grid-template-columns:1fr}.listen-aside{order:2}.hint-card{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 20px}.hint-card>.eyebrow,.hint-card>h2,.aside-note{grid-column:1/-1}.hint-card .hint{grid-template-columns:22px 1fr;margin:5px 0}}@media(max-width:680px){.site-head{padding:12px 17px;min-height:66px;flex-wrap:wrap}.site-head nav{gap:16px}.site-head nav a{font-size:.81rem}.wrap{width:calc(100% - 32px)}.intro{padding-block:40px 20px}.intro h1{font-size:clamp(2.4rem,9vw,3.4rem)}.song-switch,.explainer-grid{grid-template-columns:1fr}.format-options{gap:6px}.format{padding:10px 8px}.format .format-name{font-size:1rem}.format small{font-size:.69rem}.hint-card{display:block}.hint-card .hint{display:grid;grid-template-columns:28px 1fr;margin:14px 0}.endnav{flex-direction:column}.right-label{display:none}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+
+</style>
+<script defer>
+(() => {
+  'use strict';
+  const HOST = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
+  const SONGS = {
+    light: {
+      name: 'Let The Light In',
+      duration: 30,
+      lossless: HOST + '/mixing/reference.flac',
+      '128': '/assets/audio/formats/light-128.mp3',
+      '320': '/assets/audio/formats/light-320.mp3'
+    },
+    diva: {
+      name: 'Diva',
+      duration: 40,
+      lossless: HOST + '/mastering/dynamic.flac',
+      '128': '/assets/audio/formats/diva-128.mp3',
+      '320': '/assets/audio/formats/diva-320.mp3'
+    }
+  };
+  // Derived from assets/audio/formats/manifest.json. A small reduction to the
+  // reference and 320-kbps playback keeps sample-RMS near the 128-kbps clip.
+  // Playback gain only: the original FLAC and MP3 assets are unchanged.
+  const MATCHED_VOLUME = {
+    light: { lossless: 0.9511, '128': 1, '320': 0.9512 },
+    diva: { lossless: 0.9510, '128': 1, '320': 0.9510 }
+  };
+  const byId = id => document.getElementById(id);
+  const player = new Audio();
+  player.preload = 'metadata';
+  const state = { song: 'light', format: 'lossless', pending: null };
+  const currentSong = () => SONGS[state.song];
+  const caption = () => state.format === 'lossless' ? 'Original (lossless)' : 'MP3 ' + state.format + ' kbps';
+  const show = text => { byId('playingNow').textContent = text; };
+  const pretty = seconds => {
+    const value = Math.max(0, Math.floor(Number(seconds) || 0));
+    return Math.floor(value / 60) + ':' + String(value % 60).padStart(2, '0');
+  };
+  const duration = () => Number.isFinite(player.duration) && player.duration > 0 ? player.duration : currentSong().duration;
+  function paint() {
+    document.querySelectorAll('[data-song]').forEach(button => {
+      const active = button.dataset.song === state.song;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    document.querySelectorAll('[data-format]').forEach(button => {
+      const active = button.dataset.format === state.format;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    const playing = !player.paused && !player.ended;
+    byId('playText').textContent = playing ? 'Pause' : 'Play';
+    byId('playIcon').textContent = playing ? 'Ⅱ' : '▶';
+    byId('playPause').setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    byId('seek').max = String(duration());
+    byId('seek').value = String(Math.min(Number.isFinite(player.currentTime) ? player.currentTime : 0, duration()));
+    byId('durationLabel').textContent = pretty(player.currentTime) + ' / ' + pretty(duration());
+  }
+  function replaceSource(resume, seconds) {
+    state.pending = { resume, seconds };
+    player.pause();
+    player.src = currentSong()[state.format];
+    player.volume = MATCHED_VOLUME[state.song][state.format];
+    player.load();
+    paint();
+  }
+  function resumeIfReady() {
+    if (!state.pending || player.seeking) return;
+    const pending = state.pending;
+    state.pending = null;
+    if (pending.resume) player.play().catch(() => show('Press Play to continue listening.'));
+  }
+  document.querySelectorAll('[data-song]').forEach(button => button.addEventListener('click', () => {
+    if (button.dataset.song === state.song) return;
+    state.song = button.dataset.song;
+    state.format = 'lossless';
+    replaceSource(false, 0);
+    show(currentSong().name + ' is selected. Press Play, then try the other versions.');
+  }));
+  document.querySelectorAll('[data-format]').forEach(button => button.addEventListener('click', () => {
+    if (button.dataset.format === state.format) return;
+    const wasPlaying = !player.paused && !player.ended;
+    const at = Number.isFinite(player.currentTime) ? player.currentTime : 0;
+    state.format = button.dataset.format;
+    replaceSource(wasPlaying, at);
+    show('Switching to ' + caption() + ' near the same point in the music…');
+  }));
+  byId('playPause').addEventListener('click', () => {
+    if (player.paused || player.ended) player.play().catch(() => show('Playback could not start. Check your connection and try again.'));
+    else player.pause();
+  });
+  byId('restart').addEventListener('click', () => {
+    player.currentTime = 0;
+    player.play().catch(() => show('Press Play to begin.'));
+  });
+  byId('seek').addEventListener('input', event => {
+    try { player.currentTime = Number(event.target.value); } catch (_) {}
+    paint();
+  });
+  player.addEventListener('loadedmetadata', () => {
+    if (state.pending) {
+      const next = Math.max(0, Math.min(state.pending.seconds, duration() - .08));
+      try { player.currentTime = next; } catch (_) {}
+    }
+    paint();
+    resumeIfReady();
+  });
+  player.addEventListener('seeked', resumeIfReady);
+  player.addEventListener('timeupdate', paint);
+  player.addEventListener('durationchange', paint);
+  player.addEventListener('play', paint);
+  player.addEventListener('pause', paint);
+  player.addEventListener('ended', () => {
+    paint();
+    show('You reached the end. Start again and try another version.');
+  });
+  player.addEventListener('error', () => show('That audio file could not load. Check your connection and try again.'));
+  window.addEventListener('pagehide', () => player.pause());
+  replaceSource(false, 0);
+  show('Original (lossless) is selected. Press Play to begin.');
+})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the listening test</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <strong>Question</strong></span></a>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/" aria-current="location">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav>
+<details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/" aria-current="location">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav></details>
+</div></header>
+<main id="main">
+<section class="intro wrap">
+ <p class="eyebrow">LISTENING LAB / MUSIC FORMATS</p>
+ <h1>Can you <em>hear</em> the difference?</h1>
+ <p class="lead">The <strong>same music</strong>, saved different ways. One keeps the original digital sound intact. MP3 makes the file smaller. Can your ears tell them apart?</p>
+ <p class="small-intro">No technical knowledge needed. Your phone, computer or headphones are enough to try it. Headphones can make small differences easier to notice.</p>
+</section>
+<section class="player-section wrap" aria-labelledby="test-title">
+ <div class="listen-card">
+  <div class="card-top"><span>01 / PICK THE MUSIC</span><span class="right-label">YOUR EARS, YOUR CALL</span></div>
+  <h2 id="test-title">Start with a song</h2>
+  <div class="song-switch" role="group" aria-label="Choose music">
+   <button class="song active" data-song="light" aria-pressed="true"><span class="song-dot" aria-hidden="true"></span><strong>Let The Light In</strong><small>Guitar, vocals and shimmering percussion · our reference mix</small></button>
+   <button class="song" data-song="diva" aria-pressed="false"><span class="song-dot" aria-hidden="true"></span><strong>Diva</strong><small>Drums, guitar and bright percussion · our dynamic master</small></button>
+  </div>
+  <p class="context-note">We use one fixed recording for each song, so the music itself doesn't change between formats.</p>
+  <div class="listening-area" id="listeningArea">
+   <div class="section-head"><span>02 / PLAY &amp; SWITCH</span><span id="durationLabel">0:00 / 0:30</span></div>
+   <h3>Play the music. Change versions whenever you like.</h3>
+   <div class="format-options" role="group" aria-label="Choose the format">
+    <button type="button" class="format active" data-format="lossless" aria-pressed="true"><span class="format-name">Original</span><small>Lossless · everything kept</small></button>
+    <button type="button" class="format" data-format="128" aria-pressed="false"><span class="format-name">MP3</span><small>Smaller file · 128 kbps</small></button>
+    <button type="button" class="format" data-format="320" aria-pressed="false"><span class="format-name">MP3</span><small>More detail kept · 320 kbps</small></button>
+   </div>
+   <div class="transport"><button id="playPause" type="button" class="play" aria-label="Play"><span id="playIcon" aria-hidden="true">▶</span><span id="playText">Play</span></button><button id="restart" type="button" class="reset">↺ Start again</button></div>
+   <label class="seek-label" for="seek">Move through the music</label>
+   <input id="seek" type="range" min="0" max="30" value="0" step="0.05" aria-label="Audio position">
+   <p id="playingNow" class="playing-now" role="status" aria-live="polite">Ready to listen: Original (lossless).</p>
+   <p class="context-note">Every MP3 was made from this same lossless recording. The music was not remixed or remastered. We make a tiny playback-volume adjustment to keep the comparison fair.</p>
+   <details class="small-details"><summary>Want to hear the obvious difference first?</summary><p>Our current controls compare two everyday MP3 settings. A much lower bitrate could exaggerate the difference, but it wouldn't represent how most people listen today.</p></details>
+  </div>
+ </div>
+ <aside class="listen-aside">
+  <div class="hint-card"><p class="eyebrow">LISTEN FOR</p><h2>Small clues, not huge changes.</h2>
+   <div class="hint"><span>01</span><div><strong>Cymbals and shakers</strong><p>Does a shimmering sound feel smooth, or a little swishy?</p></div></div>
+   <div class="hint"><span>02</span><div><strong>Quiet little details</strong><p>Can you still follow the softer sounds behind the main instruments?</p></div></div>
+   <div class="hint"><span>03</span><div><strong>The end of a sound</strong><p>Does a ringing note fade naturally, or seem to change as it disappears?</p></div></div>
+   <p class="aside-note">If everything sounds the same, that's a useful result too. Good MP3 files can be very difficult to distinguish from lossless music.</p>
+  </div>
+ </aside>
+</section>
+<section class="wrap understand" aria-labelledby="meaning-title">
+ <p class="eyebrow">WHAT DO THOSE WORDS MEAN?</p><h2 id="meaning-title">The simple explanation</h2>
+ <div class="explainer-grid">
+  <article><span class="explainer-glyph" aria-hidden="true">▥</span><h3>Lossless</h3><p>The audio is kept intact. FLAC saves space without throwing away any of the original sound information.</p></article>
+  <article><span class="explainer-glyph" aria-hidden="true">≈</span><h3>MP3</h3><p>The audio is made smaller by removing or simplifying some information. A good MP3 may still sound almost exactly the same.</p></article>
+  <article><span class="explainer-glyph" aria-hidden="true">⇄</span><h3>WAV vs FLAC?</h3><p>They can contain exactly the same sound. FLAC simply packs the digital information more efficiently.</p></article>
+ </div>
+ <p class="question-line">The real question isn't which file has the bigger number. <strong>It's whether the difference matters to what you hear.</strong></p>
+ <details class="technical"><summary>For curious listeners: how we made this comparison</summary><div><p>Both MP3 examples are derived from the same 44.1 kHz lossless source, using LAME constant-bitrate encoding at 128 and 320 kbps. There was no separate mixing, EQ or mastering. The files were checked for timing alignment and sample levels. At 128 kbps the decoded sample RMS was about 0.44 dB lower than the lossless source, so we slightly lower the reference and 320 kbps playback to match the 128 kbps sample level. This is an approximate RMS-matched guided comparison, not a blinded scientific test. Switching moves to approximately the same point in the music.</p><p>One short listening test cannot prove that everyone will hear or prefer the same format. Listening conditions and the recording itself can change the result.</p></div></details>
+</section>
+<section class="wrap credits"><p class="eyebrow">THE RECORDINGS</p><h2>Real music, shared for learning</h2><p>These are audio examples from The Sound Question's existing Listening Labs, using recordings drawn from <em>Extraordinary</em> by Tom McKenzie. The songs and musical performances are real; the mixes or mastering used here are our educational versions, not the artist's official released masters.</p><p>Source: <a href="https://zenodo.org/records/19683001">AlbumDB research dataset</a> by Thomas McKenzie, Eloi Moliner Juanpere and Alec Wright, listed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>. The Sound Question independently prepared these educational audio adaptations. No endorsement or partnership is implied. Rights scope for public distribution of these further format encodes remains a release check.</p><p><a href="/decoder/lossy-lossless/">Read the short lesson: MP3 and lossless music →</a></p></section>
+<nav class="page-endnav wrap" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/decoder/lossy-lossless/">Why do MP3s sound different? <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/labs/">All Listening Labs</a><a href="/">Home</a><a href="#">↑ Back to top</a></div></nav>
+</main><footer class="site-foot"><span>The Sound Question · Music first. Questions always.</span><span>Listen, compare, decide for yourself</span></footer>
+</body>
+</html>

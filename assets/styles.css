@@ -333,3 +333,8 @@ main{flex:1}
 .home-curator-copy>span:last-child{color:var(--muted);font-size:.92rem;line-height:1.55}
 .home-curator-promo .feature-link{margin:0;white-space:nowrap}
 @media(max-width:700px){.home-curator-promo{align-items:flex-start;gap:.85rem;flex-wrap:wrap;padding:1.2rem}.home-curator-mark{width:44px;height:44px;font-size:1.5rem}.home-curator-copy{flex-basis:calc(100% - 62px)}.home-curator-promo .feature-link{margin-left:58px}}
+
+/* Formats Lab feature card occupies both columns but remains compact on phones. */
+.lab-choice-card--wide{grid-column:1/-1;min-height:160px;background:linear-gradient(115deg,#143249,#102336);border-color:#52839a}
+.lab-choice-card--wide h3{margin:.45rem 0;font-size:1.45rem}
+.lab-choice-card--wide p{max-width:710px;margin:0 0 .85rem}

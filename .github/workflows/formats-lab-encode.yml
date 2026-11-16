@@ -1,0 +1,128 @@
+name: Build MP3 listening comparisons (offline asset preparation)
+on:
+  push:
+    branches:
+      - draft/mp3-lossless-beginner-lab-20261115
+    paths:
+      - .github/workflows/formats-lab-encode.yml
+permissions:
+  contents: write
+jobs:
+  encode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Encode verified MP3s from existing hosted FLAC originals
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffmpeg
+          command -v ffprobe
+          mkdir -p assets/audio/formats .tmp/format-sources
+          python3 - <<'PY'
+          import hashlib, json, math, os, pathlib, subprocess, urllib.request
+          from array import array
+          ROOT=pathlib.Path("assets/audio/formats")
+          TMP=pathlib.Path(".tmp/format-sources")
+          HOST="https://tsq-lab-audio.thesoundquestion.workers.dev"
+          songs={"light":("/mixing/reference.flac","Let The Light In",30,"TSQ educational reference mix"),
+                 "diva":("/mastering/dynamic.flac","Diva",40,"TSQ educational dynamic master")}
+          def run(cmd,capture=True):
+              p=subprocess.run(cmd,check=True,stdout=subprocess.PIPE if capture else None,
+                               stderr=subprocess.PIPE if capture else None)
+              return p.stdout if capture else None
+          def sha(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+          def info(path):
+              j=json.loads(run(["ffprobe","-v","error","-select_streams","a:0",
+                        "-show_entries","stream=codec_name,sample_rate,channels,bit_rate:format=duration,size,bit_rate",
+                        "-of","json",str(path)]))
+              s=j["streams"][0];f=j["format"]
+              return {"codec":s["codec_name"],"sample_rate":int(s["sample_rate"]),
+                      "channels":int(s["channels"]),"seconds":float(f["duration"]),
+                      "bytes":int(f["size"]),"bit_rate":int(s.get("bit_rate") or f.get("bit_rate") or 0)}
+          def pcm(path):
+              raw=run(["ffmpeg","-v","error","-i",str(path),"-map","0:a:0","-f","f32le",
+                     "-acodec","pcm_f32le","-ar","44100","-ac","2","pipe:1"])
+              assert len(raw)%8==0
+              a=array("f");a.frombytes(raw)
+              return a
+          def levels(a):
+              rms=math.sqrt(sum(v*v for v in a)/len(a))
+              peak=max(abs(v) for v in a)
+              return {"frames":len(a)//2,"rms_dbfs":round(20*math.log10(max(rms,1e-12)),4),
+                      "peak_dbfs":round(20*math.log10(max(peak,1e-12)),4)}
+          def alignment(a,b):
+              frames=min(len(a),len(b))//2
+              spots=[int(frames*.18)+j*113 for j in range(90)]
+              spots += [int(frames*.63)+j*113 for j in range(90)]
+              def corr(shift):
+                  ab=aa=bb=0.0
+                  for j in spots:
+                      x=a[2*j];y=b[2*(j+shift)]
+                      ab+=x*y;aa+=x*x;bb+=y*y
+                  return ab/math.sqrt(aa*bb) if aa>0 and bb>0 else -1.
+              n=max(range(-1152,1153,12),key=corr)
+              n=max(range(n-12,n+13),key=corr)
+              return {"samples":n,"seconds":round(n/44100,7),"correlation":round(corr(n),6)}
+          report={"origin":"The Sound Question educational adaptations derived from AlbumDB recordings",
+                  "source_dataset":"https://zenodo.org/records/19683001",
+                  "licence_notice":"Check underlying recording/composition scope and retain AlbumDB attribution; this manifest does not grant rights.",
+                  "encoding":"No level change, remix, mastering, EQ or normalization. LAME CBR stereo at native 44.1 kHz.",
+                  "ffmpeg":run(["ffmpeg","-version"]).decode().splitlines()[0],
+                  "sources":{}}
+          for key,(route,title,seconds,source_kind) in songs.items():
+              url=HOST+route
+              src=TMP/(key+".flac")
+              request=urllib.request.Request(url,headers={"User-Agent":"TheSoundQuestion-AssetBuilder/1.0"})
+              print("Fetching",url,flush=True)
+              with urllib.request.urlopen(request,timeout=120) as response:
+                  assert response.status==200
+                  src.write_bytes(response.read())
+              original=info(src)
+              assert original["codec"]=="flac" and original["sample_rate"]==44100 and original["channels"]==2,original
+              assert abs(original["seconds"]-seconds)<2 and original["bytes"]>100000,original
+              ref=pcm(src);ref_levels=levels(ref)
+              item={"song":title,"source_kind":source_kind,"source_url":url,"source_sha256":sha(src),
+                    "lossless":{**original,**ref_levels},"variants":{}}
+              for rate in (128,320):
+                  dest=ROOT/(key+"-"+str(rate)+".mp3")
+                  print("Encoding",dest,flush=True)
+                  run(["ffmpeg","-hide_banner","-loglevel","error","-nostdin","-y","-i",str(src),
+                       "-map","0:a:0","-ar","44100","-ac","2","-c:a","libmp3lame",
+                       "-b:a",str(rate)+"k","-write_xing","1","-id3v2_version","0",
+                       "-map_metadata","-1",str(dest)],False)
+                  out=info(dest)
+                  assert out["codec"]=="mp3" and out["sample_rate"]==44100 and out["channels"]==2,out
+                  assert abs(out["bit_rate"]-rate*1000)<8000,out
+                  assert abs(out["seconds"]-original["seconds"])<.12,out
+                  samples=pcm(dest);measure=levels(samples)
+                  shift=alignment(ref,samples)
+                  diff=round(measure["rms_dbfs"]-ref_levels["rms_dbfs"],4)
+                  assert abs(shift["samples"])<120,(key,rate,shift)
+                  assert abs(diff)<0.8,(key,rate,diff)
+                  assert abs(measure["frames"]-ref_levels["frames"])<=2304,(key,rate,"gapless frames")
+                  item["variants"][str(rate)]={**out,**measure,"sha256":sha(dest),
+                      "alignment":shift,"rms_difference_db":diff,"path":"/assets/audio/formats/"+dest.name}
+                  print(key,rate,"bytes",out["bytes"],"alignment",shift["samples"],"rms difference",diff,flush=True)
+              report["sources"][key]=item
+          (ROOT/"manifest.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+          print("ENCODING PASSED:",len(songs)*2,"MP3 assets generated",flush=True)
+          PY
+      - name: Commit verified static audio assets to draft branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/audio/formats/*.mp3 assets/audio/formats/manifest.json
+          git diff --cached --stat
+          git commit -m "[CF-Pages-Skip] Encode and verify full-band MP3 listening samples"
+          git push origin HEAD:refs/heads/draft/mp3-lossless-beginner-lab-20261115

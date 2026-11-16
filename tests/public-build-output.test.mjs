@@ -13,8 +13,13 @@ test('static Pages build includes tracked runtime assets and excludes internal/u
  for (const name of ['index.html','lab/mastering/index.html','tools/index.html','assets/mixing-lab.js','assets/lesson-tutor/approved-answers.json','library/make-audio-make-sense/make-audio-make-sense.pdf']) {
   assert.ok(existsSync(path.join(dir, name)), 'missing runtime file '+name);
  }
- for (const privateName of ['tests','staging','deployment','docs','scripts','.github','README.md','AGENTS.md','assets/illustrations/B01.md','assets/audio']) {
+ for (const privateName of ['tests','staging','deployment','docs','scripts','.github','README.md','AGENTS.md','assets/illustrations/B01.md']) {
   assert.ok(!existsSync(path.join(dir,privateName)), 'internal or untracked file published: '+privateName);
  }
+
+ const approved = ['light-128.mp3','light-320.mp3','diva-128.mp3','diva-320.mp3','manifest.json'];
+ const formatDir = path.join(dir,'assets/audio/formats');
+ assert.deepEqual(readdirSync(formatDir).sort(), approved.sort(), 'Only four verified MP3s and manifest should publish');
+ assert.ok(existsSync(path.join(dir,'labs/formats/index.html')), 'New listening test is missing');
  assert.ok(readdirSync(dir).length > 10, 'output unexpectedly empty');
 });
