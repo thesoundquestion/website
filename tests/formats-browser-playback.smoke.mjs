@@ -1,7 +1,7 @@
 // Browser-level regression: load the actual page and play the actual hosted media.
 import { chromium } from 'playwright';
 
-const BASE = 'http://127.0.0.1:8765/labs/formats/';
+const BASE = process.env.FORMATS_BASE_URL || 'http://127.0.0.1:8765/labs/formats/';
 const browser = await chromium.launch({channel:'chrome',headless:true,args:['--no-sandbox']});
 const results = [];
 try {
