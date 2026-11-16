@@ -43,7 +43,7 @@ for (const entry of tracked) {
     (rootFiles.has(entry) || /^[a-f0-9]{32}\.txt$/i.test(entry));
   if (!inPublicRoute && !topLevel) continue;
   if (mediaExt.has(ext) && !approvedMedia.has(entry)) throw new Error('Publication of unapproved audio/video blocked: ' + entry);
-  if (!topLevel && !runtimeExt.has(ext)) continue;
+  if (!topLevel && !runtimeExt.has(ext) && !approvedMedia.has(entry)) continue;
   if (parts.some(p => p.startsWith('.'))) continue;
   const from = path.join(root, ...parts);
   if (!existsSync(from)) throw new Error('Tracked runtime file absent: ' + entry);
