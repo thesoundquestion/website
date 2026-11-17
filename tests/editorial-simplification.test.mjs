@@ -50,6 +50,27 @@ test('Mixing, Mastering and ABX explain playback before any player controls',()=
  assert.match(abx,/supported devices/);
  assert.match(abx,/personal music files aren't supported here yet/);
 });
+test('approved navigation and diagrams make the next action obvious',()=>{
+ const sources=read('decoder/playback-sources/index.html');
+ const formats=read('decoder/lossy-lossless/index.html');
+ const bits=read('assets/bit-depth.mjs');
+ const contact=read('connect/index.html');
+ const home=read('index.html');
+ const css=read('assets/styles.css');
+ assert.match(sources,/Three things worth checking/);
+ assert.doesNotMatch(sources,/ps-source-type/);
+ assert.match(formats,/href="\/labs\/abx\/\?test=formats-light-128-v1&amp;mode=training"/);
+ assert.match(bits,/Magnified: nearby level lines/);
+ assert.match(contact,/class="contact-panels"/);
+ assert.match(contact,/id="support-project"/);
+ assert.match(contact,/>Donate ↗<\/a>/);
+ assert.doesNotMatch(contact,/>Support the project on Ko-fi/);
+ assert.match(css,/\.contact-panels\{display:grid/);
+ const hero=home.indexOf('class="journey-hero'),invite=home.indexOf('class="container home-support-invite"');
+ const cards=home.indexOf('class="section site-hub"'),share=home.indexOf('class="section section-border home-share-section"');
+ assert.ok(hero>=0&&hero<invite&&invite<cards&&cards<share,'Donation prompt precedes learning cards, full support follows them');
+});
+
 test('source levels and power handling retain essential qualification',()=>{
  const sources=read('decoder/source-levels/index.html');
  const power=read('decoder/amplifier-power/index.html');
