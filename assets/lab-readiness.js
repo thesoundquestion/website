@@ -67,7 +67,7 @@
     }
     async function prepare(key,src,{pinned=[],explicit=false}={}){
       // Slow connection / Data Saver block speculative preload, not a listener click.
-      if(closed||!src||has(key)||failed.has(key)||(!explicit&&!networkPermitsPreload()))return get(key);
+      if(closed||!src||has(key)||(!explicit&&failed.has(key))||(!explicit&&!networkPermitsPreload()))return get(key);
       if(pending){
         if(pending.key===key)return pending.promise;
         abortPending();

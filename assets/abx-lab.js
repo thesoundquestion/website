@@ -135,10 +135,12 @@ async function prepareTraining(){
  }
 }
 async function prepareScoredTrial(urls,{initial=false}={}){
+ // Each new round receives a distinct opaque X URL. Reuse A/B, not old X.
+ cache.drop(SCORE_X);
  if(initial){
   const a=await cache.prepare(SCORE_A,urls.A,{pinned:[SCORE_A],explicit:true});if(!a)throw Error('Reference A is not prepared');
   const b=await cache.prepare(SCORE_B,urls.B,{pinned:[SCORE_A,SCORE_B],explicit:true});if(!b)throw Error('Reference B is not prepared');
- }else cache.drop(SCORE_X);
+ }
  const x=await cache.prepare(SCORE_X,urls.X,{pinned:[SCORE_A,SCORE_B],explicit:true});
  if(!x||!cache.has(SCORE_A)||!cache.has(SCORE_B))throw Error('Trial preparation incomplete');
  return {A:cache.get(SCORE_A),B:cache.get(SCORE_B),X:x};
@@ -203,9 +205,11 @@ async function applyServerProgress(data){
   if(!data.urls||!data.roundToken)throw Error('Missing next trial');
   const sameRound=data.roundToken===session.token;
   session.token=data.roundToken;
-  if(!sameRound||!cache.has(SCORE_X)){
+  if(!sameRound||![SCORE_A,SCORE_B,SCORE_X].every(cache.has)){
    live=null;render();
-   live=await prepareScoredTrial(data.urls);
+   live=await prepareScoredTrial(data.urls,{
+    initial:!cache.has(SCORE_A)||!cache.has(SCORE_B)
+   });
   }
   locked=false;
   scoreboard.textContent='Trial recorded. Continue listening.';
