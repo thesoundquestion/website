@@ -63,6 +63,10 @@ function makeForm(container,scope,kind,notify,refresh){
  form.append(button);
  const feedback=h('p',{role:'status','aria-live':'polite',class:'community-feedback'});
  form.append(feedback);
+ const reviewNote=h('p',{class:'community-review-note'},kind==='suggestion'
+   ?'Suggestion not showing up yet? Please be patient. This is a free, independently run site, and submissions are reviewed when we can. No need to send the same recording twice. Check back later!'
+   :'Comment not showing up yet? Please be patient. This is a free, independently run site, and comments are approved when we can get to them. No need to resubmit. Check back later, and thanks for joining in!');
+ form.append(reviewNote);
  form.addEventListener('submit',async event=>{
   event.preventDefault();if(button.disabled||!form.reportValidity())return;
   const payload={section:scope,kind,consent:inputs.consent.checked,website:honeypot.value,body:inputs.body.value};

@@ -103,3 +103,7 @@ handle takedown requests reasonably and avoid promising proof of ownership.
    Console, verify it appears on the website, then delete the sample.
 7. Only after a functioning Worker is verified, merge/deploy the Pages update
    manually once. Verify links and traffic quotas. No automatic build.
+
+## Visitor-facing moderation expectations
+
+Each community submission form now contains a quiet notice that this is a free, independently run site and entries are approved periodically. Comments and nominations remain pending until review; visitors are asked not to send duplicates just because an entry has not appeared yet. This note must not promise a specific response time or imply that submission guarantees approval.

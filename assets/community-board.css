@@ -23,3 +23,5 @@
 .community-empty{color:#b9d1e4}
 .community-board button[disabled]{opacity:.6;cursor:not-allowed}
 .community-board :is(input,select,textarea,button):focus-visible{outline:3px solid #9adaee;outline-offset:2px}
+
+.community-review-note{margin:12px 0 0;padding-top:9px;border-top:1px solid #355268;color:#bad1dd;font-size:.82rem;line-height:1.55}

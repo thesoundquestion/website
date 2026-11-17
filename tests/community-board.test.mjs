@@ -138,3 +138,14 @@ test('all user-visible public cards use text nodes, not user-provided HTML',()=>
  }
  assert.match(read('workers/abx/wrangler.toml'),/COMMUNITY_PUBLIC_ENABLED = "false"/);
 });
+
+test('comment and nomination forms explain the volunteer moderation delay without requiring resubmission',()=>{
+ const js=read('assets/community-board.js');
+ assert.match(js,/Comment not showing up yet\?/);
+ assert.match(js,/Suggestion not showing up yet\?/);
+ assert.match(js,/free, independently run site/);
+ assert.match(js,/No need to resubmit/);
+ assert.match(js,/No need to send the same recording twice/);
+ assert.match(js,/community-review-note/);
+ assert.match(read('assets/community-board.css'),/\.community-review-note/);
+});
