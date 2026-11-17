@@ -40,3 +40,16 @@ The browser uses a small **playback-only** volume reduction (approximately 0.951
 ## Deployment safety
 
 Cloudflare automatic Git deployments are intentionally OFF. A normal GitHub commit does not publish the new page. When CI is green and the merge is approved, create **one ad hoc Cloudflare Pages production deployment** for the exact merged `main` commit. Record deployment ID and verify the public MP3 URLs, page and links. Do not re-enable automatic builds, upload raw audio/stems, or run repeated deployments merely to test content.
+
+
+## 2026-11-16 — Synchronized buffered playback pilot (draft only)
+
+**Draft PR:** https://github.com/thesoundquestion/website/pull/11 — branch feature/seamless-formats-switching-20261116. The source audio, provenance, MP3 hashes, public URLs and the current production player remain unchanged until the PR is reviewed and deployed.
+
+A new stand-alone, no-dependency script (assets/format-comparison-engine.js) prepares all 3 existing variants of the **chosen song** after Play, decodes them via browser Web Audio, starts all three at a single scheduled AudioContext time/offset, and switches their output gains with a 4 ms click-smoothing ramp. That avoids restarting source audio and network requests at every format toggle. The existing RMS-matching gains remain exactly as before. Song change discards existing buffers; the other song is not downloaded in the background.
+
+Network and codec compatibility: actual GitHub Actions Playwright Chrome run **43992980944** successfully loaded actual Cloudflare FLAC and Pages MP3 files in buffered mode on desktop and mobile viewport; this proves the fetched resources were decodable and CORS-compatible **in Chrome CI**, not that iOS Safari/WebKit and Android hardware are verified. HTMLAudioElement native mode is retained if Web Audio, decode or cross-origin fetch fails. Estimated decoded memory is ~32–46 MB, depending on song length/device sample rate.
+
+Tests: tests/format-comparison-engine.test.mjs (deterministic synchronized start, switching, seek/pause, cancellation and error), formats-lab-source.test.mjs (source safety/integration), and updated formats-browser-playback.smoke.mjs (live source playback). **Site regression 43992980904: 344/344 passing** after adjusting the test for an intentional 25 ms scheduling lead; Chrome playback smoke 43992980944 passed. Later smoke adds rapid toggle, no extra fetch, seek/pause/resume, plus non-WebAudio fallback and must be checked separately.
+
+**Not delivered by this PR:** sample-accurate codec-delay measurement on each actual browser, real iOS hardware test, redesign of Mixing Lab/Mastering Lab players, precomputed mastering waveform plots, user-scale bandwidth measurement or a public deployment. Continue at the living [Playback Engine Handoff](https://github.com/thesoundquestion/research/blob/main/LISTENING_LAB_PLAYBACK_ENGINE_HANDOFF_2026-11-16.md). Use one manual Cloudflare build only after final validation and explicit release decision.
