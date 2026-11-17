@@ -23,7 +23,7 @@ ABX means listeners hear known references **A** and **B**, then identify whether
 - `lab/mastering/index.html`: Mastering Training (matched dynamic/moderate, matched moderate/brickwalled, EQ off/on); existing legacy local ABX is retained pending integration.
 - `labs/formats/index.html`: per-song codec Training (FLAC vs 128/320 kbps).
 
-The engine displays all three modes and explains why scored modes are unavailable until protected delivery has been approved. On Training, A/B/X run only in the user's browser and **scores are never sent**. On Challenge/Advanced, the engine requires an authenticated response from a dedicated scoring Worker. The proposed Worker is not deployed.
+The engine displays all three modes, an explicit scored-session Start button after the opt-in choice, and a read-only community results panel (minimum 10 completed opt-in sessions per result cell). The scoring service is not yet deployed; these features must explain unavailability rather than imply scores are live. The engine explains why scored modes are unavailable until protected delivery has been approved. On Training, A/B/X run only in the user's browser and **scores are never sent**. On Challenge/Advanced, the engine requires an authenticated response from a dedicated scoring Worker. The proposed Worker is not deployed.
 
 **Important:** Training currently uses the existing streams and approximate-position source switching, so it is an educational experience, not a tightly controlled laboratory ABX environment. Validate playback synchronization and switching artifacts before claiming technical precision. Users can inspect source URLs in Training; those results have no public ranking.
 
