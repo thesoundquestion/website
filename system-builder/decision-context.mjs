@@ -74,26 +74,26 @@ export function explainInputInteractions(request={}) {
   const notes=[];
   const scene=String(request.useCase||'living_room');
   if(isParty(request)){
-    notes.push('Party use: favor sustainable clean output and audience coverage; speaker sensitivity and peak watts cannot prove maximum clean loudness.');
+    notes.push('For a party, the system must play cleanly for a long time and reach the whole listening area. A speaker's sensitivity number or advertised peak watts alone cannot prove how loud it will play without strain.');
   }
   if(highDemandAtDistance(request)){
-    notes.push('High-output use beyond 12 ft: compact nearfield options move behind better-situated alternatives. Actual clean SPL still requires model-specific evidence.');
+    notes.push('If you listen loudly from more than 12 ft away, compact desk speakers are less likely to fit. How loudly any model can actually play cleanly still needs evidence for that exact model.');
   } else if(request.level==='high'){
-    notes.push('Loud listening: confirm output compression, amplifier clipping margin and speaker handling rather than relying on advertised watts.');
+    notes.push('For loud listening, check whether the speaker stops getting proportionally louder, whether the amplifier has clean peak reserve, and how much the speaker can safely handle. Advertised watts alone do not answer those questions.');
   }
   if(request.power==='battery'){
     notes.push('Battery operation is a mandatory gate, not a convenience preference: mains-only choices are excluded.');
   }
   if(scene==='outdoors'){
-    notes.push('Outdoor use needs suitable coverage, mounting, weather protection and power. Indoor sensitivity alone does not establish outdoor performance.');
+    notes.push('Outdoor listening needs sound that reaches the audience, appropriate mounting, weather protection and enough power. A speaker's indoor sensitivity rating does not prove how it performs outside.');
   }
   if(request.goal==='bass'&&request.subMode==='no_sub'){
     notes.push('Bass without a subwoofer: main speakers must do the low-frequency work; extension and loudness must be checked independently.');
   }
   if(request.subMode==='sub_hpf'){
-    notes.push('A declared main-speaker high-pass can reduce bass demand, but crossover settings and actual wiring must still be verified.');
+    notes.push('If a crossover filters deep bass away from the main speakers (a high-pass filter), they may have less work to do. That benefit depends on the real wiring and filter settings, not just selecting a checkbox.');
   } else if(request.subMode==='sub_full'||request.subMode==='sub_unknown'){
-    notes.push('A connected subwoofer does not automatically relieve the main speakers of low bass.');
+    notes.push('Adding a subwoofer does not automatically stop your main speakers playing deep bass. Check how the bass is actually routed.');
   } else if (request.subMode === 'plan_sub') {
     notes.push('A matching 2.1 example lists the sub and cables to check for your source.');
   }
