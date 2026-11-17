@@ -1,0 +1,39 @@
+/* Shared compact link used by System Check, Compare and Builder. */
+.tsq-recommend-link{margin:1.1rem 0 1.8rem;padding:1rem 1.15rem;border:1px solid #36566e;border-radius:12px;background:#102338;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tsq-recommend-link p{margin:0;max-width:64ch;line-height:1.55;font-size:.94rem;color:#d8e9f5}
+.tsq-recommend-link a{color:#b9ebff;font-weight:750;text-underline-offset:3px}
+.rg-page{max-width:1120px}
+.rg-breadcrumb{display:flex;gap:.65rem;align-items:center;color:#b8d4e8;font-size:.9rem;margin:2rem 0 1rem}
+.rg-breadcrumb a{color:#c4eaff}
+.rg-intro{max-width:850px;margin:1.25rem 0 2.3rem}
+.rg-intro h1{font-size:clamp(2.5rem,5vw,4.3rem);letter-spacing:-.045em;margin:.6rem 0}
+.rg-intro p{line-height:1.7}
+.rg-intro .lead{font-size:clamp(1.07rem,2vw,1.2rem)}
+.rg-intro a,.rg-more a,.rg-consent a{color:#a4e5ff;text-underline-offset:3px}
+.rg-method{padding:1.5rem 1.65rem 1.2rem;background:#101f31;border:1px solid #2e4e68;border-radius:15px;margin-bottom:1.7rem}
+.rg-method h2,.rg-form-card h2{font-size:clamp(1.5rem,2.8vw,2rem);margin:.25rem 0 1rem}
+.rg-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;list-style:none;counter-reset:rg;padding:0;margin:0}
+.rg-steps li{padding:1rem;border:1px solid #31526b;background:#0b1a2a;border-radius:11px;counter-increment:rg;min-width:0}
+.rg-steps li::before{content:counter(rg,decimal-leading-zero);display:block;font-size:.8rem;font-weight:750;color:#89d6f6;margin-bottom:.5rem}
+.rg-steps strong,.rg-steps span{display:block}
+.rg-steps strong{margin-bottom:.5rem;font-size:1rem}
+.rg-steps span{font-size:.91rem;color:#c8d8e7;line-height:1.6}
+.rg-note{font-size:.91rem;line-height:1.6;color:#b9cedc;margin:1rem 0 0}
+.rg-form-card{background:linear-gradient(135deg,#132d42,#0d1b2b);border:1px solid #426781;border-radius:16px;padding:clamp(20px,3vw,35px);margin:1.5rem 0 2.5rem}
+.rg-form-heading p{line-height:1.6}
+.rg-instructions{color:#bddaea;line-height:1.65;margin:1rem 0 1.35rem}
+.rg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin:1.25rem 0}
+.rg-form-card label{display:block;color:#edf6ff;font-weight:650;font-size:.93rem;line-height:1.4;margin-bottom:1.2rem}
+.rg-form-card label small{display:block;color:#adc7db;font-size:.82rem;font-weight:400;margin-top:.45rem;line-height:1.5}
+.rg-form-card input:not([type=checkbox]),.rg-form-card select,.rg-form-card textarea{display:block;width:100%;box-sizing:border-box;background:#071724;border:1px solid #638099;border-radius:9px;color:#f0f9ff;padding:.8rem .9rem;margin-top:.5rem;font:inherit;min-height:44px}
+.rg-form-card textarea{resize:vertical}
+.rg-form-card input:focus-visible,.rg-form-card textarea:focus-visible,.rg-form-card select:focus-visible{outline:2px solid #99e3ff;outline-offset:2px}
+.rg-form-card .rg-consent{display:flex;align-items:flex-start;gap:11px;font-weight:450;margin:1.6rem 0 1.25rem;line-height:1.6}
+.rg-consent input{margin-top:6px;flex-shrink:0}
+.rg-form-card button:disabled{opacity:.55;cursor:not-allowed}
+.rg-status{color:#c8e7f4;line-height:1.5;overflow-wrap:anywhere;margin:1rem 0 0;min-height:1.5rem}
+.rg-honeypot{position:absolute!important;left:-10000px!important}
+.rg-more{border-top:1px solid #2a465e;padding-top:1.3rem;max-width:800px}
+.rg-more h2{font-size:1.4rem}
+.rg-more p{line-height:1.7}
+@media(max-width:720px){.rg-steps,.rg-grid{grid-template-columns:1fr}.rg-method{padding:1.2rem}.rg-form-card{padding:1.15rem}}
