@@ -73,7 +73,7 @@ const scored=mode!=='training';
 const total=scored?(mode==='advanced'?20:10):10;
 consentLabel.hidden=!scored;startButton.hidden=!scored||Boolean(session);startButton.disabled=pending;
 prepareButton.hidden=scored||Boolean(live)||round>=10;prepareButton.disabled=pending;
-trialReadiness.hidden=!pending&&!live&&!prepareFailed;
+trialReadiness.hidden=scored||(!pending&&!live&&!prepareFailed); // X preparation latency is never displayed in scored ABX.
 switchStates();
 next.hidden=!locked||scored;guessA.disabled=locked||pending||!live;guessB.disabled=locked||pending||!live;
 for(const b of Object.values(playButtons))b.disabled=pending||!live;
