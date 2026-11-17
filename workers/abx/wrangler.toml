@@ -9,6 +9,7 @@ workers_dev = true
 [vars]
 ABX_PUBLIC_ENABLED = "false"
 COMMUNITY_PUBLIC_ENABLED = "false"
+MODERATION_ALERTS_ENABLED = "false"
 
 # Provisioned on the Cloudflare free tier on 2026-11-17.
 [[d1_databases]]
