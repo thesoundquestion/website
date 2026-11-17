@@ -12,39 +12,45 @@ permissions:
 jobs:
   mastering-waveform-svg:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Check FLAC decoding utilities
+      - name: Install FFmpeg tools on runner only if missing
         shell: bash
         run: |
           set -euo pipefail
-          command -v ffmpeg
-          command -v ffprobe
-      - name: Decode published FLAC files once and generate the SVGs
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          ffmpeg -version | head -1
+          ffprobe -version | head -1
+      - name: Decode published FLAC once and build min/max stereo waveform images
         shell: bash
         run: |
           set -euo pipefail
           python3 scripts/generate-mastering-waveforms.py
-      - name: Verify real source provenance and small output
+      - name: Verify original audio provenance and small static waveform assets
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json,os,pathlib
+          import json, pathlib
           root=pathlib.Path('assets/waveforms')
           m=json.loads((root/'mastering-provenance.json').read_text())
+          assert m['bins']==960 and m['channels']==2
+          assert m['method'].startswith('960 signed min/max and RMS bins')
           assert len(m['sources'])==3
           for item in m['sources'].values():
               asset=pathlib.Path(item['svg'].lstrip('/'))
-              assert asset.exists() and 1000<asset.stat().st_size<25000,(asset,asset.stat().st_size)
+              assert asset.exists() and 1000<asset.stat().st_size<120000,asset
               assert len(item['sha256'])==64 and len(item['svg_sha256'])==64
-          assert m['method'].startswith('180 stereo')
-          print('SVG SOURCE/DELIVERY GATE PASSED')
+              assert 39<=item['duration_seconds']<=41
+          print('REAL STEREO WAVEFORM SOURCE AND SIZE GATE PASSED')
           PY
-      - name: Commit reviewed-size previews to the same draft branch only
+      - name: Commit the static previews to this draft branch, never production
         shell: bash
         run: |
           set -euo pipefail
@@ -52,8 +58,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/waveforms/mastering-*.svg assets/waveforms/mastering-provenance.json
           if git diff --cached --quiet; then
-            echo "Static waveform previews already current"
+            echo "Waveform assets already present"
           else
-            git commit -m "[CF-Pages-Skip] Cache actual mastering waveform shapes as tiny static SVGs"
+            git commit -m "[CF-Pages-Skip] Prepare actual stereo mastering waveform images"
             git push origin HEAD:refs/heads/draft/abx-shared-framework-20261116
           fi
