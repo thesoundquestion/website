@@ -1,9 +1,21 @@
-// Browser-level regression: load the actual page and play the actual hosted media.
+// Browser smoke: actual Cloudflare-hosted FLAC and GitHub-hosted MP3s.
+// Run against locally served working tree; no website deployment required.
 import { chromium } from 'playwright';
 
 const BASE = 'http://127.0.0.1:8765/labs/formats/';
 const browser = await chromium.launch({channel:'chrome',headless:true,args:['--no-sandbox']});
 const results = [];
+async function awaitPlayback(page,description) {
+  // Supported browsers should use buffered Web Audio; browsers without FLAC
+  // WebAudio/CORS can still use the original native <audio> fallback.
+  await page.waitForFunction(() => {
+    const dbg = window.__TSQFormatsPlayer?.debug?.();
+    return dbg && dbg.mode !== 'loading' && dbg.playing && dbg.position > 0.2;
+  },{timeout:60000});
+  const snapshot = await page.evaluate(() => window.__TSQFormatsPlayer.debug());
+  results.push(description + ' ' + snapshot.mode + ' PLAYING ' + snapshot.position.toFixed(2)+'s');
+  return snapshot;
+}
 try {
   for (const device of [
     {name:'desktop',options:{viewport:{width:1280,height:800}}},
@@ -13,58 +25,48 @@ try {
     const page = await context.newPage();
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
-    await page.addInitScript(() => {
-      const NativeAudio = window.Audio;
-      window.Audio = function (...args) {
-        const audio = new NativeAudio(...args);
-        window.__formatsTestAudio = audio;
-        return audio;
-      };
-    });
     await page.goto(BASE,{waitUntil:'load',timeout:30000});
-    if (errors.length) throw new Error(device.name+' JavaScript errors: '+errors.join('; '));
-    const player = page.locator('#playPause');
-    await player.click();
-    await page.waitForFunction(() => window.__formatsTestAudio &&
-      window.__formatsTestAudio.currentTime>0.2 &&
-      !window.__formatsTestAudio.paused &&
-      !window.__formatsTestAudio.error,{timeout:20000});
-    const losslessStatus = await page.evaluate(()=>({
-      playing:!window.__formatsTestAudio.paused,
-      pos:window.__formatsTestAudio.currentTime,
-      src:window.__formatsTestAudio.currentSrc
-    }));
-    for (const bitrate of ['128','320']) {
-      await page.locator('[data-format="'+bitrate+'"]').click();
-      await page.waitForFunction(rate => {
-        const el = window.__formatsTestAudio;
-        return el && el.currentSrc.includes('light-'+rate+'.mp3') &&
-          el.currentTime>0.2 && !el.paused && !el.error;
-      },bitrate,{timeout:20000});
-      results.push(device.name+' light MP3 '+bitrate+' PLAYING');
+    await page.locator('#playPause').click();
+    await page.waitForFunction(() => window.__TSQFormatsPlayer?.debug?.()?.mode !== 'loading',{timeout:60000});
+    if ((await page.evaluate(()=>window.__TSQFormatsPlayer.debug().mode))==='native') {
+      await page.locator('#playPause').click(); // fallback after decode failure
+    }
+    const before=await awaitPlayback(page,device.name+' light lossless');
+    for (const rate of ['128','320','lossless']) {
+      const old=await page.evaluate(()=>window.__TSQFormatsPlayer.debug());
+      await page.locator('[data-format="'+rate+'"]').click();
+      await page.waitForFunction(format => {
+        const x=window.__TSQFormatsPlayer?.debug?.();
+        return x && x.format===format && x.playing && x.position>.2;
+      },rate,{timeout:30000});
+      const next=await page.evaluate(()=>window.__TSQFormatsPlayer.debug());
+      if (next.mode==='buffered' && old.mode==='buffered') {
+        if (next.position+0.1<old.position || next.position-old.position>0.8) {
+          throw new Error('Buffered format switch lost time or restarted: '+JSON.stringify({old,next}));
+        }
+        if (next.buffers!==3) throw new Error('Expected 3 synchronized buffered tracks');
+      }
+      results.push(device.name+' light '+rate+' '+next.mode+' PLAYING');
     }
     await page.locator('[data-song="diva"]').click();
     await page.locator('#playPause').click();
-    await page.waitForFunction(() => {
-      const el=window.__formatsTestAudio;
-      return el && el.currentSrc.includes('/mastering/dynamic.flac') &&
-        el.currentTime>0.2 && !el.paused && !el.error;
-    },{timeout:20000});
-    for (const bitrate of ['128','320']) {
-      await page.locator('[data-format="'+bitrate+'"]').click();
-      await page.waitForFunction(rate => {
-        const el=window.__formatsTestAudio;
-        return el && el.currentSrc.includes('diva-'+rate+'.mp3') &&
-          el.currentTime>0.2 && !el.paused && !el.error;
-      },bitrate,{timeout:20000});
-      results.push(device.name+' diva MP3 '+bitrate+' PLAYING');
+    await page.waitForFunction(() => window.__TSQFormatsPlayer?.debug?.()?.mode !== 'loading',{timeout:60000});
+    if ((await page.evaluate(()=>window.__TSQFormatsPlayer.debug().mode))==='native') await page.locator('#playPause').click();
+    await awaitPlayback(page,device.name+' diva lossless');
+    for (const rate of ['128','320']) {
+      await page.locator('[data-format="'+rate+'"]').click();
+      await page.waitForFunction(format => {
+        const x=window.__TSQFormatsPlayer?.debug?.();
+        return x && x.format===format && x.playing && x.position>.2;
+      },rate,{timeout:30000});
+      results.push(device.name+' diva '+rate+' PLAYING');
     }
-    if (errors.length) throw new Error(device.name+' JavaScript errors: '+errors.join('; '));
-    results.push(device.name+' lossless PLAYING '+losslessStatus.pos.toFixed(2)+' s');
+    if(errors.length) throw new Error(device.name+' JavaScript errors: '+errors.join('; '));
+    results.push(device.name+' first run mode '+before.mode);
     await context.close();
   }
   console.log('FORMATS_BROWSER_PLAYBACK_OK');
-  for (const line of results) console.log(line);
+  for(const r of results)console.log(r);
 } finally {
   await browser.close();
 }
