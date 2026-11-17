@@ -66,22 +66,24 @@ try {
     if(await lessonLink.count()!==1)throw new Error(device.name+' missing link to dedicated ABX Lab');
     // The Mastering hero must render source-measured SVGs without fetching
     // a single FLAC simply because the visitor opened the lesson.
+    const masterPage=await context.newPage();
     const masteringAudioRequests=[];
     const onMasteringRequest=req=>{
       if(/tsq-lab-audio\.thesoundquestion\.workers\.dev\/mastering\//.test(req.url()))
         masteringAudioRequests.push(req.url());
     };
-    page.on('request',onMasteringRequest);
-    await page.goto('http://127.0.0.1:8765/lab/mastering/',{waitUntil:'load',timeout:30000});
-    await page.waitForFunction(()=>{
+    masterPage.on('request',onMasteringRequest);
+    await masterPage.goto('http://127.0.0.1:8765/lab/mastering/',{waitUntil:'load',timeout:30000});
+    await masterPage.waitForFunction(()=>{
       const imgs=[...document.querySelectorAll('.hero-art img[src^="/assets/waveforms/mastering-"]')];
       return imgs.length===3 && imgs.every(img=>img.complete&&img.naturalWidth>0&&img.naturalHeight>0);
     },null,{timeout:15000});
     if(masteringAudioRequests.length)throw new Error(device.name+' Mastering page unexpectedly fetched '+masteringAudioRequests.length+' FLACs on open');
-    if(await page.locator('#abxPanel').count())throw new Error(device.name+' legacy Mastering ABX player still exists');
-    const imgLinks=page.locator('.hero-art a[href$=".svg"]');
+    if(await masterPage.locator('#abxPanel').count())throw new Error(device.name+' legacy Mastering ABX player still exists');
+    const imgLinks=masterPage.locator('.hero-art a[href$=".svg"]');
     if(await imgLinks.count()!==3)throw new Error(device.name+' waveform full-size links missing');
-    page.off('request',onMasteringRequest);
+    masterPage.off('request',onMasteringRequest);
+    await masterPage.close();
     results.push(device.name+' Mastering real static stereo waveforms loaded without initial FLAC requests');
 
     await page.goto('http://127.0.0.1:8765/labs/abx/?test=formats-light-128-v1&mode=training',{waitUntil:'load',timeout:30000});
