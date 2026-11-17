@@ -1,0 +1,57 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import path from 'node:path';
+const root=path.resolve(import.meta.dirname,'..'),read=p=>readFileSync(path.join(root,p),'utf8');
+const client=read('assets/abx-lab.js'),server=read('workers/abx/index.mjs'),doc=read('docs/abx-labs/README.md');
+test('shared ABX runtime and score service parse',()=>{
+ for(const p of ['assets/abx-lab.js','workers/abx/index.mjs']){
+  const r=spawnSync(process.execPath,['--check',path.join(root,p)],{encoding:'utf8'});
+  assert.equal(r.status,0,r.stderr||p);
+ }
+});
+test('all three Listening Labs use the same renderer and stylesheet',()=>{
+ for(const [file,lab] of [['lab/index.html','mix'],['lab/mastering/index.html','master'],['labs/formats/index.html','formats']]){
+  const page=read(file);
+  assert.match(page,new RegExp('data-abx-lab="'+lab+'"'));
+  assert.match(page,/assets\/abx-lab\.js/);
+  assert.match(page,/assets\/abx-lab\.css/);
+ }
+});
+test('ABX categories and training only no-public-score guard',()=>{
+ for(const label of ['Training','Challenge','Advanced'])assert.ok(client.includes(label),label);
+ assert.match(client,/mode==='training'/);
+ assert.match(client,/Training score:/);
+ assert.match(client,/No answer feedback until completion/);
+ assert.match(client,/Scored tests are not open yet/);
+ assert.doesNotMatch(client,/localStorage|sessionStorage/);
+});
+test('server refuses all scored sessions pending source validation',()=>{
+ assert.match(server,/const VALIDATED=new Set\(\[\]\)/);
+ assert.match(server,/!VALIDATED\.has\(data\.testId\)/);
+ assert.match(server,/const choice=crypto\.getRandomValues/);
+ assert.match(server,/r\.answer/);
+ assert.match(server,/s\.completed_at!==null/);
+ assert.match(server,/HAVING COUNT\(\*\)>=10/);
+ assert.match(server,/if\(nextCount===s\.total\)/);
+ assert.doesNotMatch(server,/Math\.random/);
+});
+test('unmatched loud masters excluded from proposed scoring source catalogue',()=>{
+ const start=server.indexOf('const SOURCES='),end=server.indexOf('const VALIDATED');
+ const catalog=server.slice(start,end);
+ assert.doesNotMatch(catalog,/\/mastering\/moderate\.flac|\/mastering\/brickwalled\.flac|\/mastering\/dynamic\.flac.(?=.*matched)/s);
+ assert.match(doc,/Unmatched deliberately loud masters are never ABX eligible/);
+});
+test('D1 private score schemas and deployment guards exist',()=>{
+ const sql=read('workers/abx/schema.sql');
+ for(const term of ['abx_sessions','abx_rounds','completed_at','share','expires_at'])assert.ok(sql.includes(term));
+ assert.ok(read('workers/abx/wrangler.toml').includes('# [[d1_databases]]'));
+ assert.match(doc,/NOT DEPLOYED/);
+});
+test('public build denies private worker configuration',()=>{
+ const build=read('scripts/build-public-site.mjs');
+ assert.match(build,/const routes = new Set/);
+ assert.doesNotMatch(build,/['"]workers['"]/);
+ assert.ok(existsSync(path.join(root,'assets/abx-lab.js')));
+});
