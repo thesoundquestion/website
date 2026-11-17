@@ -17,19 +17,25 @@ This is a **fun, informal, voluntary community listening experiment**, not an ac
 | Mode | Examples | Result |
 | --- | --- | --- |
 | Training | Exaggerated stereo mixes, loudness-matched contrasting masters, EQ on/off, MP3 examples | Ten rounds, immediate feedback, no public scoring |
-| Challenge | Mastering EQ; Let The Light In and Diva: lossless versus 128 kbps MP3 | Ten randomized rounds, result at the end, optional anonymous sharing |
-| Advanced | Let The Light In and Diva: lossless versus 320 kbps MP3 | Twenty randomized rounds, result at the end, optional anonymous sharing |
+| Challenge | Mastering EQ; Let The Light In and Diva: lossless versus 128 kbps MP3 | Ten rounds, local-only beta score; no sharing or server calls |
+| Advanced | Let The Light In and Diva: lossless versus 320 kbps MP3 | Twenty rounds, local-only beta score; no sharing or server calls |
 
 Difficulty is a property of the *game*, not the person or their gear. Visitors can select any category without passing Training. The deliberately **unmatched-loudness mastering progression is excluded** from ABX; it stays a sighted lesson. Compared recordings derive from the same existing source performance and were prepared for the original lessons. The MP3 manifest pins hashes, offsets and decoded sample counts. The ~0.44 dB RMS difference of the 128 kbps examples is acknowledged; Training applies its existing gain compensation. Scored comparisons are informal demonstrations rather than tightly calibrated, definitive findings.
 
 ## Browser playback, caching, free-tier budget
 
-- No ABX audio loads until the listener starts preparation or begins a scored session.
+- No ABX audio loads until the listener starts preparing Training or starts a local practice game. The future server-scored session flow is disabled in this beta.
 - Training downloads only the two unique recordings into bounded local Blob URLs, then attempts synchronized Web Audio preparation **from those local Blobs** (no second public audio download). A, B and X share one audio clock; X aliases A or B, and switching labels changes gain rather than restarting audio. The existing 14 MiB compressed / 48 MiB decoded limits apply inside the synchronized engine. If decoding is unavailable or the size cap is reached, Training falls back to cached native `<audio>` playback; switching source files in fallback mode can still pause. **One shared Ready indicator** appears after preparation.
-- Scored sessions use server-owned random X and an A/B permutation, cache both references for the full session, and load one mystery X per new round. The active comparison is bounded to three cached audio files and ~25 MiB. Scored sessions still use native media-source changes while the Worker is unreleased, so scored switching gaps and physical-device fairness remain release checks. Cache entries are discarded and Blob URLs revoked when the experiment changes or ends.
+- **Currently unreleased server scoring design:** scored sessions will use server-owned random X and an A/B permutation, cache both references for the full session, and load one mystery X per new round. The active comparison is bounded to three cached audio files and ~25 MiB. Scored sessions still use native media-source changes while the Worker is unreleased, so scored switching gaps and physical-device fairness remain release checks. Cache entries are discarded and Blob URLs revoked when the experiment changes or ends.
 - Sighted lessons consistently use only Offline, Please wait and Ready; idle files have no misleading status. The scored ABX screen suppresses timing-based readiness labels that might identify X. Browser file lengths, formats, and enablement timing can still be inspected by determined visitors. We do not claim cheating resistance beyond basic protections.
 - Counting both the score Worker and upstream audio Worker, an ideal 20-round Advanced session can require approximately **43–65 Worker requests**, depending on which files come from static Pages versus the audio Worker. Retries, Range requests and non-ABX traffic increase actual usage. Measure Cloudflare Worker/KV/D1 quotas before activating score sharing. Never buy paid services or enable automatic Pages deployments to solve playback issues.
 - Details and prior benchmark guidance: docs/lab-playback-free-tier/README.md.
+
+## Current local-only beta behavior
+
+`assets/abx-lab.js` sets `PRACTICE_ONLY = true`. Training, Challenge (10 rounds), and Advanced (20 rounds) now work without the unreleased score Worker. Each game downloads its two distinct comparison recordings only after the listener starts, then reuses local copies for A, B and X. The mystery recording is randomized in the browser; **this is not cheating-resistant or suitable for community rankings**. The result appears at completion and is not transmitted.
+
+Sharing consent and public score controls are hidden in this beta. Existing future server-scored protocol code is kept behind the practice switch, and its Worker remains configured with `ABX_PUBLIC_ENABLED = "false"`. Future release requires deliberate privacy review, live Worker/D1 verification, explicit opt-in, regression against the real server and owner approval. Do not simply change the local flag without those checks.
 
 ## Scoring protocol and privacy
 
