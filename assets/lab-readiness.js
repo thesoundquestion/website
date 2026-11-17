@@ -22,7 +22,8 @@
   }
   function status({url,failed=false,prepared=false,active=false,media=null,waiting=false}={}) {
     if(!url || failed || (active&&media?.error)) return 'offline';
-    if(prepared || (active&&!waiting&&mediaReady(media))) return 'ready';
+    if(active&&waiting) return 'wait';
+    if(prepared || (active&&mediaReady(media))) return 'ready';
     return 'wait';
   }
   function set(node,state){
@@ -65,7 +66,7 @@
       if(pending){pending.controller.abort();pending=null}
     }
     async function prepare(key,src,{pinned=[]}={}){
-      if(closed||!src||has(key)||!networkPermitsPreload())return get(key);
+      if(closed||!src||has(key)||failed.has(key)||!networkPermitsPreload())return get(key);
       if(pending){
         if(pending.key===key)return pending.promise;
         abortPending();
