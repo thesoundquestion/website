@@ -12,7 +12,8 @@ test('complete Mastering Lab includes published streaming examples and optional 
  assert.match(html,/href="\/labs\/"/);
  assert.match(html,/href="\/labs\/#recordings"/);
  assert.match(html,/name="robots" content="index,follow"/);
- assert.doesNotMatch(html,/<script[^>]+src=|<audio[^>]+src=|<source[^>]+src=/i);
+ assert.match(html,/<script src="\/assets\/abx-lab\.js" defer><\/script>/);
+ assert.doesNotMatch(html,/<audio[^>]+src=|<source[^>]+src=/i);
 });
 test('master audio is hosted offsite while raw source stems remain private',()=>{
  assert.match(html,/tsq-lab-audio\.thesoundquestion\.workers\.dev/);
