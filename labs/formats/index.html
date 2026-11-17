@@ -79,53 +79,73 @@
   <article><span class="explainer-glyph" aria-hidden="true">⇄</span><h3>WAV vs FLAC?</h3><p>They can contain exactly the same sound. FLAC simply packs the digital information more efficiently.</p></article>
  </div>
  <p class="question-line">The real question isn't which file has the bigger number. <strong>It's whether the difference matters to what you hear.</strong></p>
- <details class="technical"><summary>For curious listeners: how we made this comparison</summary><div><p>Both MP3 examples are derived from the same 44.1 kHz lossless source, using LAME constant-bitrate encoding at 128 and 320 kbps. There was no separate mixing, EQ or mastering. The files were checked for timing alignment and sample levels. At 128 kbps the decoded sample RMS was about 0.44 dB lower than the lossless source, so we slightly lower the reference and 320 kbps playback to match the 128 kbps sample level. This is an approximate RMS-matched guided comparison, not a blinded scientific test. Switching moves to approximately the same point in the music.</p><p>One short listening test cannot prove that everyone will hear or prefer the same format. Listening conditions and the recording itself can change the result.</p></div></details>
+ <details class="technical"><summary>For curious listeners: how we made this comparison</summary><div><p>Both MP3 examples are derived from the same 44.1 kHz lossless source, using LAME constant-bitrate encoding at 128 and 320 kbps. There was no separate mixing, EQ or mastering. The files were checked for timing alignment and sample levels. At 128 kbps the decoded sample RMS was about 0.44 dB lower than the lossless source, so we slightly lower the reference and 320 kbps playback to match the 128 kbps sample level. This is an approximate RMS-matched guided comparison, not a blinded scientific test. The buffered player starts synchronized sources at the same position, then switches formats without reloading; unsupported browsers use the original streaming player.</p><p>One short listening test cannot prove that everyone will hear or prefer the same format. Listening conditions and the recording itself can change the result.</p></div></details>
 </section>
 <section class="wrap credits"><p class="eyebrow">THE RECORDINGS</p><h2>Real music, shared for learning</h2><p>These are audio examples from The Sound Question's existing Listening Labs, using recordings drawn from <em>Extraordinary</em> by Tom McKenzie. The songs and musical performances are real; the mixes or mastering used here are our educational versions, not the artist's official released masters.</p><p>Source: <a href="https://zenodo.org/records/19683001">AlbumDB research dataset</a> by Thomas McKenzie, Eloi Moliner Juanpere and Alec Wright, listed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>. The Sound Question independently prepared these educational audio adaptations. No endorsement or partnership is implied. See the <a href="https://aes.org/publications/elibrary/elibrary-page/?id=23185">AlbumDB research paper (AES Paper 10278)</a> for the original research. These are excerpt-based educational format comparisons, not standalone releases of the source recordings.</p><p><a href="/decoder/lossy-lossless/">Read the short lesson: MP3 and lossless music →</a></p></section>
 <nav class="page-endnav wrap" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/decoder/lossy-lossless/">Why do MP3s sound different? <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/labs/">All Listening Labs</a><a href="/">Home</a><a href="#">↑ Back to top</a></div></nav>
 </main><footer class="site-foot"><span>The Sound Question · Music first. Questions always.</span><span>Listen, compare, decide for yourself</span></footer>
 
-<!-- Initialize the controls after the buttons/audio UI exist. Inline scripts
-     do not honor defer; keep this executable script at the end of body. -->
+<!-- The comparison engine is first; controls initialize only after the DOM exists. -->
+<script src="/assets/format-comparison-engine.js"></script>
 <script>
 (() => {
   'use strict';
   const HOST = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
   const SONGS = {
     light: {
-      name: 'Let The Light In',
-      duration: 30,
+      name: 'Let The Light In', duration: 30,
       lossless: HOST + '/mixing/reference.flac',
       '128': '/assets/audio/formats/light-128.mp3',
       '320': '/assets/audio/formats/light-320.mp3'
     },
     diva: {
-      name: 'Diva',
-      duration: 40,
+      name: 'Diva', duration: 40,
       lossless: HOST + '/mastering/dynamic.flac',
       '128': '/assets/audio/formats/diva-128.mp3',
       '320': '/assets/audio/formats/diva-320.mp3'
     }
   };
-  // Derived from assets/audio/formats/manifest.json. A small reduction to the
-  // reference and 320-kbps playback keeps sample-RMS near the 128-kbps clip.
-  // Playback gain only: the original FLAC and MP3 assets are unchanged.
+  // Same RMS-based gain matching as the original public format lab.
+  // These gains do not alter source samples or master recordings.
   const MATCHED_VOLUME = {
     light: { lossless: 0.9511, '128': 1, '320': 0.9512 },
     diva: { lossless: 0.9510, '128': 1, '320': 0.9510 }
   };
   const byId = id => document.getElementById(id);
+  // The native element is a fallback for failed fetch/CORS/decode, limited
+  // browser support, or constrained mobile memory. It never plays alongside
+  // the synchronized Web Audio engine.
   const player = new Audio();
   player.preload = 'metadata';
-  const state = { song: 'light', format: 'lossless', pending: null };
+  const state = { song: 'light', format: 'lossless', pending: null,
+    mode: 'initial', ticket: 0 };
   const currentSong = () => SONGS[state.song];
-  const caption = () => state.format === 'lossless' ? 'Original (lossless)' : 'MP3 ' + state.format + ' kbps';
+  const caption = () => state.format === 'lossless'
+    ? 'Original (lossless)' : 'MP3 ' + state.format + ' kbps';
   const show = text => { byId('playingNow').textContent = text; };
   const pretty = seconds => {
     const value = Math.max(0, Math.floor(Number(seconds) || 0));
     return Math.floor(value / 60) + ':' + String(value % 60).padStart(2, '0');
   };
-  const duration = () => Number.isFinite(player.duration) && player.duration > 0 ? player.duration : currentSong().duration;
+  const engine = window.TSQFormatBuffers
+    ? new window.TSQFormatBuffers({
+        onProgress: (done, total) => {
+          if (state.mode === 'loading') show('Preparing comparison audio: ' + done + ' of ' + total + ' files…');
+        },
+        onEnded: () => {
+          paint();
+          show('You reached the end. Start again or try another version.');
+        }
+      })
+    : null;
+  const buffered = () => state.mode === 'buffered' && engine && engine.isReady();
+  const playing = () => buffered() ? engine.isPlaying()
+    : state.mode === 'loading' ? false : !player.paused && !player.ended;
+  const position = () => buffered() ? engine.position() : player.currentTime;
+  const duration = () => buffered() ? engine.duration
+    : Number.isFinite(player.duration) && player.duration > 0
+      ? player.duration : currentSong().duration;
+
   function paint() {
     document.querySelectorAll('[data-song]').forEach(button => {
       const active = button.dataset.song === state.song;
@@ -137,59 +157,132 @@
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     });
-    const playing = !player.paused && !player.ended;
-    byId('playText').textContent = playing ? 'Pause' : 'Play';
-    byId('playIcon').textContent = playing ? 'Ⅱ' : '▶';
-    byId('playPause').setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    const on = playing();
+    byId('playText').textContent = state.mode === 'loading' ? 'Preparing…' : on ? 'Pause' : 'Play';
+    byId('playIcon').textContent = on ? 'Ⅱ' : '▶';
+    byId('playPause').disabled = state.mode === 'loading';
+    byId('playPause').setAttribute('aria-label', on ? 'Pause' : 'Play');
     byId('seek').max = String(duration());
-    byId('seek').value = String(Math.min(Number.isFinite(player.currentTime) ? player.currentTime : 0, duration()));
-    byId('durationLabel').textContent = pretty(player.currentTime) + ' / ' + pretty(duration());
+    byId('seek').value = String(Math.min(Number.isFinite(position()) ? position() : 0, duration()));
+    byId('durationLabel').textContent = pretty(position()) + ' / ' + pretty(duration());
   }
+
   function replaceSource(resume, seconds) {
+    // Native fallback: switching seeks after loading metadata. Web Audio's
+    // buffered mode NEVER calls this routine on format selection.
     state.pending = { resume, seconds };
     player.pause();
     player.src = currentSong()[state.format];
     player.volume = MATCHED_VOLUME[state.song][state.format];
     player.load();
-    // Switching files from a button click must start playback while the
-    // browser still recognizes the user's tap. Waiting for loadedmetadata
-    // to call play() can be blocked in some mobile browsers.
+    // In native mode Play must originate from the button gesture when possible.
     if (resume) player.play().catch(() => show('Press Play to continue listening.'));
     paint();
   }
+
   function resumeIfReady() {
     if (!state.pending || player.seeking) return;
     const pending = state.pending;
     state.pending = null;
     if (pending.resume) player.play().catch(() => show('Press Play to continue listening.'));
   }
+
+  async function prepareAndPlay() {
+    if (state.mode === 'loading') return;
+    if (!engine || !window.TSQFormatBuffers.supported()) {
+      state.mode = 'native';
+      player.play().catch(() => show('Playback unavailable. Try another browser.'));
+      paint();
+      return;
+    }
+    const ticket = ++state.ticket;
+    state.mode = 'loading';
+    player.pause();
+    show('Preparing all three versions for uninterrupted switching…');
+    paint();
+    try {
+      // This is called from a real Play click. AudioContext.resume() starts
+      // before any network await, preserving mobile user-activation handling.
+      const loaded = await engine.prepare(state.song, currentSong(), MATCHED_VOLUME[state.song]);
+      if (!loaded || ticket !== state.ticket) return;
+      state.mode = 'buffered';
+      engine.select(state.format);
+      if (!engine.play()) throw new Error('Could not start synchronized audio');
+      show('Ready. Switch versions without interrupting the music.');
+    } catch (error) {
+      if (ticket !== state.ticket) return;
+      // A browser may play FLAC natively but reject decodeAudioData or cross-
+      // origin fetch. Never give up the working native-streaming fallback.
+      engine.clear();
+      state.mode = 'native';
+      show('Instant switching is unavailable here. Standard streaming is ready; press Play.');
+      replaceSource(false, 0);
+    }
+    paint();
+  }
+
   document.querySelectorAll('[data-song]').forEach(button => button.addEventListener('click', () => {
     if (button.dataset.song === state.song) return;
+    ++state.ticket;
+    if (engine) engine.clear();
+    player.pause();
     state.song = button.dataset.song;
     state.format = 'lossless';
+    state.mode = 'initial';
     replaceSource(false, 0);
-    show(currentSong().name + ' is selected. Press Play, then try the other versions.');
+    show(currentSong().name + ' selected. Press Play to prepare all versions.');
   }));
+
   document.querySelectorAll('[data-format]').forEach(button => button.addEventListener('click', () => {
     if (button.dataset.format === state.format) return;
-    const wasPlaying = !player.paused && !player.ended;
-    const at = Number.isFinite(player.currentTime) ? player.currentTime : 0;
+    const wasPlaying = playing();
+    const at = Number.isFinite(position()) ? position() : 0;
     state.format = button.dataset.format;
-    replaceSource(wasPlaying, at);
-    show('Switching to ' + caption() + ' near the same point in the music…');
+    if (buffered()) {
+      engine.select(state.format);
+      show(caption() + (wasPlaying ? ' · instant switch at the same position.' : ' selected. Press Play.'));
+      paint();
+    } else if (state.mode === 'loading') {
+      show(caption() + ' selected. Preparing the audio…');
+      paint();
+    } else {
+      replaceSource(wasPlaying, at);
+      show('Switching to ' + caption() + ' near the same point in the music…');
+    }
   }));
+
   byId('playPause').addEventListener('click', () => {
-    if (player.paused || player.ended) player.play().catch(() => show('Playback could not start. Check your connection and try again.'));
-    else player.pause();
+    if (state.mode === 'loading') return;
+    if (buffered()) {
+      if (engine.isPlaying()) engine.pause();
+      else engine.play();
+      paint();
+    } else if (state.mode === 'initial') {
+      prepareAndPlay();
+    } else if (player.paused || player.ended) {
+      player.play().catch(() => show('Playback could not start. Check your connection and try again.'));
+    } else player.pause();
   });
+
   byId('restart').addEventListener('click', () => {
-    player.currentTime = 0;
-    player.play().catch(() => show('Press Play to begin.'));
+    if (buffered()) {
+      engine.seek(0);
+      if (!engine.isPlaying()) engine.play();
+      paint();
+    } else if (state.mode !== 'loading') {
+      player.currentTime = 0;
+      player.play().catch(() => show('Press Play to begin.'));
+    }
   });
+
   byId('seek').addEventListener('input', event => {
-    try { player.currentTime = Number(event.target.value); } catch (_) {}
+    if (buffered()) engine.seek(Number(event.target.value));
+    else if (state.mode !== 'loading') {
+      try { player.currentTime = Number(event.target.value); } catch (_) {}
+    }
     paint();
   });
+
   player.addEventListener('loadedmetadata', () => {
     if (state.pending) {
       const next = Math.max(0, Math.min(state.pending.seconds, duration() - .08));
@@ -205,14 +298,31 @@
   player.addEventListener('pause', paint);
   player.addEventListener('ended', () => {
     paint();
-    show('You reached the end. Start again and try another version.');
+    if (state.mode === 'native') show('You reached the end. Start again or try another version.');
   });
-  player.addEventListener('error', () => show(state.format === 'lossless'
-    ? 'The original lossless recording could not play here. Try another browser, or tap MP3 320 to confirm your audio works.'
-    : 'This MP3 could not play. Check your connection or try a different format.'));
-  window.addEventListener('pagehide', () => player.pause());
+  player.addEventListener('error', () => {
+    if (state.mode === 'native') show(state.format === 'lossless'
+      ? 'The lossless recording could not play here. Try MP3 320 or a different browser.'
+      : 'This MP3 could not play. Check your connection or try another format.');
+  });
+
+  // Cheap UI timer, not an additional playback or decoding clock.
+  const uiTimer = window.setInterval(() => { if (buffered() && engine.isPlaying()) paint(); }, 125);
+  window.addEventListener('pagehide', () => {
+    clearInterval(uiTimer);
+    player.pause();
+    if (engine) engine.dispose();
+  });
+  // Test-only state readout supports regression tests without requiring the
+  // native fallback player to be active. No audio data is exposed.
+  window.__TSQFormatsPlayer = {
+    debug: () => ({ mode: state.mode, song: state.song, format: state.format,
+      playing: playing(), position: position(), duration: duration(),
+      buffers: engine ? engine.debug().sources : 0 }),
+    engine
+  };
   replaceSource(false, 0);
-  show('Original (lossless) is selected. Press Play to begin.');
+  show('Press Play to prepare the three versions for seamless comparisons.');
 })();
 </script>
 </body>
