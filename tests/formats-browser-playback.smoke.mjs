@@ -101,6 +101,26 @@ try {
     results.push(device.name+' first run mode '+before.mode);
     await context.close();
   }
+  // Standard streaming remains usable on devices without Web Audio.
+  const fallbackContext=await browser.newContext({viewport:{width:900,height:700}});
+  const fallbackPage=await fallbackContext.newPage();
+  await fallbackPage.addInitScript(() => {
+    Object.defineProperty(window,'AudioContext',{value:undefined,configurable:true});
+    Object.defineProperty(window,'webkitAudioContext',{value:undefined,configurable:true});
+  });
+  await fallbackPage.goto(BASE,{waitUntil:'load',timeout:30000});
+  await fallbackPage.locator('#playPause').click();
+  await fallbackPage.waitForFunction(()=>{
+    const x=window.__TSQFormatsPlayer?.debug?.();
+    return x && x.mode==='native' && x.playing && x.position>.2;
+  },{timeout:30000});
+  await fallbackPage.locator('[data-format="320"]').click();
+  await fallbackPage.waitForFunction(()=>{
+    const x=window.__TSQFormatsPlayer?.debug?.();
+    return x && x.mode==='native' && x.format==='320' && x.playing && x.position>.2;
+  },{timeout:30000});
+  results.push('desktop without AudioContext native FLAC/MP3 fallback PLAYING');
+  await fallbackContext.close();
   console.log('FORMATS_BROWSER_PLAYBACK_OK');
   for(const r of results)console.log(r);
 } finally {
