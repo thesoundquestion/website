@@ -73,8 +73,9 @@ root.append(tabs,choose,lesson,meta,trialReadiness,prepareButton,buttons,answerR
 const audio=document.createElement('audio');audio.preload='none';audio.crossOrigin='anonymous';audio.hidden=true;root.append(audio);
 const takeFocus=()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'abx'}}));
 audio.addEventListener('play',takeFocus);
-document.addEventListener('tsq-lab-audio-focus',event=>{if(event.detail?.owner!=='abx')audio.pause()});
+document.addEventListener('tsq-lab-audio-focus',event=>{if(event.detail?.owner!=='abx'){audio.pause();trainingBuffer?.pause()}});
 let pending=false,playGeneration=0,prepareFailed=false;
+let trainingBuffer=null,selectedTrainingSlot=null;
 const readiness=window.TSQLabReadiness;
 const cache=readiness.createCache({maxFiles:3,maxBytes:25*1024*1024,onChange:()=>render()});
 const TRAIN_A='training:A',TRAIN_B='training:B';
@@ -84,7 +85,13 @@ function switchStates(){
  readiness.set(trialReadiness,prepareFailed?'offline':allReady?'ready':'wait');
 }
 function localSource(type){return cache.get(type)}
-function stop(){playGeneration++;audio.pause();audio.removeAttribute('src');audio.load()}
+function stop(){
+ playGeneration++;
+ audio.pause();audio.removeAttribute('src');audio.load();
+ trainingBuffer?.pause();trainingBuffer?.seek(0);
+ selectedTrainingSlot=null;
+ for(const button of Object.values(playButtons))button.setAttribute('aria-pressed','false');
+}
 async function api(path,payload){
 const res=await fetch(API+path,{method:'POST',mode:'cors',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
 if(!res.ok)throw Error('Scored ABX service unavailable ('+res.status+').');
@@ -108,7 +115,7 @@ consent.disabled=Boolean(session);
 choose.disabled=!spec||Boolean(session)||pending;
 progress.textContent=spec?'Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · Answers shown at completion'):'Select another level for available experiments.';
 }
-function reset(){version++;stop();cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent='Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
+function reset(){version++;stop();trainingBuffer?.dispose();trainingBuffer=null;cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent='Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
 function newTraining(){
  answer=Math.random()<.5?'A':'B';locked=false;
  const a=localSource(TRAIN_A),b=localSource(TRAIN_B);
@@ -118,6 +125,18 @@ function newTraining(){
 async function prepareTraining(){
  if(mode!=='training'||!testId||pending||live)return;
  const myVersion=version;
+ // The Prepare tap unlocks audio before asynchronous downloads, so mobile
+ // browsers can later decode and synchronize the two existing cached files.
+ let stagedBuffer=null;
+ if(window.TSQFormatBuffers?.supported()){
+  try{
+   stagedBuffer=new window.TSQFormatBuffers({onEnded:()=>{
+    selectedTrainingSlot=null;
+    for(const button of Object.values(playButtons))button.setAttribute('aria-pressed','false');
+   }});
+   stagedBuffer.unlock();
+  }catch{stagedBuffer?.dispose();stagedBuffer=null}
+ }
  if(prepareFailed)cache.clear(); // Explicit retry after offline preparation, not an idle retry loop.
  pending=true;prepareFailed=false;takeFocus();render();
  try{
@@ -125,9 +144,27 @@ async function prepareTraining(){
   if(!a||version!==myVersion)return;
   const b=await cache.prepare(TRAIN_B,tests[testId].b,{pinned:[TRAIN_A,TRAIN_B],explicit:true});
   if(!b||version!==myVersion)return;
+  // Use the local Blob URLs, never re-request the public audio Worker.
+  // X aliases A or B in Training, so it needs no separate download.
+  if(stagedBuffer){
+   try{
+    const losslessVolume=/-128-v[1-9][0-9]*$/.test(testId)?0.951:1;
+    await stagedBuffer.prepare(testId,{lossless:a,'128':b,'320':b},
+      {lossless:losslessVolume,'128':1,'320':1});
+    if(version===myVersion&&stagedBuffer.isReady()){
+     trainingBuffer=stagedBuffer;stagedBuffer=null;
+    }
+   }catch{
+    // Unsupported decode or memory limit: ordinary cached audio remains usable.
+   }
+  }
+  if(version!==myVersion)return;
   newTraining();
-  scoreboard.textContent='Both recordings are prepared. Listen to A, B and X, then choose your answer.';
+  scoreboard.textContent=trainingBuffer
+   ?'Both recordings are prepared for quick switching. Listen to A, B and X, then choose your answer.'
+   :'Both recordings are prepared. Listen to A, B and X, then choose your answer.';
  }finally{
+  stagedBuffer?.dispose();
   if(version===myVersion){pending=false;prepareFailed=!cache.has(TRAIN_A)||!cache.has(TRAIN_B);
    if(prepareFailed)scoreboard.textContent='Unable to prepare both recordings reliably. Check your connection and try a different comparison.';
    render();
@@ -149,7 +186,7 @@ async function startScored(){
 if(!testId||pending||session)return;
 // New attempts reset the previous completed-score lock, buffers and counters.
 version++;const myVersion=version;
-stop();cache.clear();round=0;correct=0;locked=false;session=null;live=null;prepareFailed=false;
+stop();trainingBuffer?.dispose();trainingBuffer=null;cache.clear();round=0;correct=0;locked=false;session=null;live=null;prepareFailed=false;
 pending=true;takeFocus();render();
 try {
  const data=await api('/v1/start',{testId,mode,share:consent.checked});
@@ -166,6 +203,18 @@ try {
 async function play(slot){
  if(!live||pending)return;
  const src=live[slot];if(!src)return;
+ if(mode==='training'&&trainingBuffer?.isReady()){
+  const sourceSlot=slot==='X'?answer:slot;
+  const format=sourceSlot==='A'?'lossless':'128';
+  const toggleOff=selectedTrainingSlot===slot&&trainingBuffer.isPlaying();
+  selectedTrainingSlot=slot;
+  takeFocus();
+  trainingBuffer.select(format);
+  if(toggleOff)trainingBuffer.pause();
+  else if(!trainingBuffer.isPlaying())trainingBuffer.play();
+  Object.entries(playButtons).forEach(([key,b])=>b.setAttribute('aria-pressed',String(key===slot)));
+  return;
+ }
  const wasSelected=playButtons[slot].getAttribute('aria-pressed')==='true';
  const myTurn=++playGeneration;
  const time=Math.max(0,Number.isFinite(audio.currentTime)?audio.currentTime:0);
