@@ -122,6 +122,8 @@
   const player = new Audio();
   player.preload = 'none';
   const state = { song: 'light', format: 'lossless', pending: null, userStarted:false, buffering:false };
+  player.addEventListener('play',()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'formats'}})));
+  document.addEventListener('tsq-lab-audio-focus',event=>{if(event.detail?.owner!=='formats')player.pause()});
   const readiness=window.TSQLabReadiness;
   const failures=new Set();
   const cache=readiness.createCache({maxFiles:2,maxBytes:23*1024*1024,onChange:()=>paint()});
