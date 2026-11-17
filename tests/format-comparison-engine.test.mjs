@@ -98,11 +98,15 @@ test('seek and pause preserve a common offset on all three sources',async()=>{
   assert.equal(engine.isPlaying(),true);
   assert.deepEqual(starts.slice(-3).map(x=>x.offset),[14.25,14.25,14.25]);
   ctx().currentTime += 1.25;
-  assert.ok(Math.abs(engine.position()-15.5)<.01);
+  // Starts are scheduled 25 ms ahead to keep all three sources on one
+  // precise clock tick. Simulated time here has advanced 1.25 s, but audio
+  // playback has advanced 1.225 s. This is deliberate, not a lost seek.
+  const expected=14.25 + 1.25 - 0.025;
+  assert.ok(Math.abs(engine.position()-expected)<.001);
   engine.pause();
-  assert.ok(Math.abs(engine.position()-15.5)<.01);
+  assert.ok(Math.abs(engine.position()-expected)<.001);
   engine.play();
-  assert.ok(starts.slice(-3).every(x=>Math.abs(x.offset-15.5)<.01));
+  assert.ok(starts.slice(-3).every(x=>Math.abs(x.offset-expected)<.001));
   engine.dispose();
 });
 
