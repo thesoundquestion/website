@@ -23,3 +23,7 @@ Run `node --test tests/*.test.mjs` plus `python3 scripts/sync_journey_topics.py 
 ## Shared ABX framework (draft)
 
 Training, Challenge and Advanced implementation, source-validation gates, proposed Worker/D1 scoring and required release tests are documented in [`docs/abx-labs/README.md`](../docs/abx-labs/README.md). The separate ABX framework is **not deployed** and server scoring is **disabled pending validation**. Training examples must not be treated as independently verified hearing measurements. New listening experiments should reuse this framework and its versioned comparison catalogue rather than adding a bespoke ABX scorer.
+
+## Free-tier playback cost requirement
+
+Do not standardize eager Mastering waveform downloads into other labs. The live original Mastering experiment fetches three FLACs for waveform rendering on page load, unlike Fair/EQ. Future playback improvements must first respect [the Cloudflare Free-tier playback policy](../docs/lab-playback-free-tier/README.md), minimize Worker/KV calls and compare real P50/P95 switch times, request counts and transferred bytes. No deployment from the draft branch.

@@ -96,3 +96,7 @@ The decoded audio necessarily reaches the visitor's device. Filename masking, Wo
 ### Minimum deployment gate
 
 No D1 database has been created, no secret has been set and no Worker has been deployed in this pass. Do not merge this draft until the requested hands-on playback review is complete. The site's Cloudflare Pages project has automatic deployments disabled; release must remain a deliberate single build after a passing test suite and file/link audit.
+
+## Cloudflare Free-tier playback budget (mandatory)
+
+Playback and server-scored ABX must obey the [shared Cloudflare Free-tier playback resource policy](../lab-playback-free-tier/README.md). All existing source and fairness gates still apply. The current ABX proxy invokes a Worker for *every* A/B/X audio request; a 20-round Advanced session can use at least 81 Worker requests before Range retries. **Do not enable scored results** until per-session Worker/KV/D1 consumption is benchmarked and contained. Avoid eager full-file preloading; the live Mastering page currently loads three original FLACs for waveforms even when nobody presses Play. Preserve the zero-automatic-Pages-builds policy.

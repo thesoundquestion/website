@@ -1,0 +1,46 @@
+# Listening Labs playback: Cloudflare Free-tier resource policy
+
+**Status:** Design rule and pre-release budget, 2026-11-17. Not deployed. Applies to Mixing, Mastering, Formats, shared ABX and future labs. Refer also to [ABX engineering handoff](../abx-labs/README.md).
+
+## Hard constraints
+
+**Free plan is a release requirement.** Do not upgrade Cloudflare, enable paid services, or deploy an architecture that assumes paid overages. Keep automatic Pages deployments OFF. Confirm pricing and account-wide usage from Cloudflare documentation/dashboard again immediately before deployment because limits change.
+
+Verified Cloudflare documentation (2026-11-17):
+- Workers Free: **100,000 incoming Worker requests per day per account**, shared with Pages Functions; resets 00:00 UTC. An invocation is counted even if its code gets a cache hit. https://developers.cloudflare.com/workers/platform/limits/ and https://developers.cloudflare.com/pages/functions/pricing/
+- Workers KV Free: **100,000 key reads/day**, **1,000 writes/day**, **1 GB storage**. Exceeding a daily KV operation allowance fails further operations of that type; KV local caching can lower latency without implying that a new `get()` doesn't count as a read. https://developers.cloudflare.com/kv/platform/pricing/
+- Cloudflare Pages **static assets** are free/unlimited when requests do not invoke Pages Functions; this does not make Worker-proxied FLAC free. https://developers.cloudflare.com/pages/functions/pricing/
+- Workers KV uses a network cache via `cacheTtl`, but this is not the same as browser caching or bypassing the Worker. https://developers.cloudflare.com/kv/api/read-key-value-pairs/
+
+## Existing implementation and source of avoidable usage
+
+- Public FLAC audio is served by `tsq-lab-audio.thesoundquestion.workers.dev`. The live Worker reads the **entire** FLAC KV value using `env.AUDIO_KV.get(path,{type:'arrayBuffer',cacheTtl:60})` and **then** slices it for Range requests. Every browser Range request invokes a Worker and one KV `get`, potentially retrieving the whole object internally. This needs measurement and eventual redesign, not more aggressive preloading layered on top.
+- Mastering's waveform display eagerly fetches/decodes **three original-master FLACs on page load**. This may improve subsequent original-master playback, but consumes Worker/KV operations even when the user does not press Play. Fair comparison and EQ receive no equivalent warm-up.
+- Mixing and Formats use their own `audio.src` replacement and rough seek; the shared ABX draft likewise uses a separate media element. Browser HTTP range requests, retries and switching can each generate additional Worker invocations.
+- The four approved MP3s in Formats are static Pages assets and therefore do **not** invoke the FLAC audio Worker. Preserve the existing deliberate media split unless a full throughput, deployment and delivery review justifies a change.
+
+## Playback policy for all future labs
+
+1. **Zero media Worker requests at idle:** The target for a visitor simply opening a lab page is zero FLAC audio requests. Serve preview waveforms as precomputed, small, static SVG/JSON/PNG assets in Pages, rather than fetching full FLAC files to draw them. Existing Mastering is an exception that must be fixed, not a pattern to replicate.
+2. **User-initiated loading:** Load the selected recording when Play or an explicit listening action occurs. After playback begins, prepare at most **one other variant at a time**, only within the active test. Cancel lower-priority warm-up work if playback stalls, network is slow, the user switches experiments, or the page becomes hidden.
+3. **Bounded prefetch:** Start with at most **one alternate clip** per active experiment (two total clips in memory including current), unless a benchmark proves a higher bound is worthwhile on mobile connections. No entire-site or cross-lab prefetch; no downloading all 8 Mastering FLACs for one play. Cap in-memory bytes and release unused buffers.
+4. **Avoid repeated requests:** Reuse a prepared buffer or browser cache when the same recording is selected again; deduplicate in-flight fetches. Preserve source revisions in immutable filenames or hashed manifests so long-lived caches do not serve outdated audio. Be aware that HTTP media Range caching can vary by browser; don't infer a cache hit from a `Cache-Control` header.
+5. **Worker execution minimization:** Prefer direct static asset delivery when the published asset is suitable and safely deployable, otherwise investigate a cacheable asset endpoint / storage option whose responses do **not** invoke a Worker on each cache hit. Cloudflare Cache API *inside* a Worker may reduce KV reads, but cannot eliminate the initial Worker invocation. Do not add another Worker per audio clip or extra telemetry requests.
+6. **Keep audio quality and fairness:** No automatic lossy re-encoding for a lossless reference just to optimize cost. For ABX, A, B and X need equivalent preparation and no trivial seek/cache timing cues. Distinguish educational Training (unscored) from Challenge/Advanced (currently release-locked).
+7. **Progressive enhancement:** Slow or capped networks should still have explicit Play and manual switching with honest loading status. Do not force a large background download for users who only want to read the lesson.
+8. **No visitor tracking for optimization:** Measure aggregate Worker request/bytes/errors via Cloudflare observability and reproducible browser tests. Do not add per-person analytics, cookies or browser fingerprinting to budget the free tier.
+
+## Scored ABX has a particularly large request multiplier
+
+The staged `/v1/audio/:session/:round/:token/:slot` proxy sends *each* A, B and X playback request through a Worker and D1 session lookup. A 20-trial Advanced test with **only one request for each of A, B and X per trial** already needs at least **60 audio Worker invocations**, plus **20 answers and 1 start**, or **81+ Worker requests per completed test**. Browser Range requests, retries, switching and the optional results call increase that figure. At 1,000 completed Advanced sessions, that baseline alone is 81,000 Worker requests, before any other site traffic. This is a *lower bound*, not a forecast.
+
+**Release block:** No scored ABX rollout until the delivery design demonstrates an acceptable per-completed-session Worker/KV/D1 budget, with stress tests for repeated switching and real browser Range patterns. Hiding answer keys and serving public audio cheaply must be balanced against source inspection risk: a browser-based unsupervised test cannot be made completely cheat-proof.
+
+## Required measurements, implementation and release review
+
+- Record for each comparison: cold first-play latency, warm first-play latency, P50/P95 switch latency, rebuffer count, HTTP request count, Worker executions, KV reads, total transferred bytes, cache hit rate, browser peak memory and mobile data usage.
+- Test 3G/slow 4G, Wi-Fi, desktop/mobile, back-and-forth switching, quick tab changes, seek/restart, and repeat site visits. Separate Worker traffic from free Pages-static requests.
+- Benchmark the proposed shared engine against current Mastering (all three modes), Mixing and Formats before replacing the existing players; treat the first Mastering mode's eager waveforms as an uncontrolled advantage.
+- Use Cloudflare Workers & Pages **Observability/Analytics** to see actual request trends. Monitor both Worker invocations and KV operations. Establish conservative internal alert thresholds **below** the account-wide 100k/day limits, with capacity reserved for other site Workers and score APIs.
+- Reject a change if it improves average switching time while meaningfully increasing unrequested downloads, cost per listening session or error rates. Any larger audio-host redesign needs a separate bandwidth/storage and rights review.
+- Existing GitHub automated checks do not currently benchmark actual Worker/KV usage. Add an explicit playback-budget regression/measurement phase before permitting production release.
