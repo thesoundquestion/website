@@ -73,3 +73,15 @@ Under those ideal assumptions, an Advanced session uses **22 audio Worker reques
 8. Cache misses or memory pressure must degrade gracefully to ordinary streaming, with an honest performance note. The hard requirement is safe and fair playback, followed by bounded resource usage, not disguising loading errors.
 
 **Do not enable Challenge/Advanced merely because the request-count target passes.** Fairness, source side-channel audits, privacy and statistical limitations remain separate release gates.
+
+## Consistent, actionable track labels (November 17, 2026 draft)
+
+The entire Listening Labs UI uses exactly **Offline**, **Please wait**, and **Ready** for track readiness. No "Online", "Available online", "Playing", "Buffering", "Loaded" or other pseudo-readiness statuses on track cards. Initially hide idle track statuses: possessing an audio URL is not evidence of buffered audio or rapid switching.
+
+- **Please wait** appears when a user has requested listening/preparation but the selected media is not sufficiently buffered, has stalled, or an alternate full-file prefetch has not completed.
+- **Ready** requires an actively playable buffered segment (at least approximately 4 seconds ahead, adapting near the end) or a complete locally reusable audio object. A URL and metadata-only load never qualify.
+- **Offline** requires absence of a usable source or a confirmed media load/decode failure. Avoid treating a minor buffering delay as Offline.
+- Only one alternate in an active sighted experiment may be prefetched, **after** user playback begins and the active track is sufficiently buffered; prefetch uses a bounded in-memory cache and does not automatically retry failed downloads on every progress event.
+- On normal labs, a Ready label on another row means the bytes are held locally, not simply that a remote URL exists. Network/browser failures can still cause playback errors, so do not claim zero-stutter guarantees.
+- **ABX:** never show per-A/B/X status labels or timed readiness hints identifying which candidate takes longer. Training has one group-level readiness gate after both source files have finished downloading, and replay is entirely local. Scored-mode timing indicators remain hidden, and scored testing is blocked pending source and timing side-channel review.
+- Only one media player on a lab page owns audio focus. Starting ABX preparation pauses the main lesson player, and starting the lesson playback pauses ABX; avoid needless simultaneous streams.
