@@ -80,7 +80,7 @@ if(!live||pending)return;
 const src=live[slot];if(!src)return;
 try {
 const t=Number.isFinite(audio.currentTime)?audio.currentTime:0;
-if(audio.src!==new URL(src,location.href).href){const wasPlaying=!audio.paused;audio.pause();audio.src=src;audio.load();audio.addEventListener('loadedmetadata',()=>{try{audio.currentTime=Math.min(t,Math.max(0,audio.duration-.05))}catch{}},{once:true});if(wasPlaying)await audio.play()}
+if(audio.src!==new URL(src,location.href).href){audio.pause();audio.src=src;audio.load();audio.addEventListener('loadedmetadata',()=>{try{audio.currentTime=Math.min(t,Math.max(0,audio.duration-.05))}catch{}},{once:true});await audio.play()}
 else if(audio.paused)await audio.play();else audio.pause();
 Object.entries(playButtons).forEach(([key,b])=>b.setAttribute('aria-pressed',String(key===slot)));
 }catch{scoreboard.textContent='Playback failed. Check audio access or try another device.'}
