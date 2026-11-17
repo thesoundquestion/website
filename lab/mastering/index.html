@@ -116,7 +116,10 @@ function selectAudio(keepTime=true,autoResume=false){
  state.currentKey=key;waitingForBuffer=false;
  el.audio.pause();el.audio.removeAttribute('src');el.audio.load();
  if(!src){status('The recording is unavailable. Check your connection, or choose a local WAV.');refreshCardStates();updateClock();setButtons();return}
- el.audio.preload=userStarted?'auto':'none';
+ // Do not even assign the remote source until the visitor chooses Play.
+ // Browsers can override preload=none and request audio after audio.load().
+ if(!userStarted){refreshCardStates();updateClock();setButtons();return}
+ el.audio.preload='auto';
  el.audio.src=src.startsWith('blob:')?src:(cache.get(key)||src);
  el.audio.load();
  refreshCardStates();
@@ -146,7 +149,7 @@ function assignFiles(files){let count=0;const choices=MODES[state.mode].items.ma
  el.load.textContent=count?`${count} WAV file(s) assigned. You can switch recordings immediately.`:'No matching WAVs found. Select files from the relevant test folder, or the whole Diva - Mastering Demo folder.';renderCards();selectAudio(false)}
 
 for(const tab of el.tabs){tab.addEventListener('click',()=>switchMode(tab.dataset.tab));tab.addEventListener('keydown',ev=>{if(ev.key==='ArrowRight'||ev.key==='ArrowLeft'){ev.preventDefault();const i=el.tabs.indexOf(tab);const next=el.tabs[(i+(ev.key==='ArrowRight'?1:-1)+el.tabs.length)%el.tabs.length];next.focus();switchMode(next.dataset.tab)}})}
-el.play.addEventListener('click',()=>{if(!state.urls[getKey()])return;if(el.audio.paused){userStarted=true;el.audio.preload='auto';el.audio.play().catch(()=>status('Playback blocked. Tap Play again.'))}else el.audio.pause()});el.restart.addEventListener('click',()=>{el.audio.currentTime=0;updateClock()});el.seek.addEventListener('input',()=>{if(!el.seek.disabled)el.audio.currentTime=Number(el.seek.value)});document.querySelectorAll('[data-cue]').forEach(b=>b.addEventListener('click',()=>{if(!state.urls[getKey()])return;el.audio.currentTime=Math.min(Number(b.dataset.cue),el.audio.duration||40);updateClock()}));el.audio.addEventListener('progress',()=>{refreshCardStates();maybePrepareNext()});
+el.play.addEventListener('click',()=>{if(!state.urls[getKey()])return;if(el.audio.paused){const firstPlay=!userStarted;userStarted=true;el.audio.preload='auto';if(firstPlay)selectAudio(true,false);el.audio.play().catch(()=>status('Playback blocked. Tap Play again.'))}else el.audio.pause()});el.restart.addEventListener('click',()=>{el.audio.currentTime=0;updateClock()});el.seek.addEventListener('input',()=>{if(!el.seek.disabled)el.audio.currentTime=Number(el.seek.value)});document.querySelectorAll('[data-cue]').forEach(b=>b.addEventListener('click',()=>{if(!state.urls[getKey()])return;el.audio.currentTime=Math.min(Number(b.dataset.cue),el.audio.duration||40);updateClock()}));el.audio.addEventListener('progress',()=>{refreshCardStates();maybePrepareNext()});
 el.audio.addEventListener('canplay',()=>{waitingForBuffer=false;refreshCardStates();maybePrepareNext()});
 el.audio.addEventListener('playing',()=>{waitingForBuffer=false;refreshCardStates();maybePrepareNext()});
 el.audio.addEventListener('waiting',()=>{waitingForBuffer=true;refreshCardStates();status('Please wait while audio buffers.')});
