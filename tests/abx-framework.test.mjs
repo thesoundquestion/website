@@ -70,3 +70,10 @@ test('public build denies private worker configuration',()=>{
  assert.doesNotMatch(build,/['"]workers['"]/);
  assert.ok(existsSync(path.join(root,'assets/abx-lab.js')));
 });
+
+test('new scored ABX session clears prior result, locking, and requires new sharing opt-in',()=>{
+ assert.match(client,/round=0;correct=0;locked=false;session=null;live=null;prepareFailed=false/);
+ assert.match(client,/consent\.checked=false/);
+ for(const phrase of ['Training only until','not yet validated for scored','local training only'])
+  assert.ok(!client.includes(phrase),'Outdated comparison copy: '+phrase);
+});

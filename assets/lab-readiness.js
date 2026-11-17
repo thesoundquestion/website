@@ -65,8 +65,9 @@
       serial++;
       if(pending){pending.controller.abort();pending=null}
     }
-    async function prepare(key,src,{pinned=[]}={}){
-      if(closed||!src||has(key)||failed.has(key)||!networkPermitsPreload())return get(key);
+    async function prepare(key,src,{pinned=[],explicit=false}={}){
+      // Slow connection / Data Saver block speculative preload, not a listener click.
+      if(closed||!src||has(key)||failed.has(key)||(!explicit&&!networkPermitsPreload()))return get(key);
       if(pending){
         if(pending.key===key)return pending.promise;
         abortPending();

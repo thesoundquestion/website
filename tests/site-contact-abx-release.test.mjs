@@ -55,3 +55,9 @@ test('scoring remains off until coordinated release and uses explicit consent an
  assert.match(privacy,/180 days/);
  assert.match(read('workers/abx/RELEASE.md'),/Worker not deployed/);
 });
+
+test('curated scored comparisons describe their practical limitations consistently',()=>{
+ assert.match(abx,/informal listening game/);
+ for(const phrase of ['Training only until','not yet validated for scored','local training only'])
+  assert.ok(!abx.includes(phrase));
+});

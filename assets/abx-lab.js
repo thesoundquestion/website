@@ -4,15 +4,15 @@
 const API = 'https://tsq-abx.thesoundquestion.workers.dev';
 const AUDIO = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
 const tests = {
- 'mix-narrow-reference-v1': {lab:'mix',lessonUrl:'/lab/',modes:['training'],label:'Narrow mix vs conventional mix',a:AUDIO+'/mixing/narrow.flac',b:AUDIO+'/mixing/reference.flac',note:'Exaggerated width difference. For training only; level and alignment checks are pending.'},
- 'mix-reference-creative-v1':{lab:'mix',lessonUrl:'/lab/',modes:['training'],label:'Conventional vs creative mix',a:AUDIO+'/mixing/reference.flac',b:AUDIO+'/mixing/polished.flac',note:'Clearly contrasting spatial treatments. For training only; level and alignment checks are pending.'},
+ 'mix-narrow-reference-v1': {lab:'mix',lessonUrl:'/lab/',modes:['training'],label:'Narrow mix vs conventional mix',a:AUDIO+'/mixing/narrow.flac',b:AUDIO+'/mixing/reference.flac',note:'Intentionally exaggerated stereo width. Listen for how far apart instruments appear.'},
+ 'mix-reference-creative-v1':{lab:'mix',lessonUrl:'/lab/',modes:['training'],label:'Conventional vs creative mix',a:AUDIO+'/mixing/reference.flac',b:AUDIO+'/mixing/polished.flac',note:'The same performance mixed with different placements and depth.'},
  'master-dynamic-moderate-v1':{lab:'master',lessonUrl:'/lab/mastering/?experiment=matched',modes:['training'],label:'Dynamic vs moderately compressed master',a:AUDIO+'/mastering/matched-dynamic.flac',b:AUDIO+'/mastering/matched-moderate.flac',note:'Loudness-matched mastering treatments. A useful learning demonstration.'},
  'master-moderate-brick-v1':{lab:'master',lessonUrl:'/lab/mastering/?experiment=matched',modes:['training'],label:'Moderate vs brickwalled master',a:AUDIO+'/mastering/matched-moderate.flac',b:AUDIO+'/mastering/matched-brickwalled.flac',note:'Matched overall loudness, but deliberately strong changes in dynamics.'},
- 'master-eq-v1':{lab:'master',lessonUrl:'/lab/mastering/?experiment=eq',modes:['training','challenge'],label:'EQ off vs EQ on',a:AUDIO+'/mastering/eq-off.flac',b:AUDIO+'/mastering/eq-on.flac',note:'Training only until level-matching and source alignment are independently verified.'},
- 'formats-light-128-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=light',modes:['training','challenge'],label:'Let The Light In: lossless vs 128 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-128.mp3',note:'Codec comparison; training is unscored until a controlled blind transport is validated.'},
- 'formats-light-320-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=light',modes:['training','advanced'],label:'Let The Light In: lossless vs 320 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-320.mp3',note:'Subtle codec comparison; not yet validated for scored blind testing.'},
- 'formats-diva-128-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=diva',modes:['training','challenge'],label:'Diva: lossless vs 128 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-128.mp3',note:'Codec comparison; local training only.'},
- 'formats-diva-320-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=diva',modes:['training','advanced'],label:'Diva: lossless vs 320 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-320.mp3',note:'Subtle codec comparison; local training only.'}
+ 'master-eq-v1':{lab:'master',lessonUrl:'/lab/mastering/?experiment=eq',modes:['training','challenge'],label:'EQ off vs EQ on',a:AUDIO+'/mastering/eq-off.flac',b:AUDIO+'/mastering/eq-on.flac',note:'Compare the same recording with and without mastering EQ. Challenge is an informal listening game, not a calibrated hearing test.'},
+ 'formats-light-128-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=light',modes:['training','challenge'],label:'Let The Light In: lossless vs 128 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-128.mp3',note:'Compare lossless audio and a 128 kbps MP3. Small level differences may affect what you hear.'},
+ 'formats-light-320-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=light',modes:['training','advanced'],label:'Let The Light In: lossless vs 320 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-320.mp3',note:'A subtle lossless-versus-320 kbps MP3 comparison. You may hear little or no difference.'},
+ 'formats-diva-128-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=diva',modes:['training','challenge'],label:'Diva: lossless vs 128 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-128.mp3',note:'Compare lossless audio and a 128 kbps MP3, for curiosity rather than scientific conclusions.'},
+ 'formats-diva-320-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=diva',modes:['training','advanced'],label:'Diva: lossless vs 320 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-320.mp3',note:'A subtler 320 kbps MP3 comparison. Repeated listening is encouraged.'}
 };
 const el=(tag,props={},text='')=>{const node=document.createElement(tag);Object.entries(props).forEach(([k,v])=>{if(k==='class')node.className=v;else node.setAttribute(k,String(v))});if(text)node.textContent=text;return node};
 function init(root){
@@ -121,9 +121,9 @@ async function prepareTraining(){
  if(prepareFailed)cache.clear(); // Explicit retry after offline preparation, not an idle retry loop.
  pending=true;prepareFailed=false;takeFocus();render();
  try{
-  const a=await cache.prepare(TRAIN_A,tests[testId].a,{pinned:[TRAIN_A]});
+  const a=await cache.prepare(TRAIN_A,tests[testId].a,{pinned:[TRAIN_A],explicit:true});
   if(!a||version!==myVersion)return;
-  const b=await cache.prepare(TRAIN_B,tests[testId].b,{pinned:[TRAIN_A,TRAIN_B]});
+  const b=await cache.prepare(TRAIN_B,tests[testId].b,{pinned:[TRAIN_A,TRAIN_B],explicit:true});
   if(!b||version!==myVersion)return;
   newTraining();
   scoreboard.textContent='Both recordings are prepared. Listen to A, B and X, then choose your answer.';
@@ -136,16 +136,18 @@ async function prepareTraining(){
 }
 async function prepareScoredTrial(urls,{initial=false}={}){
  if(initial){
-  const a=await cache.prepare(SCORE_A,urls.A,{pinned:[SCORE_A]});if(!a)throw Error('Reference A is not prepared');
-  const b=await cache.prepare(SCORE_B,urls.B,{pinned:[SCORE_A,SCORE_B]});if(!b)throw Error('Reference B is not prepared');
+  const a=await cache.prepare(SCORE_A,urls.A,{pinned:[SCORE_A],explicit:true});if(!a)throw Error('Reference A is not prepared');
+  const b=await cache.prepare(SCORE_B,urls.B,{pinned:[SCORE_A,SCORE_B],explicit:true});if(!b)throw Error('Reference B is not prepared');
  }else cache.drop(SCORE_X);
- const x=await cache.prepare(SCORE_X,urls.X,{pinned:[SCORE_A,SCORE_B]});
+ const x=await cache.prepare(SCORE_X,urls.X,{pinned:[SCORE_A,SCORE_B],explicit:true});
  if(!x||!cache.has(SCORE_A)||!cache.has(SCORE_B))throw Error('Trial preparation incomplete');
  return {A:cache.get(SCORE_A),B:cache.get(SCORE_B),X:x};
 }
 async function startScored(){
-const myVersion=version;
-if(!testId)return;
+if(!testId||pending||session)return;
+// New attempts reset the previous completed-score lock, buffers and counters.
+version++;const myVersion=version;
+stop();cache.clear();round=0;correct=0;locked=false;session=null;live=null;prepareFailed=false;
 pending=true;takeFocus();render();
 try {
  const data=await api('/v1/start',{testId,mode,share:consent.checked});
@@ -194,7 +196,7 @@ async function applyServerProgress(data){
  if(!Number.isInteger(data.answered)||typeof data.complete!=='boolean')throw Error('Invalid response');
  round=data.answered;
  if(data.complete){
-  stop();cache.clear();live=null;session=null;locked=true;
+  stop();cache.clear();live=null;session=null;locked=true;consent.checked=false;
   const chance=Number.isFinite(data.chanceProbability)?' Chance of this score or higher by random guessing: '+(data.chanceProbability*100).toFixed(1)+'%.':'';
   scoreboard.textContent='You identified '+data.correct+'/'+data.total+' correctly.'+chance+' '+(data.shared?'Included in optional community statistics.':'Your result was not published.')+' These are informal, unsupervised results.';
  }else{

@@ -52,3 +52,11 @@ test('failed prefetch is not retried on every progress event',()=>{
   assert.match(text,/tsq-lab-audio-focus/);
  }
 });
+
+test('listener-initiated audio preparation always bypasses optional Data Saver prefetch rules',()=>{
+ assert.match(source,/explicit=false/);
+ assert.match(source,/!explicit&&!networkPermitsPreload\(\)/);
+ const abx=read('assets/abx-lab.js');
+ for(const k of ['TRAIN_A','TRAIN_B','SCORE_A','SCORE_B','SCORE_X'])
+  assert.match(abx,new RegExp('cache\\.prepare\\('+k+'[^\\n]+explicit:true'));
+});
