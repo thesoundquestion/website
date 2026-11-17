@@ -30,8 +30,9 @@
 - [x] Current build checks approved MP3 hashes and the illustrated handbook; retired quick-guide PDF is omitted.
 - [x] Add plain-language introductory summaries to the longest frequency response, mixing and mastering lessons; preserve advanced sections for interested readers.
 - [~] Mastering defines LUFS, crest factor and dBTP, while Formats explains bitrate/kbps beside the buttons and RMS in the technical section. The Mixing Lab hero now says “Matched average loudness” instead of leading with LUFS, with its measurement explained later. Source openings were spot-checked across 30 key Decoder/Lab pages. Full body-text first-use and screen-reader editorial review remain outstanding.
+- [x] Remove unnecessary hosting-provider mentions from the visitor-facing ABX and Mastering lab copy. Scan of all 47 sitemap pages found these two lesson instances; keep accurate provider disclosure in the separate privacy policy.
 - [x] Explain 51 curated selections versus 53 tracks: a three-song suite appears as one curated entry.
-- [~] Desktop and mobile-emulated Chrome browser tests pass on Formats, Mastering, ABX training and community UI; verify an actual phone before calling the device review complete.
+- [~] Desktop and mobile-emulated Chrome browser tests pass on Formats, Mastering, ABX training and community UI. Owner opened the draft on an actual Android phone using a local Termux HTTP server and reported that it generally worked, but observed slower X switching in ABX. Full timed device review and any X switch fix remain open.
 
 ### D. Admin follow-up, **not a release blocker**
 - [ ] Authorize Gmail native filters if desired; scheduled inbox triage already runs.
