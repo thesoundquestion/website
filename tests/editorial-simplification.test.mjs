@@ -48,7 +48,7 @@ test('Mixing, Mastering and ABX explain playback before any player controls',()=
  assert.match(abx,/Start practice challenge/);
  assert.match(abx,/nothing is submitted to community scores/);
  assert.match(abx,/supported devices/);
- assert.match(abx,/uploading your own music isn't supported here yet/);
+ assert.match(abx,/personal music files aren't supported here yet/);
 });
 test('source levels and power handling retain essential qualification',()=>{
  const sources=read('decoder/source-levels/index.html');
