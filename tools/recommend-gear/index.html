@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#080d15">
+<meta name="description" content="Recommend an amplifier, speaker, headphone, DAC or other audio model for The Sound Question's researched equipment presets.">
+<link rel="canonical" href="https://thesoundquestion.pages.dev/tools/recommend-gear/">
+<link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/tools/recommend-gear/style.css">
+<script defer src="/tools/recommend-gear/app.js"></script>
+<title>Recommend your gear | The Sound Question</title>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="site-shell">
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav>
+<details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details>
+</div></header>
+<main id="main" class="container rg-page">
+<nav class="rg-breadcrumb" aria-label="Breadcrumb"><a href="/tools/">Tools</a><span aria-hidden="true">/</span><span>Recommend your gear</span></nav>
+<header class="rg-intro">
+<p class="section-kicker">HELP US GROW THE EQUIPMENT LIBRARY</p>
+<h1>Recommend your gear.</h1>
+<p class="lead">Can't find your amplifier, speakers, headphones, DAC or other audio equipment in our tools? Tell us the <strong>brand and exact model</strong>. We'll use your suggestion as a starting point for researching its specifications.</p>
+<p>The more verified equipment we can add, the easier it gets for everyone to <a href="/system-check/">check compatibility</a>, <a href="/system-check/compare/">compare models</a> and <a href="/system-builder/">explore system options</a> without searching through manuals on their own.</p>
+</header>
+<section class="rg-method" aria-labelledby="rg-how-title">
+<h2 id="rg-how-title">What happens to your recommendation?</h2>
+<ol class="rg-steps">
+<li><strong>You tell us the model.</strong><span>Just the manufacturer and model number are enough to begin. The other details are optional, but can help us find the right version.</span></li>
+<li><strong>We check the specifications.</strong><span>We look for original manuals, manufacturer documentation and credible independent measurements. Anything we can't confirm stays unknown.</span></li>
+<li><strong>Verified models join the presets.</strong><span>Approved specifications can then help other visitors using System Check, Compare My Gear and System Builder.</span></li>
+</ol>
+<p class="rg-note">Submitting a model doesn't automatically add it, prove any claims, or guarantee a product recommendation. We won't publish personal information from submissions.</p>
+</section>
+<section class="rg-form-card" id="recommend-gear" data-submissions-enabled="false" aria-labelledby="rg-form-title">
+<div class="rg-form-heading"><p class="section-kicker">MODEL SUGGESTION</p><h2 id="rg-form-title">Tell us what we're missing</h2><p>Fields marked <strong>*</strong> are required. No account, email address, photos or serial numbers needed.</p></div>
+<form id="gear-suggestion-form" method="post" aria-describedby="rg-form-instructions">
+<p class="rg-instructions" id="rg-form-instructions">If you're unsure about a technical specification, leave it blank rather than guessing. We can research it.</p>
+<div class="rg-grid">
+<label for="rg-category">Type of equipment <span aria-hidden="true">*</span><select id="rg-category" name="category" required><option value="">Choose a type</option><option value="amplifier">Amplifier or receiver</option><option value="speaker">Speakers (passive or powered)</option><option value="headphone">Headphones or in-ear monitors</option><option value="dac">DAC (digital-to-analogue converter)</option><option value="source">Music source, streamer or sound card</option><option value="other">Other audio equipment</option></select></label>
+<label for="rg-brand">Manufacturer / brand <span aria-hidden="true">*</span><input id="rg-brand" name="brand" required minlength="2" maxlength="80" autocomplete="off" placeholder="e.g. Yamaha"></label>
+<label for="rg-model">Exact model name or number <span aria-hidden="true">*</span><input id="rg-model" name="model" required minlength="2" maxlength="120" autocomplete="off" placeholder="e.g. A-720 or DT 770 Pro"></label>
+<label for="rg-variant">Version, edition or variant (optional)<input id="rg-variant" name="variant" maxlength="120" autocomplete="off" placeholder="e.g. 80-ohm version, Mk II, 230 V"></label>
+<label for="rg-year">Approximate production year (optional)<input id="rg-year" name="approxYear" type="number" min="1920" max="2035" step="1" inputmode="numeric" placeholder="e.g. 1984"></label>
+<label for="rg-region">Country/market or regional model (optional)<input id="rg-region" name="region" maxlength="60" placeholder="e.g. Canada, Japan, Europe"></label>
+</div>
+<label for="rg-url">Manufacturer manual or specifications page (optional)<input id="rg-url" name="referenceUrl" type="url" maxlength="400" inputmode="url" placeholder="https://example.com/manual.pdf"><small>Original documentation is especially helpful. Please use an https:// link.</small></label>
+<label for="rg-notes">Other useful details (optional)<textarea id="rg-notes" name="specifications" maxlength="1200" rows="4" placeholder="For example: the speaker label says 6 ohms, or the amplifier has different specifications for the European version. You can include published figures, but please identify where you found them."></textarea><small>Describe the model, not yourself. Do not include personal details, serial numbers or copyrighted manual text.</small></label>
+<div class="rg-honeypot" aria-hidden="true"><label>Leave this field blank <input type="text" name="website" autocomplete="off" tabindex="-1"></label></div>
+<label class="rg-consent"><input type="checkbox" name="consent" value="yes" required><span>I understand this suggestion will be saved privately for review. Verified information may later be added to the public presets. I have not included personal information. <a href="/privacy/">Read the privacy policy.</a></span></label>
+<button class="button button-primary" type="submit" disabled>Send recommendation for review</button>
+<p class="rg-status" id="gear-suggestion-status" role="status" aria-live="polite">This preview shows the submission form, but database submissions are not enabled yet.</p>
+</form>
+</section>
+<aside class="rg-more" aria-labelledby="rg-more-title"><h2 id="rg-more-title">Already have the specifications?</h2><p>You can still enter them manually in <a href="/system-check/">System Check</a>. This recommendation form helps us expand the <em>shared verified presets</em>, not replace the calculator's manual inputs.</p></aside>
+<nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/tools/">Explore the equipment tools <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/system-check/">System Check</a><a href="/system-check/compare/">Compare</a><a href="/system-builder/">Builder</a></div></nav>
+</main>
+<footer class="site-footer"><div class="container footer-inner"><div class="footer-brand"><img src="/assets/mark.svg" width="29" height="29" alt=""><span>The Sound Question</span></div><div class="footer-links"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/about/">About</a><a href="/connect/">Connect</a><a href="/privacy/">Privacy</a></div><p>From questions to verified specifications.</p><small>© 2026 The Sound Question. Free to explore, no account required.</small></div></footer>
+</div>
+</body>
+</html>
