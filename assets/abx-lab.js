@@ -89,7 +89,7 @@ async function play(slot){
  const originalSlot=slot==='X'?answer:slot;
  // Measured MP3-128 decoded RMS is ~0.436 dB quieter than the lossless
  // source; reduce the reference playback gain for Training only.
- audio.volume=mode==='training'&&testId.endsWith('-128')&&originalSlot==='A'?0.951:1;
+ audio.volume=mode==='training'&&/-128-v[1-9][0-9]*$/.test(testId)&&originalSlot==='A'?0.951:1;
  try{
   if(audio.src!==new URL(src,location.href).href){
    audio.pause();audio.src=src;audio.load();
