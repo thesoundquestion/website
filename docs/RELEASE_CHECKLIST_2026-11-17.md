@@ -17,8 +17,8 @@
 - [x] Replace Mastering's three page-load FLAC downloads with original source-measured static stereo SVGs (960 min/max/RMS bins; matching shared amplitude scale), and retain hashes in provenance.
 - [x] Retire the hidden duplicate Mastering ABX controls and listeners, leaving the dedicated ABX Lab link.
 - [x] Audit PR #11: synchronized Web Audio playback is the only tested implementation that avoids source-reload gaps; eager three-file decoding is too expensive as the default.
-- [ ] **Restore truly seamless, same-position switching** in Formats as an explicit prepared/instant mode (adapt PR #11's AudioContext engine). Preserve immediate native first Play, bound memory and requests, share readiness for the *entire prepared group*, handle FLAC CORS/decoder failures, and retain native fallback. Do not claim this is complete merely because cached native file switching resumes near the same position.
-- [ ] Re-test rapid repeated format A/B/A switching for gaps, timeline drift, stutter and Worker request counts on desktop and mobile. Existing native player *does* restart the media source on each switch.
+- [~] **Optional prepared/instant mode staged in Formats**, adapted from PR #11: native Play stays default, explicit preparation downloads three versions of only the chosen song with 14 MiB compressed/48 MiB decoded PCM caps, one group readiness status, and graceful return/fallback to native. Real Chrome, Android/iOS and network/latency validation is still open. Do not claim a gapless guarantee across all browsers.
+- [~] Real Chrome desktop/mobile-emulated regression now exercises prepared A/B/A switching, no new media requests after ready, stable playhead and return to native; workflow result pending. Listen for actual clicks/gaps and verify physical Android/iOS, FLAC CORS, memory and account Worker/KV counts. Native mode still restarts its media source.
 - [ ] Check Mixing, Mastering and ABX source switching for the same user-visible pause. Their current bounded caches reduce download delays but cannot guarantee gapless switching by themselves.
 - [x] Add ABX, community, share, waveform and readiness files to required Pages build and validate waveform SVG checksums.
 - [x] Source-level internal link and anchor integrity covers 1000+ hrefs; normalize Mastering logo, main navigation and mobile menu to the site's shared labels. Final visual review remains separate.
@@ -39,7 +39,7 @@
 - [ ] Review pending posts and permissions periodically through the existing administrative workflow.
 
 ### E. Related draft reconciliation, no blind branch merges
-- [x] PR #11 compared: its synchronized engine solves source-switching gaps after preparation, unlike the current native source swapping. Eager three-track decode should not become the default; the adapted prepared mode is **still pending**, old PR remains open. See `docs/formats-lab/README.md`.
+- [~] PR #11 adapted as an explicit optional prepared mode (not default) in this draft; integration tests and release validation still pending. Old PR remains open until reconciled. See `docs/formats-lab/README.md`.
 - [ ] PR #10: 59-page handbook already present in `main`; reconcile/close outdated draft.
 - [ ] PR #1: old System Builder draft; `main` already has the tool.
 
@@ -47,9 +47,9 @@
 
 ## Current test evidence
 
-- Unit test workflow and desktop/mobile-emulated browser workflow green at this draft's latest validated head. Recheck the final commit before release.
+- The earlier unit test and desktop/mobile-emulated browser workflow passed before the prepared-audio additions. **Recheck the new head's CI and actual playback before treating these results as current.**
 - Scored ABX mock browser regression: 10 rounds, one deliberately failed X request recovered through `/v1/resume`, no new Worker requests from repeated A/B/X, another attempt starts with consent OFF. This is **not** the live scoring backend.
 - Formats browser regression: zero media requests before Play, including switching tracks and song; on-demand audio playback still succeeds.
 - Detailed Mastering waveform SVGs load without downloading FLAC data, with verified source-file hashes.
-- GitHub PR #11 remains open. **Smooth same-position switching is not yet fully implemented in the shared draft.** The current native player keeps approximate position/playing state but has a source reload gap. This requires a deliberate engine integration and playback tests.
+- GitHub PR #11 remains open. **Optional prepared same-clock switching is now staged, not proven on real devices.** The default native player continues approximate-position source swapping. Full device/Worker tests and independent listening checks remain necessary.
 
