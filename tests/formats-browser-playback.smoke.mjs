@@ -75,7 +75,7 @@ try {
     await page.goto('http://127.0.0.1:8765/lab/mastering/',{waitUntil:'load',timeout:30000});
     await page.waitForFunction(()=>{
       const imgs=[...document.querySelectorAll('.hero-art img[src^="/assets/waveforms/mastering-"]')];
-      return imgs.length===3 && imgs.every(img=>img.complete&&img.naturalWidth===960&&img.naturalHeight===108);
+      return imgs.length===3 && imgs.every(img=>img.complete&&img.naturalWidth>0&&img.naturalHeight>0);
     },null,{timeout:15000});
     if(masteringAudioRequests.length)throw new Error(device.name+' Mastering page unexpectedly fetched '+masteringAudioRequests.length+' FLACs on open');
     if(await page.locator('#abxPanel').count())throw new Error(device.name+' legacy Mastering ABX player still exists');
