@@ -37,6 +37,7 @@ test('ordinary labs import the same status library, ABX exposes only one whole-t
  assert.match(abx,/prepareScoredTrial/);
  assert.match(abx,/Prepare recordings/);
  assert.match(abx,/readiness\.set\(trialReadiness/);
+ assert.match(abx,/trialReadiness\.hidden=scored\|\|/);
  assert.match(abx,/cache\.prepare\(TRAIN_A/);
  assert.match(abx,/cache\.prepare\(TRAIN_B/);
  assert.match(abx,/cache\.prepare\(SCORE_X/);
