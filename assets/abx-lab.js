@@ -26,8 +26,7 @@ root.append(el('p',{},'Training teaches the difference. Challenge and Advanced u
 const notice=el('p',{class:'tsq-abx-notice'},'Only level-matched and technically verified comparisons qualify for scored testing. Intentionally louder masters are never eligible.');root.append(notice);
 const tabs=el('div',{class:'tsq-abx-tabs',role:'group','aria-label':'ABX difficulty'});
 const modes=[['training','Training'],['challenge','Challenge · 10 trials'],['advanced','Advanced · 20 trials']];
-let mode='training',testId=catalog[0][0],round=0,correct=0,answer='A',locked=false,live=null,session=null;
-let transport=null;
+let mode='training',testId=catalog[0][0],round=0,correct=0,answer='A',locked=false,live=null,session=null,version=0;
 const choose=el('select',{'aria-label':'Choose ABX comparison'});
 catalog.forEach(([id,t])=>choose.append(el('option',{value:id},t.label)));
 const meta=el('p',{class:'tsq-abx-meta'});
@@ -59,11 +58,14 @@ const spec=tests[testId];meta.textContent=spec.note;
 const scored=mode!=='training';
 const total=scored?(mode==='advanced'?20:10):10;
 consentLabel.hidden=!scored;startButton.hidden=!scored||Boolean(session);startButton.disabled=pending;
-next.hidden=!locked;guessA.disabled=locked||pending||!live;guessB.disabled=locked||pending||!live;
+next.hidden=!locked||scored;guessA.disabled=locked||pending||!live;guessB.disabled=locked||pending||!live;
+for(const b of Object.values(playButtons))b.disabled=pending||!live;
+for(const b of tabs.querySelectorAll('button'))b.disabled=Boolean(session);
+consent.disabled=Boolean(session);
 choose.disabled=Boolean(session)||pending;
 progress.textContent='Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · No answer feedback until completion');
 }
-function reset(){stop();round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else scoreboard.textContent='Scored trials only open after technical review. Choose whether to share your completed result, then press Start scored session.'}
+function reset(){version++;stop();round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else scoreboard.textContent='Scored trials only open after technical review. Choose whether to share your completed result, then press Start scored session.'}
 function newTraining(){answer=Math.random()<.5?'A':'B';locked=false;live={A:tests[testId].a,B:tests[testId].b,X:answer==='A'?tests[testId].a:tests[testId].b};render()}
 async function startScored(){
 pending=true;render();for(const b of Object.values(playButtons))b.disabled=true;
