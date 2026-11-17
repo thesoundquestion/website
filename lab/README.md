@@ -19,3 +19,7 @@ On 2026-11-16, the artist responded affirmatively to the request of 2026-11-15 f
 ## Quality and release
 
 Run `node --test tests/*.test.mjs` plus `python3 scripts/sync_journey_topics.py --check`. Then verify browser playback and mobile usability before production approval. `node scripts/build-public-site.mjs` publishes only allowlisted media and excludes stems. Cloudflare automatic builds are disabled; do not merge or deploy without authorization.
+
+## Shared ABX framework (draft)
+
+Training, Challenge and Advanced implementation, source-validation gates, proposed Worker/D1 scoring and required release tests are documented in [`docs/abx-labs/README.md`](../docs/abx-labs/README.md). The separate ABX framework is **not deployed** and server scoring is **disabled pending validation**. Training examples must not be treated as independently verified hearing measurements. New listening experiments should reuse this framework and its versioned comparison catalogue rather than adding a bespoke ABX scorer.
