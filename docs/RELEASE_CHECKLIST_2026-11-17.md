@@ -61,7 +61,7 @@
 
 - A 47-route first-use/body editorial audit and 37-route targeted rewrite are documented in `docs/BEGINNER_FIRST_LANGUAGE_AUDIT_2026-11-17.md`; no technical measurements, sample files, publishing gates or equations were intentionally changed.
 - Important interactive copy was also updated in System Check, Compare My Gear and System Builder. Regression tests retain exact checks for speaker-load warnings, unverified distortion, party and subwoofer constraints.
-- **Latest code CI passed:** [site regression](https://github.com/thesoundquestion/website/actions/runs/44158653269) and [real-audio browser playback](https://github.com/thesoundquestion/website/actions/runs/44158653433), both on commit `fc9d1e7252bd7fd21f9862c9a1350571a2ee0954`. Following commits changed only editorial audit/checklist documentation.
+- **Latest code CI passed:** [site regression](https://github.com/thesoundquestion/website/actions/runs/44158992072) and [real-audio browser playback](https://github.com/thesoundquestion/website/actions/runs/44158991943), both at commit `c0ec77dd07d019c5a9a01862c13fbdbba889e6d5`, including the final dither wording correction. The only commits afterwards are to editorial/checklist metadata.
 - Editorial QA remains **partially open**, especially exhaustive sentences, accessibility, visual layout, generated strings not sampled, and human permissions/credits/privacy acceptance. This is **not** authority to release.
 
 ## Current test evidence
