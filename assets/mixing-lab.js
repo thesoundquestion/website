@@ -5,6 +5,8 @@
   const TYPES = ['narrow', 'reference', 'polished'];
   const METRIC = { narrow: ['−42.77 dB', '5%'], reference: ['−14.61 dB', '67%'], polished: ['−9.68 dB', '88%'] };
   const audio = document.getElementById('labAudio');
+  audio.addEventListener('play',()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'mixing'}})));
+  document.addEventListener('tsq-lab-audio-focus',event=>{if(event.detail?.owner!=='mixing')audio.pause()});
   const status = document.getElementById('playerStatus');
   const slider = document.getElementById('seek');
   const playBtn = document.getElementById('playToggle');
