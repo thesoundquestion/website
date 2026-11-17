@@ -268,14 +268,14 @@ try {
     if(!practice.includes('Training score:'))throw new Error(device.name+' Training guess was not counted');
     await abx.getByRole('button',{name:'Next trial'}).click();
     await abx.locator('[data-mode="challenge"]').click();
-    if(await abx.locator('.tsq-abx-consent').isHidden())throw new Error(device.name+' Challenge opt-in missing');
+    if(!(await abx.locator('.tsq-abx-consent').isHidden()))throw new Error(device.name+' beta Challenge incorrectly offers public score sharing');
     if(!(await abx.locator('.tsq-abx-trial-readiness').isHidden()))throw new Error(device.name+' scored ABX exposes readiness timing');
     const challengeUrl=await abx.locator('select').inputValue();
     if(!['master-eq-v1','formats-light-128-v1','formats-diva-128-v1'].includes(challengeUrl))throw new Error(device.name+' Challenge catalogue wrong');
     await abx.locator('[data-mode="advanced"]').click();
     const advancedId=await abx.locator('select').inputValue();
     if(!advancedId.endsWith('320-v1'))throw new Error(device.name+' Advanced catalogue wrong');
-    if(await abx.locator('.tsq-abx-consent').isHidden())throw new Error(device.name+' Advanced opt-in missing');
+    if(!(await abx.locator('.tsq-abx-consent').isHidden()))throw new Error(device.name+' beta Advanced incorrectly offers public score sharing');
     const link=await backLink.getAttribute('href');
     if(link!=='/labs/formats/?song=light')throw new Error(device.name+' Advanced test not linked to source lesson');
     await abx.locator('select').selectOption('formats-diva-320-v1');
