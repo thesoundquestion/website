@@ -40,7 +40,9 @@ test('server refuses all scored sessions pending source validation',()=>{
 test('unmatched loud masters excluded from proposed scoring source catalogue',()=>{
  const start=server.indexOf('const SOURCES='),end=server.indexOf('const VALIDATED');
  const catalog=server.slice(start,end);
- assert.doesNotMatch(catalog,/HOST\+'\/mastering\/(?:moderate|brickwalled|dynamic)\.flac'/);
+ assert.match(catalog, /'master-dynamic-moderate':\[HOST\+'\/mastering\/matched-dynamic\.flac'/);
+ assert.match(catalog, /'master-moderate-brick':\[HOST\+'\/mastering\/matched-moderate\.flac'/);
+ assert.doesNotMatch(catalog, /'master-loud'/);
  assert.match(doc,/Unmatched deliberately loud masters are never ABX eligible/);
 });
 test('D1 private score schemas and deployment guards exist',()=>{
