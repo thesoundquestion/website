@@ -2,6 +2,16 @@
 
 **Prepared November 17, 2026.** This is an engineering estimate, **not an account-usage measurement**. Production release is manual only.
 
+## Read-only Cloudflare account snapshot (17 November 2026)
+
+Read-only API checks were made before any new Pages or Worker deployment:
+
+- **ABX D1 database**, `tsq-abx-scores`: **9 queries, 19 rows read, 11 rows written** in the explicitly returned 24-hour UTC window **2026-11-16 18:57:39 to 2026-11-17 18:57:39**, and **49,152 bytes** of database file storage when checked. These low numbers reflect setup/testing, **not** a live scored ABX launch or a forecast of public demand.
+- **Worker inventory:** the existing `tsq-lab-audio` Worker is deployed; the `tsq-abx` scored/community Worker is **not** in the account's list of deployed Worker scripts. No scoring feature has been activated.
+- **Worker request counts:** the available read-only endpoints did **not** provide usable inbound request totals for the existing audio Worker. The actual peak daily Worker/KV request budget remains **unverified** and must be checked in the Cloudflare dashboard. Do not treat D1 rows or requests as audio Worker invocation counts.
+
+The D1 usage measurement is a snapshot, not a rolling account forecast. Repeat it after the real scoring service is deliberately deployed, with actual test requests.
+
 ## Official published limits (November 2026)
 
 - Workers Free: **100,000 inbound Worker/Pages Function requests per UTC day**, shared across Workers and Pages Functions. A static Pages asset without Functions does not consume that allowance.
@@ -46,7 +56,7 @@ The existing audio Worker serves Mixing, Mastering and Formats independently; it
 ## Release gates
 
 - [ ] Check **Workers & Pages > Analytics** for recent real request counts, especially peak days on the existing \`tsq-lab-audio\` Worker, and record account-wide traffic before enabling ABX.
-- [ ] Check **D1 > tsq-abx-scores > Metrics** for row reads/writes and storage. The schema was initialized, but production query volume has not been measured.
+- [~] Checked D1 row reads/writes and file size using read-only account API (snapshot above). Actual live scoring and moderation usage is still unmeasured; repeat after approved Worker deployment.
 - [ ] Manually deploy the Worker with all public feature flags OFF, configure its secrets and bindings, then enable scoring/community deliberately in the approved release. Do **not** deploy a public scored UI before the API is healthy.
 - [ ] Verify full 10-round and 20-round sessions against live D1 with non-shared test scores, including resume after one X preparation failure, repeat attempts, moderation approval/rejection and expiry.
 - [ ] Test Android real device playback on Wi-Fi and cellular/Data Saver, then review Worker counts and D1 metrics.
