@@ -44,3 +44,32 @@ The staged `/v1/audio/:session/:round/:token/:slot` proxy sends *each* A, B and 
 - Use Cloudflare Workers & Pages **Observability/Analytics** to see actual request trends. Monitor both Worker invocations and KV operations. Establish conservative internal alert thresholds **below** the account-wide 100k/day limits, with capacity reserved for other site Workers and score APIs.
 - Reject a change if it improves average switching time while meaningfully increasing unrequested downloads, cost per listening session or error rates. Any larger audio-host redesign needs a separate bandwidth/storage and rights review.
 - Existing GitHub automated checks do not currently benchmark actual Worker/KV usage. Add an explicit playback-budget regression/measurement phase before permitting production release.
+
+## Repeated ABX listening: request caps, local cache and fairness
+
+ABX must be designed around **repeated A/B/X listening**, not one playback of each file. In a well-run test the visitor may switch dozens of times per trial. We must not incur a new Cloudflare Worker invocation for each press.
+
+### Draft implementation target, not yet implemented or benchmarked
+
+| Test | Network fetch goal per fresh comparison/session | What can be replayed without network |
+| --- | --- | --- |
+| Training | At most one full fetch per **unique source recording** (two per comparison); X is a local alias of A or B | A, B, X for the whole practice block |
+| Scored Challenge (10 trials) | Two reference fetches for the session + at most one *fresh* opaque X fetch per trial: **12 audio fetches** | A and B throughout session; X within its own trial |
+| Scored Advanced (20 trials) | Two reference fetches + one X per trial: **22 audio fetches** | A and B throughout session; X within its own trial |
+
+These are **engineering targets, not actual measured Worker usage**. They assume stable A/B identity for the session, one full successful HTTP request per asset, and successful in-browser blob/buffer reuse with no extra Range requests. The scored endpoint currently issues separate per-round A/B/X URLs; client-side caching must make reference reuse explicit. Source files must remain versioned.
+
+Under those ideal assumptions, an Advanced session uses **22 audio Worker requests + 20 answer requests + 1 start request = 43 Worker invocations**. Compared with the **81-request** uncached minimum, that cuts the idealized floor by about 47%. It is still not free, and real use could require more. Keep the 81+ number above as the *existing uncached path* baseline, not the optimized target.
+
+### Cache design and guardrails
+
+1. Use a small **per-comparison, per-session browser cache** of loaded audio (e.g. Blob/Object URL cache where supported), keyed by versioned test and reference identity; not a second Cloudflare storage service. HTTP cache headers alone are insufficient because browser media playback may send repeated Range requests.
+2. Preserve a single active decoded/playback path and bounded memory. A 40-second 44.1 kHz stereo uncompressed float32 buffer takes roughly **14.1 MB**; three decoded copies would need **42.3 MB** before other browser overhead. Prefer caching compressed media blobs and decoding only the audio actively playing if this proves reliable on target browsers.
+3. De-duplicate in-flight requests; never fire duplicate downloads for multiple simultaneous button presses. Explicitly revoke old Object URLs and release cached items when test selection changes, a session finishes, or the page is unloaded. Do not persist scored asset data or session secrets in shared or persistent caches.
+4. **Do not preload on page visit.** Begin only after the user starts a comparison. For scored tests, prepare A, B and X to equivalent ready states before enabling the trial. Later trials prepare just the next opaque X while retaining the same two references. The UI must not let the timing of an X fetch disclose the answer.
+5. An ABX Training interface **may** map X to locally cached A/B, because its score is not public; that mapping must **never** be done by the scored client. For scored tests, obtain X only from a protected server endpoint and do not expose an answer-key variable. Even so, a sufficiently determined visitor can compare downloaded content, and the feature is not cheat-proof.
+6. Validate the initial-play trade-off. Downloading a full FLAC before first play could make repeat switching fast but worsen time-to-first-audio on a slow phone. Benchmark a bounded progressive-start strategy against Blob caching before choosing the shared implementation. No speculative eager full-file downloads.
+7. **Regression threshold:** run a synthetic 20-trial session with 100+ random A/B/X plays, measure actual Worker invocations and KV reads, and confirm network usage stays nearly constant as replay presses increase. Test quick switching, aborted preloads, Wi-Fi/mobile, Range responses, source version changes, interrupted network, tab backgrounding, and memory cleanup. A test that hits the audio Worker for each replay fails the release gate.
+8. Cache misses or memory pressure must degrade gracefully to ordinary streaming, with an honest performance note. The hard requirement is safe and fair playback, followed by bounded resource usage, not disguising loading errors.
+
+**Do not enable Challenge/Advanced merely because the request-count target passes.** Fairness, source side-channel audits, privacy and statistical limitations remain separate release gates.

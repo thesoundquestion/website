@@ -100,3 +100,11 @@ No D1 database has been created, no secret has been set and no Worker has been d
 ## Cloudflare Free-tier playback budget (mandatory)
 
 Playback and server-scored ABX must obey the [shared Cloudflare Free-tier playback resource policy](../lab-playback-free-tier/README.md). All existing source and fairness gates still apply. The current ABX proxy invokes a Worker for *every* A/B/X audio request; a 20-round Advanced session can use at least 81 Worker requests before Range retries. **Do not enable scored results** until per-session Worker/KV/D1 consumption is benchmarked and contained. Avoid eager full-file preloading; the live Mastering page currently loads three original FLACs for waveforms even when nobody presses Play. Preserve the zero-automatic-Pages-builds policy.
+
+## Repeated-listening optimization requirement — November 17, 2026
+
+ABX listeners may replay A/B/X dozens or hundreds of times. Each listening-button press **must not** create a Worker/KV request. The scored API still has server-owned per-round X assignment; clients must not infer or locally select X.
+
+Implementation targets: Training fetches each distinct source once per comparison; scored sessions reuse A/B audio throughout the session and fetch a new opaque X only once per round, then replay all three from bounded local memory. This suggests 12 audio requests for ten scored rounds or 22 for twenty scored rounds under ideal conditions. For Advanced this is **43 total Worker requests minimum** including 20 answer submissions and one start, rather than the current 81+ uncached minimum. This is a *target only*, not a shipped optimization or a measured quota reduction.
+
+Require real browser network instrumentation, cache/Range audits, cold first-play and switching benchmarks, mobile memory tests, no answer timing cues, bounded memory and cleanup before shipping. See the detailed [Cloudflare Free-tier repeated-ABX policy](../lab-playback-free-tier/README.md#repeated-abx-listening-request-caps-local-cache-and-fairness). Public results remain disabled pending technical validation.
