@@ -78,7 +78,7 @@ function snapshot(request,s,controlKey,secret){
     {roundToken:t.token,urls:audioLinks(request,s.id,s.answered,t.token)})
  }));
 }
-function available(env){return !!(env?.ABX_PUBLIC_ENABLED==='true'&&env?.DB&&typeof env.ABX_SECRET==='string'&&env.ABX_SECRET.length>=32&&env.API_LIMITER&&env.START_LIMITER)}
+function available(env){return !!(env?.ABX_PUBLIC_ENABLED==='true'&&env?.DB&&typeof env.ABX_SECRET==='string'&&env.ABX_SECRET.length>=32&&env.API_LIMITER&&env.START_LIMITER&&env.AUDIO_LIMITER)}
 async function requireRate(env,name,key){
  const result=await env[name].limit({key});
  return result&&result.success===true;
@@ -154,9 +154,10 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
   if(origin!==ORIGIN)return respond({error:'Origin not authorized'},403);
   if(!available(env))return respond({error:'Scoring infrastructure not configured'},503);
   const ip=visitorKey(request);
-  if(url.pathname!=='/v1/audio'&&!url.pathname.startsWith('/v1/audio/')){
-   if(!await requireRate(env,'API_LIMITER','api:'+ip))return respond({error:'Request limit reached'},429);
-  }
+  if(url.pathname.startsWith('/v1/audio/')){
+   // Prevent abusive replays of a valid opaque audio URL from exhausting the free tier.
+   if(!await requireRate(env,'AUDIO_LIMITER','audio:'+ip))return respond({error:'Audio request limit reached'},429);
+  }else if(!await requireRate(env,'API_LIMITER','api:'+ip))return respond({error:'Request limit reached'},429);
   if(request.method==='GET'&&url.pathname==='/v1/stats'){
    const result=await stats(env);return respond({minimumSample:10,results:result,note:statsText});
   }

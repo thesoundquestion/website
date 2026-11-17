@@ -52,7 +52,7 @@ class FakeD1{
 }
 function setup({allowed=true,bound=true,limit=true}={}){
  const db=new FakeD1(), limiter={limit:async()=>({success:limit})};
- const env={DB:db,ABX_SECRET:secret,ABX_PUBLIC_ENABLED:'true',API_LIMITER:limiter,START_LIMITER:limiter};
+ const env={DB:db,ABX_SECRET:secret,ABX_PUBLIC_ENABLED:'true',API_LIMITER:limiter,START_LIMITER:limiter,AUDIO_LIMITER:limiter};
  if(!bound)delete env.START_LIMITER;
  const service=createAbxService({validated:allowed?new Map([['test-v1',['challenge','advanced']]]):new Map(),sources:{'test-v1':['https://audio.example/a.flac','https://audio.example/b.flac']}});
  return {db,env,service};
@@ -157,4 +157,14 @@ test('binomial chance interpretation is exact for familiar ABX outcomes',()=>{
  assert.equal(binomialTail(10,10),0.00097656);
  assert.equal(binomialTail(0,20),1);
  assert.equal(binomialTail(20,20),0.00000095);
+});
+
+test('ABX refuses audio serving if audio-specific rate limiter denies the request',async()=>{
+ const {service,env}=setup();
+ const first=await begin(service,env);
+ env.AUDIO_LIMITER={limit:async()=>({success:false})};
+ const path=new URL(first.urls.X).pathname;
+ const r=await send(service,env,path);
+ assert.equal(r.status,429);
+ assert.match(r.data.error,/Audio request limit reached/);
 });

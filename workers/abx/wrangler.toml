@@ -30,6 +30,14 @@ namespace_id = "2102"
 limit = 6
 period = 60
 
+# Audio requests need their own budget. Ordinary cached A/B/X clicks never use it.
+[[ratelimits]]
+name = "AUDIO_LIMITER"
+namespace_id = "2103"
+[ratelimits.simple]
+limit = 180
+period = 60
+
 # One scheduled retention cleanup per day. Cron is UTC.
 [triggers]
 crons = ["17 4 * * *"]
