@@ -71,6 +71,17 @@ Scanned the **47 published sitemap routes** for introductory wording and first-u
 - Recording and mastering explanations distinguish bit depth, sample rate, internal floating point, source overload and compression without changing engineering calculations.
 - Relevant headphone examples distinguish output voltage, current, sensitivity and the effect of pad seal.
 
+## Generated tool-result language review
+
+The editorial pass also covered strings generated **after** visitor interactions, without changing the calculations or how models are selected:
+
+- `system-check/calculator.js`: clearer explanations of stated amplifier rating conditions, THD versus THD+N, unverified distortion at requested listening power, speaker-load comparisons and spare clean power. Engineering status and warnings remain qualified.
+- `system-check/compare/compare.js`: make sense of unlike wattage tests, DAC noise figures, speaker-driver claims and headphone frequency-range endpoints.
+- `system-builder/app.mjs` and `system-builder/decision-context.mjs`: understandable complete-system descriptions and conditional equipment suggestions for parties, long listening distances, headphones and subwoofer high-pass routing.
+- Existing tests assert the distinctions between verified source measurements, projections, and unverified equipment; some wording assertions were reconciled with the clearer text while preserving those distinctions.
+
+This is a targeted review of important generated messages, **not an exhaustive copy review of every JS-generated error, accessibility announcement, calculator state or screen-reader interaction**.
+
 ## Still-open editorial and validation checks
 - [ ] Exhaustive sentence-level proofread across long, graph-heavy pages, including interactive JS-generated labels, computed results and error strings.
 - [ ] Real mobile layout, screen-reader order, alternative text and focus movement for expandable technical sections.
