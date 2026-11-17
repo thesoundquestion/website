@@ -84,9 +84,33 @@ const required = [
  'decoder/index.html', 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
  'system-builder/index.html', illustratedHandbook,
+ 'labs/abx/index.html', 'assets/abx-lab.js', 'assets/abx-lab.css',
+ 'assets/lab-readiness.js', 'assets/lab-readiness.css',
+ 'assets/community-board.js', 'assets/community-board.css',
+ 'assets/share-site.js', 'library/curators-listening-room/index.html',
+ 'assets/waveforms/mastering-provenance.json',
+ 'assets/waveforms/mastering-dynamic.svg',
+ 'assets/waveforms/mastering-moderate.svg',
+ 'assets/waveforms/mastering-brickwalled.svg',
 ];
 for (const file of required) {
  if (!existsSync(path.join(output, ...file.split('/')))) throw new Error('Required runtime file missing: ' + file);
+}
+// Waveform images must be measured from actual published master audio once,
+// never generated with browser-side audio downloads on initial page visit.
+const waveformManifest = JSON.parse(readFileSync(path.join(output, 'assets/waveforms/mastering-provenance.json'),'utf8'));
+if (waveformManifest.bins !== 960 || waveformManifest.channels !== 2 ||
+    !/signed min\/max and RMS/.test(waveformManifest.method||'')) throw new Error('Unverified mastering waveform provenance');
+for (const kind of ['dynamic','moderate','brickwalled']) {
+ const entry = waveformManifest.sources?.[kind];
+ const pathName = 'assets/waveforms/mastering-'+kind+'.svg';
+ if (!entry || entry.svg !== '/'+pathName || !/^[a-f0-9]{64}$/.test(entry.sha256||'') ||
+     !(entry.duration_seconds >= 39 && entry.duration_seconds <= 41) ||
+     entry.frames !== 1764000) throw new Error('Missing mastering waveform source record: '+kind);
+ const local = path.join(output,pathName);
+ if (statSync(local).size > 120000) throw new Error('Oversized mastering waveform: '+kind);
+ const actual = createHash('sha256').update(readFileSync(local)).digest('hex');
+ if (actual !== entry.svg_sha256) throw new Error('Mastering waveform mismatch: '+kind);
 }
 if ([...approvedMedia.keys()].some(file => !existsSync(path.join(output, ...file.split('/'))))) throw new Error('Approved MP3 asset missing from public build');
 console.log('PUBLIC_BUILD_OK trackedFiles=' + files.length + ' maxBytes=' + maxBytes + ' output=site-dist');

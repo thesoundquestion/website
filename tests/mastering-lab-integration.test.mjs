@@ -23,3 +23,14 @@ test('master audio is hosted offsite while raw source stems remain private',()=>
  assert.ok(existsSync(path.join(root,'labs','index.html')));
  assert.match(read('library/behind-the-experiments/index.html'),/Why playback can change the sense of space/);
 });
+
+test('Mastering hero displays measured Audacity-style static waveforms without initial audio decoding',()=>{
+ for(const kind of ['dynamic','moderate','brickwalled']){
+  assert.match(html,new RegExp('<img[^>]+/assets/waveforms/mastering-'+kind+'\\.svg'));
+  assert.match(html,new RegExp('href="/assets/waveforms/mastering-'+kind+'\\.svg"'));
+ }
+ assert.doesNotMatch(html,/function loadWaveformValues|updateHeroWaveforms|new \(window\.AudioContext/);
+ assert.doesNotMatch(html,/id="abxPanel"|id="abxToggle"|data-abx-play|function chooseAbxPair/);
+ assert.match(html,/<audio id="playerAudio" preload="none"/);
+ assert.match(html,/same scale/);
+});

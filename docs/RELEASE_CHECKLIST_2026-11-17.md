@@ -14,13 +14,13 @@
 - [ ] Run final production smoke test after deliberate merge/manual Pages deployment.
 
 ### B. Improvements for this update
-- [~] Replace Mastering's automatic three-FLAC waveform downloads with real source-derived static SVG files; generator is staged and asset provenance is pending.
-- [ ] Retire the hidden legacy inline Mastering ABX controls, leaving the dedicated ABX Lab link.
+- [x] Replace Mastering's three page-load FLAC downloads with original source-measured static stereo SVGs (960 min/max/RMS bins; matching shared amplitude scale), and retain hashes in provenance.
+- [x] Retire the hidden duplicate Mastering ABX controls and listeners, leaving the dedicated ABX Lab link.
 - [ ] Investigate PR #11 Formats Web Audio switching; integrate only if the newer browser fallback and caching stay reliable.
-- [ ] Add new ABX, community, share, image and readiness files to release-required assets tests.
+- [x] Add ABX, community, share, waveform and readiness files to required Pages build and validate waveform SVG checksums.
 - [ ] Remove redundant calls to action and verify contextual cross-links and navigation style.
 - [ ] Refine Content Use contact path and policy copy; preserve authorization scope.
-- [ ] Add a regression preventing Mastering hero audio downloads at page open.
+- [x] Add regression for Mastering static waveforms, source provenance, old ABX absence and zero initial waveform decoding.
 
 ### C. Editorial and continuity
 - [x] Pre-release audit checked 47 sitemap routes and the existing 24-lesson sequence.
