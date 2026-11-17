@@ -156,30 +156,29 @@ try {
     if(await abx.locator('[data-slot] [data-readiness]').count())throw new Error(device.name+' ABX leaks A/B/X loading state');
     let workerRequestsAfterReady=0;
     page.on('request',req=>{if(req.url().includes('tsq-lab-audio.thesoundquestion.workers.dev'))workerRequestsAfterReady++});
-    await abx.locator('[data-slot="A"]').click();
-    await page.waitForFunction(()=>{
-      const a=document.querySelector('[data-abx-lab="all"] audio');
-      return a&&a.currentTime>0.1&&!a.paused&&!a.error;
-    },null,{timeout:20000});
-    await abx.locator('[data-slot="B"]').click();
-    await page.waitForFunction(()=>{
-      const a=document.querySelector('[data-abx-lab="all"] audio');
-      return a&&a.currentTime>0.15&&!a.paused&&!a.error;
-    },null,{timeout:12000});
-    await abx.locator('[data-slot="A"]').click();
-    await page.waitForTimeout(350);
-    // An X label can alias the same Blob as A OR B. A second button should
-    // never toggle pause just because its recording URL is identical.
-    for(const label of ['X','B','X','A','X']) {
+    if(await abx.getAttribute('data-playback-mode')!=='synchronized')
+      throw new Error(device.name+' ABX Training did not prepare synchronized Web Audio buffers');
+    const assertABXPlaying=async label=>{
       await abx.locator('[data-slot="'+label+'"]').click();
       await page.waitForFunction(slot=>{
-        const root=document.querySelector('[data-abx-lab="all"]'),a=root?.querySelector('audio');
-        return a&&!a.paused&&a.currentTime>0.1&&!a.error&&
-          root.querySelector('[data-slot="'+slot+'"]')?.getAttribute('aria-pressed')==='true';
-      },label,{timeout:12000});
-    }
-    if(workerRequestsAfterReady!==0)throw new Error(device.name+' repeated ABX audio triggered '+workerRequestsAfterReady+' fresh Worker fetches');
-    results.push(device.name+' ABX A/B/X alias switching stays playing, local cache, zero extra Worker requests');
+        const root=document.querySelector('[data-abx-lab="all"]');
+        return root?.dataset.playbackMode==='synchronized' &&
+          root?.dataset.trainingPlaying==='true' &&
+          root.querySelector('[data-slot="'+slot+'"]')?.getAttribute('aria-pressed')==='true' &&
+          root.querySelector('audio')?.paused;
+      },label,{timeout:15000});
+    };
+    await assertABXPlaying('A');
+    await page.waitForTimeout(250);
+    for(const label of ['B','A','X','B','X','A','X'])await assertABXPlaying(label);
+    // Repeating the SAME button toggles pause; selecting a different label
+    // with identical cached audio must NEVER toggle pause.
+    await abx.locator('[data-slot="X"]').click();
+    if(await abx.getAttribute('data-training-playing')!=='false')
+      throw new Error(device.name+' repeated X did not toggle pause');
+    await assertABXPlaying('A');
+    if(workerRequestsAfterReady!==0)throw new Error(device.name+' synchronized ABX triggered '+workerRequestsAfterReady+' fresh Worker fetches');
+    results.push(device.name+' ABX synchronized Training A/B/X: rapid alias switching, correct toggle and zero Worker fetches');
     await abx.getByRole('button',{name:'X is A'}).click();
     const practice=await abx.locator('.tsq-abx-scoreboard').innerText();
     if(!practice.includes('Training score:'))throw new Error(device.name+' Training guess was not counted');
