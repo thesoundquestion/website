@@ -30,9 +30,9 @@
 - [x] Pre-release audit checked 47 sitemap routes and the existing 24-lesson sequence.
 - [x] Current build checks approved MP3 hashes and the illustrated handbook; retired quick-guide PDF is omitted.
 - [x] Add plain-language introductory summaries to the longest frequency response, mixing and mastering lessons; preserve advanced sections for interested readers.
-- [~] Mastering defines LUFS, crest factor and dBTP, while Formats explains bitrate/kbps beside the buttons and RMS in the technical section. Mixing's hero says “Matched average loudness” and now explains the 14 recorded parts as stems. Mastering's hero now explains stems and the loudness-war trade-off in ordinary language instead of leading with MAGDA jargon; a misleading claim that all ABX scoring stays on-device was corrected. Source openings were spot-checked across 30 key Decoder/Lab pages. Full body-text first-use and screen-reader editorial review remain outstanding.
+- [~] **Beginner-first editorial pass now scanned all 47 sitemap routes** and revised actual body/first-use explanations across 37 routes (25 lesson topics plus index/glossary/library, lab and system tools). Ten conversational or policy routes were reviewed without new edits. Definitions were moved next to practical examples without changing quoted data, charts, engineering calculations or source credits. Source-levels, impedance, DAC measurements, sampling, bit-depth, mastering and musical examples now explain jargon more explicitly. See `docs/BEGINNER_FIRST_LANGUAGE_AUDIT_2026-11-17.md`. **Not yet a complete sentence-by-sentence proofread or dynamic JS output/screen-reader audit**; these remain open before release.
 - [x] Remove unnecessary hosting-provider mentions from the visitor-facing ABX and Mastering lab copy. Scan of all 47 sitemap pages found these two lesson instances; keep accurate provider disclosure in the separate privacy policy.
-- [x] Explain 51 curated selections versus 53 tracks: a three-song suite appears as one curated entry.
+- [x] Explain 51 curated selections versus 53 tracks: a three-song suite appears as one curated entry; fix outdated Library index count of 38 selections to match current 51/53.
 - [~] Owner opened the prior draft on an actual Android phone using a local Termux HTTP server and reported that it generally worked, but observed slower X switching in ABX. The ABX Training same-clock fix and native A/B/X alias pause fix now pass real Chrome and mobile-emulated browser tests. Owner must `git pull` and listen again on the physical Samsung, especially rapid A/B/X switches, initial Play and fallback.
 
 ### D. Admin follow-up, **not a release blocker**
@@ -53,6 +53,8 @@
 - [x] PR #10 closed as superseded after confirming merged PR #13/#14, main PDF size/hash build gate, current illustrated link and legacy 301 redirect. No re-merge.
 - [~] PR #1 is **not simply a duplicate**: main has System Builder, but this draft contains additional ownership-first shortlists, pricing safeguards and owner-evidence work. Keep it unmerged and separate for review; do not close it merely because main contains the tool.
 
+**Editorial release check:** A first-use/full-body targeted copy pass was committed across 37 of 47 inspected routes. The remaining exhaustive sentence review, interactive response language, visual/accessibility QA and human rights/privacy acceptance are NOT marked complete. The generated 59-page handbook PDF is a separate artifact and was not rewritten in this website HTML pass.
+
 **No automatic Cloudflare Pages deployments. No paid upgrades as a shortcut.**
 
 ## Current test evidence
@@ -61,5 +63,5 @@
 - Scored ABX mock browser regression: 10 rounds, one deliberately failed X request recovered through `/v1/resume`, no new Worker requests from repeated A/B/X, another attempt starts with consent OFF. This is **not** the live scoring backend.
 - Formats browser regression: zero media requests before Play, including switching tracks and song; on-demand audio playback still succeeds.
 - Detailed Mastering waveform SVGs load without downloading FLAC data, with verified source-file hashes.
-- GitHub PR #11 remains open. **Optional Formats same-clock switching and ABX Training synchronized A/B/X now pass desktop/mobile-emulated Chrome against real hosted sources.** A/B/X Training uses already cached Blob audio; regular Mixing, Mastering and scored ABX still use native source swaps. Physical phone retesting and Worker budget measurement remain release checks.
+- The old PR #11 is **closed without merging**; its synchronized Web Audio paths are integrated in this draft. **Optional Formats and ABX Training synchronized playback passed Chrome desktop/mobile-emulated tests**. Mixing, Mastering and scored ABX still use native source changes. Real device listening and Worker budget measurement remain release checks.
 
