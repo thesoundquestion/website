@@ -4,13 +4,13 @@
  */
 const HOST='https://tsq-lab-audio.thesoundquestion.workers.dev';
 const SOURCES=Object.freeze({
-  'formats-light-128':['https://thesoundquestion.pages.dev/assets/audio/formats/light-128.mp3',HOST+'/mixing/reference.flac'],
-  'formats-light-320':['https://thesoundquestion.pages.dev/assets/audio/formats/light-320.mp3',HOST+'/mixing/reference.flac'],
-  'formats-diva-128':['https://thesoundquestion.pages.dev/assets/audio/formats/diva-128.mp3',HOST+'/mastering/dynamic.flac'],
-  'formats-diva-320':['https://thesoundquestion.pages.dev/assets/audio/formats/diva-320.mp3',HOST+'/mastering/dynamic.flac'],
-  'master-dynamic-moderate':[HOST+'/mastering/matched-dynamic.flac',HOST+'/mastering/matched-moderate.flac'],
-  'master-moderate-brick':[HOST+'/mastering/matched-moderate.flac',HOST+'/mastering/matched-brickwalled.flac'],
-  'master-eq':[HOST+'/mastering/eq-off.flac',HOST+'/mastering/eq-on.flac']
+  'formats-light-128-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/light-128.mp3',HOST+'/mixing/reference.flac'],
+  'formats-light-320-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/light-320.mp3',HOST+'/mixing/reference.flac'],
+  'formats-diva-128-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/diva-128.mp3',HOST+'/mastering/dynamic.flac'],
+  'formats-diva-320-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/diva-320.mp3',HOST+'/mastering/dynamic.flac'],
+  'master-dynamic-moderate-v1':[HOST+'/mastering/matched-dynamic.flac',HOST+'/mastering/matched-moderate.flac'],
+  'master-moderate-brick-v1':[HOST+'/mastering/matched-moderate.flac',HOST+'/mastering/matched-brickwalled.flac'],
+  'master-eq-v1':[HOST+'/mastering/eq-off.flac',HOST+'/mastering/eq-on.flac']
 });
 // Engineering release gate. Never enable a comparison just because its audio URL works.
 const VALIDATED=new Set([]);
@@ -155,7 +155,7 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
    if(!await requireRate(env,'START_LIMITER','start:'+ip))return respond({error:'Session limit reached'},429);
    const data=await payload(request);
    if(!data||!['challenge','advanced'].includes(data.mode))return respond({error:'Invalid request'},400);
-   if(!validated.has(data.testId)||!sources[data.testId])return respond({error:'This comparison has not passed scored-test validation'},409);
+   if(typeof data.testId!=='string'||!/-v[1-9][0-9]*$/.test(data.testId)||!validated.has(data.testId)||!sources[data.testId])return respond({error:'This comparison has not passed scored-test validation'},409);
    if(typeof data.share!=='boolean')return respond({error:'Consent selection must be explicit'},400);
    const t=Date.now(),id=crypto.randomUUID(),controlKey=crypto.randomUUID(),controlHash=await sha256(controlKey);
    const total=data.mode==='challenge'?10:20;
