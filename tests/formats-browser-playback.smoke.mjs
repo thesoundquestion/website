@@ -21,7 +21,22 @@ try {
         return audio;
       };
     });
+    const prematureAudio=[];
+    const initialWatch=req=>{
+      if(/tsq-lab-audio\.thesoundquestion\.workers\.dev\/|\/assets\/audio\/formats\/[^/]+\.mp3/.test(req.url()))
+        prematureAudio.push(req.url());
+    };
+    page.on('request',initialWatch);
     await page.goto(BASE,{waitUntil:'load',timeout:30000});
+    await page.locator('[data-song="diva"]').click();
+    await page.locator('[data-format="320"]').click();
+    await page.waitForTimeout(300);
+    if(prematureAudio.length)throw new Error(device.name+' requested audio before Play: '+JSON.stringify(prematureAudio));
+    await page.locator('[data-song="light"]').click();
+    await page.waitForTimeout(100);
+    if(prematureAudio.length)throw new Error(device.name+' changing songs before Play requested audio');
+    page.off('request',initialWatch);
+    results.push(device.name+' Formats initial visit and pre-Play changes: zero audio requests');
     if (errors.length) throw new Error(device.name+' JavaScript errors: '+errors.join('; '));
     const player = page.locator('#playPause');
     await player.click();
