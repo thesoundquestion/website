@@ -41,6 +41,16 @@
         typeof window.fetch === 'function';
     }
 
+    // Call during the listener's Prepare tap, BEFORE any awaits or downloads.
+    // That preserves mobile browsers' user-gesture permission for Web Audio.
+    unlock() {
+      if (!SynchronizedFormatBuffers.supported()) return false;
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      if (!this.context) this.context = new Ctor({ latencyHint: 'interactive' });
+      if (this.context.state !== 'running') this.context.resume().catch(() => {});
+      return true;
+    }
+
     async prepare(song, urls, volumes) {
       if (!SynchronizedFormatBuffers.supported()) {
         throw new Error('Synchronized audio is not supported in this browser.');
@@ -49,9 +59,7 @@
       const token = this.version;
       this.song = song;
       this.volumes = { ...volumes };
-      const Ctor = window.AudioContext || window.webkitAudioContext;
-      // Called from a Play tap so the context is unlocked before async fetch.
-      if (!this.context) this.context = new Ctor({ latencyHint: 'interactive' });
+      this.unlock();
       const resumePromise = this.context.resume();
       this.abort = new AbortController();
       const signal = this.abort.signal;
