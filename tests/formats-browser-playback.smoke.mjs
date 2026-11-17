@@ -48,6 +48,42 @@ try {
       }
       results.push(device.name+' light '+rate+' '+next.mode+' PLAYING');
     }
+    // Rapid A/B/A changes must not reset the timeline or re-fetch the files.
+    if ((await page.evaluate(()=>window.__TSQFormatsPlayer.debug().mode))==='buffered') {
+      const beforeRapid=await page.evaluate(()=>window.__TSQFormatsPlayer.debug());
+      let newRequests=0;
+      const monitor=req=>{
+        if (/\/(mixing\/reference\.flac|assets\/audio\/formats\/light-(128|320)\.mp3)/.test(req.url())) newRequests++;
+      };
+      page.on('request',monitor);
+      for (const rate of ['128','320','lossless','320','128','lossless','128','320','lossless']) {
+        await page.locator('[data-format="'+rate+'"]').click();
+      }
+      const afterRapid=await page.evaluate(()=>window.__TSQFormatsPlayer.debug());
+      page.off('request',monitor);
+      if(!afterRapid.playing || afterRapid.position<beforeRapid.position ||
+        afterRapid.buffers!==3 || newRequests!==0) {
+        throw new Error('Rapid switching caused a reload, pause, or timeline reset: '+JSON.stringify({beforeRapid,afterRapid,newRequests}));
+      }
+      // Seek and pause/resume require a new synchronized set of sources but
+      // must preserve the requested time and continuous progress thereafter.
+      await page.locator('#seek').evaluate(el=>{
+        el.value='12.50';
+        el.dispatchEvent(new Event('input',{bubbles:true}));
+      });
+      const seeked=await page.evaluate(()=>window.__TSQFormatsPlayer.debug());
+      if(Math.abs(seeked.position-12.5)>0.2 || !seeked.playing)
+        throw new Error('Synchronized seek failed: '+JSON.stringify(seeked));
+      await page.locator('#playPause').click();
+      const paused=await page.evaluate(()=>window.__TSQFormatsPlayer.debug());
+      if(paused.playing || Math.abs(paused.position-seeked.position)>0.3)
+        throw new Error('Buffered pause lost place: '+JSON.stringify({seeked,paused}));
+      await page.locator('#playPause').click();
+      const resumed=await page.evaluate(()=>window.__TSQFormatsPlayer.debug());
+      if(!resumed.playing || Math.abs(resumed.position-paused.position)>0.3)
+        throw new Error('Buffered resume lost place: '+JSON.stringify({paused,resumed}));
+      results.push(device.name+' rapid A/B/seek/pause/restart OK (zero new file requests)');
+    }
     await page.locator('[data-song="diva"]').click();
     await page.locator('#playPause').click();
     await page.waitForFunction(() => window.__TSQFormatsPlayer?.debug?.()?.mode !== 'loading',{timeout:60000});
