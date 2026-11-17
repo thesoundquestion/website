@@ -21,6 +21,15 @@ test('MP3 files were generated from existing FLAC sources, not separate mixes', 
   assert.match(html, /mixing\/reference\.flac/);
   assert.match(html, /mastering\/dynamic\.flac/);
   assert.doesNotMatch(html, /lamejs|Prepare my listening test|noindex,nofollow/);
+  assert.match(html, /assets\/format-comparison-engine\.js/);
+  assert.match(html, /id="prepareInstant"/);
+  assert.match(html, /id="instantReadiness"/);
+  assert.match(html, /state\.prepared/);
+  assert.match(html, /if\(state\.prepared\)\{/);
+  assert.match(html, /engine\.select\(state\.format\)/);
+  assert.match(html, /engine\.prepare\(song,currentSong\(\),MATCHED_VOLUME\[song\]\)/);
+  assert.match(html, /Regular playback still works/);
+  assert.match(html, /No technical knowledge needed/);
   assert.match(html, /MATCHED_VOLUME/);
   assert.match(html, /player\.volume = MATCHED_VOLUME/);
   for (const key of ['light','diva']) {
