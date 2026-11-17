@@ -3,14 +3,19 @@ main = "index.mjs"
 compatibility_date = "2026-11-16"
 workers_dev = true
 
-# NOT DEPLOYABLE. ABX_SECRET (>=32 random chars) must be added as a Worker secret.
-# D1 database binding intentionally absent until source and privacy approvals.
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "tsq-abx-scores"
-# database_id = "REPLACE_WITH_APPROVED_ID"
+# All comparisons are kept OFF until the next coordinated manual launch.
+# Never commit a secret here. Set ABX_SECRET (at least 32 random characters)
+# using `npx wrangler secret put ABX_SECRET` during the deliberate Worker release.
+[vars]
+ABX_PUBLIC_ENABLED = "false"
 
-# Rate limits are approximate and location-specific, NOT global anti-cheat.
+# Provisioned on the Cloudflare free tier on 2026-11-17.
+[[d1_databases]]
+binding = "DB"
+database_name = "tsq-abx-scores"
+database_id = "cbc80c8b-457e-496a-be9b-621d99f1cfd3"
+
+# Approximate per-IP rate limits, not proof against a determined abuser.
 [[ratelimits]]
 name = "API_LIMITER"
 namespace_id = "2101"
@@ -25,6 +30,6 @@ namespace_id = "2102"
 limit = 6
 period = 60
 
-# Enable daily data-retention cleanup only with approved release:
-# [triggers]
-# crons = ["17 4 * * *"]
+# One scheduled retention cleanup per day. Cron is UTC.
+[triggers]
+crons = ["17 4 * * *"]
