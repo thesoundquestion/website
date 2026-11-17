@@ -18,7 +18,8 @@ test('three separate, labelled listening options share a transport', () => {
 });
 
 test('honest source provenance, internal rights gate and listening guidance', () => {
-  assert.match(html, /14 processed-dry tracks/i);
+  assert.match(html, /14 separate recordings \(stems\)/i);
+  assert.match(html, /14 processed-dry stems/i);
   assert.match(html, /Headphones recommended/i);
   assert.match(html, /shaker.*already|shaker.*supplied|existing stereo drift/i);
   assert.match(html, /−20 LUFS/);
@@ -30,9 +31,11 @@ test('honest source provenance, internal rights gate and listening guidance', ()
   assert.doesNotMatch(html, /src="[^"\n]+\.(wav|mp3|flac)"/i);
 });
 
-test('hosted audio loads automatically; user replacement files remain local', () => {
+test('hosted audio starts on user Play; replacement files remain local', () => {
   assert.match(js, /tsq-lab-audio\.thesoundquestion\.workers\.dev/);
   assert.match(js, /setSource\(current, false\)/);
+  assert.match(js, /if\(!userStarted\)\{/);
+  assert.match(js, /const requestedCue=pendingSeek/);
   assert.match(js, /\/mixing\//);
   assert.match(js, /URL\.createObjectURL\(file\)/);
   assert.match(js, /URL\.revokeObjectURL/);
