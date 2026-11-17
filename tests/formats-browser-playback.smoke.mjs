@@ -61,6 +61,12 @@ try {
     }
     const abx=page.locator('[data-abx-lab="formats"]');
     if(await abx.locator('[data-mode="training"]').count()!==1)throw new Error(device.name+' missing ABX training');
+    await abx.locator('[data-slot="A"]').click();
+    await page.waitForFunction(() => {
+      const a = document.querySelector('[data-abx-lab="formats"] audio');
+      return a && a.currentTime > 0.1 && !a.paused && !a.error;
+    }, {timeout:20000});
+    results.push(device.name+' ABX training reference PLAYING');
     await abx.locator('button:has-text("X is A")').click();
     const practice=await abx.locator('.tsq-abx-scoreboard').innerText();
     if(!practice.includes('Training score:'))throw new Error(device.name+' ABX did not count training guess: '+practice);
