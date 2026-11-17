@@ -13,7 +13,7 @@ for(const href of ['/system-check/','/system-builder/','/system-check/compare/',
 assert.match(s,/educational estimates/);
 assert.match(s,/name="robots" content="index,follow"/);
 });
-test('main site navigation has exactly the intended five destinations, with no JS required for mobile',()=>{
+test('all site pages have exactly six consistent primary destinations including Connect, on desktop and mobile',()=>{
 const skipDirs=new Set(['.git','staging','tests','.github','deployment','docs','scripts','assets', 'site-dist', '.pages-dist']);
 function walk(dir=''){
  const list=[];
@@ -29,10 +29,16 @@ for(const p of pages){
  const s=read(p);
  const nav=s.match(/<nav class="main-nav"[^>]*>([\s\S]*?)<\/nav>/);
  assert.ok(nav,p+' missing main-nav');
- for(const target of ['/decoder/','/labs/','/tools/','/library/','/about/'])assert.match(nav[1],new RegExp('href="'+target.replaceAll('/','\\/')+'"'),p+' no '+target);
+ const targets=['/decoder/','/labs/','/tools/','/library/','/about/','/connect/'];
+ for(const target of targets) assert.ok(nav[1].includes('href="'+target+'"'),p+' missing '+target+' on desktop');
+ assert.equal((nav[1].match(/<a\s/g)||[]).length,targets.length,p+' unexpected desktop primary links');
  const mobile=s.match(/<details class="mobile-nav">([\s\S]*?)<\/details>/);
  assert.ok(mobile,p+' missing no-JS mobile menu');
  assert.match(mobile[1],/<summary>Menu<\/summary>/);
+ const mobileNav=mobile[1].match(/<nav aria-label="Mobile primary navigation"[^>]*>([\s\S]*?)<\/nav>/);
+ assert.ok(mobileNav,p+' missing mobile navigation links');
+ for(const target of targets) assert.ok(mobileNav[1].includes('href="'+target+'"'),p+' missing '+target+' on mobile');
+ assert.equal((mobileNav[1].match(/<a\s/g)||[]).length,targets.length,p+' unexpected mobile primary links');
 }
 });
 
