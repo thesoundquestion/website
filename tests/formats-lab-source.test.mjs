@@ -12,7 +12,7 @@ test('first-time visitor sees the audio test before the technical explanation', 
   for (const phrase of ['Can you <em>hear</em> the difference?', 'No technical knowledge needed', 'Small clues, not huge changes.', 'Lossless', 'WAV vs FLAC?']) {
     assert.ok(html.toLowerCase().includes(phrase.toLowerCase()), phrase);
   }
-  assert.equal((html.match(/data-song=/g) || []).length, 2);
+  assert.equal((html.match(/<button[^>]+data-song=/g) || []).length, 2);
   assert.equal((html.match(/data-format=/g) || []).length, 3);
   for (const id of ['playPause','seek','restart','playingNow']) assert.ok(html.includes('id="' + id + '"'), id);
 });
