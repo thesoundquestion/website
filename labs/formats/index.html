@@ -120,8 +120,19 @@
   };
   const byId = id => document.getElementById(id);
   const player = new Audio();
-  player.preload = 'metadata';
-  const state = { song: 'light', format: 'lossless', pending: null };
+  player.preload = 'none';
+  const state = { song: 'light', format: 'lossless', pending: null, userStarted:false, buffering:false };
+  const readiness=window.TSQLabReadiness;
+  const failures=new Set();
+  const cache=readiness.createCache({maxFiles:2,maxBytes:23*1024*1024,onChange:()=>paint()});
+  const trackKey=(song,format)=>song+':'+format;
+  function maybePrepareNext(){
+    if(!state.userStarted||player.paused||state.buffering||!readiness.mediaReady(player)||!readiness.networkPermitsPreload())return;
+    const key=trackKey(state.song,state.format);
+    if(cache.keys().some(k=>k!==key))return;
+    const next=['lossless','128','320'].find(type=>type!==state.format&&!cache.has(trackKey(state.song,type)));
+    if(next)cache.prepare(trackKey(state.song,next),currentSong()[next],{pinned:[key]});
+  }
   const currentSong = () => SONGS[state.song];
   const caption = () => state.format === 'lossless' ? 'Original (lossless)' : 'MP3 ' + state.format + ' kbps';
   const show = text => { byId('playingNow').textContent = text; };
@@ -148,11 +159,18 @@
     byId('seek').max = String(duration());
     byId('seek').value = String(Math.min(Number.isFinite(player.currentTime) ? player.currentTime : 0, duration()));
     byId('durationLabel').textContent = pretty(player.currentTime) + ' / ' + pretty(duration());
+    for(const format of ['lossless','128','320']){
+      const key=trackKey(state.song,format),node=document.querySelector('[data-format-readiness="'+format+'"]');
+      readiness.set(node,readiness.status({url:currentSong()[format],failed:failures.has(key),prepared:cache.has(key),active:format===state.format,media:player,waiting:state.buffering}));
+    }
   }
   function replaceSource(resume, seconds) {
     state.pending = { resume, seconds };
+    state.buffering=false;
+    const key=trackKey(state.song,state.format);
     player.pause();
-    player.src = currentSong()[state.format];
+    player.preload=state.userStarted?'auto':'none';
+    player.src = cache.get(key) || currentSong()[state.format];
     player.volume = MATCHED_VOLUME[state.song][state.format];
     player.load();
     // Switching files from a button click must start playback while the
@@ -170,6 +188,7 @@
   document.querySelectorAll('[data-song]').forEach(button => button.addEventListener('click', () => {
     if (button.dataset.song === state.song) return;
     state.song = button.dataset.song;
+    cache.clear();failures.clear();
     state.format = 'lossless';
     replaceSource(false, 0);
     show(currentSong().name + ' is selected. Press Play, then try the other versions.');
@@ -177,16 +196,18 @@
   document.querySelectorAll('[data-format]').forEach(button => button.addEventListener('click', () => {
     if (button.dataset.format === state.format) return;
     const wasPlaying = !player.paused && !player.ended;
+    if(wasPlaying)state.userStarted=true;
     const at = Number.isFinite(player.currentTime) ? player.currentTime : 0;
     state.format = button.dataset.format;
     replaceSource(wasPlaying, at);
     show('Switching to ' + caption() + ' near the same point in the music…');
   }));
   byId('playPause').addEventListener('click', () => {
-    if (player.paused || player.ended) player.play().catch(() => show('Playback could not start. Check your connection and try again.'));
+    if (player.paused || player.ended){state.userStarted=true;player.preload='auto';player.play().catch(() => show('Playback could not start. Check your connection and try again.'))}
     else player.pause();
   });
   byId('restart').addEventListener('click', () => {
+    state.userStarted=true;player.preload='auto';
     player.currentTime = 0;
     player.play().catch(() => show('Press Play to begin.'));
   });
@@ -202,7 +223,12 @@
     paint();
     resumeIfReady();
   });
-  player.addEventListener('seeked', resumeIfReady);
+  player.addEventListener('seeked', () => {state.buffering=false;resumeIfReady();paint()});
+  player.addEventListener('progress',()=>{paint();maybePrepareNext()});
+  player.addEventListener('canplay',()=>{state.buffering=false;paint();maybePrepareNext()});
+  player.addEventListener('playing',()=>{state.buffering=false;paint();maybePrepareNext()});
+  player.addEventListener('waiting',()=>{state.buffering=true;paint();show('Please wait while audio buffers.')});
+  player.addEventListener('stalled',()=>{state.buffering=true;paint();show('Please wait while audio buffers.')});
   player.addEventListener('timeupdate', paint);
   player.addEventListener('durationchange', paint);
   player.addEventListener('play', paint);
@@ -211,10 +237,10 @@
     paint();
     show('You reached the end. Start again and try another version.');
   });
-  player.addEventListener('error', () => show(state.format === 'lossless'
+  player.addEventListener('error', () => {failures.add(trackKey(state.song,state.format));paint();show(state.format === 'lossless'
     ? 'The original lossless recording could not play here. Try another browser, or tap MP3 320 to confirm your audio works.'
-    : 'This MP3 could not play. Check your connection or try a different format.'));
-  window.addEventListener('pagehide', () => player.pause());
+    : 'This MP3 could not play. Check your connection or try a different format.')});
+  window.addEventListener('pagehide', () => {player.pause();cache.close()});
   replaceSource(false, 0);
   show('Original (lossless) is selected. Press Play to begin.');
 })();
