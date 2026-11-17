@@ -194,7 +194,7 @@ function amplifierRows(devices) {
   addRow('Input sensitivity', devices.map(({ values }) => reading(values.inputSensitivity * 1000, 'mV')));
   addRow('Input impedance', devices.map(({ values }) => reading(values.inputZ, 'kΩ')));
   addRow('Output impedance', devices.map(({ values }) => reading(values.outputZ, 'Ω')));
-  return 'Start with the power row for your speaker’s impedance. Compare the frequency range, distortion limit and channels driven under each rating.';
+  return 'Start with the wattage rating at the ohm load your speakers actually present. Then check which notes were tested, how much distortion was allowed and how many amplifier channels were running. Two wattage figures are not necessarily comparable.';
 }
 
 function sensitivityTakeaway(devices, normalized, label) {
@@ -222,7 +222,7 @@ function speakerRows(devices) {
   addRow('Minimum impedance', devices.map(({ values }) => {
     return withCondition(reading(values.minimum, 'Ω'), Number.isFinite(values.minimumHz) ? 'at ' + reading(values.minimumHz, 'Hz') : '');
   }));
-  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 2.83 V') + ' Driver count and published frequency limits do not establish sound quality; look for comparable measured curves and distortion.';
+  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 2.83 V') + ' The number of speaker drivers and the claimed lowest/highest notes do not prove sound quality. Look for measurements made in comparable ways, including response and distortion.';
 }
 
 function dacMeasurement(value) {
@@ -254,7 +254,7 @@ function sourceRows(devices) {
   addRow('Signal-to-noise ratio', values.map(spec => dacMeasurement(spec.sourceSnr)));
   addRow('THD+N', values.map(spec => dacMeasurement(spec.sourceThdn)));
   const connectionMatches = values[0].sourceConnection && values[0].sourceConnection === values[1].sourceConnection;
-  const conditions = 'Digital format support describes compatibility, not effective analogue resolution or audible quality. Manufacturer DAC dynamic range (DNR), whole-card SNR and measured analogue-output SNR may use different test conditions and should not be treated as the same figure. Compare noise and distortion only when output, signal level, bandwidth and weighting match.';
+  const conditions = 'A digital format badge tells you what the device can play, not how clean its analogue output is. Figures such as DAC dynamic range (DNR) and signal-to-noise ratio (SNR) may be measured at different points or under different conditions. Only compare noise and distortion figures fairly when the test output, level, frequency range and measurement weighting match.';
   if (!connectionMatches || voltage.some(value => !(value > 0))) return conditions;
   const difference = Math.abs(20 * Math.log10(voltage[0] / voltage[1]));
   if (difference < .05) return 'The listed full-scale voltages match. ' + conditions;
@@ -278,7 +278,7 @@ function headphoneRows(devices) {
   addRow('Sensitivity at 1 V RMS', sensitivity.map(value => reading(value, 'dB SPL')));
   addRow('Voltage for 90 dB SPL · estimate', exampleVoltage.map(value => reading(value * 1000, 'mV RMS')));
   addRow('Current for 90 dB SPL · estimate', devices.map(({ values }, index) => reading(1000 * exampleVoltage[index] / values.load, 'mA RMS')));
-  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 1 V RMS') + ' Frequency-range endpoints alone do not describe tonal balance. Fit, pads and measurement fixtures can change the actual response.';
+  return sensitivityTakeaway(devices, sensitivity, 'sensitivity at 1 V RMS') + ' Claimed lowest and highest notes do not tell you whether headphones sound bass-heavy, bright or balanced. Fit, ear pads and even the measurement setup can change the result.';
 }
 
 function currentDevice(index) {
