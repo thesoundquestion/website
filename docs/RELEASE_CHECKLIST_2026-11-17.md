@@ -16,7 +16,10 @@
 ### B. Improvements for this update
 - [x] Replace Mastering's three page-load FLAC downloads with original source-measured static stereo SVGs (960 min/max/RMS bins; matching shared amplitude scale), and retain hashes in provenance.
 - [x] Retire the hidden duplicate Mastering ABX controls and listeners, leaving the dedicated ABX Lab link.
-- [x] Reconcile PR #11: retain on-demand Formats playback for launch; document optional future synchronized mode rather than forcing three downloads on every first Play.
+- [x] Audit PR #11: synchronized Web Audio playback is the only tested implementation that avoids source-reload gaps; eager three-file decoding is too expensive as the default.
+- [ ] **Restore truly seamless, same-position switching** in Formats as an explicit prepared/instant mode (adapt PR #11's AudioContext engine). Preserve immediate native first Play, bound memory and requests, share readiness for the *entire prepared group*, handle FLAC CORS/decoder failures, and retain native fallback. Do not claim this is complete merely because cached native file switching resumes near the same position.
+- [ ] Re-test rapid repeated format A/B/A switching for gaps, timeline drift, stutter and Worker request counts on desktop and mobile. Existing native player *does* restart the media source on each switch.
+- [ ] Check Mixing, Mastering and ABX source switching for the same user-visible pause. Their current bounded caches reduce download delays but cannot guarantee gapless switching by themselves.
 - [x] Add ABX, community, share, waveform and readiness files to required Pages build and validate waveform SVG checksums.
 - [x] Source-level internal link and anchor integrity covers 1000+ hrefs; normalize Mastering logo, main navigation and mobile menu to the site's shared labels. Final visual review remains separate.
 - [x] Direct Content Use rights questions to the project email while preserving the contact page and permission terms.
@@ -36,7 +39,7 @@
 - [ ] Review pending posts and permissions periodically through the existing administrative workflow.
 
 ### E. Related draft reconciliation, no blind branch merges
-- [x] PR #11 compared: synchronized engine is valid but eager 3-track decode is not the free-tier default. Decision and future opt-in path saved in `docs/formats-lab/README.md` (old PR remains open; do not merge wholesale).
+- [x] PR #11 compared: its synchronized engine solves source-switching gaps after preparation, unlike the current native source swapping. Eager three-track decode should not become the default; the adapted prepared mode is **still pending**, old PR remains open. See `docs/formats-lab/README.md`.
 - [ ] PR #10: 59-page handbook already present in `main`; reconcile/close outdated draft.
 - [ ] PR #1: old System Builder draft; `main` already has the tool.
 
@@ -48,5 +51,5 @@
 - Scored ABX mock browser regression: 10 rounds, one deliberately failed X request recovered through `/v1/resume`, no new Worker requests from repeated A/B/X, another attempt starts with consent OFF. This is **not** the live scoring backend.
 - Formats browser regression: zero media requests before Play, including switching tracks and song; on-demand audio playback still succeeds.
 - Detailed Mastering waveform SVGs load without downloading FLAC data, with verified source-file hashes.
-- GitHub PR #11 remains open, intentionally unmerged pending a separately tested opt-in synchronized mode.
+- GitHub PR #11 remains open. **Smooth same-position switching is not yet fully implemented in the shared draft.** The current native player keeps approximate position/playing state but has a source reload gap. This requires a deliberate engine integration and playback tests.
 
