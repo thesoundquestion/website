@@ -76,3 +76,17 @@ test('AlbumDB credit remains visible without obsolete unresolved-permission warn
   assert.doesNotMatch(article, /separate commercial album listing and the dataset licence/i);
   assert.doesNotMatch(article, /Public hosting of our remixed audio remains subject to checking/i);
 });
+
+
+test('homepage playlist count matches Listening Room and approved handbook is directly downloadable', () => {
+  const curator = read('library/curators-listening-room/index.html');
+  const cards = [...curator.matchAll(/<article class="curator-track"/g)].length;
+  assert.equal(cards, 51, 'unexpected number of curator selections');
+  assert.match(home, new RegExp(cards + ' personal picks'));
+  assert.match(curator, new RegExp(cards + ' listening selections'));
+  const pdf = '/library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
+  assert.ok(home.includes('href="' + pdf + '" download'), 'homepage PDF download missing');
+  assert.ok(existsSync(path.join(root, pdf.slice(1))), 'download target absent');
+  assert.ok(!existsSync(path.join(root,'library/make-audio-make-sense/make-audio-make-sense.pdf')), 'retired PDF still tracked');
+  assert.doesNotMatch(home, /38 personal picks|39 personal picks/);
+});
