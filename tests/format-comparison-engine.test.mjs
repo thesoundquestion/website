@@ -1,0 +1,129 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
+
+const engineScript = readFileSync(new URL('../assets/format-comparison-engine.js', import.meta.url), 'utf8');
+function setup({ badStatus = false, failDecode = false } = {}) {
+  const connections = [];
+  const starts = [];
+  const stops = [];
+  const fetches = [];
+  let ctx;
+  class FakeParam {
+    constructor() { this.value = 0; this.events = []; }
+    setValueAtTime(value, time) { this.value = value; this.events.push(['set', value, time]); }
+    linearRampToValueAtTime(value, time) { this.value = value; this.events.push(['ramp', value, time]); }
+    cancelAndHoldAtTime(time) { this.events.push(['cancel', time]); }
+  }
+  class FakeSource {
+    constructor() { this.buffer = null; this.onended = null; this.stopped = false; }
+    connect(node) { connections.push([this, node]); }
+    disconnect() {}
+    start(when, offset, length) { starts.push({ source: this, when, offset, length }); }
+    stop() { this.stopped = true; stops.push(this); }
+  }
+  class FakeGain {
+    constructor() { this.gain = new FakeParam(); }
+    connect(node) { connections.push([this, node]); }
+    disconnect() {}
+  }
+  class FakeAudioContext {
+    constructor() { this.state = 'suspended'; this.currentTime = 1; this.destination = {}; ctx = this; }
+    resume() { this.state = 'running'; return Promise.resolve(); }
+    close() { this.state = 'closed'; return Promise.resolve(); }
+    createBufferSource() { return new FakeSource(); }
+    createGain() { return new FakeGain(); }
+    decodeAudioData(bytes) {
+      if (failDecode) return Promise.reject(new Error('Unsupported FLAC'));
+      assert.equal(bytes.byteLength, 8);
+      return Promise.resolve({ numberOfChannels: 2, length: 30 * 44100, duration: 30 });
+    }
+  }
+  const urls = { duration: 30, lossless: 'https://audio.example/track.flac', '128': '/track-128.mp3', '320': '/track-320.mp3' };
+  const volumes = { lossless: .95, '128': 1, '320': .95 };
+  const window = { AudioContext: FakeAudioContext, fetch: () => {} };
+  const fetch = async (url, options) => {
+    fetches.push({url, signal:options.signal});
+    return { ok: !badStatus, status: badStatus ? 403 : 200, arrayBuffer: async()=>new ArrayBuffer(8) };
+  };
+  runInNewContext(engineScript, { window, fetch, AbortController, console });
+  const engine = new window.TSQFormatBuffers();
+  return { engine, ctx:()=>ctx, urls, volumes, starts, stops, fetches };
+}
+
+test('three formats fully decode, then start simultaneously on one context clock and offset', async()=>{
+  const {engine,ctx,urls,volumes,starts,fetches} = setup();
+  assert.equal(await engine.prepare('light',urls,volumes),true);
+  assert.equal(engine.isReady(),true);
+  assert.equal(fetches.length,3);
+  assert.equal(ctx().state,'running');
+  engine.select('lossless');
+  assert.equal(engine.play(),true);
+  assert.equal(starts.length,3);
+  assert.equal(new Set(starts.map(x=>x.when)).size,1);
+  assert.equal(new Set(starts.map(x=>x.offset)).size,1);
+  assert.equal(starts[0].offset,0);
+  engine.dispose();
+});
+
+test('rapid format switching never replaces, reloads, seeks or stops any source',async()=>{
+  const {engine,ctx,urls,volumes,starts,stops,fetches} = setup();
+  await engine.prepare('light',urls,volumes);
+  engine.play();
+  ctx().currentTime += 3.5;
+  const startCount=starts.length,stopCount=stops.length,fetchCount=fetches.length;
+  const pos=engine.position();
+  engine.select('128');
+  engine.select('320');
+  engine.select('lossless');
+  assert.equal(starts.length,startCount);
+  assert.equal(stops.length,stopCount);
+  assert.equal(fetches.length,fetchCount);
+  assert.equal(engine.position(),pos);
+  assert.equal(engine.debug().sources,3);
+  assert.equal(engine.debug().format,'lossless');
+  engine.pause();
+  assert.equal(engine.isPlaying(),false);
+  assert.equal(engine.position(),pos);
+  engine.dispose();
+});
+
+test('seek and pause preserve a common offset on all three sources',async()=>{
+  const {engine,urls,volumes,starts,ctx} = setup();
+  await engine.prepare('light',urls,volumes);
+  engine.play();
+  ctx().currentTime += 7;
+  engine.seek(14.25);
+  assert.equal(engine.isPlaying(),true);
+  assert.deepEqual(starts.slice(-3).map(x=>x.offset),[14.25,14.25,14.25]);
+  ctx().currentTime += 1.25;
+  assert.ok(Math.abs(engine.position()-15.5)<.01);
+  engine.pause();
+  assert.ok(Math.abs(engine.position()-15.5)<.01);
+  engine.play();
+  assert.ok(starts.slice(-3).every(x=>Math.abs(x.offset-15.5)<.01));
+  engine.dispose();
+});
+
+test('clearing aborts pending requests and empties decoded audio',async()=>{
+  const {engine,urls,volumes,fetches} = setup();
+  const ok=await engine.prepare('light',urls,volumes);
+  assert.equal(ok,true);
+  engine.clear();
+  assert.equal(engine.isReady(),false);
+  assert.equal(engine.isPlaying(),false);
+  assert.equal(engine.position(),0);
+  assert.equal(fetches.length,3);
+  engine.dispose();
+});
+
+test('failed network or FLAC decode rejects cleanly for native playback fallback',async()=>{
+  for (const options of [{badStatus:true},{failDecode:true}]) {
+    const {engine,urls,volumes}=setup(options);
+    await assert.rejects(engine.prepare('light',urls,volumes));
+    engine.clear();
+    assert.equal(engine.isReady(),false);
+    engine.dispose();
+  }
+});
