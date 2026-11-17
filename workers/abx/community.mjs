@@ -2,7 +2,7 @@
 export const CATEGORIES=Object.freeze([
  ['stars-align','When the Stars Align'],
  ['musical-journeys','Musical Journeys & Builds'],
- ['riffs-and-grooves','Riffs, Grooves & Band Interaction'],
+ ['riffs-and-grooves','Great Riffs, Grooves & Band Interaction'],
  ['dynamics','Dynamics, Emotion & Performance'],
  ['mixing','Mixing & Production Choices'],
  ['atmosphere','Atmosphere & Immersion'],
