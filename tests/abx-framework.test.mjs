@@ -25,6 +25,9 @@ test('ABX categories and training only no-public-score guard',()=>{
  assert.match(client,/Training score:/);
  assert.match(client,/No answer feedback until completion/);
  assert.match(client,/Scored tests are not open yet/);
+ assert.match(client,/Start scored session/);
+ assert.match(client,/View community results/);
+ assert.match(client,/minimumSample|No eligible community results yet/);
  assert.doesNotMatch(client,/localStorage|sessionStorage/);
 });
 test('server refuses all scored sessions pending source validation',()=>{
