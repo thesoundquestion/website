@@ -39,7 +39,9 @@ test('Mixing, Mastering and ABX explain playback before any player controls',()=
  assert.match(mastering,/data-master-slot="1"/);
  assert.match(mastering,/data-master-slot="2"/);
  assert.match(mastering,/not automatically volume-matched/);
- assert.match(mastering,/The waveforms and measurements on this page still show our original examples/);
+ assert.match(mastering,/The waveforms and measurements below still show our original examples/);
+ assert.match(mastering,/replace both A and B/);
+ assert.match(mastering,/Any slot you don't replace still plays our example/);
  assert.match(mastering,/function updateOwnFileSlots\(\)/);
  assert.match(mastering,/assign\(key,file\);renderCards\(\);setNotes\(\)/);
  assert.match(abx,/Prepare recordings/);
