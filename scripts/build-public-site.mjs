@@ -86,6 +86,7 @@ const required = [
  'system-builder/index.html', illustratedHandbook,
  'labs/abx/index.html', 'assets/abx-lab.js', 'assets/abx-lab.css',
  'assets/lab-readiness.js', 'assets/lab-readiness.css',
+ 'assets/format-comparison-engine.js',
  'assets/community-board.js', 'assets/community-board.css',
  'assets/share-site.js', 'library/curators-listening-room/index.html',
  'assets/waveforms/mastering-provenance.json',
