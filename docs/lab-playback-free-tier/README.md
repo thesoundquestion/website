@@ -19,8 +19,8 @@ Verified Cloudflare documentation (2026-11-17):
 ## Existing implementation and source of avoidable usage
 
 - Public FLAC audio is served by `tsq-lab-audio.thesoundquestion.workers.dev`. The live Worker reads the **entire** FLAC KV value using `env.AUDIO_KV.get(path,{type:'arrayBuffer',cacheTtl:60})` and **then** slices it for Range requests. Every browser Range request invokes a Worker and one KV `get`, potentially retrieving the whole object internally. This needs measurement and eventual redesign, not more aggressive preloading layered on top.
-- Mastering's waveform display eagerly fetches/decodes **three original-master FLACs on page load**. This may improve subsequent original-master playback, but consumes Worker/KV operations even when the user does not press Play. Fair comparison and EQ receive no equivalent warm-up.
-- Mixing and Formats use their own `audio.src` replacement and rough seek; the shared ABX draft likewise uses a separate media element. Browser HTTP range requests, retries and switching can each generate additional Worker invocations.
+- Mastering's original eager three-FLAC page-load waveform decoding has been replaced **in the draft** with measured static stereo SVGs. The browser regression requires zero initial Mastering Worker audio requests. Preserve this change during release; the live production site may still run the older behavior until approved deployment.
+- Mixing and normal Formats playback still use `audio.src` replacement and approximate seek. The Formats draft additionally offers a **user-clicked, explicitly prepared** synchronized Web Audio comparison; never prepare it at page load. Shared ABX uses its own cache and media element. Normal player Range requests, retries and switches may invoke the audio Worker.
 - The four approved MP3s in Formats are static Pages assets and therefore do **not** invoke the FLAC audio Worker. Preserve the existing deliberate media split unless a full throughput, deployment and delivery review justifies a change.
 
 ## Playback policy for all future labs
@@ -89,3 +89,10 @@ The entire Listening Labs UI uses exactly **Offline**, **Please wait**, and **Re
 - On normal labs, a Ready label on another row means the bytes are held locally, not simply that a remote URL exists. Network/browser failures can still cause playback errors, so do not claim zero-stutter guarantees.
 - **ABX:** never show per-A/B/X status labels or timed readiness hints identifying which candidate takes longer. Training has one group-level readiness gate after both source files have finished downloading, and replay is entirely local. Scored-mode timing indicators remain hidden, and scored testing is blocked pending source and timing side-channel review.
 - Only one media player on a lab page owns audio focus. Starting ABX preparation pauses the main lesson player, and starting the lesson playback pauses ABX; avoid needless simultaneous streams.
+
+## Optional synchronized Formats mode staged, pending real-device confirmation
+
+- The default native player still fetches only on Play. Only an explicit **Prepare instant switching** tap fetches all three recordings of the chosen short song. This is a conscious exception to the one-alternate speculative prefetch limit, not permission to fetch entire labs.
+- Its bounded engine rejects preparations above **14 MiB total source bytes** or **48 MiB decoded stereo PCM** and aborts when the visitor changes songs. Browser memory overhead can exceed these theoretical buffer figures.
+- After a successful prepare, all three sources run on one audio clock; changing gain does not create another Worker request. The UI switches to one group-level Ready state. FLAC CORS/decoder/network failures fall back to normal streaming, rather than breaking the basic lab.
+- Browser smoke and engine tests have been added; confirm results and physically listen for discontinuities before approving the feature. Real Cloudflare Analytics/KV usage, mobile RAM and cellular data consumption must be checked separately. No paid services or default eager loads.
