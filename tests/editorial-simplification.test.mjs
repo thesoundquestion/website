@@ -45,7 +45,8 @@ test('Mixing, Mastering and ABX explain playback before any player controls',()=
  assert.match(mastering,/function updateOwnFileSlots\(\)/);
  assert.match(mastering,/assign\(key,file\);renderCards\(\);setNotes\(\)/);
  assert.match(abx,/Prepare recordings/);
- assert.match(abx,/Start scored session/);
+ assert.match(abx,/Start practice challenge/);
+ assert.match(abx,/nothing is submitted to community scores/);
  assert.match(abx,/supported devices/);
  assert.match(abx,/uploading your own music isn't supported here yet/);
 });
