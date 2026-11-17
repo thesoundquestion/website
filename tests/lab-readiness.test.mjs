@@ -70,7 +70,7 @@ test('a failed optional preload never loops, but an explicit listener retry can 
    if(attempts===1)throw Error('temporary connection loss');
    return {ok:true,headers:{get:()=>null},blob:async()=>new Blob(['audio-data'])};
   },
-  Blob
+  Blob,AbortController
  };
  vm.runInNewContext(source,isolated);
  const cache=isolated.window.TSQLabReadiness.createCache({maxFiles:2,maxBytes:1024});
