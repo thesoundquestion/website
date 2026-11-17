@@ -11,28 +11,36 @@ test('shared ABX runtime and score service parse',()=>{
   assert.equal(r.status,0,r.stderr||p);
  }
 });
-test('all three Listening Labs use the same renderer and stylesheet',()=>{
- for(const [file,lab] of [['lab/index.html','mix'],['lab/mastering/index.html','master'],['labs/formats/index.html','formats']]){
-  const page=read(file);
-  assert.match(page,new RegExp('data-abx-lab="'+lab+'"'));
-  assert.match(page,/assets\/abx-lab\.js/);
-  assert.match(page,/assets\/abx-lab\.css/);
+test('one dedicated ABX Lab loads the engine and links back to three original lessons',()=>{
+ const page=read('labs/abx/index.html');
+ assert.match(page,/data-abx-lab="all"/);
+ assert.match(page,/assets\/abx-lab\.js/);
+ assert.match(page,/assets\/abx-lab\.css/);
+ for(const lab of ['/lab/','/lab/mastering/','/labs/formats/'])assert.ok(page.includes('href="'+lab+'"'));
+ for(const file of ['lab/index.html','lab/mastering/index.html','labs/formats/index.html']){
+  const html=read(file);
+  assert.match(html,/href="\/labs\/abx\//);
+  assert.doesNotMatch(html,/data-abx-lab=/);
+  assert.doesNotMatch(html,/src="\/assets\/abx-lab\.js"/);
  }
+ assert.match(client,/function configureLessonLink/);
+ assert.match(client,/lesson\.href=sourceLink\[spec\.lab\]/);
+ assert.match(client,/history\.replaceState/);
 });
 test('ABX categories and training only no-public-score guard',()=>{
  for(const label of ['Training','Challenge','Advanced'])assert.ok(client.includes(label),label);
  assert.match(client,/mode==='training'/);
  assert.match(client,/Training score:/);
- assert.match(client,/No answer feedback until completion/);
- assert.match(client,/Scored tests are not open yet/);
+ assert.match(client,/Answers shown at completion/);
+ assert.match(client,/This challenge could not start/);
  assert.match(client,/Start scored session/);
  assert.match(client,/View community results/);
  assert.match(client,/minimumSample|No eligible community results yet/);
  assert.doesNotMatch(client,/localStorage|sessionStorage/);
 });
 test('server retains validation gate, hidden answers, one-update scoring and private aggregate threshold',()=>{
- assert.match(server,/const VALIDATED=new Set\(\[\]\)/);
- assert.match(server,/!validated\.has\(data\.testId\)/);
+ assert.match(server,/const VALIDATED=new Map\(\[/);
+ assert.match(server,/!validated\.get\(data\.testId\)\?\.includes\(data\.mode\)/);
  assert.match(server,/hmac\(secret,'answer:'/);
  assert.match(server,/answered=answered\+1/);
  assert.match(server,/q\.meta\?\.changes!==1/);

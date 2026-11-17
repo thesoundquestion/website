@@ -1,5 +1,5 @@
 /* The Sound Question ABX score service, staged and NOT deployed.
- * Production comparisons remain disabled until audio / privacy / abuse reviews pass.
+ * Curated, previously prepared comparisons are informal listening games.
  * The client is untrusted. No browser-supplied score, answer key or A/B mapping is accepted.
  */
 const HOST='https://tsq-lab-audio.thesoundquestion.workers.dev';
@@ -12,12 +12,20 @@ const SOURCES=Object.freeze({
   'master-moderate-brick-v1':[HOST+'/mastering/matched-moderate.flac',HOST+'/mastering/matched-brickwalled.flac'],
   'master-eq-v1':[HOST+'/mastering/eq-off.flac',HOST+'/mastering/eq-on.flac']
 });
-// Engineering release gate. Never enable a comparison just because its audio URL works.
-const VALIDATED=new Set([]);
+// Explicit release catalogue. No deliberately unequal-loudness mastering examples.
+// Training choices stay on the browser; only these comparisons can create scored sessions.
+// Difficulty describes game length/intent, not certified hearing ability.
+const VALIDATED=new Map([
+ ['master-eq-v1',['challenge']],
+ ['formats-light-128-v1',['challenge']],
+ ['formats-diva-128-v1',['challenge']],
+ ['formats-light-320-v1',['advanced']],
+ ['formats-diva-320-v1',['advanced']]
+]);
 const ORIGIN='https://thesoundquestion.pages.dev';
 const SESSION_MS=2*60*60*1000;
 const DAY=24*60*60*1000;
-const statsText='Voluntary, unverified community listening sessions; not controlled hearing measurements or a ranking of listeners.';
+const statsText='Voluntary, anonymous, unsupervised listening games. Sessions are not unique people. Results are not hearing tests or controlled scientific measurements.';
 const standardHeaders={'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'};
 const json=(value,status=200,headers={})=>new Response(JSON.stringify(value),{status,headers:{...standardHeaders,...headers}});
 function cors(origin){return origin===ORIGIN?{'access-control-allow-origin':ORIGIN,'access-control-allow-methods':'GET,POST,OPTIONS','access-control-allow-headers':'content-type','vary':'Origin'}:{}}
@@ -70,7 +78,7 @@ function snapshot(request,s,controlKey,secret){
     {roundToken:t.token,urls:audioLinks(request,s.id,s.answered,t.token)})
  }));
 }
-function available(env){return !!(env?.DB&&typeof env.ABX_SECRET==='string'&&env.ABX_SECRET.length>=32&&env.API_LIMITER&&env.START_LIMITER)}
+function available(env){return !!(env?.ABX_PUBLIC_ENABLED==='true'&&env?.DB&&typeof env.ABX_SECRET==='string'&&env.ABX_SECRET.length>=32&&env.API_LIMITER&&env.START_LIMITER)}
 async function requireRate(env,name,key){
  const result=await env[name].limit({key});
  return result&&result.success===true;
@@ -142,7 +150,7 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
   if(request.method==='OPTIONS'){
    return origin===ORIGIN?new Response(null,{status:204,headers:corsHeaders}):respond({error:'Origin not authorized'},403);
   }
-  if(url.pathname==='/v1/health')return respond({status:'staged',scoredEnabled:validated.size>0&&available(env)});
+  if(url.pathname==='/v1/health')return respond({status:available(env)?'ready':'disabled',scoredEnabled:validated.size>0&&available(env)});
   if(origin!==ORIGIN)return respond({error:'Origin not authorized'},403);
   if(!available(env))return respond({error:'Scoring infrastructure not configured'},503);
   const ip=visitorKey(request);
@@ -156,7 +164,7 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
    if(!await requireRate(env,'START_LIMITER','start:'+ip))return respond({error:'Session limit reached'},429);
    const data=await payload(request);
    if(!data||!['challenge','advanced'].includes(data.mode))return respond({error:'Invalid request'},400);
-   if(typeof data.testId!=='string'||!/-v[1-9][0-9]*$/.test(data.testId)||!validated.has(data.testId)||!sources[data.testId])return respond({error:'This comparison has not passed scored-test validation'},409);
+   if(typeof data.testId!=='string'||!/-v[1-9][0-9]*$/.test(data.testId)||!validated.get(data.testId)?.includes(data.mode)||!sources[data.testId])return respond({error:'This comparison has not passed scored-test validation'},409);
    if(typeof data.share!=='boolean')return respond({error:'Consent selection must be explicit'},400);
    const t=Date.now(),id=crypto.randomUUID(),controlKey=crypto.randomUUID(),controlHash=await sha256(controlKey);
    const total=data.mode==='challenge'?10:20;

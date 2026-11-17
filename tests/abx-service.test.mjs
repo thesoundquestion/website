@@ -52,9 +52,9 @@ class FakeD1{
 }
 function setup({allowed=true,bound=true,limit=true}={}){
  const db=new FakeD1(), limiter={limit:async()=>({success:limit})};
- const env={DB:db,ABX_SECRET:secret,API_LIMITER:limiter,START_LIMITER:limiter};
+ const env={DB:db,ABX_SECRET:secret,ABX_PUBLIC_ENABLED:'true',API_LIMITER:limiter,START_LIMITER:limiter};
  if(!bound)delete env.START_LIMITER;
- const service=createAbxService({validated:allowed?new Set(['test-v1']):new Set(),sources:{'test-v1':['https://audio.example/a.flac','https://audio.example/b.flac']}});
+ const service=createAbxService({validated:allowed?new Map([['test-v1',['challenge','advanced']]]):new Map(),sources:{'test-v1':['https://audio.example/a.flac','https://audio.example/b.flac']}});
  return {db,env,service};
 }
 async function send(service,env,path,body=null,{origin=ORIGIN,method=body?'POST':'GET',headers={}}={}){

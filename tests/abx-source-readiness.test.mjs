@@ -19,7 +19,8 @@ test('a common, versioned catalogue prevents scores from merging across audio re
  assert.ok(front.has('mix-narrow-reference-v1'));
  assert.ok(front.has('mix-reference-creative-v1'));
  assert.match(server,/\/-v\[1-9\]\[0-9\]\*\$\/\.test\(data\.testId\)/);
- assert.match(server,/const VALIDATED=new Set\(\[\]\)/,'All scored comparisons must stay locked until technical review');
+ assert.match(server,/const VALIDATED=new Map\(\[/,'Scored comparisons require explicit curated release eligibility');
+ assert.match(server,/ABX_PUBLIC_ENABLED/,'Server must also require an explicit deployment toggle');
 });
 
 test('format variant hashes, sample alignment and level differences match the approved source manifest',()=>{
@@ -58,7 +59,7 @@ test('format variant hashes, sample alignment and level differences match the ap
 });
 
 test('never conflate sighted demonstrations with scored ABX validity',()=>{
- assert.match(client,/Only level-matched and technically verified comparisons qualify/);
+ assert.match(client,/deliberately unequal-volume masters are excluded from ABX/);
  assert.doesNotMatch(server,/\/mastering\/(?:brickwalled|moderate)\.flac/);
  assert.match(server,/not a cheat-proof ABX channel/i);
  assert.doesNotMatch(client,/personal best leaderboard|certified hearing/i);
