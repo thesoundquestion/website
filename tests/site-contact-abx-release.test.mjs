@@ -35,6 +35,7 @@ test('dedicated ABX lessons are linked both ways, preserving contextual source d
  }
  assert.match(abx,/lessonUrl:'/);
  assert.match(abx,/lesson\.href=spec\.lessonUrl/);
+ assert.match(abx,/Missed the original experiment\?/);
  assert.match(abx,/\/lab\/mastering\/\?experiment=eq/);
  assert.match(abx,/\/lab\/mastering\/\?experiment=matched/);
  assert.match(abx,/\/labs\/formats\/\?song=diva/);
