@@ -112,21 +112,44 @@ async function play(slot){
  }catch{if(myTurn===playGeneration)scoreboard.textContent='Playback failed or was blocked. Press the same listening button again.'}
 }
 for(const [slot,btn] of Object.entries(playButtons))btn.onclick=()=>play(slot);
-async function submit(guess){
-if(locked||pending||!live)return;locked=true;stop();
-if(mode==='training'){
-const right=guess===answer;if(right)correct++;
-scoreboard.textContent=(right?'Correct. ':'Not this round. ')+'X was '+answer+'. Training score: '+correct+'/'+(round+1)+'.';
-render();return;
+function applyServerProgress(data){
+ if(!Number.isInteger(data.answered)||typeof data.complete!=='boolean')throw Error('Invalid response');
+ round=data.answered;
+ if(data.complete){
+  stop();live=null;session=null;locked=true;
+  const chance=Number.isFinite(data.chanceProbability)?' Chance of this score or higher by random guessing: '+(data.chanceProbability*100).toFixed(1)+'%.':'';
+  scoreboard.textContent='Completed: '+data.correct+'/'+data.total+' correct.'+chance+' '+(data.shared?'Included in voluntary community statistics.':'Not shared publicly.');
+ }else{
+  if(!data.urls||!data.roundToken)throw Error('Missing next trial');
+  session.token=data.roundToken;live=data.urls;locked=false;
+  scoreboard.textContent='Trial recorded. Continue listening.';
+ }
+ render();
 }
-pending=true;render();
-try{
-const data=await api('/v1/answer',{sessionId:session.id,roundToken:session.token,guess});
-round=data.answered;
-if(data.complete){live=null;scoreboard.textContent='Completed: '+data.correct+'/'+data.total+' correct. '+(data.shared?'Included in anonymous community statistics.':'Not shared publicly.');session=null;render();return;}
-session.token=data.roundToken;live=data.urls;locked=false;scoreboard.textContent='Answer saved. Next mystery X is ready.';render();
-}catch{scoreboard.textContent='Connection interrupted. Do not restart the page if you want to preserve this scored session.'}
-finally{pending=false;render()}
+async function submit(guess){
+ if(locked||pending||!live)return;
+ locked=true;stop();
+ if(mode==='training'){
+  if(guess===answer)correct++;
+  scoreboard.textContent=(guess===answer?'Correct. ':'Not this round. ')+'X was '+answer+'. Training score: '+correct+'/'+(round+1)+'.';
+  render();return;
+ }
+ if(!session)return;
+ pending=true;render();
+ const control={sessionId:session.id,controlKey:session.controlKey};
+ try{
+  const data=await api('/v1/answer',{...control,roundToken:session.token,guess});
+  applyServerProgress(data);
+ }catch{
+  try{
+   const resumed=await api('/v1/resume',control);
+   applyServerProgress(resumed);
+   if(!resumed.complete)scoreboard.textContent='Connection recovered; round status synchronized.';
+  }catch{
+   locked=false;
+   scoreboard.textContent='Connection interrupted. The current trial is preserved; retry your answer when connected.';
+  }
+ }finally{pending=false;render()}
 }
 guessA.onclick=()=>submit('A');guessB.onclick=()=>submit('B');
 next.onclick=()=>{if(mode==='training'){round++;if(round>=10){scoreboard.textContent='Training complete: '+correct+'/10. These results are not submitted.';live=null;render()}else newTraining()}};
