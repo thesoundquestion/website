@@ -158,7 +158,7 @@ try {
     mixingPage.on('pageerror',error=>errors.push('Mixing '+error.message));
     const prematureMixingAudio=[];
     const onMixingRequest=req=>{
-      if(/tsq-lab-audio\\.thesoundquestion\\.workers\\.dev\\/mixing\\//.test(req.url()))
+      if(req.url().includes('tsq-lab-audio.thesoundquestion.workers.dev/mixing/'))
         prematureMixingAudio.push(req.url());
     };
     mixingPage.on('request',onMixingRequest);
