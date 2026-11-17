@@ -14,6 +14,7 @@
     report('Preview only. Suggestions cannot be sent until the moderated database service is tested and enabled.');
     return;
   }
+  button.disabled=false;
   form.addEventListener('submit',async event=>{
     event.preventDefault();
     if(!form.reportValidity())return;
