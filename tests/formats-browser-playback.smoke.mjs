@@ -63,7 +63,7 @@ try {
     }
     const abx=page.locator('[data-abx-lab="formats"]');
     if(await abx.locator('[data-mode="training"]').count()!==1)throw new Error(device.name+' missing ABX training');
-    if((await abx.locator('.tsq-abx-trial-readiness').innerText())!=='Please wait')throw new Error(device.name+' trial erroneously ready before preparation');
+    if(!(await abx.locator('.tsq-abx-trial-readiness').isHidden()))throw new Error(device.name+' readiness appears before visitor starts');
     await abx.getByRole('button',{name:'Prepare recordings'}).click();
     await page.waitForFunction(() => document.querySelector('[data-abx-lab="formats"] .tsq-abx-trial-readiness')?.textContent==='Ready',{timeout:25000});
     if(await abx.locator('[data-slot] [data-readiness]').count())throw new Error(device.name+' ABX leaks per-slot readiness');
