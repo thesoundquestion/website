@@ -9,9 +9,11 @@
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css?v=amp-distortion-20261112">
+<link rel="stylesheet" href="/system-check/gear-submissions.css">
 <script defer src="/system-check/gear.js?v=amp-distortion-20261112"></script>
 <script defer src="/system-check/calculator.js?v=operating-region-20261112"></script>
 <script type="module" src="/system-check/spec-search.mjs?v=external-google"></script>
+<script defer src="/system-check/gear-submissions.js"></script>
 <title>System Check | The Sound Question</title>
 </head>
 <body>
@@ -151,6 +153,26 @@
 <h2>How the estimate works</h2>
 <p>Sensitivity tells us how much sound the speaker makes at a known input. The calculator estimates how much level you lose with distance, then works out the voltage and watts needed per channel. Room reflections, bass management, speaker compression, impedance phase and the duration of a peak can all change what your system delivers. Published bench ratings apply under their stated test conditions.</p>
 <p><a href="/decoder/amplifier-power/#headroom">Amplifier headroom</a> · <a href="/decoder/speaker-sensitivity/">Speaker sensitivity</a> · <a href="/decoder/speaker-impedance/">Speaker impedance</a> · <a href="/decoder/ohms-law/">Voltage, current and watts</a></p>
+</section>
+
+<section class="sc-gear-suggest" id="suggest-gear" data-submissions-enabled="false" aria-labelledby="gear-suggest-title">
+<p class="section-kicker">HELP GROW THE PRESET LIBRARY</p>
+<h2 id="gear-suggest-title">Recommend your gear</h2>
+<p>Have an amplifier, speaker, headphone, DAC (digital-to-analogue converter) or other audio product we haven't listed? Tell us the manufacturer and exact model. You don't need to know the technical specifications. We'll look for a manual or reliable measurements before adding any figures to System Check and System Builder.</p>
+<p><strong>Recommendations are reviewed, not published automatically.</strong> Missing or unverified ratings stay blank. No account or email address is required.</p>
+<form id="gear-suggestion-form" method="post">
+<div class="sc-suggest-grid">
+<label>Equipment type<select name="category" required><option value="">Choose a type</option><option value="amplifier">Amplifier or receiver</option><option value="speaker">Speakers</option><option value="headphone">Headphones or in-ear monitors</option><option value="dac">DAC</option><option value="source">Other music source</option><option value="other">Other equipment</option></select></label>
+<label>Manufacturer<input name="brand" required minlength="2" maxlength="80" autocomplete="off" placeholder="e.g. Yamaha"></label>
+<label>Exact model<input name="model" required minlength="2" maxlength="120" autocomplete="off" placeholder="e.g. A-720"></label>
+<label>Manual or specifications link (optional)<input name="referenceUrl" type="url" maxlength="400" placeholder="https://…"></label>
+</div>
+<label>Anything useful about this model? (optional)<textarea name="specifications" maxlength="1200" rows="3" placeholder="For example: 8-ohm power rating from the manual, or the version/year if several models share a name. No guesses needed."></textarea></label>
+<label class="sc-honeypot" aria-hidden="true">Leave this field empty<input type="text" name="website" autocomplete="off" tabindex="-1"></label>
+<label class="sc-gear-consent"><input type="checkbox" name="consent" value="yes" required> I understand that this information will be stored for review and may be used to build an attributed equipment preset. I have not included personal details.</label>
+<button class="button button-primary" type="submit" disabled>Send model suggestion</button>
+<p role="status" id="gear-suggestion-status" aria-live="polite">Preview only. The private review database service will accept suggestions after testing and approval.</p>
+</form>
 </section>
 <nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/system-check/compare/">Compare equipment ratings <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/tools/">All tools</a><a href="/">Home</a><a href="#">↑ Back to top</a></div></nav>
 </main>
