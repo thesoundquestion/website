@@ -77,3 +77,12 @@ test('new scored ABX session clears prior result, locking, and requires new shar
  for(const phrase of ['Training only until','not yet validated for scored','local training only'])
   assert.ok(!client.includes(phrase),'Outdated comparison copy: '+phrase);
 });
+
+test('scored ABX recovery reconstructs missing reference buffers and refreshes each mystery X',()=>{
+ assert.match(client,/cache\.drop\(SCORE_X\);\s*if\(initial\)/);
+ assert.match(client,/initial:!cache\.has\(SCORE_A\)\|\|!cache\.has\(SCORE_B\)/);
+ assert.match(client,/!\[SCORE_A,SCORE_B,SCORE_X\]\.every\(cache\.has\)/);
+ assert.match(client,/cache\.prepare\(SCORE_A,urls\.A/);
+ assert.match(client,/cache\.prepare\(SCORE_B,urls\.B/);
+ assert.match(client,/cache\.prepare\(SCORE_X,urls\.X/);
+});

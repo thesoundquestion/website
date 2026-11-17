@@ -60,3 +60,28 @@ test('listener-initiated audio preparation always bypasses optional Data Saver p
  for(const k of ['TRAIN_A','TRAIN_B','SCORE_A','SCORE_B','SCORE_X'])
   assert.match(abx,new RegExp('cache\\.prepare\\('+k+'[^\\n]+explicit:true'));
 });
+
+test('a failed optional preload never loops, but an explicit listener retry can recover',async()=>{
+ let attempts=0,revocations=0;
+ const isolated={window:{},navigator:{connection:{saveData:true}},document:{hidden:false},
+  URL:{createObjectURL:()=> 'blob:test-recovered',revokeObjectURL:()=>revocations++},
+  fetch:async()=>{
+   attempts++;
+   if(attempts===1)throw Error('temporary connection loss');
+   return {ok:true,headers:{get:()=>null},blob:async()=>new Blob(['audio-data'])};
+  },
+  Blob
+ };
+ vm.runInNewContext(source,isolated);
+ const cache=isolated.window.TSQLabReadiness.createCache({maxFiles:2,maxBytes:1024});
+ assert.equal(await cache.prepare('A','https://audio.example/file.flac',{explicit:true}),null);
+ assert.equal(cache.failed('A'),true);
+ assert.equal(await cache.prepare('A','https://audio.example/file.flac'),null);
+ assert.equal(attempts,1,'failed speculative prefetch must not loop');
+ assert.equal(await cache.prepare('A','https://audio.example/file.flac',{explicit:true}),'blob:test-recovered');
+ assert.equal(cache.has('A'),true);
+ assert.equal(cache.failed('A'),false);
+ assert.equal(attempts,2);
+ cache.clear();
+ assert.equal(revocations,1,'completed Blob URLs must be revoked on reset');
+});
