@@ -1,0 +1,37 @@
+{
+  "description": "Audacity-style sample-peak and RMS waveform SVGs measured from the published 40-second FLAC masters",
+  "method": "960 signed min/max and RMS bins, separate stereo channels, fixed common linear sample-amplitude scale",
+  "generated_utc": "2026-11-17T15:40:50.613223+00:00",
+  "bins": 960,
+  "channels": 2,
+  "shared_absolute_peak": 0.767361522,
+  "sources": {
+    "dynamic": {
+      "source_url": "https://tsq-lab-audio.thesoundquestion.workers.dev/mastering/dynamic.flac",
+      "sha256": "ecb3e7c2858a48cb80b980baddcd1de247a958252da32e5bcb52fee67cc5ea64",
+      "duration_seconds": 40.0,
+      "frames": 1764000,
+      "svg": "/assets/waveforms/mastering-dynamic.svg",
+      "svg_sha256": "7783d6373d643cf5364ff2eb28fa84e97beafb2f3c4c2810f25757f6a742c406",
+      "peak": 0.685533524
+    },
+    "moderate": {
+      "source_url": "https://tsq-lab-audio.thesoundquestion.workers.dev/mastering/moderate.flac",
+      "sha256": "0bc9a4dd675f36a8a32d1c80b76d7baa0ecc803118a8d78e2408b29087f26e20",
+      "duration_seconds": 40.0,
+      "frames": 1764000,
+      "svg": "/assets/waveforms/mastering-moderate.svg",
+      "svg_sha256": "d97eb60bb21ae51fed79858c060db31a66dcc6d970b1a96f87f66976f623c281",
+      "peak": 0.767361522
+    },
+    "brickwalled": {
+      "source_url": "https://tsq-lab-audio.thesoundquestion.workers.dev/mastering/brickwalled.flac",
+      "sha256": "8409b9fd853b29bdb268e4ce4e50f81cfdb24926cadb250709e71925235131d9",
+      "duration_seconds": 40.0,
+      "frames": 1764000,
+      "svg": "/assets/waveforms/mastering-brickwalled.svg",
+      "svg_sha256": "6e645630b58f0090a80abbc6cb7d6e591e71c50762216f69c39fdeafc3c76568",
+      "peak": 0.524807453
+    }
+  }
+}
