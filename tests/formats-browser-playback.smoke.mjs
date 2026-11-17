@@ -141,8 +141,37 @@ try {
       return a && a.currentTime>0.2 && !a.paused && !a.error &&
         a.currentSrc.includes('/mastering/dynamic.flac');
     },null,{timeout:18000});
+    // A recording switch must continue playing using the same user click.
+    // This catches the delayed-metadata resume that Android may reject.
+    await masterPage.locator('.variant .choose').nth(1).click();
+    await masterPage.waitForFunction(()=>{
+      const a=document.querySelector('#playerAudio');
+      return a&&a.currentTime>0.2&&!a.paused&&!a.error&&
+        document.querySelector('.variant.is-selected strong')?.textContent.includes('Moderate');
+    },null,{timeout:20000});
     await masterPage.close();
-    results.push(device.name+' Mastering real static stereo waveforms loaded without initial FLAC requests');
+    results.push(device.name+' Mastering real static waveforms and continued playback after switching masters');
+
+    // Mixing uses a different audio controller: verify that its source
+    // changes also resume during the user's tap, not after metadata loads.
+    const mixingPage=await context.newPage();
+    mixingPage.on('pageerror',error=>errors.push('Mixing '+error.message));
+    await mixingPage.goto('http://127.0.0.1:8765/lab/',{waitUntil:'load',timeout:30000});
+    await mixingPage.locator('#playToggle').click();
+    await mixingPage.waitForFunction(()=>{
+      const a=document.querySelector('#labAudio');
+      return a&&a.currentTime>0.2&&!a.paused&&!a.error;
+    },null,{timeout:20000});
+    for(const variant of ['reference','polished']){
+      await mixingPage.locator('[data-mix="'+variant+'"]').click();
+      await mixingPage.waitForFunction(which=>{
+        const a=document.querySelector('#labAudio');
+        return a&&a.currentTime>0.2&&!a.paused&&!a.error&&
+          document.querySelector('[data-mix="'+which+'"]')?.getAttribute('aria-pressed')==='true';
+      },variant,{timeout:20000});
+    }
+    await mixingPage.close();
+    results.push(device.name+' Mixing source changes resume reliably on the original mobile tap');
 
     await page.goto('http://127.0.0.1:8765/labs/abx/?test=formats-light-128-v1&mode=training',{waitUntil:'load',timeout:30000});
     const abx=page.locator('[data-abx-lab="all"]');
