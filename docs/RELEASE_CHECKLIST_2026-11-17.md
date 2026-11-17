@@ -5,10 +5,10 @@
 ### A. Visitor-facing release blockers
 - [x] ABX scored-repeat state resets after a completed session, and new session requires a fresh optional statistics opt-in.
 - [x] A user-initiated Prepare recordings request works even on Data Saver; only speculative preloading is suppressed.
-- [x] ABX copy no longer contradicts the Challenge/Advanced modes actually offered.
+- [x] ABX explicitly labels Challenge/Advanced as local beta practice, and its public sharing controls are hidden until verified scoring is deliberately released.
 - [ ] Release and verify the scored Worker with D1, rate limits, retention cron, secure secret and `ABX_PUBLIC_ENABLED=true` only at coordinated launch.
 - [ ] Release and verify community submissions, approved-only display, review/deletion and CORS before enabling the community flag.
-- [~] Mock scored ABX browser test now verifies ten rounds, a failed X download, server resume, second attempt and consent reset; Node tests verify 20 rounds, duplicate-answer protection and group stats. Real Cloudflare D1/Worker testing remains a release gate.
+- [x] Draft beta **Challenge (10) and Advanced (20)** now work as local-only practice games; no server calls, scores uploaded or community opt-in. Browser smoke verifies start/restart and both lengths with two cached recordings. The private scored Worker remains unreleased; its separate protocol/Node tests are retained. Real Worker/D1 deployment, secret management, consent and server recovery validation remain release gates.
 - [ ] Final manual permissions/credits/privacy spot-check before deployment. Content Use has direct contact email and research credit tests already pass; keep this as a real publishing review.
 - [~] Free-tier quotas, per-session estimates and cache limits are documented in `docs/abx-labs/FREE_TIER_CAPACITY_2026-11.md`. Read-only Cloudflare API snapshot captured real D1 usage (9 queries, 19 rows read, 11 rows written over one 24-hour window; 49,152 B stored); the audio Worker is deployed but the scored ABX Worker is not. **Audio Worker request totals, live ABX account testing and physical-device checks are still open.**
 - [ ] Run final production smoke test after deliberate merge/manual Pages deployment.
@@ -19,7 +19,7 @@
 - [x] Audit PR #11: synchronized Web Audio playback is the only tested implementation that avoids source-reload gaps; eager three-file decoding is too expensive as the default.
 - [~] **Optional prepared/instant mode staged in Formats**, adapted from PR #11: native Play remains default; explicit preparation downloads only three versions of the chosen song with 14 MiB compressed/48 MiB decoded PCM caps, one group readiness and native fallback. Desktop and mobile-emulated Chrome tests passed against real audio. Physical Android/iOS, memory, Worker and listening-gap measurements remain open; no cross-browser gapless guarantee.
 - [~] Real Chrome desktop/mobile-emulated playback passed for prepared A/B/A switching, no new requests after preparation, stable playhead and return to native. Chrome also fetched and decoded real hosted FLAC/MP3 sources. Physical Android/iOS listening for clicks/stutter, memory and account Worker/KV usage remain open. Native mode still restarts its media source.
-- [~] **ABX Training source switching fixed in draft:** synchronized Web Audio gain changes reuse the two cached recordings, including X's alias to A/B, with native fallback when decoding/memory limits intervene. Real Chrome desktop/mobile-emulated tests passed, but physical phone listening remains open. Scored ABX remains conventional/native until launch validation; no gapless guarantee there.
+- [~] **ABX Training and local beta Challenge/Advanced** now reuse just two cached recordings per comparison and attempt same-clock switching, with native fallback where needed. The beta 10/20-round games reveal only personal results at completion, without sending score requests. Real Chrome browser tests pass; physical phone listening still open. Genuine independently checked scoring awaits its separate Worker release.
 - [~] **Mixing and Mastering source-change resumption improved in draft:** resume within the selection tap so Android/mobile browsers do not lose gesture authorization after delayed metadata loading. Mixing now assigns no FLAC URL on page entry or pre-Play variant changes, conserving Workers/KV requests. New real-audio browser smoke checks cover resumed source switching and zero idle Mixing requests. Physical-device and listening-gap checks remain open; these native players still reload each recording.
 - [x] Add ABX, community, share, waveform and readiness files to required Pages build and validate waveform SVG checksums.
 - [x] Source-level internal link and anchor integrity covers 1000+ hrefs; normalize Mastering logo, main navigation and mobile menu to the site's shared labels. Final visual review remains separate.
@@ -34,6 +34,17 @@
 - [x] Remove unnecessary hosting-provider mentions from the visitor-facing ABX and Mastering lab copy. Scan of all 47 sitemap pages found these two lesson instances; keep accurate provider disclosure in the separate privacy policy.
 - [x] Explain 51 curated selections versus 53 tracks: a three-song suite appears as one curated entry; fix outdated Library index count of 38 selections to match current 51/53.
 - [~] Owner opened the prior draft on an actual Android phone using a local Termux HTTP server and reported that it generally worked, but observed slower X switching in ABX. The ABX Training same-clock fix and native A/B/X alias pause fix now pass real Chrome and mobile-emulated browser tests. Owner must `git pull` and listen again on the physical Samsung, especially rapid A/B/X switches, initial Play and fallback.
+
+### C2. November 17 owner review, approved items staged in draft
+- [x] Lesson 13 now starts with real situations (multi-driver earbuds on an older receiver; same headphones on a low-impedance jack; combinations with no practical problem) and links to a published measured example without reproducing proprietary graphs.
+- [x] Lesson 14 removes redundant output-to-input dropdown matching and its JavaScript, replacing it with a short explanation of line, digital/DAC and turntable/phono connections. Other lesson interactions stay intact.
+- [x] Lesson 18 draws the 256 stored levels as close-spaced lines and adds a labelled magnified inset; all three options show the same measurement principle.
+- [x] Lesson 19 adds a direct ABX Training link beside the MP3/lossless Listening Lab and corrects outdated claims that no audio examples exist.
+- [x] Contact page reorganized into separate general inquiries and equipment-maker cards with consistent spacing, plus restrained optional donation copy. Visible text no longer names the payment provider, but the privacy policy retains accurate external-service identification. Homepage support prompt now appears just after the hero; fuller share/support section follows the learning-path cards.
+- [x] ABX Challenge/Advanced beta is functional offline from the scoring Worker, with local-only results and no public statistics UI.
+- [ ] **Lesson 9 Class A/AB visual is deliberately NOT edited**. Owner rejected jargon-first proposal; awaiting sign-off on new speaker-motion and heat/effort analogy, with no unexplained output-device or waveform terms.
+- [ ] Conduct real-device visual review (Contact mobile spacing, 256-level inset legibility, homepage support prominence) and listening review for all ABX fallback modes.
+- [ ] Actual user acceptance and production deployment authorization.
 
 ### D. Admin follow-up, **not a release blocker**
 - [ ] Authorize Gmail native filters if desired; scheduled inbox triage already runs.
