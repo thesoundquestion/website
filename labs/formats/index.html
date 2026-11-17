@@ -171,7 +171,15 @@
     state.buffering=false;
     const key=trackKey(state.song,state.format);
     player.pause();
-    player.preload=state.userStarted?'auto':'none';
+    // Selecting a song or format before Play must not issue *any* media request.
+    // Some browsers fetch audio despite preload=none after src + load().
+    if (!state.userStarted) {
+      player.removeAttribute('src');
+      state.pending = null;
+      paint();
+      return;
+    }
+    player.preload='auto';
     player.src = cache.get(key) || currentSong()[state.format];
     player.volume = MATCHED_VOLUME[state.song][state.format];
     player.load();
@@ -205,11 +213,19 @@
     show('Switching to ' + caption() + ' near the same point in the music…');
   }));
   byId('playPause').addEventListener('click', () => {
-    if (player.paused || player.ended){state.userStarted=true;player.preload='auto';player.play().catch(() => show('Playback could not start. Check your connection and try again.'))}
+    if (player.paused || player.ended){
+      const firstPlay=!state.userStarted;
+      state.userStarted=true;
+      player.preload='auto';
+      if (firstPlay) replaceSource(false,0);
+      player.play().catch(() => show('Playback could not start. Check your connection and try again.'));
+    }
     else player.pause();
   });
   byId('restart').addEventListener('click', () => {
+    const firstPlay=!state.userStarted;
     state.userStarted=true;player.preload='auto';
+    if (firstPlay) replaceSource(false,0);
     player.currentTime = 0;
     player.play().catch(() => show('Press Play to begin.'));
   });
@@ -239,7 +255,7 @@
     paint();
     show('You reached the end. Start again and try another version.');
   });
-  player.addEventListener('error', () => {failures.add(trackKey(state.song,state.format));paint();show(state.format === 'lossless'
+  player.addEventListener('error', () => {if(!state.userStarted)return;failures.add(trackKey(state.song,state.format));paint();show(state.format === 'lossless'
     ? 'The original lossless recording could not play here. Try another browser, or tap MP3 320 to confirm your audio works.'
     : 'This MP3 could not play. Check your connection or try a different format.')});
   window.addEventListener('pagehide', () => {player.pause();cache.close()});
