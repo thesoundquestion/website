@@ -87,7 +87,9 @@ function newTraining(){
 }
 async function prepareTraining(){
  if(mode!=='training'||pending||live)return;
- const myVersion=version;pending=true;prepareFailed=false;render();
+ const myVersion=version;
+ if(prepareFailed)cache.clear(); // Explicit retry after offline preparation, not an idle retry loop.
+ pending=true;prepareFailed=false;render();
  try{
   const a=await cache.prepare(TRAIN_A,tests[testId].a,{pinned:[TRAIN_A]});
   if(!a||version!==myVersion)return;
@@ -166,9 +168,12 @@ async function applyServerProgress(data){
   scoreboard.textContent='Completed: '+data.correct+'/'+data.total+' correct.'+chance+' '+(data.shared?'Included in voluntary community statistics.':'Not shared publicly.');
  }else{
   if(!data.urls||!data.roundToken)throw Error('Missing next trial');
+  const sameRound=data.roundToken===session.token;
   session.token=data.roundToken;
-  live=null;render();
-  live=await prepareScoredTrial(data.urls);
+  if(!sameRound||!cache.has(SCORE_X)){
+   live=null;render();
+   live=await prepareScoredTrial(data.urls);
+  }
   locked=false;
   scoreboard.textContent='Trial recorded. Continue listening.';
  }
