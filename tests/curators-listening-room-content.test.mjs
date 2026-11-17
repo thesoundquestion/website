@@ -13,11 +13,11 @@ const section = id => {
 test('Listening Room selection totals match actual cards', () => {
   const count = [...html.matchAll(/<article class="curator-track"/g)].length;
   const riffs = section('riffs-and-grooves');
-  assert.equal(count, 39);
-  assert.equal([...riffs.matchAll(/<article class="curator-track"/g)].length, 14);
-  assert.match(html, /39 listening selections/);
-  assert.match(html, /03 \/ 14 SELECTIONS/);
-  assert.match(html, /Band Interaction <span aria-hidden="true">\(14\)<\/span>/);
+  assert.equal(count, 51);
+  assert.equal([...riffs.matchAll(/<article class="curator-track"/g)].length, 21);
+  assert.match(html, /51 listening selections/);
+  assert.match(html, /03 \/ 21 SELECTIONS/);
+  assert.match(html, /Band Interaction <span aria-hidden="true">\(21\)<\/span>/);
   const ids = [...html.matchAll(/<article class="curator-track" id="([^"]+)"/g)].map(m => m[1]);
   assert.equal(new Set(ids).size, ids.length, 'Unique track IDs required');
 });
@@ -40,4 +40,19 @@ test('The Count of Tuscany notes cite the firsthand backstory, not an unverified
   assert.match(journeys, /The lyrics make it even better/);
   assert.match(journeys, /my joke, not Petrucci&#39;s explanation/);
   assert.match(journeys, /https:\/\/guitarmessenger.com\/john-petrucci-interview-2\//);
+});
+
+
+test('New listening selections and platform links are published', () => {
+  const spatial = section('spatial');
+  const riffs = section('riffs-and-grooves');
+  const dynamics = section('dynamics');
+  assert.match(spatial, /Wilson Phillips/);
+  assert.match(spatial, /Everything in Its Right Place/);
+  assert.match(riffs, /Garrett Mason/);
+  assert.match(riffs, /Cowboys from Hell/);
+  assert.match(riffs, /John the Fisherman/);
+  assert.match(dynamics, /Sister Christian/);
+  assert.match(html, /spotify\.com\/playlist\/2oIjBSeLGbg6gqqaeyGrKI/);
+  assert.match(html, /sdz\.sh\/2r8wVo/);
 });
