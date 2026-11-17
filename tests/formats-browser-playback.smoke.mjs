@@ -59,6 +59,43 @@ try {
       },bitrate,{timeout:20000});
       results.push(device.name+' light MP3 '+bitrate+' PLAYING');
     }
+    // The optional synchronized mode must require an explicit click and must
+    // never reload or restart a source when switching after preparation.
+    await page.locator('#prepareInstant').click();
+    await page.waitForFunction(() => {
+      const node=document.querySelector('#instantReadiness');
+      return node && ['ready','offline'].includes(node.dataset.readiness);
+    },null,{timeout:55000});
+    const preparedState=await page.locator('#instantReadiness').getAttribute('data-readiness');
+    const preparationMessage=await page.locator('#instantProgress').innerText();
+    if(preparedState!=='ready')
+      throw new Error(device.name+' synchronized mode could not decode real FLAC/MP3 sources: '+preparationMessage);
+    const newMediaRequests=[];
+    const onPreparedRequest=req=>{
+      if(/tsq-lab-audio\.thesoundquestion\.workers\.dev\/|\/assets\/audio\/formats\/[^/]+\.mp3/.test(req.url()))
+        newMediaRequests.push(req.url());
+    };
+    page.on('request',onPreparedRequest);
+    const beforePrepared=Number(await page.locator('#seek').inputValue());
+    for(const format of ['128','320','lossless','128','320','128','lossless']) {
+      await page.locator('[data-format="'+format+'"]').click();
+    }
+    await page.waitForTimeout(500);
+    const afterPrepared=Number(await page.locator('#seek').inputValue());
+    page.off('request',onPreparedRequest);
+    if(newMediaRequests.length)throw new Error(device.name+' prepared switching issued '+newMediaRequests.length+' fresh media requests');
+    if(afterPrepared<beforePrepared-.15 || afterPrepared>beforePrepared+8)
+      throw new Error(device.name+' prepared switching lost playhead: '+beforePrepared+' → '+afterPrepared);
+    if(await page.locator('#playPause').getAttribute('aria-label')!=='Pause')
+      throw new Error(device.name+' prepared switching stopped playback');
+    results.push(device.name+' prepared native-to-buffered transition, rapid A/B/A, no reload and stable playhead');
+    await page.locator('#prepareInstant').click();
+    await page.waitForFunction(() => {
+      const a=window.__formatsTestAudio;
+      return a && !a.paused && a.currentTime>0.2 && !a.error;
+    },null,{timeout:16000});
+    if(!(await page.locator('#instantReadiness').isHidden()))
+      throw new Error(device.name+' instant mode status was not cleared on return to native playback');
     await page.locator('[data-song="diva"]').click();
     await page.locator('#playPause').click();
     await page.waitForFunction(() => {
