@@ -86,3 +86,9 @@ test('scored ABX recovery reconstructs missing reference buffers and refreshes e
  assert.match(client,/cache\.prepare\(SCORE_B,urls\.B/);
  assert.match(client,/cache\.prepare\(SCORE_X,urls\.X/);
 });
+
+test('EQ ABX refuses native fallback so switching gaps cannot disclose X',()=>{
+  assert.match(client,/testId==='master-eq-v1'&&!trainingBuffer\?\.isReady\(\)/);
+  assert.match(client,/EQ comparison needs seamless playback to keep X blind/);
+  assert.match(client,/prepareFailed=prepareFailed\|\|!cache\.has\(TRAIN_A\)/);
+});
