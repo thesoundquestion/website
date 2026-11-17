@@ -1,0 +1,6 @@
+/* Common readiness vocabulary for every Listening Lab. */
+[data-readiness="ready"]{color:#94edc7!important}
+[data-readiness="wait"]{color:#e4c78a!important}
+[data-readiness="offline"]{color:#ff9eaa!important}
+.tsq-track-readiness{display:block;font-size:.68rem;line-height:1.25;margin-top:.38rem;font-weight:700;letter-spacing:0}
+.tsq-abx-slot-state{display:block;font-size:.68rem;font-weight:700;margin-top:4px}
