@@ -1,3 +1,7 @@
+# ABX architecture note (2026-11-17)
+
+ABX is centralized at /labs/abx/ in the next-release draft. Repeated A/B/X presses reuse locally cached files. Counting both the score Worker and public FLAC Worker, a 20-trial session can take roughly 43–65 Worker requests before retries. The D1 database is provisioned; the Worker is not deployed. Earlier text below about ABX embedded in the three lessons or scoring DB not existing is superseded by docs/abx-labs/README.md.
+
 # Listening Labs playback: Cloudflare Free-tier resource policy
 
 **Status:** Design rule and pre-release budget, 2026-11-17. Not deployed. Applies to Mixing, Mastering, Formats, shared ABX and future labs. Refer also to [ABX engineering handoff](../abx-labs/README.md).

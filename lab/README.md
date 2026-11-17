@@ -1,3 +1,7 @@
+# ABX architecture update, 2026-11-17
+
+The draft now uses a single dedicated /labs/abx/ page rather than separate embedded player widgets. The individual lessons link into the ABX Lab, and each comparison links back to its relevant original lesson/mode/song. See docs/abx-labs/README.md for authoritative future-test and release instructions. Production and automatic Pages deployments are unchanged.
+
 # Mixing Lab — online listening implementation
 
 Route: `/lab/` from `/labs/`. Three independently produced, 30-second stereo educational mixes of “Let The Light In” by Tom McKenzie, made from 14 processed-dry AlbumDB stems covering song time 0:40–1:10.
