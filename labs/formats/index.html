@@ -23,6 +23,8 @@
 </style>
 
 <link rel="stylesheet" href="/assets/abx-lab.css">
+<link rel="stylesheet" href="/assets/lab-readiness.css">
+<script src="/assets/lab-readiness.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to the listening test</a>
@@ -51,14 +53,14 @@
    <div class="section-head"><span>02 / PLAY &amp; SWITCH</span><span id="durationLabel">0:00 / 0:30</span></div>
    <h3>Play the music. Change versions whenever you like.</h3>
    <div class="format-options" role="group" aria-label="Choose the format">
-    <button type="button" class="format active" data-format="lossless" aria-pressed="true"><span class="format-name">Original</span><small>Lossless · everything kept</small></button>
-    <button type="button" class="format" data-format="128" aria-pressed="false"><span class="format-name">MP3</span><small>Smaller file · 128 kbps</small></button>
-    <button type="button" class="format" data-format="320" aria-pressed="false"><span class="format-name">MP3</span><small>More detail kept · 320 kbps</small></button>
+    <button type="button" class="format active" data-format="lossless" aria-pressed="true"><span class="format-name">Original</span><small>Lossless · everything kept</small><span class="tsq-track-readiness" data-format-readiness="lossless" data-readiness="wait">Please wait</span></button>
+    <button type="button" class="format" data-format="128" aria-pressed="false"><span class="format-name">MP3</span><small>Smaller file · 128 kbps</small><span class="tsq-track-readiness" data-format-readiness="128" data-readiness="wait">Please wait</span></button>
+    <button type="button" class="format" data-format="320" aria-pressed="false"><span class="format-name">MP3</span><small>More detail kept · 320 kbps</small><span class="tsq-track-readiness" data-format-readiness="320" data-readiness="wait">Please wait</span></button>
    </div>
    <div class="transport"><button id="playPause" type="button" class="play" aria-label="Play"><span id="playIcon" aria-hidden="true">▶</span><span id="playText">Play</span></button><button id="restart" type="button" class="reset">↺ Start again</button></div>
    <label class="seek-label" for="seek">Move through the music</label>
    <input id="seek" type="range" min="0" max="30" value="0" step="0.05" aria-label="Audio position">
-   <p id="playingNow" class="playing-now" role="status" aria-live="polite">Ready to listen: Original (lossless).</p>
+   <p id="playingNow" class="playing-now" role="status" aria-live="polite">Select Play to prepare the original recording.</p>
    <p class="context-note">Every MP3 was made from this same lossless recording. The music was not remixed or remastered. We make a tiny playback-volume adjustment to keep the comparison fair.</p>
    <details class="small-details"><summary>Want to hear the obvious difference first?</summary><p>Our current controls compare two everyday MP3 settings. A much lower bitrate could exaggerate the difference, but it wouldn't represent how most people listen today.</p></details>
   </div>

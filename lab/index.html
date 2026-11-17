@@ -13,6 +13,8 @@
   <script src="../assets/mixing-lab.js" defer></script>
   <title>Mixing Lab | The Sound Question</title>
 <link rel="stylesheet" href="/assets/abx-lab.css">
+<link rel="stylesheet" href="/assets/lab-readiness.css">
+<script src="/assets/lab-readiness.js"></script>
 </head>
 <body class="lab-page">
   <a class="skip-link" href="#main">Skip to the experiment</a>
@@ -47,16 +49,16 @@
           <div class="lab-console-left">
             <div class="lab-import"><div><strong>Three listening examples, ready to play</strong><p>Our lossless examples stream automatically. You can optionally replace them with your own WAV or FLAC files, which stay in your browser.</p></div><label class="lab-import-button">Replace examples (optional)<input id="fileBatch" type="file" accept=".wav,.flac,audio/wav,audio/x-wav,audio/flac" multiple></label></div>
             <div class="lab-variants" role="group" aria-label="Choose mix to audition">
-              <div class="lab-variant is-active" data-variant-card="narrow"><button type="button" class="lab-variant-button" data-mix="narrow" aria-pressed="true"><span class="lab-variant-index">01</span><span><strong>Extreme Narrow</strong><small>Almost mono · deliberately confined</small></span><span class="lab-load-state" data-state="narrow">Available online</span></button><label class="lab-assign">Replace this recording<input type="file" data-file-for="narrow" accept=".wav,.flac,audio/wav,audio/x-wav,audio/flac"></label></div>
-              <div class="lab-variant" data-variant-card="reference"><button type="button" class="lab-variant-button" data-mix="reference" aria-pressed="false"><span class="lab-variant-index">02</span><span><strong>Conventional Reference</strong><small>Natural stereo · source processing retained</small></span><span class="lab-load-state" data-state="reference">Available online</span></button><label class="lab-assign">Replace this recording<input type="file" data-file-for="reference" accept=".wav,.flac,audio/wav,audio/x-wav,audio/flac"></label></div>
-              <div class="lab-variant" data-variant-card="polished"><button type="button" class="lab-variant-button" data-mix="polished" aria-pressed="false"><span class="lab-variant-index">03</span><span><strong>Creative / Polished</strong><small>Depth · moving percussion · rotating synths</small></span><span class="lab-load-state" data-state="polished">Available online</span></button><label class="lab-assign">Replace this recording<input type="file" data-file-for="polished" accept=".wav,.flac,audio/wav,audio/x-wav,audio/flac"></label></div>
+              <div class="lab-variant is-active" data-variant-card="narrow"><button type="button" class="lab-variant-button" data-mix="narrow" aria-pressed="true"><span class="lab-variant-index">01</span><span><strong>Extreme Narrow</strong><small>Almost mono · deliberately confined</small></span><span class="lab-load-state" data-state="narrow">Please wait</span></button><label class="lab-assign">Replace this recording<input type="file" data-file-for="narrow" accept=".wav,.flac,audio/wav,audio/x-wav,audio/flac"></label></div>
+              <div class="lab-variant" data-variant-card="reference"><button type="button" class="lab-variant-button" data-mix="reference" aria-pressed="false"><span class="lab-variant-index">02</span><span><strong>Conventional Reference</strong><small>Natural stereo · source processing retained</small></span><span class="lab-load-state" data-state="reference">Please wait</span></button><label class="lab-assign">Replace this recording<input type="file" data-file-for="reference" accept=".wav,.flac,audio/wav,audio/x-wav,audio/flac"></label></div>
+              <div class="lab-variant" data-variant-card="polished"><button type="button" class="lab-variant-button" data-mix="polished" aria-pressed="false"><span class="lab-variant-index">03</span><span><strong>Creative / Polished</strong><small>Depth · moving percussion · rotating synths</small></span><span class="lab-load-state" data-state="polished">Please wait</span></button><label class="lab-assign">Replace this recording<input type="file" data-file-for="polished" accept=".wav,.flac,audio/wav,audio/x-wav,audio/flac"></label></div>
             </div>
             <div class="lab-player" aria-label="Shared audio playback controls">
               <audio id="labAudio" preload="metadata"></audio>
               <div class="lab-transport"><button id="playToggle" type="button" class="lab-play" disabled><span id="playIcon" aria-hidden="true">▶</span><span id="playLabel">Play</span></button><button id="restart" type="button" class="lab-restart" disabled>↺ Restart</button><div class="lab-clock" id="timeDisplay" aria-live="off">0:00.0 / 0:30.0</div></div>
               <label class="lab-seek-label" for="seek">Position in the excerpt</label><input id="seek" type="range" min="0" max="30" value="0" step="0.05" disabled aria-label="Seek playback position"><div class="lab-ticks"><span>0:00</span><span>0:10</span><span>0:20</span><span>0:30</span></div>
               <div class="lab-cue-row" aria-label="Jump to a listening moment"><button type="button" class="lab-cue" data-seek="0">Opening <small>0:00</small></button><button type="button" class="lab-cue" data-seek="5">Percussion <small>0:05</small></button><button type="button" class="lab-cue" data-seek="17">New guitar <small>0:17</small></button><button type="button" class="lab-cue" data-seek="26">Synth pulse <small>0:26</small></button></div>
-              <p class="lab-status" id="playerStatus" role="status" aria-live="polite">Online lossless examples are ready. Press Play to listen.</p>
+              <p class="lab-status" id="playerStatus" role="status" aria-live="polite">Select Play to prepare an online recording.</p>
             </div>
           </div>
           <aside class="lab-console-right" aria-labelledby="cue-heading">
