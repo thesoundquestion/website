@@ -1,6 +1,9 @@
 /* Shared ABX Listening Labs framework, v1. No public scores without server verification. */
 (() => {
 'use strict';
+// The beta uses local, unverified games until the private scoring Worker
+// passes its release gates. Do not enable public score submission here.
+const PRACTICE_ONLY = true;
 const API = 'https://tsq-abx.thesoundquestion.workers.dev';
 const AUDIO = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
 const tests = {
@@ -22,7 +25,7 @@ if(!catalog.length)return;
 root.classList.add('tsq-abx');root.innerHTML='';
 root.append(el('p',{class:'tsq-abx-kicker'},'BLIND LISTENING / TRAINING → CHALLENGE → ADVANCED'));
 root.append(el('h2',{},'Hear it. Then test yourself.'));
-root.append(el('p',{},'Learn the differences in Training, then try longer Challenge or Advanced listening games. You can replay A, B and X freely, and choose whether to add a completed result to community statistics. These are for fun and discussion, not scientific hearing measurements.'));
+root.append(el('p',{},'Start with Training, then try 10 rounds in Challenge or 20 in Advanced. During this beta, your score stays on this device and is not submitted. These games are for practice, not a hearing test.'));
 const notice=el('p',{class:'tsq-abx-notice'},'The comparisons use the same performances with obvious level differences controlled where practical. Personal listening conditions vary. The deliberately unequal-volume masters are excluded from ABX.');root.append(notice);
 const tabs=el('div',{class:'tsq-abx-tabs',role:'group','aria-label':'ABX difficulty'});
 const modes=[['training','Training'],['challenge','Challenge · 10 trials'],['advanced','Advanced · 20 trials']];
@@ -64,7 +67,7 @@ answerRow.append(guessA,guessB,next);
 const progress=el('p',{class:'tsq-abx-progress',role:'status','aria-live':'polite'});
 const consentLabel=el('label',{class:'tsq-abx-consent'});const consent=el('input',{type:'checkbox'});consentLabel.append(consent,document.createTextNode(' Include my completed, anonymous session in community statistics (optional).'));
 const scoreboard=el('div',{class:'tsq-abx-scoreboard',role:'status','aria-live':'polite'});
-const startButton=el('button',{type:'button',class:'tsq-abx-start'},'Start scored session');
+const startButton=el('button',{type:'button',class:'tsq-abx-start'},PRACTICE_ONLY?'Start practice challenge':'Start scored session');
 const prepareButton=el('button',{type:'button',class:'tsq-abx-start'},'Prepare recordings');
 const trialReadiness=el('p',{class:'tsq-abx-trial-readiness','data-readiness':'wait',role:'status','aria-live':'polite'},'Please wait');
 const statsButton=el('button',{type:'button',class:'tsq-abx-stats-button'},'View community results');
@@ -74,7 +77,7 @@ const audio=document.createElement('audio');audio.preload='none';audio.crossOrig
 const takeFocus=()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'abx'}}));
 audio.addEventListener('play',takeFocus);
 document.addEventListener('tsq-lab-audio-focus',event=>{if(event.detail?.owner!=='abx'){audio.pause();trainingBuffer?.pause()}});
-let pending=false,playGeneration=0,prepareFailed=false;
+let pending=false,playGeneration=0,prepareFailed=false,practiceSwapped=false;
 let trainingBuffer=null,selectedTrainingSlot=null;
 const readiness=window.TSQLabReadiness;
 const cache=readiness.createCache({maxFiles:3,maxBytes:25*1024*1024,onChange:()=>render()});
@@ -105,7 +108,9 @@ const spec=testId?tests[testId]:null;meta.textContent=spec?spec.note:'No compari
 configureLessonLink();
 const scored=mode!=='training';
 const total=scored?(mode==='advanced'?20:10):10;
-consentLabel.hidden=!scored||!spec;startButton.hidden=!scored||!spec||Boolean(session);startButton.disabled=pending||!spec;
+consentLabel.hidden=PRACTICE_ONLY||!scored||!spec;
+statsButton.hidden=PRACTICE_ONLY;
+startButton.hidden=!scored||!spec||Boolean(session);startButton.disabled=pending||!spec;
 prepareButton.hidden=scored||!spec||Boolean(live)||round>=10;prepareButton.disabled=pending;
 trialReadiness.hidden=scored||(!pending&&!live&&!prepareFailed); // X preparation latency is never displayed in scored ABX.
 switchStates();
@@ -114,9 +119,9 @@ for(const b of Object.values(playButtons))b.disabled=pending||!live;
 for(const b of tabs.querySelectorAll('button'))b.disabled=Boolean(session);
 consent.disabled=Boolean(session);
 choose.disabled=!spec||Boolean(session)||pending;
-progress.textContent=spec?'Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · Answers shown at completion'):'Select another level for available experiments.';
+progress.textContent=spec?'Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':PRACTICE_ONLY?' · Beta practice; nothing submitted':' · Answers shown at completion'):'Select another level for available experiments.';
 }
-function reset(){version++;stop();trainingBuffer?.dispose();trainingBuffer=null;root.dataset.playbackMode='native';cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent='Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
+function reset(){version++;stop();trainingBuffer?.dispose();trainingBuffer=null;root.dataset.playbackMode='native';cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent=PRACTICE_ONLY?'This is a practice game. Choose Start practice challenge to load the recordings. Results stay on this device.':'Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
 function newTraining(){
  answer=Math.random()<.5?'A':'B';locked=false;
  const a=localSource(TRAIN_A),b=localSource(TRAIN_B);
@@ -175,6 +180,55 @@ async function prepareTraining(){
   }
  }
 }
+function newPracticeTrial(){
+ if(!session?.practice)return;
+ stop();
+ practiceSwapped=Math.random()<0.5;
+ answer=Math.random()<0.5?'A':'B';
+ const a=localSource(TRAIN_A),b=localSource(TRAIN_B);
+ if(!a||!b){scoreboard.textContent='Recordings are no longer prepared. Start a new practice game.';live=null;session=null;render();return}
+ live={A:practiceSwapped?b:a,B:practiceSwapped?a:b,X:answer==='A'?(practiceSwapped?b:a):(practiceSwapped?a:b)};
+ locked=false;
+ root.dataset.playbackMode=trainingBuffer?.isReady()?'synchronized':'native';
+ render();
+}
+async function startPractice(){
+ // Local beta only. No score request, no session token, no community posting.
+ const myVersion=++version;
+ stop();trainingBuffer?.dispose();trainingBuffer=null;cache.clear();
+ live=null;session=null;round=0;correct=0;locked=false;prepareFailed=false;
+ pending=true;takeFocus();render();
+ let stagedBuffer=null;
+ if(window.TSQFormatBuffers?.supported()){
+  try{stagedBuffer=new window.TSQFormatBuffers({onEnded:()=>{
+    selectedTrainingSlot=null;root.dataset.trainingPlaying='false';
+    for(const button of Object.values(playButtons))button.setAttribute('aria-pressed','false');
+  }});
+   stagedBuffer.unlock();
+  }catch{stagedBuffer?.dispose();stagedBuffer=null}
+ }
+ try{
+  const a=await cache.prepare(TRAIN_A,tests[testId].a,{pinned:[TRAIN_A],explicit:true});
+  const b=a&&await cache.prepare(TRAIN_B,tests[testId].b,{pinned:[TRAIN_A,TRAIN_B],explicit:true});
+  if(myVersion!==version||!a||!b)throw Error('Preparation incomplete');
+  if(stagedBuffer){
+   try{
+    await stagedBuffer.prepare(testId,{lossless:a,'128':b,'320':b},
+      {lossless:/-128-v[1-9][0-9]*$/.test(testId)?0.951:1,'128':1,'320':1});
+    if(myVersion===version&&stagedBuffer.isReady()){trainingBuffer=stagedBuffer;stagedBuffer=null}
+   }catch{ /* Cached native playback stays available on smaller devices. */ }
+  }
+  if(myVersion!==version)return;
+  session={practice:true,total:mode==='advanced'?20:10};
+  scoreboard.textContent='Practice ready. Play A, B and X, then choose your answer.';
+  newPracticeTrial();
+ }catch{
+  if(myVersion===version){live=null;session=null;prepareFailed=true;scoreboard.textContent='Could not prepare the practice recordings. Check your connection and try again.'}
+ }finally{
+  stagedBuffer?.dispose();
+  if(myVersion===version){pending=false;render()}
+ }
+}
 async function prepareScoredTrial(urls,{initial=false}={}){
  // Each new round receives a distinct opaque X URL. Reuse A/B, not old X.
  cache.drop(SCORE_X);
@@ -188,6 +242,7 @@ async function prepareScoredTrial(urls,{initial=false}={}){
 }
 async function startScored(){
 if(!testId||pending||session)return;
+if(PRACTICE_ONLY){await startPractice();return}
 // New attempts reset the previous completed-score lock, buffers and counters.
 version++;const myVersion=version;
 stop();trainingBuffer?.dispose();trainingBuffer=null;cache.clear();round=0;correct=0;locked=false;session=null;live=null;prepareFailed=false;
@@ -207,9 +262,9 @@ try {
 async function play(slot){
  if(!live||pending)return;
  const src=live[slot];if(!src)return;
- if(mode==='training'&&trainingBuffer?.isReady()){
+ if((mode==='training'||session?.practice)&&trainingBuffer?.isReady()){
   const sourceSlot=slot==='X'?answer:slot;
-  const format=sourceSlot==='A'?'lossless':'128';
+  const format=(session?.practice&&practiceSwapped?sourceSlot==='B':sourceSlot==='A')?'lossless':'128';
   const toggleOff=selectedTrainingSlot===slot&&trainingBuffer.isPlaying();
   selectedTrainingSlot=slot;
   takeFocus();
@@ -223,10 +278,10 @@ async function play(slot){
  const wasSelected=playButtons[slot].getAttribute('aria-pressed')==='true';
  const myTurn=++playGeneration;
  const time=Math.max(0,Number.isFinite(audio.currentTime)?audio.currentTime:0);
- const originalSlot=mode==='training'&&slot==='X'?answer:slot;
+ const originalSlot=(mode==='training'||session?.practice)&&slot==='X'?answer:slot;
  // Measured MP3-128 decoded RMS is ~0.436 dB quieter than the lossless
  // source; reduce the reference playback gain for Training only.
- audio.volume=mode==='training'&&/-128-v[1-9][0-9]*$/.test(testId)&&originalSlot==='A'?0.951:1;
+ audio.volume=(mode==='training'||session?.practice)&&/-128-v[1-9][0-9]*$/.test(testId)&&((session?.practice&&practiceSwapped)?originalSlot==='B':originalSlot==='A')?0.951:1;
  try{
   if(audio.src!==new URL(src,location.href).href){
    audio.pause();audio.src=src;audio.load();
@@ -281,6 +336,18 @@ async function submit(guess){
   if(guess===answer)correct++;
   scoreboard.textContent=(guess===answer?'Correct. ':'Not this round. ')+'X was '+answer+'. Training score: '+correct+'/'+(round+1)+'.';
   render();return;
+ }
+ if(session?.practice){
+  if(guess===answer)correct++;
+  round++;
+  const total=session.total;
+  if(round>=total){
+   stop();live=null;session=null;
+   scoreboard.textContent='Practice complete: '+correct+'/'+total+' correct. Your score was not sent anywhere. Choose Start practice challenge to try again.';
+   render();return;
+  }
+  scoreboard.textContent='Answer recorded. Compare the next mystery recording.';
+  newPracticeTrial();return;
  }
  if(!session)return;
  pending=true;render();
