@@ -127,8 +127,8 @@
       const type = guessType(file.name);
       if (type) { useFile(type, file); added += 1; }
     }
-    if (added === 0) tell('No matching filenames found. Use “Load just this WAV” beside each version.');
-    else tell(`${added} WAV ${added === 1 ? 'file' : 'files'} loaded locally. Select a mix and press Play.`);
+    if (added === 0) tell('No matching filenames found. Use “Replace this recording” beside each mix.');
+    else tell(`${added} audio ${added === 1 ? 'file' : 'files'} selected on your device. Select a mix and press Play.`);
     event.target.value = '';
   });
   document.querySelectorAll('[data-file-for]').forEach(input => input.addEventListener('change', event => {
