@@ -10,7 +10,7 @@ test('public email invites educational ideas and permission offers with no conta
   assert.match(page,/mailto:thesoundquestion@gmail\.com/);
  }
  assert.match(home,/permission/i);
- assert.match(connect,/materials that you own or are authorized/);
+ assert.match(connect,/materials you own or are authorized to share/);
  assert.match(privacy,/Contact email/);
 });
 test('equipment-loan outreach is discoverable and independent',()=>{
@@ -70,12 +70,16 @@ test('ABX Training shares one playback clock without additional public audio req
  assert.match(page,/format-comparison-engine\.js/);
  assert.match(abx,/stagedBuffer\.unlock\(\)/);
  assert.match(abx,/await stagedBuffer\.prepare\(testId,\{lossless:a,'128':b,'320':b\}/);
- assert.match(abx,/if\(mode==='training'&&trainingBuffer\?\.isReady\(\)\)/);
+ assert.match(abx,/if\(\(mode==='training'\|\|session\?\.practice\)\&\&trainingBuffer\?\.isReady\(\)\)/);
  assert.match(abx,/else if\(wasSelected\)audio\.pause\(\)/);
  assert.match(abx,/stagedBuffer\?\.dispose\(\)/);
  assert.match(abx,/trainingBuffer\?\.dispose\(\)/);
 });
-test('scoring remains off until coordinated release and uses explicit consent and server scoring',()=>{
+test('local beta practice does not publish while eventual scored service remains gated',()=>{
+ assert.match(abx,/const PRACTICE_ONLY = true/);
+ assert.match(abx,/if\(PRACTICE_ONLY\)\{await startPractice\(\);return\}/);
+ assert.match(abx,/session=\{practice:true,total:mode==='advanced'\?20:10\}/);
+ assert.match(read('labs/abx/index.html'),/Your score stays on your device/);
  assert.match(read('workers/abx/wrangler.toml'),/ABX_PUBLIC_ENABLED = "false"/);
  assert.match(worker,/ABX_PUBLIC_ENABLED==='true'/);
  assert.match(worker,/const VALIDATED=new Map/);
