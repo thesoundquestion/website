@@ -74,7 +74,7 @@ export function explainInputInteractions(request={}) {
   const notes=[];
   const scene=String(request.useCase||'living_room');
   if(isParty(request)){
-    notes.push('For a party, the system must play cleanly for a long time and reach the whole listening area. A speaker's sensitivity number or advertised peak watts alone cannot prove how loud it will play without strain.');
+    notes.push('For a party, the system must play cleanly for a long time and reach the whole listening area. A speaker’s sensitivity number or advertised peak watts alone cannot prove how loud it will play without strain.');
   }
   if(highDemandAtDistance(request)){
     notes.push('If you listen loudly from more than 12 ft away, compact desk speakers are less likely to fit. How loudly any model can actually play cleanly still needs evidence for that exact model.');
@@ -85,7 +85,7 @@ export function explainInputInteractions(request={}) {
     notes.push('Battery operation is a mandatory gate, not a convenience preference: mains-only choices are excluded.');
   }
   if(scene==='outdoors'){
-    notes.push('Outdoor listening needs sound that reaches the audience, appropriate mounting, weather protection and enough power. A speaker's indoor sensitivity rating does not prove how it performs outside.');
+    notes.push('Outdoor listening needs sound that reaches the audience, appropriate mounting, weather protection and enough power. A speaker’s indoor sensitivity rating does not prove how it performs outside.');
   }
   if(request.goal==='bass'&&request.subMode==='no_sub'){
     notes.push('Bass without a subwoofer: main speakers must do the low-frequency work; extension and loudness must be checked independently.');
