@@ -38,7 +38,8 @@ try {
       await page.locator('[data-format="'+bitrate+'"]').click();
       await page.waitForFunction(rate => {
         const el = window.__formatsTestAudio;
-        return el && el.currentSrc.includes('light-'+rate+'.mp3') &&
+        return el && (el.currentSrc.includes('light-'+rate+'.mp3') || el.currentSrc.startsWith('blob:')) &&
+          document.querySelector('[data-format="'+rate+'"]')?.getAttribute('aria-pressed')==='true' &&
           el.currentTime>0.2 && !el.paused && !el.error;
       },bitrate,{timeout:20000});
       results.push(device.name+' light MP3 '+bitrate+' PLAYING');
@@ -54,19 +55,34 @@ try {
       await page.locator('[data-format="'+bitrate+'"]').click();
       await page.waitForFunction(rate => {
         const el=window.__formatsTestAudio;
-        return el && el.currentSrc.includes('diva-'+rate+'.mp3') &&
+        return el && (el.currentSrc.includes('diva-'+rate+'.mp3') || el.currentSrc.startsWith('blob:')) &&
+          document.querySelector('[data-format="'+rate+'"]')?.getAttribute('aria-pressed')==='true' &&
           el.currentTime>0.2 && !el.paused && !el.error;
       },bitrate,{timeout:20000});
       results.push(device.name+' diva MP3 '+bitrate+' PLAYING');
     }
     const abx=page.locator('[data-abx-lab="formats"]');
     if(await abx.locator('[data-mode="training"]').count()!==1)throw new Error(device.name+' missing ABX training');
+    if((await abx.locator('.tsq-abx-trial-readiness').innerText())!=='Please wait')throw new Error(device.name+' trial erroneously ready before preparation');
+    await abx.getByRole('button',{name:'Prepare recordings'}).click();
+    await page.waitForFunction(() => document.querySelector('[data-abx-lab="formats"] .tsq-abx-trial-readiness')?.textContent==='Ready',{timeout:25000});
+    if(await abx.locator('[data-slot] [data-readiness]').count())throw new Error(device.name+' ABX leaks per-slot readiness');
+    let workerRequestsAfterReady=0;
+    page.on('request',req=>{if(req.url().includes('tsq-lab-audio.thesoundquestion.workers.dev'))workerRequestsAfterReady++});
     await abx.locator('[data-slot="A"]').click();
     await page.waitForFunction(() => {
       const a = document.querySelector('[data-abx-lab="formats"] audio');
       return a && a.currentTime > 0.1 && !a.paused && !a.error;
     }, {timeout:20000});
-    results.push(device.name+' ABX training reference PLAYING');
+    await abx.locator('[data-slot="B"]').click();
+    await page.waitForFunction(() => {
+      const a=document.querySelector('[data-abx-lab="formats"] audio');
+      return a && a.currentTime>0.15 && !a.paused && !a.error;
+    },{timeout:12000});
+    await abx.locator('[data-slot="A"]').click();
+    await page.waitForTimeout(350);
+    if(workerRequestsAfterReady!==0)throw new Error(device.name+' repeated ABX listening triggered '+workerRequestsAfterReady+' extra audio Worker requests');
+    results.push(device.name+' ABX cached Training reference PLAYING without repeat Worker requests');
     await abx.locator('button:has-text("X is A")').click();
     const practice=await abx.locator('.tsq-abx-scoreboard').innerText();
     if(!practice.includes('Training score:'))throw new Error(device.name+' ABX did not count training guess: '+practice);
