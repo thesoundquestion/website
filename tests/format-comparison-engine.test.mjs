@@ -143,3 +143,27 @@ test('download and decoded PCM byte budgets fail closed', async () => {
   assert.match(engineScript, /MAX_DOWNLOAD_BYTES = 14 \* 1024 \* 1024/);
   assert.match(engineScript, /MAX_DECODED_BYTES = 48 \* 1024 \* 1024/);
 });
+
+test('ABX reuses its identical third recording without duplicate downloads or decoded PCM', async () => {
+  const {engine,urls,volumes,starts,fetches,ctx,stops} = setup();
+  // The ABX player represents its B recording in both switching slots.
+  urls['320'] = urls['128'];
+  assert.equal(await engine.prepare('master-eq-v1',urls,volumes),true);
+  assert.equal(fetches.length,2,'A and B should each be fetched only once');
+  engine.select('lossless');
+  engine.play();
+  assert.equal(starts.length,3,'three gain slots keep the generic interface');
+  assert.equal(starts[1].source.buffer, starts[2].source.buffer,
+    'B and its duplicate slot share exactly the same decoded AudioBuffer');
+  const initialStarts=starts.length,initialStops=stops.length;
+  ctx().currentTime += 2;
+  const at=engine.position();
+  engine.select('128');
+  engine.select('lossless');
+  engine.select('128');
+  assert.equal(fetches.length,2,'switching must not fetch recordings again');
+  assert.equal(starts.length,initialStarts,'switching must not restart audio');
+  assert.equal(stops.length,initialStops,'switching must not stop audio');
+  assert.equal(engine.position(),at,'switching must preserve playback position');
+  engine.dispose();
+});
