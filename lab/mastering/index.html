@@ -83,6 +83,8 @@ const audioPaths={
 const byId=id=>document.getElementById(id);
 const el={audio:byId('playerAudio'),tabs:[...document.querySelectorAll('[data-tab]')],grid:byId('variantGrid'),title:byId('modeTitle'),badge:byId('modeBadge'),intro:byId('modeIntro'),panel:byId('testpanel'),now:byId('nowPlaying'),play:byId('playPause'),restart:byId('restart'),seek:byId('seekBar'),clock:byId('clock'),status:byId('playerStatus'),load:byId('loadStatus'),files:byId('chooseFiles'),folder:byId('chooseFolder'),abxPanel:byId('abxPanel'),abxAction:byId('abxAction'),abxToggle:byId('abxToggle'),abxPair:byId('abxPair'),abxResult:byId('abxResult'),answerA:byId('answerA'),answerB:byId('answerB'),next:byId('nextTrial'),heroWaveLabel:byId('heroWaveLabel'),heroWaveTracks:[...document.querySelectorAll('[data-hero-wave]')]};
 const state={mode:'loud',choice:'dynamic',urls:{...audioPaths},files:{},owned:[],currentKey:null,loadSeq:0,abx:false,abxPair:['dynamic','moderate'],abxX:0,abxCurrent:'A',abxAnswered:false,abxCorrect:0,abxTotal:0,waveforms:{},wavePromises:{}};
+el.audio.addEventListener('play',()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'mastering'}})));
+document.addEventListener('tsq-lab-audio-focus',event=>{if(event.detail?.owner!=='mastering')el.audio.pause()});
 const readiness=window.TSQLabReadiness;
 let userStarted=false,waitingForBuffer=false;
 const failedSources=new Set();
