@@ -1,0 +1,109 @@
+/* Shared ABX Listening Labs framework, v1. No public scores without server verification. */
+(() => {
+'use strict';
+const API = 'https://tsq-abx.thesoundquestion.workers.dev';
+const AUDIO = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
+const tests = {
+ 'mix-narrow-reference': {lab:'mix',level:'training',label:'Narrow mix vs conventional mix',a:AUDIO+'/mixing/narrow.flac',b:AUDIO+'/mixing/reference.flac',note:'Exaggerated width difference. For training only; level and alignment checks are pending.'},
+ 'mix-reference-creative':{lab:'mix',level:'training',label:'Conventional vs creative mix',a:AUDIO+'/mixing/reference.flac',b:AUDIO+'/mixing/polished.flac',note:'Clearly contrasting spatial treatments. For training only; level and alignment checks are pending.'},
+ 'master-dynamic-moderate':{lab:'master',level:'training',label:'Dynamic vs moderately compressed master',a:AUDIO+'/mastering/matched-dynamic.flac',b:AUDIO+'/mastering/matched-moderate.flac',note:'Loudness-matched mastering treatments. A useful learning demonstration.'},
+ 'master-moderate-brick':{lab:'master',level:'training',label:'Moderate vs brickwalled master',a:AUDIO+'/mastering/matched-moderate.flac',b:AUDIO+'/mastering/matched-brickwalled.flac',note:'Matched overall loudness, but deliberately strong changes in dynamics.'},
+ 'master-eq':{lab:'master',level:'training',label:'EQ off vs EQ on',a:AUDIO+'/mastering/eq-off.flac',b:AUDIO+'/mastering/eq-on.flac',note:'Training only until level-matching and source alignment are independently verified.'},
+ 'formats-light-128':{lab:'formats',level:'training',label:'Let The Light In: lossless vs 128 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-128.mp3',note:'Codec comparison; training is unscored until a controlled blind transport is validated.'},
+ 'formats-light-320':{lab:'formats',level:'training',label:'Let The Light In: lossless vs 320 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-320.mp3',note:'Subtle codec comparison; not yet validated for scored blind testing.'},
+ 'formats-diva-128':{lab:'formats',level:'training',label:'Diva: lossless vs 128 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-128.mp3',note:'Codec comparison; local training only.'},
+ 'formats-diva-320':{lab:'formats',level:'training',label:'Diva: lossless vs 320 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-320.mp3',note:'Subtle codec comparison; local training only.'}
+};
+const el=(tag,props={},text='')=>{const node=document.createElement(tag);Object.entries(props).forEach(([k,v])=>{if(k==='class')node.className=v;else node.setAttribute(k,String(v))});if(text)node.textContent=text;return node};
+function init(root){
+const lab=root.dataset.abxLab;
+const catalog=Object.entries(tests).filter(([,v])=>v.lab===lab);
+if(!catalog.length)return;
+root.classList.add('tsq-abx');root.innerHTML='';
+root.append(el('p',{class:'tsq-abx-kicker'},'BLIND LISTENING / TRAINING → CHALLENGE → ADVANCED'));
+root.append(el('h2',{},'Hear it. Then test yourself.'));
+root.append(el('p',{},'Training teaches the difference. Challenge and Advanced use server-verified trials when a comparison has passed fairness checks. No listening score is a measure of someone’s worth or equipment quality.'));
+const notice=el('p',{class:'tsq-abx-notice'},'Only level-matched and technically verified comparisons qualify for scored testing. Intentionally louder masters are never eligible.');root.append(notice);
+const tabs=el('div',{class:'tsq-abx-tabs',role:'group','aria-label':'ABX difficulty'});
+const modes=[['training','Training'],['challenge','Challenge · 10 trials'],['advanced','Advanced · 20 trials']];
+let mode='training',testId=catalog[0][0],round=0,correct=0,answer='A',locked=false,live=null,session=null;
+let transport=null;
+const choose=el('select',{'aria-label':'Choose ABX comparison'});
+catalog.forEach(([id,t])=>choose.append(el('option',{value:id},t.label)));
+const meta=el('p',{class:'tsq-abx-meta'});
+const buttons=el('div',{class:'tsq-abx-player',role:'group','aria-label':'Listen to references and mystery X'});
+const playButtons={};
+for(const slot of ['A','B','X']){const btn=el('button',{type:'button','data-slot':slot},'▶ '+slot);playButtons[slot]=btn;buttons.append(btn)}
+const answerRow=el('div',{class:'tsq-abx-answers'});
+const guessA=el('button',{type:'button'},'X is A'),guessB=el('button',{type:'button'},'X is B'),next=el('button',{type:'button'},'Next trial');
+answerRow.append(guessA,guessB,next);
+const progress=el('p',{class:'tsq-abx-progress',role:'status','aria-live':'polite'});
+const consentLabel=el('label',{class:'tsq-abx-consent'});const consent=el('input',{type:'checkbox'});consentLabel.append(consent,document.createTextNode(' Include my completed, anonymous session in community statistics (optional).'));
+const scoreboard=el('div',{class:'tsq-abx-scoreboard',role:'status','aria-live':'polite'});
+root.append(tabs,choose,meta,buttons,answerRow,consentLabel,progress,scoreboard);
+const audio=new Audio();audio.preload='auto';audio.crossOrigin='anonymous';
+let pending=false;
+function stop(){audio.pause();audio.removeAttribute('src');audio.load()}
+async function api(path,payload){
+const res=await fetch(API+path,{method:'POST',mode:'cors',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+if(!res.ok)throw Error('Scored ABX service unavailable ('+res.status+').');
+return res.json();
+}
+function setMode(value){mode=value;tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));reset()}
+modes.forEach(([id,label])=>{const b=el('button',{type:'button','data-mode':id},label);b.onclick=()=>setMode(id);tabs.append(b)});
+function render(){
+const spec=tests[testId];meta.textContent=spec.note;
+const scored=mode!=='training';
+const total=scored?(mode==='advanced'?20:10):10;
+consentLabel.hidden=!scored;
+next.hidden=!locked;guessA.disabled=locked||pending;guessB.disabled=locked||pending;
+choose.disabled=Boolean(session)||pending;
+progress.textContent='Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · No answer feedback until completion');
+}
+function reset(){stop();round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else startScored()}
+function newTraining(){answer=Math.random()<.5?'A':'B';locked=false;live={A:tests[testId].a,B:tests[testId].b,X:answer==='A'?tests[testId].a:tests[testId].b};render()}
+async function startScored(){
+pending=true;render();for(const b of Object.values(playButtons))b.disabled=true;
+try {
+const data=await api('/v1/start',{testId,mode,share:consent.checked});
+if(!data.sessionId||!data.urls||!data.roundToken)throw Error('Invalid session response');
+session={id:data.sessionId,token:data.roundToken,total:data.total};live=data.urls;
+scoreboard.textContent='Scored session active. Correct answers remain hidden until all rounds are finished.';
+} catch(err){scoreboard.textContent='Scored tests are not open yet. This comparison needs a validated, protected audio source and a working server. Training remains available.';session=null;live=null}
+finally{pending=false;for(const b of Object.values(playButtons))b.disabled=!live;render()}
+}
+async function play(slot){
+if(!live||pending)return;
+const src=live[slot];if(!src)return;
+try {
+const t=Number.isFinite(audio.currentTime)?audio.currentTime:0;
+if(audio.src!==new URL(src,location.href).href){const wasPlaying=!audio.paused;audio.pause();audio.src=src;audio.load();audio.addEventListener('loadedmetadata',()=>{try{audio.currentTime=Math.min(t,Math.max(0,audio.duration-.05))}catch{}},{once:true});if(wasPlaying)await audio.play()}
+else if(audio.paused)await audio.play();else audio.pause();
+Object.entries(playButtons).forEach(([key,b])=>b.setAttribute('aria-pressed',String(key===slot)));
+}catch{scoreboard.textContent='Playback failed. Check audio access or try another device.'}
+}
+for(const [slot,btn] of Object.entries(playButtons))btn.onclick=()=>play(slot);
+async function submit(guess){
+if(locked||pending||!live)return;locked=true;stop();
+if(mode==='training'){
+const right=guess===answer;if(right)correct++;
+scoreboard.textContent=(right?'Correct. ':'Not this round. ')+'X was '+answer+'. Training score: '+correct+'/'+(round+1)+'.';
+render();return;
+}
+pending=true;render();
+try{
+const data=await api('/v1/answer',{sessionId:session.id,roundToken:session.token,guess});
+round=data.answered;
+if(data.complete){live=null;scoreboard.textContent='Completed: '+data.correct+'/'+data.total+' correct. '+(data.shared?'Included in anonymous community statistics.':'Not shared publicly.');session=null;render();return;}
+session.token=data.roundToken;live=data.urls;locked=false;scoreboard.textContent='Answer saved. Next mystery X is ready.';render();
+}catch{scoreboard.textContent='Connection interrupted. Do not restart the page if you want to preserve this scored session.'}
+finally{pending=false;render()}
+}
+guessA.onclick=()=>submit('A');guessB.onclick=()=>submit('B');
+next.onclick=()=>{if(mode==='training'){round++;if(round>=10){scoreboard.textContent='Training complete: '+correct+'/10. These results are not submitted.';live=null;render()}else newTraining()}};
+choose.onchange=()=>{testId=choose.value;reset()};
+consent.onchange=()=>{if(mode!=='training'&&round===0&&!session)startScored()};
+setMode('training');
+}
+document.querySelectorAll('[data-abx-lab]').forEach(init);
+})();
