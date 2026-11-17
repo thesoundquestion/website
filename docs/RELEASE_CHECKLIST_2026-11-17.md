@@ -39,10 +39,11 @@
 - [ ] Authorize optional daily moderation reminder email when convenient. The community can be moderated directly in D1 without email alerts.
 - [ ] Review pending posts and permissions periodically through the existing administrative workflow.
 
-### E. Outreach and optional reader support (November 17; no donation checkout live)
+### E. Outreach and optional reader support (Ko-fi connected; support links still staged)
 - [x] Split `/connect/` contact copy into general/recording submissions and a specific equipment-loan/business inquiry mailto; include expectations for temporary loans, shipping, returns, editorial independence and disclosure. Homepage links directly to `/connect/#business-inquiries`.
-- [~] Owner supplied official Ko-fi address `https://ko-fi.com/thesoundquestion` and support links are staged in Connect and the homepage. The address was not independently fetchable by this session; owner should confirm that it loads and checkout is correctly configured before publishing. Check Ko-fi Standard vs Contributor fee status, supported Stripe/PayPal accounts and current processing terms in the account.
-- [ ] On site, prefer **Support the project**, never imply registered-charity status or tax-deductible receipts. Keep all lessons, labs and tools accessible without tips, paid memberships, ads or tracking scripts. Link externally; do not embed payment widgets or add backend/Worker calls.
+- [x] Owner confirms Ko-fi page `https://ko-fi.com/thesoundquestion` is set up with **both PayPal and Stripe linked**. External support links are staged in Connect and the homepage. This confirms account connections by owner report, not a successful third-party checkout test or independent public-page availability test.
+- [ ] Check Ko-fi Standard versus Contributor fee status, current payment/FX processing terms, and perform an optional low-value real payment test before publishing the support links.
+- [x] On site, use **Support the project** without implying registered-charity status or tax-deductible receipts. Keep lessons, labs and tools free, using external links only and no payment widgets, tracking scripts or new backend/Worker calls.
 - [ ] If real tips or supplied review hardware are accepted, review Canadian tax/bookkeeping obligations and privacy wording. CRA notes creator gifts, tips and donations can be taxable income; Canadian Competition Bureau expects disclosure of material brand/product relationships when recommending products.
 - [x] Add restrained external support links on Connect and the homepage's existing outreach section; no Ko-fi scripts, forms or back-end Worker calls. Privacy page states contributions are handled outside the site. No requests for donations within lessons.
 
