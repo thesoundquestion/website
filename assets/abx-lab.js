@@ -90,6 +90,7 @@ function stop(){
  audio.pause();audio.removeAttribute('src');audio.load();
  trainingBuffer?.pause();trainingBuffer?.seek(0);
  selectedTrainingSlot=null;
+ root.dataset.trainingPlaying='false';
  for(const button of Object.values(playButtons))button.setAttribute('aria-pressed','false');
 }
 async function api(path,payload){
@@ -115,11 +116,13 @@ consent.disabled=Boolean(session);
 choose.disabled=!spec||Boolean(session)||pending;
 progress.textContent=spec?'Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · Answers shown at completion'):'Select another level for available experiments.';
 }
-function reset(){version++;stop();trainingBuffer?.dispose();trainingBuffer=null;cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent='Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
+function reset(){version++;stop();trainingBuffer?.dispose();trainingBuffer=null;root.dataset.playbackMode='native';cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent='Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
 function newTraining(){
  answer=Math.random()<.5?'A':'B';locked=false;
  const a=localSource(TRAIN_A),b=localSource(TRAIN_B);
  live=a&&b?{A:a,B:b,X:answer==='A'?a:b}:null;
+ root.dataset.playbackMode=trainingBuffer?.isReady()?'synchronized':'native';
+ root.dataset.trainingPlaying='false';
  render();
 }
 async function prepareTraining(){
@@ -132,6 +135,7 @@ async function prepareTraining(){
   try{
    stagedBuffer=new window.TSQFormatBuffers({onEnded:()=>{
     selectedTrainingSlot=null;
+    root.dataset.trainingPlaying='false';
     for(const button of Object.values(playButtons))button.setAttribute('aria-pressed','false');
    }});
    stagedBuffer.unlock();
@@ -212,6 +216,7 @@ async function play(slot){
   trainingBuffer.select(format);
   if(toggleOff)trainingBuffer.pause();
   else if(!trainingBuffer.isPlaying())trainingBuffer.play();
+  root.dataset.trainingPlaying=String(trainingBuffer.isPlaying());
   Object.entries(playButtons).forEach(([key,b])=>b.setAttribute('aria-pressed',String(key===slot)));
   return;
  }
