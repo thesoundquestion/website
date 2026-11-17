@@ -74,3 +74,19 @@ test('player script executes only after all its DOM controls exist', () => {
   assert.match(html, /if \(resume\) player\.play\(\)/,
     'Resuming on a user tap must not wait until a later metadata event');
 });
+
+
+test('buffered format switching is available without changing source assets', () => {
+  const engine = readFileSync(path.join(root, 'assets/format-comparison-engine.js'), 'utf8');
+  assert.match(html, /<script src="\/assets\/format-comparison-engine\.js"><\/script>/);
+  assert.match(html, /new window\.TSQFormatBuffers/);
+  assert.match(html, /if \(buffered\(\)\)/);
+  assert.match(html, /engine\.select\(state\.format\)/);
+  assert.match(html, /state\.mode = 'native'/);
+  assert.match(html, /Press Play to prepare the three versions/);
+  assert.match(engine, /decodeAudioData/);
+  assert.match(engine, /for \(const source of nodes\.values\(\)\) source\.start\(start, at/);
+  assert.match(engine, /linearRampToValueAtTime/);
+  assert.doesNotMatch(engine, /localStorage|sessionStorage|navigator\.sendBeacon/);
+  assert.doesNotThrow(() => new Script(engine), 'external browser engine syntax must parse');
+});
