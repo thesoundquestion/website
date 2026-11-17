@@ -17,8 +17,8 @@
 - [x] Replace Mastering's three page-load FLAC downloads with original source-measured static stereo SVGs (960 min/max/RMS bins; matching shared amplitude scale), and retain hashes in provenance.
 - [x] Retire the hidden duplicate Mastering ABX controls and listeners, leaving the dedicated ABX Lab link.
 - [x] Audit PR #11: synchronized Web Audio playback is the only tested implementation that avoids source-reload gaps; eager three-file decoding is too expensive as the default.
-- [~] **Optional prepared/instant mode staged in Formats**, adapted from PR #11: native Play stays default, explicit preparation downloads three versions of only the chosen song with 14 MiB compressed/48 MiB decoded PCM caps, one group readiness status, and graceful return/fallback to native. Real Chrome, Android/iOS and network/latency validation is still open. Do not claim a gapless guarantee across all browsers.
-- [~] Real Chrome desktop/mobile-emulated regression now exercises prepared A/B/A switching, no new media requests after ready, stable playhead and return to native; workflow result pending. Listen for actual clicks/gaps and verify physical Android/iOS, FLAC CORS, memory and account Worker/KV counts. Native mode still restarts its media source.
+- [~] **Optional prepared/instant mode staged in Formats**, adapted from PR #11: native Play remains default; explicit preparation downloads only three versions of the chosen song with 14 MiB compressed/48 MiB decoded PCM caps, one group readiness and native fallback. Desktop and mobile-emulated Chrome tests passed against real audio. Physical Android/iOS, memory, Worker and listening-gap measurements remain open; no cross-browser gapless guarantee.
+- [~] Real Chrome desktop/mobile-emulated playback passed for prepared A/B/A switching, no new requests after preparation, stable playhead and return to native. Chrome also fetched and decoded real hosted FLAC/MP3 sources. Physical Android/iOS listening for clicks/stutter, memory and account Worker/KV usage remain open. Native mode still restarts its media source.
 - [ ] Check Mixing, Mastering and ABX source switching for the same user-visible pause. Their current bounded caches reduce download delays but cannot guarantee gapless switching by themselves.
 - [x] Add ABX, community, share, waveform and readiness files to required Pages build and validate waveform SVG checksums.
 - [x] Source-level internal link and anchor integrity covers 1000+ hrefs; normalize Mastering logo, main navigation and mobile menu to the site's shared labels. Final visual review remains separate.
@@ -29,7 +29,7 @@
 - [x] Pre-release audit checked 47 sitemap routes and the existing 24-lesson sequence.
 - [x] Current build checks approved MP3 hashes and the illustrated handbook; retired quick-guide PDF is omitted.
 - [x] Add plain-language introductory summaries to the longest frequency response, mixing and mastering lessons; preserve advanced sections for interested readers.
-- [~] Add plain-English definitions for LUFS, crest factor and dBTP in Mastering, and kbps/RMS in Formats. Full cross-site first-use vocabulary review still outstanding.
+- [~] Mastering defines LUFS, crest factor and dBTP, while Formats explains bitrate/kbps beside the buttons and RMS in the technical section. The Mixing Lab hero now says “Matched average loudness” instead of leading with LUFS, with its measurement explained later. Source openings were spot-checked across 30 key Decoder/Lab pages. Full body-text first-use and screen-reader editorial review remain outstanding.
 - [x] Explain 51 curated selections versus 53 tracks: a three-song suite appears as one curated entry.
 - [~] Desktop and mobile-emulated Chrome browser tests pass on Formats, Mastering, ABX training and community UI; verify an actual phone before calling the device review complete.
 
@@ -40,16 +40,16 @@
 
 ### E. Related draft reconciliation, no blind branch merges
 - [~] PR #11 adapted as an explicit optional prepared mode (not default) in this draft; integration tests and release validation still pending. Old PR remains open until reconciled. See `docs/formats-lab/README.md`.
-- [ ] PR #10: 59-page handbook already present in `main`; reconcile/close outdated draft.
-- [ ] PR #1: old System Builder draft; `main` already has the tool.
+- [x] PR #10 closed as superseded after confirming merged PR #13/#14, main PDF size/hash build gate, current illustrated link and legacy 301 redirect. No re-merge.
+- [~] PR #1 is **not simply a duplicate**: main has System Builder, but this draft contains additional ownership-first shortlists, pricing safeguards and owner-evidence work. Keep it unmerged and separate for review; do not close it merely because main contains the tool.
 
 **No automatic Cloudflare Pages deployments. No paid upgrades as a shortcut.**
 
 ## Current test evidence
 
-- The earlier unit test and desktop/mobile-emulated browser workflow passed before the prepared-audio additions. **Recheck the new head's CI and actual playback before treating these results as current.**
+- Site regression and browser playback workflows **passed** for the prepared engine and updated first-use wording (Chrome desktop and mobile emulation); example runs: [site regression](https://github.com/thesoundquestion/website/actions/runs/44133542922), [browser playback](https://github.com/thesoundquestion/website/actions/runs/44133543081). An additional oversized-payload regression was committed afterwards and must pass at the latest head too.
 - Scored ABX mock browser regression: 10 rounds, one deliberately failed X request recovered through `/v1/resume`, no new Worker requests from repeated A/B/X, another attempt starts with consent OFF. This is **not** the live scoring backend.
 - Formats browser regression: zero media requests before Play, including switching tracks and song; on-demand audio playback still succeeds.
 - Detailed Mastering waveform SVGs load without downloading FLAC data, with verified source-file hashes.
-- GitHub PR #11 remains open. **Optional prepared same-clock switching is now staged, not proven on real devices.** The default native player continues approximate-position source swapping. Full device/Worker tests and independent listening checks remain necessary.
+- GitHub PR #11 remains open. **Optional prepared same-clock switching is now browser-tested in Chrome desktop/mobile emulation** against real hosted sources. The default native player still uses approximate-position swaps; validate physical devices and measure free-tier impact before claiming release readiness.
 
