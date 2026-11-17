@@ -63,10 +63,17 @@
       const resumePromise = this.context.resume();
       this.abort = new AbortController();
       const signal = this.abort.signal;
+      // ABX supplies only two distinct recordings: the third format alias is
+      // intentionally identical to B. Reuse the SAME decoded AudioBuffer.
+      // Downloading/decoding B twice inflated memory and byte accounting and
+      // could trigger native <audio> fallback, leaking X's identity through
+      // a gap when changing recordings.
+      const uniqueUrls = [...new Set(FORMATS.map(format => urls[format]))];
+      const decodedByUrl = new Map();
       let downloaded = 0, downloadedBytes = 0, decodedBytes = 0;
-      const tracks = await Promise.all(FORMATS.map(async format => {
-        const res = await fetch(urls[format], { signal, cache: 'force-cache' });
-        if (!res.ok) throw new Error('HTTP ' + res.status + ' for ' + format);
+      const uniqueTracks = await Promise.all(uniqueUrls.map(async url => {
+        const res = await fetch(url, { signal, cache: 'force-cache' });
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' for audio preparation');
         const declared = Number(res.headers?.get?.('content-length') || 0);
         if (declared > MAX_DOWNLOAD_BYTES) throw new Error('Too much audio to prepare.');
         const bytes = await res.arrayBuffer();
@@ -74,15 +81,17 @@
         if (downloadedBytes > MAX_DOWNLOAD_BYTES) throw new Error('Too much audio to prepare.');
         if (signal.aborted) throw new Error('Audio preparation was cancelled.');
         downloaded++;
-        if (token === this.version) this.onProgress(downloaded, FORMATS.length);
+        if (token === this.version) this.onProgress(downloaded, uniqueUrls.length);
         const decoded = await this.context.decodeAudioData(bytes);
         if (decoded.numberOfChannels !== 2 || decoded.length < 44100) {
-          throw new Error('Invalid stereo comparison source: ' + format);
+          throw new Error('Invalid stereo comparison source.');
         }
         decodedBytes += decoded.length * decoded.numberOfChannels * 4;
         if (decodedBytes > MAX_DECODED_BYTES) throw new Error('Decoded audio exceeds the preparation limit.');
-        return [format, decoded];
+        return [url, decoded];
       }));
+      for (const [url, buffer] of uniqueTracks) decodedByUrl.set(url, buffer);
+      const tracks = FORMATS.map(format => [format, decodedByUrl.get(urls[format])]);
       await resumePromise;
       if (token !== this.version || signal.aborted) return false;
       this.buffers = new Map(tracks);
