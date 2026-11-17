@@ -26,7 +26,7 @@
 - [x] Pre-release audit checked 47 sitemap routes and the existing 24-lesson sequence.
 - [x] Current build checks approved MP3 hashes and the illustrated handbook; retired quick-guide PDF is omitted.
 - [x] Add plain-language introductory summaries to the longest frequency response, mixing and mastering lessons; preserve advanced sections for interested readers.
-- [ ] Ensure the first use of specialist vocabulary is explained with a short real-life example.
+- [~] Add plain-English definitions for LUFS, crest factor and dBTP in Mastering, and kbps/RMS in Formats. Full cross-site first-use vocabulary review still outstanding.
 - [x] Explain 51 curated selections versus 53 tracks: a three-song suite appears as one curated entry.
 - [ ] Review real mobile layout and final lesson flow.
 

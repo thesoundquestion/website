@@ -72,3 +72,13 @@ test('rights policy offers direct contact and long lessons begin with plain-lang
  }
  assert.match(read('library/curators-listening-room/index.html'),/51 selections cover 53 tracks/);
 });
+
+test('Mastering metrics and MP3 technical notes explain core units without assuming audio jargon',()=>{
+ const master=read('lab/mastering/index.html');
+ const formats=read('labs/formats/index.html');
+ assert.match(master,/LUFS<\/strong> estimates how loud/);
+ assert.match(master,/dBTP<\/strong> is a peak-level estimate/);
+ assert.match(master,/numbers explain what changed, not which master is better/);
+ assert.match(formats,/kbps \(kilobits per second\)/);
+ assert.match(formats,/RMS \(an average signal-level measure\)/);
+});
