@@ -40,11 +40,22 @@ const progress=el('p',{class:'tsq-abx-progress',role:'status','aria-live':'polit
 const consentLabel=el('label',{class:'tsq-abx-consent'});const consent=el('input',{type:'checkbox'});consentLabel.append(consent,document.createTextNode(' Include my completed, anonymous session in community statistics (optional).'));
 const scoreboard=el('div',{class:'tsq-abx-scoreboard',role:'status','aria-live':'polite'});
 const startButton=el('button',{type:'button',class:'tsq-abx-start'},'Start scored session');
+const prepareButton=el('button',{type:'button',class:'tsq-abx-start'},'Prepare recordings');
+const trialReadiness=el('p',{class:'tsq-abx-trial-readiness','data-readiness':'wait',role:'status','aria-live':'polite'},'Please wait');
 const statsButton=el('button',{type:'button',class:'tsq-abx-stats-button'},'View community results');
 const statsBox=el('div',{class:'tsq-abx-stats',role:'status','aria-live':'polite'});
-root.append(tabs,choose,meta,buttons,answerRow,consentLabel,startButton,progress,scoreboard,statsButton,statsBox);
+root.append(tabs,choose,meta,trialReadiness,prepareButton,buttons,answerRow,consentLabel,startButton,progress,scoreboard,statsButton,statsBox);
 const audio=document.createElement('audio');audio.preload='auto';audio.crossOrigin='anonymous';audio.hidden=true;root.append(audio);
-let pending=false,playGeneration=0;
+let pending=false,playGeneration=0,prepareFailed=false;
+const readiness=window.TSQLabReadiness;
+const cache=readiness.createCache({maxFiles:3,maxBytes:25*1024*1024,onChange:()=>render()});
+const TRAIN_A='training:A',TRAIN_B='training:B';
+const SCORE_A='scored:A',SCORE_B='scored:B',SCORE_X='scored:X';
+function switchStates(){
+ const allReady=Boolean(live&&!pending&&!prepareFailed);
+ readiness.set(trialReadiness,prepareFailed?'offline':allReady?'ready':'wait');
+}
+function localSource(type){return cache.get(type)}
 function stop(){playGeneration++;audio.pause();audio.removeAttribute('src');audio.load()}
 async function api(path,payload){
 const res=await fetch(API+path,{method:'POST',mode:'cors',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
@@ -58,6 +69,8 @@ const spec=tests[testId];meta.textContent=spec.note;
 const scored=mode!=='training';
 const total=scored?(mode==='advanced'?20:10):10;
 consentLabel.hidden=!scored;startButton.hidden=!scored||Boolean(session);startButton.disabled=pending;
+prepareButton.hidden=scored||Boolean(live)||round>=10;prepareButton.disabled=pending;
+switchStates();
 next.hidden=!locked||scored;guessA.disabled=locked||pending||!live;guessB.disabled=locked||pending||!live;
 for(const b of Object.values(playButtons))b.disabled=pending||!live;
 for(const b of tabs.querySelectorAll('button'))b.disabled=Boolean(session);
@@ -65,8 +78,39 @@ consent.disabled=Boolean(session);
 choose.disabled=Boolean(session)||pending;
 progress.textContent='Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · No answer feedback until completion');
 }
-function reset(){version++;stop();round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else scoreboard.textContent='Scored trials only open after technical review. Choose whether to share your completed result, then press Start scored session.'}
-function newTraining(){answer=Math.random()<.5?'A':'B';locked=false;live={A:tests[testId].a,B:tests[testId].b,X:answer==='A'?tests[testId].a:tests[testId].b};render()}
+function reset(){version++;stop();cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else scoreboard.textContent='Scored trials only open after technical review. Choose whether to share your completed result, then press Start scored session.'}
+function newTraining(){
+ answer=Math.random()<.5?'A':'B';locked=false;
+ const a=localSource(TRAIN_A),b=localSource(TRAIN_B);
+ live=a&&b?{A:a,B:b,X:answer==='A'?a:b}:null;
+ render();
+}
+async function prepareTraining(){
+ if(mode!=='training'||pending||live)return;
+ const myVersion=version;pending=true;prepareFailed=false;render();
+ try{
+  const a=await cache.prepare(TRAIN_A,tests[testId].a,{pinned:[TRAIN_A]});
+  if(!a||version!==myVersion)return;
+  const b=await cache.prepare(TRAIN_B,tests[testId].b,{pinned:[TRAIN_A,TRAIN_B]});
+  if(!b||version!==myVersion)return;
+  newTraining();
+  scoreboard.textContent='Both recordings are prepared. Listen to A, B and X, then choose your answer.';
+ }finally{
+  if(version===myVersion){pending=false;prepareFailed=!cache.has(TRAIN_A)||!cache.has(TRAIN_B);
+   if(prepareFailed)scoreboard.textContent='Unable to prepare both recordings reliably. Check your connection and try a different comparison.';
+   render();
+  }
+ }
+}
+async function prepareScoredTrial(urls,{initial=false}={}){
+ if(initial){
+  const a=await cache.prepare(SCORE_A,urls.A,{pinned:[SCORE_A]});if(!a)throw Error('Reference A is not prepared');
+  const b=await cache.prepare(SCORE_B,urls.B,{pinned:[SCORE_A,SCORE_B]});if(!b)throw Error('Reference B is not prepared');
+ }else cache.drop(SCORE_X);
+ const x=await cache.prepare(SCORE_X,urls.X,{pinned:[SCORE_A,SCORE_B]});
+ if(!x||!cache.has(SCORE_A)||!cache.has(SCORE_B))throw Error('Trial preparation incomplete');
+ return {A:cache.get(SCORE_A),B:cache.get(SCORE_B),X:x};
+}
 async function startScored(){
 const myVersion=version;
 pending=true;render();
@@ -75,10 +119,11 @@ try {
  if(myVersion!==version)return;
  if(!data.sessionId||!data.controlKey||!data.urls||!data.roundToken)throw Error('Invalid server session');
  session={id:data.sessionId,controlKey:data.controlKey,token:data.roundToken,total:data.total};
- live=data.urls;
+ live=await prepareScoredTrial(data.urls,{initial:true});
+ if(myVersion!==version)return;
  scoreboard.textContent='Scored session active. Answers remain hidden until you finish.';
 }catch{
- if(myVersion===version){session=null;live=null;scoreboard.textContent='Scored tests are not open yet. The comparison and protected playback must first pass technical review.'}
+ if(myVersion===version){session=null;live=null;prepareFailed=true;scoreboard.textContent='Scored tests are not open yet. The comparison and protected playback must first pass technical review.'}
 }finally{if(myVersion===version){pending=false;render()}}
 }
 async function play(slot){
@@ -112,16 +157,19 @@ async function play(slot){
  }catch{if(myTurn===playGeneration)scoreboard.textContent='Playback failed or was blocked. Press the same listening button again.'}
 }
 for(const [slot,btn] of Object.entries(playButtons))btn.onclick=()=>play(slot);
-function applyServerProgress(data){
+async function applyServerProgress(data){
  if(!Number.isInteger(data.answered)||typeof data.complete!=='boolean')throw Error('Invalid response');
  round=data.answered;
  if(data.complete){
-  stop();live=null;session=null;locked=true;
+  stop();cache.clear();live=null;session=null;locked=true;
   const chance=Number.isFinite(data.chanceProbability)?' Chance of this score or higher by random guessing: '+(data.chanceProbability*100).toFixed(1)+'%.':'';
   scoreboard.textContent='Completed: '+data.correct+'/'+data.total+' correct.'+chance+' '+(data.shared?'Included in voluntary community statistics.':'Not shared publicly.');
  }else{
   if(!data.urls||!data.roundToken)throw Error('Missing next trial');
-  session.token=data.roundToken;live=data.urls;locked=false;
+  session.token=data.roundToken;
+  live=null;render();
+  live=await prepareScoredTrial(data.urls);
+  locked=false;
   scoreboard.textContent='Trial recorded. Continue listening.';
  }
  render();
@@ -139,11 +187,11 @@ async function submit(guess){
  const control={sessionId:session.id,controlKey:session.controlKey};
  try{
   const data=await api('/v1/answer',{...control,roundToken:session.token,guess});
-  applyServerProgress(data);
+  await applyServerProgress(data);
  }catch{
   try{
    const resumed=await api('/v1/resume',control);
-   applyServerProgress(resumed);
+   await applyServerProgress(resumed);
    if(!resumed.complete)scoreboard.textContent='Connection recovered; round status synchronized.';
   }catch{
    locked=false;
@@ -152,6 +200,7 @@ async function submit(guess){
  }finally{pending=false;render()}
 }
 guessA.onclick=()=>submit('A');guessB.onclick=()=>submit('B');
+prepareButton.onclick=()=>prepareTraining();
 next.onclick=()=>{if(mode==='training'){round++;if(round>=10){scoreboard.textContent='Training complete: '+correct+'/10. These results are not submitted.';live=null;render()}else newTraining()}};
 choose.onchange=()=>{testId=choose.value;reset()};
 startButton.onclick=()=>{if(mode!=='training'&&!session&&!pending)startScored()};
