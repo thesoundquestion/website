@@ -43,7 +43,7 @@ const startButton=el('button',{type:'button',class:'tsq-abx-start'},'Start score
 const statsButton=el('button',{type:'button',class:'tsq-abx-stats-button'},'View community results');
 const statsBox=el('div',{class:'tsq-abx-stats',role:'status','aria-live':'polite'});
 root.append(tabs,choose,meta,buttons,answerRow,consentLabel,startButton,progress,scoreboard,statsButton,statsBox);
-const audio=document.createElement('audio');audio.preload='auto';audio.crossOrigin='anonymous';
+const audio=document.createElement('audio');audio.preload='auto';audio.crossOrigin='anonymous';audio.hidden=true;root.append(audio);
 let pending=false,playGeneration=0;
 function stop(){playGeneration++;audio.pause();audio.removeAttribute('src');audio.load()}
 async function api(path,payload){
