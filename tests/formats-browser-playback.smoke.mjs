@@ -156,7 +156,19 @@ try {
     // changes also resume during the user's tap, not after metadata loads.
     const mixingPage=await context.newPage();
     mixingPage.on('pageerror',error=>errors.push('Mixing '+error.message));
+    const prematureMixingAudio=[];
+    const onMixingRequest=req=>{
+      if(/tsq-lab-audio\\.thesoundquestion\\.workers\\.dev\\/mixing\\//.test(req.url()))
+        prematureMixingAudio.push(req.url());
+    };
+    mixingPage.on('request',onMixingRequest);
     await mixingPage.goto('http://127.0.0.1:8765/lab/',{waitUntil:'load',timeout:30000});
+    for(const variant of ['reference','polished','narrow'])
+      await mixingPage.locator('[data-mix="'+variant+'"]').click();
+    await mixingPage.waitForTimeout(250);
+    mixingPage.off('request',onMixingRequest);
+    if(prematureMixingAudio.length)
+      throw new Error(device.name+' Mixing fetched FLAC before Play: '+JSON.stringify(prematureMixingAudio));
     await mixingPage.locator('#playToggle').click();
     await mixingPage.waitForFunction(()=>{
       const a=document.querySelector('#labAudio');
@@ -171,7 +183,7 @@ try {
       },variant,{timeout:20000});
     }
     await mixingPage.close();
-    results.push(device.name+' Mixing source changes resume reliably on the original mobile tap');
+    results.push(device.name+' Mixing zero idle FLAC requests, plus source changes that resume on the original mobile tap');
 
     await page.goto('http://127.0.0.1:8765/labs/abx/?test=formats-light-128-v1&mode=training',{waitUntil:'load',timeout:30000});
     const abx=page.locator('[data-abx-lab="all"]');
