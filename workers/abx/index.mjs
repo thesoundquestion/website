@@ -4,6 +4,7 @@
  */
 import {handleCommunity,cleanCommunity} from './community.mjs';
 import {handlePendingSummary} from './moderation-summary.mjs';
+import {handleGearSuggestions,cleanGearSuggestions} from './gear-suggestions.mjs';
 const HOST='https://tsq-lab-audio.thesoundquestion.workers.dev';
 const SOURCES=Object.freeze({
   'formats-light-128-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/light-128.mp3',HOST+'/mixing/reference.flac'],
@@ -156,6 +157,7 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
   if(url.pathname==='/v1/moderation/pending-counts')return handlePendingSummary(request,env);
   if(origin!==ORIGIN)return respond({error:'Origin not authorized'},403);
   if(url.pathname.startsWith('/v1/community/'))return handleCommunity(request,env,url,corsHeaders);
+  if(url.pathname.startsWith('/v1/gear/'))return handleGearSuggestions(request,env,url,corsHeaders);
   if(!available(env))return respond({error:'Scoring infrastructure not configured'},503);
   const ip=visitorKey(request);
   if(url.pathname.startsWith('/v1/audio/')){
@@ -228,6 +230,7 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
   if(!env.DB)return;
   await env.DB.prepare('DELETE FROM abx_sessions WHERE purge_at<?').bind(Date.now()).run();
   await cleanCommunity(env.DB);
+  if(env.GEAR_SUBMISSIONS_ENABLED==='true')await cleanGearSuggestions(env.DB);
  }
  };
 }
