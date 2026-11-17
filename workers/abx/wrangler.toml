@@ -3,9 +3,28 @@ main = "index.mjs"
 compatibility_date = "2026-11-16"
 workers_dev = true
 
-# Intentionally not deployable without a real D1 database ID and explicit validation gate.
-# Create a separate free D1 database and add the binding below before manual release.
+# NOT DEPLOYABLE. ABX_SECRET (>=32 random chars) must be added as a Worker secret.
+# D1 database binding intentionally absent until source and privacy approvals.
 # [[d1_databases]]
 # binding = "DB"
 # database_name = "tsq-abx-scores"
 # database_id = "REPLACE_WITH_APPROVED_ID"
+
+# Rate limits are approximate and location-specific, NOT global anti-cheat.
+[[ratelimits]]
+name = "API_LIMITER"
+namespace_id = "2101"
+[ratelimits.simple]
+limit = 120
+period = 60
+
+[[ratelimits]]
+name = "START_LIMITER"
+namespace_id = "2102"
+[ratelimits.simple]
+limit = 6
+period = 60
+
+# Enable daily data-retention cleanup only with approved release:
+# [triggers]
+# crons = ["17 4 * * *"]
