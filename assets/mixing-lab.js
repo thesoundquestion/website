@@ -83,7 +83,15 @@
       return;
     }
     pendingSeek = Math.max(0, Math.min(DURATION - 0.05, time));
-    audio.preload = userStarted ? 'auto' : 'none';
+    // A visitor looking at the page, or choosing a mix before Play, should
+    // cause zero media requests. preload=none alone is not a reliable guard.
+    if(!userStarted){
+      audio.removeAttribute('src');audio.preload='none';audio.load();
+      tell('Mix selected. Press Play when ready.');
+      updatePlayButton();
+      return;
+    }
+    audio.preload = 'auto';
     audio.src = files[type].local ? files[type].url : (cache.get(type) || files[type].url);
     audio.load();
     // Resume within the selection tap, not asynchronously at loadedmetadata.
@@ -161,11 +169,20 @@
   audio.addEventListener('error', () => {if(files[current])files[current].failed=true;updateVariant();tell('Playback failed. Check your connection or replace this recording with a local WAV or FLAC.')});
   playBtn.addEventListener('click', () => {
     if (!files[current]) return;
-    if (audio.paused) {userStarted=true;audio.preload='auto';audio.play().catch(() => tell('Playback unavailable. Try another WAV or browser.'))}
+    if (audio.paused) {
+      if(!userStarted){
+        const requestedCue=pendingSeek;
+        userStarted=true;setSource(current,false);
+        if(requestedCue!==null)pendingSeek=requestedCue;
+      }
+      audio.preload='auto';
+      audio.play().catch(() => tell('Playback unavailable. Try another WAV or browser.'));
+    }
     else audio.pause();
   });
   restartBtn.addEventListener('click', () => {
-    userStarted=true;audio.preload='auto';
+    if(!userStarted){userStarted=true;setSource(current,false)}
+    audio.preload='auto';
     audio.currentTime = 0;
     updateTime();
     if (audio.paused) audio.play().catch(() => tell('Press Play to start.'));
