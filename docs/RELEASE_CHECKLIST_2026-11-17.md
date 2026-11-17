@@ -39,7 +39,14 @@
 - [ ] Authorize optional daily moderation reminder email when convenient. The community can be moderated directly in D1 without email alerts.
 - [ ] Review pending posts and permissions periodically through the existing administrative workflow.
 
-### E. Related draft reconciliation, no blind branch merges
+### E. Outreach and optional reader support (November 17; no donation checkout live)
+- [x] Split `/connect/` contact copy into general/recording submissions and a specific equipment-loan/business inquiry mailto; include expectations for temporary loans, shipping, returns, editorial independence and disclosure. Homepage links directly to `/connect/#business-inquiries`.
+- [ ] Choose, create and verify a creator-support account before linking to it. First-choice: Ko-fi Standard mode for **one-time optional tips** with 0% Ko-fi platform fee (PayPal/Stripe processing still applies); note new Ko-fi accounts initially default to the 5% Contributor mode. Other viable options: Buy Me a Coffee (5% platform fee plus processing), or direct Stripe Payment Links (normal processing, no extra link service fee). Verify current terms again at activation.
+- [ ] On site, prefer **Support the project**, never imply registered-charity status or tax-deductible receipts. Keep all lessons, labs and tools accessible without tips, paid memberships, ads or tracking scripts. Link externally; do not embed payment widgets or add backend/Worker calls.
+- [ ] If real tips or supplied review hardware are accepted, review Canadian tax/bookkeeping obligations and privacy wording. CRA notes creator gifts, tips and donations can be taxable income; Canadian Competition Bureau expects disclosure of material brand/product relationships when recommending products.
+- [ ] When the support destination exists, put one restrained optional link on Connect and possibly in the global footer or homepage's existing sharing section; avoid repeated donation calls throughout the lessons.
+
+### F. Related draft reconciliation, no blind branch merges
 - [~] PR #11 adapted as an explicit optional prepared mode (not default) in this draft; integration tests and release validation still pending. Old PR remains open until reconciled. See `docs/formats-lab/README.md`.
 - [x] PR #10 closed as superseded after confirming merged PR #13/#14, main PDF size/hash build gate, current illustrated link and legacy 301 redirect. No re-merge.
 - [~] PR #1 is **not simply a duplicate**: main has System Builder, but this draft contains additional ownership-first shortlists, pricing safeguards and owner-evidence work. Keep it unmerged and separate for review; do not close it merely because main contains the tool.
