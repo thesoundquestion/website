@@ -163,6 +163,7 @@
     byId('durationLabel').textContent = pretty(player.currentTime) + ' / ' + pretty(duration());
     for(const format of ['lossless','128','320']){
       const key=trackKey(state.song,format),node=document.querySelector('[data-format-readiness="'+format+'"]');
+      node.hidden=!state.userStarted;
       readiness.set(node,readiness.status({url:currentSong()[format],failed:failures.has(key),prepared:cache.has(key),active:format===state.format,media:player,waiting:state.buffering}));
     }
   }
