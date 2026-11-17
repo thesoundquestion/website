@@ -83,6 +83,12 @@ try {
     const imgLinks=masterPage.locator('.hero-art a[href$=".svg"]');
     if(await imgLinks.count()!==3)throw new Error(device.name+' waveform full-size links missing');
     masterPage.off('request',onMasteringRequest);
+    await masterPage.locator('#playPause').click();
+    await masterPage.waitForFunction(()=>{
+      const a=document.querySelector('#playerAudio');
+      return a && a.currentTime>0.2 && !a.paused && !a.error &&
+        a.currentSrc.includes('/mastering/dynamic.flac');
+    },null,{timeout:18000});
     await masterPage.close();
     results.push(device.name+' Mastering real static stereo waveforms loaded without initial FLAC requests');
 
