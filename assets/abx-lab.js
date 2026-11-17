@@ -51,7 +51,7 @@ function configureLessonLink(){
  lesson.hidden=!spec;
  if(!spec)return;
  lesson.href=spec.lessonUrl;
- lesson.textContent='Explore the original '+({mix:'Mixing',master:'Mastering',formats:'MP3 vs Lossless'}[spec.lab])+' Lab ↗';
+ lesson.textContent='Missed the original experiment? Explore the '+({mix:'Mixing',master:'Mastering',formats:'MP3 vs Lossless'}[spec.lab])+' Lab ↗';
  lesson.target='_blank';lesson.rel='noopener noreferrer';
 }
 const meta=el('p',{class:'tsq-abx-meta'});
