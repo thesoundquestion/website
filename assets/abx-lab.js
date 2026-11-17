@@ -166,9 +166,10 @@ try {
 async function play(slot){
  if(!live||pending)return;
  const src=live[slot];if(!src)return;
+ const wasSelected=playButtons[slot].getAttribute('aria-pressed')==='true';
  const myTurn=++playGeneration;
  const time=Math.max(0,Number.isFinite(audio.currentTime)?audio.currentTime:0);
- const originalSlot=slot==='X'?answer:slot;
+ const originalSlot=mode==='training'&&slot==='X'?answer:slot;
  // Measured MP3-128 decoded RMS is ~0.436 dB quieter than the lossless
  // source; reduce the reference playback gain for Training only.
  audio.volume=mode==='training'&&/-128-v[1-9][0-9]*$/.test(testId)&&originalSlot==='A'?0.951:1;
@@ -188,7 +189,10 @@ async function play(slot){
    }
    await audio.play();
   }else if(audio.paused)await audio.play();
-  else audio.pause();
+  // X aliases an already-cached A or B in Training. Selecting a DIFFERENT
+  // label must keep playing even if the underlying Blob URL is identical.
+  // Only a second tap on the currently selected label toggles pause.
+  else if(wasSelected)audio.pause();
   if(myTurn!==playGeneration)return;
   Object.entries(playButtons).forEach(([key,b])=>b.setAttribute('aria-pressed',String(key===slot)));
  }catch{if(myTurn===playGeneration)scoreboard.textContent='Playback failed or was blocked. Press the same listening button again.'}
