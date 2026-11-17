@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createAbxService} from '../workers/abx/index.mjs';
+import {createAbxService,binomialTail} from '../workers/abx/index.mjs';
 
 const ORIGIN='https://thesoundquestion.pages.dev';
 const BASE='https://tsq-abx.example.test';
@@ -150,4 +150,11 @@ test('retention cleanup purges expired rows without disclosing identifiers',asyn
  db.rows.set('old',{purge_at:t-1000});db.rows.set('new',{purge_at:t+100000});
  await service.scheduled({},env);
  assert.equal(db.rows.has('old'),false);assert.equal(db.rows.has('new'),true);
+});
+
+test('binomial chance interpretation is exact for familiar ABX outcomes',()=>{
+ assert.equal(binomialTail(7,10),0.171875);
+ assert.equal(binomialTail(10,10),0.00097656);
+ assert.equal(binomialTail(0,20),1);
+ assert.equal(binomialTail(20,20),0.00000095);
 });
