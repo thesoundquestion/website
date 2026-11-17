@@ -21,6 +21,19 @@ test('equipment-loan outreach is discoverable and independent',()=>{
  assert.match(connect,/An offer does not guarantee coverage/);
  assert.match(connect,/Loans, gifts and paid relationships will be disclosed/);
 });
+test('optional Ko-fi support links do not gate lessons or embed payment scripts',()=>{
+ for(const page of [home,connect]){
+  assert.match(page,/href="https:\/\/ko-fi\.com\/thesoundquestion"/);
+  assert.match(page,/rel="noopener noreferrer"/);
+ }
+ assert.match(connect,/id="support-project"/);
+ assert.match(connect,/Nothing is locked behind a contribution/);
+ assert.match(privacy,/Ko-fi handles any optional financial support outside this website/);
+ for(const page of [home,connect]){
+  assert.doesNotMatch(page,/<iframe[^>]*ko-fi/i);
+  assert.doesNotMatch(page,/<script[^>]*ko-fi/i);
+ }
+});
 test('homepage has real sharing actions and no third-party social media scripts',()=>{
  assert.match(home,/id="nativeShare"/);
  assert.match(home,/id="copySiteLink"/);
