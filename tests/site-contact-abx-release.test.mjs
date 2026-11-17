@@ -13,6 +13,14 @@ test('public email invites educational ideas and permission offers with no conta
  assert.match(connect,/materials that you own or are authorized/);
  assert.match(privacy,/Contact email/);
 });
+test('equipment-loan outreach is discoverable and independent',()=>{
+ assert.match(home,/href="\/connect\/#business-inquiries"/);
+ assert.match(connect,/id="business-inquiries"/);
+ assert.match(connect,/mailto:thesoundquestion@gmail\.com\?subject=The%20Sound%20Question%20-%20Equipment/);
+ assert.match(connect,/temporary loan/);
+ assert.match(connect,/An offer does not guarantee coverage/);
+ assert.match(connect,/Loans, gifts and paid relationships will be disclosed/);
+});
 test('homepage has real sharing actions and no third-party social media scripts',()=>{
  assert.match(home,/id="nativeShare"/);
  assert.match(home,/id="copySiteLink"/);
