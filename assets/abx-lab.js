@@ -45,7 +45,10 @@ const trialReadiness=el('p',{class:'tsq-abx-trial-readiness','data-readiness':'w
 const statsButton=el('button',{type:'button',class:'tsq-abx-stats-button'},'View community results');
 const statsBox=el('div',{class:'tsq-abx-stats',role:'status','aria-live':'polite'});
 root.append(tabs,choose,meta,trialReadiness,prepareButton,buttons,answerRow,consentLabel,startButton,progress,scoreboard,statsButton,statsBox);
-const audio=document.createElement('audio');audio.preload='auto';audio.crossOrigin='anonymous';audio.hidden=true;root.append(audio);
+const audio=document.createElement('audio');audio.preload='none';audio.crossOrigin='anonymous';audio.hidden=true;root.append(audio);
+const takeFocus=()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'abx'}}));
+audio.addEventListener('play',takeFocus);
+document.addEventListener('tsq-lab-audio-focus',event=>{if(event.detail?.owner!=='abx')audio.pause()});
 let pending=false,playGeneration=0,prepareFailed=false;
 const readiness=window.TSQLabReadiness;
 const cache=readiness.createCache({maxFiles:3,maxBytes:25*1024*1024,onChange:()=>render()});
@@ -89,7 +92,7 @@ async function prepareTraining(){
  if(mode!=='training'||pending||live)return;
  const myVersion=version;
  if(prepareFailed)cache.clear(); // Explicit retry after offline preparation, not an idle retry loop.
- pending=true;prepareFailed=false;render();
+ pending=true;prepareFailed=false;takeFocus();render();
  try{
   const a=await cache.prepare(TRAIN_A,tests[testId].a,{pinned:[TRAIN_A]});
   if(!a||version!==myVersion)return;
@@ -115,7 +118,7 @@ async function prepareScoredTrial(urls,{initial=false}={}){
 }
 async function startScored(){
 const myVersion=version;
-pending=true;render();
+pending=true;takeFocus();render();
 try {
  const data=await api('/v1/start',{testId,mode,share:consent.checked});
  if(myVersion!==version)return;
