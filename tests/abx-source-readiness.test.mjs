@@ -60,6 +60,6 @@ test('format variant hashes, sample alignment and level differences match the ap
 test('never conflate sighted demonstrations with scored ABX validity',()=>{
  assert.match(client,/Only level-matched and technically verified comparisons qualify/);
  assert.doesNotMatch(server,/\/mastering\/(?:brickwalled|moderate)\.flac/);
- assert.match(server,/not a cheat-proof ABX channel/);
+ assert.match(server,/not a cheat-proof ABX channel/i);
  assert.doesNotMatch(client,/personal best leaderboard|certified hearing/i);
 });
