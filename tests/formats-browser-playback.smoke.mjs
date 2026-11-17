@@ -149,8 +149,51 @@ try {
       return a&&a.currentTime>0.2&&!a.paused&&!a.error&&
         document.querySelector('.variant.is-selected strong')?.textContent.includes('Moderate');
     },null,{timeout:20000});
+    // A visitor may compare arbitrary older/newer masters with ordinary
+    // filenames. Verify the manual WAV slots, local-only playback, and that
+    // the app stops describing the personal recordings as its measured demo.
+    await masterPage.locator('#playPause').click(); // pause first
+    await masterPage.locator('.fileload summary').click();
+    const silentWav=()=>{
+      const rate=22050,samples=rate*4,buffer=Buffer.alloc(44+samples*2);
+      buffer.write('RIFF',0);buffer.writeUInt32LE(buffer.length-8,4);
+      buffer.write('WAVE',8);buffer.write('fmt ',12);buffer.writeUInt32LE(16,16);
+      buffer.writeUInt16LE(1,20);buffer.writeUInt16LE(1,22);
+      buffer.writeUInt32LE(rate,24);buffer.writeUInt32LE(rate*2,28);
+      buffer.writeUInt16LE(2,32);buffer.writeUInt16LE(16,34);
+      buffer.write('data',36);buffer.writeUInt32LE(samples*2,40);
+      return buffer;
+    };
+    await masterPage.locator('[data-master-slot="0"]').setInputFiles({
+      name:'Original album release.wav',mimeType:'audio/wav',buffer:silentWav()
+    });
+    await masterPage.locator('[data-master-slot="1"]').setInputFiles({
+      name:'Later remaster.wav',mimeType:'audio/wav',buffer:silentWav()
+    });
+    if(!(await masterPage.locator('#modeBadge').innerText()).includes('not volume-matched'))
+      throw new Error(device.name+' personal Mastering files falsely claim matched volume');
+    if(await masterPage.locator('#ownMasteringNotice').isHidden())
+      throw new Error(device.name+' personal Mastering limitations not disclosed');
+    const wavButtons=await masterPage.locator('.variant .choose strong').allTextContents();
+    if(!wavButtons[0].includes('Your WAV A')||!wavButtons[1].includes('Your WAV B'))
+      throw new Error(device.name+' personal Mastering labels did not replace demo labels');
+    await masterPage.locator('.variant .choose').nth(0).click();
+    await masterPage.locator('#playPause').click();
+    await masterPage.waitForFunction(()=>{
+      const a=document.querySelector('#playerAudio');
+      return a?.currentSrc.startsWith('blob:')&&!a.paused&&a.currentTime>0.2&&!a.error;
+    },null,{timeout:15000});
+    await masterPage.locator('.variant .choose').nth(1).click();
+    await masterPage.waitForFunction(()=>{
+      const a=document.querySelector('#playerAudio');
+      return a?.currentSrc.startsWith('blob:')&&!a.paused&&a.currentTime>0.2&&!a.error &&
+        document.querySelector('.variant.is-selected small')?.textContent==='Later remaster.wav';
+    },null,{timeout:15000});
+    await masterPage.locator('[data-tab="eq"]').click();
+    if(await masterPage.locator('#personalWavSlots label').nth(2).isVisible())
+      throw new Error(device.name+' third WAV chooser shown for two-version EQ test');
     await masterPage.close();
-    results.push(device.name+' Mastering real static waveforms and continued playback after switching masters');
+    results.push(device.name+' Mastering demo switching and personal original/remaster WAV playback, honest labels and no files uploaded');
 
     // Mixing uses a different audio controller: verify that its source
     // changes also resume during the user's tap, not after metadata loads.
