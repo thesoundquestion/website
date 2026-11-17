@@ -40,7 +40,10 @@ answerRow.append(guessA,guessB,next);
 const progress=el('p',{class:'tsq-abx-progress',role:'status','aria-live':'polite'});
 const consentLabel=el('label',{class:'tsq-abx-consent'});const consent=el('input',{type:'checkbox'});consentLabel.append(consent,document.createTextNode(' Include my completed, anonymous session in community statistics (optional).'));
 const scoreboard=el('div',{class:'tsq-abx-scoreboard',role:'status','aria-live':'polite'});
-root.append(tabs,choose,meta,buttons,answerRow,consentLabel,progress,scoreboard);
+const startButton=el('button',{type:'button',class:'tsq-abx-start'},'Start scored session');
+const statsButton=el('button',{type:'button',class:'tsq-abx-stats-button'},'View community results');
+const statsBox=el('div',{class:'tsq-abx-stats',role:'status','aria-live':'polite'});
+root.append(tabs,choose,meta,buttons,answerRow,consentLabel,startButton,progress,scoreboard,statsButton,statsBox);
 const audio=new Audio();audio.preload='auto';audio.crossOrigin='anonymous';
 let pending=false;
 function stop(){audio.pause();audio.removeAttribute('src');audio.load()}
@@ -55,12 +58,12 @@ function render(){
 const spec=tests[testId];meta.textContent=spec.note;
 const scored=mode!=='training';
 const total=scored?(mode==='advanced'?20:10):10;
-consentLabel.hidden=!scored;
-next.hidden=!locked;guessA.disabled=locked||pending;guessB.disabled=locked||pending;
+consentLabel.hidden=!scored;startButton.hidden=!scored||Boolean(session);startButton.disabled=pending;
+next.hidden=!locked;guessA.disabled=locked||pending||!live;guessB.disabled=locked||pending||!live;
 choose.disabled=Boolean(session)||pending;
 progress.textContent='Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · No answer feedback until completion');
 }
-function reset(){stop();round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else startScored()}
+function reset(){stop();round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else scoreboard.textContent='Scored trials only open after technical review. Choose whether to share your completed result, then press Start scored session.'}
 function newTraining(){answer=Math.random()<.5?'A':'B';locked=false;live={A:tests[testId].a,B:tests[testId].b,X:answer==='A'?tests[testId].a:tests[testId].b};render()}
 async function startScored(){
 pending=true;render();for(const b of Object.values(playButtons))b.disabled=true;
@@ -102,7 +105,8 @@ finally{pending=false;render()}
 guessA.onclick=()=>submit('A');guessB.onclick=()=>submit('B');
 next.onclick=()=>{if(mode==='training'){round++;if(round>=10){scoreboard.textContent='Training complete: '+correct+'/10. These results are not submitted.';live=null;render()}else newTraining()}};
 choose.onchange=()=>{testId=choose.value;reset()};
-consent.onchange=()=>{if(mode!=='training'&&round===0&&!session)startScored()};
+startButton.onclick=()=>{if(mode!=='training'&&!session&&!pending)startScored()};
+statsButton.onclick=async()=>{statsBox.textContent='Checking available community statistics…';try{const response=await fetch(API+'/v1/stats',{mode:'cors'});if(!response.ok)throw Error('unavailable');const data=await response.json();const values=Array.isArray(data.results)?data.results:[];statsBox.textContent='';if(!values.length){statsBox.textContent='No eligible community results yet. At least 10 completed opt-in sessions are required per comparison.';return}const table=el('table',{class:'tsq-abx-results'}),header=el('tr');for(const field of ['Comparison','Level','Sessions','Mean correct'])header.append(el('th',{},field));table.append(header);for(const x of values){const tr=el('tr');for(const value of [x.test_id,x.mode,String(x.sessions),Math.round(Number(x.accuracy)*100)+'%'])tr.append(el('td',{},value));table.append(tr)}statsBox.append(table,el('p',{},data.note||'Unsupervised, voluntary community listening sessions.'))}catch{statsBox.textContent='Community results are not yet available. The secure scoring service has not been released.'}};
 setMode('training');
 }
 document.querySelectorAll('[data-abx-lab]').forEach(init);
