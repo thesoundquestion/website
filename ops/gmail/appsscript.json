@@ -1,0 +1,14 @@
+{
+  "timeZone": "America/Halifax",
+  "dependencies": {
+    "enabledAdvancedServices": [
+      {"userSymbol":"Gmail","version":"v1","serviceId":"gmail"}
+    ]
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/gmail.settings.basic",
+    "https://www.googleapis.com/auth/gmail.labels",
+    "https://www.googleapis.com/auth/gmail.readonly"
+  ],
+  "runtimeVersion": "V8"
+}
