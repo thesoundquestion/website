@@ -6,6 +6,7 @@ on:
     paths:
       - labs/formats/index.html
       - tests/formats-browser-playback.smoke.mjs
+      - tests/abx-scored-browser.mock.mjs
       - .github/workflows/formats-browser-playback.yml
 permissions:
   contents: read
@@ -31,3 +32,4 @@ jobs:
           trap 'kill $server_pid || true' EXIT
           sleep 1
           timeout 110s node tests/formats-browser-playback.smoke.mjs
+          timeout 75s node tests/abx-scored-browser.mock.mjs
