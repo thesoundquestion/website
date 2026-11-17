@@ -168,3 +168,19 @@ test('ABX refuses audio serving if audio-specific rate limiter denies the reques
  assert.equal(r.status,429);
  assert.match(r.data.error,/Audio request limit reached/);
 });
+
+test('FLAC sources use internal audio Service Binding instead of another public Worker fetch',async()=>{
+ const {db,env}=setup();
+ const main='https://tsq-lab-audio.thesoundquestion.workers.dev';
+ const service=createAbxService({validated:new Map([['test-v1',['challenge']]]),sources:{'test-v1':[main+'/mastering/matched-dynamic.flac',main+'/mastering/matched-moderate.flac']}});
+ const first=await begin(service,env);
+ const originalFetch=globalThis.fetch;
+ let internal=0,external=0;
+ env.AUDIO_SERVICE={fetch:async request=>{internal++;assert.match(request.url,/tsq-lab-audio/);return new Response(new Uint8Array([1,2,3]),{headers:{'content-type':'audio/flac'}})}};
+ try {
+  globalThis.fetch=async()=>{external++;throw Error('Unexpected public subrequest')};
+  const req=new Request(new URL(first.urls.A).href,{headers:{origin:ORIGIN}});
+  const res=await service.fetch(req,env);
+  assert.equal(res.status,200);assert.equal(internal,1);assert.equal(external,0);
+ } finally {globalThis.fetch=originalFetch}
+});

@@ -30,6 +30,13 @@ namespace_id = "2102"
 limit = 6
 period = 60
 
+# Route FLAC subrequests through the existing public audio Worker internally.
+# On Workers Standard usage, Service Binding fetches do not incur separate
+# incoming Worker requests. Verify the account's Free-plan usage model at launch.
+[[services]]
+binding = "AUDIO_SERVICE"
+service = "tsq-lab-audio"
+
 # Audio requests need their own budget. Ordinary cached A/B/X clicks never use it.
 [[ratelimits]]
 name = "AUDIO_LIMITER"

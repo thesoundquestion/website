@@ -204,7 +204,12 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
    const range=request.headers.get('range');
    if(range&&!/^bytes=\d*-\d*$/.test(range))return respond({error:'Unsupported range'},416);
    let upstream;
-   try{upstream=await fetch(src,{headers:range?{range}:{},redirect:'follow'})}
+   try{
+    const req=new Request(src,{method:'GET',headers:range?{range}:{}});
+    upstream=src.startsWith(HOST+'/') && env.AUDIO_SERVICE?.fetch
+      ? await env.AUDIO_SERVICE.fetch(req) // Internal Service Binding: avoid second public Worker invocation where supported.
+      : await fetch(req,{redirect:'follow'});
+   }
    catch{return respond({error:'Audio origin unavailable'},502)}
    if(upstream.status!==200&&upstream.status!==206)return respond({error:'Audio origin unavailable'},502);
    const h={'cache-control':'no-store','access-control-allow-origin':ORIGIN,'vary':'Origin','x-content-type-options':'nosniff'};

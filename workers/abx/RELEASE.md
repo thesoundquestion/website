@@ -23,3 +23,7 @@ This is a fun social listening experiment, not a controlled scientific hearing t
 The scored comparison allowlist contains only published EQ and MP3 comparisons; intentional loudness-progression examples are excluded. Future changes to a source/master require a versioned test ID and a newly grouped community aggregate.
 
 Rate-limit and anonymous-scores rules must remain active before opening the service; opt-in is off by default. D1 retention cron runs daily when deployed. Store no personal email or user-uploaded audio with scores.
+
+## Internal FLAC service binding
+
+The Worker configuration now binds AUDIO_SERVICE to the existing tsq-lab-audio Worker. On a supported Standard usage model, internal Worker-to-Worker Service Binding fetches can avoid additional incoming Worker request charges. Confirm this on the actual Cloudflare Free account rather than treating it as a guaranteed free-tier discount. Keep direct-fetch fallback only for environments without this binding; monitor upstream Worker activity and database reads. Each A/B/X button press after local preparation should still produce **zero** new Worker requests.
