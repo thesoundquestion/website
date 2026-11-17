@@ -40,3 +40,15 @@ The browser uses a small **playback-only** volume reduction (approximately 0.951
 ## Deployment safety
 
 Cloudflare automatic Git deployments are intentionally OFF. A normal GitHub commit does not publish the new page. When CI is green and the merge is approved, create **one ad hoc Cloudflare Pages production deployment** for the exact merged `main` commit. Record deployment ID and verify the public MP3 URLs, page and links. Do not re-enable automatic builds, upload raw audio/stems, or run repeated deployments merely to test content.
+
+## PR #11 reconciliation — November 17, 2026
+
+**Decision for the coordinated site release:** preserve the current native-on-demand Formats Lab player as the default. Do **not** bulk-merge `feature/seamless-formats-switching-20261116` into the shared ABX release branch.
+
+PR #11's `assets/format-comparison-engine.js` is genuine synchronized Web Audio. After preparing **all three tracks**, it plays them against one AudioContext clock and switches by changing gains, avoiding source restarts. It has a native fallback. That is technically useful, but **its default workflow waits to fetch and decode all three complete files before first playback**, consuming additional memory and bandwidth even for visitors who only want to hear the original. This conflicts with the current free-tier/on-demand goals. It also predates the shared `Offline` / `Please wait` / `Ready` labels and the stand-alone ABX Lab.
+
+The current draft's native player preserves fast Play, with up to one alternate track prefetched **only after** the listener has begun and enough audio is buffered. No media requests are made when loading Formats or changing songs/versions before the first Play. It resumes near the same position when selecting another format, but **it is not gapless or sample-aligned**. The lesson explicitly calls it an approximate-position comparison. This is an accurate, release-appropriate compromise.
+
+**Future optional development (not a release blocker):** add a clearly named “Prepare instant comparison” control that intentionally fetches/decodes all three versions of one song, reports a single group-level readiness state, and gracefully falls back to native playback if decoding, memory, or network constraints prevent it. Test actual memory, load delay, synchronization and Worker counts before enabling it. Do not preload the three tracks on page view or silently switch the default player.
+
+The source of truth for the separate ABX testing experience is `/labs/abx/`, using the bounded Blob cache. That is a different problem from sample-synchronous format comparisons. Avoid mixing those two engines without explicit evidence.
