@@ -39,3 +39,7 @@ The Worker configuration now binds AUDIO_SERVICE to the existing tsq-lab-audio W
 - Keep `COMMUNITY_PUBLIC_ENABLED` independent of ABX scoring so one feature can be disabled without hiding the other. Both are disabled in the checked-in Wrangler file.
 
 **Release sequence:** deploy Worker with both flags off, run server tests, enable community and/or ABX only after verifying the real API and privacy notice, then manually release Pages once. The free plan must remain sufficient.
+
+## Gmail organization and triage
+
+The connected `thesoundquestion@gmail.com` inbox now has TSQ project labels for moderation, needs-reply/waiting-on-reply, content permissions (confirmed and restricted separately), ideas, Listening Room, creators, SEO and hosting. Existing conversations and historic GitHub workflow failures have been labeled. A daily ChatGPT inbox triage task is scheduled (America/Halifax, approximately 8 a.m.) to categorize new mail and highlight urgent correspondence. Gmail's native filters still require a one-time Google Apps Script authorization; installer and guide are saved in `ops/gmail/` and are **not yet installed**. Importantly, the website's D1 moderation digest notification script remains staged, not active, until Worker release. Native label rules do not grant permissions, approve D1 comments, or archive messages automatically.
