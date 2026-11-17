@@ -65,6 +65,16 @@ test('dedicated ABX lessons are linked both ways, preserving contextual source d
  assert.match(read('lab/mastering/index.html'),/requestedExperiment/);
  assert.match(read('labs/formats/index.html'),/selectedSong=new URLSearchParams/);
 });
+test('ABX Training shares one playback clock without additional public audio requests',()=>{
+ const page=read('labs/abx/index.html');
+ assert.match(page,/format-comparison-engine\.js/);
+ assert.match(abx,/stagedBuffer\.unlock\(\)/);
+ assert.match(abx,/await stagedBuffer\.prepare\(testId,\{lossless:a,'128':b,'320':b\}/);
+ assert.match(abx,/if\(mode==='training'&&trainingBuffer\?\.isReady\(\)\)/);
+ assert.match(abx,/else if\(wasSelected\)audio\.pause\(\)/);
+ assert.match(abx,/stagedBuffer\?\.dispose\(\)/);
+ assert.match(abx,/trainingBuffer\?\.dispose\(\)/);
+});
 test('scoring remains off until coordinated release and uses explicit consent and server scoring',()=>{
  assert.match(read('workers/abx/wrangler.toml'),/ABX_PUBLIC_ENABLED = "false"/);
  assert.match(worker,/ABX_PUBLIC_ENABLED==='true'/);
