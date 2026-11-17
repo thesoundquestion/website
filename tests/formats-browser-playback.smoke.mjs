@@ -69,7 +69,7 @@ try {
     if(await abx.count()!==1)throw new Error(device.name+' standalone ABX Lab is missing');
     if((await abx.locator('select').inputValue())!=='formats-light-128-v1')throw new Error(device.name+' did not preserve direct test link');
     const backLink=abx.locator('.tsq-abx-lesson-link');
-    if(await backLink.getAttribute('href')!=='/labs/formats/')throw new Error(device.name+' missing exact source lesson link');
+    if(await backLink.getAttribute('href')!=='/labs/formats/?song=light')throw new Error(device.name+' missing exact source lesson link');
     if(!(await abx.locator('.tsq-abx-trial-readiness').isHidden()))throw new Error(device.name+' readiness appears before request');
     await abx.getByRole('button',{name:'Prepare recordings'}).click();
     await page.waitForFunction(()=>document.querySelector('[data-abx-lab="all"] .tsq-abx-trial-readiness')?.textContent==='Ready',null,{timeout:40000});
@@ -104,7 +104,13 @@ try {
     if(!advancedId.endsWith('320-v1'))throw new Error(device.name+' Advanced catalogue wrong');
     if(await abx.locator('.tsq-abx-consent').isHidden())throw new Error(device.name+' Advanced opt-in missing');
     const link=await backLink.getAttribute('href');
-    if(link!=='/labs/formats/')throw new Error(device.name+' Advanced test not linked to source lesson');
+    if(link!=='/labs/formats/?song=light')throw new Error(device.name+' Advanced test not linked to source lesson');
+    await abx.locator('select').selectOption('formats-diva-320-v1');
+    if(await backLink.getAttribute('href')!=='/labs/formats/?song=diva')throw new Error(device.name+' Diva ABX does not link to Diva overview');
+    const lessonPage=await context.newPage();
+    await lessonPage.goto('http://127.0.0.1:8765/labs/formats/?song=diva',{waitUntil:'load',timeout:30000});
+    if(await lessonPage.locator('[data-song="diva"]').getAttribute('aria-pressed')!=='true')throw new Error(device.name+' source overview did not select Diva');
+    await lessonPage.close();
     await abx.locator('[data-mode="training"]').click();
     if((await abx.locator('select').inputValue())!=='mix-narrow-reference-v1')throw new Error(device.name+' Training options missing');
     if(await backLink.getAttribute('href')!=='/lab/')throw new Error(device.name+' Mixing source lesson link broken');
