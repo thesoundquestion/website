@@ -10,6 +10,19 @@
 - Treat fictional curves as fictional; never claim product measurements without evidence.
 - Do not increase autoplay, preloading, Cloudflare usage or publish paid/blocked content to improve prose.
 
+## Beginner comprehension gate added after owner review
+
+The earlier route-level pass caught many unexplained terms but did **not** consistently test whether the *concept behind an illustration* was explained first. Lesson 9's Class A/AB comparison is a concrete miss: naming "output devices", "waveforms" and "conduction" before the visitor understands why an amplifier moves a speaker fails the site's own standard.
+
+For every new/revised technical graphic, require a four-question novice check **before** accepting the wording or layout:
+
+1. What familiar physical action or listening question does this explain?
+2. Could a reader understand the picture without already knowing any labels on it?
+3. Do the changed parts between two versions stay visually comparable?
+4. Does every new technical word have a nearby everyday explanation, with more detail only after the example?
+
+Mark the **Class A/AB speaker-motion illustration** as pending approval, not completed. Automated assertions and passed CI cannot substitute for this editorial comprehension check.
+
 ## Route-level first pass
 Scanned the **47 published sitemap routes** for introductory wording and first-use jargon; inspected relevant body copy on technical routes. **37 routes had targeted prose edits** and **10 were reviewed without new edits**. A route being marked edited is **not a claim that every sentence, generated tool message or accessibility announcement received a manual line-by-line rewrite**.
 
