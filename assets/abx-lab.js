@@ -44,8 +44,8 @@ const statsButton=el('button',{type:'button',class:'tsq-abx-stats-button'},'View
 const statsBox=el('div',{class:'tsq-abx-stats',role:'status','aria-live':'polite'});
 root.append(tabs,choose,meta,buttons,answerRow,consentLabel,startButton,progress,scoreboard,statsButton,statsBox);
 const audio=document.createElement('audio');audio.preload='auto';audio.crossOrigin='anonymous';
-let pending=false;
-function stop(){audio.pause();audio.removeAttribute('src');audio.load()}
+let pending=false,playGeneration=0;
+function stop(){playGeneration++;audio.pause();audio.removeAttribute('src');audio.load()}
 async function api(path,payload){
 const res=await fetch(API+path,{method:'POST',mode:'cors',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
 if(!res.ok)throw Error('Scored ABX service unavailable ('+res.status+').');
@@ -82,14 +82,34 @@ try {
 }finally{if(myVersion===version){pending=false;render()}}
 }
 async function play(slot){
-if(!live||pending)return;
-const src=live[slot];if(!src)return;
-try {
-const t=Number.isFinite(audio.currentTime)?audio.currentTime:0;
-if(audio.src!==new URL(src,location.href).href){audio.pause();audio.src=src;audio.load();audio.addEventListener('loadedmetadata',()=>{try{audio.currentTime=Math.min(t,Math.max(0,audio.duration-.05))}catch{}},{once:true});await audio.play()}
-else if(audio.paused)await audio.play();else audio.pause();
-Object.entries(playButtons).forEach(([key,b])=>b.setAttribute('aria-pressed',String(key===slot)));
-}catch{scoreboard.textContent='Playback failed. Check audio access or try another device.'}
+ if(!live||pending)return;
+ const src=live[slot];if(!src)return;
+ const myTurn=++playGeneration;
+ const time=Math.max(0,Number.isFinite(audio.currentTime)?audio.currentTime:0);
+ const originalSlot=slot==='X'?answer:slot;
+ // Measured MP3-128 decoded RMS is ~0.436 dB quieter than the lossless
+ // source; reduce the reference playback gain for Training only.
+ audio.volume=mode==='training'&&testId.endsWith('-128')&&originalSlot==='A'?0.951:1;
+ try{
+  if(audio.src!==new URL(src,location.href).href){
+   audio.pause();audio.src=src;audio.load();
+   if(audio.readyState<1)await new Promise((resolve,reject)=>{
+    let timer;
+    const cleanup=()=>{clearTimeout(timer);audio.removeEventListener('loadedmetadata',done);audio.removeEventListener('error',fail)};
+    const done=()=>{cleanup();resolve()},fail=()=>{cleanup();reject(Error('Audio unavailable'))};
+    timer=setTimeout(fail,10000);
+    audio.addEventListener('loadedmetadata',done);audio.addEventListener('error',fail);
+   });
+   if(myTurn!==playGeneration)return;
+   if(Number.isFinite(audio.duration)&&audio.duration>0){
+    try{audio.currentTime=Math.min(time,Math.max(0,audio.duration-0.1))}catch{}
+   }
+   await audio.play();
+  }else if(audio.paused)await audio.play();
+  else audio.pause();
+  if(myTurn!==playGeneration)return;
+  Object.entries(playButtons).forEach(([key,b])=>b.setAttribute('aria-pressed',String(key===slot)));
+ }catch{if(myTurn===playGeneration)scoreboard.textContent='Playback failed or was blocked. Press the same listening button again.'}
 }
 for(const [slot,btn] of Object.entries(playButtons))btn.onclick=()=>play(slot);
 async function submit(guess){
