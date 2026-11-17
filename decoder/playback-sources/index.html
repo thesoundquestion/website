@@ -53,7 +53,7 @@
       <a href="#source-types">Explore source types ↓</a>
       <a href="#where-changes-happen">Where sound changes ↓</a>
       <a href="#riaa">Vinyl playback EQ ↓</a>
-      <a href="#connection-check">Check your connections ↓</a>
+      <a href="#connection-check">Understand connections ↓</a>
       <a href="#takeaways">Choosing a source ↓</a>
     </nav>
   </div>
@@ -183,41 +183,16 @@
 
   <section class="ps-section" id="connection-check">
     <div class="container">
-      <p class="ps-tag">INTERACTIVE 03 · CONNECT YOUR EQUIPMENT</p>
-      <h2>Does your source need an extra box?</h2>
-      <p class="ps-copy">Choose the output you actually have and the amplifier input you intend to use. The checker identifies missing <em>functions</em>, not recommended brands or exact compatible cables.</p>
-      <div class="ps-board">
-        <div class="ps-connection">
-          <label for="ps-source-type">Source and output
-            <select id="ps-source-type">
-              <option value="mm" selected>Turntable · MM cartridge, raw PHONO out</option>
-              <option value="mc">Turntable · MC cartridge, raw PHONO out</option>
-              <option value="tt-line">Turntable · internal phono stage ON, LINE out</option>
-              <option value="cd-line">CD player · RCA analogue out</option>
-              <option value="cd-digital">CD transport · optical digital out</option>
-              <option value="pc-line">Computer / sound card · analogue line out</option>
-              <option value="pc-usb">Computer · USB digital audio</option>
-              <option value="stream-line">Streamer · analogue RCA out</option>
-              <option value="stream-digital">Streamer · optical digital out</option>
-              <option value="tape-line">Cassette deck · analogue line out</option>
-            </select>
-          </label>
-          <label for="ps-amplifier-input">Amplifier or receiver input
-            <select id="ps-amplifier-input">
-              <option value="line" selected>Analogue AUX / CD / TAPE line input</option>
-              <option value="mm">Moving-magnet PHONO input</option>
-              <option value="mc">Moving-coil PHONO input</option>
-              <option value="optical">Optical digital input with built-in DAC</option>
-              <option value="usb">USB digital-audio input with built-in DAC</option>
-            </select>
-          </label>
-        </div>
-        <div class="ps-result" data-state="missing" id="ps-match-result" role="status" aria-live="polite">
-          <strong>A phono stage is missing</strong><p>A raw moving-magnet cartridge needs a suitable MM phono preamp with RIAA playback equalization before an ordinary line input.</p>
-        </div>
-        <p class="ps-small">Illustrative compatibility logic only. Connector shape, ground arrangements, cartridge requirements, digital protocol support and available input gain must be verified in the actual equipment manuals. Start at low volume after changing connections.</p>
+      <p class="ps-tag">CONNECTING YOUR EQUIPMENT</p>
+      <h2>What kind of connection do you need?</h2>
+      <p class="ps-copy">Most sources are straightforward: connect an ordinary audio output to a matching input on your amplifier. The important exceptions are when a device sends a different <em>kind</em> of signal.</p>
+      <div class="ps-myth">
+        <h3>Three things worth checking</h3>
+        <p><strong>Ordinary audio:</strong> a CD player or streamer with analogue RCA outputs normally connects to an amplifier's AUX, CD or TAPE inputs. Avoid plugging a full-strength LINE output into a PHONO input.</p>
+        <p><strong>Digital audio:</strong> an optical or USB digital output needs equipment that can turn digital music into an analogue signal, called a <a href="/decoder/dac-specifications/">DAC</a>. A matching plug isn't enough if the receiving device cannot understand that signal.</p>
+        <p><strong>Turntables:</strong> a turntable may need a <strong>phono preamp</strong> to make its very quiet cartridge signal usable. Some turntables already include one; check whether it is on before choosing the amplifier input.</p>
+        <p>Start at a low volume after changing connections, and check the manuals when the labels aren't clear.</p>
       </div>
-      <div class="ps-myth" style="margin-top:1rem"><h3>Two easy mistakes to avoid</h3><p><strong>1.</strong> Do not connect a turntable's amplified LINE output to an MM/MC PHONO input unless the turntable's internal phono stage is switched off and the cartridge matches that input. <strong>2.</strong> An optical or USB cable does not become an analogue RCA connection without the proper DAC hardware.</p></div>
     </div>
   </section>
 
