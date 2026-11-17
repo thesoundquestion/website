@@ -57,6 +57,14 @@
 
 **No automatic Cloudflare Pages deployments. No paid upgrades as a shortcut.**
 
+## First-use playback instructions (November 17)
+
+- [x] **Mixing Lab:** added short instructions directly before the player: pick a mix, press **Play**, and expect a possible brief pause on a mix switch. **Replace examples (optional)** is clearly a way to choose local files, not a required or guaranteed seamless-playback mode.
+- [x] **Mastering Lab:** added short instructions above the test tabs explaining **Play**, switching at roughly the same position, and optional **Choose WAVs for this test** for local files. Explicitly avoid claiming gap-free switching.
+- [x] **ABX Lab:** moved playback guidance above the interactive game: choose Training, press **Prepare recordings**, wait until ready, then tap A/B/X. Same-clock, pause-free switching is limited to supported devices; scored modes use **Start scored session** when available.
+- [x] Removed repetitive ABX preparation text from below the game, keeping the explanation where visitors need it.
+- [ ] Verify instructions are readable on real mobile devices and by screen readers during final pre-release acceptance.
+
 ## Editorial validation (November 17)
 
 - A 47-route first-use/body editorial audit and 37-route targeted rewrite are documented in `docs/BEGINNER_FIRST_LANGUAGE_AUDIT_2026-11-17.md`; no technical measurements, sample files, publishing gates or equations were intentionally changed.
