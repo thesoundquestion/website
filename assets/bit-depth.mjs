@@ -48,13 +48,26 @@ function renderPlot(stage, bits, db, quiet) {
     label.textContent = tick === 0 ? '0' : tick === 1 ? 'Higher' : 'Lower';
     grid.append(label);
   }
-  // Draw level-grid marks only if they are few enough to teach something.
-  if (!quiet && bits <= 5) {
+  // All three settings show the stored levels. At 256 levels the real
+  // lines almost merge at this scale, so also include a plainly labelled
+  // magnified teaching inset instead of pretending the lines disappear.
+  if (!quiet && bits <= 8) {
     const size = 2 ** (bits - 1);
     for (let code = -size; code < size; code++) {
       grid.append(svgNode('line', {
         x1:left, x2:right, y1:y(code / size), y2:y(code / size),
-        class:'bd-svg-grid'
+        class:'bd-svg-grid',
+        opacity:bits===8?'0.24':'0.7'
+      }));
+    }
+    if(bits===8){
+      grid.append(svgNode('rect',{x:545,y:17,width:185,height:104,rx:9,fill:'#10253a',stroke:'#6a9ac0','stroke-width':1}));
+      const caption=svgNode('text',{x:555,y:34,fill:'#e3f3fa','font-size':11});
+      caption.textContent='Magnified: nearby level lines';
+      grid.append(caption);
+      for(let i=0;i<9;i++)grid.append(svgNode('line',{
+        x1:555,x2:720,y1:43+i*8,y2:43+i*8,
+        stroke:'#75b8d3','stroke-width':0.8,opacity:0.8
       }));
     }
   }
