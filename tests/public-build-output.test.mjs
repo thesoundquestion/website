@@ -10,9 +10,11 @@ test('static Pages build includes tracked runtime assets and excludes internal/u
  assert.equal(p.status, 0, p.stderr || p.stdout);
  assert.match(p.stdout, /PUBLIC_BUILD_OK/);
  const dir = path.join(root, 'site-dist');
- for (const name of ['index.html','lab/mastering/index.html','tools/index.html','assets/mixing-lab.js','assets/lesson-tutor/approved-answers.json','library/make-audio-make-sense/make-audio-make-sense.pdf']) {
+ for (const name of ['index.html','lab/mastering/index.html','tools/index.html','assets/mixing-lab.js','assets/lesson-tutor/approved-answers.json','library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf']) {
   assert.ok(existsSync(path.join(dir, name)), 'missing runtime file '+name);
  }
+ assert.ok(!existsSync(path.join(dir,'library/make-audio-make-sense/make-audio-make-sense.pdf')), 'retired three-page PDF was published');
+ assert.ok(existsSync(path.join(dir,'_redirects')), 'legacy PDF redirect missing');
  for (const privateName of ['tests','staging','deployment','docs','scripts','.github','README.md','AGENTS.md','assets/illustrations/B01.md']) {
   assert.ok(!existsSync(path.join(dir,privateName)), 'internal or untracked file published: '+privateName);
  }
