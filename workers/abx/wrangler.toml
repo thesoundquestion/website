@@ -1,0 +1,11 @@
+name = "tsq-abx"
+main = "index.mjs"
+compatibility_date = "2026-11-16"
+workers_dev = true
+
+# Intentionally not deployable without a real D1 database ID and explicit validation gate.
+# Create a separate free D1 database and add the binding below before manual release.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "tsq-abx-scores"
+# database_id = "REPLACE_WITH_APPROVED_ID"
