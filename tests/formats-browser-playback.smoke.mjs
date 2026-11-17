@@ -168,8 +168,18 @@ try {
     },null,{timeout:12000});
     await abx.locator('[data-slot="A"]').click();
     await page.waitForTimeout(350);
+    // An X label can alias the same Blob as A OR B. A second button should
+    // never toggle pause just because its recording URL is identical.
+    for(const label of ['X','B','X','A','X']) {
+      await abx.locator('[data-slot="'+label+'"]').click();
+      await page.waitForFunction(slot=>{
+        const root=document.querySelector('[data-abx-lab="all"]'),a=root?.querySelector('audio');
+        return a&&!a.paused&&a.currentTime>0.1&&!a.error&&
+          root.querySelector('[data-slot="'+slot+'"]')?.getAttribute('aria-pressed')==='true';
+      },label,{timeout:12000});
+    }
     if(workerRequestsAfterReady!==0)throw new Error(device.name+' repeated ABX audio triggered '+workerRequestsAfterReady+' fresh Worker fetches');
-    results.push(device.name+' ABX Training repeated playback from local cache, zero extra Worker requests');
+    results.push(device.name+' ABX A/B/X alias switching stays playing, local cache, zero extra Worker requests');
     await abx.getByRole('button',{name:'X is A'}).click();
     const practice=await abx.locator('.tsq-abx-scoreboard').innerText();
     if(!practice.includes('Training score:'))throw new Error(device.name+' Training guess was not counted');
