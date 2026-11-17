@@ -10,7 +10,7 @@
 - [ ] Release and verify community submissions, approved-only display, review/deletion and CORS before enabling the community flag.
 - [~] Mock scored ABX browser test now verifies ten rounds, a failed X download, server resume, second attempt and consent reset; Node tests verify 20 rounds, duplicate-answer protection and group stats. Real Cloudflare D1/Worker testing remains a release gate.
 - [ ] Final manual permissions/credits/privacy spot-check before deployment. Content Use has direct contact email and research credit tests already pass; keep this as a real publishing review.
-- [~] Document Workers/D1 free-tier quotas, request-per-session budget and existing cache protections in `docs/abx-labs/FREE_TIER_CAPACITY_2026-11.md`; mock recovery and desktop/mobile-emulated playback pass. Actual account metrics, live Worker and physical-device checks remain open.
+- [~] Free-tier quotas, per-session estimates and cache limits are documented in `docs/abx-labs/FREE_TIER_CAPACITY_2026-11.md`. Read-only Cloudflare API snapshot captured real D1 usage (9 queries, 19 rows read, 11 rows written over one 24-hour window; 49,152 B stored); the audio Worker is deployed but the scored ABX Worker is not. **Audio Worker request totals, live ABX account testing and physical-device checks are still open.**
 - [ ] Run final production smoke test after deliberate merge/manual Pages deployment.
 
 ### B. Improvements for this update
@@ -49,7 +49,7 @@
 - [x] Add restrained external support links on Connect and the homepage's existing outreach section; no Ko-fi scripts, forms or back-end Worker calls. Privacy page states contributions are handled outside the site. No requests for donations within lessons.
 
 ### F. Related draft reconciliation, no blind branch merges
-- [~] PR #11 adapted as an explicit optional prepared mode (not default) in this draft; integration tests and release validation still pending. Old PR remains open until reconciled. See `docs/formats-lab/README.md`.
+- [x] PR #11 **closed without merging** after all six changed paths were reviewed and reconciled into PR #15: synced Web Audio, optional Formats preparation, bounded memory, native fallback, documentation and passing real-hosted-audio regression tests. No duplicate draft should be merged. Physical Safari/Android listening remains an independent gate.
 - [x] PR #10 closed as superseded after confirming merged PR #13/#14, main PDF size/hash build gate, current illustrated link and legacy 301 redirect. No re-merge.
 - [~] PR #1 is **not simply a duplicate**: main has System Builder, but this draft contains additional ownership-first shortlists, pricing safeguards and owner-evidence work. Keep it unmerged and separate for review; do not close it merely because main contains the tool.
 
@@ -57,7 +57,7 @@
 
 ## Current test evidence
 
-- Site regression and browser playback workflows **passed** for the prepared engine and updated first-use wording (Chrome desktop and mobile emulation); example runs: [site regression](https://github.com/thesoundquestion/website/actions/runs/44133542922), [browser playback](https://github.com/thesoundquestion/website/actions/runs/44133543081). An additional oversized-payload regression was committed afterwards and must pass at the latest head too.
+- Site regression and expanded real-audio Chrome desktop/mobile-emulated playback workflows **passed** on November 17 at commit `2accb75685bb4a6fd22b78520b479613f46cb418`: [site regression](https://github.com/thesoundquestion/website/actions/runs/44153613230), [browser playback](https://github.com/thesoundquestion/website/actions/runs/44153612739). These include the 14/48 MiB synchronized buffer caps, ABX Training A/B/X, Mixing idle audio request prevention and actual Mixing/Mastering continuation after switching. Later changes to the free-tier handoff are documentation-only; continue validation after further runtime edits.
 - Scored ABX mock browser regression: 10 rounds, one deliberately failed X request recovered through `/v1/resume`, no new Worker requests from repeated A/B/X, another attempt starts with consent OFF. This is **not** the live scoring backend.
 - Formats browser regression: zero media requests before Play, including switching tracks and song; on-demand audio playback still succeeds.
 - Detailed Mastering waveform SVGs load without downloading FLAC data, with verified source-file hashes.
