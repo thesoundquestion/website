@@ -30,14 +30,15 @@ test('ABX categories and training only no-public-score guard',()=>{
  assert.match(client,/minimumSample|No eligible community results yet/);
  assert.doesNotMatch(client,/localStorage|sessionStorage/);
 });
-test('server refuses all scored sessions pending source validation',()=>{
+test('server retains validation gate, hidden answers, one-update scoring and private aggregate threshold',()=>{
  assert.match(server,/const VALIDATED=new Set\(\[\]\)/);
- assert.match(server,/!VALIDATED\.has\(data\.testId\)/);
- assert.match(server,/const choice=crypto\.getRandomValues/);
- assert.match(server,/r\.answer/);
+ assert.match(server,/!validated\.has\(data\.testId\)/);
+ assert.match(server,/hmac\(secret,'answer:'/);
+ assert.match(server,/answered=answered\+1/);
+ assert.match(server,/q\.meta\?\.changes!==1/);
+ assert.match(server,/const previous=await trial/);
+ assert.match(server,/\.filter\(g=>g\.sessions>=10\)/);
  assert.match(server,/s\.completed_at!==null/);
- assert.match(server,/HAVING COUNT\(\*\)>=10/);
- assert.match(server,/if\(nextCount===s\.total\)/);
  assert.doesNotMatch(server,/Math\.random/);
 });
 test('unmatched loud masters excluded from proposed scoring source catalogue',()=>{
@@ -50,7 +51,7 @@ test('unmatched loud masters excluded from proposed scoring source catalogue',()
 });
 test('D1 private score schemas and deployment guards exist',()=>{
  const sql=read('workers/abx/schema.sql');
- for(const term of ['abx_sessions','abx_rounds','completed_at','share','expires_at'])assert.ok(sql.includes(term));
+ for(const term of ['abx_sessions','control_hash','purge_at','completed_at','share','expires_at'])assert.ok(sql.includes(term));
  assert.ok(read('workers/abx/wrangler.toml').includes('# [[d1_databases]]'));
  assert.match(doc,/NOT DEPLOYED/);
 });
