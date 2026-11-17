@@ -21,6 +21,21 @@ test('Mixing first use correctly says Play is required, not automatic streaming'
  assert.match(player,/audio\.removeAttribute\('src'\)/);
 });
 
+test('Mixing, Mastering and ABX explain playback before any player controls',()=>{
+ const mixing=read('lab/index.html');
+ const mastering=read('lab/mastering/index.html');
+ const abx=read('labs/abx/index.html');
+ assert.ok(mixing.indexOf('Before you listen:')<mixing.indexOf('class="lab-console"'));
+ assert.ok(mastering.indexOf('Before you listen:')<mastering.indexOf('class="tabs"'));
+ assert.ok(abx.indexOf('Before you listen:')<abx.indexOf('data-abx-lab="all"'));
+ assert.match(mixing,/Replace examples \(optional\)/);
+ assert.match(mixing,/doesn't guarantee pause-free switching/);
+ assert.match(mastering,/Choose WAVs for this test/);
+ assert.match(mastering,/switching can still pause/);
+ assert.match(abx,/Prepare recordings/);
+ assert.match(abx,/Start scored session/);
+ assert.match(abx,/supported devices/);
+});
 test('source levels and power handling retain essential qualification',()=>{
  const sources=read('decoder/source-levels/index.html');
  const power=read('decoder/amplifier-power/index.html');
