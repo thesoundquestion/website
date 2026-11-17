@@ -2,6 +2,7 @@
  * Curated, previously prepared comparisons are informal listening games.
  * The client is untrusted. No browser-supplied score, answer key or A/B mapping is accepted.
  */
+import {handleCommunity,cleanCommunity} from './community.mjs';
 const HOST='https://tsq-lab-audio.thesoundquestion.workers.dev';
 const SOURCES=Object.freeze({
   'formats-light-128-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/light-128.mp3',HOST+'/mixing/reference.flac'],
@@ -150,8 +151,9 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
   if(request.method==='OPTIONS'){
    return origin===ORIGIN?new Response(null,{status:204,headers:corsHeaders}):respond({error:'Origin not authorized'},403);
   }
-  if(url.pathname==='/v1/health')return respond({status:available(env)?'ready':'disabled',scoredEnabled:validated.size>0&&available(env)});
+  if(url.pathname==='/v1/health')return respond({status:available(env)?'ready':'disabled',scoredEnabled:validated.size>0&&available(env),communityEnabled:env?.COMMUNITY_PUBLIC_ENABLED==='true'&&!!env.DB&&!!env.COMMUNITY_LIMITER});
   if(origin!==ORIGIN)return respond({error:'Origin not authorized'},403);
+  if(url.pathname.startsWith('/v1/community/'))return handleCommunity(request,env,url,corsHeaders);
   if(!available(env))return respond({error:'Scoring infrastructure not configured'},503);
   const ip=visitorKey(request);
   if(url.pathname.startsWith('/v1/audio/')){
@@ -223,6 +225,7 @@ export function createAbxService({validated=VALIDATED,sources=SOURCES}={}){
  async scheduled(_event,env){
   if(!env.DB)return;
   await env.DB.prepare('DELETE FROM abx_sessions WHERE purge_at<?').bind(Date.now()).run();
+  await cleanCommunity(env.DB);
  }
  };
 }

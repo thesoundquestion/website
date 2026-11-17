@@ -8,6 +8,7 @@ workers_dev = true
 # using `npx wrangler secret put ABX_SECRET` during the deliberate Worker release.
 [vars]
 ABX_PUBLIC_ENABLED = "false"
+COMMUNITY_PUBLIC_ENABLED = "false"
 
 # Provisioned on the Cloudflare free tier on 2026-11-17.
 [[d1_databases]]
@@ -48,3 +49,11 @@ period = 60
 # One scheduled retention cleanup per day. Cron is UTC.
 [triggers]
 crons = ["17 4 * * *"]
+
+# Anonymous community submissions: 3 per minute per location/IP key.
+[[ratelimits]]
+name = "COMMUNITY_LIMITER"
+namespace_id = "2104"
+[ratelimits.simple]
+limit = 3
+period = 60
