@@ -66,3 +66,13 @@ test('About is prominent and evidence explanations contain no private listening 
  assert.match(article,/Why playback can change the sense of space/);
  assert.match(labs,/href="\/lab\/mastering\/"/);
 });
+
+test('AlbumDB credit remains visible without obsolete unresolved-permission warning', () => {
+  assert.match(article, /Let The Light In/);
+  assert.match(article, /zenodo\.org\/records\/19683001/);
+  assert.match(article, /Thomas McKenzie, Eloi Moliner Juanpere and Alec Wright/);
+  assert.match(article, /CC BY 4\.0/);
+  assert.match(article, /AES Paper 10278/);
+  assert.doesNotMatch(article, /separate commercial album listing and the dataset licence/i);
+  assert.doesNotMatch(article, /Public hosting of our remixed audio remains subject to checking/i);
+});
