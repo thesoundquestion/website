@@ -90,6 +90,7 @@ try {
     await abx.locator('[data-mode="challenge"]').click();
     const scoredText=await abx.locator('.tsq-abx-scoreboard').innerText();
     if(!scoredText.includes('Scored trials only open after technical review'))throw new Error(device.name+' scored mode did not display release gate');
+    if(!(await abx.locator('.tsq-abx-trial-readiness').isHidden()))throw new Error(device.name+' scored ABX exposes readiness timing');
     await abx.locator('[data-mode="advanced"]').click();
     if(await abx.locator('.tsq-abx-consent').isHidden())throw new Error(device.name+' Advanced opt-in missing');
     await abx.locator('[data-mode="training"]').click();
