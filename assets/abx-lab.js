@@ -4,15 +4,15 @@
 const API = 'https://tsq-abx.thesoundquestion.workers.dev';
 const AUDIO = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
 const tests = {
- 'mix-narrow-reference-v1': {lab:'mix',modes:['training'],label:'Narrow mix vs conventional mix',a:AUDIO+'/mixing/narrow.flac',b:AUDIO+'/mixing/reference.flac',note:'Exaggerated width difference. For training only; level and alignment checks are pending.'},
- 'mix-reference-creative-v1':{lab:'mix',modes:['training'],label:'Conventional vs creative mix',a:AUDIO+'/mixing/reference.flac',b:AUDIO+'/mixing/polished.flac',note:'Clearly contrasting spatial treatments. For training only; level and alignment checks are pending.'},
- 'master-dynamic-moderate-v1':{lab:'master',modes:['training'],label:'Dynamic vs moderately compressed master',a:AUDIO+'/mastering/matched-dynamic.flac',b:AUDIO+'/mastering/matched-moderate.flac',note:'Loudness-matched mastering treatments. A useful learning demonstration.'},
- 'master-moderate-brick-v1':{lab:'master',modes:['training'],label:'Moderate vs brickwalled master',a:AUDIO+'/mastering/matched-moderate.flac',b:AUDIO+'/mastering/matched-brickwalled.flac',note:'Matched overall loudness, but deliberately strong changes in dynamics.'},
- 'master-eq-v1':{lab:'master',modes:['training','challenge'],label:'EQ off vs EQ on',a:AUDIO+'/mastering/eq-off.flac',b:AUDIO+'/mastering/eq-on.flac',note:'Training only until level-matching and source alignment are independently verified.'},
- 'formats-light-128-v1':{lab:'formats',modes:['training','challenge'],label:'Let The Light In: lossless vs 128 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-128.mp3',note:'Codec comparison; training is unscored until a controlled blind transport is validated.'},
- 'formats-light-320-v1':{lab:'formats',modes:['training','advanced'],label:'Let The Light In: lossless vs 320 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-320.mp3',note:'Subtle codec comparison; not yet validated for scored blind testing.'},
- 'formats-diva-128-v1':{lab:'formats',modes:['training','challenge'],label:'Diva: lossless vs 128 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-128.mp3',note:'Codec comparison; local training only.'},
- 'formats-diva-320-v1':{lab:'formats',modes:['training','advanced'],label:'Diva: lossless vs 320 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-320.mp3',note:'Subtle codec comparison; local training only.'}
+ 'mix-narrow-reference-v1': {lab:'mix',lessonUrl:'/lab/',modes:['training'],label:'Narrow mix vs conventional mix',a:AUDIO+'/mixing/narrow.flac',b:AUDIO+'/mixing/reference.flac',note:'Exaggerated width difference. For training only; level and alignment checks are pending.'},
+ 'mix-reference-creative-v1':{lab:'mix',lessonUrl:'/lab/',modes:['training'],label:'Conventional vs creative mix',a:AUDIO+'/mixing/reference.flac',b:AUDIO+'/mixing/polished.flac',note:'Clearly contrasting spatial treatments. For training only; level and alignment checks are pending.'},
+ 'master-dynamic-moderate-v1':{lab:'master',lessonUrl:'/lab/mastering/?experiment=matched',modes:['training'],label:'Dynamic vs moderately compressed master',a:AUDIO+'/mastering/matched-dynamic.flac',b:AUDIO+'/mastering/matched-moderate.flac',note:'Loudness-matched mastering treatments. A useful learning demonstration.'},
+ 'master-moderate-brick-v1':{lab:'master',lessonUrl:'/lab/mastering/?experiment=matched',modes:['training'],label:'Moderate vs brickwalled master',a:AUDIO+'/mastering/matched-moderate.flac',b:AUDIO+'/mastering/matched-brickwalled.flac',note:'Matched overall loudness, but deliberately strong changes in dynamics.'},
+ 'master-eq-v1':{lab:'master',lessonUrl:'/lab/mastering/?experiment=eq',modes:['training','challenge'],label:'EQ off vs EQ on',a:AUDIO+'/mastering/eq-off.flac',b:AUDIO+'/mastering/eq-on.flac',note:'Training only until level-matching and source alignment are independently verified.'},
+ 'formats-light-128-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=light',modes:['training','challenge'],label:'Let The Light In: lossless vs 128 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-128.mp3',note:'Codec comparison; training is unscored until a controlled blind transport is validated.'},
+ 'formats-light-320-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=light',modes:['training','advanced'],label:'Let The Light In: lossless vs 320 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-320.mp3',note:'Subtle codec comparison; not yet validated for scored blind testing.'},
+ 'formats-diva-128-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=diva',modes:['training','challenge'],label:'Diva: lossless vs 128 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-128.mp3',note:'Codec comparison; local training only.'},
+ 'formats-diva-320-v1':{lab:'formats',lessonUrl:'/labs/formats/?song=diva',modes:['training','advanced'],label:'Diva: lossless vs 320 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-320.mp3',note:'Subtle codec comparison; local training only.'}
 };
 const el=(tag,props={},text='')=>{const node=document.createElement(tag);Object.entries(props).forEach(([k,v])=>{if(k==='class')node.className=v;else node.setAttribute(k,String(v))});if(text)node.textContent=text;return node};
 function init(root){
@@ -41,7 +41,6 @@ function updateChoices(preferred){
  if(testId)choose.value=testId;
  return available.length;
 }
-const sourceLink={mix:'/lab/',master:'/lab/mastering/',formats:'/labs/formats/'};
 function recordSelection(){
  if(!testId)return;
  const url=new URL(location.href);url.searchParams.set('test',testId);url.searchParams.set('mode',mode);
@@ -51,7 +50,7 @@ function configureLessonLink(){
  const spec=testId?tests[testId]:null;
  lesson.hidden=!spec;
  if(!spec)return;
- lesson.href=sourceLink[spec.lab];
+ lesson.href=spec.lessonUrl;
  lesson.textContent='Explore the original '+({mix:'Mixing',master:'Mastering',formats:'MP3 vs Lossless'}[spec.lab])+' Lab ↗';
  lesson.target='_blank';lesson.rel='noopener noreferrer';
 }

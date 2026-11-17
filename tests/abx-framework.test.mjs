@@ -24,7 +24,7 @@ test('one dedicated ABX Lab loads the engine and links back to three original le
   assert.doesNotMatch(html,/src="\/assets\/abx-lab\.js"/);
  }
  assert.match(client,/function configureLessonLink/);
- assert.match(client,/lesson\.href=sourceLink\[spec\.lab\]/);
+ assert.match(client,/lesson\.href=spec\.lessonUrl/);
  assert.match(client,/history\.replaceState/);
 });
 test('ABX categories and training only no-public-score guard',()=>{

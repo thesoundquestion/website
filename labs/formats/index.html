@@ -245,6 +245,8 @@
   window.addEventListener('pagehide', () => {player.pause();cache.close()});
   replaceSource(false, 0);
   show('Original (lossless) is selected. Press Play to begin.');
+  const selectedSong=new URLSearchParams(location.search).get('song');
+  if(['light','diva'].includes(selectedSong)&&selectedSong!==state.song)document.querySelector('[data-song="'+selectedSong+'"]')?.click();
 })();
 </script>
 </body>
