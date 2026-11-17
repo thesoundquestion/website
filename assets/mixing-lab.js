@@ -47,6 +47,7 @@
       document.querySelector(`[data-mix="${type}"]`).setAttribute('aria-pressed', String(selected));
       document.querySelector(`[data-guide="${type}"]`).hidden = !selected;
       const ready = document.querySelector(`[data-state="${type}"]`);
+      ready.hidden=!userStarted && !files[type]?.local;
       readiness.set(ready,readiness.status({
         url:files[type]?.url,
         failed:!!files[type]?.failed,
