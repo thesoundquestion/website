@@ -27,11 +27,15 @@ export function validateGearSuggestion(data) {
   if(!data||typeof data!=='object'||Array.isArray(data) ||
      data.consent!==true||data.website||!CATEGORIES.has(data.category))return null;
   const brand=field(data.brand,2,80),model=field(data.model,2,120);
+  const variant=data.variant===''||data.variant===undefined?'':field(data.variant,1,120);
+  const region=data.region===''||data.region===undefined?'':field(data.region,1,60);
+  const yearText=data.approxYear===undefined||data.approxYear===null?'':String(data.approxYear).trim();
+  const approxYear=yearText===''?null:(/^\d{4}$/.test(yearText)&&Number(yearText)>=1920&&Number(yearText)<=2035?Number(yearText):NaN);
   const specifications=data.specifications===''?'':field(data.specifications,1,1200);
   const referenceUrl=reference(data.referenceUrl||'');
-  if(!brand||!model||specifications===null||referenceUrl===null)return null;
+  if(!brand||!model||variant===null||region===null||!Number.isFinite(approxYear)&&approxYear!==null||specifications===null||referenceUrl===null)return null;
   // A model and manufacturer alone are useful; source/specs encourage verification.
-  return {category:data.category,brand,model,specifications,referenceUrl};
+  return {category:data.category,brand,model,variant,approxYear,region,specifications,referenceUrl};
 }
 async function parse(request){
   if(!request.headers.get('content-type')?.toLowerCase().startsWith('application/json')||
@@ -55,8 +59,8 @@ export async function handleGearSuggestions(request,env,url,headers={}) {
   const id=crypto.randomUUID(),now=Date.now();
   try{
     await env.DB.prepare(
-      "INSERT INTO gear_suggestions(id,category,brand,model,specifications,reference_url,status,created_at,reviewed_at) VALUES(?,?,?,?,?,?,'pending',?,NULL)"
-    ).bind(id,item.category,item.brand,item.model,item.specifications,item.referenceUrl,now).run();
+      "INSERT INTO gear_suggestions(id,category,brand,model,variant,approx_year,region,specifications,reference_url,status,created_at,reviewed_at) VALUES(?,?,?,?,?,?,?,?,?,'pending',?,NULL)"
+    ).bind(id,item.category,item.brand,item.model,item.variant,item.approxYear,item.region,item.specifications,item.referenceUrl,now).run();
   }catch(error) {
     if(/unique|constraint/i.test(String(error)))
       return response({error:'That model already has a suggestion awaiting review.'},409,headers);
