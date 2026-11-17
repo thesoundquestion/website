@@ -30,6 +30,7 @@ class FakeD1{
      if(r.answered===r.total){r.completed_at=now;r.purge_at=purge_at}
      return {meta:{changes:1}};
     }
+    if(sql.startsWith('DELETE FROM community_posts'))return {meta:{changes:0}};
     if(sql.startsWith('DELETE FROM abx_sessions')){
      let n=0;for(const [id,r] of db.rows)if(r.purge_at<args[0]){db.rows.delete(id);n++}
      return {meta:{changes:n}};
