@@ -59,8 +59,8 @@
 
 ## First-use playback instructions (November 17)
 
-- [x] **Mixing Lab:** added short instructions directly before the player: pick a mix, press **Play**, and expect a possible brief pause on a mix switch. **Replace examples (optional)** is clearly a way to choose local files, not a required or guaranteed seamless-playback mode.
-- [x] **Mastering Lab:** added short instructions above the test tabs explaining **Play**, switching at roughly the same position, and optional **Choose WAVs for this test** for local files. Explicitly avoid claiming gap-free switching.
+- [x] **Mixing Lab:** short instructions directly before the player explain **Play**, a possible brief pause, and why visitors might compare a rough mix against a finished mix. **Replace this recording** beside each version accepts arbitrary WAV/FLAC filenames; **Replace examples (optional)** batch-imports files with matching version names. Local files stay on-device and do not guarantee seamless switching.
+- [x] **Mastering Lab:** first-use instructions explain online playback, original album release vs remaster comparisons and the optional local-file section. Visitors can now choose **Use my WAV for A/B/C** for ordinary WAV filenames without relying on the specially named demo batch importer. Personal WAV buttons map only to the current comparison; EQ hides C. Original demo measurements/waveforms and volume-match claims are clearly separated from personal files. Local switching may still pause; personal files are not uploaded.
 - [x] **ABX Lab:** moved playback guidance above the interactive game: choose Training, press **Prepare recordings**, wait until ready, then tap A/B/X. Same-clock, pause-free switching is limited to supported devices; scored modes use **Start scored session** when available.
 - [x] Removed repetitive ABX preparation text from below the game, keeping the explanation where visitors need it.
 - [ ] Verify instructions are readable on real mobile devices and by screen readers during final pre-release acceptance.
