@@ -168,13 +168,20 @@ async function prepareTraining(){
    }
   }
   if(version!==myVersion)return;
-  newTraining();
-  scoreboard.textContent=trainingBuffer
-   ?'Both recordings are prepared for quick switching. Listen to A, B and X, then choose your answer.'
-   :'Both recordings are prepared. Listen to A, B and X, then choose your answer.';
+  // EQ-on/off changes are subtle enough that native source reloads create
+  // an audible answer cue. Never offer this ABX comparison in fallback mode.
+  if(testId==='master-eq-v1'&&!trainingBuffer?.isReady()){
+   live=null;prepareFailed=true;
+   scoreboard.textContent='EQ comparison needs seamless playback to keep X blind. This browser could not prepare both recordings for that mode. Try again or choose another comparison.';
+  }else{
+   newTraining();
+   scoreboard.textContent=trainingBuffer
+    ?'Both recordings are prepared for quick switching. Listen to A, B and X, then choose your answer.'
+    :'Both recordings are prepared. Listen to A, B and X, then choose your answer.';
+  }
  }finally{
   stagedBuffer?.dispose();
-  if(version===myVersion){pending=false;prepareFailed=!cache.has(TRAIN_A)||!cache.has(TRAIN_B);
+  if(version===myVersion){pending=false;prepareFailed=prepareFailed||!cache.has(TRAIN_A)||!cache.has(TRAIN_B);
    if(prepareFailed)scoreboard.textContent='Unable to prepare both recordings reliably. Check your connection and try a different comparison.';
    render();
   }
@@ -219,6 +226,11 @@ async function startPractice(){
    }catch{ /* Cached native playback stays available on smaller devices. */ }
   }
   if(myVersion!==version)return;
+  if(testId==='master-eq-v1'&&!trainingBuffer?.isReady()){
+    live=null;session=null;prepareFailed=true;
+    scoreboard.textContent='EQ comparison needs seamless playback to keep X blind. This browser could not prepare that mode. Try again or choose another comparison.';
+    return;
+  }
   session={practice:true,total:mode==='advanced'?20:10};
   scoreboard.textContent='Practice ready. Play A, B and X, then choose your answer.';
   newPracticeTrial();
