@@ -31,3 +31,7 @@ Training, Challenge and Advanced implementation, source-validation gates, propos
 ## Free-tier playback cost requirement
 
 Do not standardize eager Mastering waveform downloads into other labs. The live original Mastering experiment fetches three FLACs for waveform rendering on page load, unlike Fair/EQ. Future playback improvements must first respect [the Cloudflare Free-tier playback policy](../docs/lab-playback-free-tier/README.md), minimize Worker/KV calls and compare real P50/P95 switch times, request counts and transferred bytes. No deployment from the draft branch.
+
+## Community submissions (draft)
+
+The Curator's Listening Room accepts anonymous single-recording nominations with a dropdown for its existing seven categories; its comment section and the ABX Lab comments are moderated. They use the existing D1 database with `COMMUNITY_PUBLIC_ENABLED=false` until the coordinated manual release. See `workers/abx/COMMUNITY-REVIEW.md` and `docs/abx-labs/README.md` for storage, moderation, privacy and future expansions.

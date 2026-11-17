@@ -2,7 +2,7 @@
 
 Public site: https://thesoundquestion.pages.dev/
 Worker endpoint: https://tsq-abx.thesoundquestion.workers.dev
-D1 database: tsq-abx-scores (cbc80c8b-457e-496a-be9b-621d99f1cfd3)
+D1 database: tsq-abx-scores (cbc80c8b-457e-496a-be9b-621d99f1cfd3), shared by ABX and moderated community entries
 Status: database created and schema initialized, **Worker not deployed**, config disabled until next coordinated release. No Cloudflare Pages deployment has occurred.
 
 ## Before launch
@@ -27,3 +27,15 @@ Rate-limit and anonymous-scores rules must remain active before opening the serv
 ## Internal FLAC service binding
 
 The Worker configuration now binds AUDIO_SERVICE to the existing tsq-lab-audio Worker. On a supported Standard usage model, internal Worker-to-Worker Service Binding fetches can avoid additional incoming Worker request charges. Confirm this on the actual Cloudflare Free account rather than treating it as a guaranteed free-tier discount. Keep direct-fetch fallback only for environments without this binding; monitor upstream Worker activity and database reads. Each A/B/X button press after local preparation should still produce **zero** new Worker requests.
+
+## Moderated community launch (same Worker, no extra database)
+
+- The separate `COMMUNITY_PUBLIC_ENABLED=false` flag keeps comments and nominations closed until deliberately opened. No secret is required to display already approved entries, but real D1 and both rate-limit bindings are mandatory. The public Worker still requires manual deployment; do not enable submissions on Pages before the Worker supports them.
+- The **community_posts** table and its indexes were added to the existing D1 database on November 17, 2026 using `workers/abx/community-schema.sql`. There are no users, accounts, emails or IP columns.
+- Public interface: `/library/curators-listening-room/#community-listening-room` for track nominations and short comments, and `/labs/abx/#community-abx` for ABX comments. The browser loads the latest approved entries only after scrolling to the section. No third-party comment widget is used.
+- API: `GET /v1/community/approved?section=room&kind=suggestion&category=&offset=0` returns at most 10 moderated entries; `POST /v1/community/submit` accepts one entry (artist/title/category/280-character explanation for songs; 280-character comment for discussion). The submission endpoint returns a receipt reference and `pending` status, not a live public entry.
+- **Moderation is required**. Before turning `COMMUNITY_PUBLIC_ENABLED` on, read `workers/abx/COMMUNITY-REVIEW.md`, test that pending entries never appear, review HTML/text safety, and inspect the dashboard for submission spikes. The API has a per-IP/location limiter, a hidden honeypot, short fields and no arbitrary user links.
+- Update the privacy notice to describe manual review, storage and retention. Pending entries purge after 90 days; rejected after 30 days. Approved posts persist until editorial removal or a contributor's emailed request using the receipt ID.
+- Keep `COMMUNITY_PUBLIC_ENABLED` independent of ABX scoring so one feature can be disabled without hiding the other. Both are disabled in the checked-in Wrangler file.
+
+**Release sequence:** deploy Worker with both flags off, run server tests, enable community and/or ABX only after verifying the real API and privacy notice, then manually release Pages once. The free plan must remain sufficient.

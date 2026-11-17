@@ -71,3 +71,11 @@ The Worker source is workers/abx/index.mjs, D1 schema workers/abx/schema.sql, re
 **Do not release only the static ABX page with a nonfunctional score API while claiming that community scoring works.** See workers/abx/RELEASE.md.
 
 Historical research and earlier draft plans are archived in docs/abx-labs/PRIOR_DRAFT_HANDOFF.md. This README is the authoritative current handoff.
+
+## Community input (17 November 2026)
+
+The next draft adds a **moderated Listening Room nomination and discussion board**, plus short discussion comments in the ABX Lab. The Listening Room reuses the existing **seven category identifiers**, including their current label names. Visitors suggest **one recording per entry** (artist 64 characters, title 100, one category, explanation 20–280 characters) and are encouraged to share overlooked, lesser-known and distinctive recordings. Freeform comments are 5–280 characters. No direct uploads, contributor accounts or arbitrary HTML/links.
+
+`assets/community-board.js` and `assets/community-board.css` implement the lightweight UI. Approved suggestions display as plain cards with a site-generated Spotify search URL; approved comments appear below. Unreviewed entries do not appear. The API `workers/abx/community.mjs` handles `/v1/community/submit` and `/v1/community/approved` using the **existing free-tier D1 database**, not an added paid storage service. Manual moderation uses the Cloudflare D1 console, with SQL workflow in `workers/abx/COMMUNITY-REVIEW.md`. `COMMUNITY_PUBLIC_ENABLED` is a separate release flag, currently **false**.
+
+To extend this to another lesson, add a `data-community-scope` section only after defining an approved section and adjusting server permissions, privacy text, rate limits and review workflow. Do not expose unreviewed rows or add visitor-supplied links.
