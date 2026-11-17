@@ -49,6 +49,27 @@ PR #11's `assets/format-comparison-engine.js` is genuine synchronized Web Audio.
 
 The current draft's native player preserves fast Play, with up to one alternate track prefetched **only after** the listener has begun and enough audio is buffered. No media requests are made when loading Formats or changing songs/versions before the first Play. It resumes near the same position when selecting another format, but **it is not gapless or sample-aligned**. The lesson explicitly calls it an approximate-position comparison. This is an accurate, release-appropriate compromise.
 
-**Future optional development (not a release blocker):** add a clearly named “Prepare instant comparison” control that intentionally fetches/decodes all three versions of one song, reports a single group-level readiness state, and gracefully falls back to native playback if decoding, memory, or network constraints prevent it. Test actual memory, load delay, synchronization and Worker counts before enabling it. Do not preload the three tracks on page view or silently switch the default player.
+**Staged optional development (not yet production validated, November 17):**
+The shared release draft now includes `assets/format-comparison-engine.js` adapted
+from PR #11, but **does not make it the default player**. Initial Play still uses
+the ordinary `<audio>` streaming path; a separate **Prepare instant switching
+(optional)** button intentionally downloads/decodes the three variants of the
+selected song. After successful preparation they start at one AudioContext time
+and offset, and format buttons change gains without changing sources.
+Preparation is tied to one selected song, aborts on song change, and is
+capped at **14 MiB total compressed download** and **48 MiB decoded stereo
+float PCM**. Readiness is shown once for the entire prepared group, not as
+independent timing clues. Any error leaves ordinary streaming available.
+Visitors can return to normal playback.
 
-The source of truth for the separate ABX testing experience is `/labs/abx/`, using the bounded Blob cache. That is a different problem from sample-synchronous format comparisons. Avoid mixing those two engines without explicit evidence.
+This costs additional data and roughly 35–46 MB of decoded PCM per song
+at browser sample rates. The limits are safety bounds, **not measurements of
+peak browser memory**. CORS, FLAC decode support, real device resource use,
+rapid-switch audio gaps, and Worker/KV request counts still need release
+validation. Do not describe this as guaranteed gapless across browsers.
+
+The original PR #11 remains separate and open until the coordinated release
+is verified. Its old eager first-Play logic must not replace the native
+on-demand default. The staged source tests, browser smoke and Cloudflare
+build-file gate have been updated; inspect their latest CI results before
+marking this complete.
