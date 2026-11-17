@@ -1,10 +1,19 @@
-name: Formats Lab browser playback smoke
+name: Listening Labs browser playback and ABX smoke
 on:
   pull_request:
     branches:
       - main
     paths:
-      - labs/formats/index.html
+      - lab/**
+      - labs/**
+      - assets/abx-lab.js
+      - assets/abx-lab.css
+      - assets/lab-readiness.js
+      - assets/lab-readiness.css
+      - assets/community-board.js
+      - assets/community-board.css
+      - assets/waveforms/**
+      - workers/abx/**
       - tests/formats-browser-playback.smoke.mjs
       - tests/abx-scored-browser.mock.mjs
       - .github/workflows/formats-browser-playback.yml
@@ -23,7 +32,7 @@ jobs:
         run: npm install --no-save --no-package-lock playwright@1.56.0
       - name: Verify Chrome is available
         run: google-chrome --version
-      - name: Test full FLAC and MP3 playback on desktop and mobile viewports
+      - name: Test full audio playback, readiness, community UI and mock scored ABX
         shell: bash
         run: |
           set -euo pipefail
