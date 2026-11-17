@@ -210,7 +210,7 @@ function renderDistortionRatingContext(entries, speakerLoad) {
   if (!sameLoad.length) {
     const p = document.createElement('p');
     p.className = 'sc-distortion-caution';
-    p.textContent = 'No amplifier rating was entered for your speaker’s stated ' + show(speakerLoad) + ' Ω. A projected wattage figure from another load cannot verify either distortion or clean power at this load.';
+    p.textContent = 'No rating was entered at your speaker’s nominal ' + show(speakerLoad) + ' Ω. A projected wattage figure from another load cannot verify either distortion or clean power at this load.';
     panel.append(p);
   } else {
     const list = document.createElement('ul');
@@ -255,7 +255,7 @@ function renderDistortionRatingContext(entries, speakerLoad) {
   }
   const conclusion = document.createElement('p');
   conclusion.className = 'sc-distortion-conclusion';
-  conclusion.textContent = 'We cannot verify distortion at your chosen average level or loudest peaks without measured distortion-versus-power results for a comparable load. A single published THD or THD+N limit is NOT a full measured curve, a test of what you can hear, or proof of exactly where the amplifier clips.';
+  conclusion.textContent = 'Distortion at your chosen average and peak listening power remains unverified without measured distortion-versus-power results for a comparable load. A single published THD or THD+N limit is NOT a full measured curve, a test of what you can hear, or proof of exactly where the amplifier clips.';
   panel.append(conclusion);
   body.append(panel);
 }
