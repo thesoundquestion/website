@@ -6,3 +6,5 @@
 .tsq-abx[role="group"]{background:transparent}
 .tsq-abx .tsq-abx-trial-readiness[hidden]{display:none}
 .tsq-lab-abx-link{margin-block:18px 34px}
+
+.tsq-abx[hidden],.tsq-abx [hidden]{display:none!important}
