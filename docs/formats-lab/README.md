@@ -70,6 +70,4 @@ validation. Do not describe this as guaranteed gapless across browsers.
 
 The original PR #11 remains separate and open until the coordinated release
 is verified. Its old eager first-Play logic must not replace the native
-on-demand default. The staged source tests, browser smoke and Cloudflare
-build-file gate have been updated; inspect their latest CI results before
-marking this complete.
+on-demand default. The updated tests now pass in GitHub Actions: [Node/site regression](https://github.com/thesoundquestion/website/actions/runs/44133842361) and [actual Chrome playback on desktop and mobile-emulated layouts](https://github.com/thesoundquestion/website/actions/runs/44133842696). The latter confirmed successful FLAC/MP3 preparation, no subsequent media requests from rapid A/B/A switching, a stable playhead and return to native playback. Oversized compressed and decoded payloads also fail in the engine tests. **This is not a real Android/iOS physical-device test or a measured Cloudflare request/peak-memory audit.**
