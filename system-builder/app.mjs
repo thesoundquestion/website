@@ -72,7 +72,7 @@ const options = {
   headphone_first: {
     title: 'Headphone / IEM-first listening',
     description: 'A private listening chain with source, suitable headphone output and controls, plus comfort/fit that suits the listener.',
-    verify: ['Check how loudly the headphones play from a stated input (sensitivity), their ohm rating, plug, fit, the source's available power and whether both channels stay balanced at low volume.',
+    verify: ['Check how loudly the headphones play from a stated input (sensitivity), their ohm rating, plug, fit, the source’s available power and whether both channels stay balanced at low volume.',
       'Open-back and closed-back are not numerical soundstage scores; isolation and room noise matter.',
       'Do not turn a headphone frequency-range endpoint into a claim of fidelity or detail.']
   }
@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (own.headphone.name && arch === 'headphone_first')
         addText(ownedSection,'p','Keep the headphones on the shortlist for a fit and drive check. An impedance number alone does not establish a sufficient/quiet output.');
       if (own.speaker.name && !poweredSubPairFor(own.speaker.name) && (arch === 'consumer_powered_pair' || arch === 'active_studio'))
-        addText(ownedSection,'p','Speakers you own may be passive, which means they still need a separate amplifier. Don't assume they work as powered speakers just because you selected a different system layout.');
+        addText(ownedSection,'p','Speakers you own may be passive, which means they still need a separate amplifier. Do not assume they work as powered speakers just because you selected a different system layout.');
     }
     if (data.get('keepWorking')) addText(ownedSection,'p','Keep/placement-first is a valid outcome. An upgrade is not justified until a real limitation or missing feature is identified.','sb-report-note');
 
