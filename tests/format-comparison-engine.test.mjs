@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 
 const engineScript = readFileSync(new URL('../assets/format-comparison-engine.js', import.meta.url), 'utf8');
-function setup({ badStatus = false, failDecode = false } = {}) {
+function setup({ badStatus = false, failDecode = false, oversizedDownload = false, oversizedDecoded = false } = {}) {
   const connections = [];
   const starts = [];
   const stops = [];
@@ -36,8 +36,8 @@ function setup({ badStatus = false, failDecode = false } = {}) {
     createGain() { return new FakeGain(); }
     decodeAudioData(bytes) {
       if (failDecode) return Promise.reject(new Error('Unsupported FLAC'));
-      assert.equal(bytes.byteLength, 8);
-      return Promise.resolve({ numberOfChannels: 2, length: 30 * 44100, duration: 30 });
+      assert.equal(bytes.byteLength, oversizedDownload ? 15 * 1024 * 1024 : 8);
+      return Promise.resolve({ numberOfChannels: 2, length: oversizedDecoded ? 6 * 1024 * 1024 : 30 * 44100, duration: 30 });
     }
   }
   const urls = { duration: 30, lossless: 'https://audio.example/track.flac', '128': '/track-128.mp3', '320': '/track-320.mp3' };
@@ -45,7 +45,7 @@ function setup({ badStatus = false, failDecode = false } = {}) {
   const window = { AudioContext: FakeAudioContext, fetch: () => {} };
   const fetch = async (url, options) => {
     fetches.push({url, signal:options.signal});
-    return { ok: !badStatus, status: badStatus ? 403 : 200, arrayBuffer: async()=>new ArrayBuffer(8) };
+    return { ok: !badStatus, status: badStatus ? 403 : 200, arrayBuffer: async()=>new ArrayBuffer(oversizedDownload ? 15 * 1024 * 1024 : 8) };
   };
   runInNewContext(engineScript, { window, fetch, AbortController, console });
   const engine = new window.TSQFormatBuffers();
@@ -133,11 +133,13 @@ test('failed network or FLAC decode rejects cleanly for native playback fallback
 });
 
 test('download and decoded PCM byte budgets fail closed', async () => {
-  const { engine, urls, volumes } = setup();
-  // Existing sample test creates 8-byte fake responses. A 40-second real
-  // recording at 48 kHz uses ~46 MB across 3 decoded stereo buffers.
-  assert.equal(await engine.prepare('light', urls, volumes), true);
-  engine.dispose();
+  for (const option of [{ oversizedDownload: true }, { oversizedDecoded: true }]) {
+    const { engine, urls, volumes } = setup(option);
+    await assert.rejects(engine.prepare('light', urls, volumes), /Too much audio|Decoded audio exceeds/);
+    engine.clear();
+    assert.equal(engine.isReady(), false);
+    engine.dispose();
+  }
   assert.match(engineScript, /MAX_DOWNLOAD_BYTES = 14 \* 1024 \* 1024/);
   assert.match(engineScript, /MAX_DECODED_BYTES = 48 \* 1024 \* 1024/);
 });
