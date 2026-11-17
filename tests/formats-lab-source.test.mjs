@@ -23,6 +23,8 @@ test('MP3 files were generated from existing FLAC sources, not separate mixes', 
   assert.doesNotMatch(html, /lamejs|Prepare my listening test|noindex,nofollow/);
   assert.match(html, /assets\/format-comparison-engine\.js/);
   assert.match(html, /id="prepareInstant"/);
+  assert.match(html, /kbps” means kilobits per second/);
+  assert.match(html, /The numbers show <strong>bitrate<\/strong>/);
   assert.match(html, /id="instantReadiness"/);
   assert.match(html, /state\.prepared/);
   assert.match(html, /if\(state\.prepared\)\{/);
