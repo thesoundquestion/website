@@ -18,7 +18,7 @@
 - [x] Retire the hidden duplicate Mastering ABX controls and listeners, leaving the dedicated ABX Lab link.
 - [ ] Investigate PR #11 Formats Web Audio switching; integrate only if the newer browser fallback and caching stay reliable.
 - [x] Add ABX, community, share, waveform and readiness files to required Pages build and validate waveform SVG checksums.
-- [ ] Remove redundant calls to action and verify contextual cross-links and navigation style.
+- [x] Source-level internal link and anchor integrity covers 1000+ hrefs; normalize Mastering logo, main navigation and mobile menu to the site's shared labels. Final visual review remains separate.
 - [x] Direct Content Use rights questions to the project email while preserving the contact page and permission terms.
 - [x] Add regression for Mastering static waveforms, source provenance, old ABX absence and zero initial waveform decoding.
 

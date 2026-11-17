@@ -26,7 +26,6 @@ function walk(dir=''){
 }
 const pages=walk();
 for(const p of pages){
- if(p==='lab/mastering/index.html')continue;
  const s=read(p);
  const nav=s.match(/<nav class="main-nav"[^>]*>([\s\S]*?)<\/nav>/);
  assert.ok(nav,p+' missing main-nav');
@@ -35,4 +34,13 @@ for(const p of pages){
  assert.ok(mobile,p+' missing no-JS mobile menu');
  assert.match(mobile[1],/<summary>Menu<\/summary>/);
 }
+});
+
+test('all three source Listening Labs use the same site logo, primary links and mobile menu semantics',()=>{
+ for(const pathName of ['lab/index.html','lab/mastering/index.html','labs/formats/index.html']){
+  const s=read(pathName);
+  assert.match(s,/class="brand"[^>]*href="\/"[^>]*>[\s\S]*?<img[^>]*src="(?:\.\.\/assets\/mark\.svg|\/assets\/mark\.svg)"/);
+  assert.match(s,/<nav class="main-nav" aria-label="Primary navigation">/);
+  assert.match(s,/<details class="mobile-nav"><summary>Menu<\/summary>/);
+ }
 });
