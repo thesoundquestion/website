@@ -115,6 +115,51 @@ try {
     if((await abx.locator('select').inputValue())!=='mix-narrow-reference-v1')throw new Error(device.name+' Training options missing');
     if(await backLink.getAttribute('href')!=='/lab/')throw new Error(device.name+' Mixing source lesson link broken');
     results.push(device.name+' ABX Training / Challenge / Advanced, contextual overview links OK');
+    // Community boards share the free-tier D1 Worker. Mock only this API for
+    // browser UI tests; production submission stays disabled until release.
+    await page.route('https://tsq-abx.thesoundquestion.workers.dev/v1/community/**',async route=>{
+      const req=route.request(),url=new URL(req.url());
+      const common={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,OPTIONS','access-control-allow-headers':'content-type'};
+      if(req.method()==='OPTIONS'){await route.fulfill({status:204,headers:common});return;}
+      if(url.pathname.endsWith('/approved')){
+        const sample=url.searchParams.get('kind')==='comment'
+          ? [{kind:'comment',body:'This community experiment is fun.',category:'',artist:'',title:''}]
+          : [{kind:'suggestion',title:'A <b>hidden</b> gem',artist:'The Unknown Group',category:'atmosphere',body:'Unusual recording with depth and layered groove.'}];
+        await route.fulfill({status:200,contentType:'application/json',headers:common,body:JSON.stringify({items:sample,hasMore:false,nextOffset:1})});return;
+      }
+      if(url.pathname.endsWith('/submit')){
+        await route.fulfill({status:202,contentType:'application/json',headers:common,body:JSON.stringify({status:'pending',receipt:'00000000-0000-4000-8000-000000000001'})});return;
+      }
+      await route.fulfill({status:404,contentType:'application/json',headers:common,body:'{}'});
+    });
+    const abxCommunity=page.locator('[data-community-scope="abx"]');
+    await abxCommunity.scrollIntoViewIfNeeded();
+    const discussion=abxCommunity.locator('form[data-community-kind="comment"]');
+    await discussion.locator('button[type="submit"]').waitFor({state:'visible'});
+    await page.waitForFunction(()=>!document.querySelector('[data-community-scope="abx"] button[type="submit"]')?.disabled,null,{timeout:12000});
+    await discussion.locator('textarea[name="body"]').fill('I noticed the reverb tails differed between A and B.');
+    await discussion.locator('input[name="consent"]').check();
+    await discussion.locator('button[type="submit"]').click();
+    await page.waitForFunction(()=>document.querySelector('[data-community-scope="abx"] .community-feedback')?.textContent.includes('Submitted for review'),null,{timeout:12000});
+    if(!await abxCommunity.locator('.community-entry-body').count())throw new Error(device.name+' approved discussion not displayed');
+    if((await abxCommunity.locator('.community-entry-body').first().innerText()).includes('reverb tails'))throw new Error(device.name+' pending comment appeared publicly');
+    await page.goto('http://127.0.0.1:8765/library/curators-listening-room/#community-listening-room',{waitUntil:'load',timeout:30000});
+    const roomCommunity=page.locator('[data-community-scope="room"]');
+    await roomCommunity.scrollIntoViewIfNeeded();
+    const nominate=roomCommunity.locator('form[data-community-kind="suggestion"]');
+    if(await nominate.locator('select[name="category"] option').count()!==8)throw new Error(device.name+' missing Listening Room categories');
+    if(await nominate.locator('textarea[name="body"]').getAttribute('maxlength')!=='280')throw new Error(device.name+' missing description limit');
+    await page.waitForFunction(()=>!document.querySelector('[data-community-scope="room"] [data-community-kind="suggestion"] button[type="submit"]')?.disabled,null,{timeout:12000});
+    await nominate.locator('input[name="artist"]').fill('Little Known Ensemble');
+    await nominate.locator('input[name="title"]').fill('An Unusual Recording');
+    await nominate.locator('select[name="category"]').selectOption('atmosphere');
+    await nominate.locator('textarea[name="body"]').fill('Layered rhythms and spatial details make this hidden gem especially worth hearing.');
+    await nominate.locator('input[name="consent"]').check();
+    await nominate.locator('button[type="submit"]').click();
+    await page.waitForFunction(()=>document.querySelector('[data-community-scope="room"] .community-feedback')?.textContent.includes('Submitted for review'),null,{timeout:12000});
+    if(await roomCommunity.locator('.community-results b').count())throw new Error(device.name+' unsafe submitted HTML was interpreted');
+    if(!(await roomCommunity.locator('.community-results').first().innerText()).includes('<b>hidden</b>'))throw new Error(device.name+' approved text was not safely rendered');
+    results.push(device.name+' moderated ABX comments and seven-category Listening Room nominations OK');
     if (errors.length) throw new Error(device.name+' JavaScript errors: '+errors.join('; '));
     results.push(device.name+' ABX Training / Challenge / Advanced UI OK');
     results.push(device.name+' lossless PLAYING '+losslessStatus.pos.toFixed(2)+' s');
