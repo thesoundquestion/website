@@ -59,7 +59,20 @@ try {
       },bitrate,{timeout:20000});
       results.push(device.name+' diva MP3 '+bitrate+' PLAYING');
     }
+    const abx=page.locator('[data-abx-lab="formats"]');
+    if(await abx.locator('[data-mode="training"]').count()!==1)throw new Error(device.name+' missing ABX training');
+    await abx.locator('button:has-text("X is A")').click();
+    const practice=await abx.locator('.tsq-abx-scoreboard').innerText();
+    if(!practice.includes('Training score:'))throw new Error(device.name+' ABX did not count training guess: '+practice);
+    await abx.locator('button:has-text("Next trial")').click();
+    await abx.locator('[data-mode="challenge"]').click();
+    const scoredText=await abx.locator('.tsq-abx-scoreboard').innerText();
+    if(!scoredText.includes('Scored trials only open after technical review'))throw new Error(device.name+' scored mode did not display release gate');
+    await abx.locator('[data-mode="advanced"]').click();
+    if(await abx.locator('.tsq-abx-consent').isHidden())throw new Error(device.name+' Advanced opt-in missing');
+    await abx.locator('[data-mode="training"]').click();
     if (errors.length) throw new Error(device.name+' JavaScript errors: '+errors.join('; '));
+    results.push(device.name+' ABX Training / Challenge / Advanced UI OK');
     results.push(device.name+' lossless PLAYING '+losslessStatus.pos.toFixed(2)+' s');
     await context.close();
   }
