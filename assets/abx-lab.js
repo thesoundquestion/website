@@ -68,14 +68,18 @@ progress.textContent='Round '+Math.min(round+1,total)+' of '+total+(mode==='trai
 function reset(){version++;stop();round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else scoreboard.textContent='Scored trials only open after technical review. Choose whether to share your completed result, then press Start scored session.'}
 function newTraining(){answer=Math.random()<.5?'A':'B';locked=false;live={A:tests[testId].a,B:tests[testId].b,X:answer==='A'?tests[testId].a:tests[testId].b};render()}
 async function startScored(){
-pending=true;render();for(const b of Object.values(playButtons))b.disabled=true;
+const myVersion=version;
+pending=true;render();
 try {
-const data=await api('/v1/start',{testId,mode,share:consent.checked});
-if(!data.sessionId||!data.urls||!data.roundToken)throw Error('Invalid session response');
-session={id:data.sessionId,token:data.roundToken,total:data.total};live=data.urls;
-scoreboard.textContent='Scored session active. Correct answers remain hidden until all rounds are finished.';
-} catch(err){scoreboard.textContent='Scored tests are not open yet. This comparison needs a validated, protected audio source and a working server. Training remains available.';session=null;live=null}
-finally{pending=false;for(const b of Object.values(playButtons))b.disabled=!live;render()}
+ const data=await api('/v1/start',{testId,mode,share:consent.checked});
+ if(myVersion!==version)return;
+ if(!data.sessionId||!data.controlKey||!data.urls||!data.roundToken)throw Error('Invalid server session');
+ session={id:data.sessionId,controlKey:data.controlKey,token:data.roundToken,total:data.total};
+ live=data.urls;
+ scoreboard.textContent='Scored session active. Answers remain hidden until you finish.';
+}catch{
+ if(myVersion===version){session=null;live=null;scoreboard.textContent='Scored tests are not open yet. The comparison and protected playback must first pass technical review.'}
+}finally{if(myVersion===version){pending=false;render()}}
 }
 async function play(slot){
 if(!live||pending)return;
