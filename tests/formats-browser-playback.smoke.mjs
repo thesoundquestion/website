@@ -78,7 +78,7 @@ try {
       const imgs=[...document.querySelectorAll('.hero-art img[src^="/assets/waveforms/mastering-"]')];
       return imgs.length===3 && imgs.every(img=>img.complete&&img.naturalWidth>0&&img.naturalHeight>0);
     },null,{timeout:15000});
-    if(masteringAudioRequests.length)throw new Error(device.name+' Mastering page unexpectedly fetched '+masteringAudioRequests.length+' FLACs on open');
+    if(masteringAudioRequests.length)throw new Error(device.name+' Mastering page unexpectedly fetched '+masteringAudioRequests.length+' FLACs on open: '+JSON.stringify(masteringAudioRequests));
     if(await masterPage.locator('#abxPanel').count())throw new Error(device.name+' legacy Mastering ABX player still exists');
     const imgLinks=masterPage.locator('.hero-art a[href$=".svg"]');
     if(await imgLinks.count()!==3)throw new Error(device.name+' waveform full-size links missing');
