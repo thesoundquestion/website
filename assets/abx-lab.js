@@ -4,31 +4,57 @@
 const API = 'https://tsq-abx.thesoundquestion.workers.dev';
 const AUDIO = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
 const tests = {
- 'mix-narrow-reference-v1': {lab:'mix',level:'training',label:'Narrow mix vs conventional mix',a:AUDIO+'/mixing/narrow.flac',b:AUDIO+'/mixing/reference.flac',note:'Exaggerated width difference. For training only; level and alignment checks are pending.'},
- 'mix-reference-creative-v1':{lab:'mix',level:'training',label:'Conventional vs creative mix',a:AUDIO+'/mixing/reference.flac',b:AUDIO+'/mixing/polished.flac',note:'Clearly contrasting spatial treatments. For training only; level and alignment checks are pending.'},
- 'master-dynamic-moderate-v1':{lab:'master',level:'training',label:'Dynamic vs moderately compressed master',a:AUDIO+'/mastering/matched-dynamic.flac',b:AUDIO+'/mastering/matched-moderate.flac',note:'Loudness-matched mastering treatments. A useful learning demonstration.'},
- 'master-moderate-brick-v1':{lab:'master',level:'training',label:'Moderate vs brickwalled master',a:AUDIO+'/mastering/matched-moderate.flac',b:AUDIO+'/mastering/matched-brickwalled.flac',note:'Matched overall loudness, but deliberately strong changes in dynamics.'},
- 'master-eq-v1':{lab:'master',level:'training',label:'EQ off vs EQ on',a:AUDIO+'/mastering/eq-off.flac',b:AUDIO+'/mastering/eq-on.flac',note:'Training only until level-matching and source alignment are independently verified.'},
- 'formats-light-128-v1':{lab:'formats',level:'training',label:'Let The Light In: lossless vs 128 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-128.mp3',note:'Codec comparison; training is unscored until a controlled blind transport is validated.'},
- 'formats-light-320-v1':{lab:'formats',level:'training',label:'Let The Light In: lossless vs 320 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-320.mp3',note:'Subtle codec comparison; not yet validated for scored blind testing.'},
- 'formats-diva-128-v1':{lab:'formats',level:'training',label:'Diva: lossless vs 128 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-128.mp3',note:'Codec comparison; local training only.'},
- 'formats-diva-320-v1':{lab:'formats',level:'training',label:'Diva: lossless vs 320 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-320.mp3',note:'Subtle codec comparison; local training only.'}
+ 'mix-narrow-reference-v1': {lab:'mix',modes:['training'],label:'Narrow mix vs conventional mix',a:AUDIO+'/mixing/narrow.flac',b:AUDIO+'/mixing/reference.flac',note:'Exaggerated width difference. For training only; level and alignment checks are pending.'},
+ 'mix-reference-creative-v1':{lab:'mix',modes:['training'],label:'Conventional vs creative mix',a:AUDIO+'/mixing/reference.flac',b:AUDIO+'/mixing/polished.flac',note:'Clearly contrasting spatial treatments. For training only; level and alignment checks are pending.'},
+ 'master-dynamic-moderate-v1':{lab:'master',modes:['training'],label:'Dynamic vs moderately compressed master',a:AUDIO+'/mastering/matched-dynamic.flac',b:AUDIO+'/mastering/matched-moderate.flac',note:'Loudness-matched mastering treatments. A useful learning demonstration.'},
+ 'master-moderate-brick-v1':{lab:'master',modes:['training'],label:'Moderate vs brickwalled master',a:AUDIO+'/mastering/matched-moderate.flac',b:AUDIO+'/mastering/matched-brickwalled.flac',note:'Matched overall loudness, but deliberately strong changes in dynamics.'},
+ 'master-eq-v1':{lab:'master',modes:['training','challenge'],label:'EQ off vs EQ on',a:AUDIO+'/mastering/eq-off.flac',b:AUDIO+'/mastering/eq-on.flac',note:'Training only until level-matching and source alignment are independently verified.'},
+ 'formats-light-128-v1':{lab:'formats',modes:['training','challenge'],label:'Let The Light In: lossless vs 128 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-128.mp3',note:'Codec comparison; training is unscored until a controlled blind transport is validated.'},
+ 'formats-light-320-v1':{lab:'formats',modes:['training','advanced'],label:'Let The Light In: lossless vs 320 kbps',a:AUDIO+'/mixing/reference.flac',b:'/assets/audio/formats/light-320.mp3',note:'Subtle codec comparison; not yet validated for scored blind testing.'},
+ 'formats-diva-128-v1':{lab:'formats',modes:['training','challenge'],label:'Diva: lossless vs 128 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-128.mp3',note:'Codec comparison; local training only.'},
+ 'formats-diva-320-v1':{lab:'formats',modes:['training','advanced'],label:'Diva: lossless vs 320 kbps',a:AUDIO+'/mastering/dynamic.flac',b:'/assets/audio/formats/diva-320.mp3',note:'Subtle codec comparison; local training only.'}
 };
 const el=(tag,props={},text='')=>{const node=document.createElement(tag);Object.entries(props).forEach(([k,v])=>{if(k==='class')node.className=v;else node.setAttribute(k,String(v))});if(text)node.textContent=text;return node};
 function init(root){
 const lab=root.dataset.abxLab;
-const catalog=Object.entries(tests).filter(([,v])=>v.lab===lab);
+const catalog=Object.entries(tests).filter(([,v])=>lab==='all'||v.lab===lab);
 if(!catalog.length)return;
 root.classList.add('tsq-abx');root.innerHTML='';
 root.append(el('p',{class:'tsq-abx-kicker'},'BLIND LISTENING / TRAINING → CHALLENGE → ADVANCED'));
 root.append(el('h2',{},'Hear it. Then test yourself.'));
-root.append(el('p',{},'Training teaches the difference. Challenge and Advanced use server-verified trials when a comparison has passed fairness checks. No listening score is a measure of someone’s worth or equipment quality.'));
-const notice=el('p',{class:'tsq-abx-notice'},'Only level-matched and technically verified comparisons qualify for scored testing. Intentionally louder masters are never eligible.');root.append(notice);
+root.append(el('p',{},'Learn the differences in Training, then try longer Challenge or Advanced listening games. You can replay A, B and X freely, and choose whether to add a completed result to community statistics. These are for fun and discussion, not scientific hearing measurements.'));
+const notice=el('p',{class:'tsq-abx-notice'},'The comparisons use the same performances with obvious level differences controlled where practical. Personal listening conditions vary. The deliberately unequal-volume masters are excluded from ABX.');root.append(notice);
 const tabs=el('div',{class:'tsq-abx-tabs',role:'group','aria-label':'ABX difficulty'});
 const modes=[['training','Training'],['challenge','Challenge · 10 trials'],['advanced','Advanced · 20 trials']];
 let mode='training',testId=catalog[0][0],round=0,correct=0,answer='A',locked=false,live=null,session=null,version=0;
 const choose=el('select',{'aria-label':'Choose ABX comparison'});
-catalog.forEach(([id,t])=>choose.append(el('option',{value:id},t.label)));
+const lesson=el('a',{class:'tsq-abx-lesson-link',href:'/labs/'},'Explore the original lesson');
+const byMode=which=>catalog.filter(([,v])=>v.modes.includes(which));
+function updateChoices(preferred){
+ const available=byMode(mode);
+ choose.replaceChildren();
+ for(const [id,t] of available){
+  const name=t.lab==='mix'?'Mixing':t.lab==='master'?'Mastering':'MP3 vs lossless';
+  choose.append(el('option',{value:id},name+' · '+t.label));
+ }
+ testId=available.some(([id])=>id===preferred)?preferred:(available[0]?.[0]||null);
+ if(testId)choose.value=testId;
+ return available.length;
+}
+const sourceLink={mix:'/lab/',master:'/lab/mastering/',formats:'/labs/formats/'};
+function recordSelection(){
+ if(!testId)return;
+ const url=new URL(location.href);url.searchParams.set('test',testId);url.searchParams.set('mode',mode);
+ history.replaceState(null,'',url.pathname+url.search);
+}
+function configureLessonLink(){
+ const spec=testId?tests[testId]:null;
+ lesson.hidden=!spec;
+ if(!spec)return;
+ lesson.href=sourceLink[spec.lab];
+ lesson.textContent='Explore the original '+({mix:'Mixing',master:'Mastering',formats:'MP3 vs Lossless'}[spec.lab])+' Lab ↗';
+ lesson.target='_blank';lesson.rel='noopener noreferrer';
+}
 const meta=el('p',{class:'tsq-abx-meta'});
 const buttons=el('div',{class:'tsq-abx-player',role:'group','aria-label':'Listen to references and mystery X'});
 const playButtons={};
@@ -44,7 +70,7 @@ const prepareButton=el('button',{type:'button',class:'tsq-abx-start'},'Prepare r
 const trialReadiness=el('p',{class:'tsq-abx-trial-readiness','data-readiness':'wait',role:'status','aria-live':'polite'},'Please wait');
 const statsButton=el('button',{type:'button',class:'tsq-abx-stats-button'},'View community results');
 const statsBox=el('div',{class:'tsq-abx-stats',role:'status','aria-live':'polite'});
-root.append(tabs,choose,meta,trialReadiness,prepareButton,buttons,answerRow,consentLabel,startButton,progress,scoreboard,statsButton,statsBox);
+root.append(tabs,choose,lesson,meta,trialReadiness,prepareButton,buttons,answerRow,consentLabel,startButton,progress,scoreboard,statsButton,statsBox);
 const audio=document.createElement('audio');audio.preload='none';audio.crossOrigin='anonymous';audio.hidden=true;root.append(audio);
 const takeFocus=()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'abx'}}));
 audio.addEventListener('play',takeFocus);
@@ -65,24 +91,25 @@ const res=await fetch(API+path,{method:'POST',mode:'cors',headers:{'content-type
 if(!res.ok)throw Error('Scored ABX service unavailable ('+res.status+').');
 return res.json();
 }
-function setMode(value){mode=value;tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));reset()}
+function setMode(value,preferred){mode=value;tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));updateChoices(preferred);reset();recordSelection()}
 modes.forEach(([id,label])=>{const b=el('button',{type:'button','data-mode':id},label);b.onclick=()=>setMode(id);tabs.append(b)});
 function render(){
-const spec=tests[testId];meta.textContent=spec.note;
+const spec=testId?tests[testId]:null;meta.textContent=spec?spec.note:'No comparisons at this level in this lab. Choose Training or visit another Listening Lab.';
+configureLessonLink();
 const scored=mode!=='training';
 const total=scored?(mode==='advanced'?20:10):10;
-consentLabel.hidden=!scored;startButton.hidden=!scored||Boolean(session);startButton.disabled=pending;
-prepareButton.hidden=scored||Boolean(live)||round>=10;prepareButton.disabled=pending;
+consentLabel.hidden=!scored||!spec;startButton.hidden=!scored||!spec||Boolean(session);startButton.disabled=pending||!spec;
+prepareButton.hidden=scored||!spec||Boolean(live)||round>=10;prepareButton.disabled=pending;
 trialReadiness.hidden=scored||(!pending&&!live&&!prepareFailed); // X preparation latency is never displayed in scored ABX.
 switchStates();
 next.hidden=!locked||scored;guessA.disabled=locked||pending||!live;guessB.disabled=locked||pending||!live;
 for(const b of Object.values(playButtons))b.disabled=pending||!live;
 for(const b of tabs.querySelectorAll('button'))b.disabled=Boolean(session);
 consent.disabled=Boolean(session);
-choose.disabled=Boolean(session)||pending;
-progress.textContent='Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · No answer feedback until completion');
+choose.disabled=!spec||Boolean(session)||pending;
+progress.textContent=spec?'Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':' · Answers shown at completion'):'Select another level for available experiments.';
 }
-function reset(){version++;stop();cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training')newTraining();else scoreboard.textContent='Scored trials only open after technical review. Choose whether to share your completed result, then press Start scored session.'}
+function reset(){version++;stop();cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent='Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
 function newTraining(){
  answer=Math.random()<.5?'A':'B';locked=false;
  const a=localSource(TRAIN_A),b=localSource(TRAIN_B);
@@ -90,7 +117,7 @@ function newTraining(){
  render();
 }
 async function prepareTraining(){
- if(mode!=='training'||pending||live)return;
+ if(mode!=='training'||!testId||pending||live)return;
  const myVersion=version;
  if(prepareFailed)cache.clear(); // Explicit retry after offline preparation, not an idle retry loop.
  pending=true;prepareFailed=false;takeFocus();render();
@@ -119,6 +146,7 @@ async function prepareScoredTrial(urls,{initial=false}={}){
 }
 async function startScored(){
 const myVersion=version;
+if(!testId)return;
 pending=true;takeFocus();render();
 try {
  const data=await api('/v1/start',{testId,mode,share:consent.checked});
@@ -127,9 +155,9 @@ try {
  session={id:data.sessionId,controlKey:data.controlKey,token:data.roundToken,total:data.total};
  live=await prepareScoredTrial(data.urls,{initial:true});
  if(myVersion!==version)return;
- scoreboard.textContent='Scored session active. Answers remain hidden until you finish.';
+ scoreboard.textContent='Listening game underway. You can replay A, B and X freely; results appear after the final answer.';
 }catch{
- if(myVersion===version){session=null;live=null;prepareFailed=true;scoreboard.textContent='Scored tests are not open yet. The comparison and protected playback must first pass technical review.'}
+ if(myVersion===version){session=null;live=null;prepareFailed=true;scoreboard.textContent='This challenge could not start. Check your connection or use Training.'}
 }finally{if(myVersion===version){pending=false;render()}}
 }
 async function play(slot){
@@ -169,7 +197,7 @@ async function applyServerProgress(data){
  if(data.complete){
   stop();cache.clear();live=null;session=null;locked=true;
   const chance=Number.isFinite(data.chanceProbability)?' Chance of this score or higher by random guessing: '+(data.chanceProbability*100).toFixed(1)+'%.':'';
-  scoreboard.textContent='Completed: '+data.correct+'/'+data.total+' correct.'+chance+' '+(data.shared?'Included in voluntary community statistics.':'Not shared publicly.');
+  scoreboard.textContent='You identified '+data.correct+'/'+data.total+' correctly.'+chance+' '+(data.shared?'Included in optional community statistics.':'Your result was not published.')+' These are informal, unsupervised results.';
  }else{
   if(!data.urls||!data.roundToken)throw Error('Missing next trial');
   const sameRound=data.roundToken===session.token;
@@ -211,10 +239,13 @@ async function submit(guess){
 guessA.onclick=()=>submit('A');guessB.onclick=()=>submit('B');
 prepareButton.onclick=()=>prepareTraining();
 next.onclick=()=>{if(mode==='training'){round++;if(round>=10){scoreboard.textContent='Training complete: '+correct+'/10. These results are not submitted.';live=null;render()}else newTraining()}};
-choose.onchange=()=>{testId=choose.value;reset()};
+choose.onchange=()=>{testId=choose.value;reset();recordSelection()};
 startButton.onclick=()=>{if(mode!=='training'&&!session&&!pending)startScored()};
-statsButton.onclick=async()=>{statsBox.textContent='Checking available community statistics…';try{const response=await fetch(API+'/v1/stats',{mode:'cors'});if(!response.ok)throw Error('unavailable');const data=await response.json();const values=Array.isArray(data.results)?data.results:[];statsBox.textContent='';if(!values.length){statsBox.textContent='No eligible community results yet. At least 10 completed opt-in sessions are required per comparison.';return}const table=el('table',{class:'tsq-abx-results'}),header=el('tr');for(const field of ['Comparison','Level','Sessions','Mean correct'])header.append(el('th',{},field));table.append(header);for(const x of values){const tr=el('tr');for(const value of [x.test_id,x.mode,String(x.sessions),Math.round(Number(x.accuracy)*100)+'%'])tr.append(el('td',{},value));table.append(tr)}statsBox.append(table,el('p',{},data.note||'Unsupervised, voluntary community listening sessions.'))}catch{statsBox.textContent='Community results are not yet available. The secure scoring service has not been released.'}};
-setMode('training');
+statsButton.onclick=async()=>{statsBox.textContent='Checking available community statistics…';try{const response=await fetch(API+'/v1/stats',{mode:'cors'});if(!response.ok)throw Error('unavailable');const data=await response.json();const values=Array.isArray(data.results)?data.results:[];statsBox.textContent='';if(!values.length){statsBox.textContent='No eligible community results yet. At least 10 completed opt-in sessions are required per comparison.';return}const table=el('table',{class:'tsq-abx-results'}),header=el('tr');for(const field of ['Comparison','Level','Sessions','Mean correct'])header.append(el('th',{},field));table.append(header);for(const x of values){const tr=el('tr');for(const value of [tests[x.test_id]?.label||x.test_id,x.mode,String(x.sessions),Math.round(Number(x.accuracy)*100)+'%'])tr.append(el('td',{},value));table.append(tr)}statsBox.append(table,el('p',{},data.note||'Unsupervised, voluntary community listening sessions.'))}catch{statsBox.textContent='Community results are not yet available. The secure scoring service has not been released.'}};
+const query=new URLSearchParams(location.search);
+const requestedTest=query.get('test');const requestedMode=query.get('mode');
+const wantedMode=modes.some(([id])=>id===requestedMode)?requestedMode:(requestedTest&&tests[requestedTest]?.modes.includes('challenge')?'challenge':requestedTest&&tests[requestedTest]?.modes.includes('advanced')?'advanced':'training');
+setMode(wantedMode,requestedTest);
 }
 document.querySelectorAll('[data-abx-lab]').forEach(init);
 })();
