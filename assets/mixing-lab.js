@@ -14,7 +14,6 @@
   const timeDisplay = document.getElementById('timeDisplay');
   let current = 'narrow';
   let pendingSeek = null;
-  let resumeOnReady = false;
   let requestedVersion = 0;
   let currentPlaying = false;
   let userStarted = false;
@@ -77,7 +76,6 @@
       audio.removeAttribute('src');
       audio.load();
       pendingSeek = null;
-      resumeOnReady = false;
       slider.value = '0';
       timeDisplay.textContent = `${fmt(time)} / 0:30.0`;
       tell(`Load the ${type} WAV to audition it.`);
@@ -85,10 +83,14 @@
       return;
     }
     pendingSeek = Math.max(0, Math.min(DURATION - 0.05, time));
-    resumeOnReady = wasPlaying;
     audio.preload = userStarted ? 'auto' : 'none';
     audio.src = files[type].local ? files[type].url : (cache.get(type) || files[type].url);
     audio.load();
+    // Resume within the selection tap, not asynchronously at loadedmetadata.
+    // Some mobile browsers block playback after the original gesture ends.
+    if(wasPlaying)audio.play().catch(()=>{
+      if(version===requestedVersion)tell('Press Play to continue; your browser requires another tap.');
+    });
     const label = type === 'reference' ? 'Conventional Reference' : type === 'narrow' ? 'Extreme Narrow' : 'Creative / Polished';
     tell(`${label} selected. ${wasPlaying ? 'Continuing near the same position.' : 'Press Play when ready.'}`);
     if (version !== requestedVersion) return;
@@ -135,10 +137,6 @@
       try { audio.currentTime = Math.min(pendingSeek, Math.max(0, (audio.duration || DURATION) - 0.05)); } catch (_error) { /* browser handles this later */ }
     }
     pendingSeek = null;
-    if (resumeOnReady) {
-      resumeOnReady = false;
-      audio.play().catch(() => tell('Playback was blocked. Press Play to resume.'));
-    }
     updateTime();
     updateVariant();
   });
