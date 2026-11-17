@@ -204,13 +204,13 @@ function renderDistortionRatingContext(entries, speakerLoad) {
   heading.textContent = 'How clean is the published power?';
   panel.append(heading);
   const lead = document.createElement('p');
-  lead.textContent = 'The power estimate uses the watts and speaker load you entered. THD means added harmonic distortion; THD+N also includes background noise. A manufacturer's rating may state a limit for these under particular test conditions. That does not tell you the distortion at your actual listening volume.';
+  lead.textContent = 'The power estimate uses the watts and speaker load you entered. THD means added harmonic distortion; THD+N also includes background noise. A manufacturer’s rating may state a limit for these under particular test conditions. That does not tell you the distortion at your actual listening volume.';
   panel.append(lead);
   const sameLoad = entries.filter(r => r.load === speakerLoad);
   if (!sameLoad.length) {
     const p = document.createElement('p');
     p.className = 'sc-distortion-caution';
-    p.textContent = 'No amplifier rating was entered for your speaker's stated ' + show(speakerLoad) + ' Ω. A projected wattage figure from another load cannot verify either distortion or clean power at this load.';
+    p.textContent = 'No amplifier rating was entered for your speaker’s stated ' + show(speakerLoad) + ' Ω. A projected wattage figure from another load cannot verify either distortion or clean power at this load.';
     panel.append(p);
   } else {
     const list = document.createElement('ul');
