@@ -349,3 +349,8 @@ main{flex:1}
 .home-share-actions .button{justify-content:center;text-align:center;min-height:44px;line-height:1.4;padding:11px 9px;font-size:.86rem;white-space:normal}
 .home-share-actions button[hidden]{display:none!important}.home-share-feedback{grid-column:1/-1;margin:0;color:#9ed9e9;min-height:1.25em;font-size:.8rem}
 @media(max-width:800px){.home-share-layout{grid-template-columns:1fr}.home-share-actions{padding:13px}}
+
+/* Skim-friendly plain-language beginnings for long technical lessons. */
+.tsq-lesson-shortcut{max-width:820px;margin:.7rem 0 1.35rem;padding:11px 15px;border-left:3px solid #77c6df;background:#112637;border-radius:0 8px 8px 0;color:#d5e8f2;font-size:.94rem;line-height:1.6}
+.tsq-lesson-shortcut strong{color:#f0f9ff}
+.curator-count-note{max-width:850px;margin:.4rem 0 1rem;color:#b9d6e4;font-size:.84rem;line-height:1.5}

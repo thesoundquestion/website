@@ -61,3 +61,14 @@ test('curated scored comparisons describe their practical limitations consistent
  for(const phrase of ['Training only until','not yet validated for scored','local training only'])
   assert.ok(!abx.includes(phrase));
 });
+
+test('rights policy offers direct contact and long lessons begin with plain-language context',()=>{
+ const rights=read('content-use/index.html');
+ assert.match(rights,/mailto:thesoundquestion@gmail\.com\?subject=Content/);
+ assert.match(rights,/Last reviewed: November 17, 2026/);
+ for(const page of ['decoder/speaker-frequency-response/index.html','decoder/mixing-soundstage/index.html','decoder/mastering-dynamic-range/index.html']){
+  assert.match(read(page),/tsq-lesson-shortcut/);
+  assert.match(read(page),/Start with the simple idea:/);
+ }
+ assert.match(read('library/curators-listening-room/index.html'),/51 selections cover 53 tracks/);
+});

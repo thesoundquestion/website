@@ -19,15 +19,15 @@
 - [ ] Investigate PR #11 Formats Web Audio switching; integrate only if the newer browser fallback and caching stay reliable.
 - [x] Add ABX, community, share, waveform and readiness files to required Pages build and validate waveform SVG checksums.
 - [ ] Remove redundant calls to action and verify contextual cross-links and navigation style.
-- [ ] Refine Content Use contact path and policy copy; preserve authorization scope.
+- [x] Direct Content Use rights questions to the project email while preserving the contact page and permission terms.
 - [x] Add regression for Mastering static waveforms, source provenance, old ABX absence and zero initial waveform decoding.
 
 ### C. Editorial and continuity
 - [x] Pre-release audit checked 47 sitemap routes and the existing 24-lesson sequence.
 - [x] Current build checks approved MP3 hashes and the illustrated handbook; retired quick-guide PDF is omitted.
-- [ ] Make the advanced detail in long frequency-response, mastering and mixing lessons easier to skip.
+- [x] Add plain-language introductory summaries to the longest frequency response, mixing and mastering lessons; preserve advanced sections for interested readers.
 - [ ] Ensure the first use of specialist vocabulary is explained with a short real-life example.
-- [ ] Explain curated-song count vs journey song count where useful.
+- [x] Explain 51 curated selections versus 53 tracks: a three-song suite appears as one curated entry.
 - [ ] Review real mobile layout and final lesson flow.
 
 ### D. Admin follow-up, **not a release blocker**
