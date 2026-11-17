@@ -31,7 +31,7 @@ test('Mixing, Mastering and ABX explain playback before any player controls',()=
  assert.match(mixing,/Replace examples \(optional\)/);
  assert.match(mixing,/doesn't guarantee pause-free switching/);
  assert.match(mastering,/Choose WAVs for this test/);
- assert.match(mastering,/switching can still pause/);
+ assert.match(mastering,/local files do not guarantee pause-free switching/);
  assert.match(abx,/Prepare recordings/);
  assert.match(abx,/Start scored session/);
  assert.match(abx,/supported devices/);
