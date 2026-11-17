@@ -59,6 +59,7 @@ function chanceAtLeast(correct,total){
  }
  return Number(probability.toFixed(8));
 }
+export const binomialTail=chanceAtLeast;
 const basic=(s)=>({answered:s.answered,total:s.total,complete:s.completed_at!==null});
 function snapshot(request,s,controlKey,secret){
  return trial(secret,s.id,s.answered).then(t=>({
