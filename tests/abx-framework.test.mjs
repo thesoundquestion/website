@@ -60,7 +60,8 @@ test('unmatched loud masters excluded from proposed scoring source catalogue',()
 test('D1 private score schemas and deployment guards exist',()=>{
  const sql=read('workers/abx/schema.sql');
  for(const term of ['abx_sessions','control_hash','purge_at','completed_at','share','expires_at'])assert.ok(sql.includes(term));
- assert.ok(read('workers/abx/wrangler.toml').includes('# [[d1_databases]]'));
+ assert.ok(read('workers/abx/wrangler.toml').includes('[[d1_databases]]'));
+ assert.ok(read('workers/abx/wrangler.toml').includes('ABX_PUBLIC_ENABLED = "false"'));
  assert.match(doc,/NOT DEPLOYED/);
 });
 test('public build denies private worker configuration',()=>{
