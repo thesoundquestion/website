@@ -6,7 +6,7 @@ import path from 'node:path';
 const root=path.resolve(import.meta.dirname,'..');
 const read=p=>readFileSync(path.join(root,p),'utf8');
 const lessons=[
- {slug:'microphone-types',anchor:'inside',visual:'mic-types-mechanisms.svg',claims:['MOVING-COIL','Condenser','Ribbon','Shotgun','Lavalier','USB','XLR','Phantom power']},
+ {slug:'microphone-types',anchor:'inside',visual:'mic-types-mechanisms.svg',claims:['Dynamic (moving-coil)','Condenser','Ribbon','Shotgun','Lavalier','USB','XLR','Phantom power']},
  {slug:'speaker-types',anchor:'jobs',visual:'speaker-types-settings.svg',claims:['Nearfield','Studio monitor','Hi-fi','PA','Stage wedge','Line array','Passive','Powered']}
 ];
 
@@ -51,6 +51,13 @@ for(const l of lessons){
   }
  });
 }
+test('dynamic is introduced alongside moving-coil in prose and illustration',()=>{
+ const lesson=read('decoder/microphone-types/index.html');
+ const figure=read('assets/illustrations/mic-types-mechanisms.svg');
+ assert.match(lesson,/Dynamic \(moving-coil\)/i);
+ assert.match(lesson,/usually mean by a <strong>dynamic microphone<\/strong>/i);
+ assert.match(figure,/>DYNAMIC \(MOVING-COIL\)<\/text>/);
+});
 test('vector teaching figures describe concepts, not fabricated product measurements',()=>{
  for(const l of lessons){
   const s=read('assets/illustrations/'+l.visual);
