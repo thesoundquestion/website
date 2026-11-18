@@ -39,7 +39,8 @@ test('Gmail installer is explicitly manual, guarded to the right account and out
  assert.match(code,/if\(ctx\.existing\.some/);
  assert.equal(manifest.dependencies.enabledAdvancedServices[0].serviceId,'gmail');
  assert.ok(manifest.oauthScopes.includes('https://www.googleapis.com/auth/gmail.settings.basic'));
- assert.match(docs,/NOT installed yet/);
+ assert.match(docs,/user reported completing the filter installer/);
+ assert.match(docs,/has not been independently inspected/);
  assert.match(docs,/separate daily ChatGPT inbox triage task/);
  assert.match(docs,/No messages were deleted, archived, forwarded or/);
  const build=read('scripts/build-public-site.mjs');
