@@ -19,12 +19,11 @@ No login, email, name, serial number, or user-uploaded file is requested.
 
 ## Staged technical design (NOT deployed)
 
-- `system-check/index.html`: separate **Recommend your gear** form, deliberately
-  disabled with `data-submissions-enabled="false"` while in preview.
-- `system-check/gear-submissions.js`: on direct submit, POST
+- `tools/recommend-gear/index.html`: dedicated **Recommend your gear** page, linked from System Check, Compare My Gear, System Builder and Tools, with an explicitly disabled draft form (`data-submissions-enabled="false"`).
+- `tools/recommend-gear/app.js`: on direct submit, POST
   `/v1/gear/submit`; never transmits calculator values, audio, an email or a user ID.
 - `workers/abx/gear-suggestions.mjs`: validates category, manufacturer,
-  exact model and optional notes/reference URL, then inserts a row with
+  exact model, optional version/year/region and notes/reference URL, then inserts a row with
   status `pending`. It does **not** expose a public GET/list/approve endpoint.
   Abuse is limited with the existing `COMMUNITY_LIMITER`. It does not
   fetch user-provided URLs, and the table has no IP/name/email columns.
@@ -48,7 +47,7 @@ This is an admin-only connector action; the site does not expose pending records
 Example read query, for authorized maintainer use:
 
 ```sql
-SELECT id, category, brand, model, specifications, reference_url, created_at
+SELECT id, category, brand, model, variant, approx_year, region, specifications, reference_url, created_at
 FROM gear_suggestions
 WHERE status = 'pending'
 ORDER BY created_at ASC
@@ -97,7 +96,7 @@ every time somebody opens System Check; it is an admin review workflow.
 ### Operational status
 
 - Connected Cloudflare D1 read query: **verified** on 2026-11-17.
-- Public site form: **staged in PR #15, inactive**.
+- Public standalone `/tools/recommend-gear/` form: **staged in PR #15, inactive**.
 - Worker endpoint: **staged, not deployed**.
 - D1 gear table: **not yet created**.
 - No live submissions, public API or public preset modifications from this work.
@@ -111,7 +110,7 @@ every time somebody opens System Check; it is an admin review workflow.
 - [ ] Confirm pending queue read through connected Cloudflare D1 account.
 - [ ] Confirm privacy and retention wording, review/delete permissions and receipt process.
 - [ ] Enable Worker flag separately; test cross-origin requests and errors.
-- [ ] Enable form in approved site build only when Worker is healthy.
+- [ ] Enable `/tools/recommend-gear/` form in approved site build only when Worker is healthy; verify all three tool links and Tools hub.
 - [ ] Test real mobile and desktop form accessibility and error messages.
 - [ ] Ensure preview-only / unavailable wording is removed from the final
       visitor experience when the feature becomes operational.
