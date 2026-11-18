@@ -13,6 +13,7 @@ import {dirname,resolve} from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
 import {composeEquipmentCatalog} from '../equipment/catalog-core.mjs';
 import {checkerPresetsFromCatalog,compareDetailsFromCatalog} from '../equipment/catalog-legacy-adapters.mjs';
+import {buildRegionalPriceTiers} from '../equipment/price-tiers.mjs';
 import {BUILDER_ONLY_SPEAKERS} from '../system-builder/supplemental-speakers.mjs';
 import {BUILDER_ONLY_AMPS} from '../system-builder/supplemental-amplifiers.mjs';
 import {BUILDER_ONLY_HEADPHONES} from '../system-builder/supplemental-headphones.mjs';
@@ -76,7 +77,16 @@ export const BUILDER_ONLY_HEADPHONES=freezeList(products.headphones);
 export const ADDITIONAL_BUDGET_HEADPHONES=Object.freeze(BUILDER_ONLY_HEADPHONES.filter(item=>
   item.model==='Koss KSC75'||item.model==='Koss Porta Pro (wired)'));
 `;
+const priceTiers={
+  schemaVersion:'1.0.0',
+  note:'Indicative regional relative pricing tiers only, not a performance grade, live price or availability statement.',
+  regions:Object.fromEntries(['CA','US','GB','EU','AU'].map(region=>[
+    region,buildRegionalPriceTiers(catalog,master.pricingResearch||{observations:[]},
+      {region,asOf:'2026-11-18'})
+  ]))
+};
 const outputs={
+  'equipment/price-tiers.generated.json':JSON.stringify(priceTiers,null,2)+'\n',
   'system-builder/catalog-supplements.generated.mjs':moduleSource,
   'equipment/catalog.generated.json':JSON.stringify(catalog,null,2)+'\n',
   // Classic script variables intentionally preserve the existing synchronous
