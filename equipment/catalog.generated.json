@@ -4406,9 +4406,54 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "rca_stereo_line_input_banks",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_phono_moving_magnet_with_ground",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "toslink_optical_pcm_digital_input",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "coaxial_spdif_pcm_digital_input",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "speaker_level_front_stereo_A_B_terminals",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_mono_subwoofer_line_preout",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_record_line_out",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "front_stereo_headphone_output",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "Yamaha A-S501 shares general input/output connection types with the A-S301 family but not necessarily rated power, impedance operating limits or operating controls. Two speaker banks are not two independent amplifiers; subwoofer OUT is line-level."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -4498,6 +4543,15 @@
       ],
       "evidence": [
         {
+          "url": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Shared A-S701/A-S501/A-S301 owner manual rear-panel specifications: stereo line RCA input/output jacks, PHONO MM/GND, DIGITAL OPTICAL and COAXIAL, SUBWOOFER OUT, SPEAKERS A/B",
+            "Model-specific rated output, impedances and power modes remain in original per-model specifications, not copied from the A-S301."
+          ],
+          "checkedDate": "2026-11-18"
+        },
+        {
           "url": "https://data.yamaha.com/files/download/other_assets/1/332211/web_VEX7890_A-S701_A-S501_A-S301_om_RL_EnEs_A0.pdf",
           "from": "system-check/gear.js",
           "fields": [
@@ -4530,9 +4584,54 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "rca_stereo_line_input_banks",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_phono_moving_magnet_with_ground",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "toslink_optical_pcm_digital_input",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "coaxial_spdif_pcm_digital_input",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "speaker_level_front_stereo_A_B_terminals",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_mono_subwoofer_line_preout",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_record_line_out",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "front_stereo_headphone_output",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "Yamaha A-S701 shares general input/output connection types with the A-S301 family but not necessarily rated power, impedance operating limits or operating controls. Two speaker banks are not two independent amplifiers; subwoofer OUT is line-level."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -4621,6 +4720,15 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Shared A-S701/A-S501/A-S301 owner manual rear-panel specifications: stereo line RCA input/output jacks, PHONO MM/GND, DIGITAL OPTICAL and COAXIAL, SUBWOOFER OUT, SPEAKERS A/B",
+            "Model-specific rated output, impedances and power modes remain in original per-model specifications, not copied from the A-S301."
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://data.yamaha.com/files/download/other_assets/1/332211/web_VEX7890_A-S701_A-S501_A-S301_om_RL_EnEs_A0.pdf",
           "from": "system-check/gear.js",
@@ -13078,9 +13186,18 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
+        "inputs": [
+          {
+            "type": "passive_speaker_level_five_way_binding_post_pair",
+            "scope": "passive_loudspeaker_speaker_level_input",
+            "from": "equipment/source-master.json"
+          }
+        ],
         "outputs": [],
-        "descriptions": []
+        "descriptions": [
+          "Five-way binding posts accept speaker cable terminations, not RCA line-level signals. Similar product family does not imply same sensitivity or impedance as ES15."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerNominalImpedanceOhms": {
@@ -13128,6 +13245,15 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es20/300364.html",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Polk Signature Elite ES20 manufacturer product family lists gold-plated five-way binding posts on the passive enclosure",
+            "One red/black speaker-terminal pair takes external amplifier speaker-level output"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es20/300364.html",
           "from": "system-check/compare/specs.js",
