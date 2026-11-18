@@ -111,6 +111,20 @@ test('speaker/headphone sensitivity bases and amp conditions are not erased',()=
   assert.ok(phantom.facts.speakerSensitivityDb.reference);
   assert.equal(phantom.facts.speakerNominalImpedanceOhms.value,8);
 });
+test('reviewed headphone connector overlays preserve electrical roles and legacy data',()=>{
+  const grado=by('Grado SR80e','headphone');
+  const hd=by('Sennheiser HD 600','headphone');
+  assert.ok(grado.connections.inputs.some(x=>x.type==='3_5mm_stereo_headphone_plug_passive_load'));
+  assert.equal(grado.connections.reviewedAdaptableInputs[0],'6_35mm_stereo_headphone_jack_via_included_adapter');
+  assert.ok(grado.evidence.some(x=>x.from==='equipment/source-master.json'));
+  assert.equal(grado.facts.nominalImpedanceOhms.value,32);
+  assert.equal(grado.facts.sensitivityBasis.value,'dB_SPL_per_mW');
+  assert.ok(hd.connections.reviewedAdaptableInputs.some(x=>x.includes('3_5mm')));
+  assert.equal(hd.facts.nominalImpedanceOhms.value,300);
+  assert.equal(hd.facts.sensitivityBasis.value,'dB_SPL_per_V');
+  assert.ok(!grado.connections.outputs.length,'passive headphones cannot be signal sources');
+  assert.ok(!hd.connections.outputs.length,'passive headphones cannot be signal sources');
+});
 test('Pioneer manual and studio/PA models preserve separate signal and performance bases',()=>{
   const pioneer=by('Pioneer SP-FS52','speaker');
   assert.equal(pioneer.facts.speakerNominalImpedanceOhms.value,6);
