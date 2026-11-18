@@ -59,7 +59,8 @@ const catalog=composeEquipmentCatalog({
   compareDetails:master.compareDetails,
   researchCatalog:master.researchCatalog,
   builderOnly:[...master.builderOnly.speakers,...master.builderOnly.amplifiers,
-    ...master.builderOnly.headphones]
+    ...master.builderOnly.headphones],
+  curatedConnections:master.curatedConnections||[]
 });
 const moduleSource=`/** AUTO-GENERATED from equipment/source-master.json; do not edit. */
 const products = ${JSON.stringify(master.builderOnly,null,2)};
