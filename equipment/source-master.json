@@ -3663,7 +3663,8 @@
         "physicalOutputTypes": [
           "rca_stereo_line_out",
           "3_5mm_stereo_headphone_out"
-        ]
+        ],
+        "bitDepthSourceConflictNote": "Manufacturer manual directs Windows 16-bit 48k playback setup while at least one retailer describes 24-bit 48k conversion. Neither confirms all supported driver capture modes. Do not use retailer prose as proof of a maximum bit depth."
       },
       {
         "id": "focusrite-scarlett-solo-4",
@@ -3707,7 +3708,20 @@
         "priceCheckedDate": null,
         "availability": null,
         "ratingsConsensus": null,
-        "roleOfRecord": "research_comparison_not_published_recommendation"
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "one_rear_xlr_microphone_input_channel_2",
+          "one_front_6_35mm_switchable_line_or_instrument_input_channel_1"
+        ],
+        "physicalOutputTypes": [
+          "two_balanced_6_35mm_line_outputs",
+          "one_stereo_headphone_output",
+          "usb_c_audio"
+        ],
+        "inputRoutingConstraints": [
+          "Two simultaneous physical analog input channels: channel 1 line or instrument, channel 2 microphone",
+          "Manufacturer 4x2 host I/O includes two virtual loopback channels; it does not provide four physical recording inputs"
+        ]
       },
       {
         "id": "focusrite-scarlett-2i2-4",
@@ -3806,6 +3820,13 @@
               "ADC dynamic range",
               "headphone outputs"
             ]
+          },
+          {
+            "url": "https://docs.audient.com/id4/hardware-connections/",
+            "fields": [
+              "exact analog input/output connector topology",
+              "channel roles and non-audio interfaces"
+            ]
           }
         ],
         "preampGainRangeDb": 58,
@@ -3817,7 +3838,21 @@
         "priceCheckedDate": null,
         "availability": null,
         "ratingsConsensus": null,
-        "roleOfRecord": "research_comparison_not_published_recommendation"
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "one_rear_combo_xlr_mic_or_trs_line_channel_1",
+          "one_front_6_35mm_jfet_hiz_instrument_channel_2"
+        ],
+        "physicalOutputTypes": [
+          "two_rear_balanced_line_outputs",
+          "one_6_35mm_stereo_headphone_out",
+          "one_3_5mm_stereo_headphone_out",
+          "usb_c_audio"
+        ],
+        "inputRoutingConstraints": [
+          "One microphone preamp and one separate JFET instrument path support two simultaneous analog input channels",
+          "Two physical headphone jacks share one stereo headphone output path, not two independently routable monitor mixes"
+        ]
       },
       {
         "id": "arturia-minifuse-2",
@@ -3844,6 +3879,13 @@
               "loopback",
               "48V"
             ]
+          },
+          {
+            "url": "https://support.arturia.com/hc/en-us/articles/4411358022802-MiniFuse-2-Connections",
+            "fields": [
+              "exact analog input/output connector topology",
+              "channel roles and non-audio interfaces"
+            ]
           }
         ],
         "evidenceCheckedDate": "2026-11-18",
@@ -3853,7 +3895,23 @@
         "priceCheckedDate": null,
         "availability": null,
         "ratingsConsensus": null,
-        "roleOfRecord": "research_comparison_not_published_recommendation"
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "two_combo_xlr_mic_or_trs_line_instrument_inputs",
+          "midi_din_input"
+        ],
+        "physicalOutputTypes": [
+          "two_balanced_line_outputs",
+          "one_6_35mm_stereo_headphone_output",
+          "midi_din_output",
+          "usb_c_audio",
+          "usb_type_a_hub_not_audio_input"
+        ],
+        "inputRoutingConstraints": [
+          "Two simultaneous physical analog recording channels; XLR and TRS roles share each combo connector and are not four independent preamps",
+          "The USB-A hub and MIDI DIN connectors do not create additional independent analog audio recording inputs",
+          "Verify model name is original MiniFuse 2 and not MiniFuse 2 OTG before applying port counts"
+        ]
       },
       {
         "id": "behringer-umc202hd",
@@ -3880,6 +3938,13 @@
               "48 V phantom",
               "24-bit 192 kHz"
             ]
+          },
+          {
+            "url": "https://behringer.com/en/products/0805-AAR",
+            "fields": [
+              "exact analog input/output connector topology",
+              "channel roles and non-audio interfaces"
+            ]
           }
         ],
         "evidenceCheckedDate": "2026-11-18",
@@ -3889,7 +3954,20 @@
         "priceCheckedDate": null,
         "availability": null,
         "ratingsConsensus": null,
-        "roleOfRecord": "research_comparison_not_published_recommendation"
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "two_combo_xlr_mic_or_6_35mm_line_instrument_inputs",
+          "two_selectable_line_or_instrument_input_roles"
+        ],
+        "physicalOutputTypes": [
+          "two_6_35mm_balanced_line_outputs",
+          "one_6_35mm_stereo_headphone_out",
+          "usb_2in_2out_audio"
+        ],
+        "inputRoutingConstraints": [
+          "Two physical mic preamps and two simultaneous analog recording channels; line/instrument switches change sensitivity and do not add channels",
+          "Global 48V phantom switch applies to microphone XLR inputs according to manufacturer's switching scheme"
+        ]
       },
       {
         "id": "yamaha-mg10xu",
