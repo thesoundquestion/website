@@ -59,19 +59,35 @@ const FIELDS = Object.freeze({
 const keys = Object.freeze(Object.keys(FIELDS));
 const isKnown = x => x !== null && x !== undefined && x !== '' &&
   !(typeof x === 'number' && !Number.isFinite(x));
+const friendlyKeys=Object.freeze({
+  wattsPerChannel:'Power per channel',milliwattsPerChannel:'Headphone power per channel',
+  loadOhms:'Load',duration:'Duration',testConditions:'Test conditions',
+  outputMode:'Output mode',connection:'Connection',channel:'Channel',
+  maxRateKhz:'Maximum sample rate',measurement:'Measurement',
+  measuredAt:'Measured at'
+});
+function renderStructured(value) {
+  if(value===null||value===undefined)return 'Not specified';
+  if(Array.isArray(value))return value.length?value.map(renderStructured).join(' | '):'Not specified';
+  if(typeof value!=='object')return String(value);
+  const parts=[];
+  for(const [key,raw] of Object.entries(value)) {
+    if(raw===null||raw===undefined||raw==='')continue;
+    const label=friendlyKeys[key]||key.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^./,c=>c.toUpperCase());
+    const suffix=key==='wattsPerChannel'?' W/channel':
+      key==='milliwattsPerChannel'?' mW/channel':
+      key==='loadOhms'?' Ω':key==='maxRateKhz'?' kHz':'';
+    const valueText=typeof raw==='number'?String(raw)+suffix:renderStructured(raw);
+    parts.push(label+': '+valueText);
+  }
+  return parts.join('; ')||'Not specified';
+}
 function renderValue(value,unit) {
   if(!isKnown(value)) return null;
   if(typeof value === 'boolean') return value ? 'Yes' : 'No';
   if(typeof value === 'number' || typeof value === 'string')
     return String(value)+(unit?' '+unit:'');
-  // A power rating is meaningless without its stated test/load conditions.
-  if(Array.isArray(value)) {
-    if(!value.length) return null;
-    return value.map(x=>typeof x==='object'&&x!==null?
-      JSON.stringify(x):String(x)).join('; ');
-  }
-  if(typeof value==='object') return JSON.stringify(value);
-  return null;
+  return renderStructured(value);
 }
 const getFact = (item,key) => {
   const fact=item?.facts?.[key];
