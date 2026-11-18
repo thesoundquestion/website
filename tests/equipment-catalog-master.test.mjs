@@ -30,6 +30,8 @@ test('legacy editable sources still match the master exactly during transition',
  assert.deepEqual(master.builderOnly.speakers,serial(BUILDER_ONLY_SPEAKERS));
  assert.deepEqual(master.builderOnly.amplifiers,serial(BUILDER_ONLY_AMPS));
  assert.deepEqual(master.builderOnly.headphones,serial(BUILDER_ONLY_HEADPHONES));
+ assert.match(execFileSync(process.execPath,['scripts/sync-equipment-source-mirrors.mjs','--check'],
+   {cwd:root,encoding:'utf8'}),/Editable master source mirrors current/);
 });
 test('master is excluded from public output and all derived views pass freshness gate',()=>{
  const script=read('scripts/build-public-site.mjs');
