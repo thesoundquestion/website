@@ -54,3 +54,36 @@ Every model has `id`, model name, class, version as appropriate, source URLs and
 `tests/recording-inventory-research.test.mjs` ensures distinct stable IDs, known physical microphone connections, evidence URLs, accurate channel-count distinctions for M-Track Solo, Audient iD4, Yamaha MG10XU and Zoom L-12, reuse of existing personal playback comparison models, null prices, and no invented automatic recommendation scores.
 
 **Pending:** Final owner review of which additional models to prioritize and public UI implementation. This plan is data groundwork, **not** the completed expanded System Builder/Checker feature.
+
+
+## Batch 2 — Headphones and headphone amplification (2026-11-18)
+Owner specifically requested headphone models and headphone amplifiers as inventory components. **The catalogue is now 24 new research records**: original 16 + 3 headphone models + 5 headphone amplifiers. This remains research-only with no published Builder or Checker changes.
+
+### Don't duplicate existing headphone inventory
+`system-check/gear.js` already has **nine** relevant passive headphone/earphone records: Grado SR80e (**user-owned anchor**), Grado SR80x and SR60x, Audio-Technica ATH-M50x, beyerdynamic DT 770 PRO 80Ω, Sennheiser HD 560S and HD 600, Sony MDR-7506 and Moondrop Chu II. Use those existing specifications (and preserve their sensitivity unit and conditions), not imported duplicate copies. The existing source preset `FiiO K11 (RCA line out)` is an **analogue source output**, not a model of its headphone-amplifier output; the new K11 headphone-amplification profile represents the other function of the same product.
+
+### Additional headphones (3)
+- **AKG K371:** closed-back studio/recording over-ear; manufacturer **32 Ω, 114 dB SPL per V at 1 kHz**. That sensitivity figure is voltage-referenced and cannot be directly compared numerically to Grado's dB/mW figure without converting units. Source: https://www.akg.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw374aeecb/pdfs/AKG_K371_Sell_Sheet.pdf
+- **Audio-Technica ATH-M40x:** common studio closed-back monitoring example, differentiated from existing ATH-M50x. Model-specific impedance/sensitivity remain `null` until verified against a matching manufacturer sheet. Source: https://docs.audio-technica.com/eu/M-Series_leaflet_ENG_L00053_V1.0.pdf
+- **Shure SRH440A:** closed-back studio/podcast tracking, not previous-generation SRH440. Manufacturer confirms 40 mm dynamic driver, detachable cable and 6.35 mm adapter; other figures `null` pending documentation. Source: https://www.shure.com/en-US/products/headphones/srh440?variant=SRH440A
+
+### Headphone amps and DAC/amp combinations (5)
+- **JDS Labs Atom Amp 2**: *analogue-only* desktop headphone amplifier; manufacturer **2.65 W/channel at 32 Ω**, **286 mW/channel at 300 Ω**, output impedance **0.7 Ω**, with stated continuous/load conditions. Needs suitable analogue source, does not convert USB audio by itself. https://jdslabs.com/product/atom-amp-2/
+- **Topping L30 II**: *analogue-only* desktop amplifier; RCA line input/pre-out, 6.35 mm headphone jack, gain −14 / 0 / +16.5 dB. Avoid confusing first-gen L30 with L30 II. Manufacturer manual: https://dl.topping.audio/usermanual/l30ii.pdf
+- **FiiO K11**: combined USB/optical/coaxial DAC and headphone amplifier. **520 mW/ch at 32 Ω** from **6.35 mm SE**, and **1400 mW/ch at 32 Ω** from **4.4 mm balanced**, both at manufacturer's stated THD+N <1% limit. Different outputs have different power and output-impedance specifications; do not blend the numbers. https://www.fiio.com/k11_parameters
+- **FiiO Q11**: portable USB DAC + headphone amp. Some power figures verified in manufacturer's parameters, but output-specific coverage remains partial; model is NOT a microphone interface. https://www.fiio.com/q11_parameters
+- **Schiit Magni 6**: current analogue headphone amplifier without the optional digital DAC board; rated **3.0 W/ch at 32 Ω**, 6.35 mm SE output with <0.1 Ω specified output impedance. **Do not copy the older Magni Unity specification sheet**: the Unity product page redirects to the newer Magni 6. Model/option-specific 4.4 mm Halo output differs. https://www.schiit.com/products/magni-6
+
+### Separate compatibility engineering, not amplifier marketing
+The future Checker needs:
+1. Headphone impedance **and sensitivity including the reference basis** (dB SPL/mW or dB SPL/V), plus reasonable peak-level target.
+2. Source or dedicated headphone amplifier power **at relevant load** or voltage/current performance, including stated distortion and gain/source-signal conditions.
+3. Amplifier output impedance, output noise for very sensitive headphones, practical low-volume control, compatible physical socket and *actual* single-ended or balanced wiring topology.
+4. Safe listening levels and explicit uncertainty for unknown headphone sensitivity/output capabilities.
+
+**Never infer:** headphones with high ohms automatically require a separate amplifier; an output quoted at 32 Ω delivers the same power at 300 Ω; a 4.4 mm jack is always balanced; a headphones' maximum input power is a safe listening recommendation; or buying a headphone amp automatically improves sound on a sufficiently capable existing output.
+
+**Grado SR80e anchor:** this comparison exists so the user can see whether their current equipment already drives their actual headphones adequately before being directed to purchase anything. Different headphone 'presentation' is not an amplifier specification. Use the existing Grado preset's verified sensitivity/impedance and compare genuine output requirements when source measurements are available.
+
+### New regression gates
+`tests/recording-inventory-research.test.mjs` now validates 24 unique typed records, category-count separation, user Grado reuse, manufacturer-linked AKG sensitivity reference, separate 32 Ω K11 power per output, and the absence of any published headphone compatibility calculator.
