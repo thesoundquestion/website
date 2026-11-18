@@ -5470,6 +5470,62 @@
         "priceKind": "regular",
         "unit": "one_product",
         "stockStatus": "listed_unavailable_at_capture"
+      },
+      {
+        "equipmentId": "research/audio_interface/arturia-minifuse-2",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 199.99,
+        "retailerId": "nightlife-electronics",
+        "url": "https://nightlife-electronics.com/products/arturia-minifuse-2-black",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "preorder_not_in_stock"
+      },
+      {
+        "equipmentId": "research/audio_interface/arturia-minifuse-2",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 199.99,
+        "retailerId": "cicada-sound",
+        "url": "https://cicadasound.ca/products/minifuse-2",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "stock_status_conflicting_page"
+      },
+      {
+        "equipmentId": "research/audio_interface/maudio-mtrack-solo",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 69,
+        "retailerId": "musiccitycanada",
+        "url": "https://musiccitycanada.com/products/m-audio-m-track-solo-2-channel-usb-audio-interface",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "out_of_stock_can_order"
+      },
+      {
+        "equipmentId": "research/audio_interface/maudio-mtrack-solo",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 69,
+        "retailerId": "avshop",
+        "url": "https://www.avshop.ca/recording-audio-interfaces/audiotrack-solo-2-channel-usb-audio-interface",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "availability_not_confirmed"
       }
     ],
     "missingRegions": [
@@ -5478,6 +5534,6 @@
       "EU",
       "AU"
     ],
-    "note": "Initial Canadian wired-headphone sample is small and not a representative market-wide price survey. No current stock check has been performed. Refresh evidence before enabling broad public price tiers. Canadian USB audio interfaces are now a separate 3-model evidence sample; deliberately no tier assigned until at least five qualified models. Source quotes and regular-price status are verified from model-specific pages; any stock indicator is historical and is not used as real-time availability."
+    "note": "Initial Canadian wired-headphone sample is small and not a representative market-wide price survey. No current stock check has been performed. Refresh evidence before enabling broad public price tiers. Canadian USB audio interfaces are now a separate 3-model evidence sample; deliberately no tier assigned until at least five qualified models. Source quotes and regular-price status are verified from model-specific pages; any stock indicator is historical and is not used as real-time availability. Five Canadian USB interface models now meet the two-merchant data minimum, with a limited and price-clustered cohort. Expire labels after 45 days. Sources include pre-order/out-of-stock regular list prices; these are market-position data, not proof of current availability."
   }
 }
