@@ -19,9 +19,9 @@ test('the generated catalogue is current with all three existing data sources',(
   assert.equal(registry.schemaVersion,'1.0.0');
   assert.equal(registry.status,'draft_not_published');
   assert.equal(registry.summary.legacyProfiles,130);
-  assert.equal(registry.summary.researchProfiles,24);
+  assert.equal(registry.summary.researchProfiles,29);
   assert.equal(registry.summary.builderSupplementProfiles,17);
-  assert.equal(registry.summary.totalModels,168);
+  assert.equal(registry.summary.totalModels,173);
   assert.equal(new Set(registry.records.map(r=>r.id)).size,registry.records.length);
   assert.ok(registry.records.every(r=>r.profiles.length>=1&&r.evidence.length>=1));
   assert.ok(registry.records.every(r=>r.evidence.every(e=>e.url.startsWith('https://'))));
@@ -81,6 +81,26 @@ test('speaker/headphone sensitivity bases and amp conditions are not erased',()=
   const phantom=by('Paradigm Phantom v1','speaker');
   assert.ok(phantom.facts.speakerSensitivityDb.reference);
   assert.equal(phantom.facts.speakerNominalImpedanceOhms.value,8);
+});
+test('Pioneer manual and studio/PA models preserve separate signal and performance bases',()=>{
+  const pioneer=by('Pioneer SP-FS52','speaker');
+  assert.equal(pioneer.facts.speakerNominalImpedanceOhms.value,6);
+  assert.equal(pioneer.facts.speakerSensitivityDb.value,87);
+  assert.equal(pioneer.facts.frequencyRangeToleranceDb.value,null);
+  const hs5=by('Yamaha HS5','speaker');
+  assert.equal(hs5.facts.powered.value,true);
+  assert.equal(hs5.facts.unitsPerRetailPackage.value,1);
+  assert.equal(hs5.facts.internalAmplificationWatts.value.combined,70);
+  assert.ok(hs5.connections.inputs.some(x=>x.type==='balanced_xlr_line'));
+  const jbl=by('JBL 305P MkII','speaker');
+  assert.equal(jbl.facts.powered.value,true);
+  assert.equal(jbl.facts.unitsPerRetailPackage.value,1);
+  const qsc=by('QSC K12.2','speaker');
+  assert.equal(qsc.facts.onboardPhantomPowerVolts.value,null);
+  assert.ok(qsc.connections.inputs.some(x=>x.type.includes('mic_or_line_A')));
+  const ev=by('Electro-Voice ZLX-12P-G2','speaker');
+  assert.equal(ev.facts.onboardPhantomPowerVolts.value,24);
+  assert.equal(ev.facts.manufacturerMaximumSplDb.value,127);
 });
 test('no unknowns are quietly converted into prices, power rankings or guaranteed compatibility',()=>{
   for(const record of registry.records) {
