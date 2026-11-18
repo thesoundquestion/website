@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let sharedCatalog=null;
   let priceSnapshot=null;
   const catalogueByCategory=new Map();
+  const originalOptions=new Map();
   const state = document.getElementById('sb-inventory-state');
   const result = document.getElementById('sb-results');
   const body = document.getElementById('sb-result-body');
@@ -154,7 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.elements.namedItem('region').addEventListener('change', ev => {
     form.elements.namedItem('currency').value = money[ev.target.value] || 'other';
+    reorderListeningPriceChoices();
   });
+  form.elements.namedItem('pricePreference')?.addEventListener('change',reorderListeningPriceChoices);
   for (const kind of ['speaker','amp','source','headphone']) {
     const preset = form.elements.namedItem(kind);
     const other = form.elements.namedItem(kind+'Other');
@@ -201,6 +204,36 @@ document.addEventListener('DOMContentLoaded', () => {
   function availableShared(kind){
     return sharedCatalog?.records?.filter(x=>kindsForCategory[kind].some(cat=>x.categories.includes(cat)))||[];
   }
+  function reorderListeningPriceChoices(){
+    if(!sharedCatalog||!originalOptions.size)return;
+    const region=String(form.elements.namedItem('region').value||'CA');
+    const preference=validPricePreference(String(form.elements.namedItem('pricePreference')?.value||'any'));
+    let matching=0,unpriced=0;
+    for(const [kind,list] of originalOptions){
+      const select=document.getElementById('sb-'+kind);
+      if(!select)continue;
+      const previous=select.value;
+      const records=list.map(entry=>{
+        const evidence=availableShared(kind).find(x=>x.model===entry.model||x.aliases?.includes(entry.model));
+        return {...entry,id:evidence?.id||null};
+      });
+      const coverage=pricingPreferenceCoverage(records,priceSnapshot,{region,preference});
+      matching+=coverage.matched;unpriced+=coverage.unknown;
+      const arranged=preferVerifiedPriceTier(records,priceSnapshot,{region,preference});
+      select.replaceChildren();
+      const placeholder=el('option','','None selected / not owned');placeholder.value='';select.append(placeholder);
+      for(const entry of arranged){
+        const option=el('option','',entry.label);option.value=entry.model;select.append(option);
+      }
+      if(arranged.some(item=>item.model===previous))select.value=previous;
+      else select.value='';
+    }
+    const message=preference==='any'?'No retail category weighted.':
+      matching>0?matching+' current '+region+' product(s) match the requested price tier and are shown earlier in their respective menus.':
+        'No current '+region+' price-tier matches among these equipment options. Original menu order remains.';
+    const info=document.getElementById('sb-price-evidence');
+    if(info)info.textContent=message+' '+unpriced+' equipment entries lack comparable price evidence. Pricing categories do not rate performance or affect safety checks.';
+  }
   async function attachSharedInventory(){
     try{
       sharedCatalog=await loadEquipmentCatalog();
@@ -222,6 +255,12 @@ document.addEventListener('DOMContentLoaded', () => {
           select.append(option);known.add(entry.model);additions++;
         }
       }
+      for(const kind of ['speaker','amp','source','headphone']){
+        const select=document.getElementById('sb-'+kind);
+        if(!select)continue;
+        originalOptions.set(kind,[...select.options].filter(o=>o.value).map(o=>({model:o.value,label:o.textContent})));
+      }
+      reorderListeningPriceChoices();
       state.textContent='Shared equipment catalogue loaded: '+sharedCatalog.records.length+
         ' unique devices; '+additions+' additional choices added to legacy Builder selectors. Original engineering calculations preserved. '+
         'Unverified fields remain unknown.';
