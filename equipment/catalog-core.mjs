@@ -71,7 +71,8 @@ function setFact(entry,key,value,scope,from,reference=null) {
 function addLegacy(entry,row,kind,detail,legacyOrder) {
   entry.profiles.push({category:kind,from:LEGACY_PATH,legacyModel:row.model,legacyOrder,
     values:deepCopy(row.values||{}),ratings:deepCopy(row.ratings||[]),
-    note:row.note||'',details:detail?deepCopy(detail):null});
+    note:row.note||'',details:detail?deepCopy(detail):null,
+    otherFields:Object.fromEntries(Object.entries(row).filter(([key])=>!['model','values','ratings','note','url'].includes(key)).map(([key,value])=>[key,deepCopy(value)]))});
   addEvidence(entry,row.url,LEGACY_PATH,['catalogue preset']);
   if(detail) addEvidence(entry,detail.reference,COMPARE_PATH,['supplemental specifications'],detail.reviewedOn||null);
   if(kind==='source'&&typeof row.values?.sourceConnection==='string')
