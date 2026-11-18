@@ -6,11 +6,11 @@ const page=read('decoder/sound-basics/index.html'),style=read('assets/sound-basi
 const curriculum=JSON.parse(read('decoder/curriculum.json'));
 const bank=JSON.parse(read('assets/lesson-tutor/approved-answers.json'));
 test('intro lesson is the first published lesson with matching tutor entry',()=>{
- assert.equal(curriculum.lessons.length,26);
+ assert.equal(curriculum.lessons.length,27);
  assert.equal(curriculum.lessons[0].slug,'sound-basics');
  assert.equal(Object.keys(bank)[0],'sound-basics');
  assert.equal(bank['sound-basics'].specification,'60 Hz–15 kHz (±3 dB)');
- assert.match(page,/Lesson 01 of 26/);
+ assert.match(page,/Lesson 01 of 27/);
  assert.match(page,/href="\/decoder\/speaker-frequency-response\/"/);
 });
 test('explains levels, natural harmonics and distortion without claiming fictional measurements are real',()=>{
