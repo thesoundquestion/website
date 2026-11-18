@@ -5,11 +5,11 @@ const catalog=JSON.parse(readFileSync(new URL('../research/recording-input-catal
 const byId=id=>catalog.records.find(r=>r.id===id);
 test('research inventory is a separate typed catalogue, not a change to System Check',()=>{
  assert.equal(catalog.status,'research_only');
- assert.equal(catalog.records.length,16);
+ assert.equal(catalog.records.length,24);
  assert.equal(new Set(catalog.records.map(x=>x.id)).size,catalog.records.length);
  assert.equal(catalog.records.filter(x=>x.comparisonAnchor).length,3);
  for(const record of catalog.records){
-   assert.ok(['microphone','audio_interface','mixer_recorder','computer_sound_card'].includes(record.category));
+   assert.ok(['microphone','audio_interface','mixer_recorder','computer_sound_card','headphone','headphone_amplifier'].includes(record.category));
    assert.ok(record.model && record.sourceEvidence.length>0);
    assert.ok(record.sourceEvidence.every(e=>e.url.startsWith('https://')&&e.fields.length>0));
    assert.equal(record.price,null);
@@ -65,4 +65,41 @@ test('missing specs are explicit and not used to claim suitability or prices',()
  assert.equal(maudio.priceCurrency,null);
  assert.equal(maudio.ratingsConsensus,null);
  assert.ok(catalog.records.every(x=>!('recommendationScore' in x)));
+});
+
+test('headphone comparison inherits the already catalogued Grado SR80e without duplication',()=>{
+ const group=catalog.comparisonGroups.find(g=>g.id==='headphone-listening-and-monitoring');
+ assert.ok(group.existingPresetModels.includes('Grado SR80e'));
+ assert.ok(group.existingPresetModels.includes('Sennheiser HD 600'));
+ assert.ok(!catalog.records.some(r=>r.model==='Grado SR80e'));
+ assert.equal(catalog.records.filter(r=>r.category==='headphone').length,3);
+ const akg=byId('akg-k371');
+ assert.equal(akg.nominalImpedanceOhms,32);
+ assert.equal(akg.sensitivityDb,114);
+ assert.equal(akg.sensitivityBasis,'dB_SPL_per_V');
+ assert.equal(byId('audio-technica-ath-m40x').sensitivityDb,null);
+});
+test('headphone amplifiers preserve actual input topologies and load-specific ratings',()=>{
+ const amps=catalog.records.filter(r=>r.category==='headphone_amplifier');
+ assert.equal(amps.length,5);
+ const jds=byId('jds-atom-amp-2');
+ assert.equal(jds.hasBuiltInDac,false);
+ assert.equal(jds.outputImpedanceOhms,0.7);
+ assert.equal(jds.ratedOutputMilliwatts.find(p=>p.loadOhms===32).wattsPerChannel,2.65);
+ const fiio=byId('fiio-k11');
+ assert.equal(fiio.hasBuiltInDac,true);
+ assert.equal(fiio.ratedOutputMilliwatts.filter(p=>p.loadOhms===32).length,2);
+ assert.notEqual(fiio.ratedOutputMilliwatts[0].testConditions,fiio.ratedOutputMilliwatts[1].testConditions);
+ assert.equal(byId('topping-l30-ii').hasBuiltInDac,false);
+ assert.equal(byId('schiit-magni-6').model,'Schiit Magni 6');
+ assert.equal(byId('fiio-q11').amplifierKind,'portable_dac_headphone_amp');
+});
+test('the future headphone matching calculator must not be confused with the loudspeaker checker',()=>{
+ const r=catalog.headphoneCompatibilityRules;
+ assert.equal(r.notEnabledInSystemCheck,true);
+ assert.ok(r.required.some(v=>/sensitivity.*reference basis/.test(v)));
+ assert.ok(r.required.some(v=>/output impedance/.test(v)));
+ assert.ok(r.caveats.some(v=>/Impedance alone/.test(v)));
+ assert.ok(r.caveats.some(v=>/32 ohms/.test(v)));
+ assert.ok(r.caveats.some(v=>/safe listening levels/.test(v)));
 });
