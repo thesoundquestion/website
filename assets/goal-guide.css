@@ -1,0 +1,55 @@
+/* TSQ goal-first guide. Native controls, no third-party fonts or user data collection. */
+.goal-guide-hero{padding-block:clamp(42px,7vw,82px) clamp(23px,4vw,44px)}
+.goal-guide-hero h1{font-size:clamp(2.3rem,5.6vw,4.5rem);letter-spacing:-.045em;line-height:1.1;max-width:940px;margin:1rem 0}
+.goal-guide-hero .lead{max-width:770px;margin:0}
+.goal-guide-main{padding-bottom:5rem}
+.goal-selector-intro{margin:0 0 1.2rem;max-width:740px;color:#cbddeb;line-height:1.65}
+.goal-picker-section{margin:1.35rem 0 2.15rem}
+.goal-picker-section h3{font-size:1.06rem;letter-spacing:.01em;margin:0 0 .85rem;color:#abd5ea}
+.goal-picker-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
+.goal-picker-card{min-width:0;border:1px solid #42627e;border-radius:14px;padding:1.15rem;text-align:left;background:linear-gradient(145deg,#132e45,#0b1d2d);color:#f0f8fc;display:flex;flex-direction:column;gap:.48rem;min-height:122px;cursor:pointer;font:inherit;transition:border-color .15s,background .15s,transform .15s}
+.goal-picker-card strong{font-weight:760;font-size:1.03rem;line-height:1.3}
+.goal-picker-card span{font-size:.88rem;line-height:1.5;color:#adc5d8}
+.goal-picker-card:hover{border-color:#8edbfd;transform:translateY(-2px)}
+.goal-picker-card[aria-pressed="true"]{border-color:#94dfff;box-shadow:inset 0 0 0 1px #71d3ff;background:#173b54}
+.goal-picker-card:focus-visible,.goal-answer:focus-within{outline:3px solid #9ce8ff;outline-offset:3px}
+.goal-question-panel,.goal-result{scroll-margin-top:24px;border:1px solid #3e5c75;border-radius:18px;padding:clamp(1.1rem,3vw,2.1rem);background:linear-gradient(145deg,#102b42,#0a1e30);margin:2rem 0}
+.goal-question-panel h2,.goal-result h2{font-size:clamp(1.6rem,3vw,2.45rem);margin:.4rem 0 .9rem}
+.goal-question-note,.goal-result-foot{color:#a7c3d5;font-size:.9rem;line-height:1.6}
+.goal-fieldset{border:0;margin:1.3rem 0;padding:0}
+.goal-fieldset legend{font-weight:750;font-size:1.1rem;color:#f0f8ff;margin-bottom:.75rem}
+.goal-answer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
+.goal-answer{padding:.8rem .85rem;border:1px solid #466983;border-radius:9px;display:flex;align-items:flex-start;gap:.65rem;line-height:1.45;font-size:.93rem;background:#0d2538;cursor:pointer}
+.goal-answer input{margin-top:.24rem;accent-color:#66cfff;flex:0 0 auto}
+.goal-answer:has(input:checked){border-color:#9ce2ff;background:#173a50}
+.goal-controls{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin-top:1.45rem}
+.goal-controls button{font:inherit;cursor:pointer}
+.goal-action{border:0;background:#8adbf9;color:#0a2133;font-weight:800;padding:.88rem 1.2rem;border-radius:9px}
+.goal-action:hover{background:#b4edff}
+.goal-back{background:transparent;color:#b4e5fb;border:1px solid #567b95;border-radius:9px;padding:.85rem 1.1rem}
+.goal-status{min-height:1.3rem;color:#f5d29b;font-size:.93rem}
+.goal-result-intro .section-kicker{margin-top:0}
+.goal-result-summary{font-size:1.04rem;line-height:1.65;color:#cfe5f0;max-width:800px}
+.goal-signal h3,.goal-detail h3,.goal-learning h3,.goal-alternative h3,.goal-builder-handoff h3{margin:.5rem 0 .85rem;font-size:1.17rem;color:#edf9ff}
+.goal-chain{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.85rem;margin:1rem 0 1.75rem;padding:0;counter-reset:none}
+.goal-stage{border:1px solid #48718d;background:#0b2235;border-radius:12px;padding:1rem;min-width:0}
+.goal-stage-count{color:#82dbfb;font-size:.77rem;letter-spacing:.08em;font-weight:850}
+.goal-stage strong{display:block;margin:.3rem 0;color:#fff;line-height:1.35}
+.goal-stage p{margin:0;color:#b8d2e2;font-size:.91rem;line-height:1.55}
+.goal-detail,.goal-learning,.goal-alternative,.goal-builder-handoff{margin:1.2rem 0;padding:1.05rem 1.1rem;border:1px solid #365b77;border-radius:12px;background:#0d2437}
+.goal-detail ul{padding-left:1.2rem;line-height:1.65;color:#c4d9e7;margin:.5rem 0}
+.goal-detail li{margin:.35rem 0}
+.goal-alternative{border-left:3px solid #eac58e}
+.goal-alternative p,.goal-builder-handoff p{line-height:1.65;margin:.2rem 0 .75rem;color:#c0d9e9}
+.goal-resource-grid{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:0;padding:0}
+.goal-resource-grid li{border:1px solid #3d6482;border-radius:9px;padding:1rem;background:#102b40}
+.goal-resource-grid a{color:#90e1ff;text-underline-offset:.2em;font-weight:750}
+.goal-resource-grid p{font-size:.88rem;line-height:1.55;margin:.5rem 0 0;color:#b6cedf}
+.goal-builder-handoff .button{display:inline-block;margin:.35rem .5rem .4rem 0;text-decoration:none}
+.goal-secondary-link{display:inline-block;margin:.35rem .5rem;color:#a9e4ff}
+.goal-result[hidden],.goal-question-panel[hidden]{display:none}
+.goal-guide-foot{margin:1.6rem auto 3rem;max-width:760px;color:#9ebccf;line-height:1.7}
+.goal-guide-static{margin:1rem 0;line-height:1.7}
+@media(max-width:900px){.goal-picker-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.goal-guide-hero{padding-block:38px 20px}.goal-picker-grid,.goal-answer-grid,.goal-resource-grid{grid-template-columns:minmax(0,1fr)}.goal-picker-card{min-height:0;padding:.95rem}.goal-chain{grid-template-columns:minmax(0,1fr)}.goal-question-panel,.goal-result{margin:1rem 0;border-radius:12px}.goal-controls button{min-height:44px}.goal-guide-hero h1{font-size:clamp(2.15rem,9.5vw,3.25rem)}}
+@media(prefers-reduced-motion:reduce){.goal-picker-card{transition:none}.goal-picker-card:hover{transform:none}}
