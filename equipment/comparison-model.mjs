@@ -104,13 +104,15 @@ export function buildEquipmentComparison(left,right,{category}={}) {
   const rows=FIELDS[selected].map(([key,label,unit])=>{
     const a=getFact(left,key),b=getFact(right,key);
     const formatted=x=>({...x,display:x.known?renderValue(x.value,unit):'Not verified'});
+    const leftBasis=getFact(left,'sensitivityBasis').value;
+    const rightBasis=getFact(right,'sensitivityBasis').value;
     const basisMismatch=key==='sensitivityDb' &&
-      getFact(left,'sensitivityBasis').value!==getFact(right,'sensitivityBasis').value;
+      (!leftBasis||!rightBasis||leftBasis!==rightBasis);
     return {key,label,unit:unit||null,left:formatted(a),right:formatted(b),
       directlyComparable:a.known&&b.known&&!basisMismatch &&
         // Different load/test conditions are not a single comparable number.
         !['speakerPowerRatings','ratedOutputMilliwatts','headphoneOutputPowerRating'].includes(key),
-      caution:basisMismatch?'Sensitivity figures use different references (dB/mW versus dB/V).':
+      caution:basisMismatch?'Sensitivity figures need the same confirmed reference (dB/mW versus dB/V).':
         ['speakerPowerRatings','ratedOutputMilliwatts','headphoneOutputPowerRating'].includes(key)?
           'Compare only at the same load, output path and test conditions.':null};
   });
