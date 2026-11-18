@@ -64,7 +64,7 @@ Live inference awaits a Cloudflare account owner who can verify the actual Worke
 5. Test in Preview first. Use a same-origin POST with an unmatched lesson question, verify the response and the model’s actual use against the quota dashboard, then exercise one clarification and a refusal. Check whether the model returns complete responses under the token cap. Run the local tests and manually check mobile and keyboard use before production activation. The Wrangler AI binding uses the real account even in local development, so use stand-ins for routine local tests.
 6. Before publishing the enabled browser flag, update the privacy notice to say that pressing **Ask AI** sends the question to Cloudflare and describe the quota cookie and short clarification token. Verify the production bindings and exact origin. Set **AI_ENABLED** in [config.js](../../assets/lesson-tutor/config.js) after those checks. Disable **TUTOR_ENABLED** and redeploy to stop inference if the Free plan or model availability changes. The static tutor can run independently.
 
-Turnstile is optional if abuse later warrants an extra check. The initial integration uses the origin check, per-network limits, duplicate protection and the daily budget.
+Turnstile is optional if abuse later warrants an extra check. The initial integration uses the origin check, signed first-party cookie, per-network limits, per-visitor first-turn restrictions, daily pacing, follow-up reservation and the hard server-side daily budget. Rejected or failed AI attempts still consume their server-side reservation, preventing quota abuse or overdraw. Prepared answers never consume an AI slot. Treat rate-limit policies as availability management, not proof of unique human identities.
 
 ## Verification
 
