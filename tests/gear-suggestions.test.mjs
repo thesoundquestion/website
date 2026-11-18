@@ -78,11 +78,11 @@ test('standalone page, links and review-only configuration are staged',()=>{
    assert.match(page,new RegExp('name="'+label+'"'),'Missing form input '+label);
  }
  assert.match(page,/<form id="gear-suggestion-form"/);
- assert.match(page,/data-submissions-enabled="false"/);
+ assert.match(page,/data-submissions-enabled="true"/);
  assert.match(page,/No account, email address, photos or serial numbers needed/);
  assert.match(page,/We check the specifications/);
  assert.match(script,/\/v1\/gear\/submit/);
- assert.match(config,/GEAR_SUBMISSIONS_ENABLED = "false"/);
+ assert.match(config,/GEAR_SUBMISSIONS_ENABLED = "true"/);
  assert.match(worker,/handleGearSuggestions/);
  for(const field of ['variant','approx_year','region'])assert.ok(schema.includes(field));
  assert.match(privacy,/Equipment model recommendations/);

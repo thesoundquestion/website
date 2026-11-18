@@ -61,8 +61,8 @@ test('D1 private score schemas and deployment guards exist',()=>{
  const sql=read('workers/abx/schema.sql');
  for(const term of ['abx_sessions','control_hash','purge_at','completed_at','share','expires_at'])assert.ok(sql.includes(term));
  assert.ok(read('workers/abx/wrangler.toml').includes('[[d1_databases]]'));
- assert.ok(read('workers/abx/wrangler.toml').includes('ABX_PUBLIC_ENABLED = "false"'));
- assert.match(doc,/NOT publicly deployed/);
+ assert.ok(read('workers/abx/wrangler.toml').includes('ABX_PUBLIC_ENABLED = "true"'));
+ assert.match(doc,/public scoring|server-scored|scored sessions/i);
 });
 test('public build denies private worker configuration',()=>{
  const build=read('scripts/build-public-site.mjs');

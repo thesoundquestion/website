@@ -89,6 +89,6 @@ test('daily Gmail example uses only a secure script property, checks nonzero cou
  assert.match(gs,/pending community/); // Preserve installed Gmail filter matching.
  assert.match(gs,/everyDays\(1\)/);
  assert.match(gs,/thesoundquestion@gmail\.com/);
- assert.match(cfg,/MODERATION_ALERTS_ENABLED = "false"/);
+ assert.match(cfg,/MODERATION_ALERTS_ENABLED = "true"/);
  assert.doesNotMatch(gs,/private-moderation-summary-secret-1234567890/);
 });
