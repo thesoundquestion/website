@@ -12,13 +12,13 @@ that a product lacks the connection**.
 
 | Type | Models | Typed inputs | Typed outputs | Text connection descriptions |
 | --- | ---: | ---: | ---: | ---: |
-| Speaker (including passive/studio/PA) | 73 | 5 | 1 | 0 |
-| Amplifier / AVR | 46 | 0 | 0 | 0 |
+| Speaker (including passive/studio/PA) | 73 | 6 | 1 | 1 |
+| Amplifier / AVR | 46 | 3 | 3 | 3 |
 | Line source / DAC | 19 | 2 | 19 | 0 |
 | Headphones | 16 | 2 | 0 | 16 |
 | Microphones | 6 | 0 | 6 | 0 |
 | USB audio interfaces | 6 | 6 | 6 | 0 |
-| Mixers / recorders | 3 | 1 | 1 | 0 |
+| Mixers / recorders | 3 | 3 | 3 | 0 |
 | Dedicated headphone amps | 5 | 5 | 5 | 0 |
 | Computer sound-card functions | 1 | 1 | 1 | 0 |
 
@@ -35,8 +35,16 @@ Audient iD4 MkII, Behringer UMC202HD and original Arturia MiniFuse 2.
 The Yamaha MG10XU mixer stereo-USB limitation is also represented.
 Source-linked jack evidence for Grado SR80e and Sennheiser HD 600 now sits
 in a separate overlay rather than changing the original calculator presets.
-Most legacy amplifiers and speakers and two other mixers still lack reviewed
-structured port maps.
+The three initial amplifier reference models (Yamaha A-720, Panasonic
+SA-HE100 and Yamaha HTR-4063) now have documented, typed ports. All
+three initial mixer reference models (Yamaha MG10XU, Behringer XENYX
+1204USB and Zoom LiveTrak L-12) now have structured input/output roles.
+Pioneer SP-FS52 and Paradigm Titan v3 passive speaker terminals are also
+mapped. Most remaining legacy amplifiers and speakers still need review.
+The original Phantom v1 terminal design remains deliberately unassigned:
+period reviews and generic manual aggregators describe potentially
+conflicting spring-clip/binding-post hardware; confirm the exact physical
+version before asserting banana compatibility.
 
 1. **M-Audio M-Track Solo and Scarlett 2i2 4th Gen.** Explicitly model
    the number of microphone preamps, input socket functions (mic, line,
@@ -47,19 +55,21 @@ structured port maps.
    verified result into the 300 Ω Sennheiser HD 600.
    A documented 16-bit Windows setup does **not**, by itself, establish
    an absolute highest supported bit depth in every driver mode.
-2. **Yamaha MG10XU versus Zoom LiveTrak L-12.** The mixer strips, microphone
-   preamps and digital USB recording channels must remain distinct.
+2. **Yamaha MG10XU, Behringer XENYX 1204USB versus Zoom LiveTrak L-12.**
+   Physical ports are now mapped. The mixer strips, microphone
+   preamps and digital USB recording channels remain distinct.
    Ten-channel mixing does not imply ten independently recorded computer
    tracks, nor does a 14-input USB stream imply 14 XLR mic preamps.
 3. **Grado SR80e and Sennheiser HD 600.** Fill exact physical plugs/cabling
    and manufacturer sensitivity references; preserve dB/mW vs dB/V,
    impedance and potential headphone-amplifier noise/dynamic limitations.
    These are candidate comparisons, not upgrade endorsements.
-4. **Yamaha A-720, Panasonic SA-HE100, Yamaha HTR-4063 and common modern
-   amplifier/receiver choices.** Preserve existing amplifier power
-   engineering and model **actual selected input and output types**
-   in their own scope, without importing unsupported phone-jack or
-   reactive-load assumptions.
+4. **Yamaha A-720, Panasonic SA-HE100 and Yamaha HTR-4063.** Their
+   RCA line/phono, digital, multichannel DVD, speaker-level and pre-out
+   roles have been overlaid from original service/owner manuals. These
+   do **not** imply that an analogue pre-out can drive a passive speaker
+   or that speaker bank A/B constitutes separate amplifier channels.
+   Continue with the remaining legacy amplifier/receiver choices.
 5. **Passive vs powered speaker chains:** Paradigm Phantom v1/Titan v3,
    Pioneer SP-FS52, Yamaha HS5, JBL 305P MkII and PA speakers. Do not
    treat external speaker-level terminals as equivalent to studio XLR
