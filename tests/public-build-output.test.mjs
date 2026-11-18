@@ -15,10 +15,14 @@ test('static Pages build includes tracked runtime assets and excludes internal/u
  }
  for (const name of ['equipment/catalog.generated.json','equipment/legacy-presets.generated.js',
   'equipment/compare-details.generated.js','equipment/catalog-core.mjs',
-  'equipment/catalog-legacy-adapters.mjs','equipment/catalog-client.mjs']) {
+  'equipment/catalog-legacy-adapters.mjs','equipment/catalog-client.mjs',
+  'equipment/price-tiers.mjs','equipment/price-tier-client.mjs',
+  'equipment/price-tiers.generated.json']) {
   assert.ok(existsSync(path.join(dir,name)), 'missing unified inventory runtime: '+name);
  }
  assert.ok(!existsSync(path.join(dir,'equipment/README.md')), 'internal inventory handoff was published');
+ assert.ok(!existsSync(path.join(dir,'equipment/source-master.json')), 'editable equipment master must not publish');
+ assert.ok(!existsSync(path.join(dir,'equipment/REGIONAL_PRICE_TIERS_2026_11_18.md')), 'retail evidence memo must not publish');
  assert.ok(!existsSync(path.join(dir,'library/make-audio-make-sense/make-audio-make-sense.pdf')), 'retired three-page PDF was published');
  assert.ok(existsSync(path.join(dir,'_redirects')), 'legacy PDF redirect missing');
  for (const privateName of ['tests','staging','deployment','docs','scripts','.github','README.md','AGENTS.md','assets/illustrations/B01.md']) {
