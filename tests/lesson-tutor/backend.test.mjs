@@ -9,7 +9,7 @@ import { networkPrefix } from '../../deployment/lesson-tutor/identity.js';
 import { MAX_COMPLETION_TOKENS, MAX_MESSAGE_BYTES, MODEL } from '../../deployment/lesson-tutor/provider.js';
 import { DAY_MS, LIMITS } from '../../deployment/lesson-tutor/quota.js';
 
-const ORIGIN = 'https://thesoundquestion.pages.dev';
+const ORIGIN = 'https://thesoundquestion.com';
 const AT = Date.parse('2026-11-11T12:00:00Z');
 const SAFE_ANSWER = 'A lower impedance makes the amp supply more current to hold the same voltage. This extra demand can heat the amp. Look at how much current it can deliver into that load.';
 const defaultBody = {
