@@ -29,3 +29,20 @@ export function regionalPriceLabel(snapshot,equipmentId,{region='CA',asOf}={}) {
     confidence:tier.confidence,asOf:tier.asOf,expiresOn:tier.expiresOn,
     meaning:'relative price position within researched new-retail peers, not performance'};
 }
+
+/**
+ * Order an existing category's candidates by regional price tier.
+ * Unknown and expired models remain visible at the end; never treat them
+ * as poor performers, free products, or top picks.
+ */
+export function sortEquipmentByRegionalTier(items,snapshot,{
+  region='CA',asOf
+}={}) {
+  const order={budget:0,mid_grade:1,premium_pricing:2};
+  return [...items].sort((a,b)=>{
+    const left=regionalPriceLabel(snapshot,a.id,{region,asOf});
+    const right=regionalPriceLabel(snapshot,b.id,{region,asOf});
+    const al=left?order[left.tier]:3,bl=right?order[right.tier]:3;
+    return al-bl||String(a.model||'').localeCompare(String(b.model||''));
+  });
+}
