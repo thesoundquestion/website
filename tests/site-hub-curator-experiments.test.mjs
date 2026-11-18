@@ -17,13 +17,13 @@ function linkTargets(text) {
   return [...text.matchAll(/\bhref="(\/[^"]+)"/g)].map(m => m[1].split(/[?#]/)[0]).filter(Boolean);
 }
 
-test('homepage gives six major goals and four compact direct navigation links', () => {
+test('homepage gives six major goals and six explanatory direct navigation links', () => {
   const links = [...home.matchAll(/<nav class="home-quick-links"[^>]*>([\s\S]*?)<\/nav>/g)].flatMap(m=>[...m[1].matchAll(/<a href="([^"]+)"/g)].map(x=>x[1]));
   assert.deepEqual(links, ['/decoder/', '/labs/', '/tools/', '/library/', '/about/', '/connect/']);
   assert.equal((home.match(/class="home-goal-card"/g)||[]).length,6);
   assert.doesNotMatch(home,/class="discovery-card"/);
-  assert.match(home, /CHOOSE YOUR NEXT QUESTION/);
-  assert.match(home, /Follow sound from performance to playback/);
+  assert.match(home, /KNOW WHERE YOU WANT TO GO/);
+  assert.match(home, /Sound Journey/);
 });
 
 test('curator note copies the PDF narrative rather than generic branding', () => {
