@@ -55,7 +55,7 @@ test('HTML page has accessible fallback and does not use paid APIs', () => {
   const html=file('../system-builder/index.html');
   assert.match(html,/<noscript>/);
   assert.match(html,/aria-live=/);
-  assert.match(html,/system-check\/gear\.js/);
+  assert.match(html,/equipment\/legacy-presets\.generated\.js/);
   assert.match(html,/system-check\/compare\/specs\.js/);
   assert.doesNotMatch(html,/googleapis\.com\/customsearch|fetch\(.*retailer/i);
 });
