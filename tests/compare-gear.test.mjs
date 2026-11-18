@@ -43,8 +43,8 @@ test('calculator presets remain numeric and physically plausible', () => {
 test('the comparison loads gear, extended specifications and UI logic in that order', () => {
   const scriptSources = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map(m => m[1].split('?')[0]);
   assert.deepEqual(scriptSources, [
-    '/system-check/gear.js',
-    '/system-check/compare/specs.js',
+    '/equipment/legacy-presets.generated.js',
+    '/equipment/compare-details.generated.js',
     '/system-check/compare/compare.js'
   ]);
   assert.match(compareSource, /function speakerRows/);
