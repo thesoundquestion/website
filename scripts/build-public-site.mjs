@@ -123,7 +123,7 @@ const required = [
  'decoder/index.html', 'decoder/technical-glossary/index.html', approvedPumpImage, 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
  'system-builder/index.html', 'system-builder/creating/index.html',
- 'system-builder/creating/app.mjs', 'system-builder/goal-chain-engine.mjs',
+ 'system-builder/creating/app.mjs', 'system-builder/creating/build-recommendations.mjs', 'system-builder/goal-chain-engine.mjs',
  'system-builder/goal-chain-builder.css', 'equipment/catalog.generated.json',
  'equipment/legacy-presets.generated.js', 'equipment/compare-details.generated.js',
  'equipment/catalog-core.mjs', 'equipment/catalog-client.mjs',
