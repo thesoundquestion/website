@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {buildRegionalPriceTiers,getCurrentPriceTier} from '../equipment/price-tiers.mjs';
+import {buildRegionalPriceTiers,getCurrentPriceTier,retailCategoryFor} from '../equipment/price-tiers.mjs';
 import {regionalPriceLabel,sortEquipmentByRegionalTier} from '../equipment/price-tier-client.mjs';
 
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
@@ -17,6 +17,14 @@ const make=(id,region,retailer,amount,other={})=>({
  condition:'new',priceKind:'regular',unit:'one_product',...other
 });
 
+test('in-ear monitors and unrelated speaker package types do not contaminate full-size pricing cohorts',()=>{
+ const moondrop=catalog.records.find(x=>x.model==='Moondrop Chu II');
+ const sony=catalog.records.find(x=>x.model==='Sony MDR-7506');
+ const phantom=catalog.records.find(x=>x.model==='Paradigm Phantom v1');
+ assert.equal(retailCategoryFor(moondrop),'wired_in_ear_monitors');
+ assert.equal(retailCategoryFor(sony),'wired_headphones');
+ assert.equal(retailCategoryFor(phantom),null);
+});
 test('saved survey reproduces dated regional bands without exposing retail numbers',()=>{
  const ca=buildRegionalPriceTiers(catalog,master.pricingResearch,{region:'CA',asOf:'2026-11-18'});
  assert.deepEqual(serial(ca),snapshot.regions.CA);
