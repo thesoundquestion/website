@@ -148,15 +148,23 @@ export function buildEquipmentComparison(left,right,{category}={}) {
     const formatted=x=>({...x,display:x.known?renderValue(x.value,unit):'Not verified'});
     const leftBasis=getFact(left,'sensitivityBasis').value;
     const rightBasis=getFact(right,'sensitivityBasis').value;
-    const basisMismatch=key==='sensitivityDb' &&
+    const headphoneBasisMismatch=key==='sensitivityDb' &&
       (!leftBasis||!rightBasis||leftBasis!==rightBasis);
+    const speakerBasisLeft=getFact(left,'speakerSensitivityBasis').value ||
+      getFact(left,'speakerSensitivityDb').basis;
+    const speakerBasisRight=getFact(right,'speakerSensitivityBasis').value ||
+      getFact(right,'speakerSensitivityDb').basis;
+    const speakerBasisMismatch=key==='speakerSensitivityDb' &&
+      (!speakerBasisLeft||!speakerBasisRight||speakerBasisLeft!==speakerBasisRight);
+    const conditionalPower=['speakerPowerRatings','ratedOutputMilliwatts','headphoneOutputPowerRating'].includes(key);
+    const setupOnly=key==='documentedSetupBitDepth';
     return {key,label,unit:unit||null,left:formatted(a),right:formatted(b),
-      directlyComparable:a.known&&b.known&&!basisMismatch &&
-        // Different load/test conditions are not a single comparable number.
-        !['speakerPowerRatings','ratedOutputMilliwatts','headphoneOutputPowerRating'].includes(key),
-      caution:basisMismatch?'Sensitivity figures need the same confirmed reference (dB/mW versus dB/V).':
-        ['speakerPowerRatings','ratedOutputMilliwatts','headphoneOutputPowerRating'].includes(key)?
-          'Compare only at the same load, output path and test conditions.':null};
+      directlyComparable:a.known&&b.known&&!headphoneBasisMismatch&&!speakerBasisMismatch &&
+        !conditionalPower&&!setupOnly,
+      caution:headphoneBasisMismatch?'Sensitivity figures need the same confirmed reference (dB/mW versus dB/V).':
+        speakerBasisMismatch?'Speaker sensitivity needs the same confirmed reference (1 W or 2.83 V at the same distance).':
+        conditionalPower?'Compare only at the same load, output path and test conditions.':
+        setupOnly?'A documented software setup is not necessarily the device’s maximum supported bit depth.':null};
   });
   return {
     status:'facts_only',category:selected,
