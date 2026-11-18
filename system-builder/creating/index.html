@@ -53,6 +53,15 @@
    <label class="sb-field sb-headphone" for="sb-purpose-headphone">Monitoring headphones<select id="sb-purpose-headphone"></select></label>
    <label class="sb-field sb-live" for="sb-purpose-pa">Audience PA speaker<select id="sb-purpose-pa"></select></label>
   </div>
+  <div class="sb-grid sb-price-preferences">
+   <label class="sb-field" for="sb-price-region">Where are you comparing prices?
+    <select id="sb-price-region"><option value="CA">Canada (CAD)</option><option value="US">United States (USD)</option><option value="GB">United Kingdom (GBP)</option><option value="EU">Europe (EUR)</option><option value="AU">Australia (AUD)</option></select>
+   </label>
+   <label class="sb-field" for="sb-price-preference">Prefer a retail category
+    <select id="sb-price-preference"><option value="any">No preference</option><option value="budget">Favour budget-priced</option><option value="mid_grade">Favour mid-priced</option><option value="premium_pricing">Favour premium-priced</option></select>
+   </label>
+  </div>
+  <p class="sb-help" id="sb-price-evidence" role="status">Retail-category preference only reorders products with current, qualified region-specific pricing evidence. It does not prove quality or total system cost.</p>
   <label class="sb-inline sb-tracks" for="sb-purpose-tracks"><input type="checkbox" id="sb-purpose-tracks">I need separately editable microphone recordings</label>
   <p class="sb-help">These are example products in the shared equipment catalogue, not endorsements. Capacity checks are limited to published, source-verified facts. Can't find your model? <a href="/tools/recommend-gear/">Recommend equipment for inclusion</a>.</p>
   <div class="sb-actions"><button class="button button-primary" type="submit">Review this signal chain</button></div>
