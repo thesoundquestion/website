@@ -33,7 +33,9 @@ export function checkerPresetsFromCatalog(catalog) {
 }
 export function compareDetailsFromCatalog(catalog) {
  if(!Array.isArray(catalog?.records))throw new TypeError('Invalid shared catalog');
- const result={speaker:{},source:{},headphone:{}};
+ const result={version:catalog.metadata?.compareVersion||null,
+   notice:catalog.metadata?.compareNotice||null,
+   speaker:{},source:{},headphone:{}};
  for(const item of catalog.records)for(const profile of item.profiles||[]){
    if(profile.from!=='system-check/gear.js'||!profile.details)continue;
    if(!Object.hasOwn(result,profile.category))continue;
