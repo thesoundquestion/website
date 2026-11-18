@@ -108,6 +108,30 @@ export function comparableCategories(left,right) {
   const r=Array.isArray(right?.categories)?right.categories:[];
   return keys.filter(category=>l.includes(category)&&r.includes(category));
 }
+/** Describe only genuinely documented differences, without a quality verdict. */
+export function describeEquipmentDifferences(left,right,category) {
+  const differences=[];
+  const pair=key=>[getFact(left,key),getFact(right,key)];
+  if(category==='audio_interface'||category==='mixer_recorder'){
+    const [a,b]=pair('micPreampCount');
+    if(a.known&&b.known&&Number.isInteger(a.value)&&Number.isInteger(b.value)&&a.value!==b.value)
+      differences.push('The documented microphone-preamp counts differ ('+a.value+' versus '+b.value+
+        '). This concerns microphone input capacity, not recording quality or the number of USB tracks.');
+    const [usbA,usbB]=pair('computerRecordingInputs');
+    if(usbA.known&&usbB.known&&Number.isInteger(usbA.value)&&Number.isInteger(usbB.value)&&usbA.value!==usbB.value)
+      differences.push('Documented computer capture channels differ ('+usbA.value+' versus '+usbB.value+
+        '). Mixer control channels, input sockets and separately recorded USB tracks are different things.');
+  }
+  if(category==='headphone'){
+    const [a,b]=pair('nominalImpedanceOhms');
+    if(a.known&&b.known&&typeof a.value==='number'&&typeof b.value==='number'&&a.value!==b.value)
+      differences.push('The headphones have different nominal impedances ('+a.value+' Ω versus '+b.value+
+        ' Ω). Impedance alone cannot tell us which will play louder or sound better on an amplifier.');
+  }
+  if(category==='amp')
+    differences.push('Published amplifier power figures require matched load, channels driven, test bandwidth and distortion conditions before meaningful ranking.');
+  return differences;
+}
 export function buildEquipmentComparison(left,right,{category}={}) {
   if(!left?.id||!right?.id)throw new TypeError('Two equipment records required');
   const common=comparableCategories(left,right);
@@ -138,6 +162,7 @@ export function buildEquipmentComparison(left,right,{category}={}) {
     status:'facts_only',category:selected,
     models:[{id:left.id,model:left.model},{id:right.id,model:right.model}],
     rows,
+    observations:describeEquipmentDifferences(left,right,selected),
     notes:[
       'Published specifications are not sound-quality scores.',
       'Not verified means the catalogue has no confirmed figure, not that the feature is absent.',
