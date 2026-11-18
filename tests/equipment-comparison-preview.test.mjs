@@ -22,12 +22,13 @@ test('comparison loads shared registry and region-specific labels rather than st
   assert.match(script,/buildEquipmentComparison\(/);
   assert.match(script,/loadRegionalPriceTiers\(/);
   assert.match(script,/regionalPriceLabel\(/);
+  assert.match(script,/sortEquipmentByRegionalTier\(/);
   assert.match(html,/Retail pricing region/);
   assert.match(html,/Indicative pricing position based on a small Canadian retail sample/);
   assert.doesNotMatch(html,/\$\d/);
 });
 test('model filter and comparison are accessible in review markup',()=>{
-  for(const id of ['category','region','left-search','right-search','left','right'])
+  for(const id of ['category','region','sort','left-search','right-search','left','right'])
     assert.match(html,new RegExp('id="'+id+'"'));
   assert.match(html,/aria-live="polite"/);
   assert.match(html,/tabindex="0" role="region"/);
