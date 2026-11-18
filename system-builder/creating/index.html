@@ -23,14 +23,14 @@
 <header class="sb-hero">
 <p class="section-kicker">RECORDING · STREAMING · LIVE AUDIO</p>
 <h1>Creating Builder</h1>
-<p class="lead">Start with what you're making, then build the signal chain: microphone, interface or mixer, recorder and monitoring. We'll show verified input capacity, missing specifications and important checks before you buy or connect anything.</p>
+<p class="lead">Tell us what you want to make. We’ll suggest the pieces of a complete recording or live-sound setup, show example equipment from our shared catalogue, and explain what you can reuse, what to look for and why.</p>
 <div class="sb-hero-meta"><span>Vocal and song recording</span><span>Podcasts · Streams · Band rehearsal</span><span>Live sound and PA</span></div>
 </header>
 <p class="sb-bridge"><strong>Building a music or home-theatre playback system?</strong> Use the <a href="/system-builder/">Listening Builder</a> for speakers, amplifiers, headphones and your room. <a href="/tools/find-my-setup/">Choose a path instead →</a></p>
 <section class="sb-purpose" aria-labelledby="sb-purpose-heading">
  <p class="section-kicker">CHOOSE YOUR AUDIO PROJECT</p>
  <h2 id="sb-purpose-heading">What are you creating?</h2>
- <p>Each project has different input and monitoring requirements. A mixer with ten channels, for example, doesn't necessarily record ten separate computer tracks.</p>
+ <p>Recording a song, interviewing two people and playing to a crowd need different equipment. Start with the job, not a brand name or technical specification.</p>
  <label class="sb-field" for="sb-purpose-select">My system is for
  <select id="sb-purpose-select">
   <option value="vocal">Recording vocals</option>
@@ -43,35 +43,68 @@
  </select></label>
 </section>
 <section class="sb-purpose-panel" id="sb-purpose-panel" aria-labelledby="sb-purpose-panel-heading">
- <h2 id="sb-purpose-panel-heading">Choose the parts of your signal chain</h2>
- <p id="sb-purpose-description">Select the devices you own or are considering. Unknown specifications stay unknown.</p>
- <form id="sb-purpose-form">
-  <div class="sb-grid">
-   <label class="sb-field sb-capture" for="sb-purpose-microphone">Microphone model<select id="sb-purpose-microphone"></select></label>
-   <label class="sb-field sb-capture" for="sb-purpose-input">Audio interface, mixer or recorder<select id="sb-purpose-input"></select></label>
-   <label class="sb-field sb-capture sb-count" for="sb-purpose-count">Microphones needed simultaneously<input type="number" id="sb-purpose-count" min="1" max="32" step="1" value="1"></label>
-   <label class="sb-field sb-headphone" for="sb-purpose-headphone">Monitoring headphones<select id="sb-purpose-headphone"></select></label>
-   <label class="sb-field sb-monitor" for="sb-purpose-monitor">Powered studio monitor (one cabinet per record)<select id="sb-purpose-monitor"></select></label>
-   <label class="sb-field sb-live" for="sb-purpose-pa">Audience PA speaker<select id="sb-purpose-pa"></select></label>
-  </div>
-  <div class="sb-grid sb-price-preferences">
-   <label class="sb-field" for="sb-price-region">Where are you comparing prices?
-    <select id="sb-price-region"><option value="CA">Canada (CAD)</option><option value="US">United States (USD)</option><option value="GB">United Kingdom (GBP)</option><option value="EU">Europe (EUR)</option><option value="AU">Australia (AUD)</option></select>
-   </label>
-   <label class="sb-field" for="sb-price-preference">Prefer a retail category
-    <select id="sb-price-preference"><option value="any">No preference</option><option value="budget">Favour budget-priced</option><option value="mid_grade">Favour mid-priced</option><option value="premium_pricing">Favour premium-priced</option></select>
-   </label>
-  </div>
-  <p class="sb-help" id="sb-price-evidence" role="status">Retail-category preference only reorders products with current, qualified region-specific pricing evidence. It does not prove quality or total system cost.</p>
-  <label class="sb-inline sb-tracks" for="sb-purpose-tracks"><input type="checkbox" id="sb-purpose-tracks">I need separately editable microphone recordings</label>
-  <p class="sb-help">These are example products in the shared equipment catalogue, not endorsements. Capacity checks are limited to published, source-verified facts. Can't find your model? <a href="/tools/recommend-gear/">Recommend equipment for inclusion</a>.</p>
-  <div class="sb-actions"><button class="button button-primary" type="submit">Review this signal chain</button></div>
- </form>
- <p id="sb-purpose-status" role="status" aria-live="polite">Loading equipment choices…</p>
- <section id="sb-purpose-result" class="sb-purpose-result" hidden aria-live="polite">
-  <h3 id="sb-purpose-result-title">Your signal-chain plan</h3>
-  <div id="sb-purpose-result-body"></div>
- </section>
+  <h2 id="sb-purpose-panel-heading">Let's put your setup together</h2>
+  <p id="sb-purpose-description">A few simple answers help us suggest what belongs in the system.</p>
+  <form id="sb-purpose-form">
+    <div class="sb-beginner-questions">
+      <label class="sb-field sb-capture sb-count" for="sb-purpose-count">How many microphones will you use at the same time?
+        <input type="number" id="sb-purpose-count" min="1" max="32" step="1" value="1">
+        <span class="sb-field-explain">For example, one for a singer, two for an interview, or several to record a drum kit. A person or instrument plugged directly into an interface may need an extra input instead.</span>
+      </label>
+      <label class="sb-field sb-mic-route" for="sb-mic-route">How will the microphone connect?
+        <select id="sb-mic-route">
+          <option value="xlr">XLR cable, or I don't own a microphone yet</option>
+          <option value="usb">USB microphone straight into a computer (one microphone)</option>
+        </select>
+        <span class="sb-field-explain">An XLR microphone usually connects through an audio interface or mixer. A USB microphone has a computer connection built in, so you usually don't need another interface just for that one microphone.</span>
+      </label>
+      <div class="sb-tracks sb-explained-check">
+        <label class="sb-inline" for="sb-purpose-tracks"><input type="checkbox" id="sb-purpose-tracks">I want to adjust each microphone separately after recording</label>
+        <p class="sb-field-explain">Example: two people record a podcast. If each voice is on its own track, you can turn one person down or edit their words without changing the other. A mixer that sends one combined recording to the computer won't let you separate them afterward. <a href="/decoder/audio-interfaces-mixers/">See how recording channels work.</a></p>
+      </div>
+      <div class="sb-monitors-choice">
+        <label class="sb-inline" for="sb-include-monitors"><input type="checkbox" id="sb-include-monitors">Also suggest studio speakers for listening to my recordings</label>
+        <p class="sb-field-explain">Optional. Headphones are a good starting point for recording close to a microphone. Powered studio speakers can be useful later when editing or mixing.</p>
+      </div>
+    </div>
+    <div class="sb-grid sb-price-preferences">
+      <label class="sb-field" for="sb-price-region">Where will you shop or compare prices?
+        <select id="sb-price-region"><option value="CA">Canada (CAD)</option><option value="US">United States (USD)</option><option value="GB">United Kingdom (GBP)</option><option value="EU">Europe (EUR)</option><option value="AU">Australia (AUD)</option></select>
+      </label>
+      <label class="sb-field" for="sb-price-preference">What price range should we favour?
+        <select id="sb-price-preference"><option value="any">No preference, show suitable choices</option><option value="budget">Favour budget pricing</option><option value="mid_grade">Favour mid-priced</option><option value="premium_pricing">Favour premium pricing</option></select>
+      </label>
+    </div>
+    <p class="sb-help" id="sb-price-evidence" role="status">The pricing preference only influences models with verified recent local retail evidence. It never replaces a necessary feature or proves sound quality.</p>
+    <details class="sb-own-equipment">
+      <summary>I already own some equipment (optional)</summary>
+      <p>Choose only the things you already own. Leave everything else blank and we'll suggest examples. If a model is missing from our catalogue, type its exact name; we'll include it but won't invent specifications.</p>
+      <div class="sb-grid">
+        <label class="sb-field sb-capture" for="sb-purpose-microphone">My microphone<select id="sb-purpose-microphone"></select>
+          <input id="sb-purpose-microphone-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+        <label class="sb-field sb-capture" for="sb-purpose-input">My audio interface / mixer<select id="sb-purpose-input"></select>
+          <input id="sb-purpose-input-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+        <label class="sb-field sb-headphone" for="sb-purpose-headphone">My recording headphones<select id="sb-purpose-headphone"></select>
+          <input id="sb-purpose-headphone-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+        <label class="sb-field sb-monitor" for="sb-purpose-monitor">My studio speakers (model per cabinet)<select id="sb-purpose-monitor"></select>
+          <input id="sb-purpose-monitor-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+        <label class="sb-field sb-live" for="sb-purpose-pa">My PA speakers (model per cabinet)<select id="sb-purpose-pa"></select>
+          <input id="sb-purpose-pa-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+      </div>
+    </details>
+    <div class="sb-actions"><button class="button button-primary" type="submit">Build my creating setup</button></div>
+    <p class="sb-help">No account, live price feed or paid AI is needed. The Builder suggests real example models and explains the missing pieces; <a href="/tools/chain-check-preview/">Chain Check</a> is available when you want to examine a particular model's published limits.</p>
+  </form>
+  <p id="sb-purpose-status" role="status" aria-live="polite">Loading shared equipment choices…</p>
+  <section id="sb-purpose-result" class="sb-purpose-result" hidden aria-live="polite">
+    <h3 id="sb-purpose-result-title">Your suggested creating setup</h3>
+    <div id="sb-purpose-result-body"></div>
+  </section>
 </section>
 <nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">LISTEN, LEARN &amp; CHECK</span><a class="page-endnav-primary" href="/decoder/audio-interfaces-mixers/">Learn about interfaces and mixers <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/system-builder/">Listening Builder</a><a href="/tools/">All tools</a><a href="/">Home</a><a href="#">↑ Back to top</a></div></nav>
 </main>
