@@ -9,8 +9,10 @@ manual release. The email digest does **not** use a paid email API.
 
 - A private Worker route, \`GET /v1/moderation/pending-counts\`, queries
   the existing D1 database **once per daily check**.
-- The response contains only three pending-entry counts (Listening Room
-  suggestions, Listening Room comments, ABX Lab comments) and a total.
+- The response contains only aggregate pending counts for Listening Room
+  suggestions, Listening Room comments, ABX Lab comments and equipment model
+  recommendations, plus a total. The gear query runs only after the independent
+  gear-submission feature is enabled and its D1 table has been created.
   It never returns comment content, receipt IDs, user details or approval controls.
 - The route requires a separate \`MODERATION_READ_SECRET\` bearer secret of at
   least 32 characters, and \`MODERATION_ALERTS_ENABLED=true\`. It does not
@@ -18,7 +20,8 @@ manual release. The email digest does **not** use a paid email API.
 - A Google Apps Script owned by \`thesoundquestion@gmail.com\` calls it
   around **9 a.m. Atlantic time**, once per day. If the count is zero it
   sends nothing. Otherwise it emails \`thesoundquestion@gmail.com\` a count
-  and a short reminder about the D1 moderation console.
+  and a short reminder about the D1 moderation console. Existing installed
+  Gmail filters recognize the digest subject's `pending community` phrase.
 - Only you can approve/reject entries manually via the Cloudflare D1 console.
   The notifier has no edit permissions, no privileged D1 API key and no
   ability to publish comments. A user submitting an entry never triggers email.
