@@ -113,6 +113,7 @@ test('all published sitemap lesson and lab routes still have files',()=>{
  const sitemap=read('sitemap.xml');
  const paths=[...sitemap.matchAll(/<loc>https:\/\/thesoundquestion\.pages\.dev\/([^<]*)<\/loc>/g)]
    .map(([,route])=>route?route+'index.html':'index.html');
- assert.equal(paths.length,47);
+ assert.ok(paths.length>=48,'expected at least the current 48 published routes');
+ assert.equal(new Set(paths).size,paths.length,'duplicate routes in sitemap');
  for(const path of paths) assert.match(read(path),/<(?:main|article|section)\b/);
 });
