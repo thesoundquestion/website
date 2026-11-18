@@ -75,8 +75,9 @@ Tiers are **Budget pricing**, **Mid-priced** and **Premium pricing**: they
 are *not equipment grades or quality/accuracy scores*. Stale (over 45 days),
 unavailable or insufficiently evidenced market cohorts produce no label.
 
-The first Canadian wired-headphone sample covers five models and is marked
-`limited_sample`; other regional/category price tiers remain unclassified.
+Two Canadian category samples now contain five models apiece: wired
+headphones and USB recording interfaces. Both are marked `limited_sample`;
+other regional/category price tiers remain unclassified.
 Raw price observations stay in the editorial master rather than the public
 generated snapshot. No existing Builder affordability calculations or price
 estimates were rewritten. See `REGIONAL_PRICE_TIERS_2026_11_18.md`.
@@ -102,6 +103,9 @@ estimates were rewritten. See `REGIONAL_PRICE_TIERS_2026_11_18.md`.
   10-track USB recorder. The catalogue does not claim a microphone with an
   XLR plug can use any XLR-looking input.
 - Known physical connections are recorded by signal role, not just plug shape.
+Existing legacy devices may receive separate `curatedConnections` overlays
+in the master with an exact model ID, dated evidence, an electrical role and
+an explicit adapter caveat. Original legacy calculations remain unchanged.
   **Unknown connections remain absent/unverified**. Do not fill them from
   a category stereotype. Where the evidence only describes a cable in prose,
   the description remains prose rather than an invented structured port.
