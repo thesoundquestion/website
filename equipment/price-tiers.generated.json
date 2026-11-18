@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0.0",
+  "note": "Indicative regional relative pricing tiers only, not a performance grade, live price or availability statement.",
+  "regions": {
+    "CA": {
+      "policyVersion": "1.0.0",
+      "region": "CA",
+      "asOf": "2026-11-18",
+      "summary": {
+        "eligibleModels": 5,
+        "labelledModels": 5
+      },
+      "categories": {
+        "wired_headphones": {
+          "status": "sampled",
+          "representativeModels": 5,
+          "retailerCount": 5,
+          "region": "CA",
+          "pricingBasis": "average_regular_new_retail_across_distinct_merchants",
+          "boundariesHidden": true
+        }
+      },
+      "tiersById": {
+        "legacy/headphone/sony-mdr-7506": {
+          "tier": "budget",
+          "category": "wired_headphones",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "legacy/headphone/grado-sr80x": {
+          "tier": "budget",
+          "category": "wired_headphones",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "legacy/headphone/audio-technica-ath-m50x": {
+          "tier": "mid_grade",
+          "category": "wired_headphones",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "research/headphone/akg-k371": {
+          "tier": "premium_pricing",
+          "category": "wired_headphones",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "legacy/headphone/sennheiser-hd-600": {
+          "tier": "premium_pricing",
+          "category": "wired_headphones",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        }
+      }
+    },
+    "US": {
+      "policyVersion": "1.0.0",
+      "region": "US",
+      "asOf": "2026-11-18",
+      "summary": {
+        "eligibleModels": 0,
+        "labelledModels": 0
+      },
+      "categories": {},
+      "tiersById": {}
+    },
+    "GB": {
+      "policyVersion": "1.0.0",
+      "region": "GB",
+      "asOf": "2026-11-18",
+      "summary": {
+        "eligibleModels": 0,
+        "labelledModels": 0
+      },
+      "categories": {},
+      "tiersById": {}
+    },
+    "EU": {
+      "policyVersion": "1.0.0",
+      "region": "EU",
+      "asOf": "2026-11-18",
+      "summary": {
+        "eligibleModels": 0,
+        "labelledModels": 0
+      },
+      "categories": {},
+      "tiersById": {}
+    },
+    "AU": {
+      "policyVersion": "1.0.0",
+      "region": "AU",
+      "asOf": "2026-11-18",
+      "summary": {
+        "eligibleModels": 0,
+        "labelledModels": 0
+      },
+      "categories": {},
+      "tiersById": {}
+    }
+  }
+}
