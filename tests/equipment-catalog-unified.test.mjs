@@ -187,6 +187,19 @@ test('entry-level integrated amps preserve phono, digital, speaker and line-leve
   assert.ok(item.facts.speakerPowerRatings?.value?.length>0);
  }
 });
+test('shared Yamaha amp family and Polk ES20 connector types preserve each exact model',()=>{
+ for(const name of ['Yamaha A-S301','Yamaha A-S501','Yamaha A-S701']){
+  const device=by(name,'amp');
+  assert.ok(device.connections.inputs.some(x=>x.type==='rca_phono_moving_magnet_with_ground'),name);
+  assert.ok(device.connections.inputs.some(x=>x.type==='toslink_optical_pcm_digital_input'),name);
+  assert.ok(device.connections.outputs.some(x=>x.type==='speaker_level_front_stereo_A_B_terminals'),name);
+  assert.ok(device.evidence.some(x=>x.from==='equipment/source-master.json'),name);
+ }
+ const es20=by('Polk Signature Elite ES20','speaker');
+ assert.equal(es20.connections.inputs.length,1);
+ assert.equal(es20.connections.inputs[0].type,'passive_speaker_level_five_way_binding_post_pair');
+ assert.equal(es20.connections.outputs.length,0);
+});
 test('new passive speaker binding posts do not imply line-level or powered monitor input',()=>{
  for(const model of ['Polk Signature Elite ES15','Klipsch R-50M','Paradigm Monitor SE Atom']){
   const item=by(model,'speaker');
