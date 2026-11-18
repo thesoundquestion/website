@@ -80,6 +80,35 @@ function render(){
       rows.append(row,note);
     } else rows.append(row);
   }
+  const sources=$('sources');
+  sources.replaceChildren();
+  for(const item of [a,b]){
+    const section=document.createElement('section');
+    const heading=document.createElement('h4');
+    heading.textContent=item.model;
+    section.append(heading);
+    const list=document.createElement('ul');
+    const seen=new Set();
+    for(const evidence of item.evidence||[]){
+      if(typeof evidence.url!=='string'||!evidence.url.startsWith('https://')||seen.has(evidence.url))continue;
+      seen.add(evidence.url);
+      const li=document.createElement('li');
+      const link=document.createElement('a');
+      link.href=evidence.url;
+      link.target='_blank';
+      link.rel='noopener noreferrer';
+      try{link.textContent=new URL(evidence.url).hostname}catch{link.textContent='Source document'}
+      li.append(link);
+      if(evidence.checkedDate)li.append(document.createTextNode(' · reviewed '+evidence.checkedDate));
+      list.append(li);
+    }
+    if(!list.children.length){
+      const item=document.createElement('p');
+      item.textContent='No verified source URL in the catalogue.';
+      section.append(item);
+    } else section.append(list);
+    sources.append(section);
+  }
   const notes=$('notes');
   notes.replaceChildren();
   for(const note of comparison.notes){
