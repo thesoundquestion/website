@@ -11,7 +11,7 @@ const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
   'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets',
 ]);
-const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects']);
+const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects', 'favicon.ico', 'favicon-96x96.png']);
 const runtimeExt = new Set([
   '.html', '.css', '.js', '.mjs', '.json', '.svg', '.webp', '.png',
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
@@ -80,7 +80,7 @@ for (const {entry, from} of files) {
 if (files.length > 20000) throw new Error('Cloudflare Free 20,000-file quota exceeded');
 if (maxBytes > 25 * 1024 * 1024) throw new Error('Cloudflare Pages 25 MiB per-file limit exceeded');
 const required = [
- 'index.html', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
+ 'index.html', 'favicon.ico', 'favicon-96x96.png', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
  'decoder/index.html', 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
  'system-builder/index.html', illustratedHandbook,
