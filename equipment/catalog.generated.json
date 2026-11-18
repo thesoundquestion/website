@@ -2,6 +2,10 @@
   "schemaVersion": "1.0.0",
   "status": "draft_not_published",
   "description": "Generated read-only view. Original specification sources remain authoritative; unknowns are not filled by inference.",
+  "metadata": {
+    "compareVersion": "2026-11-11",
+    "compareNotice": "Supplemental, source-linked model facts. A blank value means the source did not establish the specification."
+  },
   "sources": [
     "system-check/gear.js",
     "system-check/compare/specs.js",
@@ -1232,6 +1236,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Cambridge Audio AXA35",
+          "legacyOrder": 0,
           "values": {
             "inputZ": 47
           },
@@ -1305,6 +1310,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Cambridge Audio AXR100D",
+          "legacyOrder": 1,
           "values": {
             "inputZ": 47
           },
@@ -1384,6 +1390,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Cambridge Audio CXA61",
+          "legacyOrder": 2,
           "values": {
             "inputZ": 43
           },
@@ -1469,6 +1476,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Cambridge Audio CXA81",
+          "legacyOrder": 3,
           "values": {
             "inputZ": 43
           },
@@ -1554,6 +1562,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Cambridge Audio CXA81 Mk II",
+          "legacyOrder": 4,
           "values": {
             "inputZ": 43
           },
@@ -1639,6 +1648,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Denon AVR-S760H",
+          "legacyOrder": 5,
           "values": {},
           "ratings": [
             [
@@ -1722,6 +1732,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Denon AVR-X1700H",
+          "legacyOrder": 6,
           "values": {},
           "ratings": [
             [
@@ -1805,6 +1816,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Denon AVR-X1800H",
+          "legacyOrder": 7,
           "values": {},
           "ratings": [
             [
@@ -1888,6 +1900,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Denon DRA-900H",
+          "legacyOrder": 8,
           "values": {},
           "ratings": [
             [
@@ -1971,6 +1984,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Denon PMA-500V",
+          "legacyOrder": 9,
           "values": {
             "inputZ": 47,
             "inputSensitivity": 0.15
@@ -2057,6 +2071,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Denon PMA-600NE",
+          "legacyOrder": 10,
           "values": {
             "inputZ": 40
           },
@@ -2142,6 +2157,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Denon PMA-900HNE",
+          "legacyOrder": 11,
           "values": {
             "inputZ": 17
           },
@@ -2227,6 +2243,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Marantz 2230",
+          "legacyOrder": 12,
           "values": {},
           "ratings": [
             [
@@ -2310,6 +2327,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Marantz 2270",
+          "legacyOrder": 13,
           "values": {},
           "ratings": [
             [
@@ -2393,6 +2411,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Marantz PM6007",
+          "legacyOrder": 14,
           "values": {
             "inputZ": 20,
             "outputZ": 0.08
@@ -2479,6 +2498,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Marantz Stereo 70s",
+          "legacyOrder": 15,
           "values": {},
           "ratings": [
             [
@@ -2568,6 +2588,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "NAD 3020 (original)",
+          "legacyOrder": 16,
           "values": {
             "inputZ": 20,
             "inputSensitivity": 0.15
@@ -2672,6 +2693,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "NAD C 316BEE V2",
+          "legacyOrder": 17,
           "values": {},
           "ratings": [
             [
@@ -2773,6 +2795,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Onkyo TX-8220",
+          "legacyOrder": 18,
           "values": {},
           "ratings": [
             [
@@ -2862,6 +2885,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Panasonic SA-HE100",
+          "legacyOrder": 19,
           "values": {
             "inputZ": 22,
             "outputZ": 0.2
@@ -2942,6 +2966,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Pioneer SX-780",
+          "legacyOrder": 20,
           "values": {},
           "ratings": [
             [
@@ -3013,6 +3038,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Pioneer SX-950",
+          "legacyOrder": 21,
           "values": {},
           "ratings": [
             [
@@ -3084,6 +3110,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Sansui AU-517",
+          "legacyOrder": 22,
           "values": {
             "inputZ": 47,
             "inputSensitivity": 0.15
@@ -3158,6 +3185,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Sansui AU-717",
+          "legacyOrder": 23,
           "values": {
             "inputZ": 47,
             "inputSensitivity": 0.15
@@ -3232,6 +3260,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Sony STR-DE475 (US/Canada)",
+          "legacyOrder": 24,
           "values": {
             "inputZ": 50
           },
@@ -3305,6 +3334,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Sony STR-DH190",
+          "legacyOrder": 25,
           "values": {},
           "ratings": [
             [
@@ -3376,6 +3406,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Sony STR-DH590",
+          "legacyOrder": 26,
           "values": {},
           "ratings": [
             [
@@ -3465,6 +3496,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "WiiM Amp",
+          "legacyOrder": 27,
           "values": {},
           "ratings": [
             [
@@ -3560,6 +3592,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha A-1000",
+          "legacyOrder": 29,
           "values": {
             "outputZ": 0.089
           },
@@ -3663,6 +3696,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha A-720",
+          "legacyOrder": 28,
           "values": {
             "inputZ": 47,
             "inputSensitivity": 0.15,
@@ -3768,6 +3802,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha A-S1200",
+          "legacyOrder": 34,
           "values": {
             "outputZ": 0.032
           },
@@ -3871,6 +3906,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha A-S301",
+          "legacyOrder": 30,
           "values": {
             "inputZ": 47,
             "outputZ": 0.0381
@@ -3975,6 +4011,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha A-S3200",
+          "legacyOrder": 35,
           "values": {
             "outputZ": 0.032
           },
@@ -4078,6 +4115,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha A-S501",
+          "legacyOrder": 31,
           "values": {
             "inputZ": 47,
             "outputZ": 0.0333
@@ -4200,6 +4238,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha A-S701",
+          "legacyOrder": 32,
           "values": {
             "inputZ": 47,
             "outputZ": 0.0333
@@ -4322,6 +4361,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha A-S801",
+          "legacyOrder": 33,
           "values": {
             "inputZ": 47,
             "outputZ": 0.0333
@@ -4438,6 +4478,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha HTR-4063 (US/Canada)",
+          "legacyOrder": 36,
           "values": {
             "inputZ": 47
           },
@@ -4547,6 +4588,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha R-N600A",
+          "legacyOrder": 37,
           "values": {},
           "ratings": [
             [
@@ -4654,6 +4696,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha R-N800A",
+          "legacyOrder": 38,
           "values": {},
           "ratings": [
             [
@@ -4761,6 +4804,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha R-S202",
+          "legacyOrder": 39,
           "values": {
             "inputZ": 47,
             "inputSensitivity": 0.5
@@ -4877,6 +4921,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha RX-485 (US/Canada)",
+          "legacyOrder": 40,
           "values": {
             "inputZ": 47,
             "outputZ": 0.1
@@ -4987,6 +5032,7 @@
           "category": "amp",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha RX-V385",
+          "legacyOrder": 41,
           "values": {},
           "ratings": [
             [
@@ -5077,6 +5123,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Audio-Technica ATH-M50x",
+          "legacyOrder": 0,
           "values": {
             "design": "Closed-back over-ear",
             "sensitivity": 99,
@@ -5165,6 +5212,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "beyerdynamic DT 770 PRO (80 Ω)",
+          "legacyOrder": 1,
           "values": {
             "design": "Closed-back over-ear",
             "load": 80
@@ -5258,6 +5306,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Grado SR60x",
+          "legacyOrder": 2,
           "values": {
             "design": "Open-back on-ear",
             "sensitivity": 99.8,
@@ -5353,6 +5402,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Grado SR80e",
+          "legacyOrder": 3,
           "values": {
             "design": "Open-back on-ear",
             "sensitivity": 99.8,
@@ -5448,6 +5498,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Grado SR80x",
+          "legacyOrder": 4,
           "values": {
             "design": "Open-back on-ear",
             "sensitivity": 99.8,
@@ -5543,6 +5594,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Moondrop Chu II",
+          "legacyOrder": 5,
           "values": {
             "design": "In-ear monitor",
             "sensitivity": 119,
@@ -5638,6 +5690,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Sennheiser HD 560S",
+          "legacyOrder": 6,
           "values": {
             "design": "Open-back over-ear",
             "sensitivity": 110,
@@ -5733,6 +5786,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Sennheiser HD 600",
+          "legacyOrder": 7,
           "values": {
             "design": "Open-back over-ear",
             "sensitivity": 97,
@@ -5827,6 +5881,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Shure SE215",
+          "legacyOrder": 8,
           "values": {
             "design": "In-ear monitor",
             "sensitivity": 107,
@@ -5922,6 +5977,7 @@
           "category": "headphone",
           "from": "system-check/gear.js",
           "legacyModel": "Sony MDR-7506",
+          "legacyOrder": 9,
           "values": {
             "design": "Closed-back over-ear",
             "sensitivity": 106,
@@ -6010,6 +6066,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "ASUS Xonar Essence STX II (RCA)",
+          "legacyOrder": 0,
           "values": {
             "sourceVoltage": 2,
             "sourceConnection": "RCA",
@@ -6097,6 +6154,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "ASUS Xonar SE (front 3.5 mm)",
+          "legacyOrder": 1,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceSnr": [
@@ -6181,6 +6239,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster AE-7 (front 3.5 mm)",
+          "legacyOrder": 2,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceThdn": [
@@ -6267,6 +6326,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster AE-9 (RCA front out)",
+          "legacyOrder": 3,
           "values": {
             "sourceConnection": "RCA",
             "sourceThdn": [
@@ -6353,6 +6413,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster Audigy Rx (front 3.5 mm)",
+          "legacyOrder": 4,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceSnr": [
@@ -6469,6 +6530,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster X-Fi Titanium HD (RCA)",
+          "legacyOrder": 6,
           "values": {
             "sourceVoltage": 2,
             "sourceConnection": "RCA",
@@ -6608,6 +6670,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster X-Fi Titanium (SB0880, 3.5 mm front)",
+          "legacyOrder": 5,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceSnr": [
@@ -6688,6 +6751,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster X3 (USB, front 3.5 mm)",
+          "legacyOrder": 7,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceThdn": [
@@ -6773,6 +6837,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster X4 (USB, front 3.5 mm)",
+          "legacyOrder": 8,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceThdn": [
@@ -6858,6 +6923,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster X5 (USB, RCA line out)",
+          "legacyOrder": 9,
           "values": {
             "sourceConnection": "RCA"
           },
@@ -6940,6 +7006,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound Blaster Z SE (front 3.5 mm)",
+          "legacyOrder": 10,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceSnr": [
@@ -7020,6 +7087,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound BlasterX AE-5 Plus (front 3.5 mm)",
+          "legacyOrder": 11,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceThdn": [
@@ -7104,6 +7172,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Creative Sound BlasterX G6 (line/optical 3.5 mm)",
+          "legacyOrder": 12,
           "values": {
             "sourceConnection": "3.5 mm",
             "sourceThdn": [
@@ -7264,6 +7333,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "FiiO K11 (RCA line out)",
+          "legacyOrder": 13,
           "values": {
             "sourceVoltage": 1.95,
             "sourceConnection": "RCA",
@@ -7420,6 +7490,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "iFi ZEN DAC V2 (fixed RCA)",
+          "legacyOrder": 14,
           "values": {
             "sourceVoltage": 2.1,
             "sourceZ": 100,
@@ -7522,6 +7593,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Schiit Modi+ (RCA)",
+          "legacyOrder": 15,
           "values": {
             "sourceVoltage": 2,
             "sourceZ": 75,
@@ -7609,6 +7681,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "SMSL SU-1 (RCA)",
+          "legacyOrder": 16,
           "values": {
             "sourceVoltage": 2,
             "sourceConnection": "RCA",
@@ -7708,6 +7781,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "Topping E30 II (RCA)",
+          "legacyOrder": 17,
           "values": {
             "sourceVoltage": 2.1,
             "sourceZ": 20,
@@ -7802,6 +7876,7 @@
           "category": "source",
           "from": "system-check/gear.js",
           "legacyModel": "WiiM Pro Plus (RCA)",
+          "legacyOrder": 18,
           "values": {
             "sourceVoltage": 2,
             "sourceConnection": "RCA",
@@ -7891,6 +7966,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Axiom Audio Vocal Point VP-100 (original)",
+          "legacyOrder": 0,
           "values": {
             "load": 8
           },
@@ -7971,6 +8047,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Cerwin-Vega AT-15",
+          "legacyOrder": 1,
           "values": {
             "sensitivity": 102,
             "basis": "power",
@@ -8059,6 +8136,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Cerwin-Vega D-3",
+          "legacyOrder": 2,
           "values": {
             "sensitivity": 94,
             "basis": "power",
@@ -8144,6 +8222,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Cerwin-Vega D-5",
+          "legacyOrder": 3,
           "values": {
             "sensitivity": 96,
             "basis": "power",
@@ -8229,6 +8308,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Cerwin-Vega D-7",
+          "legacyOrder": 4,
           "values": {
             "sensitivity": 98,
             "basis": "power",
@@ -8314,6 +8394,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Cerwin-Vega D-9",
+          "legacyOrder": 5,
           "values": {
             "sensitivity": 101,
             "basis": "power",
@@ -8399,6 +8480,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Cerwin-Vega XLS-12",
+          "legacyOrder": 6,
           "values": {
             "sensitivity": 90.8,
             "basis": "power",
@@ -8491,6 +8573,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Cerwin-Vega XLS-15",
+          "legacyOrder": 7,
           "values": {
             "sensitivity": 92.3,
             "basis": "power",
@@ -8583,6 +8666,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Cerwin-Vega XLS-215",
+          "legacyOrder": 8,
           "values": {
             "sensitivity": 95.3,
             "basis": "power",
@@ -8675,6 +8759,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "DALI Oberon 1",
+          "legacyOrder": 9,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -8765,6 +8850,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "DALI Oberon 3",
+          "legacyOrder": 10,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -8855,6 +8941,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "DALI Oberon 5",
+          "legacyOrder": 11,
           "values": {
             "sensitivity": 88,
             "basis": "voltage",
@@ -8945,6 +9032,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "DALI Oberon 7",
+          "legacyOrder": 12,
           "values": {
             "sensitivity": 88.5,
             "basis": "voltage",
@@ -9035,6 +9123,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "ELAC Debut 2.0 B5.2",
+          "legacyOrder": 13,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -9126,6 +9215,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "ELAC Debut 2.0 B6.2",
+          "legacyOrder": 14,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -9223,6 +9313,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "ELAC Debut 3.0 DB53",
+          "legacyOrder": 15,
           "values": {
             "sensitivity": 86.5,
             "basis": "voltage",
@@ -9324,6 +9415,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "ELAC Debut 3.0 DB63",
+          "legacyOrder": 16,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -9425,6 +9517,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "ELAC Debut 3.0 DF63",
+          "legacyOrder": 17,
           "values": {
             "sensitivity": 87.5,
             "basis": "voltage",
@@ -9521,6 +9614,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "ELAC Debut Reference DBR62",
+          "legacyOrder": 18,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -9611,6 +9705,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "ELAC Debut Reference DFR52",
+          "legacyOrder": 19,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -9702,6 +9797,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "ELAC Uni-Fi 2.0 UB52",
+          "legacyOrder": 20,
           "values": {
             "sensitivity": 85,
             "basis": "voltage",
@@ -9792,6 +9888,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "JBL L100 Century (original)",
+          "legacyOrder": 21,
           "values": {
             "sensitivity": 91.2,
             "basis": "power",
@@ -9883,6 +9980,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "JBL L100 Classic",
+          "legacyOrder": 22,
           "values": {
             "sensitivity": 90,
             "basis": "voltage",
@@ -9975,6 +10073,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "JBL Stage 250B",
+          "legacyOrder": 23,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -10065,6 +10164,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "JBL Stage 280F",
+          "legacyOrder": 24,
           "values": {
             "sensitivity": 91,
             "basis": "voltage",
@@ -10157,6 +10257,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "JBL Stage A130",
+          "legacyOrder": 25,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -10253,6 +10354,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF LS50 Meta",
+          "legacyOrder": 26,
           "values": {
             "sensitivity": 85,
             "basis": "voltage",
@@ -10351,6 +10453,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF Q1 Meta",
+          "legacyOrder": 27,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -10449,6 +10552,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF Q150",
+          "legacyOrder": 30,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -10547,6 +10651,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF Q3 Meta",
+          "legacyOrder": 28,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -10645,6 +10750,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF Q350",
+          "legacyOrder": 31,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -10743,6 +10849,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF Q550",
+          "legacyOrder": 32,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -10841,6 +10948,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF Q7 Meta",
+          "legacyOrder": 29,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -10939,6 +11047,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF Q750",
+          "legacyOrder": 33,
           "values": {
             "sensitivity": 88,
             "basis": "voltage",
@@ -11037,6 +11146,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "KEF Q950",
+          "legacyOrder": 34,
           "values": {
             "sensitivity": 91,
             "basis": "voltage",
@@ -11129,6 +11239,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Klipsch Forte II",
+          "legacyOrder": 35,
           "values": {
             "sensitivity": 99,
             "basis": "power",
@@ -11220,6 +11331,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Klipsch Heresy II",
+          "legacyOrder": 36,
           "values": {
             "sensitivity": 96,
             "basis": "power",
@@ -11310,6 +11422,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Klipsch R-50M",
+          "legacyOrder": 37,
           "values": {
             "sensitivity": 92,
             "basis": "voltage",
@@ -11402,6 +11515,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Klipsch R-51M",
+          "legacyOrder": 38,
           "values": {
             "sensitivity": 93,
             "basis": "voltage",
@@ -11499,6 +11613,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Klipsch RP-600M (original)",
+          "legacyOrder": 39,
           "values": {
             "sensitivity": 89.6,
             "basis": "voltage",
@@ -11592,6 +11707,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Paradigm Monitor SE 6000F",
+          "legacyOrder": 40,
           "values": {
             "sensitivity": 90,
             "basis": "voltage",
@@ -11683,6 +11799,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Paradigm Monitor SE Atom",
+          "legacyOrder": 41,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -11774,6 +11891,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Paradigm Phantom v1",
+          "legacyOrder": 42,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -11867,6 +11985,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Paradigm Titan v3",
+          "legacyOrder": 43,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -11961,6 +12080,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Pioneer HPM-100",
+          "legacyOrder": 44,
           "values": {
             "sensitivity": 92,
             "basis": "voltage",
@@ -12044,6 +12164,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Pioneer S-H352F-K",
+          "legacyOrder": 45,
           "values": {
             "sensitivity": 89,
             "basis": "voltage"
@@ -12131,6 +12252,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Polk Reserve R200",
+          "legacyOrder": 46,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -12223,6 +12345,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Polk Signature Elite ES15",
+          "legacyOrder": 47,
           "values": {
             "sensitivity": 85,
             "basis": "voltage",
@@ -12313,6 +12436,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Polk Signature Elite ES20",
+          "legacyOrder": 48,
           "values": {
             "sensitivity": 86,
             "basis": "voltage",
@@ -12403,6 +12527,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Polk Signature Elite ES60",
+          "legacyOrder": 49,
           "values": {
             "sensitivity": 90,
             "basis": "voltage",
@@ -12500,6 +12625,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Q Acoustics 3020i",
+          "legacyOrder": 50,
           "values": {
             "sensitivity": 88,
             "basis": "voltage",
@@ -12591,6 +12717,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Sony SS-CS5 (original)",
+          "legacyOrder": 51,
           "values": {
             "sensitivity": 87,
             "basis": "voltage",
@@ -12687,6 +12814,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Wharfedale Diamond 12.1",
+          "legacyOrder": 52,
           "values": {
             "sensitivity": 88,
             "basis": "voltage",
@@ -12785,6 +12913,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Wharfedale Diamond 12.2",
+          "legacyOrder": 53,
           "values": {
             "sensitivity": 88,
             "basis": "voltage",
@@ -12884,6 +13013,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Wharfedale Diamond 12.3",
+          "legacyOrder": 54,
           "values": {
             "sensitivity": 89,
             "basis": "voltage",
@@ -12976,6 +13106,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha NS-1000M",
+          "legacyOrder": 57,
           "values": {
             "sensitivity": 90,
             "basis": "voltage",
@@ -13065,6 +13196,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha NS-555",
+          "legacyOrder": 55,
           "values": {
             "sensitivity": 88,
             "basis": "voltage",
@@ -13156,6 +13288,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha NS-6490 (Canada)",
+          "legacyOrder": 58,
           "values": {
             "sensitivity": 90,
             "basis": "voltage",
@@ -13248,6 +13381,7 @@
           "category": "speaker",
           "from": "system-check/gear.js",
           "legacyModel": "Yamaha NS-777",
+          "legacyOrder": 56,
           "values": {
             "sensitivity": 89,
             "basis": "voltage",
