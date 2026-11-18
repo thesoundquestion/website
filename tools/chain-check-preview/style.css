@@ -1,0 +1,21 @@
+/* Isolated unpublished specialist review. No changes to shared homepage styling. */
+.chain-preview{max-width:1050px;padding-block:2rem 4rem}
+.chain-preview .eyebrow{color:#7bdeef;text-transform:uppercase;letter-spacing:.12em;font-size:.85rem}
+.chain-preview .lead{max-width:76ch}
+.chain-preview>label{display:flex;flex-direction:column;gap:.4rem;max-width:470px;margin:1.5rem 0}
+.chain-preview section{margin:1.5rem 0}
+.chain-preview .chain-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;padding:1rem;background:#122b3c;border:1px solid #496a80;border-radius:.8rem}
+.chain-preview .chain-fields label{display:flex;flex-direction:column;gap:.45rem}
+.chain-preview select,.chain-preview input[type=number]{display:block;width:100%;min-width:0;padding:.65rem .75rem;background:#173448;color:#f3fafc;border:1px solid #7899ac;border-radius:.5rem;font:inherit}
+.chain-preview :is(select,input,button):focus-visible{outline:3px solid #8aeaf1;outline-offset:2px}
+.chain-preview button{padding:.7rem 1.3rem;margin-top:1rem;border:1px solid #75e1eb;background:#125f73;color:#fff;border-radius:.5rem;font:inherit;font-weight:650;cursor:pointer}
+.chain-preview button:hover{background:#197b92}
+.chain-preview .chain-checkbox{display:flex;align-items:flex-start;gap:.6rem;margin-top:1rem}
+.chain-preview .chain-checkbox input{margin-top:.3rem;min-width:1rem;min-height:1rem}
+.chain-preview .chain-checks{list-style:decimal;padding-left:1.6rem}
+.chain-preview .chain-checks li{padding:.8rem .3rem;border-bottom:1px solid #486171}
+.chain-preview .chain-checks p{margin:.5rem 0}
+.chain-preview .chain-checks small{color:#b9d5e1}
+.chain-preview .chain-review{margin-top:2rem;font-size:.95rem}
+.chain-preview [hidden]{display:none!important}
+@media(max-width:670px){.chain-preview .chain-fields{grid-template-columns:1fr}}
