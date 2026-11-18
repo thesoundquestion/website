@@ -1607,7 +1607,7 @@
   },
   "bit-depth": {
     "title": "Bit depth: more level choices, not better music",
-    "specification": "16-bit CD audio offers 65,536 different sample level values; 24-bit offers 16,777,216",
+    "specification": "CD audio: 16-bit · 65,536 possible level values per sample",
     "topic": "bit depth, rounding audio sample levels, recording headroom, quiet audio and dither",
     "terms": [
       "bit depth",
@@ -1888,82 +1888,6 @@
       }
     ]
   },
-  "speaker-types": {
-    "title": "Speaker types: hi-fi, studio, nearfield and PA",
-    "topic": "speaker types",
-    "terms": [
-      "studio monitor",
-      "hi-fi speaker",
-      "nearfield",
-      "midfield",
-      "farfield",
-      "PA speaker",
-      "loudspeaker",
-      "stage monitor",
-      "wedge",
-      "line array",
-      "powered speakers",
-      "passive speakers",
-      "active speakers",
-      "coverage"
-    ],
-    "sections": [
-      "names",
-      "jobs",
-      "distance",
-      "special",
-      "power",
-      "situations",
-      "choose",
-      "overlap"
-    ],
-    "answers": {
-      "simple": {
-        "text": "All of these are loudspeakers, but they may be built for different jobs. Studio monitors help someone judge recordings, hi-fi speakers are used for listening at home, and PA speakers need to reach an audience. 'Nearfield' means you listen fairly close, often at a desk.",
-        "section": "jobs"
-      },
-      "spec": {
-        "text": "'Nearfield' describes the listening arrangement, not a special internal speaker part. 'Powered' means the system has amplification inside, while 'passive' means it needs a separate amplifier. Those labels do not tell you by themselves how accurately a speaker plays.",
-        "section": "names"
-      },
-      "hear": {
-        "text": "At a desk, sitting close often makes the direct speaker sound stronger relative to the room. On a couch, several seats may need consistent sound. At a live event, the speaker system has to reach an audience at useful volume. The actual speaker and setup determine how well it works.",
-        "section": "jobs"
-      },
-      "buy": {
-        "text": "Ask where you will sit or stand, how many people must hear it, how loud you need it, and what equipment will feed it. Check clean output, coverage, connections and whether an amplifier is needed. A studio, home or PA label isn't a sound-quality grade.",
-        "section": "choose"
-      },
-      "related": {
-        "text": "Speaker dispersion explains how a loudspeaker sends different amounts of sound in different directions. It helps you understand why your listening position, room and intended audience matter when choosing a speaker type.",
-        "href": "/decoder/speaker-dispersion/#understand"
-      }
-    },
-    "relatedLinks": [
-      "/decoder/speaker-dispersion/#understand",
-      "/decoder/speaker-drivers/#ways-explained",
-      "/decoder/speaker-impedance/#understand"
-    ],
-    "plots": {},
-    "questions": [
-      {
-        "phrases": [
-          "are studio monitors better than hifi speakers",
-          "can i listen to music on studio monitors"
-        ],
-        "text": "Studio monitors can work well for enjoying music at home, and suitable home speakers can be used to judge a mix. The useful questions are their measured response, listening distance, room, volume and connections, not the label alone.",
-        "section": "overlap"
-      },
-      {
-        "phrases": [
-          "does nearfield mean powered speakers",
-          "what is nearfield listening"
-        ],
-        "text": "Nearfield simply means listening from fairly close, often at a desk. You can do it with powered or passive speakers. Sitting close changes the balance between direct sound and reflections, but it doesn't remove room effects.",
-        "section": "distance"
-      }
-    ]
-  },
   "recording-sources": {
     "title": "Microphones, DI and virtual instruments",
     "specification": "12 × 15 ft",
@@ -2084,80 +2008,6 @@
         }
       }
     }
-  },
-  "microphone-types": {
-    "title": "Microphone types and practical uses",
-    "topic": "microphone types",
-    "terms": [
-      "dynamic microphone",
-      "moving-coil",
-      "condenser",
-      "ribbon",
-      "shotgun microphone",
-      "lavalier",
-      "headset",
-      "USB microphone",
-      "XLR",
-      "phantom power",
-      "podcasting",
-      "voice recording",
-      "microphone selection"
-    ],
-    "sections": [
-      "sort",
-      "inside",
-      "forms",
-      "power",
-      "situations",
-      "specs",
-      "takeaway"
-    ],
-    "answers": {
-      "simple": {
-        "text": "The word 'dynamic' usually means a moving-coil microphone. Condensers and ribbons make electrical signals in different ways. Shotgun, lavalier and headset mostly tell you how a mic is shaped or used, while USB and XLR describe how it connects. Different designs can work for the same recording.",
-        "section": "sort"
-      },
-      "spec": {
-        "text": "'Dynamic (moving-coil)' tells you how that mic generates a signal. 'Cardioid' describes the directions it picks up strongly; 'XLR' is a cable connection. These are categories, not a rating of sound quality. The right combination depends on the source and where the mic will sit.",
-        "section": "sort"
-      },
-      "hear": {
-        "text": "Two microphone designs can sound different, but placement and the room also change the result. Move a microphone closer to your voice and you will often pick up more direct voice relative to the room. A dynamic mic does not automatically ignore background noise.",
-        "section": "situations"
-      },
-      "buy": {
-        "text": "Start with what you're recording, how close the microphone can be, whether it must move and what input you own. Then compare pickup pattern, handling, noise and power requirements on actual models instead of assuming one category is always better.",
-        "section": "specs"
-      },
-      "related": {
-        "text": "The recording-sources lesson already explains microphone pickup direction and how moving a mic changes the balance between voice and room reflections. Use those concepts after choosing a suitable microphone design.",
-        "href": "/decoder/recording-sources/#room"
-      }
-    },
-    "relatedLinks": [
-      "/decoder/recording-sources/#mic",
-      "/decoder/recording-sources/#room",
-      "/decoder/recording-resolution/#gain"
-    ],
-    "plots": {},
-    "questions": [
-      {
-        "phrases": [
-          "is a dynamic microphone the same as moving coil",
-          "what is a moving coil dynamic microphone"
-        ],
-        "text": "In everyday recording language, 'dynamic microphone' usually means a moving-coil design: moving air pushes a diaphragm and its small coil near a magnet. Ribbons also work by electromagnetic induction, but are usually discussed as their own group.",
-        "section": "inside"
-      },
-      {
-        "phrases": [
-          "does a dynamic microphone reject background noise",
-          "does a condenser hear more room noise"
-        ],
-        "text": "Neither capsule family automatically removes room sound. Distance, direction, source level and the particular microphone all matter. A mic close to the person speaking often gives a stronger voice-to-room balance.",
-        "section": "situations"
-      }
-    ]
   },
   "recording-resolution": {
     "title": "Recording resolution, gain and oversampling",
@@ -2481,11 +2331,11 @@
         ],
         "examples": {
           "peak": {
-            "label": "Match peak level",
+            "label": "Match strongest peaks",
             "text": "The strongest hit in each version reaches 10 V. The heavily limited version stays at a higher level between hits, so the amp delivers more average power."
           },
           "rms": {
-            "label": "Match average level",
+            "label": "Match average electrical level",
             "text": "All three use 0.5 W on average into the 8 Ω example load. The restrained version still has the biggest drum hit, so the amp needs to deliver a bigger burst at that moment."
           }
         }
