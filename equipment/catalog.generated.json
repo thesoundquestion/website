@@ -13641,8 +13641,45 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
+        "inputs": [
+          {
+            "type": "two_combo_xlr_mic_or_trs_line_instrument_inputs",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "midi_din_input",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "two_balanced_line_outputs",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "one_6_35mm_stereo_headphone_output",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "midi_din_output",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "usb_c_audio",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "usb_type_a_hub_not_audio_input",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
         "descriptions": []
       },
       "facts": {
@@ -13719,12 +13756,37 @@
             "headphoneOutputs": null,
             "maxRateKhz": null,
             "maxBitDepth": null,
-            "midiPorts": true
+            "midiPorts": true,
+            "physicalInputTypes": [
+              "two_combo_xlr_mic_or_trs_line_instrument_inputs",
+              "midi_din_input"
+            ],
+            "physicalOutputTypes": [
+              "two_balanced_line_outputs",
+              "one_6_35mm_stereo_headphone_output",
+              "midi_din_output",
+              "usb_c_audio",
+              "usb_type_a_hub_not_audio_input"
+            ],
+            "inputRoutingConstraints": [
+              "Two simultaneous physical analog recording channels; XLR and TRS roles share each combo connector and are not four independent preamps",
+              "The USB-A hub and MIDI DIN connectors do not create additional independent analog audio recording inputs",
+              "Verify model name is original MiniFuse 2 and not MiniFuse 2 OTG before applying port counts"
+            ]
           },
           "note": ""
         }
       ],
       "evidence": [
+        {
+          "url": "https://support.arturia.com/hc/en-us/articles/4411358022802-MiniFuse-2-Connections",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "exact analog input/output connector topology",
+            "channel roles and non-audio interfaces"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://www.arturia.com/products/audio/minifuse/minifuse-2",
           "from": "research/recording-input-catalog-v1.json",
@@ -13767,8 +13829,40 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
+        "inputs": [
+          {
+            "type": "one_rear_combo_xlr_mic_or_trs_line_channel_1",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "one_front_6_35mm_jfet_hiz_instrument_channel_2",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "two_rear_balanced_line_outputs",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "one_6_35mm_stereo_headphone_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "one_3_5mm_stereo_headphone_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "usb_c_audio",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
         "descriptions": []
       },
       "facts": {
@@ -13846,12 +13940,35 @@
             "maxRateKhz": 96,
             "maxBitDepth": 24,
             "midiPorts": null,
-            "preampGainRangeDb": 58
+            "preampGainRangeDb": 58,
+            "physicalInputTypes": [
+              "one_rear_combo_xlr_mic_or_trs_line_channel_1",
+              "one_front_6_35mm_jfet_hiz_instrument_channel_2"
+            ],
+            "physicalOutputTypes": [
+              "two_rear_balanced_line_outputs",
+              "one_6_35mm_stereo_headphone_out",
+              "one_3_5mm_stereo_headphone_out",
+              "usb_c_audio"
+            ],
+            "inputRoutingConstraints": [
+              "One microphone preamp and one separate JFET instrument path support two simultaneous analog input channels",
+              "Two physical headphone jacks share one stereo headphone output path, not two independently routable monitor mixes"
+            ]
           },
           "note": "Do not confuse iD4 MkII with recently introduced Audient iD1 Mk3."
         }
       ],
       "evidence": [
+        {
+          "url": "https://docs.audient.com/id4/hardware-connections/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "exact analog input/output connector topology",
+            "channel roles and non-audio interfaces"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://docs.audient.com/id4/overview/",
           "from": "research/recording-input-catalog-v1.json",
@@ -13902,8 +14019,35 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
+        "inputs": [
+          {
+            "type": "two_combo_xlr_mic_or_6_35mm_line_instrument_inputs",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "two_selectable_line_or_instrument_input_roles",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "two_6_35mm_balanced_line_outputs",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "one_6_35mm_stereo_headphone_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "usb_2in_2out_audio",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
         "descriptions": []
       },
       "facts": {
@@ -13980,12 +14124,34 @@
             "headphoneOutputs": null,
             "maxRateKhz": 192,
             "maxBitDepth": 24,
-            "midiPorts": null
+            "midiPorts": null,
+            "physicalInputTypes": [
+              "two_combo_xlr_mic_or_6_35mm_line_instrument_inputs",
+              "two_selectable_line_or_instrument_input_roles"
+            ],
+            "physicalOutputTypes": [
+              "two_6_35mm_balanced_line_outputs",
+              "one_6_35mm_stereo_headphone_out",
+              "usb_2in_2out_audio"
+            ],
+            "inputRoutingConstraints": [
+              "Two physical mic preamps and two simultaneous analog recording channels; line/instrument switches change sensitivity and do not add channels",
+              "Global 48V phantom switch applies to microphone XLR inputs according to manufacturer's switching scheme"
+            ]
           },
           "note": ""
         }
       ],
       "evidence": [
+        {
+          "url": "https://behringer.com/en/products/0805-AAR",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "exact analog input/output connector topology",
+            "channel roles and non-audio interfaces"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://www.behringer.com/en/products/0805-AAR",
           "from": "research/recording-input-catalog-v1.json",
@@ -14208,8 +14374,35 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
+        "inputs": [
+          {
+            "type": "one_rear_xlr_microphone_input_channel_2",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "one_front_6_35mm_switchable_line_or_instrument_input_channel_1",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "two_balanced_6_35mm_line_outputs",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "one_stereo_headphone_output",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "usb_c_audio",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
         "descriptions": []
       },
       "facts": {
@@ -14287,7 +14480,20 @@
             "maxRateKhz": 192,
             "maxBitDepth": 24,
             "midiPorts": null,
-            "preampGainRangeDb": 57
+            "preampGainRangeDb": 57,
+            "physicalInputTypes": [
+              "one_rear_xlr_microphone_input_channel_2",
+              "one_front_6_35mm_switchable_line_or_instrument_input_channel_1"
+            ],
+            "physicalOutputTypes": [
+              "two_balanced_6_35mm_line_outputs",
+              "one_stereo_headphone_output",
+              "usb_c_audio"
+            ],
+            "inputRoutingConstraints": [
+              "Two simultaneous physical analog input channels: channel 1 line or instrument, channel 2 microphone",
+              "Manufacturer 4x2 host I/O includes two virtual loopback channels; it does not provide four physical recording inputs"
+            ]
           },
           "note": ""
         }
@@ -14498,7 +14704,8 @@
             "physicalOutputTypes": [
               "rca_stereo_line_out",
               "3_5mm_stereo_headphone_out"
-            ]
+            ],
+            "bitDepthSourceConflictNote": "Manufacturer manual directs Windows 16-bit 48k playback setup while at least one retailer describes 24-bit 48k conversion. Neither confirms all supported driver capture modes. Do not use retailer prose as proof of a maximum bit depth."
           },
           "note": "Two simultaneous recording inputs but one microphone preamp. The manufacturer publishes a 16-bit/48 kHz Windows setup example, while retailer material lists 16-bit/48 kHz; the maximum bit depth across all drivers remains unconfirmed here. Manufacturer headphone amplifier rating: 60 mW/channel into 32 Ω. This rating alone cannot establish adequate loudness for every headphone."
         }
