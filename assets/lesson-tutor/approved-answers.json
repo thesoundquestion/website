@@ -1511,6 +1511,62 @@
       }
     }
   },
+  "audio-interfaces-mixers": {
+    "title": "Audio interfaces, mixers and recording channels",
+    "specification": "1 mic / 2 mic inputs / stereo mix",
+    "topic": "audio interfaces and recording mixers",
+    "terms": [
+      "audio interface",
+      "mixer",
+      "microphone",
+      "preamp",
+      "input",
+      "usb",
+      "stereo",
+      "multitrack",
+      "recording channel",
+      "48v",
+      "headphone monitoring"
+    ],
+    "sections": [
+      "jobs",
+      "journey",
+      "tracks",
+      "mixer",
+      "examples",
+      "monitoring",
+      "inputs",
+      "specs",
+      "decision"
+    ],
+    "answers": {
+      "simple": {
+        "text": "An audio interface connects microphones and instruments to a computer for recording. A mixer brings several sounds together and lets you adjust their levels. Some products combine both functions.",
+        "section": "jobs"
+      },
+      "spec": {
+        "text": "A ten-channel mixer can send only two combined USB channels to a computer. Count the separate computer recording inputs, not just the mixer knobs or physical input strips.",
+        "section": "tracks"
+      },
+      "hear": {
+        "text": "Separate tracks let you adjust or edit one voice or instrument after recording. A combined stereo recording no longer lets you turn down only one microphone by itself.",
+        "section": "tracks"
+      },
+      "buy": {
+        "text": "For one microphone, a suitable interface or a USB microphone may be enough. For several microphones recorded individually, check microphone preamps, independently routed computer recording channels and monitoring outputs.",
+        "section": "decision"
+      },
+      "related": {
+        "text": "The recording sources chapter shows how microphone placement and instrument inputs affect the captured sound.",
+        "href": "/decoder/recording-sources/#paths"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/recording-sources/#paths",
+      "/decoder/mixing-soundstage/#multitrack"
+    ],
+    "plots": {}
+  },
   "sample-rate": {
     "title": "Sample rates and audio bandwidth",
     "specification": "48 kHz PCM · 48,000 samples/second per channel",
