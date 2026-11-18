@@ -64,11 +64,22 @@ test('recording counts and phantom-power facts remain separate, with no invented
   assert.equal(solo.facts.documentedSetupBitDepth.value,16);
   assert.equal(solo.facts.headphoneOutputPowerRating.value.milliwattsPerChannel,60);
   assert.equal(solo.facts.headphoneOutputPowerRating.value.loadOhms,32);
+  assert.ok(solo.connections.inputs.some(x=>x.type.includes('combo_xlr_mic')));
+  assert.ok(solo.connections.inputs.some(x=>x.type.includes('line_or_instrument')));
+  const scarlett=by('Focusrite Scarlett 2i2 (4th Gen)','audio_interface');
+  assert.equal(scarlett.facts.micPreampCount.value,2);
+  assert.equal(scarlett.facts.computerRecordingInputs.value,2);
+  assert.ok(scarlett.connections.inputs.some(x=>x.type.includes('two_rear_xlr')));
+  assert.ok(scarlett.connections.inputs.some(x=>x.type.includes('front_6_35mm')));
+  assert.match(scarlett.profiles.find(x=>x.category==='audio_interface').specifications
+    .inputRoutingConstraints.join(' '),/disables the corresponding rear microphone/);
   const yamaha=by('Yamaha MG10XU','mixer_recorder');
   assert.equal(yamaha.facts.advertisedMixerChannels.value,10);
   assert.equal(yamaha.facts.micPreampCount.value,4);
   assert.equal(yamaha.facts.computerRecordingInputs.value,2);
   assert.equal(yamaha.facts.usbRecordingMode.value,'stereo_mix_only');
+  assert.ok(yamaha.connections.inputs.some(x=>x.type.includes('four_mono_mic_line')));
+  assert.ok(yamaha.connections.outputs.some(x=>x.type.includes('usb_2in_2out')));
   const zoom=by('Zoom LiveTrak L-12','mixer_recorder');
   assert.equal(zoom.facts.usbRecordingMode.value,'multitrack');
   for(const item of [solo,yamaha,zoom]) assert.ok(!('compatible' in item));
