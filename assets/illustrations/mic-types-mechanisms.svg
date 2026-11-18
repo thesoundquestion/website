@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="496" viewBox="0 0 1180 496" role="img" aria-labelledby="t d">
+<title id="t">Three ways microphones turn sound into electricity</title><desc id="d">Three conceptual cutaways: a moving-coil diaphragm linked to a coil near a magnet, a condenser's charged diaphragm and backplate separated by a narrow gap, and a ribbon of thin metal suspended between magnets. All parts are simplified and not to scale.</desc>
+<defs><linearGradient id="bg" x2=".8" y2="1"><stop stop-color="#152c42"/><stop offset="1" stop-color="#0b1624"/></linearGradient>
+<linearGradient id="metal" x2="1" y2=".6"><stop stop-color="#92afc4"/><stop offset=".44" stop-color="#2d4f69"/><stop offset="1" stop-color="#0d2334"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#65cfff" stop-opacity=".24"/><stop offset="1" stop-color="#2db7fc" stop-opacity="0"/></radialGradient>
+<filter id="shade"><feGaussianBlur stdDeviation="8"/></filter>
+<pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#315069" stroke-opacity=".18"/></pattern></defs>
+<rect width="1180" height="496" fill="#081522"/><rect width="1180" height="496" fill="url(#grid)"/>
+<g font-family="system-ui,-apple-system,Segoe UI,sans-serif">
+<g transform="translate(18 17)"><rect width="370" height="462" rx="18" fill="url(#bg)" stroke="#396384" stroke-width="2"/><rect x="16" y="15" width="338" height="49" rx="9" fill="#112941"/>
+<text x="28" y="45" fill="#e8f8ff" font-size="22" font-weight="750">MOVING-COIL</text><text x="30" y="88" font-size="15" fill="#a8cde0">Sound pushes a diaphragm</text>
+<g transform="translate(12 104)"><rect x="21" y="35" width="309" height="211" rx="27" fill="#0c2234" stroke="#7098af" stroke-width="5"/><rect x="42" y="53" width="265" height="172" rx="16" fill="#102b43" stroke="#3b5e74"/>
+<path d="M86 58V222" stroke="#7be0ff" stroke-width="12"/><path d="M82 56Q60 141 82 226" fill="none" stroke="#b3ecff" stroke-width="3"/>
+<g fill="none" stroke="#f3bd88" stroke-width="6"><path d="M118 97h80v12h-80v12h80v12h-80v12h80v12h-80v12h80v12h-80"/></g>
+<path d="M203 98h47v80h-47M243 104h30v68h-30" fill="none" stroke="#d5e6f1" stroke-width="14"/>
+<path d="M90 137h29" stroke="#bcd1de" stroke-width="8"/><path d="M70 268V287" stroke="#6ce6ff" stroke-width="3"/><path d="M52 267l18 19 18-19" stroke="#6ce6ff" fill="none" stroke-width="3"/>
+<g fill="none" stroke="#61ceff" stroke-width="3" opacity=".9"><path d="M5 83q22 14 0 28M5 132q22 14 0 28M5 181q22 14 0 28"/></g><circle cx="160" cy="141" r="123" fill="url(#glow)"/>
+<path d="M90 65L125 13" stroke="#b2d7ed"/><text x="132" y="18" font-size="15" fill="#e3f4ff">Diaphragm</text>
+<path d="M174 187L213 261" stroke="#e6c092"/><text x="214" y="268" font-size="15" fill="#f8d8ac">Moving coil</text>
+<path d="M250 114L298 89" stroke="#9dc5db"/><text x="267" y="77" font-size="15" fill="#e3f4ff">Magnet</text></g><text x="28" y="435" font-size="15" fill="#b9d7e8">A coil moves inside a magnetic field.</text></g>
+<g transform="translate(405 17)"><rect width="370" height="462" rx="18" fill="url(#bg)" stroke="#396384" stroke-width="2"/><rect x="16" y="15" width="338" height="49" rx="9" fill="#112941"/><text x="28" y="45" fill="#e8f8ff" font-size="22" font-weight="750">CONDENSER</text><text x="30" y="88" font-size="15" fill="#a8cde0">Sound changes a tiny electrical gap</text>
+<g transform="translate(4 105)"><rect x="24" y="30" width="318" height="220" rx="30" fill="#0c2234" stroke="#7098af" stroke-width="5"/><rect x="44" y="49" width="280" height="182" rx="21" fill="#102b43" stroke="#3b5e74"/>
+<path d="M104 62V213" stroke="#8eeaff" stroke-width="7"/><path d="M99 68Q73 140 99 208" fill="none" stroke="#b3f5ff" stroke-width="3"/><rect x="140" y="67" width="18" height="150" rx="4" fill="#edc994"/>
+<path d="M133 80v125" stroke="#64c0ec" stroke-dasharray="3 6" stroke-width="2"/><g fill="#7bc7ee"><circle cx="148" cy="88" r="3"/><circle cx="148" cy="110" r="3"/><circle cx="148" cy="132" r="3"/><circle cx="148" cy="154" r="3"/><circle cx="148" cy="176" r="3"/><circle cx="148" cy="198" r="3"/></g>
+<g fill="none" stroke="#e3b886" stroke-width="3"><path d="M158 136H201V185H252"/><path d="M104 165H80V231H191"/></g><rect x="218" y="174" width="86" height="56" rx="11" fill="#213f54" stroke="#e5b681" stroke-width="2"/><path d="M230 201l14-9 15 17 16-19 16 9" fill="none" stroke="#f4cd91" stroke-width="3"/>
+<g fill="none" stroke="#61ceff" stroke-width="3"><path d="M8 84q20 14 0 28M8 136q20 14 0 28M8 188q20 14 0 28"/></g>
+<path d="M103 68L67 12" stroke="#b3d7ed"/><text x="12" y="14" font-size="15" fill="#e3f4ff">Diaphragm</text>
+<path d="M145 80L201 23" stroke="#e6c092"/><text x="205" y="23" font-size="15" fill="#f8d8ac">Backplate</text>
+<path d="M263 218L261 265" stroke="#9dc5db"/><text x="185" y="285" font-size="15" fill="#e3f4ff">Powered circuit</text></g><text x="28" y="435" font-size="15" fill="#b9d7e8">A changing electrical gap creates a signal.</text></g>
+<g transform="translate(792 17)"><rect width="370" height="462" rx="18" fill="url(#bg)" stroke="#396384" stroke-width="2"/><rect x="16" y="15" width="338" height="49" rx="9" fill="#112941"/><text x="28" y="45" fill="#e8f8ff" font-size="22" font-weight="750">RIBBON</text><text x="30" y="88" font-size="15" fill="#a8cde0">A thin metal strip moves between magnets</text>
+<g transform="translate(10 104)"><rect x="28" y="35" width="296" height="215" rx="30" fill="#0c2234" stroke="#7098af" stroke-width="5"/><rect x="50" y="52" width="252" height="180" rx="20" fill="#102b43" stroke="#3b5e74"/>
+<path d="M98 78h62v129H98z" fill="url(#metal)" stroke="#91aebf" stroke-width="3"/><path d="M205 78h62v129h-62z" fill="url(#metal)" stroke="#91aebf" stroke-width="3"/>
+<path d="M181 76c-18 12 18 20 0 31s18 20 0 31s18 20 0 31s18 20 0 31" fill="none" stroke="#ffda9f" stroke-width="8" stroke-linecap="round"/><path d="M181 76c-18 12 18 20 0 31s18 20 0 31s18 20 0 31s18 20 0 31" fill="none" stroke="#fff5df" stroke-width="2"/>
+<g fill="none" stroke="#61ceff" stroke-width="3"><path d="M9 78q22 13 0 27M9 127q22 13 0 27M9 176q22 13 0 27"/></g>
+<path d="M181 95L229 28" stroke="#f2cc95"/><text x="230" y="24" font-size="15" fill="#f8d8ac">Thin ribbon</text>
+<path d="M113 112L82 34" stroke="#aed1e6"/><text x="49" y="21" font-size="15" fill="#e3f4ff">Magnet</text>
+<path d="M238 212L270 270" stroke="#aed1e6"/><text x="244" y="290" font-size="15" fill="#e3f4ff">Magnet</text></g><text x="28" y="435" font-size="15" fill="#b9d7e8">The moving strip generates the signal itself.</text></g></g></svg>
