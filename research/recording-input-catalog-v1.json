@@ -2,12 +2,13 @@
   "schemaVersion": "0.1.0",
   "date": "2026-11-18",
   "status": "research_only",
-  "description": "Separate researched recording, monitoring and headphone product records with owned Grado anchor references; no change to live amplifier/speaker calculator.",
+  "description": "Research-stage recording, headphones and powered/passive speaker products, including original Pioneer SP-FS52 manual; numeric unknowns remain explicit.",
   "counts": {
-    "models": 24,
+    "models": 29,
     "ownedComparisonAnchors": 3,
     "newHeadphoneModels": 3,
-    "newHeadphoneAmplifierModels": 5
+    "newHeadphoneAmplifierModels": 5,
+    "addedSpeakerModels": 5
   },
   "records": [
     {
@@ -1013,6 +1014,244 @@
       ],
       "outputImpedanceConditions": "6.35 mm SE only, less-than 0.1 ohm; 4.4 mm Halo different (<2 ohm)",
       "editorialNote": "Schiit historical Magni Unity URL redirects to Magni 6; never mix Unity/6 parameters. A version may have optional DAC hardware; base record is analogue-only. Manufacturer 4.4 mm 'Halo' output must not be treated as ordinary universal balanced output."
+    },
+    {
+      "id": "pioneer-sp-fs52",
+      "category": "speaker",
+      "model": "Pioneer SP-FS52",
+      "role": [
+        "home_listening",
+        "passive_speaker"
+      ],
+      "physicalInputTypes": [
+        "passive_speaker_binding_posts"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "passive_floorstanding",
+      "powered": false,
+      "speakerNominalImpedanceOhms": 6,
+      "speakerSensitivityDb": 87,
+      "speakerSensitivityBasis": "2.83_V_at_1_m_assumed_distance",
+      "speakerFrequencyRangeHz": [
+        40,
+        20000
+      ],
+      "frequencyRangeToleranceDb": null,
+      "maxInputPowerWatts": 130,
+      "maxInputPowerDuration": null,
+      "crossoverHz": [
+        250,
+        3000
+      ],
+      "minimumImpedanceOhms": null,
+      "phaseResponse": null,
+      "sourceEvidence": [
+        {
+          "url": "https://images-na.ssl-images-amazon.com/images/G/01/HARDLINES/usermanual/27_2_15/B008NCD2LG._V327293103_.pdf",
+          "fields": [
+            "3-way bass-reflex floorstanding",
+            "nominal impedance 6 ohms",
+            "87 dB at 2.83 V",
+            "130 W maximum input, unspecified duration",
+            "40 Hz–20 kHz range without tolerance",
+            "crossover 250 Hz and 3 kHz"
+          ]
+        }
+      ],
+      "editorialNote": "Original Pioneer manual. Sensitivity published at 2.83 V but source table does not explicitly state test distance; do not treat 130 W maximum as a continuous handling guarantee or 40 Hz endpoint as a -3 dB result.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "yamaha-hs5-studio",
+      "category": "speaker",
+      "model": "Yamaha HS5",
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "studio_monitoring"
+      ],
+      "physicalInputTypes": [
+        "balanced_xlr_line",
+        "6.35mm_trs_line"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_studio_monitor",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "internalAmplificationWatts": {
+        "lf": 45,
+        "hf": 25,
+        "combined": 70
+      },
+      "responseMinus3DbHz": [
+        74,
+        24000
+      ],
+      "quotedRangeMinus10DbHz": [
+        54,
+        30000
+      ],
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/",
+          "fields": [
+            "single powered monitor",
+            "XLR and TRS balanced or unbalanced signal inputs",
+            "two-way 5 inch monitor",
+            "74 Hz–24 kHz at -3 dB",
+            "45 W LF and 25 W HF internal amplifier, 70 W combined"
+          ]
+        }
+      ],
+      "editorialNote": "One cabinet, not a stereo pair. Internal 70 W biamplification must not be compared to an external amplifier's 70 W/channel. Requires line-level input, not direct passive speaker terminals.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "jbl-305p-mkii-studio",
+      "category": "speaker",
+      "model": "JBL 305P MkII",
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "studio_monitoring"
+      ],
+      "physicalInputTypes": [
+        "balanced_xlr_line",
+        "6.35mm_trs_line"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_studio_monitor",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "maxContinuousSplDb": 94,
+      "maxContinuousSplTestConditions": "manufacturer published figure, do not compare to PA peak SPL",
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://jblpro.com/en-US/products/305p-mkii.html",
+          "fields": [
+            "powered 5 inch studio monitor",
+            "XLR and TRS inputs",
+            "selectable +4 dBu / -10 dBV sensitivity",
+            "94 dB maximum continuous SPL under manufacturer test"
+          ]
+        }
+      ],
+      "editorialNote": "One speaker cabinet. Manufacturer continuous SPL must not be compared directly to PA peak SPL; source-level connection required. Output channels/pair cost need separate checks.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "qsc-k12-2-pa",
+      "category": "speaker",
+      "model": "QSC K12.2",
+      "role": [
+        "live_sound",
+        "portable_pa",
+        "stage_monitor"
+      ],
+      "physicalInputTypes": [
+        "xlr_6.35mm_combo_mic_or_line_A",
+        "xlr_6.35mm_combo_line_or_hiz_B",
+        "3.5mm_stereo_line"
+      ],
+      "physicalOutputTypes": [
+        "xlr_loop_through",
+        "xlr_mix_output"
+      ],
+      "speakerKind": "powered_pa_speaker",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "hasMicrophoneInput": true,
+      "hasInstrumentHizInput": true,
+      "onboardPhantomPowerVolts": null,
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.qscaudio.com/products-solutions/loudspeakers/portable/powered/portable-pa/k2-series/k122/",
+          "fields": [
+            "two selectable combo input roles, different on channels A and B",
+            "3.5 mm stereo input",
+            "separate loop-through and mix XLR outputs",
+            "mains 100-240V"
+          ]
+        }
+      ],
+      "editorialNote": "Channel A mic/line and channel B Hi-Z/line are not two interchangeable mic preamps. Do not assume phantom power. Do not use marketing amplifier peak wattage as sustained acoustic output.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "electrovoice-zlx-12p-g2",
+      "category": "speaker",
+      "model": "Electro-Voice ZLX-12P-G2",
+      "role": [
+        "live_sound",
+        "portable_pa",
+        "stage_monitor"
+      ],
+      "physicalInputTypes": [
+        "xlr_6.35mm_combo_mic_line",
+        "bluetooth_stream"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_pa_speaker",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "onboardPhantomPowerVolts": 24,
+      "hasMicrophoneInput": true,
+      "hasInstrumentHizInput": true,
+      "manufacturerMaximumSplDb": 127,
+      "manufacturerMaximumSplConditions": null,
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.electrovoice.com/product/zlx-12p-g2",
+          "fields": [
+            "powered 12 inch two-way PA",
+            "two XLR/TRS combo inputs",
+            "24 V phantom power, not 48 V",
+            "Hi-Z support with onboard mixer",
+            "127 dB manufacturer maximum SPL, measurement conditions not normalized"
+          ]
+        }
+      ],
+      "editorialNote": "Explicitly 24 V phantom, not standard 48 V. Phantom-fed condenser microphones may not work as intended: verify their required voltage. Max SPL cannot be compared unqualified to JBL continuous SPL.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
     }
   ],
   "existingPresetCrossReferences": [
@@ -1066,16 +1305,7 @@
       "notDuplicated": true
     }
   ],
-  "uncataloguedComparisonModels": [
-    {
-      "brand": "Pioneer",
-      "model": "SP-FS52",
-      "category": "speaker",
-      "status": "needs_manual_and_specs_research",
-      "numericFields": null,
-      "reason": "A comparison anchor for the user's existing stereo speakers; do not invent driver or sensitivity specifications."
-    }
-  ],
+  "uncataloguedComparisonModels": [],
   "comparisonGroups": [
     {
       "id": "headphone-listening-and-monitoring",
