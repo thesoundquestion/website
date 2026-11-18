@@ -527,7 +527,11 @@ const systemCheckGear = {
         "speakerPowerNote": "Original RP-600M, not RP-600M II. Klipsch spec sheet: CONT/PEAK 100/400 W."
       },
       "note": "Uses Stereophile’s 89.6 dB(B) sensitivity estimate and 3.5 Ω minimum, measured between 180 and 220 Hz. The 8 Ω entry is Klipsch’s compatibility reference.",
-      "url": "https://www.stereophile.com/content/klipsch-reference-premiere-rp-600m-loudspeaker-measurements"
+      "url": "https://www.stereophile.com/content/klipsch-reference-premiere-rp-600m-loudspeaker-measurements",
+      "extra": [
+        "Klipsch specifications",
+        "https://www.erinsaudiocorner.com/loudspeakers/klipsch_rp_600m/"
+      ]
     },
     {
       "model": "Paradigm Monitor SE 6000F",
@@ -593,7 +597,11 @@ const systemCheckGear = {
         "load": 8
       },
       "note": "Sensitivity is the period Hi-Fi Choice measurement at 2.83 V / 3.28 ft. The original nominal rating is 8 Ω.",
-      "url": "https://www.worldradiohistory.com/UK/Hi-Fi-Choice/1975-1982/Hi-Fi%20Choice%20Iss.%20010%20Loudspeakers%201978.pdf"
+      "url": "https://www.worldradiohistory.com/UK/Hi-Fi-Choice/1975-1982/Hi-Fi%20Choice%20Iss.%20010%20Loudspeakers%201978.pdf",
+      "extra": [
+        "HPM-100 specifications and manuals",
+        "https://www.hifiengine.com/manual_library/pioneer/hpm-100.shtml"
+      ]
     },
     {
       "model": "Pioneer S-H352F-K",
@@ -762,7 +770,11 @@ const systemCheckGear = {
         "load": 8
       },
       "note": "Hi-Fi Choice measured 90 dB at 2.83 V / 3.28 ft. Yamaha's owner's manual lists 8 Ω nominal.",
-      "url": "https://www.worldradiohistory.com/UK/Hi-Fi-Choice/1975-1982/Hi-Fi%20Choice%20Iss.%20015%20Loudspeakers%203%201979.pdf"
+      "url": "https://www.worldradiohistory.com/UK/Hi-Fi-Choice/1975-1982/Hi-Fi%20Choice%20Iss.%20015%20Loudspeakers%203%201979.pdf",
+      "extra": [
+        "Yamaha owner's manual",
+        "https://medias.audiofanzine.com/files/yamaha-ns-1000-owners-manual-480506.pdf"
+      ]
     },
     {
       "model": "Yamaha NS-6490 (Canada)",
@@ -794,7 +806,12 @@ const systemCheckGear = {
         ]
       ],
       "note": "Published 8 Ω power and line input impedance. The manual gives a separate distortion figure at 80% of rated output.",
-      "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/axa35_a4_en.pdf"
+      "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/axa35_a4_en.pdf",
+      "distortionResearch": {
+        "label": "Hi-Fi News independent AXA35 laboratory measurements",
+        "url": "https://www.hifinews.com/content/cambridge-audio-axc35-axa35-cd-playeramplifier-lab-report",
+        "note": "Graph 1: dynamic output power versus distortion at several resistive loads; reported range of distortion at rated power is not a point-by-point 1 kHz sweep."
+      }
     },
     {
       "model": "Cambridge Audio AXR100D",
@@ -1308,7 +1325,11 @@ const systemCheckGear = {
         ]
       ],
       "note": "The US service manual lists 90 W per channel for the full audio band. Sony’s product page lists 100 W at 1 kHz and 1% THD. Sony specifies 6–16 Ω speakers.",
-      "url": "https://research.encompass.com/SON/rr/STRDH190.pdf"
+      "url": "https://research.encompass.com/SON/rr/STRDH190.pdf",
+      "extra": [
+        "Sony product specifications",
+        "https://www.sony.ca/en/electronics/support/audio-components-receivers-amplifiers/str-dh190/specifications"
+      ]
     },
     {
       "model": "Sony STR-DH590",
@@ -1354,7 +1375,16 @@ const systemCheckGear = {
         ]
       ],
       "note": "Uses Hi-Fi News bench results. The lab reports standard output separately from dynamic output. WiiM lists 60 W at 8 Ω and 120 W at 4 Ω. Output impedance varies with frequency in the lab test.",
-      "url": "https://www.hifinews.com/content/wiim-amp-lab-report"
+      "url": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "distortionResearch": {
+        "label": "Hi-Fi News WiiM Amp lab graphs",
+        "url": "https://www.hifinews.com/content/wiim-amp-lab-report",
+        "note": "Graph 1: dynamic output power versus distortion at 8, 4, 2 and 1 ohm; frequency-dependent 1 W figures differ by analogue/digital input. No numerical trace copied."
+      },
+      "extra": [
+        "WiiM manufacturer specifications",
+        "https://faq.wiimhome.com/en/support/solutions/articles/72000616467-technical-specification-of-the-wiim-amp"
+      ]
     },
     {
       "model": "Yamaha A-720",
@@ -1582,7 +1612,12 @@ const systemCheckGear = {
         ]
       ],
       "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
-      "url": "https://data.yamaha.com/files/download/other_assets/1/1412681/web_VEX7500_A-S801_om_U_EnFr_A0.pdf"
+      "url": "https://data.yamaha.com/files/download/other_assets/1/1412681/web_VEX7500_A-S801_om_U_EnFr_A0.pdf",
+      "distortionResearch": {
+        "label": "Audioholics independent A-S801 amplifier measurements",
+        "url": "https://www.audioholics.com/amplifier-reviews/yamaha-a-s801-amplifier-review/yamaha-a-s801-measurements",
+        "note": "Independent power and distortion bench tests, including short sweep and full-band power results. Review may restrict automated access; source must be checked before numerical points are transcribed."
+      }
     },
     {
       "model": "Yamaha A-S1200",
@@ -1626,7 +1661,12 @@ const systemCheckGear = {
         ]
       ],
       "note": "Yamaha’s stereo power ratings. The 0.032 Ω output impedance estimate uses the published minimum damping factor of 250 into 8 Ω at 1 kHz.",
-      "url": "https://ca.yamaha.com/en/business/audio/products/custom-installation/a-s3200/specs.html"
+      "url": "https://ca.yamaha.com/en/business/audio/products/custom-installation/a-s3200/specs.html",
+      "distortionResearch": {
+        "label": "Hi-Fi News independent A-S3200 lab report",
+        "url": "https://www.hifinews.com/node/131918",
+        "note": "Dynamic power-versus-distortion graph and separately described distortion-versus-frequency testing. Approximate figures in article are not exact curve coordinates."
+      }
     },
     {
       "model": "Yamaha HTR-4063 (US/Canada)",
@@ -1660,7 +1700,11 @@ const systemCheckGear = {
         ]
       ],
       "note": "North American factory ratings. IHF burst results describe the bench test. Check the manual’s speaker-connection section for supported loads.",
-      "url": "https://www.manualowl.com/m/Yamaha/HTR-4063/Manual/249545?page=79"
+      "url": "https://www.manualowl.com/m/Yamaha/HTR-4063/Manual/249545?page=79",
+      "extra": [
+        "Line input specifications",
+        "https://www.manualowl.com/m/Yamaha/HTR-4063/Manual/249545?page=80"
+      ]
     },
     {
       "model": "Yamaha R-N600A",
@@ -2040,7 +2084,11 @@ const systemCheckGear = {
         "sourceConnection": "RCA"
       },
       "note": "2 V RMS and 75 Ω, as documented from the archived Modi+ specifications.",
-      "url": "https://audiochainsdb.com/en/gear/schiit-modi-plus"
+      "url": "https://audiochainsdb.com/en/gear/schiit-modi-plus",
+      "extra": [
+        "Schiit Modi+ manual",
+        "https://www.schiit.com/public/upload/PDF/modi%20plus%20manual.pdf"
+      ]
     },
     {
       "model": "SMSL SU-1 (RCA)",
@@ -2092,7 +2140,11 @@ const systemCheckGear = {
         ]
       },
       "note": "Uses the default 2 V RMS line-out setting. Update the value if you changed Line Out Level in the WiiM Home app.",
-      "url": "https://faq.wiimhome.com/en/support/solutions/articles/72000581028-is-it-possible-to-limit-the-volume-on-a-wiim-device-to-prevent-distortion-"
+      "url": "https://faq.wiimhome.com/en/support/solutions/articles/72000581028-is-it-possible-to-limit-the-volume-on-a-wiim-device-to-prevent-distortion-",
+      "extra": [
+        "WiiM Pro Plus owner’s manual",
+        "https://www.wiimhome.com/langPdf/en/WiiM%20Pro%20Plus%20UM.pdf"
+      ]
     }
   ],
   "headphone": [
