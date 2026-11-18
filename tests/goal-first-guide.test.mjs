@@ -105,7 +105,7 @@ test('singer-songwriter separate versus simultaneous recording changes input req
  assert.match(pathNames(split),/Second independent input/);
  assert.ok(split.verify.some(x=>/two appropriate independent/i.test(x)));
  assert.ok(overdub.description.includes('one suitable input at a time'));
- assert.ok(blend.description.includes('one combined'));
+ assert.ok(blend.description.includes('joined in one recording'));
 });
 
 test('drum types and band tracking preserve truly different capture plans',()=>{
