@@ -68,8 +68,8 @@ function setFact(entry,key,value,scope,from,reference=null) {
     ...(reference?{reference}:{}),
     evidenceStatus:value===null?'unknown':'source_stated'};
 }
-function addLegacy(entry,row,kind,detail) {
-  entry.profiles.push({category:kind,from:LEGACY_PATH,legacyModel:row.model,
+function addLegacy(entry,row,kind,detail,legacyOrder) {
+  entry.profiles.push({category:kind,from:LEGACY_PATH,legacyModel:row.model,legacyOrder,
     values:deepCopy(row.values||{}),ratings:deepCopy(row.ratings||[]),
     note:row.note||'',details:detail?deepCopy(detail):null});
   addEvidence(entry,row.url,LEGACY_PATH,['catalogue preset']);
@@ -197,14 +197,14 @@ export function composeEquipmentCatalog({
   const lookup=new Map();
   for(const [kind,records] of Object.entries(legacyGear)) {
     if(!TYPES.has(kind)||!Array.isArray(records)) throw new Error('Invalid legacy category '+kind);
-    for(const row of records) {
+    for(const [legacyOrder,row] of records.entries()) {
       if(!textValue(row.model)) throw new Error('Missing legacy model');
       const key=kind+'|'+row.model.toLowerCase();
       if(lookup.has(key)) throw new Error('Duplicate legacy model '+key);
       const id='legacy/'+kind+'/'+slug(row.model);
       if(rows.has(id)) throw new Error('Slug collision '+id);
       const entry=createEntry(id,row.model,kind);
-      addLegacy(entry,row,kind,compareDetails?.[kind]?.[row.model]);
+      addLegacy(entry,row,kind,compareDetails?.[kind]?.[row.model],legacyOrder);
       rows.set(id,entry);lookup.set(key,id);
     }
   }
