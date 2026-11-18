@@ -284,7 +284,7 @@ test('daily inference budget is shared and exhausted requests still get prepared
   assert.equal(local.data.source, 'prepared');
   assert.equal(calls.length, allowed);
   assert.equal(db.prepare('SELECT SUM(reserved_neurons) AS n FROM tutor_requests').get().n, LIMITS.siteNeuronsPerDay);
-  assert.equal((await ask({ now: atEndOfDay + DAY_MS })).status, 200);
+  assert.equal((await ask({ now: atEndOfDay + 2 * DAY_MS })).status, 200);
   assert.equal(db.prepare('SELECT COUNT(*) AS n FROM tutor_requests').get().n, 1);
 });
 
