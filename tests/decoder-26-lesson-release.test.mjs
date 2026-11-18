@@ -11,17 +11,17 @@ const slugs=curriculum.lessons.map(l=>l.slug);
 const hub=read('decoder/index.html');
 const sitemap=read('sitemap.xml');
 
-test('all 26 lessons have one numbered card or opening link, page title and sitemap entry',()=>{
- assert.equal(slugs.length,26);
+test('all 27 lessons have one numbered card or opening link, page title and sitemap entry',()=>{
+ assert.equal(slugs.length,27);
  const cards=[...hub.matchAll(/<a class="dl-card" href="\/decoder\/([^/]+)\/"(?:(?!<\/a>)[\s\S])*?<span class="dl-number">LESSON\s+(\d+)/g)];
- assert.equal(cards.length,25,'Every lesson after the starting lesson needs exactly one hub card');
- assert.equal(new Set(cards.map(m=>m[1])).size,25,'No duplicate lesson cards');
+ assert.equal(cards.length,26,'Every lesson after the starting lesson needs exactly one hub card');
+ assert.equal(new Set(cards.map(m=>m[1])).size,26,'No duplicate lesson cards');
  for(let i=0;i<slugs.length;i++){
   const slug=slugs[i];
   const html=read('decoder/'+slug+'/index.html');
   assert.ok(html.includes('<h1'),slug+' missing headline');
   assert.ok(html.includes('LESSON '+String(i+1).padStart(2,'0')),slug+' old lesson label');
-  assert.ok(html.includes('Lesson '+String(i+1).padStart(2,'0')+' of 26'),slug+' old course progress');
+  assert.ok(html.includes('Lesson '+String(i+1).padStart(2,'0')+' of 27'),slug+' old course progress');
   assert.equal((sitemap.match(new RegExp('<loc>https://thesoundquestion\\.com/decoder/'+slug+'/</loc>','g'))||[]).length,1,slug+' sitemap count');
   if(i===0)assert.ok(hub.includes('href="/decoder/'+slug+'/"'),'intro link');
   else {
@@ -30,8 +30,8 @@ test('all 26 lessons have one numbered card or opening link, page title and site
    assert.equal(Number(card[2]),i+1,slug+' hub card number');
   }
  }
- assert.match(hub,/26 beginner-friendly lessons/);
- assert.match(hub,/26 lessons on sound basics/);
+ assert.match(hub,/27 beginner-friendly lessons/);
+ assert.match(hub,/27 lessons on sound basics/);
 });
 
 test('the full Decoder course has valid static internal links and illustration files',()=>{
