@@ -276,7 +276,7 @@ test('concurrent requests reserve capacity before calling the provider', async t
 test('daily inference budget is shared and exhausted requests still get prepared answers', async t => {
   const { ask, db, calls } = harness(t);
   const atEndOfDay = Date.parse('2026-11-11T23:30:00Z');
-  const allowed = LIMITS.siteNeuronsPerDay / LIMITS.reservedNeurons;
+  const allowed = MAX_DAILY_REQUESTS;
   for (let index = 1; index <= allowed; index += 1) {
     assert.equal((await ask({ ip: '198.51.100.' + index, now: atEndOfDay })).status, 200, 'reservation ' + index);
   }
