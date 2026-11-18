@@ -17,8 +17,8 @@ that a product lacks the connection**.
 | Line source / DAC | 19 | 2 | 19 | 0 |
 | Headphones | 16 | 0 | 0 | 14 |
 | Microphones | 6 | 0 | 6 | 0 |
-| USB audio interfaces | 6 | 0 | 1 | 0 |
-| Mixers / recorders | 3 | 0 | 0 | 0 |
+| USB audio interfaces | 6 | 2 | 2 | 0 |
+| Mixers / recorders | 3 | 1 | 1 | 0 |
 | Dedicated headphone amps | 5 | 5 | 5 | 0 |
 | Computer sound-card functions | 1 | 1 | 1 | 0 |
 
@@ -28,6 +28,11 @@ devices (Creative X-Fi Titanium HD, FiiO K11) have two roles.
 ## Editorial priorities before Phase 2
 
 ### Priority A: Strong examples with verified input/output topology
+
+The M-Track Solo and Scarlett 2i2 fourth-generation physical input roles,
+plus Yamaha MG10XU mixer I/O and channel-routing caveats, have now been
+entered with dated manufacturer/manual references. Other interface and
+mixer models remain outstanding.
 
 1. **M-Audio M-Track Solo and Scarlett 2i2 4th Gen.** Explicitly model
    the number of microphone preamps, input socket functions (mic, line,
