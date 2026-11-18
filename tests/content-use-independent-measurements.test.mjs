@@ -44,7 +44,7 @@ test('only contextual individual reviews are linked in lessons', () => {
 
 test('neutral policy is discoverable from core pages and sitemap', () => {
   assert.ok(existsSync(path.join(root, 'content-use/index.html')));
-  assert.match(sitemap, /https:\/\/thesoundquestion\.pages\.dev\/content-use\//);
+  assert.match(sitemap, /https:\/\/thesoundquestion\.com\/content-use\//);
   for (const [name, doc] of Object.entries({homepage,library,about})) {
     assert.match(doc, /href="\/content-use\/"/, name);
   }

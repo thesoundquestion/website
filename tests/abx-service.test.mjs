@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createAbxService,binomialTail} from '../workers/abx/index.mjs';
 
-const ORIGIN='https://thesoundquestion.pages.dev';
+const ORIGIN='https://thesoundquestion.com';
 const BASE='https://tsq-abx.example.test';
 const secret='test-secret-only-do-not-use-in-production-1234567890';
 class FakeD1{

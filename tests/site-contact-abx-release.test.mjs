@@ -6,8 +6,8 @@ const home=read('index.html'),connect=read('connect/index.html'),privacy=read('p
 
 test('public email invites educational ideas and permission offers with no contact-form dependency',()=>{
  for(const page of [home,connect]){
-  assert.match(page,/thesoundquestion@gmail\.com/);
-  assert.match(page,/mailto:thesoundquestion@gmail\.com/);
+  assert.match(page,/contact@thesoundquestion\.com/);
+  assert.match(page,/mailto:contact@thesoundquestion\.com/);
  }
  assert.match(home,/permission/i);
  assert.match(connect,/materials you own or are authorized to share/);
@@ -16,7 +16,7 @@ test('public email invites educational ideas and permission offers with no conta
 test('equipment-loan outreach is discoverable and independent',()=>{
  assert.match(home,/href="\/connect\/#business-inquiries"/);
  assert.match(connect,/id="business-inquiries"/);
- assert.match(connect,/mailto:thesoundquestion@gmail\.com\?subject=The%20Sound%20Question%20-%20Equipment/);
+ assert.match(connect,/mailto:contact@thesoundquestion\.com\?subject=The%20Sound%20Question%20-%20Equipment/);
  assert.match(connect,/temporary loan/);
  assert.match(connect,/An offer does not guarantee coverage/);
  assert.match(connect,/Loans, gifts and paid relationships will be disclosed/);
@@ -104,7 +104,7 @@ test('curated scored comparisons describe their practical limitations consistent
 
 test('rights policy offers direct contact and long lessons begin with plain-language context',()=>{
  const rights=read('content-use/index.html');
- assert.match(rights,/mailto:thesoundquestion@gmail\.com\?subject=Content/);
+ assert.match(rights,/mailto:contact@thesoundquestion\.com\?subject=Content/);
  assert.match(rights,/Last reviewed: November 17, 2026/);
  for(const page of ['decoder/speaker-frequency-response/index.html','decoder/mixing-soundstage/index.html','decoder/mastering-dynamic-range/index.html']){
   assert.match(read(page),/tsq-lesson-shortcut/);

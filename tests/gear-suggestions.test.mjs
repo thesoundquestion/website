@@ -36,7 +36,7 @@ function mockEnv(enabled=true){
 }
 function request(payload,method='POST'){
  return new Request('https://tsq-abx.thesoundquestion.workers.dev/v1/gear/submit',{
- method,headers:{'content-type':'application/json','origin':'https://thesoundquestion.pages.dev'},
+ method,headers:{'content-type':'application/json','origin':'https://thesoundquestion.com'},
  ...(method==='POST'?{body:JSON.stringify(payload)}:{})
  });
 }
