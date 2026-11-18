@@ -58,7 +58,9 @@ const FIELDS = Object.freeze({
 });
 const keys = Object.freeze(Object.keys(FIELDS));
 const isKnown = x => x !== null && x !== undefined && x !== '' &&
-  !(typeof x === 'number' && !Number.isFinite(x));
+  !(typeof x === 'number' && !Number.isFinite(x)) &&
+  !(Array.isArray(x) && x.length===0) &&
+  !(typeof x === 'object' && !Array.isArray(x) && Object.keys(x).length===0);
 const friendlyKeys=Object.freeze({
   wattsPerChannel:'Power per channel',milliwattsPerChannel:'Headphone power per channel',
   loadOhms:'Load',duration:'Duration',testConditions:'Test conditions',
