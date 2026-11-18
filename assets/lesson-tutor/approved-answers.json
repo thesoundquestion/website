@@ -1607,7 +1607,7 @@
   },
   "bit-depth": {
     "title": "Bit depth: more level choices, not better music",
-    "specification": "16-bit CD audio offers 65,536 different sample level values; 24-bit offers 16,777,216",
+    "specification": "CD audio: 16-bit · 65,536 possible level values per sample",
     "topic": "bit depth, rounding audio sample levels, recording headroom, quiet audio and dither",
     "terms": [
       "bit depth",
