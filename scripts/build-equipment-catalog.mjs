@@ -46,6 +46,9 @@ const mirrors=[
   ['Builder headphones',master.builderOnly.headphones,BUILDER_ONLY_HEADPHONES],
 ];
 for(const [name,authoritative,mirror] of mirrors){
+  // Builder-only module projections are themselves generated from the master.
+  // Regeneration must be possible when the master has intentionally changed.
+  if(!process.argv.includes('--check')&&name.startsWith('Builder '))continue;
   if(!isDeepStrictEqual(authoritative,mirror))
     throw new Error('Equipment master differs from legacy '+name+
       ' source. Reconcile before generating a release.');
@@ -57,7 +60,17 @@ const catalog=composeEquipmentCatalog({
   builderOnly:[...master.builderOnly.speakers,...master.builderOnly.amplifiers,
     ...master.builderOnly.headphones]
 });
+const moduleSource=`/** AUTO-GENERATED from equipment/source-master.json; do not edit. */
+const products = ${JSON.stringify(master.builderOnly,null,2)};
+const freezeList = list => Object.freeze(list.map(item => Object.freeze(item)));
+export const BUILDER_ONLY_SPEAKERS=freezeList(products.speakers);
+export const BUILDER_ONLY_AMPS=freezeList(products.amplifiers);
+export const BUILDER_ONLY_HEADPHONES=freezeList(products.headphones);
+export const ADDITIONAL_BUDGET_HEADPHONES=Object.freeze(BUILDER_ONLY_HEADPHONES.filter(item=>
+  item.model==='Koss KSC75'||item.model==='Koss Porta Pro (wired)'));
+`;
 const outputs={
+  'system-builder/catalog-supplements.generated.mjs':moduleSource,
   'equipment/catalog.generated.json':JSON.stringify(catalog,null,2)+'\n',
   // Classic script variables intentionally preserve the existing synchronous
   // Calculator, Builder and Compare interfaces. Do not edit these outputs.
