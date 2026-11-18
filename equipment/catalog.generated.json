@@ -5454,10 +5454,20 @@
         "recording_monitoring"
       ],
       "connections": {
-        "inputs": [],
+        "inputs": [
+          {
+            "type": "3_5mm_stereo_headphone_plug_passive_load",
+            "scope": "passive_unbalanced_stereo_headphone",
+            "from": "equipment/source-master.json"
+          }
+        ],
         "outputs": [],
         "descriptions": [
-          "Headphone cable/plug (review wording): 3.5 mm analogue"
+          "Headphone cable/plug (review wording): 3.5 mm analogue",
+          "Adapter changes plug size only; cannot boost amplifier voltage/power. Headphone connector is a sink, not line input."
+        ],
+        "reviewedAdaptableInputs": [
+          "6_35mm_stereo_headphone_jack_via_included_adapter"
         ]
       },
       "facts": {
@@ -5510,6 +5520,15 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://www.crutchfield.com/p_786SR80E/Grado-SR80e.html",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "3.5mm stereo plug integrated cable",
+            "6.35mm stereo adapter included"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://www.digitec-derouet.com/photos/sr_80_e.pdf",
           "from": "system-check/compare/specs.js",
@@ -5842,10 +5861,20 @@
         "recording_monitoring"
       ],
       "connections": {
-        "inputs": [],
+        "inputs": [
+          {
+            "type": "3_5mm_or_6_35mm_stereo_headphone_plug_variant_specific",
+            "scope": "passive_unbalanced_stereo_headphone",
+            "from": "equipment/source-master.json"
+          }
+        ],
         "outputs": [],
         "descriptions": [
-          "Headphone cable/plug (review wording): Detachable analogue cable"
+          "Headphone cable/plug (review wording): Detachable analogue cable",
+          "Exact cable and adapter pairing differs by HD 600 revision/sales market; inspect user's cable. 300 ohms alone does not determine power requirement."
+        ],
+        "reviewedAdaptableInputs": [
+          "6_35mm_or_3_5mm_stereo_jack_supplied_adapter"
         ]
       },
       "facts": {
@@ -5897,6 +5926,16 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://support.sennheiser-hearing.com/hc/en-dk/articles/38292415494173-HD-600-Specifications",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "6.35mm stereo plug or 3.5mm stereo plug via supplied adapter depending on cable version",
+            "300 ohm nominal load",
+            "97 dB SPL at 1 V"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://cdn.sennheiser-hearing.com/product-documents/product-downloads/hd-600/instruction_manual/Instruction_manual_HD_600.pdf",
           "from": "system-check/compare/specs.js",
