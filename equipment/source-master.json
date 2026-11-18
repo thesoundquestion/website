@@ -4057,7 +4057,26 @@
         "priceCheckedDate": null,
         "availability": null,
         "ratingsConsensus": null,
-        "roleOfRecord": "research_comparison_not_published_recommendation"
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "four_xlr_mic_preamp_inputs_with_line_inputs_same_mono_channels",
+          "stereo_line_input_channel_pairs",
+          "stereo_rca_2_track_playback_input"
+        ],
+        "physicalOutputTypes": [
+          "stereo_main_mix_line_outputs",
+          "stereo_rca_2_track_record_output",
+          "stereo_usb_recording_output_2_channels",
+          "stereo_control_room_line_outputs",
+          "headphone_monitor_output",
+          "analogue_subgroup_alt_3_4_outputs"
+        ],
+        "inputRoutingConstraints": [
+          "USB sends a two-channel stereo mix to the computer, not individual mixer-channel stems",
+          "ALT 3-4 analogue outputs provide additional routing to external recording equipment, but do not convert built-in USB into four separate DAW tracks",
+          "Four microphone inputs belong to four mono mixer channels. An XLR mic socket is not a USB recording channel by itself.",
+          "This is XENYX 1204USB, not X1204USB effects model."
+        ]
       },
       {
         "id": "zoom-livetrak-l12",
@@ -4079,6 +4098,16 @@
               "14-in/4-out USB",
               "up to 14-track standalone recorder"
             ]
+          },
+          {
+            "url": "https://www.zoom.co.jp/sites/default/files/products/downloads/pdfs/Zoom_LiveTrak_L-12_OperationManual_English.pdf",
+            "fields": [
+              "eight XLR/TRS mono mic/line combo channels",
+              "two stereo line channel pairs",
+              "USB 14 input 4 playback at 44.1/48 kHz",
+              "SD recorder 14 tracks 44.1/48 kHz versus 12 tracks 96 kHz",
+              "independent monitor jack routing"
+            ]
           }
         ],
         "usbRecordingMode": "multitrack",
@@ -4091,7 +4120,27 @@
         "priceCheckedDate": null,
         "availability": null,
         "ratingsConsensus": null,
-        "roleOfRecord": "research_comparison_not_published_recommendation"
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "eight_mono_xlr_trs_combo_mic_line_inputs",
+          "two_stereo_line_channel_pairs_9_10_and_11_12_trs_rca"
+        ],
+        "physicalOutputTypes": [
+          "stereo_balanced_xlr_master_line_out",
+          "monitor_out_A_balanced_trs_stereo_pair",
+          "five_stereo_headphone_monitor_out_A_to_E",
+          "usb_audio_record_14_playback_4_at_44_1_or_48_khz",
+          "sd_card_multitrack_wav_recording"
+        ],
+        "inputRoutingConstraints": [
+          "Eight XLR mic preamps are not 14 mic preamps. USB audio interface records 14 channels at 44.1/48 kHz and returns four playback channels.",
+          "Standalone SD recorder supports up to 14 simultaneous tracks at 44.1/48 kHz but up to 12 at 96 kHz; 96 kHz capability does not imply 14-channel USB operation.",
+          "Monitor A-E headphone jacks are independent monitoring destinations; not five separate computer USB audio interface recording inputs.",
+          "Mixer channels 9/10 and 11/12 are stereo line paths, not four more XLR microphone preamps."
+        ],
+        "usbRecordingRateLimitKhz": 48,
+        "standaloneRecorderMaxTracks44And48Khz": 14,
+        "standaloneRecorderMaxTracks96Khz": 12
       },
       {
         "id": "creative-xfi-titanium-hd",
