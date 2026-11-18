@@ -147,3 +147,7 @@
 .sb-card-power,.sb-card-thd,.sb-card-review{font-size:.78rem;line-height:1.46;margin:.35rem 0;color:#c7e1ed}
 .sb-card-power strong,.sb-card-thd strong,.sb-card-review strong{color:#e1f5ff}
 .sb-card-review{color:#aecfe2}
+
+/* Hand off to the other specialist builder without mixing their forms. */
+.sb-bridge{border:1px solid #3a617c;background:#122638;border-radius:12px;padding:.85rem 1.15rem;line-height:1.7;margin:0 0 1.5rem;font-size:.95rem;color:#d1e5f4}
+.sb-bridge a{color:#95dcff;text-decoration:underline;text-underline-offset:.16em}
