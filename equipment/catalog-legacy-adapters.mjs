@@ -17,7 +17,8 @@ export function checkerPresetsFromCatalog(catalog) {
     values:clone(profile.values||{}),
     ...(profile.ratings?.length?{ratings:clone(profile.ratings)}:{}),
     ...(profile.note?{note:profile.note}:{}),
-    url:item.evidence.find(e=>e.from==='system-check/gear.js')?.url||null
+    url:item.evidence.find(e=>e.from==='system-check/gear.js')?.url||null,
+    ...(profile.otherFields?clone(profile.otherFields):{})
   });
  }
  for(const [kind,rows] of Object.entries(result)){
