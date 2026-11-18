@@ -91,8 +91,8 @@ test('canonical site scores eligible games while local and EQ practice remain pr
  assert.match(abx,/share:consent\.checked/);
  assert.match(privacy,/optional and off by default/);
  assert.match(privacy,/180 days/);
- assert.match(read('workers/abx/RELEASE.md'),/Worker uploaded and deployed to Cloudflare/);
- assert.match(read('workers/abx/RELEASE.md'),/The private `MODERATION_ALERTS_ENABLED` flag was enabled via API/);
+ assert.match(read('workers/abx/RELEASE.md'),/Public scoring, moderated community submissions and gear nominations are operational in Cloudflare/);
+ assert.match(read('workers/abx/RELEASE.md'),/private moderation alerts are `true`/);
  assert.match(read('workers/abx/RELEASE.md'),/Public scoring, moderated community submissions and gear nominations are operational in Cloudflare/);
 });
 
