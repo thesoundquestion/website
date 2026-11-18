@@ -136,7 +136,7 @@ test('all user-visible public cards use text nodes, not user-provided HTML',()=>
   assert.match(html,/assets\/community-board\.js/);
   assert.match(html,/data-community-scope/);
  }
- assert.match(read('workers/abx/wrangler.toml'),/COMMUNITY_PUBLIC_ENABLED = "false"/);
+ assert.match(read('workers/abx/wrangler.toml'),/COMMUNITY_PUBLIC_ENABLED = "true"/);
 });
 
 test('comment and nomination forms explain the volunteer moderation delay without requiring resubmission',()=>{

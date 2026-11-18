@@ -78,12 +78,12 @@ test('ABX Training shares one playback clock without additional public audio req
  assert.match(abx,/stagedBuffer\?\.dispose\(\)/);
  assert.match(abx,/trainingBuffer\?\.dispose\(\)/);
 });
-test('local beta practice does not publish while eventual scored service remains gated',()=>{
- assert.match(abx,/const PRACTICE_ONLY = true/);
- assert.match(abx,/if\(PRACTICE_ONLY\)\{await startPractice\(\);return\}/);
+test('canonical site scores eligible games while local and EQ practice remain private',()=>{
+ assert.match(abx,/const PRACTICE_ONLY = location\.origin !== /);
+ assert.match(abx,/if\(localOnly\(\)\)\{await startPractice\(\);return\}/);
  assert.match(abx,/session=\{practice:true,total:mode==='advanced'\?20:10\}/);
- assert.match(read('labs/abx/index.html'),/Your score stays on your device/);
- assert.match(read('workers/abx/wrangler.toml'),/ABX_PUBLIC_ENABLED = "false"/);
+ assert.match(read('labs/abx/index.html'),/private practice challenge/);
+ assert.match(read('workers/abx/wrangler.toml'),/ABX_PUBLIC_ENABLED = "true"/);
  assert.match(worker,/ABX_PUBLIC_ENABLED==='true'/);
  assert.match(worker,/const VALIDATED=new Map/);
  assert.doesNotMatch(worker,/master-loud-v1/);
