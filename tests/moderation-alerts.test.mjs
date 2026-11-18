@@ -6,8 +6,13 @@ import {readFileSync} from 'node:fs';
 
 const endpoint='https://tsq-abx.thesoundquestion.workers.dev/v1/moderation/pending-counts';
 const secret='private-moderation-summary-secret-1234567890-987654321';
+let gearCountQueries=0;
 const db={prepare(sql){
  assert.match(sql,/status='pending'/);
+ if(sql.includes('gear_suggestions')){
+  gearCountQueries++;
+  return {async first(){return {n:4}}};
+ }
  return {async all(){return {results:[
   {section:'room',kind:'suggestion',n:3},
   {section:'room',kind:'comment',n:1},
@@ -27,9 +32,24 @@ test('count query exposes only aggregate pending numbers',async()=>{
  assert.equal(result.listeningRoomSuggestions,3);
  assert.equal(result.listeningRoomComments,1);
  assert.equal(result.abxComments,2);
+ assert.equal(result.gearSuggestions,0);
+ assert.equal(gearCountQueries,0);
  assert.equal(typeof result.checkedAt,'string');
  assert.equal('body'in result,false);
  assert.equal('id'in result,false);
+});
+test('private digest includes new gear models only when the gear intake is active',async()=>{
+ const count=gearCountQueries;
+ const result=await getPendingCounts(db,{includeGear:true});
+ assert.equal(result.pending,10);
+ assert.equal(result.gearSuggestions,4);
+ assert.equal(gearCountQueries,count+1);
+ const endpointResponse=await call({...env,GEAR_SUBMISSIONS_ENABLED:'true'});
+ assert.equal(endpointResponse.status,200);
+ const payload=await endpointResponse.json();
+ assert.equal(payload.pending,10);
+ assert.equal(payload.gearSuggestions,4);
+ assert.equal('model' in payload,false); // Pending models never exposed by this route.
 });
 test('moderation endpoint never publishes counts without bearer token or enabled flag',async()=>{
  for(const [e,auth,method] of [
@@ -50,7 +70,7 @@ test('authorized count request is read-only and CORS-free',async()=>{
  assert.equal(r.status,200);
  const v=await r.json();
  assert.equal(v.pending,6);
- assert.deepEqual(Object.keys(v).sort(),['abxComments','checkedAt','listeningRoomComments','listeningRoomSuggestions','pending'].sort());
+ assert.deepEqual(Object.keys(v).sort(),['abxComments','checkedAt','gearSuggestions','listeningRoomComments','listeningRoomSuggestions','pending'].sort());
  assert.equal(r.headers.get('access-control-allow-origin'),null);
 });
 test('worker routes private summary before browser origin checks',async()=>{
@@ -65,6 +85,8 @@ test('daily Gmail example uses only a secure script property, checks nonzero cou
  assert.match(gs,/PropertiesService.getScriptProperties/);
  assert.match(gs,/if\(pending===0\)return/);
  assert.match(gs,/GmailApp.sendEmail/);
+ assert.match(gs,/Equipment model recommendations/);
+ assert.match(gs,/pending community/); // Preserve installed Gmail filter matching.
  assert.match(gs,/everyDays\(1\)/);
  assert.match(gs,/thesoundquestion@gmail\.com/);
  assert.match(cfg,/MODERATION_ALERTS_ENABLED = "false"/);
