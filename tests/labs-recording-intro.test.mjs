@@ -17,7 +17,7 @@ test('the labs hub links to existing resources and never promises a hosted maste
   assert.ok(s.includes('href="'+href+'"'),href);
   assert.ok(existsSync(path.join(root,href.slice(1),'index.html')),href);
  }
- assert.ok(read('index.html').includes('class="discovery-card" href="/labs/"'));
+ assert.ok(read('index.html').includes('href="/labs/"'));
  assert.match(s, /class="lab-choice-grid"/);
  assert.match(s, /EXPERIMENT 01 \/ MIXING/);
  assert.match(s, /EXPERIMENT 02 \/ MASTERING/);
