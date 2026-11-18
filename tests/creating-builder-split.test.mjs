@@ -48,7 +48,9 @@ test('all creating goal routes have a visible selector and a real engine mode',(
   assert.doesNotMatch(creatingApp,/\boldForm\b|\boldResults\b|controls\.output|controls\.speaker/);
   assert.match(creatingApp,/\.\.\/\.\.\/equipment\/catalog-client\.mjs/);
   assert.match(creatingApp,/\.\.\/goal-chain-engine\.mjs/);
-  assert.match(creatingApp,/buildGoalChain\(catalog/);
+  assert.match(creatingApp,/buildCreatingSystem\(catalog/);
+  assert.match(creatingApp,/\.\/build-recommendations\.mjs/);
+  assert.match(creating,/Build my creating setup/);
 });
 
 test('guide and hub send visitors to the relevant builder without mixing listening and creating',()=>{
