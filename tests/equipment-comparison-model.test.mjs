@@ -53,3 +53,30 @@ test('manufacturer power ratings are shown with test basis, not ranked as a numb
 test('comparison rejects missing records rather than silently defaulting',()=>{
   assert.throws(()=>buildEquipmentComparison(null,by('Yamaha A-720')),TypeError);
 });
+
+test('verified microphone capacity differences are explained without claiming better audio quality',()=>{
+  const c=buildEquipmentComparison(by('M-Audio M-Track Solo'),by('Focusrite Scarlett 2i2 (4th Gen)'),{category:'audio_interface'});
+  assert.ok(c.observations.some(s=>/microphone-preamp counts differ \(1 versus 2\)/.test(s)));
+  assert.ok(c.observations.every(s=>!/sounds better|is superior|upgrade recommended/.test(s)));
+});
+test('published power conditions display useful plain-language labels',()=>{
+  const c=buildEquipmentComparison(by('Yamaha A-720'),by('Panasonic SA-HE100'),{category:'amp'});
+  const row=c.rows.find(x=>x.key==='speakerPowerRatings');
+  assert.match(row.left.display,/Power per channel:/);
+  assert.match(row.left.display,/Load:/);
+  assert.match(row.left.display,/Test conditions:/);
+  assert.ok(c.observations.some(s=>/channels driven/.test(s)));
+});
+test('empty power arrays and empty objects must remain unverified',()=>{
+  const a={id:'a',model:'A',categories:['headphone_amplifier'],facts:{ratedOutputMilliwatts:{value:[]}}};
+  const b={id:'b',model:'B',categories:['headphone_amplifier'],facts:{ratedOutputMilliwatts:{value:{}}}};
+  const c=buildEquipmentComparison(a,b,{category:'headphone_amplifier'});
+  assert.equal(c.rows.find(x=>x.key==='ratedOutputMilliwatts').left.display,'Not verified');
+  assert.equal(c.rows.find(x=>x.key==='ratedOutputMilliwatts').right.display,'Not verified');
+});
+test('unverified preamp count produces no invented practical difference',()=>{
+  const a={id:'a',model:'A',categories:['audio_interface'],facts:{}};
+  const b={id:'b',model:'B',categories:['audio_interface'],facts:{micPreampCount:{value:2}}};
+  const c=buildEquipmentComparison(a,b,{category:'audio_interface'});
+  assert.ok(!c.observations.some(s=>/microphone-preamp counts differ/.test(s)));
+});
