@@ -59,7 +59,7 @@ function sorted(candidates,score,prices,region,preference){
   return candidates.map((r,i)=>{
     const category=regionalPriceLabel(prices,r.id,{region});
     return {r,i,score:score(r),matched:wanted!=='any'&&category?.tier===wanted?1:0};
-  }).sort((a,b)=>b.score-a.score||b.matched-a.matched||a.i-b.i)
+  }).sort((a,b)=>(b.score+b.matched*4)-(a.score+a.matched*4)||a.i-b.i)
     .map(x=>x.r);
 }
 function microphoneRank(record,mode){
@@ -150,7 +150,7 @@ export function buildCreatingSystem(catalog,{
   if(micConnection==='usb'&&count>1)
     messages.push('For several microphones at the same time, this example uses XLR microphones and a capture device. Multiple USB microphones do not automatically combine into separate tracks.');
   const micCandidates=sorted(category(catalog,'microphone').filter(r=>routeSupports(r,chosenPath)),
-    r=>microphoneRank(r,mode),null,region,'any');
+    r=>microphoneRank(r,mode),prices,region,pricePreference);
   const ownMic=safeOwned(catalog,owned,'mic');
   const owningCustomMic=customOwned(ownedNames,'mic');
   if(ownMic&&!routeSupports(ownMic,chosenPath))
@@ -159,7 +159,7 @@ export function buildCreatingSystem(catalog,{
     purpose:mode==='drums'?'Turn the drum kit into recordable sound. Different positions may need different microphones.':
       mode==='live'?'Pick up vocals or instruments so the mixer can send them to the audience.':
       'Turn speech, singing or instrument sound into an audio signal.',
-    owned,ownedNames,candidates:micCandidates,prices:null,region,quantity:count,
+    owned,ownedNames,candidates:micCandidates,prices,region,quantity:count,
     reason:'Selected from catalogue roles for this project; microphone tone and room fit are not scored.',
     checks:[count>1?'Quantity '+count+' is a planning placeholder. Different sources may need different microphone types.':'Placement and room sound matter as much as model choice.']});
   stages.push(micStage);
@@ -174,15 +174,14 @@ export function buildCreatingSystem(catalog,{
       checks:['Do not add a second interface just because studio setups often use one.']}));
   }else{
     const captureCandidates=sorted(catalog.records.filter(r=>captureQualifies(r,captureRule)),
-      r=>captureRank(r,{mode,count,independent}),null,region,'any');
+      r=>captureRank(r,{mode,count,independent}),prices,region,pricePreference);
     // A tier preference can prioritize within the same suitable equipment role.
-    const ranked=sorted(captureCandidates,r=>captureRank(r,{mode,count,independent}),
-      null,region,'any');
+    const ranked=captureCandidates;
     const stageCapture=buildStage(catalog,{key:'capture',
       title:live?'Mixer for the performance':'Audio interface, mixer or recorder',
       purpose:live?'Accept microphone signals, let you set levels and send a mix to the audience speakers.':
         'Accept the microphones and send their sound to the recording computer or recorder.',
-      owned,ownedNames,candidates:ranked,prices:null,region,quantity:1,
+      owned,ownedNames,candidates:ranked,prices,region,quantity:1,
       reason:'Selected only from documented microphone input capacity and recording/outputs. More channels do not mean better sound.',
       checks:[independent?'This setup needs separately recorded channels, not just a stereo USB mix.':'Check which microphones/inputs can be used at the same time.',
         'Confirm microphone connectors and appropriate gain/phantom-power switching.']});
@@ -216,10 +215,10 @@ export function buildCreatingSystem(catalog,{
   if(live){
     const paCandidates=sorted(category(catalog,'speaker')
       .filter(r=>fact(r,'speakerKind')==='powered_pa_speaker'),
-      r=>r.connections.inputs.some(p=>/line/.test(p.type))?9:0,null,region,'any');
+      r=>r.connections.inputs.some(p=>/line/.test(p.type))?9:0,prices,region,pricePreference);
     stages.push(buildStage(catalog,{key:'pa',title:'Audience PA speakers',
       purpose:'Make the mixed sound audible to the audience. These models already contain power amplifiers.',
-      owned,ownedNames,candidates:paCandidates,prices:null,region,quantity:2,
+      owned,ownedNames,candidates:paCandidates,prices,region,quantity:2,
       reason:'Published powered PA type; venue output, coverage and safe level are not certified.',
       checks:['Two cabinets are an illustrative starting quantity, not a coverage calculation.',
         'Check line-level connections, mounting, electrical supply, feedback and sustained output.']}));
@@ -230,10 +229,10 @@ export function buildCreatingSystem(catalog,{
       'Connect and safely position the equipment.',
       'Plan one appropriate mic cable per XLR microphone, secure stands, speaker stands, rated power and cable routing. Specific connector types and quantities depend on the exact devices.'));
   }else{
-    const headphoneCandidates=sorted(category(catalog,'headphone'),r=>headphoneRank(r,mode),null,region,'any');
+    const headphoneCandidates=sorted(category(catalog,'headphone'),r=>headphoneRank(r,mode),prices,region,pricePreference);
     stages.push(buildStage(catalog,{key:'headphones',title:'Monitoring headphones',
       purpose:'Hear a backing track or the recording without speaker sound leaking into a nearby microphone.',
-      owned,ownedNames,candidates:headphoneCandidates,prices:null,region,quantity:1,
+      owned,ownedNames,candidates:headphoneCandidates,prices,region,quantity:1,
       reason:'Catalogued headphone model to investigate for tracking comfort and isolation.',
       checks:['Confirm the headphone plug, output level, volume control and comfortable fit.',
         count>1?'More than one performer may need extra headphone outputs or a distribution amplifier.':'A separate headphone amplifier is not automatically needed.']}));
@@ -245,10 +244,11 @@ export function buildCreatingSystem(catalog,{
           'Choose a multi-track recording program (DAW). Free examples include Waveform Free and Audacity; confirm the exact editing, driver and track-routing features you need.':
           'For a simple voice take, Audacity is one free example. Check microphone input selection, recording levels and how to monitor playback.'));
     if(includeMonitors){
-      const monitors=category(catalog,'speaker').filter(r=>fact(r,'speakerKind')==='powered_studio_monitor');
+      const monitors=sorted(category(catalog,'speaker').filter(r=>fact(r,'speakerKind')==='powered_studio_monitor'),
+        r=>r.connections.inputs.some(p=>/xlr|trs/.test(p.type))?9:0,prices,region,pricePreference);
       stages.push(buildStage(catalog,{key:'monitors',title:'Optional studio listening speakers',
         purpose:'Listen to your edits away from headphones. They are not required just to record a microphone.',
-        owned,ownedNames,candidates:monitors,prices:null,region,quantity:2,
+        owned,ownedNames,candidates:monitors,prices,region,quantity:2,
         reason:'Catalogued powered studio cabinet, not an amplifier for passive speakers.',
         checks:['Most documented packages contain one powered speaker; buy two for an ordinary stereo pair.',
           'Check two compatible line-level outputs, volume control, mains power and space around each speaker.']}));
