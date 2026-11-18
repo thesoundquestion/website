@@ -14357,6 +14357,23 @@
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "unknown"
         },
+        "headphoneOutputPowerRating": {
+          "value": {
+            "milliwattsPerChannel": 60,
+            "loadOhms": 32,
+            "testConditions": "M-Audio published headphone output rating; distortion threshold unspecified",
+            "source": "https://www.m-audio.com/audio-midi-interfaces/m-track-solo.html"
+          },
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "documentedSetupBitDepth": {
+          "value": 16,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
         "maxRateKhz": {
           "value": 48,
           "scope": "audio_interface",
@@ -14364,10 +14381,10 @@
           "evidenceStatus": "source_stated"
         },
         "maxBitDepth": {
-          "value": 16,
+          "value": null,
           "scope": "audio_interface",
           "from": "research/recording-input-catalog-v1.json",
-          "evidenceStatus": "source_stated"
+          "evidenceStatus": "unknown"
         }
       },
       "profiles": [
@@ -14387,7 +14404,7 @@
             "computerPlaybackOutputs": 2,
             "headphoneOutputs": 1,
             "maxRateKhz": 48,
-            "maxBitDepth": 16,
+            "maxBitDepth": null,
             "midiPorts": null,
             "preampGainRangeDb": 54,
             "preampEinDbu": -128,
@@ -14395,9 +14412,17 @@
             "outputLineConnectors": [
               "rca_stereo"
             ],
-            "headphoneConnector": "3.5mm"
+            "headphoneConnector": "3.5mm",
+            "documentedSetupBitDepth": 16,
+            "bitDepthMaximumEvidenceStatus": "not_confirmed_by_direct_manufacturer_maximum_specification",
+            "headphoneOutputPowerRating": {
+              "milliwattsPerChannel": 60,
+              "loadOhms": 32,
+              "testConditions": "M-Audio published headphone output rating; distortion threshold unspecified",
+              "source": "https://www.m-audio.com/audio-midi-interfaces/m-track-solo.html"
+            }
           },
-          "note": "Two physical recording inputs but only one microphone preamp. 16-bit limit corroborated by retailer and must be checked against user's exact hardware/manual before public numeric comparison."
+          "note": "Two simultaneous recording inputs but one microphone preamp. The manufacturer publishes a 16-bit/48 kHz Windows setup example, while retailer material lists 16-bit/48 kHz; the maximum bit depth across all drivers remains unconfirmed here. Manufacturer headphone amplifier rating: 60 mW/channel into 32 Ω. This rating alone cannot establish adequate loudness for every headphone."
         }
       ],
       "evidence": [
@@ -14413,7 +14438,8 @@
             "48 kHz",
             "gain 54 dB",
             "EIN -128 dBu",
-            "RCA and 3.5mm outputs"
+            "RCA and 3.5mm outputs",
+            "headphone output 60 mW per channel at 32 ohms"
           ],
           "checkedDate": "2026-11-18"
         },
@@ -14437,6 +14463,7 @@
         "status": "source_specific_not_independently_measured",
         "unknowns": [
           "research.loopback",
+          "research.maxBitDepth",
           "research.midiPorts"
         ]
       }
