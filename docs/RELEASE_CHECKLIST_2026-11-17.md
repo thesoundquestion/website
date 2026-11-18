@@ -1,5 +1,7 @@
 # The Sound Question — coordinated site release checklist
 
+> **POST-LAUNCH STATUS (November 17 Atlantic / November 18 UTC):** PR #15 was merged and the full website is **live at https://thesoundquestion.com/**. Cloudflare Pages build/deploy succeeded; read-only public launch smoke passed all checks, and production auto-builds are disabled again. The checklist below is retained as a **historical pre-release audit**: many 'not deployed' and 'launch blocker' entries were superseded by the completed release, not current defects. Use [the authoritative production launch record](PRODUCTION_LAUNCH_2026-11-17.md) and [live Worker acceptance](WORKER_PUBLIC_RELEASE_2026-11-17.md) for current status. Mobile listening/permissions and Google Search Console migration remain follow-up work; the optional Gmail digest trigger is not a release gate.
+
 **Baseline:** November 17, 2026 pre-release audit. **Branch:** `draft/abx-shared-framework-20261116`. Production `main` and Cloudflare Pages are unchanged until deliberate approval.
 
 ### A. Visitor-facing release blockers
