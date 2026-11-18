@@ -436,3 +436,5 @@ main{flex:1}
 .home-path-intro{max-width:740px;margin:0 0 1.25rem;font-size:1rem;line-height:1.6}
 @media(max-width:850px){.home-simple .home-quick-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.home-brand-signature{gap:1rem}.home-brand-signature>img{width:68px}.home-simple .home-quick-links{grid-template-columns:1fr}.home-simple .home-quick-links a{min-height:0;padding:1rem 1.2rem}.home-brand-signature h1{font-size:clamp(2.05rem,9vw,3.2rem)}}
+
+.library-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.2rem}.library-actions .button{font-size:.88rem;min-height:42px;padding:.6rem .85rem}
