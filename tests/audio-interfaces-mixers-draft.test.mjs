@@ -10,10 +10,10 @@ const page=read('decoder/audio-interfaces-mixers/index.html');
 const curriculum=JSON.parse(read('decoder/curriculum.json'));
 const bank=JSON.parse(read('assets/lesson-tutor/approved-answers.json'));
 
-test('input equipment lesson is discoverable between lessons 16 and 17, without renumbering authored graph examples',()=>{
- assert.equal(curriculum.lessons.length,26,'Do not renumber approved existing lessons yet');
- assert.ok(!curriculum.lessons.some(l=>l.slug==='audio-interfaces-mixers'));
- assert.equal(Object.keys(bank).length,26,'Do not create tutor bank entry until listed');
+test('input equipment is fully integrated as numbered lesson 17 of 27',()=>{
+ assert.equal(curriculum.lessons.length,27,'Audio interfaces is now a real curriculum lesson');
+ assert.equal(curriculum.lessons[16].slug,'audio-interfaces-mixers');
+ assert.equal(Object.keys(bank).length,27,'Published lesson has a matching tutor answer bank');
  assert.ok(read('decoder/index.html').includes('/decoder/audio-interfaces-mixers/'),'linked in Decoder course index');
  assert.ok(read('sitemap.xml').includes('/decoder/audio-interfaces-mixers/'),'listed in sitemap');
  assert.match(page,/<meta name="robots" content="index,follow">/);
@@ -22,7 +22,7 @@ test('input equipment lesson is discoverable between lessons 16 and 17, without 
  assert.match(page,/<details class="mobile-nav">/);
  assert.match(page,/<nav class="page-endnav container" aria-label="End-of-page navigation">/);
  assert.match(page,/<a href="#">↑ Back to top<\/a>/);
- assert.doesNotMatch(page,/<!-- LESSON_NAV_BEGIN -->/);
+ assert.match(page,/<!-- LESSON_NAV_BEGIN -->/);\n assert.match(page,/Lesson 17 of 27/);\n assert.match(page,/href="\\/decoder\\/sample-rate\\/"/);
  assert.equal((page.match(/<h1\b/g)||[]).length,1);
  assert.equal((page.match(/<main\b/g)||[]).length,1);
 });
