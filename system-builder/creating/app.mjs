@@ -1,173 +1,259 @@
 /**
- * Specialist System Builder, sharing the catalogue and evidence engines with
- * the recording/headphone checkers. Original listening app.mjs is untouched.
+ * Creating Builder: purpose -> novice questions -> model-backed equipment list.
+ * Optional owned items are reused first. Validation remains a separate tool.
  */
 import {loadEquipmentCatalog} from '../../equipment/catalog-client.mjs';
-import {CHAIN_MODES,CHAIN_MODE_IDS,buildGoalChain} from '../goal-chain-engine.mjs';
 import {loadRegionalPriceTiers,regionalPriceLabel} from '../../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../../equipment/price-preference.mjs';
+import {CREATING_GOALS,DEFAULT_GOAL_COUNTS,buildCreatingSystem} from './build-recommendations.mjs';
 
 const $=id=>document.getElementById(id);
-const mode=$('sb-purpose-select'),panel=$('sb-purpose-panel'),form=$('sb-purpose-form');
-const status=$('sb-purpose-status'),result=$('sb-purpose-result'),body=$('sb-purpose-result-body');
+const mode=$('sb-purpose-select'),form=$('sb-purpose-form'),result=$('sb-purpose-result');
+const body=$('sb-purpose-result-body'),status=$('sb-purpose-status');
 const priceRegion=$('sb-price-region'),pricePreference=$('sb-price-preference'),priceEvidence=$('sb-price-evidence');
-const controls={
-  microphone:$('sb-purpose-microphone'),capture:$('sb-purpose-input'),count:$('sb-purpose-count'),
-  headphone:$('sb-purpose-headphone'),monitor:$('sb-purpose-monitor'),
-  pa:$('sb-purpose-pa'),independent:$('sb-purpose-tracks')
+const countInput=$('sb-purpose-count'),tracks=$('sb-purpose-tracks'),route=$('sb-mic-route');
+const addStudio=$('sb-include-monitors');
+const choices={
+  mic:{select:$('sb-purpose-microphone'),other:$('sb-purpose-microphone-other'),types:['microphone']},
+  capture:{select:$('sb-purpose-input'),other:$('sb-purpose-input-other'),types:['audio_interface','mixer_recorder']},
+  headphones:{select:$('sb-purpose-headphone'),other:$('sb-purpose-headphone-other'),types:['headphone']},
+  monitors:{select:$('sb-purpose-monitor'),other:$('sb-purpose-monitor-other'),kind:'powered_studio_monitor'},
+  pa:{select:$('sb-purpose-pa'),other:$('sb-purpose-pa-other'),kind:'powered_pa_speaker'}
 };
-const catalogById=new Map();
-let catalog=null,prices=null,loadPending=null,pricingError=false;
-const captureModes=new Set(['vocal','songwriter','drums','band','podcast','stream','live']);
 const recModes=new Set(['vocal','songwriter','drums','band','podcast','stream']);
-const CREATING_MODE_IDS=new Set([...recModes,'live']);
-function text(tag,value,cls){
-  const el=document.createElement(tag);if(cls)el.className=cls;el.textContent=value;return el;
+let catalog=null,prices=null,loadPending=null;
+const node=(tag,cls,value)=>{
+  const item=document.createElement(tag);
+  if(cls)item.className=cls;
+  if(value!==undefined)item.textContent=String(value);
+  return item;
+};
+const append=(parent,tag,cls,value)=>{
+  const item=node(tag,cls,value);parent.append(item);return item;
+};
+function link(parent,url,label){
+  if(typeof url!=='string'||!/^https:\/\//.test(url)&&!url.startsWith('/'))return;
+  const a=append(parent,'a','sb-verified-link',label);
+  a.href=url;
+  if(url.startsWith('https://')){a.target='_blank';a.rel='noopener noreferrer'}
 }
-function addOption(select,record){
-  const option=document.createElement('option');option.value=record.id;
-  const tier=regionalPriceLabel(prices,record.id,{region:priceRegion.value});
-  option.textContent=record.model+(tier?' · '+tier.label+' ('+priceRegion.value+')':'');
-  select.append(option);
+function factsList(parent,lines){
+  if(!lines?.length)return;
+  const ul=append(parent,'ul','sb-builder-notes');
+  for(const line of lines)append(ul,'li','',line);
 }
-function populate(select,items,preferred){
-  const selected=select.value;
-  select.replaceChildren();
-  const none=document.createElement('option');none.value='';none.textContent='Not chosen / not in catalogue';select.append(none);
-  const alphabetical=[...items].sort((a,b)=>a.model.localeCompare(b.model));
-  const ordered=preferVerifiedPriceTier(alphabetical,prices,{region:priceRegion.value,preference:validPricePreference(pricePreference.value)});
-  for(const record of ordered)addOption(select,record);
-  // Do not silently claim the visitor owns our example models.
-  // Explicit choice is required; switching price categories preserves it.
-  if(items.some(x=>x.id===selected))select.value=selected;
-  else select.value='';
+function modelsFor(choice){
+  return catalog.records.filter(r=>
+    choice.kind?r.facts?.speakerKind?.value===choice.kind:
+      choice.types.some(category=>r.categories.includes(category))
+  ).sort((a,b)=>a.model.localeCompare(b.model));
 }
-function refreshPriceOptions(){
+function refreshEquipmentOptions(){
   if(!catalog)return;
-  const records=catalog.records;
-  populate(controls.microphone,records.filter(x=>x.categories.includes('microphone')),'FIFINE K669D');
-  populate(controls.capture,records.filter(x=>x.categories.some(c=>['audio_interface','mixer_recorder'].includes(c))),'M-Audio M-Track Solo');
-  populate(controls.headphone,records.filter(x=>x.categories.includes('headphone')),'Grado SR80e');
-  populate(controls.monitor,records.filter(x=>x.facts?.speakerKind?.value==='powered_studio_monitor'),'Yamaha HS5');
-  populate(controls.pa,records.filter(x=>x.facts?.speakerKind?.value==='powered_pa_speaker'),'QSC K12.2');
-  const candidates=[
-    ...[controls.microphone,controls.capture,controls.headphone,controls.monitor,controls.pa]
-      .flatMap(x=>[...x.options].map(o=>catalogById.get(o.value)).filter(Boolean))
-  ];
-  const unique=[...new Map(candidates.map(x=>[x.id,x])).values()];
-  const coverage=pricingPreferenceCoverage(unique,prices,{region:priceRegion.value,preference:pricePreference.value});
-  priceEvidence.textContent=coverage.note+' Only verified, current regional pricing labels influence display order; unknown models remain available. Price is not a sound-quality score.';
+  const region=priceRegion.value,preference=validPricePreference(pricePreference.value);
+  const relevant=[];
+  for(const choice of Object.values(choices)){
+    const previous=choice.select.value;
+    choice.select.replaceChildren();
+    const empty=node('option','','I don’t own one / not listed below');empty.value='';choice.select.append(empty);
+    const options=preferVerifiedPriceTier(modelsFor(choice),prices,{region,preference});
+    for(const model of options){
+      relevant.push(model);
+      const opt=node('option','',model.model);
+      opt.value=model.id;
+      const tier=regionalPriceLabel(prices,model.id,{region});
+      if(tier)opt.textContent+=' · '+tier.label;
+      choice.select.append(opt);
+    }
+    if(options.some(x=>x.id===previous))choice.select.value=previous;
+  }
+  const unique=[...new Map(relevant.map(x=>[x.id,x])).values()];
+  const coverage=pricingPreferenceCoverage(unique,prices,{region,preference});
+  priceEvidence.textContent=(preference==='any'?'No price category is weighted. ':coverage.note+' ')+
+    'This snapshot has '+coverage.unknown+' models without a supported local price category. '+
+    'Missing prices are not treated as cheap, and cost does not establish sound quality or compatibility.';
 }
 async function loadOnce(){
   if(catalog)return catalog;
   if(loadPending)return loadPending;
   loadPending=(async()=>{
     catalog=await loadEquipmentCatalog();
-    for(const record of catalog.records)catalogById.set(record.id,record);
-    try{prices=await loadRegionalPriceTiers()}catch{pricingError=true}
-    refreshPriceOptions();
+    try{prices=await loadRegionalPriceTiers()}catch{prices=null}
+    refreshEquipmentOptions();
+    status.textContent='Ready to suggest a complete setup. The equipment you already own is optional.';
     return catalog;
-  })().catch(error=>{loadPending=null;throw error});
+  })().catch(err=>{loadPending=null;throw err});
   return loadPending;
 }
 function visible(selector,show){
-  for(const node of document.querySelectorAll(selector))node.hidden=!show;
+  for(const element of document.querySelectorAll(selector))element.hidden=!show;
 }
 async function showMode(){
   const id=mode.value;
-  if(!CREATING_MODE_IDS.has(id))return;
-  panel.hidden=false;
-  $('sb-purpose-description').textContent=CHAIN_MODES.find(x=>x.id===id)?.description||'';
-  visible('.sb-capture',captureModes.has(id));
+  if(!CREATING_GOALS[id])return;
+  countInput.value=DEFAULT_GOAL_COUNTS[id];
+  // Goals do not silently replace the visitor's owned gear.
+  visible('.sb-tracks',recModes.has(id));
+  visible('.sb-monitors-choice',recModes.has(id));
+  visible('.sb-mic-route',recModes.has(id));
   visible('.sb-headphone',recModes.has(id));
   visible('.sb-monitor',recModes.has(id));
-  visible('.sb-count',captureModes.has(id));
-  visible('.sb-tracks',recModes.has(id));
   visible('.sb-live',id==='live');
-  result.hidden=true;
-  body.replaceChildren();
-  try{
-    await loadOnce();
-    status.textContent='Choose your equipment and review documented limits and missing facts.';
-  }catch{
-    status.textContent='Shared equipment catalogue unavailable. The Creating Builder cannot evaluate specific equipment.';
+  $('sb-purpose-description').textContent=CREATING_GOALS[id].why+
+    ' You can leave the owned-equipment section empty. We will still suggest a setup.';
+  result.hidden=true;body.replaceChildren();
+  try{await loadOnce()}catch{
+    status.textContent='Equipment inventory could not load. We cannot responsibly recommend specific models. Try refreshing the preview.';
   }
 }
-function addList(parent,title,items){
-  if(!items?.length)return;
-  const section=text('section','');const heading=text('h4',title);section.append(heading);
-  const list=document.createElement('ul');
-  for(const item of items)list.append(text('li',item));
-  section.append(list);parent.append(section);
+for(const choice of Object.values(choices)){
+  choice.select.addEventListener('change',()=>{
+    if(choice.select.value)choice.other.value='';
+    result.hidden=true;
+  });
+  choice.other.addEventListener('input',()=>{
+    if(choice.other.value.trim())choice.select.value='';
+    result.hidden=true;
+  });
+}
+priceRegion.addEventListener('change',()=>{refreshEquipmentOptions();result.hidden=true});
+pricePreference.addEventListener('change',()=>{refreshEquipmentOptions();result.hidden=true});
+mode.addEventListener('change',()=>{
+  const url=new URL(location.href);
+  url.searchParams.set('goal',mode.value);
+  history.replaceState(null,'',url);
+  showMode();
+});
+function chosenOwned(){
+  const owned={},ownedNames={};
+  for(const [key,choice] of Object.entries(choices)){
+    const custom=choice.other.value.trim();
+    if(custom)ownedNames[key]=custom;
+    else if(choice.select.value)owned[key]=choice.select.value;
+  }
+  return {owned,ownedNames};
+}
+const statuses={
+  research:'Suggested equipment to investigate',
+  reuse:'Already owned · keep if suitable',
+  included:'Already included · no extra device needed',
+  verify:'Need to research this requirement'
+};
+function renderStage(stage,index){
+  const li=node('li','sb-build-step');
+  const top=append(li,'div','sb-build-step-top');
+  append(top,'span','sb-build-step-number',String(index+1).padStart(2,'0'));
+  const titles=append(top,'div','sb-build-step-title');
+  append(titles,'h4','',stage.title);
+  append(titles,'p','sb-build-status sb-build-status-'+stage.need,statuses[stage.need]||'Review');
+  if(stage.quantity>1)append(top,'span','sb-build-qty','× '+stage.quantity);
+  append(li,'p','sb-build-purpose',stage.purpose);
+  if(stage.pick){
+    const pick=append(li,'div','sb-build-pick');
+    append(pick,'strong','',stage.pick.model);
+    if(stage.pick.priceCategory)append(pick,'span','sb-price-category',
+      stage.pick.priceCategory+' · '+stage.pick.priceRegion+' (reviewed '+stage.pick.tierDate+')');
+    if(stage.pick.reason)append(pick,'p','sb-build-reason',stage.pick.reason);
+    if(stage.pick.source)link(pick,stage.pick.source,'Model specifications / source');
+  }else if(stage.need==='research'){
+    append(li,'p','sb-build-example','Choose a suitable item meeting this description. No verified single-model suggestion is required for this accessory or software.');
+  }else if(stage.need==='verify'){
+    append(li,'p','sb-build-example','Our catalogue does not verify a suitable specific product yet. Keep this requirement on your shopping list.');
+  }else if(stage.need==='included'){
+    append(li,'p','sb-build-example','No additional purchase necessary for this stage in the illustrated path.');
+  }
+  if(stage.detail)append(li,'p','sb-build-detail',stage.detail);
+  if(stage.alternatives?.length){
+    const alts=append(li,'details','sb-build-alternatives');
+    append(alts,'summary','','Other documented models to compare');
+    const list=append(alts,'ul');
+    for(const alt of stage.alternatives){
+      const row=append(list,'li');
+      append(row,'strong','',alt.model);
+      if(alt.priceCategory)append(row,'span','sb-price-category',' '+alt.priceCategory);
+      if(alt.source)link(row,alt.source,'Specifications');
+    }
+  }
+  if(stage.checks?.length){
+    const checks=append(li,'details','sb-build-checks');
+    append(checks,'summary','','What to check before purchasing or connecting');
+    factsList(checks,stage.checks);
+  }
+  return li;
 }
 function render(plan){
   body.replaceChildren();
-  const chain=text('section','');chain.append(text('h4','What each part does'));
-  const ordered=document.createElement('ol');
-  for(const entry of plan.stages){
-    const li=document.createElement('li');
-    li.append(text('strong',entry.name+': '+entry.device),text('p',entry.reason));
-    ordered.append(li);
+  append(body,'p','sb-build-opening','A practical example for: '+plan.title+'. These are the parts you would need to put together or reuse, not a generic list of expensive gear.');
+  const summary=append(body,'div','sb-build-summary');
+  append(summary,'div','','Example purchases to research: '+plan.purchased.length);
+  append(summary,'div','','Items you already own: '+plan.alreadyOwned.length);
+  append(summary,'div','','Total stages to plan: '+plan.stages.length);
+  if(plan.messages.length){
+    const alerts=append(body,'section','sb-build-alerts');
+    append(alerts,'h4','','Important limits for this setup');
+    factsList(alerts,plan.messages);
   }
-  chain.append(ordered);body.append(chain);
-  if(plan.checks.length){
-    const section=text('section','');section.append(text('h4','Documented capacities and limitations'));
-    const list=document.createElement('ul');
-    for(const item of plan.checks){
-      const li=text('li',item.text,'sb-chain-'+item.status.replace(/[^a-z_]/g,''));
-      const heading=text('strong',item.status==='known_limit'?'Known limit: ':item.status==='needs_check'||item.status==='unverified'?'Needs verification: ':'Published evidence: ');
-      li.prepend(heading);list.append(li);
+  append(body,'h4','sb-build-list-title','Your system, from microphone to finished sound');
+  const list=append(body,'ol','sb-build-flow');
+  plan.stages.forEach((item,i)=>list.append(renderStage(item,i)));
+  const shopping=append(body,'section','sb-shopping-summary');
+  append(shopping,'h4','','What you might need to get');
+  const missing=plan.stages.filter(x=>x.need==='research'||x.need==='verify');
+  if(missing.length){
+    const ul=append(shopping,'ul');
+    for(const item of missing){
+      const label=item.pick?.model||item.title;
+      append(ul,'li','',((item.quantity||1)>1?(item.quantity+' × '):'')+label+
+        (item.need==='verify'?' (requirements still to research)':' (compare local options)'));
     }
-    section.append(list);body.append(section);
+  }else append(shopping,'p','','All listed stages are already owned or included. Double-check connections and accessories before assuming there is nothing to buy.');
+  append(shopping,'p','sb-help','The list is not a checkout cart: price, local stock, tax, cable count, room fit, operating system and electrical compatibility still need checking.');
+  if(plan.notes.length){
+    const considerations=append(body,'section','sb-build-next');
+    append(considerations,'h4','','Practical things beginners should know');
+    factsList(considerations,plan.notes);
   }
-  addList(body,'What else to check',plan.notes);
-  const next=text('section','');next.append(text('h4','Read the relevant lessons'));
-  const ul=document.createElement('ul');
+  const learning=append(body,'section','sb-build-learning');
+  append(learning,'h4','','Learn what the pieces do');
+  const ul=append(learning,'ul');
+  const names={
+    '/decoder/audio-interfaces-mixers/':'Audio interfaces, mixers and recording channels',
+    '/decoder/microphone-types/':'Microphone types and uses',
+    '/decoder/recording-sources/':'How a recording begins',
+    '/decoder/mixing-soundstage/':'Separate tracks and mixing',
+    '/decoder/speaker-types/':'Studio and PA speaker types'
+  };
   for(const href of plan.lessons){
-    const li=document.createElement('li'),link=document.createElement('a');
-    link.href=href;
-    link.textContent=href.includes('audio-interfaces')?'Audio interfaces and mixers':
-      href.includes('headphone')?'Headphones and outputs':
-      href.includes('speaker-types')?'Speaker types and their jobs':
-      href.includes('microphone-types')?'Microphone types and uses':
-      href.includes('recording-sources')?'How recording begins':'Learn the signal path';
-    li.append(link);ul.append(li);
+    const li=append(ul,'li');
+    link(li,href,names[href]||'More about this part of the chain');
   }
-  next.append(ul);body.append(next,text('p',plan.disclaimer,'sb-chain-disclaimer'));
+  const verification=append(body,'p','sb-build-checker','Already have the gear? ');
+  link(verification,'/tools/chain-check-preview/','Use Chain Check for the technical limitations of a specific pair of devices');
+  append(body,'p','sb-chain-disclaimer',plan.disclaimer);
   result.hidden=false;
 }
 form.addEventListener('submit',event=>{
   event.preventDefault();
-  if(!catalog){status.textContent='Equipment catalogue not loaded yet.';return}
-  const count=Number(controls.count.value);
+  if(!catalog){status.textContent='The shared equipment catalogue is still unavailable. Cannot assemble verified product examples.';return}
+  const count=Number(countInput.value);
   if(!Number.isInteger(count)||count<1||count>32){
-    status.textContent='Enter between 1 and 32 simultaneous microphones.';
-    controls.count.focus();return;
+    status.textContent='Choose a whole number from 1 to 32 microphones.';
+    countInput.focus();return;
   }
   try{
-    const plan=buildGoalChain(catalog,{
-      mode:mode.value,microphoneId:controls.microphone.value,captureId:controls.capture.value,
-      headphoneId:controls.headphone.value,
-      paSpeakerId:controls.pa.value,
-      monitorSpeakerId:controls.monitor.value,
-      microphoneCount:count,independentTracks:controls.independent.checked
+    const plan=buildCreatingSystem(catalog,{
+      mode:mode.value,microphoneCount:count,independentTracks:tracks.checked,
+      micConnection:route.value,includeMonitors:addStudio.checked,
+      region:priceRegion.value,pricePreference:pricePreference.value,...chosenOwned()
     });
     render(plan);
-    status.textContent='Signal-chain plan ready. All unverified requirements are identified below.';
+    status.textContent='Created a suggested equipment chain with '+plan.stages.length+' stages and '+plan.purchased.length+' example purchases or requirements to research.';
     result.scrollIntoView({block:'start',behavior:'auto'});
   }catch{
-    status.textContent='The selected components could not be assessed. Recheck the equipment fields.';
+    status.textContent='Could not build this setup. Review the microphone count and options.';
     result.hidden=true;
   }
 });
-priceRegion.addEventListener('change',()=>{refreshPriceOptions();result.hidden=true});
-pricePreference.addEventListener('change',()=>{refreshPriceOptions();result.hidden=true});
-mode.addEventListener('change',()=>{
-  const url=new URL(location.href);
-  if(mode.value==='listening')url.searchParams.delete('goal');else url.searchParams.set('goal',mode.value);
-  history.replaceState(null,'',url);
-  showMode();
-});
 const requested=new URLSearchParams(location.search).get('goal');
-if(requested&&CREATING_MODE_IDS.has(requested))mode.value=requested;
+if(requested&&CREATING_GOALS[requested])mode.value=requested;
 showMode();
