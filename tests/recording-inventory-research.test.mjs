@@ -5,7 +5,7 @@ const catalog=JSON.parse(readFileSync(new URL('../research/recording-input-catal
 const byId=id=>catalog.records.find(r=>r.id===id);
 test('research inventory is a separate typed catalogue, not a change to System Check',()=>{
  assert.equal(catalog.status,'research_only');
- assert.equal(catalog.records.length,29);
+ assert.equal(catalog.records.length,31);
  assert.equal(new Set(catalog.records.map(x=>x.id)).size,catalog.records.length);
  assert.equal(catalog.records.filter(x=>x.comparisonAnchor).length,3);
  for(const record of catalog.records){
