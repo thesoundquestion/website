@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 
 const js = readFileSync(new URL('../system-check/calculator.js', import.meta.url), 'utf8');
-const data = readFileSync(new URL('../system-check/gear.js', import.meta.url), 'utf8');
+const data = readFileSync(new URL('../equipment/legacy-presets.generated.js', import.meta.url), 'utf8');
 const gears = JSON.parse(data.match(/^const systemCheckGear = ([\s\S]*?);\s*$/m)?.[1] || '{}').speaker;
 
 class Field {
