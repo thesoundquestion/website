@@ -44,8 +44,8 @@ def main(source: Path, destination: Path):
     doc.close()
     result=fitz.open(destination)
     uris=[link.get('uri','') for p in result for link in p.get_links() if link.get('uri')]
-    if len(result)!=59 or len(uris)!=56 or any(OLD in u for u in uris) or
-       NEW not in result[-1].get_text() or OLD in result[-1].get_text():
+    if (len(result)!=59 or len(uris)!=56 or any(OLD in u for u in uris) or
+        NEW not in result[-1].get_text() or OLD in result[-1].get_text()):
         raise RuntimeError('Output PDF failed structure, link or printed URL checks')
     result.close()
     size=destination.stat().st_size
