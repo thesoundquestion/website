@@ -12,8 +12,8 @@ that a product lacks the connection**.
 
 | Type | Models | Typed inputs | Typed outputs | Text connection descriptions |
 | --- | ---: | ---: | ---: | ---: |
-| Speaker (including passive/studio/PA) | 73 | 6 | 1 | 1 |
-| Amplifier / AVR | 46 | 3 | 3 | 3 |
+| Speaker (including passive/studio/PA) | 73 | 10 | 1 | 1 |
+| Amplifier / AVR | 46 | 9 | 9 | 9 |
 | Line source / DAC | 19 | 2 | 19 | 0 |
 | Headphones | 16 | 2 | 0 | 16 |
 | Microphones | 6 | 0 | 6 | 0 |
@@ -35,12 +35,13 @@ Audient iD4 MkII, Behringer UMC202HD and original Arturia MiniFuse 2.
 The Yamaha MG10XU mixer stereo-USB limitation is also represented.
 Source-linked jack evidence for Grado SR80e and Sennheiser HD 600 now sits
 in a separate overlay rather than changing the original calculator presets.
-The three initial amplifier reference models (Yamaha A-720, Panasonic
-SA-HE100 and Yamaha HTR-4063) now have documented, typed ports. All
+Nine amplifier reference models (including Yamaha A-720, Panasonic
+SA-HE100, Yamaha HTR-4063, A-S301/A-S501/A-S701, R-S202, Denon PMA-600NE
+and Cambridge AXA35) now have documented typed ports. All
 three initial mixer reference models (Yamaha MG10XU, Behringer XENYX
 1204USB and Zoom LiveTrak L-12) now have structured input/output roles.
-Pioneer SP-FS52 and Paradigm Titan v3 passive speaker terminals are also
-mapped. Most remaining legacy amplifiers and speakers still need review.
+Pioneer SP-FS52, Paradigm Titan v3, Polk ES15/ES20, Klipsch R-50M
+and Paradigm Monitor SE Atom passive speaker terminals are also mapped. Most remaining legacy amplifiers and speakers still need review.
 The original Phantom v1 terminal design remains deliberately unassigned:
 period reviews and generic manual aggregators describe potentially
 conflicting spring-clip/binding-post hardware; confirm the exact physical
@@ -64,12 +65,14 @@ version before asserting banana compatibility.
    and manufacturer sensitivity references; preserve dB/mW vs dB/V,
    impedance and potential headphone-amplifier noise/dynamic limitations.
    These are candidate comparisons, not upgrade endorsements.
-4. **Yamaha A-720, Panasonic SA-HE100 and Yamaha HTR-4063.** Their
-   RCA line/phono, digital, multichannel DVD, speaker-level and pre-out
-   roles have been overlaid from original service/owner manuals. These
-   do **not** imply that an analogue pre-out can drive a passive speaker
-   or that speaker bank A/B constitutes separate amplifier channels.
-   Continue with the remaining legacy amplifier/receiver choices.
+4. **Yamaha A-720, Panasonic SA-HE100, Yamaha HTR-4063 and newer common
+   integrated amplifiers.** Added manufacturer-linked mappings for Yamaha
+   A-S301/A-S501/A-S701, Yamaha R-S202, Denon PMA-600NE and Cambridge
+   AXA35. The R-S202 has line inputs but no cartridge PHONO input; a
+   turntable without an onboard phono stage needs a separate phono preamp.
+   Cambridge AXA35's USB-A is for 5 V power, not a USB audio interface.
+   An analogue pre-out cannot drive a passive speaker; switching A/B
+   terminals are not independent amplifier channels. Continue with remaining models.
 5. **Passive vs powered speaker chains:** Paradigm Phantom v1/Titan v3,
    Pioneer SP-FS52, Yamaha HS5, JBL 305P MkII and PA speakers. Do not
    treat external speaker-level terminals as equivalent to studio XLR
