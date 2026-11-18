@@ -10,6 +10,7 @@
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname,resolve} from 'node:path';
+import {isDeepStrictEqual} from 'node:util';
 import {composeEquipmentCatalog} from '../equipment/catalog-core.mjs';
 import {checkerPresetsFromCatalog,compareDetailsFromCatalog} from '../equipment/catalog-legacy-adapters.mjs';
 import {BUILDER_ONLY_SPEAKERS} from '../system-builder/supplemental-speakers.mjs';
@@ -31,11 +32,30 @@ function readClassicObject(path,variable) {
   if(end<0||rest.slice(end+2).trim())throw new Error('Unexpected trailing content: '+path);
   return JSON.parse(rest.slice(0,end+1));
 }
+// Canonical authoring model. During transition, older hand-maintained source
+// files must still agree exactly with this master or builds refuse to publish.
+const master=JSON.parse(read('equipment/source-master.json'));
+if(master.schemaVersion!=='1.0.0'||master.status!=='authoring_draft')
+  throw new Error('Unsupported equipment master version');
+const mirrors=[
+  ['System Check',master.legacyGear,readClassicObject('system-check/gear.js','systemCheckGear')],
+  ['Compare',master.compareDetails,readClassicObject('system-check/compare/specs.js','compareGearDetails')],
+  ['Research',master.researchCatalog,JSON.parse(read('research/recording-input-catalog-v1.json'))],
+  ['Builder speakers',master.builderOnly.speakers,BUILDER_ONLY_SPEAKERS],
+  ['Builder amplifiers',master.builderOnly.amplifiers,BUILDER_ONLY_AMPS],
+  ['Builder headphones',master.builderOnly.headphones,BUILDER_ONLY_HEADPHONES],
+];
+for(const [name,authoritative,mirror] of mirrors){
+  if(!isDeepStrictEqual(authoritative,mirror))
+    throw new Error('Equipment master differs from legacy '+name+
+      ' source. Reconcile before generating a release.');
+}
 const catalog=composeEquipmentCatalog({
-  legacyGear:readClassicObject('system-check/gear.js','systemCheckGear'),
-  compareDetails:readClassicObject('system-check/compare/specs.js','compareGearDetails'),
-  researchCatalog:JSON.parse(read('research/recording-input-catalog-v1.json')),
-  builderOnly:[...BUILDER_ONLY_SPEAKERS,...BUILDER_ONLY_AMPS,...BUILDER_ONLY_HEADPHONES]
+  legacyGear:master.legacyGear,
+  compareDetails:master.compareDetails,
+  researchCatalog:master.researchCatalog,
+  builderOnly:[...master.builderOnly.speakers,...master.builderOnly.amplifiers,
+    ...master.builderOnly.headphones]
 });
 const outputs={
   'equipment/catalog.generated.json':JSON.stringify(catalog,null,2)+'\n',
