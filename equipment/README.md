@@ -140,6 +140,32 @@ examples include Yamaha A-720, Panasonic SA-HE100, Yamaha HTR-4063,
 Paradigm Phantom v1, Paradigm Titan v3, Grado SR80e and Creative Titanium HD,
 plus FIFINE K669D and M-Audio M-Track Solo.
 
+## Documented legacy signal-path integration (draft)
+
+Manual-backed `curatedConnections` overlays now cover the original Yamaha
+A-720, Panasonic SA-HE100, Yamaha HTR-4063 (North American model), Pioneer
+SP-FS52 and Paradigm Titan v3. This does not change any of their 130
+original System Check preset values. Typed speaker outputs, line-level
+pre-outs, RCA tape/line/phono inputs, digital inputs, the Panasonic's
+six-channel analogue DVD input and Yamaha's surround-back PRE OUT remain
+different roles. The A-720's speaker A/B/C terminals are switching banks,
+not independent amplifiers.
+
+All three existing mixer/recorder examples now have individually typed
+input/output roles. The Behringer XENYX 1204USB's USB is stereo, even though
+its analogue ALT 3-4 outputs allow additional external routing. The Zoom
+LiveTrak L-12's 14-channel 44.1/48-kHz USB capture must not be conflated
+with 96-kHz standalone SD recording, which has a lower simultaneous track
+limit. Numerical claims are backed by their original manual URLs in the
+research records.
+
+**Deliberate unknown:** The original Paradigm Phantom v1 terminal hardware
+has conflicting model/version descriptions. Do not claim it accepts banana
+plugs or five-way binding posts until the exact original unit or an
+unambiguous original model manual establishes the actual terminals. Its
+passive speaker-level electrical role is known, but terminal hardware
+and adapter suitability are pending.
+
 ## Phase 1 still to do before sign-off
 
 1. **Broaden source-verified model coverage**, especially recording microphone variants,
