@@ -5099,5 +5099,159 @@
         "evidence": "Builder-only manufacturer spec, sensitivity unit verified; owned-headphone entry is not a recommendation to buy"
       }
     ]
+  },
+  "pricingResearch": {
+    "schemaVersion": "1.0.0",
+    "method": "regional regular new retail arithmetic mean per exact device (distinct merchants); category-relative log-tertiles after minimum evidence",
+    "guidance": "Historical asking prices not used. No sale/open-box/refurbished/used observations. No assertion of inventory availability. Labels are indicative market positioning, not audio performance.",
+    "observations": [
+      {
+        "equipmentId": "legacy/headphone/sony-mdr-7506",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 134.99,
+        "retailerId": "studio-economik",
+        "url": "https://www.economik.com/products/mdr-7506",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "legacy/headphone/sony-mdr-7506",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 134.99,
+        "retailerId": "avshop",
+        "url": "https://www.avshop.ca/sound-amp-pa-audio/headphones/over-ear-headphones/sony-mdr-7506-studio-headphones",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "legacy/headphone/grado-sr80x",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 199.99,
+        "retailerId": "studio-economik",
+        "url": "https://www.economik.com/products/sr80x",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "legacy/headphone/grado-sr80x",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 199.99,
+        "retailerId": "gramophone",
+        "url": "https://www.gramophone.ca/category/grado",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "legacy/headphone/audio-technica-ath-m50x",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 219,
+        "retailerId": "studio-economik",
+        "url": "https://www.economik.com/products/ath-m50x",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "legacy/headphone/audio-technica-ath-m50x",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 219,
+        "retailerId": "avshop",
+        "url": "https://www.avshop.ca/sound-amp-pa-audio/headphones/over-ear-headphones/audio-technica-ath-m50x-closed-back-studio-headphones-black",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "research/headphone/akg-k371",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 279.99,
+        "retailerId": "studio-economik",
+        "url": "https://www.economik.com/collections/akg/products/k-371",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "research/headphone/akg-k371",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 329.99,
+        "retailerId": "az-electronics",
+        "url": "https://azelectronics.ca/products/akg-k371-over-ear-closed-back-foldable-studio-headphones",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "legacy/headphone/sennheiser-hd-600",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 579.95,
+        "retailerId": "studio-economik",
+        "url": "https://www.economik.com/collections/high-fidelity/products/hd-600",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "legacy/headphone/sennheiser-hd-600",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "wired_headphones",
+        "amount": 579.95,
+        "retailerId": "sennheiser-canada",
+        "url": "https://ca.sennheiser-hearing.com/collections/wired-headphones-1/products/hd-600",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "not_verified_for_purchase"
+      }
+    ],
+    "missingRegions": [
+      "US",
+      "GB",
+      "EU",
+      "AU"
+    ],
+    "note": "Initial Canadian wired-headphone sample is small and not a representative market-wide price survey. No current stock check has been performed. Refresh evidence before enabling broad public price tiers."
   }
 }
