@@ -49,8 +49,16 @@ Yamaha MG10XU 10-channel analogue mixer with USB 2-in/2-out (manufacturer specif
 - [x] Duplicate vs recap + link mapped.
 - [x] Technical categories, use cases, source examples and published/spec caveats mapped.
 - [x] Two distinct original contextual visuals with alt text and captions.
-- [ ] Automated regression suite and static build check on draft branch.
+- [x] Automated regression suite and real static public build check on draft branch. [Site regression 44362439487](https://github.com/thesoundquestion/website/actions/runs/44362439487) passed **441 / 441 tests**. Initial two overly broad assertions in draft test code were corrected without weakening the educational cautions.
 - [ ] Manual phone-width/device illustration review; SVGs on narrow devices may need revised geometry/text arrangement.
 - [ ] Owner editorial approval and lesson position decision.
 - [ ] Upon approval only: assign number (provisionally following microphone-types), update `decoder/curriculum.json`, syllabus cards, all numbered next/previous/progress, Journey topics, tutor answer bank, sitemap, noindex removal, public-build test; rerun full suite.
 - [ ] Separate approved main merge and Cloudflare production publish/verification. Cloudflare automatic deployments were disabled at last check.
+
+
+### Draft technical QA verification — 2026-11-18
+- GitHub branch `draft/audio-interfaces-mixers-20261118`, PR #20 draft/unmerged. No public curriculum, sitemap, Journey or approved tutor-bank mutation. Existing 26-lesson progression unaffected.
+- Regression [run #44362439487](https://github.com/thesoundquestion/website/actions/runs/44362439487): **441/441 tests pass**, including JavaScript syntax, linked Journey stages and full public-site build safeguards.
+- Technical/source review targeted real manufacturer examples of a 10-channel mixer with only two USB recording channels and a genuine multi-channel recording mixer. No claim these numbers are universal. Audio interface output DAC and headphone monitoring functions correctly acknowledged rather than treating interface as strictly input-only.
+- Static tests do not verify pixel-level readability or actual screen-reader usability. Two new SVGs have descriptive title/description/HTML alt and caption; narrow-screen visual comparison is a review gate.
+- Next release gate is owner approval of wording, visuals and planned position before course numbering/publishing. Cloudflare deployment has **not** been requested or triggered.
