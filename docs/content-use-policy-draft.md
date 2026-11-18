@@ -47,7 +47,7 @@ Audio examples that include third-party material follow their own licence or per
 
 ## Corrections, credits and rights concerns
 
-If we have missed a credit, made an attribution error, linked to the wrong source, or used material you believe requires review, please contact us through our [official contact channels](https://thesoundquestion.pages.dev/connect/). Include the relevant page URL, what needs attention, and enough information for us to understand the request.
+If we have missed a credit, made an attribution error, linked to the wrong source, or used material you believe requires review, please contact us through our [official contact channels](https://thesoundquestion.com/connect/). Include the relevant page URL, what needs attention, and enough information for us to understand the request.
 
 We will review credible concerns and make appropriate corrections, add credits, restrict material or remove it where warranted. A request does not need to be written in legal language to receive attention.
 

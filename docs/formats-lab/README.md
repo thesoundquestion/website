@@ -40,3 +40,34 @@ The browser uses a small **playback-only** volume reduction (approximately 0.951
 ## Deployment safety
 
 Cloudflare automatic Git deployments are intentionally OFF. A normal GitHub commit does not publish the new page. When CI is green and the merge is approved, create **one ad hoc Cloudflare Pages production deployment** for the exact merged `main` commit. Record deployment ID and verify the public MP3 URLs, page and links. Do not re-enable automatic builds, upload raw audio/stems, or run repeated deployments merely to test content.
+
+## PR #11 reconciliation — November 17, 2026
+
+**Decision for the coordinated site release:** preserve the current native-on-demand Formats Lab player as the default. Do **not** bulk-merge `feature/seamless-formats-switching-20261116` into the shared ABX release branch.
+
+PR #11's `assets/format-comparison-engine.js` is genuine synchronized Web Audio. After preparing **all three tracks**, it plays them against one AudioContext clock and switches by changing gains, avoiding source restarts. It has a native fallback. That is technically useful, but **its default workflow waits to fetch and decode all three complete files before first playback**, consuming additional memory and bandwidth even for visitors who only want to hear the original. This conflicts with the current free-tier/on-demand goals. It also predates the shared `Offline` / `Please wait` / `Ready` labels and the stand-alone ABX Lab.
+
+The current draft's native player preserves fast Play, with up to one alternate track prefetched **only after** the listener has begun and enough audio is buffered. No media requests are made when loading Formats or changing songs/versions before the first Play. It resumes near the same position when selecting another format, but **it is not gapless or sample-aligned**. The lesson explicitly calls it an approximate-position comparison. This is an accurate, release-appropriate compromise.
+
+**Staged optional development (not yet production validated, November 17):**
+The shared release draft now includes `assets/format-comparison-engine.js` adapted
+from PR #11, but **does not make it the default player**. Initial Play still uses
+the ordinary `<audio>` streaming path; a separate **Prepare instant switching
+(optional)** button intentionally downloads/decodes the three variants of the
+selected song. After successful preparation they start at one AudioContext time
+and offset, and format buttons change gains without changing sources.
+Preparation is tied to one selected song, aborts on song change, and is
+capped at **14 MiB total compressed download** and **48 MiB decoded stereo
+float PCM**. Readiness is shown once for the entire prepared group, not as
+independent timing clues. Any error leaves ordinary streaming available.
+Visitors can return to normal playback.
+
+This costs additional data and roughly 35–46 MB of decoded PCM per song
+at browser sample rates. The limits are safety bounds, **not measurements of
+peak browser memory**. CORS, FLAC decode support, real device resource use,
+rapid-switch audio gaps, and Worker/KV request counts still need release
+validation. Do not describe this as guaranteed gapless across browsers.
+
+The original PR #11 remains separate and open until the coordinated release
+is verified. Its old eager first-Play logic must not replace the native
+on-demand default. The updated tests now pass in GitHub Actions: [Node/site regression](https://github.com/thesoundquestion/website/actions/runs/44133842361) and [actual Chrome playback on desktop and mobile-emulated layouts](https://github.com/thesoundquestion/website/actions/runs/44133842696). The latter confirmed successful FLAC/MP3 preparation, no subsequent media requests from rapid A/B/A switching, a stable playhead and return to native playback. Oversized compressed and decoded payloads also fail in the engine tests. **This is not a real Android/iOS physical-device test or a measured Cloudflare request/peak-memory audit.**

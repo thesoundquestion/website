@@ -10,9 +10,9 @@
   <meta property="og:site_name" content="The Sound Question">
   <meta property="og:title" content="Headphone output impedance and source matching | The Sound Question">
   <meta property="og:description" content="See how headphone amplifier output impedance and a varying headphone load can change delivered voltage and tonal balance.">
-  <meta property="og:url" content="https://thesoundquestion.pages.dev/decoder/headphone-output-impedance/">
+  <meta property="og:url" content="https://thesoundquestion.com/decoder/headphone-output-impedance/">
   <meta name="twitter:card" content="summary">
-  <link rel="canonical" href="https://thesoundquestion.pages.dev/decoder/headphone-output-impedance/">
+  <link rel="canonical" href="https://thesoundquestion.com/decoder/headphone-output-impedance/">
   <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/decoder-lessons.css?v=equipment-tools">
@@ -24,7 +24,7 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
-        <nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav></details>
+        <nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details>
       </div>
     </header>
     <main id="main">
@@ -35,7 +35,7 @@
         </div>
         <p class="section-kicker">LESSON 13 · HEADPHONES</p>
         <h1>Why can two headphone jacks sound different?</h1>
-        <p class="lead">Plug the same headphones into two jacks and one may play quieter at the same setting. Sometimes the bass balance changes too. The jack’s output impedance helps explain both.</p>
+        <p class="lead">Ever used the same headphones on two devices and found that one sounds different, even after matching the volume? Sometimes a headphone jack changes the balance of bass, voices and treble. Here’s when that can happen, and when it probably won’t matter.</p>
         <dl class="dl-term-grid">
           <div><dt>Headphone impedance</dt><dd>The headphone’s opposition to current. It can change from one note to the next.</dd></div>
           <div><dt>Jack output impedance</dt><dd>How much the signal voltage drops inside the jack for a given current. A larger value means a larger drop.</dd></div>
@@ -192,14 +192,18 @@
           <h2>Why does the voltage drop?</h2>
           <p>In the example, the current passes through both the jack’s internal resistance and the headphone. Together they act like two resistors in one path. <a href="/decoder/ohms-law/#source-and-load">Ohm’s law</a> says voltage drop equals current times resistance.</p>
           <p>At the same starting voltage, fewer total ohms means more current. That current passes through the jack’s own resistance, so more voltage drops inside the jack and less reaches the headphone. In the two-note example, that happens on the midrange note.</p>
-          <p>Real headphone impedance can vary with frequency. The 16 Ω or 32 Ω number on a box is a starting point. A measured impedance curve shows how the load changes across the notes.</p>
+          <p>A headphone's printed 16 Ω or 32 Ω is a starting label. The electrical load can rise or fall with different notes, just as a loudspeaker's can. A full impedance graph shows those changes; the box number hides them.</p>
         </div>
       </section>
 
       <section class="dl-section-soft dl-listening" id="listening">
         <div class="container dl-reading">
-          <h2>Match the volume and listen to the balance</h2>
-          <p>Use the same headphones, track and EQ settings. Match the listening level first. If the jack loses the same proportion of voltage at every frequency, the level changes evenly. A loss that varies by note can shift the bass, mids or treble.</p>
+          <h2>When could this happen to you?</h2>
+          <p><strong>Example 1: Earbuds and an older receiver.</strong> Some small in-ear monitors have several tiny speakers inside. If their electrical demand changes a lot between low and high notes, a headphone jack with a high output impedance can make the balance sound different. You may notice more bass or less treble, depending on the earbuds.</p>
+          <p><strong>Example 2: The same headphones on two jacks.</strong> A dedicated headphone amplifier with a low output impedance may keep the tonal balance closer to what the headphones were designed for. An older receiver or a particular computer headphone output may behave differently. This depends on the <em>actual</em> jack and headphones, not whether the equipment is expensive.</p>
+          <p><strong>Example 3: No problem at all.</strong> Many headphones have a fairly steady electrical demand, and many modern headphone jacks have a low output impedance. In those combinations, changing jacks may make little difference to the balance once you match the volume. Don’t buy extra equipment to solve a problem you can’t demonstrate.</p>
+          <h3>Match the volume and listen to the balance</h3>
+          <p>Keep the headphones and music the same, and match the volume before comparing jacks. If a jack reduces every note by the same amount, you mainly hear a volume change. If it reduces bass more than treble, or vice versa, the tone itself can change. The jack's output impedance is one possible reason, not proof of a fault.</p>
           <div class="dl-claims-grid">
             <div class="dl-audiophile"><p class="dl-box-label">COMMON CLAIM</p><p>“A higher-impedance headphone jack always sounds warmer.”</p></div>
             <div class="dl-evidence"><p class="dl-box-label">WHAT TO CHECK</p><p>Look at the headphone’s impedance curve. A high point in the bass can make the bass relatively stronger on some jacks. A high point elsewhere can change a different part of the sound.</p></div>
@@ -228,6 +232,7 @@
         </div>
         <div class="dl-references">
           <h2>Sources and further reading</h2>
+          <p>For a real measured example, <a href="https://www.stereophile.com/content/innerfidelity-headphone-measurements-explained" rel="noopener noreferrer" target="_blank">Stereophile’s explanation of headphone measurements</a> discusses the Sony XBA-3iP in-ear headphones and shows why a changing electrical load can matter. Those are the author’s measurements; the interactive graph above is our own teaching illustration, <strong>not</strong> a graph of that product.</p>
           <ul>
             <li><a href="https://benchmarkmedia.com/blogs/application_notes/37983617-the-hpa2-headphone-power-amplifier" rel="noopener noreferrer">Benchmark Media Systems · Output impedance and measured headphone response changes ↗</a></li>
             <li><a href="https://www.ti.com/lit/ug/tiduaw1/tiduaw1.pdf" rel="noopener noreferrer">Texas Instruments · Headphone amplifier design for voltage-output DACs ↗</a></li>

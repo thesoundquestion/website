@@ -50,3 +50,18 @@ test('Acknowledgement prose is concise while independent work and attribution re
   assert.doesNotMatch(curator, /Thanks, Tom/);
   assert.equal((curator.match(/<article class="curator-track"/g) || []).length, 51);
 });
+
+test('Measured mastering waveforms use a shared scale, stereo channels, source checksums and matching duration',()=>{
+ const manifest=JSON.parse(get('assets/waveforms/mastering-provenance.json'));
+ assert.equal(manifest.bins,960);
+ assert.equal(manifest.channels,2);
+ assert.match(manifest.method,/signed min\/max and RMS/);
+ for(const kind of ['dynamic','moderate','brickwalled']){
+  const item=manifest.sources[kind],image=get('assets/waveforms/mastering-'+kind+'.svg');
+  assert.equal(item.frames,1764000);
+  assert.equal(item.duration_seconds,40);
+  assert.match(item.sha256,/^[a-f0-9]{64}$/);
+  assert.match(image,/<svg[^>]+viewBox="0 0 960 108"/);
+  assert.match(image,/Left and right|channel waveforms|stereo waveform|measured left and right/i);
+ }
+});

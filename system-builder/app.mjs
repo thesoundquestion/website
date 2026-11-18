@@ -43,7 +43,7 @@ function link(parent, url, text) {
 const options = {
   passive_separates: {
     title: 'Traditional passive stereo',
-    description: 'A stereo pair of passive speakers, a separate load-compatible amplifier or receiver, and a suitable source/control path.',
+    description: 'Two passive speakers (without built-in amplification), an amplifier or receiver that can safely drive them, and a way to connect and control the music source.',
     verify: ['Match actual speaker impedance minimum and phase to the amplifier maker’s permitted load.',
       'Use the existing System Check for sensitivity, distance, continuous/peak power and published test conditions.',
       'Price both speakers plus any missing amp, DAC/inputs, stands or cabling. A compatible owned amp adds zero incremental purchase cost.']
@@ -57,7 +57,7 @@ const options = {
   },
   active_studio: {
     title: 'Active studio / desk monitors',
-    description: 'Two individually amplified monitors, often sold separately and needing a reliable stereo source with volume control.',
+    description: 'Two studio-style speakers with built-in amplification. They are often priced one speaker at a time, and may need a separate volume control and suitable stereo connection.',
     verify: ['Budget for two cabinets, two power feeds, correct cables and interface/volume hardware where needed.',
       'Check input type, balanced/unbalanced adapters, nearfield hiss and controls at your actual seat.',
       'Compare measured nearfield response and low-frequency limits using compatible methods; avoid interpreting a per-cabinet max SPL as a pair rating.']
@@ -72,7 +72,7 @@ const options = {
   headphone_first: {
     title: 'Headphone / IEM-first listening',
     description: 'A private listening chain with source, suitable headphone output and controls, plus comfort/fit that suits the listener.',
-    verify: ['Verify headphone sensitivity basis, impedance, connector, fit/seal, output capability and quiet-level channel balance.',
+    verify: ['Check how loudly the headphones play from a stated input (sensitivity), their ohm rating, plug, fit, the source’s available power and whether both channels stay balanced at low volume.',
       'Open-back and closed-back are not numerical soundstage scores; isolation and room noise matter.',
       'Do not turn a headphone frequency-range endpoint into a claim of fidelity or detail.']
   }
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
     } else {
       addText(shop,'p',speakerFocus ?
-        'No speaker candidate passed the conservative load checks. Check the amplifier manual for its speaker requirements.' :
+        'None of the suggested speakers has enough verified information to pass our cautious electrical matching checks. Read the amplifier manual for its supported speaker loads before treating a pairing as safe.' :
         'There are no examples for your selected system type and power requirements. Try a different setup.','sb-report-note');
     }
     // Show passive high-efficiency leads next to the event/PA route without
@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (own.headphone.name && arch === 'headphone_first')
         addText(ownedSection,'p','Keep the headphones on the shortlist for a fit and drive check. An impedance number alone does not establish a sufficient/quiet output.');
       if (own.speaker.name && !poweredSubPairFor(own.speaker.name) && (arch === 'consumer_powered_pair' || arch === 'active_studio'))
-        addText(ownedSection,'p','Your existing passive-speaker preset is not proof that those speakers work as an active/powered system. External amplification requirements must not be skipped.');
+        addText(ownedSection,'p','Speakers you own may be passive, which means they still need a separate amplifier. Do not assume they work as powered speakers just because you selected a different system layout.');
     }
     if (data.get('keepWorking')) addText(ownedSection,'p','Keep/placement-first is a valid outcome. An upgrade is not justified until a real limitation or missing feature is identified.','sb-report-note');
 
@@ -643,7 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const pathwaySection = section('Reasoned system pathways, separated by architecture');
-    addText(pathwaySection,'p','These are configuration routes, not named purchasing winners or performance rankings. All remain conditional until the exact model, complete wiring and region are verified.');
+    addText(pathwaySection,'p','These are possible ways to build a working system, not a ranking of the best products. Check the exact model, every required connection and local availability before buying.');
     const pathwayCards = el('div','sb-pathways');
     const chosen = eligibleArchitectures({architecture:arch,useCase,goal:primary});
     for (const key of chosen) {

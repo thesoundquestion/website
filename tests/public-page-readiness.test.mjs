@@ -24,5 +24,5 @@ test('AlbumDB pages cite the research paper, dataset, artist, licence and indepe
 test('public hubs and demos are present in sitemap',()=>{
  const s=read('sitemap.xml');
  for(const route of ['/labs/','/lab/','/lab/mastering/','/labs/formats/','/tools/','/system-builder/'])
-  assert.ok(s.includes('https://thesoundquestion.pages.dev'+route),route);
+  assert.ok(s.includes('https://thesoundquestion.com'+route),route);
 });

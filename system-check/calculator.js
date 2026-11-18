@@ -204,7 +204,7 @@ function renderDistortionRatingContext(entries, speakerLoad) {
   heading.textContent = 'How clean is the published power?';
   panel.append(heading);
   const lead = document.createElement('p');
-  lead.textContent = 'Power headroom uses the entered wattage and load. The published THD/THD+N conditions tell you how that rating was qualified; they do not show distortion at your actual listening level.';
+  lead.textContent = 'The power estimate uses the watts and speaker load you entered. THD means added harmonic distortion; THD+N also includes background noise. A manufacturer’s rating may state a limit for these under particular test conditions. That does not tell you the distortion at your actual listening volume.';
   panel.append(lead);
   const sameLoad = entries.filter(r => r.load === speakerLoad);
   if (!sameLoad.length) {
@@ -232,7 +232,7 @@ function renderDistortionRatingContext(entries, speakerLoad) {
       if (spec.metric && spec.scope === 'single 1 kHz test') {
         const note = document.createElement('p');
         note.className = 'sc-distortion-caution';
-        note.textContent = 'A 1 kHz rating does not establish equivalent distortion across the full audio band.';
+        note.textContent = 'A distortion figure measured at one 1 kHz test note does not tell us what happens across the full bass-to-treble range.';
         li.append(note);
       }
       if (rating.sourceUrl) {
@@ -255,7 +255,7 @@ function renderDistortionRatingContext(entries, speakerLoad) {
   }
   const conclusion = document.createElement('p');
   conclusion.className = 'sc-distortion-conclusion';
-  conclusion.textContent = 'Distortion at your requested average and peak power remains unverified unless an appropriate measured THD/THD+N-versus-power series is entered below. A published rating limit is NOT a measured distortion curve, an audibility judgment or a proven clipping threshold.';
+  conclusion.textContent = 'Distortion at your chosen average and peak listening power remains unverified without measured distortion-versus-power results for a comparable load. A single published THD or THD+N limit is NOT a full measured curve, a test of what you can hear, or proof of exactly where the amplifier clips.';
   panel.append(conclusion);
   body.append(panel);
 }
@@ -515,7 +515,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
 
   const explanation = document.createElement('p');
   explanation.className = 'sc-load-intro';
-  explanation.textContent = 'All loads use the same target speaker-terminal voltage. Required watts change with impedance; real speakers also differ in sensitivity, impedance phase and current demand. Only Your Speakers uses the nominal speaker load you entered.';
+  explanation.textContent = 'Each example uses the same target electrical voltage at the speaker terminals. A lower-ohm load asks for more current and watts at that voltage, but real speakers also differ in how loudly they play and how their electrical load changes with notes. Only “Your Speakers” uses the speaker load you entered.';
   section.append(explanation);
 
   const stack = document.createElement('div');
@@ -813,7 +813,7 @@ function calculate() {
     }
   }
   addText('h3', 'If you want more headroom');
-  addText('p', 'For another 3 dB of peak reserve, look for about ' + show(peakW * 10 ** .3) + ' W into the same load. Speakers rated 3 dB more sensitive on the same basis would cut the estimated power needed for your current goal roughly in half.');
+  addText('p', 'For about 3 dB more room for loud peaks (roughly double the required clean power), look for about ' + show(peakW * 10 ** .3) + ' W into the same load. Speakers rated 3 dB more sensitive on the same basis would cut the estimated power needed for your current goal roughly in half.');
   const details = document.createElement('details');
   const summary = document.createElement('summary');
   summary.textContent = 'Show the math and test conditions';

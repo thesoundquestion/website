@@ -1,0 +1,63 @@
+name = "tsq-abx"
+main = "index.mjs"
+compatibility_date = "2026-11-16"
+workers_dev = true
+
+# Public ABX scoring, community submissions and gear suggestions approved on 2026-11-17.
+# Production Worker flags are enabled only after real API validation; use explicit rollback if necessary.
+# Never commit a secret here. Set ABX_SECRET (at least 32 random characters)
+# using `npx wrangler secret put ABX_SECRET`. This has been installed securely in Cloudflare.
+[vars]
+ABX_PUBLIC_ENABLED = "true"
+COMMUNITY_PUBLIC_ENABLED = "true"
+MODERATION_ALERTS_ENABLED = "true"
+# Separate launch gate for moderated equipment model suggestions.
+GEAR_SUBMISSIONS_ENABLED = "true"
+
+# Provisioned on the Cloudflare free tier on 2026-11-17.
+[[d1_databases]]
+binding = "DB"
+database_name = "tsq-abx-scores"
+database_id = "cbc80c8b-457e-496a-be9b-621d99f1cfd3"
+
+# Approximate per-IP rate limits, not proof against a determined abuser.
+[[ratelimits]]
+name = "API_LIMITER"
+namespace_id = "2101"
+[ratelimits.simple]
+limit = 120
+period = 60
+
+[[ratelimits]]
+name = "START_LIMITER"
+namespace_id = "2102"
+[ratelimits.simple]
+limit = 6
+period = 60
+
+# Route FLAC subrequests through the existing public audio Worker internally.
+# On Workers Standard usage, Service Binding fetches do not incur separate
+# incoming Worker requests. Verify the account's Free-plan usage model at launch.
+[[services]]
+binding = "AUDIO_SERVICE"
+service = "tsq-lab-audio"
+
+# Audio requests need their own budget. Ordinary cached A/B/X clicks never use it.
+[[ratelimits]]
+name = "AUDIO_LIMITER"
+namespace_id = "2103"
+[ratelimits.simple]
+limit = 180
+period = 60
+
+# One scheduled retention cleanup per day. Cron is UTC.
+[triggers]
+crons = ["17 4 * * *"]
+
+# Anonymous community submissions: 3 per minute per location/IP key.
+[[ratelimits]]
+name = "COMMUNITY_LIMITER"
+namespace_id = "2104"
+[ratelimits.simple]
+limit = 3
+period = 60

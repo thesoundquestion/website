@@ -85,16 +85,12 @@ test('selecting CD, streamer or sound card redraws each signal stage',()=>{
     assert.equal(button.attrs['aria-pressed'],'true');
   }
 });
-test('connection checker catches missing DAC, missing phono stage and double phono EQ',()=>{
-  const {selectors}=mount();
-  const a=selectors['#ps-source-type'],b=selectors['#ps-amplifier-input'],result=selectors['#ps-match-result'];
-  assert.equal(result.dataset.state,'missing');
-  a.value='cd-line';a.events.change();assert.equal(result.dataset.state,'ready');
-  a.value='cd-digital';a.events.change();assert.equal(result.dataset.state,'missing');
-  assert.match(result.children[0].textContent,/converter is missing/);
-  a.value='tt-line';b.value='mm';b.events.change();assert.equal(result.dataset.state,'warning');
-  assert.match(result.children[0].textContent,/Do not feed a line output into a phono input/);
-  a.value='mm';b.value='mm';b.events.change();assert.equal(result.dataset.state,'ready');
+test('connection section teaches useful signal types instead of matching obvious connectors',()=>{
+ assert.match(html,/id="connection-check"/);
+ for(const label of ['Ordinary audio:','Digital audio:','Turntables:'])assert.ok(html.includes(label));
+ assert.doesNotMatch(html,/id="ps-source-type"/);
+ assert.doesNotMatch(html,/id="ps-amplifier-input"/);
+ assert.doesNotMatch(script,/ps-match-result/);
 });
 test('RIAA plot calculates a curve and independently toggles the flat overlay',()=>{
   const {selectors,fallback}=mount();

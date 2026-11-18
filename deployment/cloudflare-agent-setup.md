@@ -6,7 +6,7 @@ Updated: 2026-11-13
 ## Current production architecture
 
 - Repository: `thesoundquestion/website`
-- Website: `https://thesoundquestion.pages.dev/`
+- Website: `https://thesoundquestion.com/`
 - Hosting: Cloudflare Pages Free
 - Source of truth: `main` on GitHub
 - Deployment: GitHub-to-Pages integration, build output `.` (repository root)

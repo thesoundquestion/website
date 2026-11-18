@@ -10,9 +10,9 @@
   <meta property="og:site_name" content="The Sound Question">
   <meta property="og:title" content="Ohm’s law for audio | The Sound Question">
   <meta property="og:description" content="See why fewer ohms draw more current at the same voltage, and what that asks of an audio amplifier.">
-  <meta property="og:url" content="https://thesoundquestion.pages.dev/decoder/ohms-law/">
+  <meta property="og:url" content="https://thesoundquestion.com/decoder/ohms-law/">
   <meta name="twitter:card" content="summary">
-  <link rel="canonical" href="https://thesoundquestion.pages.dev/decoder/ohms-law/">
+  <link rel="canonical" href="https://thesoundquestion.com/decoder/ohms-law/">
   <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/decoder-lessons.css?v=equipment-tools">
@@ -24,7 +24,7 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
-        <nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav></details>
+        <nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details>
       </div>
     </header>
     <main id="main" class="dl-ohm-reference">
@@ -39,7 +39,7 @@
       <section class="container dl-chart-section" id="same-voltage">
         <div class="dl-heading">
           <h2>Same 4 volts, two loads</h2>
-          <p>The load is what the amp is connected to. Here the amp sends 4 volts to each test resistor in turn.</p>
+          <p>The <strong>load</strong> is the electrical thing an amplifier is driving. In this teaching example, imagine connecting one simple 8-ohm resistor and then a 4-ohm resistor, sending the same 4 volts to each. These resistors stand in for the speaker's electrical demand; real speakers are more complicated.</p>
         </div>
         <table class="dl-worked-table" aria-label="Current and power at 4 volts">
           <thead><tr><th scope="col">Load (ohms)</th><th scope="col">Current (amps)</th><th scope="col">Power (watts)</th></tr></thead>
@@ -77,7 +77,7 @@
           <p id="formulas"><strong>Amps = volts ÷ ohms.</strong> For the 8 Ω test load, 4 ÷ 8 = 0.5 A. For the 4 Ω test load, 4 ÷ 4 = 1 A.</p>
           <p><strong>Watts = volts × amps</strong> for these resistive loads. At 4 V, that is 2 W into 8 Ω and 4 W into 4 Ω.</p>
           <p>At a fixed 8 Ω, raising the voltage from 4 to 8 V doubles the current from 0.5 to 1 A. Power rises from 2 to 8 W because both voltage and current doubled.</p>
-          <p>The test uses RMS voltage and current, the effective values for a changing signal. Real speakers have different impedance at different notes. If voltage and current are out of step, their phase difference also affects the watts delivered.</p>
+          <p>These examples use <strong>RMS</strong> voltage and current, a way of describing their effective strength when they change over time. Real speakers do not behave like fixed resistors: their impedance changes with pitch. Voltage and current can also rise and fall at different times (a phase difference), changing the actual power delivered.</p>
         </details>
         <details class="dl-advanced">
           <summary>Where the voltage goes at a headphone jack <small>Optional</small></summary>

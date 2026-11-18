@@ -5,20 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Estimate the power and headroom your speakers need at your listening seat, and compare amplifier upgrades.">
-<link rel="canonical" href="https://thesoundquestion.pages.dev/system-check/">
+<link rel="canonical" href="https://thesoundquestion.com/system-check/">
+  <meta property="og:url" content="https://thesoundquestion.com/system-check/">
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/system-check/style.css?v=amp-distortion-20261112">
+<link rel="stylesheet" href="/tools/recommend-gear/style.css">
 <script defer src="/system-check/gear.js?v=amp-distortion-20261112"></script>
 <script defer src="/system-check/calculator.js?v=operating-region-20261112"></script>
 <script type="module" src="/system-check/spec-search.mjs?v=external-google"></script>
+
 <title>System Check | The Sound Question</title>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header"><div class="container header-inner">
 <a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
-<nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav></details>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details>
 </div></header>
 <main id="main" class="container sc">
 <h1>System Check</h1>
@@ -28,6 +31,7 @@
 <a class="button button-secondary" href="/system-check/compare/">Compare My Gear →</a>
 <a class="button button-secondary" href="/system-builder/">Build a system →</a>
 </nav>
+<aside class="tsq-recommend-link" aria-label="Recommend missing equipment"><p><strong>Don't see your model?</strong> Help us grow the verified presets for everyone using these tools.</p><a href="/tools/recommend-gear/">Recommend your gear →</a></aside>
 <noscript><p>Enable JavaScript to calculate estimates. You can still read the <a href="/decoder/amplifier-power/#headroom">headroom lesson</a>.</p></noscript>
 <form id="check" class="sc-layout">
 <div class="sc-inputs">
@@ -49,7 +53,7 @@
 </div>
 <div class="sc-power-inputs" id="speaker-power-inputs">
 <h3>Speaker power handling <small>(optional, autofilled where verified)</small></h3>
-<p>Use each speaker's own rating in W <strong>per speaker</strong>, not the amplifier's output. Manufacturer labels differ: continuous, nominal, peak, maximum input and recommended amplifier wattage are <strong>not interchangeable</strong>.</p>
+<p>Enter the speaker's own power rating, in watts (<strong>W</strong>) for <strong>one speaker</strong>. Don't put the amplifier's wattage here. “Continuous” means sustained input; “peak” is for short bursts; “nominal,” “maximum” and “recommended amplifier” may follow different rules. These labels are <strong>not interchangeable</strong>, so leave a field blank when the rating isn't clearly stated.</p>
 <div class="sc-fields">
 <label>Continuous handling (W/speaker)<input name="speakerPowerContinuous" type="number" min="0.1" max="10000" step="any" placeholder="Only if rated continuous"></label>
 <label>Peak handling (W/speaker)<input name="speakerPowerPeak" type="number" min="0.1" max="10000" step="any" placeholder="Only if rated peak"></label>
@@ -75,7 +79,7 @@
 <label data-target="average">Average at your seat (dB SPL)<input name="average" type="number" min="20" max="135" step="any" value="80" list="levels" required></label>
 <label data-target="gap">Room above average for peaks (dB)<input name="gap" type="number" min="0" max="50" step="any" value="15" list="peak-gaps" required></label>
 </div>
-<p><strong>80 dB SPL average at your seat</strong> is a starting point. Genelec uses a <a href="https://www.genelec.com/-/blog/how-to-analyse-frequency-and-temporal-responses" target="_blank" rel="noopener">70–80 dB SPL listening range</a> for room calibration. Edit either level and the other follows. The default <strong>15 dB gap</strong> is a starting estimate. A heavily compressed track can have smaller peaks, while a dynamic recording can have larger ones. Change the gap if you know your music. <a href="https://www.ti.com/lit/an/sloa068/sloa068.pdf" target="_blank" rel="noopener">More on peak-to-average levels</a></p>
+<p>Start with <strong>80 dB SPL as the average sound level at your seat</strong>. SPL means sound pressure level, measured in decibels. This is an editable example, not a prescribed listening level. Genelec discusses a <a href="https://www.genelec.com/-/blog/how-to-analyse-frequency-and-temporal-responses" target="_blank" rel="noopener">70–80 dB SPL range</a> for room calibration. We initially allow another <strong>15 dB</strong> for brief loud peaks, such as drum hits. Heavily compressed music may have a smaller gap; more dynamic music can have a larger one. Change either number to match the example you're checking. <a href="https://www.ti.com/lit/an/sloa068/sloa068.pdf" target="_blank" rel="noopener">Technical explanation of peaks and averages</a></p>
 <datalist id="peak-gaps"><option value="6"><option value="10"><option value="15"><option value="20"><option value="24"></datalist>
 <datalist id="levels"><option value="40"><option value="50"><option value="60"><option value="70"><option value="75"><option value="80"><option value="85"><option value="90"><option value="95"><option value="100"><option value="105"><option value="108"><option value="110"><option value="115"></datalist>
 <details><summary>What does that level sound like?</summary>
@@ -93,7 +97,7 @@
 <button class="sc-button" id="add-rating" type="button">Add a power rating</button>
 <details class="sc-lookup" data-lookup="amp"><summary>Find my amplifier specs</summary>
 <label>Brand and exact model<input name="ampModel" maxlength="120" list="amp-model-suggestions" autocomplete="off" placeholder="e.g. manufacturer and model number" aria-describedby="amp-search-guide"><datalist id="amp-model-suggestions"></datalist></label>
-<p id="amp-search-guide" class="sc-lookup-guide">An <strong>exact saved model</strong> autofills known power ratings and their stated THD conditions. Find <strong>watts per channel</strong> at the stated 8, 6 or 4 Ω load, the <strong>continuous/burst/unspecified</strong> rating type, and test conditions (THD/THD+N, test frequency or band, and channels driven). For advanced fields, search input sensitivity, input impedance, gain and distortion measurements. <strong>Peak, dynamic and maximum watts are not continuous ratings.</strong></p>
+<p id="amp-search-guide" class="sc-lookup-guide">Choosing an <strong>exact saved amplifier model</strong> fills only the ratings and test conditions we have confirmed. When checking another amplifier, look for <strong>watts per channel</strong> at 8, 6 or 4 Ω and whether that figure is for continuous power or a brief burst. Also check the allowed distortion (THD or THD+N), the tested pitches and how many channels were working. Input sensitivity, gain and impedance are optional advanced details. <strong>Peak, dynamic and maximum watt ratings are not the same as continuous power.</strong></p>
 <p class="sc-search-status" role="status">Enter the manufacturer and exact model to show targeted Google searches.</p>
 <div class="sc-searches" role="group" aria-label="Amplifier specification Google links"></div>
 <p class="sc-lookup-extra">Independent testing: <a href="https://www.stereophile.com/" target="_blank" rel="noopener noreferrer">Stereophile</a> or <a href="https://www.audioholics.com/amplifier-reviews" target="_blank" rel="noopener noreferrer">Audioholics</a>. Enter verified figures yourself and keep each test condition with its rating.</p></details>
@@ -152,6 +156,8 @@
 <p>Sensitivity tells us how much sound the speaker makes at a known input. The calculator estimates how much level you lose with distance, then works out the voltage and watts needed per channel. Room reflections, bass management, speaker compression, impedance phase and the duration of a peak can all change what your system delivers. Published bench ratings apply under their stated test conditions.</p>
 <p><a href="/decoder/amplifier-power/#headroom">Amplifier headroom</a> · <a href="/decoder/speaker-sensitivity/">Speaker sensitivity</a> · <a href="/decoder/speaker-impedance/">Speaker impedance</a> · <a href="/decoder/ohms-law/">Voltage, current and watts</a></p>
 </section>
+
+
 <nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/system-check/compare/">Compare equipment ratings <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/tools/">All tools</a><a href="/">Home</a><a href="#">↑ Back to top</a></div></nav>
 </main>
 <footer class="site-footer"><div class="container"><a href="/">The Sound Question</a></div></footer>

@@ -1,6 +1,6 @@
 # The Sound Question — Website
 
-Public website for **The Sound Question** at https://thesoundquestion.pages.dev/.
+Public website for **The Sound Question** at https://thesoundquestion.com/.
 
 ## Setup
 
@@ -120,7 +120,7 @@ THD+N now has a focused illustrated section under `#thd-plus-noise` with synthet
 ### Critical publishing rule: teach every example stat explicitly
 Any example specification prominently shown at the beginning of a Decoder lesson must have a corresponding chart or diagram that visualizes **that exact quantity and measurement convention**, with a plain-English explanation of each component. Use the dedicated `#decode-the-spec` section to identify test points, sweeps, limits and unspecified conditions. For example, the distortion lesson marks its 0.09% at 1 kHz rating as a single point.
 
-Link to [the Ohm’s law example](https://thesoundquestion.pages.dev/decoder/ohms-law/#same-voltage) where a lesson first uses a lower-ohm load to explain current or watts, including in a chart’s explanation. Name the condition in plain language. At the same voltage, fewer ohms draw more current. In amplifier lessons, connect that extra current to what the power supply and output circuitry can deliver. Link to another lesson where it answers the reader’s next question.
+Link to [the Ohm’s law example](https://thesoundquestion.com/decoder/ohms-law/#same-voltage) where a lesson first uses a lower-ohm load to explain current or watts, including in a chart’s explanation. Name the condition in plain language. At the same voltage, fewer ohms draw more current. In amplifier lessons, connect that extra current to what the power supply and output circuitry can deliver. Link to another lesson where it answers the reader’s next question.
 
 ## Speaker, amplifier and headphone lessons
 

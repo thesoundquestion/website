@@ -5,8 +5,8 @@
 <meta property="og:type" content="article"><meta property="og:site_name" content="The Sound Question">
 <meta property="og:title" content="Microphones, DI and Virtual Instruments | The Sound Question">
 <meta property="og:description" content="How sound is captured or created, from an acoustic room and microphone to a guitar DI or software instrument.">
-<meta property="og:url" content="https://thesoundquestion.pages.dev/decoder/recording-sources/">
-<link rel="canonical" href="https://thesoundquestion.pages.dev/decoder/recording-sources/">
+<meta property="og:url" content="https://thesoundquestion.com/decoder/recording-sources/">
+<link rel="canonical" href="https://thesoundquestion.com/decoder/recording-sources/">
 <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/assets/decoder-lessons.css?v=equipment-tools">
@@ -14,7 +14,7 @@
 <title>Microphones, DI and Virtual Instruments | The Sound Question</title>
 <script defer src="/assets/decoder-lessons.js"></script></head>
 <body><a class="skip-link" href="#main">Skip to content</a><div class="site-shell">
-<header class="site-header"><div class="container header-inner"><a class="brand" href="/"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a><nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a></nav></details></div></header>
+<header class="site-header"><div class="container header-inner"><a class="brand" href="/"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a><nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/" aria-current="location">Lessons</a><a href="/labs/">Labs</a><a href="/tools/">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details></div></header>
 <main id="main" class="rs-page">
 <div class="container dl-lesson-top rs-top"><div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Recording and production</span><span>/</span><span>How a recording begins</span></nav>
 <!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/recording-resolution/" aria-label="Next lesson: Recording resolution, gain and oversampling">Next lesson: Recording resolution, gain and oversampling →</a><!-- LESSON_TOP_NAV_END --></div>
@@ -25,7 +25,7 @@
 <div class="rs-jump" aria-label="On this page"><a href="#paths">Four recording paths ↓</a><a href="#room">Microphone placement ↓</a><a href="#choices">What the choices change ↓</a><a href="#beyond">Analogue versus digital ↓</a></div>
 </div>
 <section class="rs-section" id="paths"><div class="container"><p class="section-kicker">01 / FOUR RECORDING ROUTES</p><h2>The song can enter the computer in different ways.</h2>
-<p class="rs-intro">Tap each route. Watch where a physical sound, analogue signal, ADC, MIDI message or newly generated waveform enters the process. The diagrams show typical possibilities; not every product supports every connection.</p>
+<p class="rs-intro">Choose a route and follow the sound into the computer. A microphone captures vibrations; a guitar can be plugged in directly; a keyboard might send digital playing instructions called <strong>MIDI</strong>; or software can generate sound from scratch. When you see <strong>ADC</strong>, that's the analogue-to-digital converter that turns an incoming electrical audio signal into numbers. These are typical paths, not a list of connections every device supports.</p>
 <div class="dl-figure rs-interactive" data-lesson-plot="recording-sources">
 <div class="dl-graph-toolbar" role="group" aria-label="Choose a way of recording" hidden>
 <button type="button" class="dl-option is-current" data-select-case="mic" aria-pressed="true">Microphone</button><button type="button" class="dl-option" data-select-case="di" aria-pressed="false">Guitar / bass DI</button><button type="button" class="dl-option" data-select-case="hardware" aria-pressed="false">Hardware synth</button><button type="button" class="dl-option" data-select-case="virtual" aria-pressed="false">Software instrument</button>
@@ -53,7 +53,7 @@
 <p class="section-kicker">02 / MICROPHONE CHOICE</p><h2>What kind of microphone, and which way is it listening?</h2>
 <div class="rs-three"><article><h3>Moving-coil dynamic</h3><p>Common for vocals, loud stages and close instruments. Output level, response and suitability depend on the model. Often robust, but not automatically less detailed.</p></article>
 <article><h3>Condenser</h3><p>Uses an electrically biased capsule and active electronics. Often chosen for nuanced sources and lower self-noise, but overload, pattern and frequency response still depend on design.</p></article>
-<article><h3>Ribbon</h3><p>A thin conductive ribbon moves in a magnetic field, a type of dynamic transducer. Often bidirectional in classic designs. Some are delicate or need extra gain; modern models vary.</p></article></div>
+<article><h3>Ribbon</h3><p>A ribbon microphone uses a very thin metal strip that moves in a magnetic field when sound reaches it. Many classic models pick up from the front and back (a figure-eight pattern). Some are delicate or need a stronger mic preamp, but today's models vary.</p></article></div>
 <p>Manufacturers offer different responses, polar patterns and maximum sound-pressure capabilities. Price and microphone category alone cannot tell you what a voice will sound like.</p>
 <div class="dl-figure rs-interactive rs-polar-widget" data-lesson-plot="mic-polar">
 <div class="dl-graph-toolbar" role="group" aria-label="Compare idealized microphone polar patterns" hidden>
@@ -147,7 +147,7 @@
 <article><h3><a href="/decoder/audiophile-glossary/#warm">Warm</a> / <a href="/decoder/audiophile-glossary/#bright">bright</a></h3><p>Mic angle, proximity, source radiation and amp-cabinet placement can change tonal balance before a mixer adds EQ.</p></article>
 <article><h3><a href="/decoder/audiophile-glossary/#soundstage">Soundstage</a> / <a href="/decoder/audiophile-glossary/#imaging">imaging</a></h3><p>Stereo microphone technique and captured ambience can establish directional and distance cues. The mix and playback room can change how those cues appear.</p></article>
 <article><h3><a href="/decoder/audiophile-glossary/#separation">Separation</a> / <a href="/decoder/audiophile-glossary/#congestion">congestion</a></h3><p>Mic bleed, overlapping instrument ranges, arrangement and time alignment all influence what later mix processing can separate.</p></article>
-<article><h3><a href="/decoder/audiophile-glossary/#dynamic">Dynamic</a> / <a href="/decoder/audiophile-glossary/#punchy">punchy</a></h3><p>Performance, drum capture and transient shape matter before compressors or mastering limiters reshape them. Capture alone does not dictate a finished song's dynamics.</p></article>
+<article><h3><a href="/decoder/audiophile-glossary/#dynamic">Dynamic</a> / <a href="/decoder/audiophile-glossary/#punchy">punchy</a></h3><p>How the drummer plays, where the microphones are and how clearly the first snap of each hit is captured all matter. Later compression or mastering can change those contrasts, so a recording's impact isn't decided by the microphone alone.</p></article>
 </div>
 <div class="rs-takeaway">A playback system can reproduce or colour the information it receives, but it cannot restore microphone detail that was never captured or undo an irreversibly flattened mix. DSP can create new spatial effects, though those are not missing original information magically recovered.</div>
 </div></section>

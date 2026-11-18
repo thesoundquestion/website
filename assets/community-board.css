@@ -1,0 +1,27 @@
+/* Moderated, anonymous community contributions, shared by ABX and Listening Room. */
+.community-board{margin:24px auto;max-width:1150px}
+.community-columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;margin:20px 0}
+.community-form,.community-listing{background:#102035;border:1px solid #355268;border-radius:16px;padding:clamp(15px,2.4vw,24px);min-width:0}
+.community-form h3,.community-listing h3{margin:0 0 10px;font-size:1.2rem}
+.community-hint,.community-notice,.community-form p{color:#bdd1df;font-size:.91rem;line-height:1.6}
+.community-field{display:block;margin:13px 0;font-size:.87rem;font-weight:650;color:#e2f1f9}
+.community-field input,.community-field select,.community-field textarea,.community-listing select{display:block;margin-top:6px;padding:11px 12px;border-radius:8px;background:#0a1828;border:1px solid #53718b;color:#f4fbff;width:100%;font:inherit}
+.community-field textarea{resize:vertical;min-height:94px}
+.community-counter{display:block;text-align:right;font-weight:450;color:#a5bdd1}
+.community-consent{display:flex;align-items:flex-start;gap:8px;margin:15px 0;color:#d5e8f6;font-size:.85rem}
+.community-consent input{margin-top:4px}
+.community-form button{margin:3px 0;min-height:42px}
+.community-feedback{overflow-wrap:anywhere;font-size:.83rem;min-height:1.4rem}
+.community-honeypot{display:none!important}
+.community-results{display:grid;gap:12px;margin:16px 0}
+.community-entry{padding:15px;border:1px solid #365168;border-radius:12px;background:#0b1928}
+.community-entry h4{margin:0 0 3px;font-size:1.08rem;color:#f1faff}
+.community-artist{margin:0 0 8px;color:#b4d4e8}
+.community-category{display:block;color:#9ad8e8;margin-bottom:8px}
+.community-entry a{display:inline-block;margin-bottom:8px;color:#9bdeff;font-size:.85rem}
+.community-entry-body{margin:5px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;color:#deebf3;font-size:.93rem}
+.community-empty{color:#b9d1e4}
+.community-board button[disabled]{opacity:.6;cursor:not-allowed}
+.community-board :is(input,select,textarea,button):focus-visible{outline:3px solid #9adaee;outline-offset:2px}
+
+.community-review-note{margin:12px 0 0;padding-top:9px;border-top:1px solid #355268;color:#bad1dd;font-size:.82rem;line-height:1.55}

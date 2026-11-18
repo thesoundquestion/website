@@ -1,0 +1,32 @@
+name: TSQ production Worker API smoke (no external secrets)
+
+# Manual-only after successful release acceptance, to avoid repeatedly creating
+# temporary production D1 rows on ordinary source commits.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      EXPECT_OPEN: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Diagnose public HTTP routing (no credentials)
+        run: |
+          for url in \
+            'https://tsq-abx.thesoundquestion.workers.dev/v1/health' \
+            'https://tsq-lab-audio.thesoundquestion.workers.dev/mastering/eq-off.flac' \
+            'https://thesoundquestion.com/' \
+            'https://thesoundquestion.pages.dev/'; do
+            status=$(curl --max-time 20 --range 0-63 -sS -D /tmp/tsq-headers -o /tmp/tsq-body -w '%{http_code}' "$url" || true)
+            echo "Public URL $url -> HTTP $status"
+            grep -iE '^(server|content-type|cf-ray|location|cf-mitigated):' /tmp/tsq-headers | head -n 8 || true
+            head -c 240 /tmp/tsq-body | tr '\n' ' '; echo
+          done
+      - name: Smoke test live Cloudflare Worker without exposing keys
+        run: python3 tests/live-worker-api-smoke.py

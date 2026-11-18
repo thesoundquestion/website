@@ -12,7 +12,7 @@ test('first-time visitor sees the audio test before the technical explanation', 
   for (const phrase of ['Can you <em>hear</em> the difference?', 'No technical knowledge needed', 'Small clues, not huge changes.', 'Lossless', 'WAV vs FLAC?']) {
     assert.ok(html.toLowerCase().includes(phrase.toLowerCase()), phrase);
   }
-  assert.equal((html.match(/data-song=/g) || []).length, 2);
+  assert.equal((html.match(/<button[^>]+data-song=/g) || []).length, 2);
   assert.equal((html.match(/data-format=/g) || []).length, 3);
   for (const id of ['playPause','seek','restart','playingNow']) assert.ok(html.includes('id="' + id + '"'), id);
 });
@@ -21,6 +21,17 @@ test('MP3 files were generated from existing FLAC sources, not separate mixes', 
   assert.match(html, /mixing\/reference\.flac/);
   assert.match(html, /mastering\/dynamic\.flac/);
   assert.doesNotMatch(html, /lamejs|Prepare my listening test|noindex,nofollow/);
+  assert.match(html, /assets\/format-comparison-engine\.js/);
+  assert.match(html, /id="prepareInstant"/);
+  assert.match(html, /kbps” means kilobits per second/);
+  assert.match(html, /The numbers show <strong>bitrate<\/strong>/);
+  assert.match(html, /id="instantReadiness"/);
+  assert.match(html, /state\.prepared/);
+  assert.match(html, /if\(state\.prepared\)\{/);
+  assert.match(html, /engine\.select\(state\.format\)/);
+  assert.match(html, /engine\.prepare\(song,currentSong\(\),MATCHED_VOLUME\[song\]\)/);
+  assert.match(html, /Regular playback still works/);
+  assert.match(html, /No technical knowledge needed/);
   assert.match(html, /MATCHED_VOLUME/);
   assert.match(html, /player\.volume = MATCHED_VOLUME/);
   for (const key of ['light','diva']) {
