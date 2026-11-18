@@ -257,7 +257,7 @@ export function composeEquipmentCatalog({
     const entry=rows.get(mapping.equipmentId);
     if(!entry||!entry.categories.includes(mapping.category))
       throw new Error('Reviewed connection references unknown product/category '+mapping.equipmentId);
-    if(!link(mapping.sourceUrl)||!/^\\d{4}-\\d\\d-\\d\\d$/.test(mapping.checkedOn||''))
+    if(!link(mapping.sourceUrl)||!/^\d{4}-\d\d-\d\d$/.test(mapping.checkedOn||''))
       throw new Error('Reviewed connection lacks dated HTTPS evidence '+mapping.equipmentId);
     const desc=asArray(mapping.connectorEvidence);
     if(!desc.length||!textValue(mapping.electricalRole))
