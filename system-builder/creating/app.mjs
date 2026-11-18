@@ -5,13 +5,15 @@
 import {loadEquipmentCatalog} from '../../equipment/catalog-client.mjs';
 import {CHAIN_MODES,CHAIN_MODE_IDS,buildGoalChain} from '../goal-chain-engine.mjs';
 import {loadRegionalPriceTiers,regionalPriceLabel} from '../../equipment/price-tier-client.mjs';
+import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../../equipment/price-preference.mjs';
 
 const $=id=>document.getElementById(id);
 const mode=$('sb-purpose-select'),panel=$('sb-purpose-panel'),form=$('sb-purpose-form');
 const status=$('sb-purpose-status'),result=$('sb-purpose-result'),body=$('sb-purpose-result-body');
+const priceRegion=$('sb-price-region'),pricePreference=$('sb-price-preference'),priceEvidence=$('sb-price-evidence');
 const controls={
   microphone:$('sb-purpose-microphone'),capture:$('sb-purpose-input'),count:$('sb-purpose-count'),
-  headphone:$('sb-purpose-headphone'),
+  headphone:$('sb-purpose-headphone'),monitor:$('sb-purpose-monitor'),
   pa:$('sb-purpose-pa'),independent:$('sb-purpose-tracks')
 };
 const catalogById=new Map();
@@ -24,18 +26,36 @@ function text(tag,value,cls){
 }
 function addOption(select,record){
   const option=document.createElement('option');option.value=record.id;
-  const tier=regionalPriceLabel(prices,record.id,{region:'CA'});
-  option.textContent=record.model+(tier?' · '+tier.label+' (CA)':'');
+  const tier=regionalPriceLabel(prices,record.id,{region:priceRegion.value});
+  option.textContent=record.model+(tier?' · '+tier.label+' ('+priceRegion.value+')':'');
   select.append(option);
 }
 function populate(select,items,preferred){
   const selected=select.value;
   select.replaceChildren();
   const none=document.createElement('option');none.value='';none.textContent='Not chosen / not in catalogue';select.append(none);
-  for(const record of items.sort((a,b)=>a.model.localeCompare(b.model)))addOption(select,record);
+  const alphabetical=[...items].sort((a,b)=>a.model.localeCompare(b.model));
+  const ordered=preferVerifiedPriceTier(alphabetical,prices,{region:priceRegion.value,preference:validPricePreference(pricePreference.value)});
+  for(const record of ordered)addOption(select,record);
   const byModel=items.find(x=>x.model===preferred)?.id;
   if(items.some(x=>x.id===selected))select.value=selected;
   else if(byModel)select.value=byModel;
+}
+function refreshPriceOptions(){
+  if(!catalog)return;
+  const records=catalog.records;
+  populate(controls.microphone,records.filter(x=>x.categories.includes('microphone')),'FIFINE K669D');
+  populate(controls.capture,records.filter(x=>x.categories.some(c=>['audio_interface','mixer_recorder'].includes(c))),'M-Audio M-Track Solo');
+  populate(controls.headphone,records.filter(x=>x.categories.includes('headphone')),'Grado SR80e');
+  populate(controls.monitor,records.filter(x=>x.facts?.speakerKind?.value==='powered_studio_monitor'),'Yamaha HS5');
+  populate(controls.pa,records.filter(x=>x.facts?.speakerKind?.value==='powered_pa_speaker'),'QSC K12.2');
+  const candidates=[
+    ...[controls.microphone,controls.capture,controls.headphone,controls.monitor,controls.pa]
+      .flatMap(x=>[...x.options].map(o=>catalogById.get(o.value)).filter(Boolean))
+  ];
+  const unique=[...new Map(candidates.map(x=>[x.id,x])).values()];
+  const coverage=pricingPreferenceCoverage(unique,prices,{region:priceRegion.value,preference:pricePreference.value});
+  priceEvidence.textContent=coverage.note+' Only verified, current regional pricing labels influence display order; unknown models remain available. Price is not a sound-quality score.';
 }
 async function loadOnce(){
   if(catalog)return catalog;
@@ -44,11 +64,7 @@ async function loadOnce(){
     catalog=await loadEquipmentCatalog();
     for(const record of catalog.records)catalogById.set(record.id,record);
     try{prices=await loadRegionalPriceTiers()}catch{pricingError=true}
-    const records=catalog.records;
-    populate(controls.microphone,records.filter(x=>x.categories.includes('microphone')),'FIFINE K669D');
-    populate(controls.capture,records.filter(x=>x.categories.some(c=>['audio_interface','mixer_recorder'].includes(c))),'M-Audio M-Track Solo');
-    populate(controls.headphone,records.filter(x=>x.categories.includes('headphone')),'Grado SR80e');
-    populate(controls.pa,records.filter(x=>x.facts?.speakerKind?.value==='powered_pa_speaker'),'QSC K12.2');
+    refreshPriceOptions();
     return catalog;
   })().catch(error=>{loadPending=null;throw error});
   return loadPending;
@@ -63,6 +79,7 @@ async function showMode(){
   $('sb-purpose-description').textContent=CHAIN_MODES.find(x=>x.id===id)?.description||'';
   visible('.sb-capture',captureModes.has(id));
   visible('.sb-headphone',recModes.has(id));
+  visible('.sb-monitor',recModes.has(id));
   visible('.sb-count',captureModes.has(id));
   visible('.sb-tracks',recModes.has(id));
   visible('.sb-live',id==='live');
@@ -131,6 +148,7 @@ form.addEventListener('submit',event=>{
       mode:mode.value,microphoneId:controls.microphone.value,captureId:controls.capture.value,
       headphoneId:controls.headphone.value,
       paSpeakerId:controls.pa.value,
+      monitorSpeakerId:controls.monitor.value,
       microphoneCount:count,independentTracks:controls.independent.checked
     });
     render(plan);
@@ -141,6 +159,8 @@ form.addEventListener('submit',event=>{
     result.hidden=true;
   }
 });
+priceRegion.addEventListener('change',()=>{refreshPriceOptions();result.hidden=true});
+pricePreference.addEventListener('change',()=>{refreshPriceOptions();result.hidden=true});
 mode.addEventListener('change',()=>{
   const url=new URL(location.href);
   if(mode.value==='listening')url.searchParams.delete('goal');else url.searchParams.set('goal',mode.value);
