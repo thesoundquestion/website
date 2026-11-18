@@ -244,7 +244,7 @@ form.addEventListener('submit',event=>{
     const plan=buildCreatingSystem(catalog,{
       mode:mode.value,microphoneCount:count,independentTracks:tracks.checked,
       micConnection:route.value,includeMonitors:addStudio.checked,
-      region:priceRegion.value,pricePreference:pricePreference.value,...chosenOwned()
+      region:priceRegion.value,pricePreference:pricePreference.value,prices,...chosenOwned()
     });
     render(plan);
     status.textContent='Created a suggested equipment chain with '+plan.stages.length+' stages and '+plan.purchased.length+' example purchases or requirements to research.';
