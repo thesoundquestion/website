@@ -5535,5 +5535,44 @@
       "AU"
     ],
     "note": "Initial Canadian wired-headphone sample is small and not a representative market-wide price survey. No current stock check has been performed. Refresh evidence before enabling broad public price tiers. Canadian USB audio interfaces are now a separate 3-model evidence sample; deliberately no tier assigned until at least five qualified models. Source quotes and regular-price status are verified from model-specific pages; any stock indicator is historical and is not used as real-time availability. Five Canadian USB interface models now meet the two-merchant data minimum, with a limited and price-clustered cohort. Expire labels after 45 days. Sources include pre-order/out-of-stock regular list prices; these are market-position data, not proof of current availability."
-  }
+  },
+  "curatedConnections": [
+    {
+      "equipmentId": "legacy/headphone/grado-sr80e",
+      "category": "headphone",
+      "sourceUrl": "https://www.crutchfield.com/p_786SR80E/Grado-SR80e.html",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "3.5mm stereo plug integrated cable",
+        "6.35mm stereo adapter included"
+      ],
+      "inputs": [
+        "3_5mm_stereo_headphone_plug_passive_load"
+      ],
+      "adaptableInputs": [
+        "6_35mm_stereo_headphone_jack_via_included_adapter"
+      ],
+      "electricalRole": "passive_unbalanced_stereo_headphone",
+      "caveat": "Adapter changes plug size only; cannot boost amplifier voltage/power. Headphone connector is a sink, not line input."
+    },
+    {
+      "equipmentId": "legacy/headphone/sennheiser-hd-600",
+      "category": "headphone",
+      "sourceUrl": "https://support.sennheiser-hearing.com/hc/en-dk/articles/38292415494173-HD-600-Specifications",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "6.35mm stereo plug or 3.5mm stereo plug via supplied adapter depending on cable version",
+        "300 ohm nominal load",
+        "97 dB SPL at 1 V"
+      ],
+      "inputs": [
+        "3_5mm_or_6_35mm_stereo_headphone_plug_variant_specific"
+      ],
+      "adaptableInputs": [
+        "6_35mm_or_3_5mm_stereo_jack_supplied_adapter"
+      ],
+      "electricalRole": "passive_unbalanced_stereo_headphone",
+      "caveat": "Exact cable and adapter pairing differs by HD 600 revision/sales market; inspect user's cable. 300 ohms alone does not determine power requirement."
+    }
+  ]
 }
