@@ -1,4 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
+import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
+import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
+import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
 import {shortlistExamples} from './recommendations.mjs';
 import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
@@ -83,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('sb-form');
   if (!form) return;
   const inventory = window.systemBuilderInventory || null;
+  let sharedCatalog=null;
+  let priceSnapshot=null;
+  const catalogueByCategory=new Map();
   const state = document.getElementById('sb-inventory-state');
   const result = document.getElementById('sb-results');
   const body = document.getElementById('sb-result-body');
@@ -160,13 +166,80 @@ document.addEventListener('DOMContentLoaded', () => {
     syncGoals(); syncSub(); result.hidden = true;
   }));
 
+  function asLegacyView(entry,kind){
+    const findFact=key=>entry?.facts?.[key]?.value??null;
+    const passive=kind==='speaker'&&findFact('speakerKind')!=='powered_studio_monitor'&&findFact('speakerKind')!=='powered_pa_speaker';
+    const values={};
+    if(passive){
+      const ohms=findFact('speakerNominalImpedanceOhms');
+      if(Number.isFinite(ohms))values.load=ohms;
+      const db=findFact('speakerSensitivityDb');
+      const basis=findFact('speakerSensitivityBasis');
+      if(Number.isFinite(db)&&(basis==='1_W_at_1_m'||basis==='2.83_V_at_1_m')){
+        values.sensitivity=db;
+        values.basis=basis==='1_W_at_1_m'?'power':'voltage';
+      }
+    }
+    if(kind==='headphone'){
+      if(Number.isFinite(findFact('nominalImpedanceOhms')))values.load=findFact('nominalImpedanceOhms');
+      if(Number.isFinite(findFact('sensitivityDb'))){
+        values.sensitivity=findFact('sensitivityDb');
+        if(findFact('sensitivityBasis')==='dB_SPL_per_mW')values.basis='power';
+        if(findFact('sensitivityBasis')==='dB_SPL_per_V')values.basis='voltage';
+      }
+    }
+    return {model:entry.model,type:kind,values,ratings:[],
+      url:entry.evidence?.find(x=>x.url?.startsWith('https://'))?.url||null,
+      note:'Shared source-verified catalogue entry; unknown specifications are not inferred.',
+      catalogueId:entry.id,speakerKind:findFact('speakerKind'),powered:findFact('powered')===true,
+      evidence:'Shared catalogue identity with scoped, unverified or partially verified specifications'};
+  }
+  const kindsForCategory={
+    speaker:['speaker'],amp:['amp'],source:['source','computer_sound_card','audio_interface','headphone_amplifier'],
+    headphone:['headphone']
+  };
+  function availableShared(kind){
+    return sharedCatalog?.records?.filter(x=>kindsForCategory[kind].some(cat=>x.categories.includes(cat)))||[];
+  }
+  async function attachSharedInventory(){
+    try{
+      sharedCatalog=await loadEquipmentCatalog();
+      try{priceSnapshot=await loadRegionalPriceTiers()}catch{priceSnapshot=null}
+      const region=String(form.elements.namedItem('region').value||'CA');
+      const preference=validPricePreference(String(form.elements.namedItem('pricePreference')?.value||'any'));
+      let additions=0;
+      for(const kind of ['speaker','amp','source','headphone']){
+        const select=document.getElementById('sb-'+kind);
+        if(!select)continue;
+        const known=new Set([...select.options].map(x=>x.value));
+        const profiles=preferVerifiedPriceTier(availableShared(kind),priceSnapshot,{region,preference});
+        for(const entry of profiles){
+          if(known.has(entry.model))continue;
+          const option=el('option','',entry.model+
+            (entry.facts?.speakerKind?.value==='powered_studio_monitor'?' (powered studio monitor)':
+            entry.facts?.speakerKind?.value==='powered_pa_speaker'?' (powered PA speaker)':' (shared catalogue)'));
+          option.value=entry.model;
+          select.append(option);known.add(entry.model);additions++;
+        }
+      }
+      state.textContent='Shared equipment catalogue loaded: '+sharedCatalog.records.length+
+        ' unique devices; '+additions+' additional choices added to legacy Builder selectors. Original engineering calculations preserved. '+
+        'Unverified fields remain unknown.';
+    }catch{
+      state.textContent+=' Shared catalogue unavailable; existing validated presets remain available.';
+    }
+  }
+  attachSharedInventory();
+
   function chosenGear(data, kind) {
     const exact = String(data.get(kind) || '');
     const custom = String(data.get(kind+'Other') || '').trim();
+    const shared=availableShared(kind).find(x=>x.model===exact||x.aliases?.includes(exact));
     const record = (inventory?.[kind] || []).find(x => x.model === exact) ||
       (kind==='speaker' ? builderOnlySpeakerFor(exact) || poweredSubPairFor(exact) :
         kind==='headphone' ? builderOnlyHeadphoneFor(exact) :
-        kind==='amp' ? builderOnlyAmpFor(exact) : null);
+        kind==='amp' ? builderOnlyAmpFor(exact) : null) ||
+      (shared?asLegacyView(shared,kind):null);
     return {name: custom || record?.model || '', record: custom ? null : record, unlisted: !!custom};
   }
   let reportContainer = null;
@@ -221,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Your chosen '+(options[arch]?.title || 'event/listening')+' route may not use '+own.amp.name+' directly. A separate compatible route retaining it is still shown below.','sb-brief-note');
     if (anyOwned)
       addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
+    const preference=validPricePreference(String(data.get('pricePreference')||'any'));
     const budget = budgetText ? Number(budgetText) : null;
     const request = {
       architecture:arch, useCase, goal:primary, level:String(data.get('level')), subMode:bassMode,
@@ -230,6 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       region:String(data.get('region')), currency, referenceDate:new Date().toISOString().slice(0,10),
       subCount:bassCount, subOwned,
       budget:Number.isFinite(budget) ? budget : null,
+      pricePreference:preference,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
     };
     const partyPassiveRoute=(primary==='party'||useCase==='party') &&
@@ -238,6 +313,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const shortlist = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
       : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request));
+    // Price-position preference may reorder only verified, same-region,
+    // comparable catalogue examples. It NEVER removes a recommendation.
+    // We do not pretend that an unknown price is budget priced.
+    if(preference!=='any'&&priceSnapshot&&!ownership&&!speakerFocus&&!partyPassiveRoute){
+      const exampleIds={
+        'headphone-hd600':'legacy/headphone/sennheiser-hd-600',
+        'headphone-hd560':'legacy/headphone/sennheiser-hd-560s'
+      };
+      const candidates=shortlist.selected.map(item=>({...item,
+        id:exampleIds[item.id]||null,originalId:item.id}));
+      const ordered=preferVerifiedPriceTier(candidates,priceSnapshot,{region:request.region,preference});
+      shortlist.selected=ordered.map(item=>({...item,id:item.originalId}));
+    }
+    const tierEvidence=pricingPreferenceCoverage(
+      shortlist.selected.map(item=>({id:({
+        'headphone-hd600':'legacy/headphone/sennheiser-hd-600',
+        'headphone-hd560':'legacy/headphone/sennheiser-hd-560s'
+      })[item.id]||null})),
+      priceSnapshot,{region:request.region,preference}
+    );
+    addText(shop,'p',preference==='any'?'No retail price-category weighting selected.':
+      tierEvidence.note+' Price categories describe local retail expense, not sound quality.','sb-brief-note');
     const combinedFactors=explainInputInteractions(request);
     if(combinedFactors.length){
       const decision=el('details','sb-more sb-decision-logic');
@@ -690,7 +787,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link(referrals,'/system-check/','System Check for verified headroom');
     link(referrals,'/system-check/compare/','Compare My Gear source notes');
     const limitation = section('Evidence limits');
-    addText(limitation,'p','This preview has no rights-cleared, method-compatible catalog-wide acoustic dataset, no approved normal regional price samples, and no calibrated preference-to-product scoring. Manufacturer specs, independent review links and original measurements are different evidence tiers. No data is scraped or copied from third-party review graphs.');
+    addText(limitation,'p','This preview has no rights-cleared, method-compatible catalog-wide acoustic dataset, only limited source-verified category-specific regional price samples, and no calibrated preference-to-product scoring. Manufacturer specs, independent review links and original measurements are different evidence tiers. No data is scraped or copied from third-party review graphs.');
     link(limitation,'https://www.erinsaudiocorner.com/measurement-data-policy/','Independent measurement-data usage policy');
   }
 
