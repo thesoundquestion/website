@@ -13,7 +13,7 @@ const sitemap=read('sitemap.xml');
 
 test('all 26 lessons have one numbered card or opening link, page title and sitemap entry',()=>{
  assert.equal(slugs.length,26);
- const cards=[...hub.matchAll(/<a class="dl-card" href="\/decoder\/([^/]+)\/"[\s\S]*?<span class="dl-number">LESSON\s+(\d+)/g)];
+ const cards=[...hub.matchAll(/<a class="dl-card" href="\/decoder\/([^/]+)\/"(?:(?!<\/a>)[\s\S])*?<span class="dl-number">LESSON\s+(\d+)/g)];
  assert.equal(cards.length,25,'Every lesson after the starting lesson needs exactly one hub card');
  assert.equal(new Set(cards.map(m=>m[1])).size,25,'No duplicate lesson cards');
  for(let i=0;i<slugs.length;i++){
