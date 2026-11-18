@@ -61,6 +61,13 @@ function port(entry,direction,value,scope,from) {
   const list = entry.connections[direction];
   if (!list.some(x=>x.type===value&&x.scope===scope)) list.push({type:value,scope,from});
 }
+function setFact(entry,key,value,scope,from,reference=null) {
+  if(value===undefined)return;
+  if(Object.hasOwn(entry.facts,key))return; // never overwrite another source's basis
+  entry.facts[key]={value:deepCopy(value),scope,from,
+    ...(reference?{reference}:{}),
+    evidenceStatus:value===null?'unknown':'source_stated'};
+}
 function addLegacy(entry,row,kind,detail) {
   entry.profiles.push({category:kind,from:LEGACY_PATH,legacyModel:row.model,
     values:deepCopy(row.values||{}),ratings:deepCopy(row.ratings||[]),
@@ -69,6 +76,26 @@ function addLegacy(entry,row,kind,detail) {
   if(detail) addEvidence(entry,detail.reference,COMPARE_PATH,['supplemental specifications'],detail.reviewedOn||null);
   if(kind==='source'&&typeof row.values?.sourceConnection==='string')
     port(entry,'outputs',row.values.sourceConnection,'analogue line output',LEGACY_PATH);
+  if(kind==='speaker') {
+    setFact(entry,'speakerNominalImpedanceOhms',row.values?.load,kind,LEGACY_PATH);
+    setFact(entry,'speakerMinimumImpedanceOhms',row.values?.minimum,kind,LEGACY_PATH);
+    setFact(entry,'speakerSensitivityDb',row.values?.sensitivity,kind,LEGACY_PATH,
+      row.values?.basis==='power'?'1 W at about 3.28 ft':
+      row.values?.basis==='voltage'?'2.83 V at about 3.28 ft':null);
+  }
+  if(kind==='headphone') {
+    setFact(entry,'nominalImpedanceOhms',row.values?.load,kind,LEGACY_PATH);
+    setFact(entry,'sensitivityDb',row.values?.sensitivity,kind,LEGACY_PATH);
+    setFact(entry,'sensitivityBasis',row.values?.basis==='power'?'dB_SPL_per_mW':
+      row.values?.basis==='voltage'?'dB_SPL_per_V':null,kind,LEGACY_PATH);
+  }
+  if(kind==='amp')setFact(entry,'speakerPowerRatings',asArray(row.ratings).map(r=>({
+    wattsPerChannel:r[0],loadOhms:r[1],duration:r[2],testConditions:r[3]
+  })),kind,LEGACY_PATH);
+  if(kind==='source') {
+    setFact(entry,'lineOutputVoltageVrms',row.values?.sourceVoltage,kind,LEGACY_PATH);
+    setFact(entry,'lineOutputImpedanceOhms',row.values?.sourceZ,kind,LEGACY_PATH);
+  }
   if(kind==='headphone'&&typeof detail?.connector==='string')
     uniquePush(entry.connections.descriptions, 'Headphone cable/plug (review wording): '+detail.connector);
   for(const [key,val] of Object.entries(row.values||{}))
@@ -100,6 +127,10 @@ function addResearch(entry,row) {
     port(entry,'outputs',kind,'computer sound-card output',RESEARCH_PATH);
   for(const kind of asArray(row.sourceInputTypes))
     port(entry,'inputs',kind,'headphone amplifier source input',RESEARCH_PATH);
+  for(const kind of asArray(row.outputLineConnectors))
+    port(entry,'outputs',kind,'audio interface line output',RESEARCH_PATH);
+  if(typeof row.headphoneConnector==='string')
+    port(entry,'outputs',row.headphoneConnector,'audio interface headphone output',RESEARCH_PATH);
   for(const kind of asArray(row.headphoneOutputTypes))
     port(entry,'outputs',kind,'headphone amplifier output',RESEARCH_PATH);
   if(typeof row.connection==='string')
@@ -116,8 +147,7 @@ function addResearch(entry,row) {
     'ratedOutputMilliwatts','maxRateKhz','maxBitDepth'
   ];
   for(const key of keys) if(Object.hasOwn(row,key))
-    entry.facts[key]={value:deepCopy(row[key]),scope:row.category,from:RESEARCH_PATH,
-      evidenceStatus:row[key]===null?'unknown':'source_stated'};
+    setFact(entry,key,row[key],row.category,RESEARCH_PATH);
 }
 function addBuilder(entry,row) {
   entry.profiles.push({category:row.type,from:'system-builder/supplemental-*.mjs',
@@ -126,6 +156,18 @@ function addBuilder(entry,row) {
   addEvidence(entry,row.url,'system-builder/supplemental-*.mjs',['builder supplement'],row.details?.reviewedOn||null);
   if(typeof row.details?.connector==='string')
     uniquePush(entry.connections.descriptions,row.details.connector);
+  if(row.type==='headphone') {
+    setFact(entry,'nominalImpedanceOhms',row.values?.load,row.type,'system-builder/supplemental-*.mjs');
+    setFact(entry,'sensitivityDb',row.values?.sensitivity,row.type,'system-builder/supplemental-*.mjs');
+    setFact(entry,'sensitivityBasis',row.values?.basis==='power'?'dB_SPL_per_mW':
+      row.values?.basis==='voltage'?'dB_SPL_per_V':null,row.type,'system-builder/supplemental-*.mjs');
+  }
+  if(row.type==='speaker') {
+    setFact(entry,'speakerNominalImpedanceOhms',row.values?.load,row.type,'system-builder/supplemental-*.mjs');
+    setFact(entry,'speakerSensitivityDb',row.values?.sensitivity,row.type,'system-builder/supplemental-*.mjs',
+      row.values?.basis==='power'?'1 W at about 3.28 ft':
+      row.values?.basis==='voltage'?'2.83 V at about 3.28 ft':null);
+  }
 }
 function sortedEntry(entry) {
   entry.review.unknowns.sort();
