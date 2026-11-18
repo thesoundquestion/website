@@ -28,13 +28,15 @@ test('in-ear monitors and unrelated speaker package types do not contaminate ful
 test('saved survey reproduces dated regional bands without exposing retail numbers',()=>{
  const ca=buildRegionalPriceTiers(catalog,master.pricingResearch,{region:'CA',asOf:'2026-11-18'});
  assert.deepEqual(serial(ca),snapshot.regions.CA);
- assert.equal(ca.summary.eligibleModels,8);
- assert.equal(ca.summary.labelledModels,5);
- assert.equal(ca.categories.usb_audio_interfaces.status,'insufficient_retail_evidence');
- assert.equal(ca.categories.usb_audio_interfaces.representativeModels,3);
- for (const model of ['research/audio_interface/focusrite-scarlett-solo-4',
-   'research/audio_interface/focusrite-scarlett-2i2-4','research/audio_interface/audient-id4-mkii'])
-   assert.equal(ca.tiersById[model],undefined,'Do not label an under-researched interface');
+ assert.equal(ca.summary.eligibleModels,10);
+ assert.equal(ca.summary.labelledModels,10);
+ assert.equal(ca.categories.usb_audio_interfaces.status,'sampled');
+ assert.equal(ca.categories.usb_audio_interfaces.representativeModels,5);
+ assert.equal(ca.tiersById['research/audio_interface/maudio-mtrack-solo'].tier,'budget');
+ assert.equal(ca.tiersById['research/audio_interface/arturia-minifuse-2'].tier,'budget');
+ assert.equal(ca.tiersById['research/audio_interface/focusrite-scarlett-solo-4'].tier,'mid_grade');
+ assert.equal(ca.tiersById['research/audio_interface/audient-id4-mkii'].tier,'premium_pricing');
+ assert.equal(ca.tiersById['research/audio_interface/focusrite-scarlett-2i2-4'].tier,'premium_pricing');
  assert.equal(ca.tiersById['legacy/headphone/grado-sr80x'].tier,'budget');
  assert.equal(ca.tiersById['legacy/headphone/audio-technica-ath-m50x'].tier,'mid_grade');
  assert.equal(ca.tiersById['legacy/headphone/sennheiser-hd-600'].tier,'premium_pricing');
@@ -54,7 +56,10 @@ test('a product needs distinct sources and the cohort needs enough peers',()=>{
  assert.equal(no.summary.eligibleModels,0);
  assert.equal(no.summary.labelledModels,0);
  const four=master.pricingResearch.observations.filter(x=>x.equipmentId!==ids[4]);
- assert.equal(buildRegionalPriceTiers(catalog,{observations:four},{region:'CA',asOf:'2026-11-18'}).summary.labelledModels,0);
+ const withoutHeadphone=buildRegionalPriceTiers(catalog,{observations:four},{region:'CA',asOf:'2026-11-18'});
+ assert.equal(withoutHeadphone.categories.wired_headphones.status,'insufficient_retail_evidence');
+ assert.equal(Object.keys(withoutHeadphone.tiersById).filter(id=>id.includes('/headphone/')).length,0);
+ assert.equal(Object.keys(withoutHeadphone.tiersById).filter(id=>id.includes('audio_interface/')).length,5);
 });
 test('expired, promotional, used, mismatched market and cross-retailer anomalies do not earn bands',()=>{
  const originals=master.pricingResearch.observations;
