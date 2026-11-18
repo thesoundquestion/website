@@ -12,6 +12,7 @@ export function checkerPresetsFromCatalog(catalog) {
   if(profile.from!=='system-check/gear.js')continue;
   if(!CLASSIC_CATEGORIES.includes(profile.category))throw new Error('Unsupported legacy category');
   result[profile.category].push({
+    legacyOrder:profile.legacyOrder,
     model:profile.legacyModel,
     values:clone(profile.values||{}),
     ...(profile.ratings?.length?{ratings:clone(profile.ratings)}:{}),
@@ -20,7 +21,8 @@ export function checkerPresetsFromCatalog(catalog) {
   });
  }
  for(const [kind,rows] of Object.entries(result)){
-  rows.sort((a,b)=>a.model.localeCompare(b.model,'en',{sensitivity:'base'}));
+  rows.sort((a,b)=>a.legacyOrder-b.legacyOrder);
+  for(const row of rows)delete row.legacyOrder;
   const names=new Set();
   for(const row of rows){
    if(names.has(row.model))throw new Error('Duplicate classic preset: '+kind+' '+row.model);
