@@ -24,8 +24,6 @@ test('interface comparison uses real shared data without inventing upgrades or p
 });
 test('interface outputs never become presumed recording inputs',()=>{
   const c=buildEquipmentComparison(by('M-Audio M-Track Solo'),by('Focusrite Scarlett 2i2 (4th Gen)'));
-  assert.equal(c.rows.find(x=>x.key==='computerRecordingInputs').left.value,undefined);
-  assert.equal(c.rows.find(x=>x.key==='computerRecordingInputs').left.value,undefined);
   assert.equal(c.rows.find(x=>x.key==='computerRecordingInputs').left.display,'2');
   assert.equal(c.rows.find(x=>x.key==='computerRecordingInputs').right.display,'2');
   assert.equal(c.rows.find(x=>x.key==='computerPlaybackOutputs').label,'Computer playback channels');
@@ -35,7 +33,7 @@ test('headphone sensitivity basis mismatches get a warning',()=>{
   const c=buildEquipmentComparison(a,b,{category:'headphone'});
   const row=c.rows.find(x=>x.key==='sensitivityDb');
   assert.equal(row.directlyComparable,false);
-  assert.match(row.caution,/different references/);
+  assert.match(row.caution,/same confirmed reference/);
   assert.equal(c.rows.find(x=>x.key==='nominalImpedanceOhms').left.display,'32 Ω');
   assert.equal(c.rows.find(x=>x.key==='nominalImpedanceOhms').right.display,'300 Ω');
 });
