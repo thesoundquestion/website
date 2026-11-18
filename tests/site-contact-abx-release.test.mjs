@@ -93,7 +93,7 @@ test('canonical site scores eligible games while local and EQ practice remain pr
  assert.match(privacy,/180 days/);
  assert.match(read('workers/abx/RELEASE.md'),/Worker uploaded and deployed to Cloudflare/);
  assert.match(read('workers/abx/RELEASE.md'),/The private `MODERATION_ALERTS_ENABLED` flag was enabled via API/);
- assert.match(read('workers/abx/RELEASE.md'),/Public ABX, community and gear features remain disabled/);
+ assert.match(read('workers/abx/RELEASE.md'),/Public scoring, moderated community submissions and gear nominations are operational in Cloudflare/);
 });
 
 test('curated scored comparisons describe their practical limitations consistently',()=>{

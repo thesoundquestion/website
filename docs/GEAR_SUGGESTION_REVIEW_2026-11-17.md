@@ -1,4 +1,4 @@
-# Gear suggestions: private D1 intake and verified preset review (draft only)
+# Gear suggestions: live private D1 intake, curated preset review (website draft)
 
 ## Goal
 
@@ -17,9 +17,9 @@ No login, email, name, serial number, or user-uploaded file is requested.
   identified. No headphone-output rating is silently applied to an RCA output.
 - The `other` category needs deliberate classification before any preset can be published.
 
-## Staged technical design (Worker deployed, submissions disabled)
+## Live API design (Worker enabled, visitor page still staged)
 
-- `tools/recommend-gear/index.html`: dedicated **Recommend your gear** page, linked from System Check, Compare My Gear, System Builder and Tools, with an explicitly disabled draft form (`data-submissions-enabled="false"`).
+- `tools/recommend-gear/index.html`: dedicated **Recommend your gear** page, linked from System Check, Compare My Gear, System Builder and Tools, with a draft form now enabled in source (`data-submissions-enabled="true"`). The public Pages deployment has not yet received this update.
 - `tools/recommend-gear/app.js`: on direct submit, POST
   `/v1/gear/submit`; never transmits calculator values, audio, an email or a user ID.
 - `workers/abx/gear-suggestions.mjs`: validates category, manufacturer,
@@ -31,8 +31,7 @@ No login, email, name, serial number, or user-uploaded file is requested.
   creating an empty private `gear_suggestions` table and both indexes, verified
   by Cloudflare's API. No new account or separate database.
 - `workers/abx/wrangler.toml`: independent
-  `GEAR_SUBMISSIONS_ENABLED = "false"`; do not open with the ABX/Community flags
-  automatically. Public site and Worker must be coordinated before turning on.
+  `GEAR_SUBMISSIONS_ENABLED = "true"` following explicit owner release approval. Public Pages still requires coordinated manual publication.
 - Pending entries expire after 90 days without review; rejected entries 30 days
   after rejection. Accepted/added rows may remain as a reviewer trail.
 
@@ -54,7 +53,7 @@ ORDER BY created_at ASC
 LIMIT 30;
 ```
 
-Do not call the above until the schema exists. Missing table today is expected.
+The table exists in Cloudflare D1 and authorized private SELECT queries are available.
 Never expose the full pending queue publicly. Do not automatically run a SELECT
 every time somebody opens System Check; it is an admin review workflow.
 
@@ -100,27 +99,25 @@ The private `workers/abx/moderation-summary.mjs` route now counts pending
 The existing 9 a.m. Google Apps Script digest (`workers/abx/pending-review-digest.gs`)
 includes that count alongside Listening Room and ABX discussions and sends
 nothing if the entire queue is empty. It never includes unreviewed model text.
-No second daily script or Gmail filter is needed. This is staged and disabled
-until the gear-submission flag, real endpoint checks and Gmail authorization are intentionally released. The D1 table and disabled Worker now exist.
+No second daily script or Gmail filter is needed. The Worker flag and count route are enabled; the owner still needs to verify the separate Google Apps Script daily trigger. Do not claim email notifications are operational until that trigger is confirmed.
 
 ### Operational status
 
 - Connected Cloudflare D1 read query: **verified** on 2026-11-17.
 - Public standalone `/tools/recommend-gear/` form: **staged in PR #15, inactive**.
-- Worker endpoint: **deployed with all public/alert flags off**, workers.dev enabled; direct HTTP smoke check outstanding.
+- Worker endpoint: **public gear intake enabled**, real POST/pending/duplicate checks passed in [live API acceptance](https://github.com/thesoundquestion/website/actions/runs/44220509527). All test rows removed.
 - D1 gear table: **created and verified, zero records**.
-- No live submissions, public API or public preset modifications from this work.
-- Do not represent this feature as available at release until the
-  independent gate and end-to-end D1, privacy, abuse, UI and calculator checks pass.
+- The production API is live, but the existing public Pages HTML has not yet published the new form. No public presets were modified. The first actual visitor submission remains to be observed after Pages release.
+- API/D1 launch gates passed; final browser form accessibility, moderation operation and privacy acceptance remain for the planned Pages release.
 
 ### Release checklist
 
 - [x] Apply `gear-schema.sql` to D1 and verify the table and indexes, without opening public submissions.
-- [ ] Confirm real D1 INSERT, validation, duplicate handling, rate limits and no public pending GET.
-- [ ] Confirm pending queue read through connected Cloudflare D1 account.
+- [x] Confirm real D1 INSERT, validation, duplicate handling and public access restrictions; one test entry accepted, duplicate rejected, test entry deleted. Rate-limiter binding verified, sustained abuse still untested.
+- [x] Confirm connected Cloudflare D1 administrative SELECT access to pending table.
 - [ ] Confirm privacy and retention wording, review/delete permissions and receipt process.
-- [ ] Enable Worker flag separately; test cross-origin requests and errors.
-- [ ] Enable `/tools/recommend-gear/` form in approved site build only when Worker is healthy; verify all three tool links and Tools hub.
+- [x] Enable independent Worker flag, verify cross-origin CORS/preflight/unauthorized responses and real errors.
+- [~] Draft `/tools/recommend-gear/` form now has enabled source attribute and links from its four hubs, but Pages is not published. Verify first submission after manual release.
 - [ ] Test real mobile and desktop form accessibility and error messages.
 - [ ] Ensure preview-only / unavailable wording is removed from the final
       visitor experience when the feature becomes operational.

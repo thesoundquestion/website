@@ -1,6 +1,6 @@
 # The Sound Question — ABX Lab implementation and future-lab handoff
 
-**Status, November 17, 2026: next-release draft; NOT publicly deployed.** Draft PR #15 on draft/abx-shared-framework-20261116. The public Pages site remains unchanged, with automatic Pages builds disabled. Cloudflare free-tier D1 score storage is provisioned and its schema is initialized; the scored Worker has NOT been deployed or given its secret. Its checked-in ABX_PUBLIC_ENABLED flag is false.
+**Status, November 17, 2026: Worker live; visitor Pages release staged.** Draft PR #15 on `draft/abx-shared-framework-20261116` remains unmerged and Cloudflare Pages retains the previous production HTML. The Worker has distinct secrets, D1, rate limits, the live `ABX_PUBLIC_ENABLED=true` flag and a daily UTC cleanup cron. A complete 10-round live service acceptance run passed on Cloudflare ([evidence](https://github.com/thesoundquestion/website/actions/runs/44220509527)); all test records were removed. The final scored browser/audio and human editorial acceptance still belong to the controlled Pages release.
 
 This is a **fun, informal, voluntary community listening experiment**, not an accredited hearing test, clinical assessment, or controlled scientific experiment. It is not cheat-proof. We preserve reasonable fairness without delaying the site indefinitely for laboratory perfection.
 
@@ -17,8 +17,8 @@ This is a **fun, informal, voluntary community listening experiment**, not an ac
 | Mode | Examples | Result |
 | --- | --- | --- |
 | Training | Exaggerated stereo mixes, loudness-matched contrasting masters, EQ on/off, MP3 examples | Ten rounds, immediate feedback, no public scoring |
-| Challenge | Mastering EQ; Let The Light In and Diva: lossless versus 128 kbps MP3 | Ten rounds, local-only beta score; no sharing or server calls |
-| Advanced | Let The Light In and Diva: lossless versus 320 kbps MP3 | Twenty rounds, local-only beta score; no sharing or server calls |
+| Challenge | Mastering EQ private practice; Let The Light In and Diva: lossless versus 128 kbps MP3 scored | Ten rounds; MP3 comparisons server-scored with optional opt-in community result, EQ remains private |
+| Advanced | Let The Light In and Diva: lossless versus 320 kbps MP3 | Twenty rounds server-scored on canonical site; opt-in result aggregation only |
 
 Difficulty is a property of the *game*, not the person or their gear. Visitors can select any category without passing Training. The deliberately **unmatched-loudness mastering progression is excluded** from ABX; it stays a sighted lesson. Compared recordings derive from the same existing source performance and were prepared for the original lessons. The MP3 manifest pins hashes, offsets and decoded sample counts. The ~0.44 dB RMS difference of the 128 kbps examples is acknowledged; Training applies its existing gain compensation. Scored comparisons are informal demonstrations rather than tightly calibrated, definitive findings.
 
@@ -45,7 +45,7 @@ The Worker source is workers/abx/index.mjs, D1 schema workers/abx/schema.sql, re
 - One atomic conditional D1 update accepts the current trial. Duplicate submissions and retries cannot increase the score twice. The server reveals correctness only after the full 10 or 20 trials.
 - Listeners choose whether to include a *completed* score in community statistics. The checkbox is OFF by default. Scores are grouped by versioned comparison, mode and trial count, not by distinct people. Groups with fewer than 10 shared completed sessions are suppressed.
 - Final results report correct answers and the binomial probability of that score or higher under random guessing. They do not correct for repeated attempts, playback gear, preference or participant selection. There are no personal leaderboards.
-- No account, name or email is stored with a score. D1 does not save IP addresses; short-lived IP rate-limit keys are used by Cloudflare. Unfinished sessions expire after 2 hours; completed private scores are scheduled for deletion after 24 hours, opted-in sessions after 180 days. Daily cleanup runs only once the Worker is deployed.
+- No account, name or email is stored with a score. D1 does not save IP addresses; short-lived IP rate-limit keys are used by Cloudflare. Unfinished sessions expire after 2 hours; completed private scores are scheduled for deletion after 24 hours, opted-in sessions after 180 days. A daily cleanup cron is now installed; observe the first scheduled execution and quota usage.
 - Privacy and community-result wording appears in privacy/index.html. The public site contact is contact@thesoundquestion.com (forwarded to the existing thesoundquestion@gmail.com inbox); visitors may suggest test ideas and offer permission to use recordings.
 
 ## Adding future ABX comparisons
@@ -59,7 +59,7 @@ The Worker source is workers/abx/index.mjs, D1 schema workers/abx/schema.sql, re
 7. Add a link to the right comparison on the original lesson page. Confirm that the ABX “Explore the original lesson” link returns to the right mode or song. Include new lesson pages in the directory and sitemap.
 8. Run the Node unit tests and desktop/mobile browser smoke tests. Verify no unnecessary audio on page view, reliable buffered switching, local cache cleanup, and no additional Worker request from repeated A/B/X presses.
 9. Confirm the free-tier request and storage budget, privacy notice, opt-in logic, stats threshold, recording permission and source credits. Keep unverified community claims modest.
-10. Merge only after review, deploy the scored Worker and its secret deliberately, verify real D1 operations, then manually publish Pages in a single planned build.
+10. The scored Worker, secret and live D1 protocol have been deployed and verified. Merge only after remaining editorial/device checks and explicit release approval, then manually publish Pages in a single planned build.
 
 ## Release inventory and remaining operations
 
@@ -69,9 +69,9 @@ The Worker source is workers/abx/index.mjs, D1 schema workers/abx/schema.sql, re
 - [x] Anonymous opt-in tracker, server-generated X and score-state recovery
 - [x] Bounded browser-local playback cache and no repeated audio request per A/B/X click
 - [x] Cloudflare free-tier D1 database created and SQL schema initialized
-- [x] Wrangler database binding and retention cron configured; ABX_PUBLIC_ENABLED is OFF by default
-- [ ] Configure the Worker ABX_SECRET through Cloudflare, deploy the Worker manually, then deliberately enable the public score service for the coordinated site update
-- [ ] Test actual Cloudflare D1 /start, /answer, /resume, /audio and /stats responses, and verify request quotas, retention, mobile playback and failure recovery
+- [x] Wrangler database binding, installed cron, secret and active ABX_PUBLIC_ENABLED flag verified
+- [x] Configure ABX_SECRET securely, deploy current Worker and enable scored MP3 comparisons with Mastering EQ scored path excluded
+- [~] Live D1 /start, /answer, /resume, signed /audio Range and /stats tests passed, with session recovery and 10-round completion. Actual retention cron run, sustained quotas, mobile scored playback and failure recovery under poor networks still need monitoring.
 - [ ] Complete final link/content review, merge draft PR, and manually deploy Pages once; verify public site paths afterwards
 
 **Do not release only the static ABX page with a nonfunctional score API while claiming that community scoring works.** See workers/abx/RELEASE.md.
@@ -82,6 +82,6 @@ Historical research and earlier draft plans are archived in docs/abx-labs/PRIOR_
 
 The next draft adds a **moderated Listening Room nomination and discussion board**, plus short discussion comments in the ABX Lab. The Listening Room reuses the existing **seven category identifiers**, including their current label names. Visitors suggest **one recording per entry** (artist 64 characters, title 100, one category, explanation 20–280 characters) and are encouraged to share overlooked, lesser-known and distinctive recordings. Freeform comments are 5–280 characters. No direct uploads, contributor accounts or arbitrary HTML/links.
 
-`assets/community-board.js` and `assets/community-board.css` implement the lightweight UI. Approved suggestions display as plain cards with a site-generated Spotify search URL; approved comments appear below. Unreviewed entries do not appear. The API `workers/abx/community.mjs` handles `/v1/community/submit` and `/v1/community/approved` using the **existing free-tier D1 database**, not an added paid storage service. Manual moderation uses the Cloudflare D1 console, with SQL workflow in `workers/abx/COMMUNITY-REVIEW.md`. `COMMUNITY_PUBLIC_ENABLED` is a separate release flag, currently **false**.
+`assets/community-board.js` and `assets/community-board.css` implement the lightweight UI. Approved suggestions display as plain cards with a site-generated Spotify search URL; approved comments appear below. Unreviewed entries do not appear. The API `workers/abx/community.mjs` handles `/v1/community/submit` and `/v1/community/approved` using the **existing free-tier D1 database**, not an added paid storage service. Manual moderation uses the Cloudflare D1 console, with SQL workflow in `workers/abx/COMMUNITY-REVIEW.md`. `COMMUNITY_PUBLIC_ENABLED` is a separate release flag, currently **true**; API pending-only and listing tests passed. Pages forms remain staged.
 
 To extend this to another lesson, add a `data-community-scope` section only after defining an approved section and adjusting server permissions, privacy text, rate limits and review workflow. Do not expose unreviewed rows or add visitor-supplied links.
