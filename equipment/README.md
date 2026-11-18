@@ -1,9 +1,9 @@
 # The Sound Question | Shared equipment catalogue (Phase 1)
 
 **Status: draft, not published, no Cloudflare deployment.** The first implementation
-preserves the existing 130 System Check presets, includes 24 sourced research
+preserves the existing 130 System Check presets, includes 29 sourced research
 profiles and 17 Builder-only profiles, and produces a single **read-only normalized
-catalogue** of **168 distinct physical devices**. A device may have multiple
+catalogue** of **173 distinct physical devices**. A device may have multiple
 functions/categories, so category totals intentionally exceed the model count.
 
 ## Working files
@@ -64,7 +64,7 @@ future features one normalized way to read the original facts without
 duplicating their maintenance. No calculator, recommendation, or homepage
 is changed in this PR.
 
-Current category coverage includes home speakers, amplifiers/receivers,
+Current category coverage includes passive speakers, powered studio monitors, portable PA speakers, amplifiers/receivers,
 sources, wired headphones, microphones, USB interfaces, mixers/recorders,
 computer audio and headphone amplifiers. Existing personal comparison
 examples include Yamaha A-720, Panasonic SA-HE100, Yamaha HTR-4063,
@@ -73,10 +73,15 @@ plus FIFINE K669D and M-Audio M-Track Solo.
 
 ## Phase 1 still to do before sign-off
 
-1. **Broaden source-verified model coverage**, especially recording mic variants,
-   powered studio monitors, live/PA systems, headphone outputs and accessories.
-   The Pioneer SP-FS52 remains explicitly queued for manual/spec verification
-   rather than inserting guessed values.
+1. **Broaden source-verified model coverage**, especially recording microphone variants,
+   PA systems, accessory paths, additional headphones/headphone amps and exact
+   recording interfaces. Five documented additions (Pioneer SP-FS52, Yamaha
+   HS5, JBL 305P MkII, QSC K12.2 and Electro-Voice ZLX-12P-G2) are now present.
+   The original Pioneer manual gives 6 Ω nominal and 87 dB at 2.83 V,
+   but does not state a frequency-range tolerance or continuous power duration.
+   The Yamaha HS5 / JBL 305P MkII are sold as single powered monitors,
+   while QSC/EV are portable PA. Different SPL and amplifier ratings are not
+   interchangeable. EV's onboard 24 V phantom supply is *not* generic 48 V.
 2. **Resolve unknown connection topology** on existing models and research
    records with exact manufacturer manuals. In particular, distinguish
    microphone inputs, line inputs, instrument/Hi-Z inputs, balanced outputs,
