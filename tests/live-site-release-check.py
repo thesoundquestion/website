@@ -36,7 +36,12 @@ def html(path,required):
     ok(path+" HTML", "text/html" in h.get("content-type",""))
     s=raw.decode("utf8")
     for needle in required:
-        ok(path+" includes "+needle[:58],needle in s)
+        match=needle in s
+        if not match and "contact@thesoundquestion.com" in needle:
+            # Cloudflare zone-level Email Address Obfuscation rewrites plain
+            # mailto and visible contact links to a protected data-cfemail link.
+            match="/cdn-cgi/l/email-protection" in s and "data-cfemail" in s
+        ok(path+" includes "+needle[:58],match)
     ok(path+" canonical",f'<link rel="canonical" href="{url}"' in s or f'<link rel="canonical" href="{url}/"' in s)
     ok(path+" old host absent","thesoundquestion.pages.dev" not in s)
     return s
