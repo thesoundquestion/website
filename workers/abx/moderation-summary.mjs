@@ -10,16 +10,22 @@ function safeEqual(a,b){
  for(let i=0;i<a.length;i++)mismatch|=a.charCodeAt(i)^b.charCodeAt(i);
  return mismatch===0;
 }
-export async function getPendingCounts(db){
+export async function getPendingCounts(db,{includeGear=false}={}){
  const query=await db.prepare("SELECT section,kind,COUNT(*) AS n FROM community_posts WHERE status='pending' GROUP BY section,kind").all();
- const counts={listeningRoomSuggestions:0,listeningRoomComments:0,abxComments:0};
+ const counts={listeningRoomSuggestions:0,listeningRoomComments:0,abxComments:0,gearSuggestions:0};
  for(const row of query.results||[]){
   const n=Math.max(0,Number(row.n)||0);
   if(row.section==='room'&&row.kind==='suggestion')counts.listeningRoomSuggestions+=n;
   else if(row.section==='room'&&row.kind==='comment')counts.listeningRoomComments+=n;
   else if(row.section==='abx'&&row.kind==='comment')counts.abxComments+=n;
  }
- return {pending:counts.listeningRoomSuggestions+counts.listeningRoomComments+counts.abxComments,...counts,checkedAt:new Date().toISOString()};
+ // The new gear table is created only with the deliberate gear-submissions release.
+ // Avoid touching the absent table while that independent feature is disabled.
+ if(includeGear){
+  const result=await db.prepare("SELECT COUNT(*) AS n FROM gear_suggestions WHERE status='pending'").first();
+  counts.gearSuggestions=Math.max(0,Number(result?.n)||0);
+ }
+ return {pending:Object.values(counts).reduce((sum,n)=>sum+n,0),...counts,checkedAt:new Date().toISOString()};
 }
 export async function handlePendingSummary(request,env){
  // Intentionally has no CORS response; use only a server-side authorized check.
@@ -27,5 +33,5 @@ export async function handlePendingSummary(request,env){
  if(request.method!=='GET'||env?.MODERATION_ALERTS_ENABLED!=='true'||!env.DB||typeof secret!=='string'||secret.length<32)return reply({error:'Not found'},404);
  const token=request.headers.get('authorization');
  if(!token?.startsWith('Bearer ')||!safeEqual(token.slice(7),secret))return reply({error:'Not found'},404);
- return reply(await getPendingCounts(env.DB),200);
+ return reply(await getPendingCounts(env.DB,{includeGear:env.GEAR_SUBMISSIONS_ENABLED==='true'}),200);
 }
