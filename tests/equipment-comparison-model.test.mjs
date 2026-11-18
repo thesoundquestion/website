@@ -80,3 +80,24 @@ test('unverified preamp count produces no invented practical difference',()=>{
   const c=buildEquipmentComparison(a,b,{category:'audio_interface'});
   assert.ok(!c.observations.some(s=>/microphone-preamp counts differ/.test(s)));
 });
+
+test('speaker sensitivity needs identical published measurement reference',()=>{
+  const a={id:'a',model:'Speaker A',categories:['speaker'],facts:{
+    speakerSensitivityDb:{value:89,reference:'1 W at 1 m'},
+    speakerSensitivityBasis:{value:'power'}
+  }};
+  const b={id:'b',model:'Speaker B',categories:['speaker'],facts:{
+    speakerSensitivityDb:{value:89,reference:'2.83 V at 1 m'},
+    speakerSensitivityBasis:{value:'voltage'}
+  }};
+  const c=buildEquipmentComparison(a,b,{category:'speaker'});
+  const row=c.rows.find(x=>x.key==='speakerSensitivityDb');
+  assert.equal(row.directlyComparable,false);
+  assert.match(row.caution,/same confirmed reference/);
+});
+test('documented driver bit depth must not be promoted to verified hardware maximum',()=>{
+  const c=buildEquipmentComparison(by('M-Audio M-Track Solo'),by('Focusrite Scarlett 2i2 (4th Gen)'),{category:'audio_interface'});
+  const row=c.rows.find(x=>x.key==='documentedSetupBitDepth');
+  assert.equal(row.directlyComparable,false);
+  assert.match(row.caution,/not necessarily the device/);
+});
