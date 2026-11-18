@@ -37,9 +37,10 @@ function populate(select,items,preferred){
   const alphabetical=[...items].sort((a,b)=>a.model.localeCompare(b.model));
   const ordered=preferVerifiedPriceTier(alphabetical,prices,{region:priceRegion.value,preference:validPricePreference(pricePreference.value)});
   for(const record of ordered)addOption(select,record);
-  const byModel=items.find(x=>x.model===preferred)?.id;
+  // Do not silently claim the visitor owns our example models.
+  // Explicit choice is required; switching price categories preserves it.
   if(items.some(x=>x.id===selected))select.value=selected;
-  else if(byModel)select.value=byModel;
+  else select.value='';
 }
 function refreshPriceOptions(){
   if(!catalog)return;
