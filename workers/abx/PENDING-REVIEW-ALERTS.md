@@ -1,14 +1,17 @@
 # Pending-approval email digest: free Gmail / Apps Script setup
 
-**Status (2026-11-17): Worker deployed but alerts disabled.** The `tsq-abx`
-Worker and D1 binding are now present in Cloudflare; its workers.dev
-subdomain is enabled, and the gear table was created. All public features
-and moderation alerts remain off. No `MODERATION_READ_SECRET` exists and
-`MODERATION_ALERTS_ENABLED=false`. The user copied the daily Gmail script
-into a separate private Apps Script project but has not run it or configured
-its Script Properties. The public website and comment boards remain unchanged.
-A real HTTP endpoint test is still needed; Cloudflare API deployment metadata
-and configuration checks succeeded. The email digest does **not** use a paid email API.
+**Status (2026-11-17): private alerts enabled, end-to-end test pending.** The
+`tsq-abx` Worker is deployed with its D1 binding, gear table and workers.dev
+subdomain. The user installed `MODERATION_READ_SECRET` on Cloudflare and
+reports installing the same key and endpoint URL in the dedicated private
+Google Apps Script project. Cloudflare API confirms
+`MODERATION_ALERTS_ENABLED=true`, with ABX, community and gear public feature
+flags still false. The public Pages website is unchanged. Next: run
+`sendPendingReviewDigest` once from Apps Script (zero pending entries means
+successful execution sends no email), then run `installDailyPendingDigest`
+once to create the 9 a.m. Atlantic recurring trigger. Confirm live authorized
+HTTP response, permissions, and trigger; no real HTTP response was yet obtained
+using the available tools. The email digest does **not** use a paid email API.
 
 ## How it works
 
