@@ -11,14 +11,18 @@ functions/categories, so category totals intentionally exceed the model count.
 - `catalog.generated.json`: shared catalogue read model, produced from sources; **never edit by hand**.
 - `catalog-core.mjs`: deterministic source-preserving normalization, explicit
   same-product joins and stable model IDs.
-- `catalog-client.mjs`: lazy browser reader for the future Builder, Checker,
-  comparisons and goal guide; not wired to those screens yet.
+- `catalog-client.mjs`: lazy full-catalogue reader for future recording,
+  headphone and live-sound workflows. Not loaded on the homepage.
 - `catalog-legacy-adapters.mjs`: read-only compatibility views reconstruct
   all original Checker presets and supplemental comparison details, plus
   neutral goal-category candidates, with no calculation or suitability claim.
 - `../tests/equipment-catalog-adapters.test.mjs`: verifies that every legacy
   numeric rating, note, link and comparison detail survives conversion.
-- `../scripts/build-equipment-catalog.mjs`: generate and check data.
+- `legacy-presets.generated.js` / `compare-details.generated.js`: exact,
+  source-preserving classic-script projections consumed by the existing
+  Builder, Checker and Compare pages without rewriting calculations.
+- `../scripts/build-equipment-catalog.mjs`: generate and check all three
+  synchronized runtime files.
 - `../tests/equipment-catalog-unified.test.mjs`: identity, source provenance,
   same-device roles, user comparison anchors, manufacturer test bases and unknowns.
 
@@ -27,7 +31,7 @@ Run:
 ```sh
 node scripts/build-equipment-catalog.mjs
 node scripts/build-equipment-catalog.mjs --check
-node --test tests/equipment-catalog-unified.test.mjs tests/equipment-catalog-adapters.test.mjs
+node --test tests/equipment-catalog-unified.test.mjs tests/equipment-catalog-adapters.test.mjs tests/equipment-catalog-runtime.test.mjs
 ```
 
 ## How the model avoids bad comparisons
@@ -63,13 +67,20 @@ node --test tests/equipment-catalog-unified.test.mjs tests/equipment-catalog-ada
 
 ## What is already covered
 
-The original System Check records remain authoritative for its existing
-speaker/amp calculations during this transition. The adapter provides
-equivalent data structures that are regression-tested against originals; it
-is not yet wired into the live Checker or Builder. The shared catalogue gives
-future features one normalized way to read the original facts without
-duplicating their maintenance. No calculator, recommendation, or homepage
-is changed in this PR.
+The Builder, Checker and Compare **draft HTML entrypoints now load generated
+compatibility views of the shared registry**. Exact legacy preset ordering,
+all fields (including `extra` and `distortionResearch`), test conditions,
+supplemental comparison notes and citations are retained. The existing
+calculation, comparison and recommendation JavaScript engines are unchanged.
+The original editable `system-check/gear.js`, `compare/specs.js` and Builder
+supplements are **still source inputs** during this migration. Thus there is
+one shared read model for all three pages, but source authoring is not yet
+consolidated into a single editable master file. Do not misrepresent this as
+completed source consolidation.
+
+The static release builder has an exact generated-file freshness gate and
+publishes only six approved `equipment/` runtime assets, excluding this
+handoff and research plans. This is still a draft-only change, not deployed.
 
 Current category coverage includes passive speakers, powered studio monitors, portable PA speakers, amplifiers/receivers,
 sources, wired headphones, microphones, USB interfaces, mixers/recorders,
@@ -97,12 +108,17 @@ plus FIFINE K669D and M-Audio M-Track Solo.
 3. **Review confidence for each quantitative spec**, prioritizing the M-Track
    Solo 16-bit claim, which still requires device-specific manufacturer
    confirmation rather than a definitive public comparison.
-4. **Review shared catalogue size and load policy**. Keep it lazy-load-only
-   for comparison/checker tools, not a forced homepage download.
-5. Before deployment, deliberately include the `equipment` runtime route
-   in `scripts/build-public-site.mjs`, and add public build/reader tests.
-   This route is *currently excluded*, intentionally keeping all Phase 1
-   research data off the live site until approval.
+4. **Review shared catalogue size and load policy.** Existing listening tools
+   load only their compact classic-script projections; future specialist
+   tools may lazy-load the complete catalogue, not the homepage.
+5. **Consolidate authoring sources** after agreeing an editorial source
+   format. Existing presets, comparison detail, Builder-only lists and
+   research records remain distinct authoring inputs; generated artifacts
+   must never be manually edited.
+6. **Manual mobile and browser regression, source-confidence review and
+   deliberate release approval.** The static builder now includes approved
+   catalogue runtime assets and will fail if generated output is stale.
+   Draft PR #23 is not merged, and no Cloudflare publication is performed.
 
 ## Later phases, in agreed order
 
