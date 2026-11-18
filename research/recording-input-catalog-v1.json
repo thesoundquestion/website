@@ -654,7 +654,72 @@
       "priceCheckedDate": null,
       "availability": null,
       "ratingsConsensus": null,
-      "roleOfRecord": "research_comparison_not_published_recommendation"
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "existingPresetRef": {
+        "category": "source",
+        "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)"
+      }
+    }
+  ],
+  "existingPresetCrossReferences": [
+    {
+      "model": "Yamaha A-720",
+      "category": "amp",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Panasonic SA-HE100",
+      "category": "amp",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Yamaha HTR-4063 (US/Canada)",
+      "category": "amp",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Paradigm Phantom v1",
+      "category": "speaker",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Paradigm Titan v3",
+      "category": "speaker",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Grado SR80e",
+      "category": "headphone",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)",
+      "category": "source",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    }
+  ],
+  "uncataloguedComparisonModels": [
+    {
+      "brand": "Pioneer",
+      "model": "SP-FS52",
+      "category": "speaker",
+      "status": "needs_manual_and_specs_research",
+      "numericFields": null,
+      "reason": "A comparison anchor for the user's existing stereo speakers; do not invent driver or sensitivity specifications."
     }
   ]
 }
