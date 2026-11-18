@@ -15,9 +15,9 @@ that a product lacks the connection**.
 | Speaker (including passive/studio/PA) | 73 | 5 | 1 | 0 |
 | Amplifier / AVR | 46 | 0 | 0 | 0 |
 | Line source / DAC | 19 | 2 | 19 | 0 |
-| Headphones | 16 | 0 | 0 | 14 |
+| Headphones | 16 | 2 | 0 | 16 |
 | Microphones | 6 | 0 | 6 | 0 |
-| USB audio interfaces | 6 | 2 | 2 | 0 |
+| USB audio interfaces | 6 | 6 | 6 | 0 |
 | Mixers / recorders | 3 | 1 | 1 | 0 |
 | Dedicated headphone amps | 5 | 5 | 5 | 0 |
 | Computer sound-card functions | 1 | 1 | 1 | 0 |
@@ -29,10 +29,14 @@ devices (Creative X-Fi Titanium HD, FiiO K11) have two roles.
 
 ### Priority A: Strong examples with verified input/output topology
 
-The M-Track Solo and Scarlett 2i2 fourth-generation physical input roles,
-plus Yamaha MG10XU mixer I/O and channel-routing caveats, have now been
-entered with dated manufacturer/manual references. Other interface and
-mixer models remain outstanding.
+All six USB audio interfaces now have individually recorded physical input
+and output roles, including M-Track Solo, Scarlett Solo/2i2 fourth-gen,
+Audient iD4 MkII, Behringer UMC202HD and original Arturia MiniFuse 2.
+The Yamaha MG10XU mixer stereo-USB limitation is also represented.
+Source-linked jack evidence for Grado SR80e and Sennheiser HD 600 now sits
+in a separate overlay rather than changing the original calculator presets.
+Most legacy amplifiers and speakers and two other mixers still lack reviewed
+structured port maps.
 
 1. **M-Audio M-Track Solo and Scarlett 2i2 4th Gen.** Explicitly model
    the number of microphone preamps, input socket functions (mic, line,
