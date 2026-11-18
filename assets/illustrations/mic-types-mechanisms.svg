@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1180" height="496" viewBox="0 0 1180 496" role="img" aria-labelledby="t d">
-<title id="t">Three ways microphones turn sound into electricity</title><desc id="d">Three conceptual cutaways: a moving-coil diaphragm linked to a coil near a magnet, a condenser's charged diaphragm and backplate separated by a narrow gap, and a ribbon of thin metal suspended between magnets. All parts are simplified and not to scale.</desc>
+<title id="t">Three ways microphones turn sound into electricity</title><desc id="d">Three conceptual cutaways: a dynamic (moving-coil) microphone with a diaphragm linked to a coil near a magnet, a condenser's charged diaphragm and backplate separated by a narrow gap, and a ribbon of thin metal suspended between magnets. All parts are simplified and not to scale.</desc>
 <defs><linearGradient id="bg" x2=".8" y2="1"><stop stop-color="#152c42"/><stop offset="1" stop-color="#0b1624"/></linearGradient>
 <linearGradient id="metal" x2="1" y2=".6"><stop stop-color="#92afc4"/><stop offset=".44" stop-color="#2d4f69"/><stop offset="1" stop-color="#0d2334"/></linearGradient>
 <radialGradient id="glow"><stop stop-color="#65cfff" stop-opacity=".24"/><stop offset="1" stop-color="#2db7fc" stop-opacity="0"/></radialGradient>
@@ -8,7 +8,7 @@
 <rect width="1180" height="496" fill="#081522"/><rect width="1180" height="496" fill="url(#grid)"/>
 <g font-family="system-ui,-apple-system,Segoe UI,sans-serif">
 <g transform="translate(18 17)"><rect width="370" height="462" rx="18" fill="url(#bg)" stroke="#396384" stroke-width="2"/><rect x="16" y="15" width="338" height="49" rx="9" fill="#112941"/>
-<text x="28" y="45" fill="#e8f8ff" font-size="22" font-weight="750">MOVING-COIL</text><text x="30" y="88" font-size="15" fill="#a8cde0">Sound pushes a diaphragm</text>
+<text x="28" y="45" fill="#e8f8ff" font-size="22" font-weight="750">DYNAMIC (MOVING-COIL)</text><text x="30" y="88" font-size="15" fill="#a8cde0">Sound pushes a diaphragm</text>
 <g transform="translate(12 104)"><rect x="21" y="35" width="309" height="211" rx="27" fill="#0c2234" stroke="#7098af" stroke-width="5"/><rect x="42" y="53" width="265" height="172" rx="16" fill="#102b43" stroke="#3b5e74"/>
 <path d="M86 58V222" stroke="#7be0ff" stroke-width="12"/><path d="M82 56Q60 141 82 226" fill="none" stroke="#b3ecff" stroke-width="3"/>
 <g fill="none" stroke="#f3bd88" stroke-width="6"><path d="M118 97h80v12h-80v12h80v12h-80v12h80v12h-80v12h80v12h-80"/></g>
