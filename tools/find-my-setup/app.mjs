@@ -88,13 +88,19 @@ function render(plan){
   const row=add(result,'section','goal-builder-handoff');
   add(row,'h3','','Ready to explore a listening setup?');
   add(row,'p','','System Builder handles supported home listening paths. These guide answers are not silently entered into it; review your actual gear and choices there.');
-  row.append(makeLink('/system-builder/','Continue to System Builder →','button button-primary'));
+  row.append(makeLink('/system-builder/','Continue to Listening Builder →','button button-primary'));
   row.append(makeLink('/system-check/','Or check amp and speaker headroom →','goal-secondary-link'));
+ } else if(plan.goalId==='tv'||plan.goalId==='headphones'){
+  const row=add(result,'section','goal-builder-handoff');
+  add(row,'h3','','Explore a listening system');
+  add(row,'p','','The Listening Builder covers speakers, amplifiers, room choices and headphones. Your guide answers are not silently applied; choose the actual equipment and requirements there.');
+  row.append(makeLink('/system-builder/','Continue to Listening Builder →','button button-primary'));
+  if(plan.goalId==='headphones')row.append(makeLink('/tools/chain-check-preview/','Review headphone output evidence →','goal-secondary-link'));
  } else if(plan.goalId!=='learn'){
   const row=add(result,'section','goal-builder-handoff');
-  add(row,'h3','','Ready to assemble the equipment for this goal?');
-  add(row,'p','','System Builder now has a matching signal-chain mode for this activity. Choose actual devices from the shared catalogue and see documented requirements and unknowns. The answers above are not silently converted to equipment claims.');
-  row.append(makeLink('/system-builder/?goal='+encodeURIComponent(plan.goalId),'Continue to the '+plan.title.toLowerCase()+' system builder →','button button-primary'));
+  add(row,'h3','','Build a system for this project');
+  add(row,'p','','The Creating Builder covers recording, podcasting, streaming and live-sound signal chains using documented equipment facts. This guide does not silently assume device compatibility.');
+  row.append(makeLink('/system-builder/creating/?goal='+encodeURIComponent(plan.goalId),'Continue to Creating Builder →','button button-primary'));
  }
  const end=add(result,'p','goal-result-foot','Equipment types are educational starting points, not verified compatibility or product recommendations. We do not calculate prices or send your choices to a server.');
  result.hidden=false;
