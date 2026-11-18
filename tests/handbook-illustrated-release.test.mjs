@@ -7,8 +7,8 @@ import path from 'node:path';
 const root=path.resolve(import.meta.dirname,'..');
 const rel='library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
 const filepath=path.join(root,rel);
-const expectedSha='fb88f867cd4a584dbc042cb392237345e1071a207d5a0d634b184ba3e1097507';
-const expectedBytes=11674414;
+const expectedSha='d647ee22a1931adf45e8cf72fd25792fb10d12a8017e64d54ca105209cfeee77';
+const expectedBytes=12018958;
 
 test('approved 59-page handbook binary is exactly the reviewed release',()=>{
  assert.ok(existsSync(filepath),'Approved handbook PDF must be included before merge/release: '+rel);

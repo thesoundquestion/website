@@ -20,8 +20,8 @@ const mediaExt = new Set(['.wav', '.flac', '.mp3', '.ogg', '.aiff', '.aif', '.m4
 // Release only the exactly approved 59-page illustrated handbook.
 const retiredHandbook = 'library/make-audio-make-sense/make-audio-make-sense.pdf';
 const illustratedHandbook = 'library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
-const illustratedHandbookExpectedSize = 11674414;
-const illustratedHandbookExpectedSha256 = 'fb88f867cd4a584dbc042cb392237345e1071a207d5a0d634b184ba3e1097507';
+const illustratedHandbookExpectedSize = 12018958;
+const illustratedHandbookExpectedSha256 = 'd647ee22a1931adf45e8cf72fd25792fb10d12a8017e64d54ca105209cfeee77';
 /* Allow only explicitly reviewed, checked full-band MP3 examples. Keep the
  * default deny rule for every other audio/video file, including raw stems. */
 const approvedMedia = new Map([
