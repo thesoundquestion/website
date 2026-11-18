@@ -1,0 +1,35 @@
+name: Ask TSQ free-only release checks
+
+on:
+  pull_request:
+    paths:
+      - 'functions/api/lesson-tutor.js'
+      - '_routes.json'
+      - 'scripts/build-public-site.mjs'
+      - 'deployment/lesson-tutor/**'
+      - 'assets/lesson-tutor/**'
+      - 'tests/lesson-tutor/**'
+      - '.github/workflows/ask-tsq-release-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-tutor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test the local answer bank, model-budget rules and API route
+        run: node --test tests/lesson-tutor/*.test.mjs
+      - name: Verify static Pages build with route restrictions
+        run: node scripts/build-public-site.mjs
+      - name: Confirm only the tutor API invokes Pages Functions
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; const x=JSON.parse(fs.readFileSync('site-dist/_routes.json','utf8')); if(x.include.length!==1||x.include[0]!=='/api/lesson-tutor'||x.exclude.length!==0)process.exit(1);"
