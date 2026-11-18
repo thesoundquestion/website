@@ -64,13 +64,17 @@ export function assessRecordingChain(catalog,{
     'Plug shape alone does not validate wiring, gain, phantom switching, signal role or safe operation.'));
   const usbInputs=fact(capture,'computerRecordingInputs');
   if(isNumber(usbInputs)){
-    checks.push(record('computer_capture_channels',
-      usbInputs>=required?'documented_capacity':'known_limit',
-      'Published computer capture channels: '+usbInputs+'; requested microphones: '+required+'.',
-      'This is the total computer capture channel count and does not guarantee individual microphones can be sent to separate channels.'));
+    const enough=independentTracks?usbInputs>=required:usbInputs>=1;
+    checks.push(record('computer_capture_channels',enough?'documented_capacity':'known_limit',
+      'Published computer capture channels: '+usbInputs+'; requested microphones: '+required+
+      (independentTracks?' (separate tracks requested).':' (a shared mix is acceptable).'),
+      independentTracks?
+        'USB input count alone does not establish independent microphone routing; verify whether channels are a shared stereo mix.':
+        'One or two computer channels may capture a mixed group of microphones. Verify the actual summing/routing mode; separate editing is not assumed.'));
   }else checks.push(record('computer_capture_channels','unverified',
     'Computer capture channel count has not been verified.',
     'Analogue mixer channels are not interchangeable with USB recording channels.'));
+
   if(independentTracks&&required>1){
     const mode=fact(capture,'usbRecordingMode');
     if(mode==='stereo_mix_only')
