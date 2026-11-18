@@ -1,12 +1,8 @@
 name: One-time TSQ handbook .com link migration
 
+# One-time migration completed: retain manual audit pathway only.
+# Its SHA guard refuses any later, nonoriginal handbook.
 on:
-  push:
-    branches:
-      - draft/abx-shared-framework-20261116
-    paths:
-      - scripts/retarget-handbook-domain.py
-      - .github/workflows/handbook-domain-links.yml
   workflow_dispatch:
 
 permissions:
