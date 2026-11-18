@@ -90,8 +90,8 @@ test('the homepage and Library use one concise front door with no duplicated han
   assert.ok(home.indexOf('Jump Straight In')<home.indexOf('Choose Your Path'));
   assert.match(home,/href="\/library\/"/);
   assert.doesNotMatch(home,/href="\/decoder\/audio-interfaces-mixers\/"/);
-  assert.equal((library.match(/href="\/library\/make-audio-make-sense\/"/g)||[]).length,1);
-  assert.equal((library.match(/href="\/library\/make-audio-make-sense\/make-audio-make-sense-illustrated\.pdf"/g)||[]).length,0);
+  assert.equal((library.match(/<h2>Make Audio Make Sense · Free handbook<\/h2>/g)||[]).length,1);
+  assert.equal((library.match(/href="\/library\/make-audio-make-sense\/make-audio-make-sense-illustrated\.pdf"/g)||[]).length,1);
   assert.match(library,/href="\/decoder\/technical-glossary\/"/);
   const guide=decoder.lastIndexOf('href="/decoder/audio-interfaces-mixers/"');
   assert.ok(guide>decoder.indexOf('LESSON 16')&&guide<decoder.indexOf('LESSON 17'),'place interface guide between lessons 16 and 17');
