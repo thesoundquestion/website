@@ -13,6 +13,7 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 import {dirname,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {isDeepStrictEqual} from 'node:util';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const read=p=>readFileSync(resolve(root,p),'utf8');
@@ -44,7 +45,20 @@ if(process.argv.includes('--write')){
    console.log('Updated source mirror '+p);
  }
 } else if(process.argv.includes('--check')){
- const changed=Object.entries(outputs).filter(([p,content])=>read(p)!==content).map(([p])=>p);
+ // Existing legacy files are allowed to retain reviewed formatting.
+ // Compare semantic data rather than formatting whitespace or object-key order.
+ const current=(path,variable)=>{
+   const src=read(path),marker='const '+variable+' = ';
+   const start=src.indexOf(marker)+marker.length,end=src.lastIndexOf('};');
+   if(start<marker.length||end<start)throw new Error('Malformed mirror '+path);
+   return JSON.parse(src.slice(start,end+1));
+ };
+ const pairs=[
+   ['system-check/gear.js',master.legacyGear,current('system-check/gear.js','systemCheckGear')],
+   ['system-check/compare/specs.js',master.compareDetails,current('system-check/compare/specs.js','compareGearDetails')],
+   ['research/recording-input-catalog-v1.json',master.researchCatalog,JSON.parse(read('research/recording-input-catalog-v1.json'))]
+ ];
+ const changed=pairs.filter(([path,wanted,found])=>!isDeepStrictEqual(wanted,found)).map(([path])=>path);
  if(changed.length){
    console.error('Source mirrors require sync: '+changed.join(', '));
    process.exitCode=1;
