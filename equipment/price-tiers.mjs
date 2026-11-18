@@ -10,7 +10,11 @@ export const PRICE_TIER_POLICY=Object.freeze({
 });
 const REGION_CURRENCY=Object.freeze({CA:'CAD',US:'USD',GB:'GBP',EU:'EUR',AU:'AUD'});
 export const retailCategoryFor=entry=>{
-  if(entry.categories?.includes('headphone'))return 'wired_headphones';
+  if(entry.categories?.includes('headphone')) {
+    const design=entry.profiles?.map(p=>String(p.values?.design||p.specifications?.design||'')).join(' ').toLowerCase()||'';
+    if(/in[-_ ]ear|earbud|\biem\b/.test(design))return 'wired_in_ear_monitors';
+    return 'wired_headphones';
+  }
   const sp=entry.facts?.speakerKind?.value;
   if(sp==='powered_studio_monitor')return 'powered_studio_monitors_per_cabinet';
   if(sp==='powered_pa_speaker')return 'powered_pa_per_cabinet';
