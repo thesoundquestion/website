@@ -256,6 +256,7 @@ export function composeEquipmentCatalog({
   return {
     schemaVersion:EQUIPMENT_SCHEMA_VERSION,status:'draft_not_published',
     description:'Generated read-only view. Original specification sources remain authoritative; unknowns are not filled by inference.',
+    metadata:{compareVersion:compareDetails.version||null,compareNotice:compareDetails.notice||null},
     sources:[LEGACY_PATH,COMPARE_PATH,RESEARCH_PATH,
       'system-builder/supplemental-speakers.mjs',
       'system-builder/supplemental-amplifiers.mjs',
