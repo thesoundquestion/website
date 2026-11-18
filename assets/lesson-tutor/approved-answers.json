@@ -2331,11 +2331,11 @@
         ],
         "examples": {
           "peak": {
-            "label": "Match peak level",
+            "label": "Match strongest peaks",
             "text": "The strongest hit in each version reaches 10 V. The heavily limited version stays at a higher level between hits, so the amp delivers more average power."
           },
           "rms": {
-            "label": "Match average level",
+            "label": "Match average electrical level",
             "text": "All three use 0.5 W on average into the 8 Ω example load. The restrained version still has the biggest drum hit, so the amp needs to deliver a bigger burst at that moment."
           }
         }
