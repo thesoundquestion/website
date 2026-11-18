@@ -29,7 +29,9 @@ test('optional Ko-fi support links do not gate lessons or embed payment scripts'
  assert.match(connect,/id="support-project"/);
  assert.match(connect,/Nothing is locked behind a contribution/);
  assert.match(privacy,/Donations open Ko-fi's external payment page/);
- assert.equal((privacy.match(/Cloudflare/g)||[]).length,1);
+ assert.ok((privacy.match(/Cloudflare/g)||[]).length>=1,'Cloudflare hosting/privacy disclosure retained');
+ assert.match(privacy,/clicking its separate button will send the question/);
+ assert.match(privacy,/short-lived signed browser cookie/);
  assert.match(privacy,/temporary limits based on your IP address/);
  assert.match(privacy,/a separate scoring service will check blind-test answers/);
  for(const page of [home,connect]){
