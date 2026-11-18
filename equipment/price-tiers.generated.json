@@ -7,8 +7,8 @@
       "region": "CA",
       "asOf": "2026-11-18",
       "summary": {
-        "eligibleModels": 8,
-        "labelledModels": 5
+        "eligibleModels": 10,
+        "labelledModels": 10
       },
       "categories": {
         "wired_headphones": {
@@ -20,9 +20,9 @@
           "boundariesHidden": true
         },
         "usb_audio_interfaces": {
-          "status": "insufficient_retail_evidence",
-          "representativeModels": 3,
-          "retailerCount": 4,
+          "status": "sampled",
+          "representativeModels": 5,
+          "retailerCount": 7,
           "region": "CA",
           "pricingBasis": "average_regular_new_retail_across_distinct_merchants",
           "boundariesHidden": true
@@ -72,6 +72,56 @@
         "legacy/headphone/sennheiser-hd-600": {
           "tier": "premium_pricing",
           "category": "wired_headphones",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "research/audio_interface/focusrite-scarlett-solo-4": {
+          "tier": "mid_grade",
+          "category": "usb_audio_interfaces",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "research/audio_interface/focusrite-scarlett-2i2-4": {
+          "tier": "premium_pricing",
+          "category": "usb_audio_interfaces",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "research/audio_interface/audient-id4-mkii": {
+          "tier": "premium_pricing",
+          "category": "usb_audio_interfaces",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "research/audio_interface/arturia-minifuse-2": {
+          "tier": "budget",
+          "category": "usb_audio_interfaces",
+          "region": "CA",
+          "asOf": "2026-11-18",
+          "confidence": "limited_sample",
+          "qualifyingRetailers": 2,
+          "basis": "relative_new_retail_price_only",
+          "expiresOn": "2027-01-02"
+        },
+        "research/audio_interface/maudio-mtrack-solo": {
+          "tier": "budget",
+          "category": "usb_audio_interfaces",
           "region": "CA",
           "asOf": "2026-11-18",
           "confidence": "limited_sample",
