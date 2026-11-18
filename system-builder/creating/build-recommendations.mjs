@@ -248,7 +248,7 @@ export function buildCreatingSystem(catalog,{
         r=>r.connections.inputs.some(p=>/xlr|trs/.test(p.type))?9:0,prices,region,pricePreference);
       stages.push(buildStage(catalog,{key:'monitors',title:'Optional studio listening speakers',
         purpose:'Listen to your edits away from headphones. They are not required just to record a microphone.',
-        owned,ownedNames,candidates:monitors,prices,region,quantity:2,
+        owned,ownedNames,candidates:monitors,prices,region,quantity:2,alternatives:4,
         reason:'Catalogued powered studio cabinet, not an amplifier for passive speakers.',
         checks:['Most documented packages contain one powered speaker; buy two for an ordinary stereo pair.',
           'Check two compatible line-level outputs, volume control, mains power and space around each speaker.']}));
