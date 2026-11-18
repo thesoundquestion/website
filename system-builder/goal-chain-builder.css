@@ -1,0 +1,26 @@
+/* Purpose-specific extensions. Original listening Builder styles remain unchanged. */
+.sb-purpose{border:1px solid #45647b;background:linear-gradient(145deg,#153249,#0d1c2d);padding:clamp(1.15rem,3vw,2rem);border-radius:16px;margin:1.3rem 0}
+.sb-purpose h2{font-size:clamp(1.4rem,3vw,2.05rem);margin:.35rem 0 .6rem}
+.sb-purpose p{max-width:880px}
+.sb-purpose>.sb-field{max-width:540px}
+.sb-purpose-panel{padding:clamp(1rem,3vw,2rem);border:1px solid #466783;background:#101e2e;border-radius:16px;margin-bottom:1.5rem}
+.sb-purpose-panel[hidden],.sb-purpose [hidden],.sb [hidden]{display:none!important}
+.sb-purpose-panel>h2{font-size:clamp(1.45rem,3vw,2.05rem);margin-bottom:.6rem}
+.sb-purpose-panel form{display:grid;gap:.95rem}
+.sb-purpose-panel select,.sb-purpose-panel input[type=number]{color-scheme:dark}
+.sb-purpose-result{border-top:1px solid #42617a;margin-top:1.3rem;padding-top:1.3rem}
+.sb-purpose-result h3{font-size:1.5rem}
+.sb-purpose-result h4{font-size:1.08rem;margin:1.5rem 0 .6rem}
+.sb-purpose-result ol,.sb-purpose-result ul{padding-left:1.6rem}
+.sb-purpose-result li{margin:.55rem 0;line-height:1.65;color:#d4e7f4}
+.sb-purpose-result li p{margin:.22rem 0;color:#b6cedf}
+.sb-purpose-result strong{color:#eaf8ff}
+.sb-purpose-result .sb-chain-known_limit{border-left:3px solid #f1b78a;padding:.45rem .8rem;background:#2e251e}
+.sb-purpose-result .sb-chain-needs_check,.sb-purpose-result .sb-chain-unverified{border-left:3px solid #86b6d8;padding:.45rem .8rem;background:#18283a}
+.sb-chain-disclaimer{font-size:.88rem;border-top:1px solid #36536e;padding-top:1rem;line-height:1.7}
+.gc-price-summary{border:1px solid #36556d;padding:1.1rem 1.3rem;margin:1.1rem 0 1.45rem;background:#122436;border-radius:12px}
+.gc-price-summary h3{font-size:1.16rem;margin:0 0 .7rem}
+.gc-price-summary label{display:flex;flex-direction:column;gap:.35rem;max-width:380px;font-weight:650}
+.gc-price-summary select{font:inherit;background:#0a1827;border:1px solid #55738c;color:#f0faff;border-radius:8px;padding:.6rem}
+.gc-price-summary p{margin:.6rem 0;color:#cfdeea}
+.gc-price-caution{font-size:.85rem}
