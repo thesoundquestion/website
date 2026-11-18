@@ -56,7 +56,7 @@ test('HTML page has accessible fallback and does not use paid APIs', () => {
   assert.match(html,/<noscript>/);
   assert.match(html,/aria-live=/);
   assert.match(html,/equipment\/legacy-presets\.generated\.js/);
-  assert.match(html,/system-check\/compare\/specs\.js/);
+  assert.match(html,/equipment\/compare-details\.generated\.js/);
   assert.doesNotMatch(html,/googleapis\.com\/customsearch|fetch\(.*retailer/i);
 });
 test('original System Check remains a separate validated calculator', () => {
