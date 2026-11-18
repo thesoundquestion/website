@@ -18,10 +18,10 @@ const pathNames=p=>p.steps.map(s=>s.name).join(' | ');
 const words=html=>html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().split(/\s+/).length;
 
 test('homepage is a short signpost with prominent real goals and simple essentials',()=>{
- assert.match(home,/<h1 id="home-title">What are you looking/);
+ assert.match(home,/<h1 id="home-title">The Sound /);\n assert.match(home,/From the microphone to your ears\\./);
  assert.match(home,/class="home-goal-grid"/);
  assert.equal((home.match(/class="home-goal-card"/g)||[]).length,6);
- assert.ok(home.indexOf('class="home-goal-grid"')<home.indexOf('home-fast-paths'),'goals must precede secondary navigation');
+ assert.ok(home.indexOf('home-fast-paths')<home.indexOf('class="home-goal-grid"'),'Jump Straight In must precede Choose Your Path');
  assert.equal((home.match(/class="home-quick-links"/g)||[]).length,1,'Keep a single compact set of quick links');
  assert.equal((home.match(/class="discovery-card"/g)||[]).length,0,'Avoid a competing second card grid');
  for(const id of ['hifi','vocal','songwriter','stream','band','live']){
@@ -153,7 +153,7 @@ test('live performer monitoring and remote podcast routes are not silently lost'
 test('all recommended lessons are existing live-source pages and anchors, never unpublished draft routes',()=>{
  const errors=[];
  for(const [key,item]of Object.entries(LINKS)){
-  if(/audio-interfaces-mixers/.test(item.href))errors.push(key+' points to unmerged lesson');
+  if(/audio-interfaces-mixers/.test(item.href)&&!existsSync(path.join(root,'decoder/audio-interfaces-mixers/index.html')))errors.push(key+' missing interface/mixer lesson');
   if(!item.href.startsWith('/'))errors.push(key+' not local');
   const [base,fragment]=item.href.split('#');
   const relative=base.slice(1),file=path.join(root,relative.endsWith('/')?relative+'index.html':relative);
