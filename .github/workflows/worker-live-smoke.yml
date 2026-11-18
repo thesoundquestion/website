@@ -1,12 +1,8 @@
 name: TSQ production Worker API smoke (no external secrets)
 
+# Manual-only after successful release acceptance, to avoid repeatedly creating
+# temporary production D1 rows on ordinary source commits.
 on:
-  push:
-    branches:
-      - draft/abx-shared-framework-20261116
-    paths:
-      - tests/live-worker-api-smoke.py
-      - .github/workflows/worker-live-smoke.yml
   workflow_dispatch:
 
 permissions:

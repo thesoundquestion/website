@@ -133,7 +133,7 @@ function makeListing(container,scope,kind,notify){
    notify('');
   }catch(error){
    if(id!==requestId)return;
-   state(results,'Community entries are not available yet. This section opens when the next website update is released.');
+   state(results,'Community entries are temporarily unavailable. Please try again later.');
    loadMore.hidden=true;throw error;
   }finally{if(id===requestId){busy=false;loadMore.disabled=false}}
  }
@@ -160,7 +160,7 @@ function init(root){
   const outcomes=await Promise.allSettled(fetches.map(fn=>fn(true)));
   if(outcomes.some(x=>x.status==='fulfilled')){
    for(const fn of enable)fn();
-  }else state(notice,'The community board is not open yet. Comments and suggestions will be available with the next release.');
+  }else state(notice,'Community listings could not load. Please try again later.');
  }
  if('IntersectionObserver'in window){
   const observer=new IntersectionObserver(entries=>{
