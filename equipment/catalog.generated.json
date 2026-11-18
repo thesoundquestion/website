@@ -11,11 +11,11 @@
     "system-builder/supplemental-headphones.mjs"
   ],
   "summary": {
-    "totalModels": 168,
+    "totalModels": 173,
     "byCategory": {
       "amp": 46,
       "headphone": 16,
-      "speaker": 68,
+      "speaker": 73,
       "source": 19,
       "computer_sound_card": 1,
       "headphone_amplifier": 5,
@@ -23,7 +23,7 @@
       "microphone": 6,
       "mixer_recorder": 3
     },
-    "researchProfiles": 24,
+    "researchProfiles": 29,
     "legacyProfiles": 130,
     "builderSupplementProfiles": 17
   },
@@ -6426,7 +6426,7 @@
         "inputs": [
           {
             "type": "rca_stereo_line_input",
-            "scope": "computer sound-card input",
+            "scope": "computer_sound_card documented physical input",
             "from": "research/recording-input-catalog-v1.json"
           }
         ],
@@ -6438,7 +6438,7 @@
           },
           {
             "type": "rca_stereo_line_output",
-            "scope": "computer sound-card output",
+            "scope": "computer_sound_card documented physical output",
             "from": "research/recording-input-catalog-v1.json"
           }
         ],
@@ -15725,6 +15725,623 @@
         "unknowns": [
           "research.independentMonitorMixes"
         ]
+      }
+    },
+    {
+      "id": "research/speaker/electrovoice-zlx-12p-g2",
+      "model": "Electro-Voice ZLX-12P-G2",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:live_sound",
+        "role:portable_pa",
+        "role:stage_monitor",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "xlr_6.35mm_combo_mic_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "bluetooth_stream",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_pa_speaker",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "unitsPerRetailPackage": {
+          "value": 1,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "onboardPhantomPowerVolts": {
+          "value": 24,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "manufacturerMaximumSplDb": {
+          "value": 127,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "electrovoice-zlx-12p-g2",
+          "roles": [
+            "live_sound",
+            "portable_pa",
+            "stage_monitor"
+          ],
+          "specifications": {
+            "physicalInputTypes": [
+              "xlr_6.35mm_combo_mic_line",
+              "bluetooth_stream"
+            ],
+            "physicalOutputTypes": [],
+            "speakerKind": "powered_pa_speaker",
+            "powered": true,
+            "unitsPerRetailPackage": 1,
+            "onboardPhantomPowerVolts": 24,
+            "hasMicrophoneInput": true,
+            "hasInstrumentHizInput": true,
+            "manufacturerMaximumSplDb": 127,
+            "manufacturerMaximumSplConditions": null,
+            "passiveSpeakerOutputRequired": false
+          },
+          "note": "Explicitly 24 V phantom, not standard 48 V. Phantom-fed condenser microphones may not work as intended: verify their required voltage. Max SPL cannot be compared unqualified to JBL continuous SPL."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.electrovoice.com/product/zlx-12p-g2",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "powered 12 inch two-way PA",
+            "two XLR/TRS combo inputs",
+            "24 V phantom power, not 48 V",
+            "Hi-Z support with onboard mixer",
+            "127 dB manufacturer maximum SPL, measurement conditions not normalized"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.manufacturerMaximumSplConditions"
+        ]
+      }
+    },
+    {
+      "id": "research/speaker/jbl-305p-mkii-studio",
+      "model": "JBL 305P MkII",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "balanced_xlr_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "unitsPerRetailPackage": {
+          "value": 1,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "jbl-305p-mkii-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring"
+          ],
+          "specifications": {
+            "physicalInputTypes": [
+              "balanced_xlr_line",
+              "6.35mm_trs_line"
+            ],
+            "physicalOutputTypes": [],
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 1,
+            "maxContinuousSplDb": 94,
+            "maxContinuousSplTestConditions": "manufacturer published figure, do not compare to PA peak SPL",
+            "passiveSpeakerOutputRequired": false
+          },
+          "note": "One speaker cabinet. Manufacturer continuous SPL must not be compared directly to PA peak SPL; source-level connection required. Output channels/pair cost need separate checks."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://jblpro.com/en-US/products/305p-mkii.html",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "powered 5 inch studio monitor",
+            "XLR and TRS inputs",
+            "selectable +4 dBu / -10 dBV sensitivity",
+            "94 dB maximum continuous SPL under manufacturer test"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/speaker/pioneer-sp-fs52",
+      "model": "Pioneer SP-FS52",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:home_listening",
+        "role:passive_speaker",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "passive_speaker_binding_posts",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "passive_floorstanding",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": false,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityBasis": {
+          "value": "2.83_V_at_1_m_assumed_distance",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "frequencyRangeToleranceDb": {
+          "value": null,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "pioneer-sp-fs52",
+          "roles": [
+            "home_listening",
+            "passive_speaker"
+          ],
+          "specifications": {
+            "physicalInputTypes": [
+              "passive_speaker_binding_posts"
+            ],
+            "physicalOutputTypes": [],
+            "speakerKind": "passive_floorstanding",
+            "powered": false,
+            "speakerNominalImpedanceOhms": 6,
+            "speakerSensitivityDb": 87,
+            "speakerSensitivityBasis": "2.83_V_at_1_m_assumed_distance",
+            "speakerFrequencyRangeHz": [
+              40,
+              20000
+            ],
+            "frequencyRangeToleranceDb": null,
+            "maxInputPowerWatts": 130,
+            "maxInputPowerDuration": null,
+            "crossoverHz": [
+              250,
+              3000
+            ],
+            "minimumImpedanceOhms": null,
+            "phaseResponse": null
+          },
+          "note": "Original Pioneer manual. Sensitivity published at 2.83 V but source table does not explicitly state test distance; do not treat 130 W maximum as a continuous handling guarantee or 40 Hz endpoint as a -3 dB result."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://images-na.ssl-images-amazon.com/images/G/01/HARDLINES/usermanual/27_2_15/B008NCD2LG._V327293103_.pdf",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "3-way bass-reflex floorstanding",
+            "nominal impedance 6 ohms",
+            "87 dB at 2.83 V",
+            "130 W maximum input, unspecified duration",
+            "40 Hz–20 kHz range without tolerance",
+            "crossover 250 Hz and 3 kHz"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.frequencyRangeToleranceDb",
+          "research.maxInputPowerDuration",
+          "research.minimumImpedanceOhms",
+          "research.phaseResponse"
+        ]
+      }
+    },
+    {
+      "id": "research/speaker/qsc-k12-2-pa",
+      "model": "QSC K12.2",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:live_sound",
+        "role:portable_pa",
+        "role:stage_monitor",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "xlr_6.35mm_combo_mic_or_line_A",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "xlr_6.35mm_combo_line_or_hiz_B",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "3.5mm_stereo_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "xlr_loop_through",
+            "scope": "speaker documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "xlr_mix_output",
+            "scope": "speaker documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_pa_speaker",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "unitsPerRetailPackage": {
+          "value": 1,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "onboardPhantomPowerVolts": {
+          "value": null,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "qsc-k12-2-pa",
+          "roles": [
+            "live_sound",
+            "portable_pa",
+            "stage_monitor"
+          ],
+          "specifications": {
+            "physicalInputTypes": [
+              "xlr_6.35mm_combo_mic_or_line_A",
+              "xlr_6.35mm_combo_line_or_hiz_B",
+              "3.5mm_stereo_line"
+            ],
+            "physicalOutputTypes": [
+              "xlr_loop_through",
+              "xlr_mix_output"
+            ],
+            "speakerKind": "powered_pa_speaker",
+            "powered": true,
+            "unitsPerRetailPackage": 1,
+            "hasMicrophoneInput": true,
+            "hasInstrumentHizInput": true,
+            "onboardPhantomPowerVolts": null,
+            "passiveSpeakerOutputRequired": false
+          },
+          "note": "Channel A mic/line and channel B Hi-Z/line are not two interchangeable mic preamps. Do not assume phantom power. Do not use marketing amplifier peak wattage as sustained acoustic output."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.qscaudio.com/products-solutions/loudspeakers/portable/powered/portable-pa/k2-series/k122/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "two selectable combo input roles, different on channels A and B",
+            "3.5 mm stereo input",
+            "separate loop-through and mix XLR outputs",
+            "mains 100-240V"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.onboardPhantomPowerVolts"
+        ]
+      }
+    },
+    {
+      "id": "research/speaker/yamaha-hs5-studio",
+      "model": "Yamaha HS5",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "balanced_xlr_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "responseMinus3DbHz": {
+          "value": [
+            74,
+            24000
+          ],
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "unitsPerRetailPackage": {
+          "value": 1,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "internalAmplificationWatts": {
+          "value": {
+            "lf": 45,
+            "hf": 25,
+            "combined": 70
+          },
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "yamaha-hs5-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring"
+          ],
+          "specifications": {
+            "physicalInputTypes": [
+              "balanced_xlr_line",
+              "6.35mm_trs_line"
+            ],
+            "physicalOutputTypes": [],
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 1,
+            "internalAmplificationWatts": {
+              "lf": 45,
+              "hf": 25,
+              "combined": 70
+            },
+            "responseMinus3DbHz": [
+              74,
+              24000
+            ],
+            "quotedRangeMinus10DbHz": [
+              54,
+              30000
+            ],
+            "passiveSpeakerOutputRequired": false
+          },
+          "note": "One cabinet, not a stereo pair. Internal 70 W biamplification must not be compared to an external amplifier's 70 W/channel. Requires line-level input, not direct passive speaker terminals."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "single powered monitor",
+            "XLR and TRS balanced or unbalanced signal inputs",
+            "two-way 5 inch monitor",
+            "74 Hz–24 kHz at -3 dB",
+            "45 W LF and 25 W HF internal amplifier, 70 W combined"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
       }
     }
   ]
