@@ -19,7 +19,7 @@ function linkTargets(text) {
 
 test('homepage gives six major goals and four compact direct navigation links', () => {
   const links = [...home.matchAll(/<nav class="home-quick-links"[^>]*>([\s\S]*?)<\/nav>/g)].flatMap(m=>[...m[1].matchAll(/<a href="([^"]+)"/g)].map(x=>x[1]));
-  assert.deepEqual(links, ['/decoder/', '/labs/', '/tools/', '/library/']);
+  assert.deepEqual(links, ['/decoder/', '/labs/', '/tools/', '/library/', '/about/', '/connect/']);
   assert.equal((home.match(/class="home-goal-card"/g)||[]).length,6);
   assert.doesNotMatch(home,/class="discovery-card"/);
   assert.match(home, /CHOOSE YOUR NEXT QUESTION/);
