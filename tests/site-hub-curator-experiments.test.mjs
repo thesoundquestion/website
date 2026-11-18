@@ -17,9 +17,15 @@ function linkTargets(text) {
   return [...text.matchAll(/\bhref="(\/[^"]+)"/g)].map(m => m[1].split(/[?#]/)[0]).filter(Boolean);
 }
 
-test('homepage gives six major goals and six explanatory direct navigation links', () => {
+test('homepage has only three large jump cards, eight compact reference cards and six small goals', () => {
   const links = [...home.matchAll(/<nav class="home-quick-links"[^>]*>([\s\S]*?)<\/nav>/g)].flatMap(m=>[...m[1].matchAll(/<a href="([^"]+)"/g)].map(x=>x[1]));
-  assert.deepEqual(links, ['/decoder/', '/labs/', '/tools/', '/library/', '/about/', '/connect/']);
+  assert.deepEqual(links, ['/decoder/', '/labs/', '/tools/']);
+  const small = home.match(/<nav class="home-more-grid"[^>]*>([\s\S]*?)<\/nav>/)?.[1] || '';
+  const smallLinks = [...small.matchAll(/<a href="([^"]+)"/g)].map(m => m[1]);
+  assert.deepEqual(smallLinks, ['/decoder/technical-glossary/', '/decoder/audiophile-glossary/', '/library/', '/library/curators-listening-room/', '/journey/', '/about/', '/connect/', 'https://ko-fi.com/thesoundquestion']);
+  assert.ok(home.indexOf('home-quick-links') < home.indexOf('home-goal-grid') && home.indexOf('home-goal-grid') < home.indexOf('home-more-grid'));
+  assert.equal((home.match(/class="home-quick-links"/g)||[]).length,1);
+  assert.equal((home.match(/class="home-more-grid"/g)||[]).length,1);
   assert.equal((home.match(/class="home-goal-card"/g)||[]).length,6);
   assert.doesNotMatch(home,/class="discovery-card"/);
   assert.match(home, /KNOW WHERE YOU WANT TO GO/);
@@ -63,7 +69,7 @@ test('responsive layout and no live deployment placeholder on homepage', () => {
 });
 
 test('About is prominent and evidence explanations contain no private listening testimony',()=>{
- assert.match(home,/class="button button-secondary" href="\/about\/"[^>]*>About this project/);
+ assert.match(home,/<a href="\/about\/">\s*<strong>About<\/strong>/);
  assert.doesNotMatch(article,/Grado|Paradigm Phantom|During informal listening|my headphones|my speakers/i);
  assert.match(article,/Why playback can change the sense of space/);
  assert.match(labs,/href="\/lab\/mastering\/"/);
