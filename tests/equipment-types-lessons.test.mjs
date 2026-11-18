@@ -68,13 +68,26 @@ test('vector teaching figures describe concepts, not fabricated product measurem
   assert.doesNotMatch(s, /<script\b|<foreignObject\b|<image\b|<use\b[^>]*href=["']https?:\/\//i,'no scripts or external embedded image dependencies');
  }
 });
-test('new lessons remain intentionally unlisted until editorial approval',()=>{
- const curriculum=read('decoder/curriculum.json');
+test('approved equipment-type lessons are numbered and joined to the complete 26-lesson sequence',()=>{
+ const curriculum=JSON.parse(read('decoder/curriculum.json'));
  const sitemap=read('sitemap.xml');
  const index=read('decoder/index.html');
- for(const l of lessons){
-  assert.ok(!curriculum.includes('"slug": "'+l.slug+'"'),'not yet curriculum');
-  assert.ok(!sitemap.includes('/decoder/'+l.slug+'/'),'not in sitemap');
-  assert.ok(!index.includes('/decoder/'+l.slug+'/'),'not in course index');
+ const journey=JSON.parse(read('journey/topic-links.json'));
+ const order=curriculum.lessons.map(x=>x.slug);
+ assert.equal(order.length,26);
+ assert.equal(new Set(order).size,26);
+ assert.deepEqual(order.slice(19,26),['speaker-dispersion','speaker-types','recording-sources','microphone-types','recording-resolution','mixing-soundstage','mastering-dynamic-range']);
+ for(const [slug,num] of [['speaker-types',21],['microphone-types',23]]){
+  const page=read('decoder/'+slug+'/index.html');
+  assert.match(page,new RegExp('LESSON '+num));
+  assert.ok(index.includes('href="/decoder/'+slug+'/">'),'lesson card: '+slug);
+  assert.ok(sitemap.includes('https://thesoundquestion.com/decoder/'+slug+'/'),'sitemap: '+slug);
+  assert.ok(page.includes('Lesson '+String(num).padStart(2,'0')+' of 26'),'course progress: '+slug);
  }
+ assert.ok(journey.steps.capture.some(x=>x.lesson==='microphone-types'));
+ assert.ok(journey.steps.speakers.some(x=>x.lesson==='speaker-types'));
+ const source=read('decoder/recording-sources/index.html');
+ const dispersion=read('decoder/speaker-dispersion/index.html');
+ assert.ok(source.includes('href="/decoder/microphone-types/"'));
+ assert.ok(dispersion.includes('href="/decoder/speaker-types/"'));
 });
