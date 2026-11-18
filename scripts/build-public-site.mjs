@@ -32,6 +32,7 @@ const equipmentRuntime = new Set([
   'equipment/catalog-legacy-adapters.mjs',
   'equipment/price-tiers.mjs',
   'equipment/price-tier-client.mjs',
+  'equipment/price-preference.mjs',
   'equipment/price-tiers.generated.json',
   // Phase 2 is review-only, but its isolated draft preview needs this module.
   'equipment/comparison-model.mjs',
@@ -125,7 +126,7 @@ const required = [
  'equipment/legacy-presets.generated.js', 'equipment/compare-details.generated.js',
  'equipment/catalog-core.mjs', 'equipment/catalog-client.mjs',
  'equipment/catalog-legacy-adapters.mjs',
- 'equipment/price-tiers.mjs', 'equipment/price-tier-client.mjs',
+ 'equipment/price-tiers.mjs', 'equipment/price-tier-client.mjs', 'equipment/price-preference.mjs',
  'equipment/price-tiers.generated.json', 'equipment/comparison-model.mjs',
  'tools/equipment-comparison-preview/index.html',
  'tools/equipment-comparison-preview/preview.mjs',
