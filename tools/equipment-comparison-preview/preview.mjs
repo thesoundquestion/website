@@ -80,6 +80,14 @@ function render(){
       rows.append(row,note);
     } else rows.append(row);
   }
+  const observations=$('observations');
+  observations.replaceChildren();
+  for(const observation of comparison.observations||[]){
+    const li=document.createElement('li');
+    li.textContent=observation;
+    observations.append(li);
+  }
+  $('observations-section').hidden=!observations.children.length;
   const sources=$('sources');
   sources.replaceChildren();
   for(const item of [a,b]){
