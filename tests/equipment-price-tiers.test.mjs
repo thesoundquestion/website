@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {buildRegionalPriceTiers,getCurrentPriceTier} from '../equipment/price-tiers.mjs';
-import {regionalPriceLabel} from '../equipment/price-tier-client.mjs';
+import {regionalPriceLabel,sortEquipmentByRegionalTier} from '../equipment/price-tier-client.mjs';
 
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const catalog=JSON.parse(read('equipment/catalog.generated.json'));
@@ -64,6 +64,19 @@ test('public label is a pricing statement and vanishes when expired',()=>{
  const label=regionalPriceLabel(snapshot,model,{region:'CA',asOf:'2026-11-19'});
  assert.match(label.meaning,/not performance/);
  assert.equal(label.confidence,'limited_sample');
+});
+test('regional order puts unknown and expired records last without discarding them',()=>{
+ const ids=['legacy/headphone/sennheiser-hd-600','legacy/headphone/grado-sr80e',
+   'legacy/headphone/audio-technica-ath-m50x','legacy/headphone/sony-mdr-7506'];
+ const items=ids.map(id=>catalog.records.find(x=>x.id===id));
+ assert.deepEqual(sortEquipmentByRegionalTier(items,snapshot,{region:'CA',asOf:'2026-11-19'})
+   .map(x=>x.id),[
+   'legacy/headphone/sony-mdr-7506','legacy/headphone/audio-technica-ath-m50x',
+   'legacy/headphone/sennheiser-hd-600','legacy/headphone/grado-sr80e'
+ ]);
+ assert.deepEqual(sortEquipmentByRegionalTier(items,snapshot,{region:'CA',asOf:'2027-01-03'})
+   .map(x=>x.id),[...items].sort((a,b)=>a.model.localeCompare(b.model)).map(x=>x.id));
+ assert.equal(buildRegionalPriceTiers(catalog,master.pricingResearch,{region:'GB',asOf:'2026-11-18'}).summary.labelledModels,0);
 });
 test('generated tiers must be current along with all other catalogue views',()=>{
  const p=execFileSync(process.execPath,['scripts/build-equipment-catalog.mjs','--check'],
