@@ -91,7 +91,8 @@ test('local beta practice does not publish while eventual scored service remains
  assert.match(abx,/share:consent\.checked/);
  assert.match(privacy,/optional and off by default/);
  assert.match(privacy,/180 days/);
- assert.match(read('workers/abx/RELEASE.md'),/Worker not deployed/);
+ assert.match(read('workers/abx/RELEASE.md'),/Worker uploaded and deployed to Cloudflare/);
+ assert.match(read('workers/abx/RELEASE.md'),/No MODERATION_READ_SECRET or ABX_SECRET has been set/);
 });
 
 test('curated scored comparisons describe their practical limitations consistently',()=>{
