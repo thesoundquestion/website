@@ -9,7 +9,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'site-dist');
 const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
-  'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets',
+  'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets', 'equipment',
 ]);
 const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects']);
 const runtimeExt = new Set([
@@ -17,6 +17,16 @@ const runtimeExt = new Set([
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
 ]);
 const mediaExt = new Set(['.wav', '.flac', '.mp3', '.ogg', '.aiff', '.aif', '.m4a', '.mp4', '.webm']);
+// A shared inventory is the only source of published preset projections.
+// Both legacy consumers must receive generated, checked records.
+const equipmentRuntime = new Set([
+  'equipment/catalog.generated.json',
+  'equipment/legacy-presets.generated.js',
+  'equipment/compare-details.generated.js',
+  'equipment/catalog-core.mjs',
+  'equipment/catalog-client.mjs',
+  'equipment/catalog-legacy-adapters.mjs'
+]);
 // Release only the exactly approved 59-page illustrated handbook.
 const retiredHandbook = 'library/make-audio-make-sense/make-audio-make-sense.pdf';
 const illustratedHandbook = 'library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
@@ -47,6 +57,7 @@ for (const entry of tracked) {
   const topLevel = parts.length === 1 &&
     (rootFiles.has(entry) || /^[a-f0-9]{32}\.txt$/i.test(entry));
   if (!inPublicRoute && !topLevel) continue;
+  if (parts[0] === 'equipment' && !equipmentRuntime.has(entry)) continue;
   if (entry === retiredHandbook) continue; // Preserve in Git history, but do not serve the retired three-page edition.
   if (mediaExt.has(ext) && !approvedMedia.has(entry)) throw new Error('Publication of unapproved audio/video blocked: ' + entry);
   if (!topLevel && !runtimeExt.has(ext) && !approvedMedia.has(entry)) continue;
@@ -83,7 +94,10 @@ const required = [
  'index.html', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
  'decoder/index.html', 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
- 'system-builder/index.html', illustratedHandbook,
+ 'system-builder/index.html', 'equipment/catalog.generated.json',
+ 'equipment/legacy-presets.generated.js', 'equipment/compare-details.generated.js',
+ 'equipment/catalog-core.mjs', 'equipment/catalog-client.mjs',
+ 'equipment/catalog-legacy-adapters.mjs', illustratedHandbook,
  'labs/abx/index.html', 'assets/abx-lab.js', 'assets/abx-lab.css',
  'assets/lab-readiness.js', 'assets/lab-readiness.css',
  'assets/format-comparison-engine.js',
