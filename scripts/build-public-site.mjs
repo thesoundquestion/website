@@ -138,9 +138,9 @@ for (const file of required) {
  if (!existsSync(path.join(output, ...file.split('/')))) throw new Error('Required runtime file missing: ' + file);
 }
 // Only the optional tutor API is permitted to run through Pages Functions.
-const routeManifest = JSON.parse(readFileSync(path.join(output,'_routes.json'),'utf8'));
-if(routeManifest.version!==1 || JSON.stringify(routeManifest.include)!==JSON.stringify(['/api/lesson-tutor']) ||
-   JSON.stringify(routeManifest.exclude)!==JSON.stringify([])) throw new Error('Unapproved Pages Function route');
+const functionRoutes = JSON.parse(readFileSync(path.join(output,'_routes.json'),'utf8'));
+if(functionRoutes.version!==1 || JSON.stringify(functionRoutes.include)!==JSON.stringify(['/api/lesson-tutor']) ||
+   JSON.stringify(functionRoutes.exclude)!==JSON.stringify([])) throw new Error('Unsafe Pages Functions routing');
 // Waveform images must be measured from actual published master audio once,
 // never generated with browser-side audio downloads on initial page visit.
 const waveformManifest = JSON.parse(readFileSync(path.join(output, 'assets/waveforms/mastering-provenance.json'),'utf8'));
