@@ -1249,7 +1249,14 @@
             ]
           ],
           "note": "Published 8 Ω power and line input impedance. The manual gives a separate distortion figure at 80% of rated output.",
-          "details": null
+          "details": null,
+          "otherFields": {
+            "distortionResearch": {
+              "label": "Hi-Fi News independent AXA35 laboratory measurements",
+              "url": "https://www.hifinews.com/content/cambridge-audio-axc35-axa35-cd-playeramplifier-lab-report",
+              "note": "Graph 1: dynamic output power versus distortion at several resistive loads; reported range of distortion at rated power is not a point-by-point 1 kHz sweep."
+            }
+          }
         }
       ],
       "evidence": [
@@ -1323,7 +1330,8 @@
             ]
           ],
           "note": "Published 8 Ω power and 47 kΩ line input impedance for the DAB-equipped AXR100D.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -1409,7 +1417,8 @@
             ]
           ],
           "note": "Cambridge specifies 60 W into 8 Ω and 90 W into 4 Ω. Its published distortion tests use separate conditions.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -1495,7 +1504,8 @@
             ]
           ],
           "note": "Original CXA81. Cambridge publishes RMS power into both loads and gives the unbalanced input impedance.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -1581,7 +1591,8 @@
             ]
           ],
           "note": "CXA81 Mk II. Cambridge publishes RMS power into both loads and gives the unbalanced input impedance.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -1665,7 +1676,8 @@
             ]
           ],
           "note": "Front-channel ratings. Power with all surround channels driven can differ.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -1749,7 +1761,8 @@
             ]
           ],
           "note": "Front-channel ratings from Denon’s manual. Power with all surround channels driven can differ.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -1833,7 +1846,8 @@
             ]
           ],
           "note": "North American front-channel ratings. Output with all surround channels driven can differ.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -1917,7 +1931,8 @@
             ]
           ],
           "note": "The 8 Ω rating covers the audible band. The 6 Ω rating uses a single test tone and permits more distortion.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2004,7 +2019,8 @@
             ]
           ],
           "note": "Denon lists 80 W per channel into 8 Ω across the audio band. The 130 W figure into 4 Ω is a 1 kHz DIN rating at 1% THD. The line input is rated at 150 mV and 47 kΩ.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2090,7 +2106,8 @@
             ]
           ],
           "note": "The 4 Ω rating uses a single test frequency and higher distortion limit. Line input impedance is 40 kΩ with Source Direct off and 17 kΩ with it on.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2176,7 +2193,8 @@
             ]
           ],
           "note": "Line input impedance is 17 kΩ. The 4 Ω rating uses a single test frequency and a higher distortion limit.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2260,7 +2278,8 @@
             ]
           ],
           "note": "Original 2230 receiver. The service manual gives 30 W per channel with both channels driven into either 8 Ω or 4 Ω.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2344,7 +2363,8 @@
             ]
           ],
           "note": "Original 2270 receiver. The owner's manual lists full-band continuous power into 4 Ω and 8 Ω.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2431,7 +2451,8 @@
             ]
           ],
           "note": "The manual gives a damping factor of 100 into 8 Ω, corresponding to an estimated 0.08 Ω output impedance.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2515,7 +2536,8 @@
             ]
           ],
           "note": "The 8 Ω rating covers the audible band. The 6 Ω rating uses a single test tone and permits more distortion.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2614,7 +2636,8 @@
             ]
           ],
           "note": "Original 3020 integrated amp. The manual gives 20 W per channel continuous, separate short-burst ratings, and 0.15 V line input sensitivity at 20 W.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2722,7 +2745,8 @@
             ]
           ],
           "note": "NAD specifies the same continuous output into 8 Ω and 4 Ω, with separate IHF dynamic ratings.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2818,7 +2842,8 @@
             ]
           ],
           "note": "Uses the full-band 8 Ω rating and the 8 Ω and 4 Ω dynamic ratings. Onkyo’s page gives conflicting THD conditions for its 6 Ω rating.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2905,7 +2930,8 @@
             ]
           ],
           "note": "Front stereo ratings. Approx. 0.2 Ω speaker output impedance is derived from the low-frequency damping factor. The manual gives line-input sensitivity under IHF conditions, so rated-output sensitivity is left blank.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -2977,7 +3003,8 @@
             ]
           ],
           "note": "Original SX-780 receiver. The 45 W per channel rating is the full-band stereo figure.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3049,7 +3076,8 @@
             ]
           ],
           "note": "Original SX-950 receiver. Pioneer's period catalogue lists the 85 W full-band stereo rating.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3124,7 +3152,8 @@
             ]
           ],
           "note": "Original AU-517 integrated amp. AUX input sensitivity is specified at rated power with a 1 kHz signal.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3199,7 +3228,8 @@
             ]
           ],
           "note": "Original AU-717 integrated amp. AUX input sensitivity is specified at rated power with a 1 kHz signal.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3273,7 +3303,8 @@
             ]
           ],
           "note": "North American stereo rating. Line input is specified at 50 kΩ.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3345,7 +3376,13 @@
             ]
           ],
           "note": "The US service manual lists 90 W per channel for the full audio band. Sony’s product page lists 100 W at 1 kHz and 1% THD. Sony specifies 6–16 Ω speakers.",
-          "details": null
+          "details": null,
+          "otherFields": {
+            "extra": [
+              "Sony product specifications",
+              "https://www.sony.ca/en/electronics/support/audio-components-receivers-amplifiers/str-dh190/specifications"
+            ]
+          }
         }
       ],
       "evidence": [
@@ -3417,7 +3454,8 @@
             ]
           ],
           "note": "Uses Sony’s full-band stereo rating. The product-page 145 W figure is a one-channel, 1 kHz test.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3525,7 +3563,18 @@
             ]
           ],
           "note": "Uses Hi-Fi News bench results. The lab reports standard output separately from dynamic output. WiiM lists 60 W at 8 Ω and 120 W at 4 Ω. Output impedance varies with frequency in the lab test.",
-          "details": null
+          "details": null,
+          "otherFields": {
+            "distortionResearch": {
+              "label": "Hi-Fi News WiiM Amp lab graphs",
+              "url": "https://www.hifinews.com/content/wiim-amp-lab-report",
+              "note": "Graph 1: dynamic output power versus distortion at 8, 4, 2 and 1 ohm; frequency-dependent 1 W figures differ by analogue/digital input. No numerical trace copied."
+            },
+            "extra": [
+              "WiiM manufacturer specifications",
+              "https://faq.wiimhome.com/en/support/solutions/articles/72000616467-technical-specification-of-the-wiim-amp"
+            ]
+          }
         }
       ],
       "evidence": [
@@ -3611,7 +3660,8 @@
             ]
           ],
           "note": "The service manual lists full-band power into 8 Ω and 6 Ω. The output impedance estimate uses the published damping factor of 90 at 8 Ω and 1 kHz.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3735,7 +3785,8 @@
             ]
           ],
           "note": "Factory line-input specs. Approx. 0.178 Ω speaker output impedance is derived from the 8 Ω damping factor at 1 kHz. The 150 W / 4 Ω DIN figure applies to other regional versions.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3821,7 +3872,8 @@
             ]
           ],
           "note": "Yamaha’s stereo power ratings. The 0.032 Ω output impedance estimate uses the published minimum damping factor of 250 into 8 Ω at 1 kHz.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -3944,7 +3996,8 @@
             ]
           ],
           "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -4030,7 +4083,14 @@
             ]
           ],
           "note": "Yamaha’s stereo power ratings. The 0.032 Ω output impedance estimate uses the published minimum damping factor of 250 into 8 Ω at 1 kHz.",
-          "details": null
+          "details": null,
+          "otherFields": {
+            "distortionResearch": {
+              "label": "Hi-Fi News independent A-S3200 lab report",
+              "url": "https://www.hifinews.com/node/131918",
+              "note": "Dynamic power-versus-distortion graph and separately described distortion-versus-frequency testing. Approximate figures in article are not exact curve coordinates."
+            }
+          }
         }
       ],
       "evidence": [
@@ -4153,7 +4213,8 @@
             ]
           ],
           "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -4276,7 +4337,8 @@
             ]
           ],
           "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -4399,7 +4461,14 @@
             ]
           ],
           "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
-          "details": null
+          "details": null,
+          "otherFields": {
+            "distortionResearch": {
+              "label": "Audioholics independent A-S801 amplifier measurements",
+              "url": "https://www.audioholics.com/amplifier-reviews/yamaha-a-s801-amplifier-review/yamaha-a-s801-measurements",
+              "note": "Independent power and distortion bench tests, including short sweep and full-band power results. Review may restrict automated access; source must be checked before numerical points are transcribed."
+            }
+          }
         }
       ],
       "evidence": [
@@ -4509,7 +4578,13 @@
             ]
           ],
           "note": "North American factory ratings. IHF burst results describe the bench test. Check the manual’s speaker-connection section for supported loads.",
-          "details": null
+          "details": null,
+          "otherFields": {
+            "extra": [
+              "Line input specifications",
+              "https://www.manualowl.com/m/Yamaha/HTR-4063/Manual/249545?page=80"
+            ]
+          }
         }
       ],
       "evidence": [
@@ -4617,7 +4692,8 @@
             ]
           ],
           "note": "The 80 W per channel rating is continuous. Yamaha publishes separate dynamic power ratings into 8 Ω, 6 Ω and 4 Ω.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -4725,7 +4801,8 @@
             ]
           ],
           "note": "The 100 W per channel rating is continuous. Yamaha publishes separate dynamic power ratings into 8 Ω, 6 Ω and 4 Ω.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -4836,7 +4913,8 @@
             ]
           ],
           "note": "North American 100 W stereo rating. The owner’s manual gives a separate set of IHF dynamic figures and specifies 0.5 V input sensitivity at 100 W into 8 Ω.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -4959,7 +5037,8 @@
             ]
           ],
           "note": "North American full-band and IHF dynamic ratings. Output impedance is an upper-bound estimate from the 8 Ω damping factor.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5055,7 +5134,8 @@
             ]
           ],
           "note": "Two-channel and dynamic figures. Check the receiver manual for supported speaker loads.",
-          "details": null
+          "details": null,
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5142,7 +5222,8 @@
             "reference": "https://docs.audio-technica.com/eu/DOC_ATH-M20x_30x_40x_50x.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5230,7 +5311,8 @@
             "detailNote": "Manufacturer's nominal 96 dB sound-pressure statement is not used to calculate dB SPL/V without an independently verified reference basis.",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5326,7 +5408,8 @@
             "reviewStatus": "regional-distributor",
             "detailNote": "Regional Grado product source used. Frequency endpoint and driver-diameter listings need a direct Grado manual cross-check before manufacturer-verified status.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5422,7 +5505,8 @@
             "reviewStatus": "period-distributor",
             "detailNote": "Archived prestige e-series literature, with limited test-condition detail; frequency endpoint is not a flatness criterion.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5518,7 +5602,8 @@
             "reviewStatus": "regional-distributor",
             "detailNote": "Regional product sheet, not independently confirmed original manufacturer test data. Driver construction and nominal endpoint are descriptive only.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5614,7 +5699,8 @@
             "reference": "https://moondroplab.com/en-products/chu-ii",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5710,7 +5796,8 @@
             "reference": "https://support.sennheiser-hearing.com/hc/en-dk/articles/38271134258077-HD-560S-Specifications",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5805,7 +5892,8 @@
             "reference": "https://cdn.sennheiser-hearing.com/product-documents/product-downloads/hd-600/instruction_manual/Instruction_manual_HD_600.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5901,7 +5989,8 @@
             "reference": "https://www.shure.com/en-US/docs/guide/SE215",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -5998,7 +6087,8 @@
             "secondReference": "https://www.sony.co.uk/electronics/headband-headphones/mdr-7506/specifications",
             "reviewStatus": "manufacturer-conflict",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6093,7 +6183,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Official ASUS manual, p. 6: 124 dB A-weighted RCA output SNR, THD+N 0.0003% at 1 kHz/−3 dB, 2 V RMS front RCA and PCM1792A. Do not confuse 7 V RMS headphone output.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6178,7 +6269,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "ASUS quotes 116 dB SNR, 0.00251% THD+N without specifying the analogue front-output test setup. 2 Vrms on the spec page is a HEADPHONE output figure, NOT an RCA or speaker line-out figure.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6265,7 +6357,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "THD+N 0.0001% published for stereo DAC. 1 Ω headphone impedance is not 3.5-mm front line-out impedance.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6352,7 +6445,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "RCA front-channel path is separate from ACM headphone outputs. Manufacturer's DAC 129 dB DNR and 0.0001% THD+N are not independent RCA load measurements.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6433,7 +6527,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Creative's 106 dB model-wide SNR is not accompanied by a matched front-line output test basis.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6561,7 +6656,8 @@
             "outputChannels": "Stereo analogue RCA; encoded multichannel via optical output",
             "secondReference": "https://sg.creative.com/corporate/pressroom?id=13137",
             "thirdReference": "https://www.bit-tech.net/reviews/tech/audio/creative-x-fi-tianium-hd-review/1/"
-          }
+          },
+          "otherFields": {}
         },
         {
           "category": "computer_sound_card",
@@ -6690,7 +6786,8 @@
             "detailNote": "Creative's X-Fi Titanium comparison does NOT include the Titanium HD: the 109 dB SNR must not be assigned to the HD version.",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6776,7 +6873,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "115 dB is manufacturer stereo DAC DNR, not a front-line THD+N or output-voltage measurement.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6862,7 +6960,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Creative's published 10 Ω headphone output impedance does not characterize its analogue front line output.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -6945,7 +7044,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Creative quotes DAC THD −115 dB, not separately identified as THD+N. No numerical RCA sourceVoltage/sourceZ is entered without a line-output-specific source.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -7026,7 +7126,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Max digital format is not evidence of effective analogue precision, and 116 dB quoted SNR is not headphone-only or measured line performance.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -7111,7 +7212,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "AE-5/AE-5 Plus share Creative's published audio specifications; digital encoding extras differ.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -7198,7 +7300,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Creative's 1 Ω claim is for headphone output only. The USB DAC's 130 dB DNR is not equivalent to a 130 dB tested analogue line-out SNR.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -7361,7 +7464,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "deviceType": "Desktop USB DAC/headphone amplifier"
-          }
+          },
+          "otherFields": {}
         },
         {
           "category": "headphone_amplifier",
@@ -7519,7 +7623,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "deviceType": "USB desktop DAC/headphone amplifier"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -7613,6 +7718,12 @@
             "reviewStatus": "manufacturer-and-distributor",
             "reviewedOn": "2026-11-11",
             "deviceType": "Desktop DAC / digital source"
+          },
+          "otherFields": {
+            "extra": [
+              "Schiit Modi+ manual",
+              "https://www.schiit.com/public/upload/PDF/modi%20plus%20manual.pdf"
+            ]
           }
         }
       ],
@@ -7707,7 +7818,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "deviceType": "Desktop DAC / digital source"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -7808,7 +7920,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "deviceType": "Desktop DAC / digital source"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -7903,6 +8016,12 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "deviceType": "Network music streamer / DAC"
+          },
+          "otherFields": {
+            "extra": [
+              "WiiM Pro Plus owner’s manual",
+              "https://www.wiimhome.com/langPdf/en/WiiM%20Pro%20Plus%20UM.pdf"
+            ]
           }
         }
       ],
@@ -7977,7 +8096,8 @@
             "reviewedOn": "2026-11-11",
             "reference": "https://www.axiomaudio.com/faqs",
             "detailNote": "Exact original VP-100 driver and response specification not confirmed from a model-matching technical document; omitted until available."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8066,7 +8186,8 @@
             "detailNote": "Secondary transcription of vintage specifications, not an independently verified manufacturer data sheet or measurement; use cautiously.",
             "reviewStatus": "secondary-reviewed",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8152,7 +8273,8 @@
             "responseBasis": null,
             "crossover": null,
             "reference": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8238,7 +8360,8 @@
             "responseBasis": null,
             "crossover": null,
             "reference": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8324,7 +8447,8 @@
             "responseBasis": null,
             "crossover": null,
             "reference": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8410,7 +8534,8 @@
             "responseBasis": null,
             "crossover": null,
             "reference": "https://hifigoteborg.se/pdf/Cerwin-Vega_speakers.pdf"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8503,7 +8628,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "detailNote": "Cerwin-Vega XLS-series published manual, and current manufacturer's website for response limits. Different model revisions may vary."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8596,7 +8722,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "detailNote": "Cerwin-Vega XLS-series published manual, and current manufacturer's website for response limits. Different model revisions may vary."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8689,7 +8816,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "detailNote": "Cerwin-Vega XLS-series published manual, and current manufacturer's website for response limits. Different model revisions may vary."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8780,7 +8908,8 @@
             "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8871,7 +9000,8 @@
             "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -8962,7 +9092,8 @@
             "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9053,7 +9184,8 @@
             "reference": "https://www.dali-speakers.com/media/5320/oberon-manual.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9145,7 +9277,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "detailNote": "ELAC Debut 2.0 B5.2 factory manual; endpoints are not a ±3 dB assertion."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9237,7 +9370,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "detailNote": "ELAC Debut 2.0 B6.2 factory manual; endpoints are not a ±3 dB assertion."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9339,7 +9473,8 @@
             "responseExtra": "42 Hz–38 kHz (−6 dB)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9441,7 +9576,8 @@
             "responseExtra": "42 Hz–38 kHz (−6 dB)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9544,7 +9680,8 @@
             "detailNote": "Older ELAC sheet assigns 2 × 6.5″ midrange and 1 × 6.5″ woofer; layout labeling may be ambiguous, so the comparison does not guess which cabinet position handles which band.",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9635,7 +9772,8 @@
             "reference": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9727,7 +9865,8 @@
             "reference": "https://elac.com/download/dbr62/debut-reference-bda-eng-deu-13022020.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9818,7 +9957,8 @@
             "reference": "https://www.elac.com/download/uf52/uni-fi-2-0-combined-languages-4-20-20.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -9910,7 +10050,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Original 1970s L100 Century, not modern L100 Classic. The period JBL manual specifies crossover and 78 dB/1 W at 15 ft, rather than a modern nominal 1 m sensitivity test.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10003,7 +10144,8 @@
             "reviewStatus": "manufacturer-conflict",
             "reviewedOn": "2026-11-11",
             "secondReference": "https://ca.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw1e4dfbc0/pdfs/SC03671_JBL_L100_Classic_Spec%20Sheet_EN_LR.pdf"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10094,7 +10236,8 @@
             "reference": "https://www.jbl.com/250B.html",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10187,7 +10330,8 @@
             "reference": "https://www.jbl.com/280F.html",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10278,7 +10422,8 @@
             "reference": "https://www.jbl.com/JBLA130BLKAM.html",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10377,7 +10522,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "responseExtra": "47 Hz–45 kHz (−6 dB, free field); typical in-room bass 26 Hz (−6 dB)"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10476,7 +10622,8 @@
             "reference": "https://ca.kef.com/products/q1-meta",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10575,7 +10722,8 @@
             "responseExtra": "47 Hz (−6 dB, free field)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10674,7 +10822,8 @@
             "reference": "https://ca.kef.com/products/q3-meta",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10773,7 +10922,8 @@
             "responseExtra": "42 Hz (−6 dB, free field)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10872,7 +11022,8 @@
             "responseExtra": "45 Hz (−6 dB, free field)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -10971,7 +11122,8 @@
             "reference": "https://ca.kef.com/products/q7-meta",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11070,7 +11222,8 @@
             "responseExtra": "42 Hz (−6 dB, free field)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11169,7 +11322,8 @@
             "responseExtra": "38 Hz (−6 dB, free field)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11261,7 +11415,8 @@
             "reference": "https://assets.klipsch.com/product-specsheets/forte-II-brochure.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11352,7 +11507,8 @@
             "reference": "https://assets.klipsch.com/product-specsheets/Heresy-II-Specs.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11445,7 +11601,8 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Klipsch sensitivity 92 dB uses room/half-space test convention; direct comparison to anechoic values may be misleading.",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11537,7 +11694,8 @@
             "reference": "https://assets.klipsch.com/product-specsheets/R-51M_Spec-Sheet_v01.pdf",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11637,6 +11795,12 @@
             "reviewStatus": "manufacturer-checked",
             "detailNote": "Original RP-600M, not RP-600M II. Compare's 89.6 dB sensitivity preset is an independent Stereophile estimate, not Klipsch's 96 dB marketing specification.",
             "reviewedOn": "2026-11-11"
+          },
+          "otherFields": {
+            "extra": [
+              "Klipsch specifications",
+              "https://www.erinsaudiocorner.com/loudspeakers/klipsch_rp_600m/"
+            ]
           }
         }
       ],
@@ -11729,7 +11893,8 @@
             "reference": "https://www.paradigm.com/en/floorstanding/monitor-se-6000f",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11821,7 +11986,8 @@
             "reference": "https://www.paradigm.com/en/passive/monitor-se-atom",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -11915,7 +12081,8 @@
             "reviewStatus": "secondary-reviewed",
             "reviewedOn": "2026-11-11",
             "detailNote": "Reproduced Phantom V1 period specification from secondhand listing, NOT a current Paradigm manufacturer document. Do not mix with physically different Phantom v3 (6.5″ woofer)."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12010,7 +12177,8 @@
             "reviewStatus": "secondary-reviewed",
             "reviewedOn": "2026-11-11",
             "detailNote": "Reproduced V3 specifications and cross-checked vintage enthusiast archive; original Paradigm brochure not verified. Do not mix with Titan v1/v2/v4."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12100,6 +12268,12 @@
             "reviewStatus": "manufacturer-conflict",
             "detailNote": "Period Pioneer catalogue and Hi-Fi Choice show 1.2/4/12 kHz, but other published HPM-100 documents specify 3/4/12 kHz, possibly due to revision or transcription. This entry must not be treated as one universal HPM-100 crossover.",
             "reviewedOn": "2026-11-11"
+          },
+          "otherFields": {
+            "extra": [
+              "HPM-100 specifications and manuals",
+              "https://www.hifiengine.com/manual_library/pioneer/hpm-100.shtml"
+            ]
           }
         }
       ],
@@ -12176,7 +12350,8 @@
             "reviewedOn": "2026-11-11",
             "reference": "https://www.generalmanual.com/Speaker/Pioneer-S-H352F-K-3-Way-Floor-Standing-Speaker.htm",
             "detailNote": "Original variant driver materials, effective frequency limits, crossover and nominal load not reliably established; do not infer specs from another Pioneer model."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12275,7 +12450,8 @@
             "reference": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/reserve-r200/300029.html",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12366,7 +12542,8 @@
             "reference": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es15/300363.html",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12457,7 +12634,8 @@
             "reference": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es20/300364.html",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12549,7 +12727,8 @@
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11",
             "detailNote": "The reviewed Polk ES60 product sheet does not clearly identify the number of independent acoustic frequency bands; four drivers alone do not establish 2-way, 2.5-way or 3-way topology."
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12647,7 +12826,8 @@
             "reference": "https://www.qacoustics.com/products/3020i-bookshelf-speaker-pair",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12738,7 +12918,8 @@
             "reference": "https://www.sony.ca/en/electronics/support/speakers-wired-speakers/ss-cs5/specifications",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12837,7 +13018,8 @@
             "responseExtra": "60 Hz (−6 dB)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -12937,7 +13119,8 @@
             "detailNote": "Diamond 12.2 (original), not updated Diamond 12.2i.",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -13036,7 +13219,8 @@
             "responseExtra": "40 Hz (−6 dB)",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -13126,6 +13310,12 @@
             "reviewStatus": "period-technical-source",
             "detailNote": "Vintage factory brochure specifications cross-checked with Hi-Fi News engineering overview. Period response range is not a measured modern ±3 dB curve.",
             "reviewedOn": "2026-11-11"
+          },
+          "otherFields": {
+            "extra": [
+              "Yamaha owner's manual",
+              "https://medias.audiofanzine.com/files/yamaha-ns-1000-owners-manual-480506.pdf"
+            ]
           }
         }
       ],
@@ -13218,7 +13408,8 @@
             "reference": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-555/specs.html",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -13311,7 +13502,8 @@
             "detailNote": "Canadian listing: 6 Ω. US regional page lists 8 Ω; do not mix versions.",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
@@ -13403,7 +13595,8 @@
             "reference": "https://ca.yamaha.com/en/audio/home-audio/products/speakers/ns-777/specs.html",
             "reviewStatus": "manufacturer-checked",
             "reviewedOn": "2026-11-11"
-          }
+          },
+          "otherFields": {}
         }
       ],
       "evidence": [
