@@ -122,9 +122,9 @@ function addResearch(entry,row) {
   for(const kind of asArray(row.outputs))
     port(entry,'outputs',kind,'microphone output',RESEARCH_PATH);
   for(const kind of asArray(row.physicalInputTypes))
-    port(entry,'inputs',kind,'computer sound-card input',RESEARCH_PATH);
+    port(entry,'inputs',kind,row.category+' documented physical input',RESEARCH_PATH);
   for(const kind of asArray(row.physicalOutputTypes))
-    port(entry,'outputs',kind,'computer sound-card output',RESEARCH_PATH);
+    port(entry,'outputs',kind,row.category+' documented physical output',RESEARCH_PATH);
   for(const kind of asArray(row.sourceInputTypes))
     port(entry,'inputs',kind,'headphone amplifier source input',RESEARCH_PATH);
   for(const kind of asArray(row.outputLineConnectors))
@@ -144,7 +144,12 @@ function addResearch(entry,row) {
     'directMonitor','loopback','advertisedMixerChannels','usbRecordingMode',
     'hasBuiltInDac','nominalImpedanceOhms','sensitivityDb','sensitivityBasis',
     'outputImpedanceOhms','outputImpedanceCeilingOhms',
-    'ratedOutputMilliwatts','maxRateKhz','maxBitDepth'
+    'ratedOutputMilliwatts','maxRateKhz','maxBitDepth',
+    'speakerKind','powered','speakerNominalImpedanceOhms',
+    'speakerSensitivityDb','speakerSensitivityBasis',
+    'responseMinus3DbHz','frequencyRangeToleranceDb',
+    'unitsPerRetailPackage','internalAmplificationWatts',
+    'onboardPhantomPowerVolts','manufacturerMaximumSplDb'
   ];
   for(const key of keys) if(Object.hasOwn(row,key))
     setFact(entry,key,row[key],row.category,RESEARCH_PATH);
