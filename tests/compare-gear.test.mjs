@@ -45,7 +45,8 @@ test('the comparison loads gear, extended specifications and UI logic in that or
   assert.deepEqual(scriptSources, [
     '/equipment/legacy-presets.generated.js',
     '/equipment/compare-details.generated.js',
-    '/system-check/compare/compare.js'
+    '/system-check/compare/compare.js',
+    '/system-check/compare/retail-tiers.mjs'
   ]);
   assert.match(compareSource, /function speakerRows/);
   assert.match(compareSource, /function sourceRows/);
