@@ -1,10 +1,10 @@
 import {loadEquipmentCatalog} from '../../equipment/catalog-client.mjs';
 import {buildEquipmentComparison} from '../../equipment/comparison-model.mjs';
-import {loadRegionalPriceTiers,regionalPriceLabel} from '../../equipment/price-tier-client.mjs';
+import {loadRegionalPriceTiers,regionalPriceLabel,sortEquipmentByRegionalTier} from '../../equipment/price-tier-client.mjs';
 
 const $=id=>document.getElementById(id);
 let catalog=null,prices=null;
-const category=$('category'),left=$('left'),right=$('right'),region=$('region');
+const category=$('category'),left=$('left'),right=$('right'),region=$('region'),sort=$('sort');
 const searches=[$('left-search'),$('right-search')];
 const selectors=[left,right];
 const examples={
@@ -19,10 +19,16 @@ const examples={
   computer_sound_card:['Creative Sound Blaster X-Fi Titanium HD']
 };
 const selectedItem=select=>catalog?.records.find(x=>x.id===select.value);
-const labelRecord=item=>item.model+(item.review?.unknowns?.length?' (some specifications unverified)':'');
+const labelRecord=item=>{
+  const tier=region.value==='CA' ? regionalPriceLabel(prices,item.id,{region:'CA'}) : null;
+  return item.model+(tier?' · '+tier.label:'')+
+    (item.review?.unknowns?.length?' (some specifications unverified)':'');
+};
 function recordsForCategory(){
-  return catalog.records.filter(x=>x.categories.includes(category.value))
-    .sort((a,b)=>a.model.localeCompare(b.model));
+  const items=catalog.records.filter(x=>x.categories.includes(category.value));
+  if(sort.value==='price'&&region.value==='CA')
+    return sortEquipmentByRegionalTier(items,prices,{region:'CA'});
+  return items.sort((a,b)=>a.model.localeCompare(b.model));
 }
 function populate(select,filter,preferred){
   const existing=select.value;
@@ -153,7 +159,8 @@ category.addEventListener('change',()=>{
   searches.forEach(x=>x.value='');
   if(catalog)refreshSelectors(true);
 });
-region.addEventListener('change',render);
+region.addEventListener('change',()=>{if(catalog)refreshSelectors(false)});
+sort.addEventListener('change',()=>{if(catalog)refreshSelectors(false)});
 selectors.forEach(x=>x.addEventListener('change',render));
 searches.forEach((search,i)=>search.addEventListener('input',()=>{
   if(catalog){populate(selectors[i],search.value,null);render()}
