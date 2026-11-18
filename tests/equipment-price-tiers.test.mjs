@@ -70,7 +70,10 @@ test('expired, promotional, used, mismatched market and cross-retailer anomalies
  const used=originals.map(x=>({...x,condition:'used'}));
  assert.equal(buildRegionalPriceTiers(catalog,{observations:used},{region:'CA',asOf:'2026-11-18'}).summary.labelledModels,0);
  const extreme=originals.map(x=>({...x,amount:x.retailerId==='az-electronics'?1000:x.amount}));
- assert.equal(buildRegionalPriceTiers(catalog,{observations:extreme},{region:'CA',asOf:'2026-11-18'}).summary.labelledModels,0);
+ const anomalous=buildRegionalPriceTiers(catalog,{observations:extreme},{region:'CA',asOf:'2026-11-18'});
+ assert.equal(anomalous.categories.wired_headphones.status,'insufficient_retail_evidence');
+ assert.equal(Object.keys(anomalous.tiersById).filter(id=>id.includes('/headphone/')).length,0);
+ assert.equal(Object.keys(anomalous.tiersById).filter(id=>id.includes('audio_interface/')).length,5);
  assert.throws(()=>buildRegionalPriceTiers(catalog,{observations:[make('legacy/headphone/sony-mdr-7506','CA','a',120,{currency:'USD'})]},{region:'CA'}),/Currency mismatch/);
 });
 test('public label is a pricing statement and vanishes when expired',()=>{
