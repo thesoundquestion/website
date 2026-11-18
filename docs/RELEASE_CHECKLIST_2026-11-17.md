@@ -4,6 +4,9 @@
 
 ### A. Visitor-facing release blockers
 
+- [ ] **Standalone Recommend Your Gear page:** `/tools/recommend-gear/` is implemented and linked from System Check, Compare My Gear, System Builder and Tools. The form is disabled in draft. Before allowing public submissions, apply `workers/abx/gear-schema.sql` with approval, verify D1 read-only admin access for pending model research, test variant/year/region storage, duplicate checks, rate limits, permissions, retention and user-facing copy. Deploy Worker and enable `GEAR_SUBMISSIONS_ENABLED=true` separately, then set the page `data-submissions-enabled=true` only when the service is healthy. Remove preview-only notices and confirm manual desktop/mobile form tests. Never auto-publish unverified specifications. See `docs/GEAR_SUGGESTION_REVIEW_2026-11-17.md`.
+
+
 - [ ] **ABX Mastering EQ on/off fairness defect (owner-observed):** A↔B and X↔incorrect-reference switching produces an audible stutter, while X↔matching-reference remains continuous. This is an answer-correlated non-musical cue and invalidates this comparison as a blind test until fixed. Check the exact deployed `mastering/eq-off.flac` and `mastering/eq-on.flac` for sample-accurate start, duration, sample rate, silence/encoder padding, and filter/group delay; compare decoded waveforms and check shared-clock buffer mode versus native fallback. Correct source alignment or the switching implementation at its cause, not by relying on a cosmetic crossfade. Retest A/B/X with randomized identity, repeated switches, headphones, desktop and actual mobile browsers; ensure no audible cue distinguishes matching versus nonmatching switches. Do not include the EQ ABX in any public scored mode until validated. Reported during local PR #15 preview November 17, 2026; source files not yet measured.
 
 - [x] ABX scored-repeat state resets after a completed session, and new session requires a fresh optional statistics opt-in.
