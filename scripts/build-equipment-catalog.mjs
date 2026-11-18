@@ -101,7 +101,9 @@ if(process.argv.includes('--check')) {
   let stale=false;
   for(const [path,output] of Object.entries(outputs)){
     try {
-      // Git for Windows may convert checked-out text files to CRLF.\n      // Compare canonical content, not the platform's line-ending convention.\n      if(read(path).replace(/\r\n/g,'\n')===output.replace(/\r\n/g,'\n'))continue;
+      // Git for Windows may convert checked-out text files to CRLF.
+      // Compare canonical content, not the platform's line-ending convention.
+      if(read(path).replace(/\r\n/g,'\n')===output.replace(/\r\n/g,'\n'))continue;
     } catch {}
     console.error('Stale or missing generated equipment file: '+path);
     stale=true;
