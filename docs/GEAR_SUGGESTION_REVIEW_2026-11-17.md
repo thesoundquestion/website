@@ -93,6 +93,16 @@ every time somebody opens System Check; it is an admin review workflow.
    commit and supporting URLs in the review notes. A record is never
    promoted by changing D1 status alone.
 
+### Daily email notifications
+
+The private `workers/abx/moderation-summary.mjs` route now counts pending
+`gear_suggestions` when the independent `GEAR_SUBMISSIONS_ENABLED` flag is true.
+The existing 9 a.m. Google Apps Script digest (`workers/abx/pending-review-digest.gs`)
+includes that count alongside Listening Room and ABX discussions and sends
+nothing if the entire queue is empty. It never includes unreviewed model text.
+No second daily script or Gmail filter is needed. This is staged and disabled
+until the D1 table, Worker and Gmail authorization are intentionally released.
+
 ### Operational status
 
 - Connected Cloudflare D1 read query: **verified** on 2026-11-17.
