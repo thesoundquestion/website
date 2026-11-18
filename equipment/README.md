@@ -27,13 +27,13 @@ node scripts/build-equipment-catalog.mjs --check
 node --test tests/equipment-catalog-*.test.mjs
 ```
 
-The sync tool covers the classic Checker preset, Compare details and the
-research JSON mirrors. **Builder-only modules remain a controlled transitional
-exception**, because they also contain helper exports and imports used by
-the existing Builder. Their data equality is checked against the master;
-changes to those 17 items must be reconciled in both places until the
-Builder-only runtime exports are migrated. This should be completed before
-declaring authoring fully unified.
+The sync tool covers the classic Checker preset, Compare details and
+research JSON mirrors. **All 17 Builder-only model profiles now come directly
+from the master** via `system-builder/catalog-supplements.generated.mjs`.
+The original speaker, amplifier, headphone and budget-headphone modules are
+thin, backward-compatible exports containing no independent model lists.
+Their existing lookup functions remain unchanged. The generator checks the
+generated module and blocks stale output.
 
 ## Working files
 
@@ -47,6 +47,9 @@ declaring authoring fully unified.
   neutral goal-category candidates, with no calculation or suitability claim.
 - `../tests/equipment-catalog-adapters.test.mjs`: verifies that every legacy
   numeric rating, note, link and comparison detail survives conversion.
+- `../system-builder/catalog-supplements.generated.mjs`: generated speaker,
+  amplifier, headphone and budget-headphone data, with original module APIs
+  kept as thin re-exports.
 - `legacy-presets.generated.js` / `compare-details.generated.js`: exact,
   source-preserving classic-script projections consumed by the existing
   Builder, Checker and Compare pages without rewriting calculations.
@@ -140,10 +143,12 @@ plus FIFINE K669D and M-Audio M-Track Solo.
 4. **Review shared catalogue size and load policy.** Existing listening tools
    load only their compact classic-script projections; future specialist
    tools may lazy-load the complete catalogue, not the homepage.
-5. **Complete authoring migration.** A canonical editable master is now
-   committed with a guarded source-mirror sync utility. The remaining work is
-   to move Builder-only data exports away from manually maintained module
-   literals, without altering their helper functions or other page behavior.
+5. **Authoring consolidation complete for current catalogue models.**
+   The canonical editable master contains all 130 original Checker presets,
+   29 research profiles and 17 Builder-only profiles. Legacy research/Checker
+   files remain guarded mirrors for old workflows; Builder-only exports are
+   generated directly. Do not edit generated files or legacy mirrors as new
+   independent sources. Future model evidence is edited in the master first.
 6. **Manual mobile and browser regression, source-confidence review and
    deliberate release approval.** The static builder now includes approved
    catalogue runtime assets and will fail if generated output is stale.
