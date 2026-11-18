@@ -1212,9 +1212,49 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "rca_stereo_line_inputs_A1_A4",
+            "scope": "integrated_amplifier_phono_line_headphone_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_phono_mm_or_high_output_mc_with_ground",
+            "scope": "integrated_amplifier_phono_line_headphone_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "front_3_5mm_aux_line_input",
+            "scope": "integrated_amplifier_phono_line_headphone_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "speaker_level_stereo_binding_post_terminals",
+            "scope": "integrated_amplifier_phono_line_headphone_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_record_line_out",
+            "scope": "integrated_amplifier_phono_line_headphone_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "front_6_35mm_stereo_headphone_output",
+            "scope": "integrated_amplifier_phono_line_headphone_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "usb_type_a_5v_power_only",
+            "scope": "integrated_amplifier_phono_line_headphone_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "USB-A is a 5 V power port, not a digital USB audio input. REC OUT carries a line-level recording signal, not amplified speaker power. Dedicated phono input is for suitable cartridge output, not arbitrary RCA sources."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -1260,6 +1300,16 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://www.cambridgeaudio.com/eur/en/manuals/axa35",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "AXA35 has four RCA stereo line inputs A1-A4 and separate phono RCA for MM/high-output MC cartridge",
+            "Analogue stereo REC OUT is an output for a recording device, not a line input",
+            "Front 6.35mm headphone jack and stereo loudspeaker binding posts; rear USB 5V port is power supply only, not USB audio"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/axa35_a4_en.pdf",
           "from": "system-check/gear.js",
@@ -2057,9 +2107,54 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "rca_stereo_line_input_cd_network_aux_recorder",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_phono_moving_magnet_input",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "toslink_optical_spdif_input_2",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "coaxial_spdif_digital_input_1",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "bluetooth_stereo_audio_receiver",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "speaker_level_stereo_binding_post_terminals",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_mono_subwoofer_line_preout",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "front_stereo_headphone_output",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "PHONO is a cartridge-level moving-magnet input and must not be confused with line-level RCA. Subwoofer PRE OUT cannot drive a passive subwoofer. Stereo powered output is not separate from the headphone and pre-out paths."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -2111,6 +2206,16 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://manuals.denon.com/PMA600NE/NA/en/OBAOSYecuyrqrs.php",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Denon PMA-600NE rear panel has stereo line inputs, dedicated MM PHONO, two OPTICAL plus one COAXIAL S/PDIF digital input",
+            "Subwoofer PRE OUT uses line-level output to an active subwoofer; one pair of stereo powered SPEAKERS terminals",
+            "Bluetooth audio reception is distinct from physical line/phono and digital inputs"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://manuals.denon.com/pma600ne/na/en/OBAOSYxljoeltq.php",
           "from": "system-check/gear.js",
@@ -4029,9 +4134,54 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "rca_stereo_line_input_banks",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_phono_moving_magnet_with_ground",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "toslink_optical_pcm_digital_input",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "coaxial_spdif_pcm_digital_input",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "speaker_level_front_stereo_A_B_terminals",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_mono_subwoofer_line_preout",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_record_line_out",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "front_stereo_headphone_output",
+            "scope": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "Speaker A/B terminals share the stereo amplifier channels. A subwoofer OUT is line level for a powered subwoofer, not passive speaker power. Digital optical/coaxial inputs require supported PCM formats; do not feed Dolby bitstreams assuming internal AVR decoding."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -4120,6 +4270,16 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "A-S301 rear panel has RCA stereo line input/record loop, MM PHONO with ground terminal, OPTICAL and COAXIAL S/PDIF inputs",
+            "Two switchable front A/B speaker sets, headphone jack and SUBWOOFER OUT for powered subwoofer",
+            "DIGITAL inputs accept compatible PCM digital audio, not multichannel surround bitstreams"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://data.yamaha.com/files/download/other_assets/1/332211/web_VEX7890_A-S701_A-S501_A-S301_om_RL_EnEs_A0.pdf",
           "from": "system-check/gear.js",
@@ -5018,9 +5178,39 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "rca_stereo_cd_line_input",
+            "scope": "stereo_receiver_analogue_line_and_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_line_1_2_3_inputs",
+            "scope": "stereo_receiver_analogue_line_and_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "bluetooth_stereo_audio_receiver",
+            "scope": "stereo_receiver_analogue_line_and_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "speaker_level_stereo_A_B_terminal_sets",
+            "scope": "stereo_receiver_analogue_line_and_speaker_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_record_line_out",
+            "scope": "stereo_receiver_analogue_line_and_speaker_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "The R-S202 has no built-in PHONO input; a turntable requiring RIAA equalization needs its own or an external phono preamp. Speaker sets A/B are not independent stereo power stages. LINE OUT is not a powered speaker output."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -5097,6 +5287,16 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://www.manualslib.com/manual/2234369/Yamaha-R-S202.html?page=14",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "R-S202 rear RCA CD and LINE 1-3 analogue inputs and LINE output routing, plus speaker A/B terminals",
+            "No dedicated PHONO input shown in receiver input selection; a turntable needs phono equalization before a line input",
+            "Bluetooth receiving is wireless audio; not USB recording, optical or phono input"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://data.yamaha.com/files/download/other_assets/2/794512/web_VEX7420_R-S202_om_UA_En_A0.pdf",
           "from": "system-check/gear.js",
@@ -11772,9 +11972,18 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
+        "inputs": [
+          {
+            "type": "passive_speaker_level_single_gold_plated_binding_post_pair",
+            "scope": "passive_loudspeaker_speaker_level_input",
+            "from": "equipment/source-master.json"
+          }
+        ],
         "outputs": [],
-        "descriptions": []
+        "descriptions": [
+          "Do not assume dual binding posts or bi-amping from one single terminal pair. Terminal style is not proof of an amplifier's safe impedance operating range."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerNominalImpedanceOhms": {
@@ -11824,6 +12033,15 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://assets.klipsch.com/product-specsheets/Reference-R-50M-Spec-Sheet.pdf",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Klipsch R-50M exact-model manufacturer spec sheet states single gold-plated binding posts",
+            "One passive bookshelf enclosure uses amplifier speaker-level terminals"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://assets.klipsch.com/product-specsheets/Reference-R-50M-Spec-Sheet.pdf",
           "from": "system-check/compare/specs.js",
@@ -12158,9 +12376,18 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
+        "inputs": [
+          {
+            "type": "passive_speaker_level_binding_post_positive_negative_pair",
+            "scope": "passive_loudspeaker_speaker_level_input",
+            "from": "equipment/source-master.json"
+          }
+        ],
         "outputs": [],
-        "descriptions": []
+        "descriptions": [
+          "Original Paradigm Monitor SE Atom binding posts accept several cable terminations; this does not establish the terminal types on older Paradigm Titan or Phantom revisions. Check local banana-plug safety and amp/speaker load."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerNominalImpedanceOhms": {
@@ -12209,6 +12436,15 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://www.paradigm.com/en/manuals-literature",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Paradigm Monitor SE series owner manual supports binding posts compatible with banana, pin, spade and bare wire terminations",
+            "Exact Monitor SE Atom is passive loudspeaker requiring speaker-level amplifier feed"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://www.paradigm.com/en/passive/monitor-se-atom",
           "from": "system-check/compare/specs.js",
@@ -12732,9 +12968,18 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
+        "inputs": [
+          {
+            "type": "passive_speaker_level_five_way_binding_post_pair",
+            "scope": "passive_loudspeaker_speaker_level_input",
+            "from": "equipment/source-master.json"
+          }
+        ],
         "outputs": [],
-        "descriptions": []
+        "descriptions": [
+          "A five-way binding post does not convert the speaker to a powered monitor. Confirm the amplifier impedance/power capability and local banana-plug safety restrictions."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerNominalImpedanceOhms": {
@@ -12782,6 +13027,15 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es15/300363-03-00-005.html",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Polk ES15 factory specifications: single gold-plated five-way binding posts for speaker wire, not RCA line inputs",
+            "A passive ES15 enclosure accepts amplifier speaker-level output at red/black speaker terminals"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es15/300363.html",
           "from": "system-check/compare/specs.js",
