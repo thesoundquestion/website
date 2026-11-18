@@ -166,6 +166,23 @@ unambiguous original model manual establishes the actual terminals. Its
 passive speaker-level electrical role is known, but terminal hardware
 and adapter suitability are pending.
 
+## Additional common-equipment connector batch
+
+Source-linked connector overlays now cover nine amplifier models (including
+Yamaha A-S301/A-S501/A-S701, R-S202, Denon PMA-600NE and Cambridge AXA35)
+and ten speaker models. Polk ES15/ES20, Klipsch R-50M and Paradigm Monitor
+SE Atom retain passive **speaker-level** input roles. The Yamaha A-S siblings
+share relevant input/output connectors, but **not their per-model electrical
+ratings**. The R-S202 has no phono cartridge stage; a line input does not
+perform RIAA equalization. Cambridge AXA35's rear USB port supplies power,
+not digital audio. This matters for the beginner recording and listening
+system builders.
+
+Typed connectors are **source-backed connection descriptions**, not an
+automatic guarantee of safe amplifier/speaker pairing. Future specialized
+checkers must still evaluate impedance minima, rated loads, amplifier
+conditions, signal level, cable wiring and required gain.
+
 ## Phase 1 still to do before sign-off
 
 1. **Broaden source-verified model coverage**, especially recording microphone variants,
