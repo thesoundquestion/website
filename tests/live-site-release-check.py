@@ -48,6 +48,11 @@ def check_redirect(url,path,query=""):
     ok(f"redirect {url} -> {expected}",st==301 and got==expected,f"{st} Location={got}")
 
 def main():
+    for base in [BASE,"https://f70bbc13.thesoundquestion.pages.dev","https://thesoundquestion.pages.dev"]:
+        st,raw,h=get(base+"/")
+        data=raw.decode("utf8","replace")
+        canonical=re.search(r'<link[^>]+rel="canonical"[^>]+>',data)
+        print("RELEASE_PROBE",base,"status",st,"bytes",len(raw),"new_email",("contact@thesoundquestion.com" in data),"old_email",("thesoundquestion@gmail.com" in data),"old_hostname",("thesoundquestion.pages.dev" in data),"canonical",(canonical.group(0) if canonical else "n/a"),"cache",h.get("cf-cache-status","n/a"),"age",h.get("age","n/a"),flush=True)
     home=html("/",["contact@thesoundquestion.com","/assets/share-site.js","/tools/"])
     abx=html("/labs/abx/",["Start scored session","private practice challenge","/assets/abx-lab.js","/privacy/"])
     gear=html("/tools/recommend-gear/",['data-submissions-enabled="true"',"Send recommendation for review","/tools/recommend-gear/app.js"])
