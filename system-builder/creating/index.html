@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#080d15">
+<meta name="description" content="Build a recording, podcast, streaming or live-sound system around actual microphones, audio interfaces, mixers and documented signal-chain limits.">
+<meta property="og:title" content="Creating Builder | The Sound Question">
+<meta property="og:site_name" content="The Sound Question">
+<meta property="og:url" content="https://thesoundquestion.com/system-builder/creating/">
+<link rel="canonical" href="https://thesoundquestion.com/system-builder/creating/">
+<link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+<link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/system-builder/style.css">
+<link rel="stylesheet" href="/system-builder/goal-chain-builder.css">
+<script type="module" src="/system-builder/creating/app.mjs"></script>
+<title>Creating Builder | The Sound Question</title></head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details>
+</div></header>
+
+<main id="main" class="container sb">
+<header class="sb-hero">
+<p class="section-kicker">RECORDING · STREAMING · LIVE AUDIO</p>
+<h1>Creating Builder</h1>
+<p class="lead">Start with what you're making, then build the signal chain: microphone, interface or mixer, recorder and monitoring. We'll show verified input capacity, missing specifications and important checks before you buy or connect anything.</p>
+<div class="sb-hero-meta"><span>Vocal and song recording</span><span>Podcasts · Streams · Band rehearsal</span><span>Live sound and PA</span></div>
+</header>
+<p class="sb-bridge"><strong>Building a music or home-theatre playback system?</strong> Use the <a href="/system-builder/">Listening Builder</a> for speakers, amplifiers, headphones and your room. <a href="/tools/find-my-setup/">Choose a path instead →</a></p>
+<section class="sb-purpose" aria-labelledby="sb-purpose-heading">
+ <p class="section-kicker">CHOOSE YOUR AUDIO PROJECT</p>
+ <h2 id="sb-purpose-heading">What are you creating?</h2>
+ <p>Each project has different input and monitoring requirements. A mixer with ten channels, for example, doesn't necessarily record ten separate computer tracks.</p>
+ <label class="sb-field" for="sb-purpose-select">My system is for
+ <select id="sb-purpose-select">
+  <option value="vocal">Recording vocals</option>
+  <option value="songwriter">Recording my own songs</option>
+  <option value="drums">Recording drums</option>
+  <option value="band">Recording a band</option>
+  <option value="podcast">Podcast or interview</option>
+  <option value="stream">Streaming or video creation</option>
+  <option value="live">Live sound / PA</option>
+ </select></label>
+</section>
+<section class="sb-purpose-panel" id="sb-purpose-panel" aria-labelledby="sb-purpose-panel-heading">
+ <h2 id="sb-purpose-panel-heading">Choose the parts of your signal chain</h2>
+ <p id="sb-purpose-description">Select the devices you own or are considering. Unknown specifications stay unknown.</p>
+ <form id="sb-purpose-form">
+  <div class="sb-grid">
+   <label class="sb-field sb-capture" for="sb-purpose-microphone">Microphone model<select id="sb-purpose-microphone"></select></label>
+   <label class="sb-field sb-capture" for="sb-purpose-input">Audio interface, mixer or recorder<select id="sb-purpose-input"></select></label>
+   <label class="sb-field sb-capture sb-count" for="sb-purpose-count">Microphones needed simultaneously<input type="number" id="sb-purpose-count" min="1" max="32" step="1" value="1"></label>
+   <label class="sb-field sb-headphone" for="sb-purpose-headphone">Monitoring headphones<select id="sb-purpose-headphone"></select></label>
+   <label class="sb-field sb-live" for="sb-purpose-pa">Audience PA speaker<select id="sb-purpose-pa"></select></label>
+  </div>
+  <label class="sb-inline sb-tracks" for="sb-purpose-tracks"><input type="checkbox" id="sb-purpose-tracks">I need separately editable microphone recordings</label>
+  <p class="sb-help">These are example products in the shared equipment catalogue, not endorsements. Capacity checks are limited to published, source-verified facts. Can't find your model? <a href="/tools/recommend-gear/">Recommend equipment for inclusion</a>.</p>
+  <div class="sb-actions"><button class="button button-primary" type="submit">Review this signal chain</button></div>
+ </form>
+ <p id="sb-purpose-status" role="status" aria-live="polite">Loading equipment choices…</p>
+ <section id="sb-purpose-result" class="sb-purpose-result" hidden aria-live="polite">
+  <h3 id="sb-purpose-result-title">Your signal-chain plan</h3>
+  <div id="sb-purpose-result-body"></div>
+ </section>
+</section>
+<nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">LISTEN, LEARN &amp; CHECK</span><a class="page-endnav-primary" href="/decoder/audio-interfaces-mixers/">Learn about interfaces and mixers <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/system-builder/">Listening Builder</a><a href="/tools/">All tools</a><a href="/">Home</a><a href="#">↑ Back to top</a></div></nav>
+</main>
+<footer class="site-footer"><div class="container"><a href="/">The Sound Question</a></div></footer>
+</body>
+</html>
