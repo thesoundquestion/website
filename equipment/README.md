@@ -6,6 +6,35 @@ profiles and 17 Builder-only profiles, and produces a single **read-only normali
 catalogue** of **173 distinct physical devices**. A device may have multiple
 functions/categories, so category totals intentionally exceed the model count.
 
+## Canonical editable source and migration boundary
+
+The primary editable catalogue is now `source-master.json`. It combines
+the 130 original listening presets, 29 newly researched profiles, 17
+Builder-only profiles, and the existing supplemental comparison information.
+It is **not published** in the static website; only generated runtime
+projections are published. Make catalogue data edits there first.
+
+During the migration, the legacy source files still exist because their
+modules also contain existing logic/recommendation exports. The build
+checks that their equipment data matches the master and rejects drift. To
+synchronize the data-only legacy files after editing the master, run:
+
+```sh
+node scripts/sync-equipment-source-mirrors.mjs --check
+node scripts/sync-equipment-source-mirrors.mjs --write
+node scripts/build-equipment-catalog.mjs
+node scripts/build-equipment-catalog.mjs --check
+node --test tests/equipment-catalog-*.test.mjs
+```
+
+The sync tool covers the classic Checker preset, Compare details and the
+research JSON mirrors. **Builder-only modules remain a controlled transitional
+exception**, because they also contain helper exports and imports used by
+the existing Builder. Their data equality is checked against the master;
+changes to those 17 items must be reconciled in both places until the
+Builder-only runtime exports are migrated. This should be completed before
+declaring authoring fully unified.
+
 ## Working files
 
 - `catalog.generated.json`: shared catalogue read model, produced from sources; **never edit by hand**.
@@ -111,10 +140,10 @@ plus FIFINE K669D and M-Audio M-Track Solo.
 4. **Review shared catalogue size and load policy.** Existing listening tools
    load only their compact classic-script projections; future specialist
    tools may lazy-load the complete catalogue, not the homepage.
-5. **Consolidate authoring sources** after agreeing an editorial source
-   format. Existing presets, comparison detail, Builder-only lists and
-   research records remain distinct authoring inputs; generated artifacts
-   must never be manually edited.
+5. **Complete authoring migration.** A canonical editable master is now
+   committed with a guarded source-mirror sync utility. The remaining work is
+   to move Builder-only data exports away from manually maintained module
+   literals, without altering their helper functions or other page behavior.
 6. **Manual mobile and browser regression, source-confidence review and
    deliberate release approval.** The static builder now includes approved
    catalogue runtime assets and will fail if generated output is stale.
