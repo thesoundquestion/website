@@ -9,7 +9,15 @@ const valid={category:'amplifier',brand:'Yamaha',model:'A-720',
 
 test('gear recommendations accept model-only evidence and no account identifiers',()=>{
  assert.deepEqual(validateGearSuggestion({...valid,specifications:'',referenceUrl:''}),
-   {category:'amplifier',brand:'Yamaha',model:'A-720',specifications:'',referenceUrl:''});
+   {category:'amplifier',brand:'Yamaha',model:'A-720',variant:'',approxYear:null,region:'',specifications:'',referenceUrl:''});
+ assert.deepEqual(validateGearSuggestion({...valid,variant:'80 ohm',approxYear:'1984',region:'Canada'}),{
+   category:'amplifier',brand:'Yamaha',model:'A-720',variant:'80 ohm',approxYear:1984,
+   region:'Canada',specifications:valid.specifications,referenceUrl:valid.referenceUrl
+ });
+ assert.equal(validateGearSuggestion({...valid,approxYear:'nineteen-eighty'}),null);
+ assert.equal(validateGearSuggestion({...valid,approxYear:'1890'}),null);
+ assert.equal(validateGearSuggestion({...valid,variant:'V'.repeat(121)}),null);
+ assert.equal(validateGearSuggestion({...valid,region:'R'.repeat(61)}),null);
  assert.equal(validateGearSuggestion({...valid,category:'phone'}),null);
  assert.equal(validateGearSuggestion({...valid,consent:false}),null);
  assert.equal(validateGearSuggestion({...valid,website:'spam'}),null);
@@ -58,18 +66,30 @@ test('public reading and approval endpoints are absent',async()=>{
   assert.equal(res.status,404);assert.equal(calls.length,0);
  }
 });
-test('System Check source has labelled staged form without affecting calculator form',()=>{
- const html=readFileSync(new URL('../system-check/index.html',import.meta.url),'utf8');
- const script=readFileSync(new URL('../system-check/gear-submissions.js',import.meta.url),'utf8');
+test('standalone page, links and review-only configuration are staged',()=>{
+ const page=readFileSync(new URL('../tools/recommend-gear/index.html',import.meta.url),'utf8');
+ const script=readFileSync(new URL('../tools/recommend-gear/app.js',import.meta.url),'utf8');
+ const schema=readFileSync(new URL('../workers/abx/gear-schema.sql',import.meta.url),'utf8');
  const config=readFileSync(new URL('../workers/abx/wrangler.toml',import.meta.url),'utf8');
  const worker=readFileSync(new URL('../workers/abx/index.mjs',import.meta.url),'utf8');
  const privacy=readFileSync(new URL('../privacy/index.html',import.meta.url),'utf8');
- assert.match(html,/<form id="check"/);
- assert.match(html,/<form id="gear-suggestion-form"/);
- assert.match(html,/data-submissions-enabled="false"/);
- assert.match(html,/No account or email address is required/);
+ const sitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8');
+ for(const label of ['category','brand','model','variant','approxYear','region','referenceUrl','specifications','consent']) {
+   assert.match(page,new RegExp('name="'+label+'"'),'Missing form input '+label);
+ }
+ assert.match(page,/<form id="gear-suggestion-form"/);
+ assert.match(page,/data-submissions-enabled="false"/);
+ assert.match(page,/No account, email address, photos or serial numbers needed/);
+ assert.match(page,/We check the specifications/);
  assert.match(script,/\/v1\/gear\/submit/);
  assert.match(config,/GEAR_SUBMISSIONS_ENABLED = "false"/);
  assert.match(worker,/handleGearSuggestions/);
+ for(const field of ['variant','approx_year','region'])assert.ok(schema.includes(field));
  assert.match(privacy,/Equipment model recommendations/);
+ assert.ok(sitemap.includes('/tools/recommend-gear/'));
+ for(const path of ['system-check/index.html','system-check/compare/index.html','system-builder/index.html','tools/index.html']){
+   const file=readFileSync(new URL('../'+path,import.meta.url),'utf8');
+   assert.ok(file.includes('href="/tools/recommend-gear/"'),path+' missing form link');
+   assert.doesNotMatch(file,/id="gear-suggestion-form"/,path+' unexpectedly embeds a form');
+ }
 });
