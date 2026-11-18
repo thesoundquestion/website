@@ -3,13 +3,13 @@
 Public site: https://thesoundquestion.pages.dev/
 Worker endpoint: https://tsq-abx.thesoundquestion.workers.dev
 D1 database: tsq-abx-scores (cbc80c8b-457e-496a-be9b-621d99f1cfd3), shared by ABX and moderated community entries
-Status: database created and schema initialized, **Worker not deployed**, config disabled until next coordinated release. No Cloudflare Pages deployment has occurred.
+Status (2026-11-17): **Worker uploaded and deployed to Cloudflare** with all four public/notification flags set to false, D1, rate-limit and audio service bindings verified by Cloudflare API. Its workers.dev subdomain is enabled but its public features are dark. **No MODERATION_READ_SECRET or ABX_SECRET has been set. No Worker cron trigger is registered.** The gear_suggestions table and indexes were created and verified, with zero records. The external endpoint response could not be tested from the tools available. No Cloudflare Pages deployment or PR merge has occurred.
 
 ## Before launch
 
 1. Review PR #15 and require the Node regression and Chrome desktop/mobile playback workflows to pass. Ensure the Pages output includes /labs/abx/, /assets/abx-lab.js, /assets/abx-lab.css, /assets/lab-readiness.js, homepage sharing code, and updated privacy/contact pages. Never publish workers/abx, docs, tests, private audio or secrets in Pages.
 2. Confirm Cloudflare Workers and D1 are on a free tier with daily headroom. Current quota budget must consider both the ABX Worker and public FLAC audio Worker requests. Target ≤65 Worker invocations for an ideal 20-trial Advanced session, plus retries and Range reads.
-3. From the workers/abx directory, deploy the Worker with ABX_PUBLIC_ENABLED=false in wrangler.toml first. Use a recent supported Wrangler release and confirm its bindings are accepted. This is a **manual Worker deploy**, not an automatic Pages build.
+3. **Initial disabled Worker deploy complete.** Future Worker code updates must be manually uploaded or deployed from workers/abx; GitHub draft commits alone do not update the Cloudflare Worker. All four flags remain off.
 4. Generate an unpredictable secret of at least 32 characters securely and set it with Wrangler secret put ABX_SECRET. Do not print the secret to the repository, commit it, or share it in a chat. Secret rotation invalidates active sessions.
 5. Check /v1/health shows scoring disabled, and a scored start returns an expected error while disabled. Confirm the D1 binding, all three rate-limit bindings (API, session starts and audio) and daily cleanup cron are available.
 6. In the approved release branch, change ABX_PUBLIC_ENABLED to true and deploy the Worker intentionally. Check /v1/health reports enabled, then test the actual API using a controlled 10-trial session, including retries, recovery, expiry, correct end-of-session disclosure, optional score sharing, and results suppression under 10 sessions. Keep test scores private so they do not contaminate public aggregates.
@@ -22,7 +22,7 @@ This is a fun social listening experiment, not a controlled scientific hearing t
 
 The scored comparison allowlist contains only published EQ and MP3 comparisons; intentional loudness-progression examples are excluded. Future changes to a source/master require a versioned test ID and a newly grouped community aggregate.
 
-Rate-limit and anonymous-scores rules must remain active before opening the service; opt-in is off by default. D1 retention cron runs daily when deployed. Store no personal email or user-uploaded audio with scores.
+Rate-limit and anonymous-scores rules must remain active before opening the service; opt-in is off by default. **Daily retention cron is not yet installed**; install and test it at the deliberate public-service release. Store no personal email or user-uploaded audio with scores.
 
 ## Internal FLAC service binding
 
@@ -30,7 +30,7 @@ The Worker configuration now binds AUDIO_SERVICE to the existing tsq-lab-audio W
 
 ## Moderated community launch (same Worker, no extra database)
 
-- The separate `COMMUNITY_PUBLIC_ENABLED=false` flag keeps comments and nominations closed until deliberately opened. No secret is required to display already approved entries, but real D1 and both rate-limit bindings are mandatory. The public Worker still requires manual deployment; do not enable submissions on Pages before the Worker supports them.
+- The separate `COMMUNITY_PUBLIC_ENABLED=false` flag keeps comments and nominations closed until deliberately opened. No secret is required to display already approved entries, but real D1 and both rate-limit bindings are mandatory. The Worker is already uploaded but community functionality remains explicitly disabled and untested end to end; do not enable submissions on Pages before the Worker supports them.
 - The **community_posts** table and its indexes were added to the existing D1 database on November 17, 2026 using `workers/abx/community-schema.sql`. There are no users, accounts, emails or IP columns.
 - Public interface: `/library/curators-listening-room/#community-listening-room` for track nominations and short comments, and `/labs/abx/#community-abx` for ABX comments. The browser loads the latest approved entries only after scrolling to the section. No third-party comment widget is used.
 - API: `GET /v1/community/approved?section=room&kind=suggestion&category=&offset=0` returns at most 10 moderated entries; `POST /v1/community/submit` accepts one entry (artist/title/category/280-character explanation for songs; 280-character comment for discussion). The submission endpoint returns a receipt reference and `pending` status, not a live public entry.
@@ -38,8 +38,8 @@ The Worker configuration now binds AUDIO_SERVICE to the existing tsq-lab-audio W
 - Update the privacy notice to describe manual review, storage and retention. Pending entries purge after 90 days; rejected after 30 days. Approved posts persist until editorial removal or a contributor's emailed request using the receipt ID.
 - Keep `COMMUNITY_PUBLIC_ENABLED` independent of ABX scoring so one feature can be disabled without hiding the other. Both are disabled in the checked-in Wrangler file.
 
-**Release sequence:** deploy Worker with both flags off, run server tests, enable community and/or ABX only after verifying the real API and privacy notice, then manually release Pages once. The free plan must remain sufficient.
+**Release sequence:** disabled Worker deploy completed; run live server tests, enable community, gear and/or ABX only after verifying the real API and privacy notice, then manually release Pages once. The free plan must remain sufficient.
 
 ## Gmail organization and triage
 
-The connected `thesoundquestion@gmail.com` inbox now has TSQ project labels for moderation, needs-reply/waiting-on-reply, content permissions (confirmed and restricted separately), ideas, Listening Room, creators, SEO and hosting. Existing conversations and historic GitHub workflow failures have been labeled. A daily ChatGPT inbox triage task is scheduled (America/Halifax, approximately 8 a.m.) to categorize new mail and highlight urgent correspondence. Gmail's native filters still require a one-time Google Apps Script authorization; installer and guide are saved in `ops/gmail/` and are **not yet installed**. Importantly, the website's D1 moderation digest notification script remains staged, not active, until Worker release. Native label rules do not grant permissions, approve D1 comments, or archive messages automatically.
+The connected `thesoundquestion@gmail.com` inbox now has TSQ project labels for moderation, needs-reply/waiting-on-reply, content permissions (confirmed and restricted separately), ideas, Listening Room, creators, SEO and hosting. Existing conversations and historic GitHub workflow failures have been labeled. A daily ChatGPT inbox triage task is scheduled (America/Halifax, approximately 8 a.m.) to categorize new mail and highlight urgent correspondence. The user reports completing the native Gmail filter installer; installer and guide are saved in `ops/gmail/`. The separate moderation digest Google Apps Script has been copied into a new project but is not yet configured or run; the Worker lacks the required moderation secret/flag. Native label rules do not grant permissions, approve D1 comments, or archive messages automatically. Native label rules do not grant permissions, approve D1 comments, or archive messages automatically.
