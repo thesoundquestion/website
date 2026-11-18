@@ -96,8 +96,9 @@ test('the homepage and Library use one concise front door with no duplicated han
   assert.equal((library.match(/<h2>Make Audio Make Sense · Free handbook<\/h2>/g)||[]).length,1);
   assert.equal((library.match(/href="\/library\/make-audio-make-sense\/make-audio-make-sense-illustrated\.pdf"/g)||[]).length,1);
   assert.match(library,/href="\/decoder\/technical-glossary\/"/);
-  const guide=decoder.lastIndexOf('href="/decoder/audio-interfaces-mixers/"');
-  assert.ok(guide>decoder.indexOf('LESSON 16')&&guide<decoder.indexOf('LESSON 17'),'place interface guide between lessons 16 and 17');
+  const guide=decoder.indexOf('<a class="dl-card" href="/decoder/audio-interfaces-mixers/"');
+  assert.ok(guide>decoder.indexOf('LESSON 16')&&guide<decoder.indexOf('href="/decoder/sample-rate/"'),'interface guide must be the numbered Lesson 17 card');
+  assert.match(decoder.slice(guide,guide+300),/LESSON 17/);
   assert.match(decoder,/href="\/decoder\/technical-glossary\/"/);
 });
 
