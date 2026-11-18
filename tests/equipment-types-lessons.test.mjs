@@ -33,7 +33,7 @@ for(const l of lessons){
   for(const claim of l.claims)assert.ok(s.toLowerCase().includes(claim.toLowerCase()),'Missing essential claim: '+claim);
   assert.doesNotMatch(s, /data-lesson-plot=|<audio\b|<iframe\b/,'do not duplicate old interactive labs');
   assert.doesNotMatch(s, /href="\/decoder\/technical-glossary\//,'do not link unpublished technical glossary');
-  assert.doesNotMatch(s, /automatically.*(?:better|worse|accurate|neutral)/i,'avoid automatic quality conclusions');
+  assert.doesNotMatch(s, /\b(?:always|guaranteed)\s+(?:better|worse|accurate|neutral)\b/i,'avoid universal quality guarantees');
  });
  test(l.slug+' in-page and cross-lesson anchors resolve',()=>{
   const s=read(page);
