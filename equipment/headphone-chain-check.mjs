@@ -38,6 +38,11 @@ function powerRatings(device) {
   }
   return entries;
 }
+function headPhoneBalancedCableVerified(headphone) {
+  // Only an exact documented balanced headphone-side cable counts.
+  return headphone?.connections?.inputs?.some(x=>
+    /balanced_headphone_plug_verified/.test(x.type))===true;
+}
 export function assessHeadphoneChain(catalog,{headphoneId,amplifierId}={}) {
   if(!Array.isArray(catalog?.records))throw new TypeError('Equipment catalogue required');
   const headphone=find(catalog,headphoneId),amp=find(catalog,amplifierId);
@@ -46,7 +51,9 @@ export function assessHeadphoneChain(catalog,{headphoneId,amplifierId}={}) {
   const checks=[];
   const ohms=value(headphone,'nominalImpedanceOhms');
   const ratings=powerRatings(amp);
-  const matched=validLoad(ohms)?ratings.filter(x=>x.loadOhms===ohms):[];
+  const headphoneBalanced= headPhoneBalancedCableVerified(headphone);
+  const matched=validLoad(ohms)?ratings.filter(x=>x.loadOhms===ohms &&
+    (!/4[._]4\s*mm\s*balanced|4[._]4mm_balanced/i.test(x.outputPath)||headphoneBalanced)):[];
   if(validLoad(ohms)){
     checks.push(make('rated_load',matched.length?'matching_load_reference':'unverified',
       matched.length?'Published headphone-output power is available at the headphone’s nominal '+ohms+' Ω load.':
@@ -63,9 +70,11 @@ export function assessHeadphoneChain(catalog,{headphoneId,amplifierId}={}) {
   const canUse35=ampOutputTypes.some(x=>/3[._]5mm/.test(x.type))&&hpInputTypes.some(x=>/3[._]5mm/.test(x));
   const canUse635=ampOutputTypes.some(x=>/6[._]35mm_single_ended/.test(x.type))&&
     (hpInputTypes.some(x=>/6[._]35mm/.test(x))||adapterNotes.some(x=>/6[._]35mm/.test(x)));
-  checks.push(make('connector_evidence',canUse35||canUse635?'connector_type_documented':'unverified',
-    canUse35||canUse635?'A plausible single-ended headphone plug/jack pairing is documented.':
-      'An exact single-ended headphone plug/jack path is not verified for these selected versions.',
+  const uncertainCable=hpInputTypes.some(x=>/variant_specific/.test(x))||
+    (headphone.connections?.descriptions||[]).some(x=>/differs by.*revision|inspect.*cable/i.test(x));
+  checks.push(make('connector_evidence',(canUse35||canUse635)&&!uncertainCable?'connector_type_documented':'unverified',
+    (canUse35||canUse635)&&!uncertainCable?'A plausible single-ended headphone plug/jack pairing is documented.':
+      'An exact single-ended headphone plug/jack path needs confirmation for these selected cables or versions.',
     'A 4.4 mm balanced socket is not a general-purpose adapter for single-ended headphone wiring. Inspect the physical plug and cable.'));
   const ampZ=value(amp,'outputImpedanceOhms'),ceiling=value(amp,'outputImpedanceCeilingOhms');
   if(validLoad(ohms)&&validLoad(ampZ))
@@ -92,7 +101,9 @@ export function assessHeadphoneChain(catalog,{headphoneId,amplifierId}={}) {
     headphone:{id:headphone.id,model:headphone.model},
     amplifier:{id:amp.id,model:amp.model},
     powerRatingsAtNominalLoad:matched,
-    otherPublishedLoads:ratings.filter(r=>r.loadOhms!==ohms).map(({loadOhms,milliwattsPerChannel,outputPath,testConditions})=>
+    otherPublishedLoads:ratings.filter(r=>r.loadOhms!==ohms ||
+      (/4[._]4\s*mm\s*balanced|4[._]4mm_balanced/i.test(r.outputPath)&&!headphoneBalanced))
+      .map(({loadOhms,milliwattsPerChannel,outputPath,testConditions})=>
       ({loadOhms,milliwattsPerChannel,outputPath,testConditions})),
     checks,
     disclaimer:'Published output ratings are condition-specific. This is neither a loudness prediction nor a safe-wiring or suitability certification.'
