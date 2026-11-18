@@ -191,7 +191,7 @@ function sortedEntry(entry) {
  * Do not add fuzzy substring matching or automatically merge same-brand models.
  */
 export function composeEquipmentCatalog({
-  legacyGear, compareDetails={}, researchCatalog, builderOnly=[]
+  legacyGear, compareDetails={}, researchCatalog, builderOnly=[], curatedConnections=[]
 }) {
   if(!legacyGear || typeof legacyGear!=='object') throw new TypeError('legacyGear required');
   if(!researchCatalog || !Array.isArray(researchCatalog.records)) throw new TypeError('research records required');
@@ -246,6 +246,29 @@ export function composeEquipmentCatalog({
     addBuilder(entry,row);
     rows.set(id,entry);
     lookup.set(key,id);
+  }
+  // Manual source-linked overlays enrich original products without altering
+  // the validated legacy preset input to Builder/Checker calculations.
+  const reviewedConnectionIds=new Set();
+  for(const mapping of curatedConnections){
+    if(!mapping||!textValue(mapping.equipmentId)||reviewedConnectionIds.has(mapping.equipmentId))
+      throw new Error('Invalid or duplicate reviewed connection identity');
+    reviewedConnectionIds.add(mapping.equipmentId);
+    const entry=rows.get(mapping.equipmentId);
+    if(!entry||!entry.categories.includes(mapping.category))
+      throw new Error('Reviewed connection references unknown product/category '+mapping.equipmentId);
+    if(!link(mapping.sourceUrl)||!/^\\d{4}-\\d\\d-\\d\\d$/.test(mapping.checkedOn||''))
+      throw new Error('Reviewed connection lacks dated HTTPS evidence '+mapping.equipmentId);
+    const desc=asArray(mapping.connectorEvidence);
+    if(!desc.length||!textValue(mapping.electricalRole))
+      throw new Error('Unqualified connector evidence '+mapping.equipmentId);
+    addEvidence(entry,mapping.sourceUrl,'equipment/source-master.json',desc,mapping.checkedOn);
+    for(const type of asArray(mapping.inputs))
+      port(entry,'inputs',type,mapping.electricalRole,'equipment/source-master.json');
+    for(const type of asArray(mapping.outputs))
+      port(entry,'outputs',type,mapping.electricalRole,'equipment/source-master.json');
+    if(mapping.caveat)uniquePush(entry.connections.descriptions,mapping.caveat);
+    entry.connections.reviewedAdaptableInputs=asArray(mapping.adaptableInputs).map(String);
   }
   // Every entry has a cited source and independently scoped source profiles.
   for(const entry of rows.values()){
