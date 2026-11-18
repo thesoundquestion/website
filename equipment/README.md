@@ -66,6 +66,21 @@ node scripts/build-equipment-catalog.mjs --check
 node --test tests/equipment-catalog-unified.test.mjs tests/equipment-catalog-adapters.test.mjs tests/equipment-catalog-runtime.test.mjs
 ```
 
+## Regional descriptive pricing bands (new draft pilot)
+
+`equipment/price-tiers.mjs` classifies exact models by the mean of recent,
+regular new-retail asking prices from at least two distinct retailers per
+model, and by price tertile among comparable products **within each region**.
+Tiers are **Budget pricing**, **Mid-priced** and **Premium pricing**: they
+are *not equipment grades or quality/accuracy scores*. Stale (over 45 days),
+unavailable or insufficiently evidenced market cohorts produce no label.
+
+The first Canadian wired-headphone sample covers five models and is marked
+`limited_sample`; other regional/category price tiers remain unclassified.
+Raw price observations stay in the editorial master rather than the public
+generated snapshot. No existing Builder affordability calculations or price
+estimates were rewritten. See `REGIONAL_PRICE_TIERS_2026_11_18.md`.
+
 ## How the model avoids bad comparisons
 
 - Every device has one stable ID, zero or more exact model-name aliases and
