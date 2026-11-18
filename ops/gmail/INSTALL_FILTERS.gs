@@ -69,7 +69,7 @@ function tsqFilterContext_(){
   tsqEnsureCorrectAccount_();
   const labelResult=Gmail.Users.Labels.list('me');
   const labels=new Map((labelResult.labels||[]).map(x=>[x.name,x.id]));
-  const existing=Gmail.Users.Settings.Filters.list('me').filter||[];
+  const existing=(Gmail.Users.Settings.Filters.list('me') || {}).filter || [];
   return {labels,existing};
 }
 function previewTSQGmailFilters(){
