@@ -41,9 +41,9 @@ is staged at \`ops/gmail/INSTALL_FILTERS.gs\` with its Apps Script manifest
 \`ops/gmail/appsscript.json\`. It uses the official Google Gmail API; no outside
 filter service or paid connector is necessary.
 
-The installer is **NOT installed yet**. Until you authorize it, these
-instant Gmail rules do not exist, though the labels and historical labeling
-already do. A separate daily ChatGPT inbox triage task was created to route
+The user reported completing the filter installer on November 17, 2026;
+its final rule count has not been independently inspected with a Gmail filter
+listing tool. The labels and historical labeling were already in place. A separate daily ChatGPT inbox triage task was created to route
 new mail and alert only on genuinely important issues.
 
 ### Install Gmail's native filters once
@@ -78,8 +78,10 @@ The initial backfill has not changed unread state.
 
 The website's separate D1 moderation digest (see
 \`workers/abx/PENDING-REVIEW-ALERTS.md\`) is currently *staged and inactive*.
-After it is deployed and its private Gmail Apps Script is authorized, it will
-email a summary only when pending website comments or nominations exist.
+The Worker itself has been deployed with moderation turned off; the user
+created the dedicated Google Apps Script project but has not run it or configured
+its protected Script Properties. After the security key and endpoint are authorized, it will
+email a summary only when pending website comments, nominations or gear recommendations exist.
 The "Pending community approvals" Gmail filter recognizes those digests and
 puts them under \`TSQ/01 Pending Approvals\`, without automatically archiving
 or marking them read. The D1 queue remains the source of truth for approval.
