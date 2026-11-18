@@ -29,7 +29,10 @@ const equipmentRuntime = new Set([
   'equipment/compare-details.generated.js',
   'equipment/catalog-core.mjs',
   'equipment/catalog-client.mjs',
-  'equipment/catalog-legacy-adapters.mjs'
+  'equipment/catalog-legacy-adapters.mjs',
+  'equipment/price-tiers.mjs',
+  'equipment/price-tier-client.mjs',
+  'equipment/price-tiers.generated.json'
 ]);
 // Release only the exactly approved 59-page illustrated handbook.
 const retiredHandbook = 'library/make-audio-make-sense/make-audio-make-sense.pdf';
@@ -101,7 +104,9 @@ const required = [
  'system-builder/index.html', 'equipment/catalog.generated.json',
  'equipment/legacy-presets.generated.js', 'equipment/compare-details.generated.js',
  'equipment/catalog-core.mjs', 'equipment/catalog-client.mjs',
- 'equipment/catalog-legacy-adapters.mjs', illustratedHandbook,
+ 'equipment/catalog-legacy-adapters.mjs',
+ 'equipment/price-tiers.mjs', 'equipment/price-tier-client.mjs',
+ 'equipment/price-tiers.generated.json', illustratedHandbook,
  'labs/abx/index.html', 'assets/abx-lab.js', 'assets/abx-lab.css',
  'assets/lab-readiness.js', 'assets/lab-readiness.css',
  'assets/format-comparison-engine.js',
