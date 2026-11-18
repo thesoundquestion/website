@@ -1,9 +1,14 @@
 # Pending-approval email digest: free Gmail / Apps Script setup
 
-**Status: prepared, not activated.** The Cloudflare Worker is not deployed
-and the daily Gmail script has not been installed or authorized. The
-public website and new comment boards remain unchanged until the coordinated
-manual release. The email digest does **not** use a paid email API.
+**Status (2026-11-17): Worker deployed but alerts disabled.** The `tsq-abx`
+Worker and D1 binding are now present in Cloudflare; its workers.dev
+subdomain is enabled, and the gear table was created. All public features
+and moderation alerts remain off. No `MODERATION_READ_SECRET` exists and
+`MODERATION_ALERTS_ENABLED=false`. The user copied the daily Gmail script
+into a separate private Apps Script project but has not run it or configured
+its Script Properties. The public website and comment boards remain unchanged.
+A real HTTP endpoint test is still needed; Cloudflare API deployment metadata
+and configuration checks succeeded. The email digest does **not** use a paid email API.
 
 ## How it works
 
@@ -39,7 +44,8 @@ manual release. The email digest does **not** use a paid email API.
    \`MODERATION_READ_SECRET\` as a *secret* and
    \`MODERATION_ALERTS_ENABLED="true"\` as a variable. The repository's
    Wrangler configuration defaults the alert switch to \`false\`.
-3. Deploy the Worker deliberately with working D1 binding. Verify that an
+3. The disabled Worker has been deployed with a D1 binding. Once the separate
+   secret is set, enable moderation alerts deliberately. Verify that an
    unauthorized request to \`/v1/moderation/pending-counts\` returns 404,
    and an authorized request returns only aggregate counts.
 4. At https://script.google.com/ create a **private** Apps Script project
