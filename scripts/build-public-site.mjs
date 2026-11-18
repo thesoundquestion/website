@@ -15,7 +15,7 @@ const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
   'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets', 'equipment',
 ]);
-const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects']);
+const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects', '_routes.json']);
 const runtimeExt = new Set([
   '.html', '.css', '.js', '.mjs', '.json', '.svg', '.webp', '.png',
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
@@ -102,7 +102,7 @@ for (const {entry, from} of files) {
 if (files.length > 20000) throw new Error('Cloudflare Free 20,000-file quota exceeded');
 if (maxBytes > 25 * 1024 * 1024) throw new Error('Cloudflare Pages 25 MiB per-file limit exceeded');
 const required = [
- 'index.html', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
+ 'index.html', '_routes.json', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
  'decoder/index.html', 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
  'system-builder/index.html', 'equipment/catalog.generated.json',
@@ -130,6 +130,14 @@ const required = [
 ];
 for (const file of required) {
  if (!existsSync(path.join(output, ...file.split('/')))) throw new Error('Required runtime file missing: ' + file);
+}
+// Pages Functions must be used only for the optional tutor API, never for static requests.
+// The Cloudflare Pages publish output (site-dist) must include this routing manifest.
+const functionRoutes = JSON.parse(readFileSync(path.join(output, '_routes.json'), 'utf8'));
+if (functionRoutes.version !== 1 ||
+    JSON.stringify(functionRoutes.include) !== JSON.stringify(['/api/lesson-tutor']) ||
+    JSON.stringify(functionRoutes.exclude) !== JSON.stringify([])) {
+  throw new Error('Unsafe Pages Functions routing; refuse publication');
 }
 // Waveform images must be measured from actual published master audio once,
 // never generated with browser-side audio downloads on initial page visit.

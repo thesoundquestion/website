@@ -9,7 +9,7 @@ const ALLOWED_FIELDS = new Set(['question', 'lesson', 'section', 'plot', 'exampl
 const MAX_BODY_BYTES = 4_096;
 const FOLLOW_UP_MS = 10 * 60_000;
 const UNAVAILABLE = 'AI help is unavailable right now. The prepared answers and lesson examples are still available.';
-const LIMIT_REACHED = 'AI help is busy or has reached a usage limit. You can still use all the prepared answers.';
+const LIMIT_REACHED = 'AI is limited to 3 new questions and 1 optional clarification per browser each UTC day, with a shared site and network budget. Some daily capacity opens later. If this attempt is unavailable, the prepared answers remain free and unlimited.';
 const OFF_TOPIC = 'Try a question about this lesson, its examples or a closely related audio topic.';
 
 function reply(body, status = 200, cookie = null) {

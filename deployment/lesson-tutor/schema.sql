@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS tutor_requests (
   turn INTEGER NOT NULL CHECK (turn IN (0, 1)),
   reserved_neurons INTEGER NOT NULL,
   UNIQUE (day, visitor, question_hash),
-  UNIQUE (day, network, question_hash),
+  -- Different people behind one shared IP may ask the same legitimate question.
+  -- Network-wide abuse is handled by per-network quota, throttle and concurrency limits.
   UNIQUE (day, visitor, interaction, turn)
 );
 
