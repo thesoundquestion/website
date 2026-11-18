@@ -18,9 +18,3 @@
 .sb-purpose-result .sb-chain-known_limit{border-left:3px solid #f1b78a;padding:.45rem .8rem;background:#2e251e}
 .sb-purpose-result .sb-chain-needs_check,.sb-purpose-result .sb-chain-unverified{border-left:3px solid #86b6d8;padding:.45rem .8rem;background:#18283a}
 .sb-chain-disclaimer{font-size:.88rem;border-top:1px solid #36536e;padding-top:1rem;line-height:1.7}
-.gc-price-summary{border:1px solid #36556d;padding:1.1rem 1.3rem;margin:1.1rem 0 1.45rem;background:#122436;border-radius:12px}
-.gc-price-summary h3{font-size:1.16rem;margin:0 0 .7rem}
-.gc-price-summary label{display:flex;flex-direction:column;gap:.35rem;max-width:380px;font-weight:650}
-.gc-price-summary select{font:inherit;background:#0a1827;border:1px solid #55738c;color:#f0faff;border-radius:8px;padding:.6rem}
-.gc-price-summary p{margin:.6rem 0;color:#cfdeea}
-.gc-price-caution{font-size:.85rem}
