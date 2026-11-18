@@ -7,7 +7,7 @@
       "region": "CA",
       "asOf": "2026-11-18",
       "summary": {
-        "eligibleModels": 5,
+        "eligibleModels": 8,
         "labelledModels": 5
       },
       "categories": {
@@ -15,6 +15,14 @@
           "status": "sampled",
           "representativeModels": 5,
           "retailerCount": 5,
+          "region": "CA",
+          "pricingBasis": "average_regular_new_retail_across_distinct_merchants",
+          "boundariesHidden": true
+        },
+        "usb_audio_interfaces": {
+          "status": "insufficient_retail_evidence",
+          "representativeModels": 3,
+          "retailerCount": 4,
           "region": "CA",
           "pricingBasis": "average_regular_new_retail_across_distinct_merchants",
           "boundariesHidden": true
