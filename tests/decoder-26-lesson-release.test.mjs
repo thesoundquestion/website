@@ -31,7 +31,7 @@ test('all 27 lessons have one numbered card or opening link, page title and site
   }
  }
  assert.match(hub,/27 beginner-friendly lessons/);
- assert.match(hub,/27 lessons on sound basics/);
+ assert.match(hub,/27 beginner-friendly lessons on sound basics/);
 });
 
 test('the full Decoder course has valid static internal links and illustration files',()=>{
