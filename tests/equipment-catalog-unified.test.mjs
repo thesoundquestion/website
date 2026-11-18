@@ -60,6 +60,10 @@ test('recording counts and phantom-power facts remain separate, with no invented
   assert.equal(solo.facts.computerRecordingInputs.value,2);
   assert.equal(solo.facts.hasPhantom48v.value,true);
   assert.ok(solo.connections.outputs.some(p=>p.type==='rca_stereo'));
+  assert.equal(solo.facts.maxBitDepth.value,null);
+  assert.equal(solo.facts.documentedSetupBitDepth.value,16);
+  assert.equal(solo.facts.headphoneOutputPowerRating.value.milliwattsPerChannel,60);
+  assert.equal(solo.facts.headphoneOutputPowerRating.value.loadOhms,32);
   const yamaha=by('Yamaha MG10XU','mixer_recorder');
   assert.equal(yamaha.facts.advertisedMixerChannels.value,10);
   assert.equal(yamaha.facts.micPreampCount.value,4);
