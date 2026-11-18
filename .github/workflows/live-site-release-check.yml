@@ -1,0 +1,21 @@
+name: TSQ public website release smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - tests/live-site-release-check.py
+      - .github/workflows/live-site-release-check.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  launch-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test live Pages and public API, no DB writes
+        run: python3 tests/live-site-release-check.py
