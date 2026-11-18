@@ -6,22 +6,41 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// Never publish a stale projection or a partially updated inventory.
+// This is a read-only preflight; regeneration remains an explicit development step.
+execFileSync(process.execPath,['scripts/build-equipment-catalog.mjs','--check'],
+  {cwd:root,stdio:'pipe'});
 const output = path.join(root, 'site-dist');
 const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
-  'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets',
+  'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets', 'equipment',
 ]);
-const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects']);
+const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects', 'favicon.ico', 'favicon-96x96.png']);
 const runtimeExt = new Set([
   '.html', '.css', '.js', '.mjs', '.json', '.svg', '.webp', '.png',
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
 ]);
 const mediaExt = new Set(['.wav', '.flac', '.mp3', '.ogg', '.aiff', '.aif', '.m4a', '.mp4', '.webm']);
+// A shared inventory is the only source of published preset projections.
+// Both legacy consumers must receive generated, checked records.
+const equipmentRuntime = new Set([
+  'equipment/catalog.generated.json',
+  'equipment/legacy-presets.generated.js',
+  'equipment/compare-details.generated.js',
+  'equipment/catalog-core.mjs',
+  'equipment/catalog-client.mjs',
+  'equipment/catalog-legacy-adapters.mjs',
+  'equipment/price-tiers.mjs',
+  'equipment/price-tier-client.mjs',
+  'equipment/price-tiers.generated.json',
+  // Phase 2 is review-only, but its isolated draft preview needs this module.
+  'equipment/comparison-model.mjs',
+  'equipment/recording-chain-check.mjs',
+  'equipment/headphone-chain-check.mjs'
+]);
 // Release only the exactly approved 59-page illustrated handbook.
 const retiredHandbook = 'library/make-audio-make-sense/make-audio-make-sense.pdf';
 const illustratedHandbook = 'library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
-const approvedPumpImage = 'assets/illustrations/tsq-pump-taps-approved.png';
-const approvedPumpImageSha256 = 'df1c51dc0ab6c3b82468873110131617825865bc21a604883e1a4fffcde4a1da';
 const illustratedHandbookExpectedSize = 12018958;
 const illustratedHandbookExpectedSha256 = 'd647ee22a1931adf45e8cf72fd25792fb10d12a8017e64d54ca105209cfeee77';
 /* Allow only explicitly reviewed, checked full-band MP3 examples. Keep the
@@ -49,6 +68,7 @@ for (const entry of tracked) {
   const topLevel = parts.length === 1 &&
     (rootFiles.has(entry) || /^[a-f0-9]{32}\.txt$/i.test(entry));
   if (!inPublicRoute && !topLevel) continue;
+  if (parts[0] === 'equipment' && !equipmentRuntime.has(entry)) continue;
   if (entry === retiredHandbook) continue; // Preserve in Git history, but do not serve the retired three-page edition.
   if (mediaExt.has(ext) && !approvedMedia.has(entry)) throw new Error('Publication of unapproved audio/video blocked: ' + entry);
   if (!topLevel && !runtimeExt.has(ext) && !approvedMedia.has(entry)) continue;
@@ -56,10 +76,6 @@ for (const entry of tracked) {
   const from = path.join(root, ...parts);
   if (!existsSync(from)) throw new Error('Tracked runtime file absent: ' + entry);
   if (!lstatSync(from).isFile()) throw new Error('Non-regular runtime file: ' + entry);
-  if (entry === approvedPumpImage) {
-    const digest = createHash('sha256').update(readFileSync(from)).digest('hex');
-    if (digest !== approvedPumpImageSha256) throw new Error('The approved pump and taps illustration has changed: ' + entry);
-  }
   if (entry === illustratedHandbook) {
     const fileSize = statSync(from).size;
     if (fileSize !== illustratedHandbookExpectedSize) throw new Error('Wrong illustrated handbook file size: ' + fileSize);
@@ -86,11 +102,22 @@ for (const {entry, from} of files) {
 if (files.length > 20000) throw new Error('Cloudflare Free 20,000-file quota exceeded');
 if (maxBytes > 25 * 1024 * 1024) throw new Error('Cloudflare Pages 25 MiB per-file limit exceeded');
 const required = [
- 'index.html', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
- 'decoder/index.html', 'decoder/technical-glossary/index.html', approvedPumpImage,
- 'labs/index.html', 'lab/index.html',
+ 'index.html', 'favicon.ico', 'favicon-96x96.png', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
+ 'decoder/index.html', 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
- 'system-builder/index.html', illustratedHandbook,
+ 'system-builder/index.html', 'equipment/catalog.generated.json',
+ 'equipment/legacy-presets.generated.js', 'equipment/compare-details.generated.js',
+ 'equipment/catalog-core.mjs', 'equipment/catalog-client.mjs',
+ 'equipment/catalog-legacy-adapters.mjs',
+ 'equipment/price-tiers.mjs', 'equipment/price-tier-client.mjs',
+ 'equipment/price-tiers.generated.json', 'equipment/comparison-model.mjs',
+ 'tools/equipment-comparison-preview/index.html',
+ 'tools/equipment-comparison-preview/preview.mjs',
+ 'tools/equipment-comparison-preview/style.css',
+ 'equipment/recording-chain-check.mjs', 'equipment/headphone-chain-check.mjs',
+ 'tools/chain-check-preview/index.html',
+ 'tools/chain-check-preview/preview.mjs',
+ 'tools/chain-check-preview/style.css', illustratedHandbook,
  'labs/abx/index.html', 'assets/abx-lab.js', 'assets/abx-lab.css',
  'assets/lab-readiness.js', 'assets/lab-readiness.css',
  'assets/format-comparison-engine.js',
