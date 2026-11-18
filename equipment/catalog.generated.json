@@ -2880,9 +2880,74 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "rca_stereo_line_inputs",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_six_channel_dvd_analogue_input",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_tape_monitor_play_input",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "toslink_optical_digital_input_3",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "coaxial_spdif_digital_input_1",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_phono_magnetic_cartridge_input",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "speaker_level_front_A_binding_posts",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "speaker_level_front_B_spring_terminals",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "speaker_level_center_surround_spring_terminals",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_line_level_subwoofer_pre_out",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_tape_record_outputs",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "toslink_optical_digital_output",
+            "scope": "av_receiver_analogue_digital_speaker_line_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "DVD 6-channel analogue input is multichannel line-level, not six microphone preamps. Optical digital OUT is not an analogue line output. Front A and B speaker sets share the amplifier channels; confirm manufacturer A+B impedance conditions before simultaneous use. Subwoofer OUT is a line-level pre-out for a powered subwoofer, not powered speaker output."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -2935,6 +3000,16 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://help.na.panasonic.com/wp-content/uploads/2023/02/SAHE100_RQT6209_ENG.pdf",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "RQT6208 speaker and rear panel diagrams show front A and B speaker banks, center and surround speaker connections",
+            "DVD 6CH analogue RCA input, stereo line inputs and tape monitor playback/record jacks",
+            "OPTICAL 1/2/3 and COAXIAL digital audio inputs, optical digital recording output, analogue subwoofer pre-out"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://help.na.panasonic.com/wp-content/uploads/2023/02/SAHE100_RQT6209_ENG.pdf",
           "from": "system-check/gear.js",
@@ -3698,9 +3773,44 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "rca_stereo_line_in_cd_tuner_aux",
+            "scope": "integrated_amplifier_mixed_level_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_phono_input_mm_mc_selection",
+            "scope": "integrated_amplifier_mixed_level_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_tape_play_inputs",
+            "scope": "integrated_amplifier_mixed_level_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "rca_stereo_tape_record_outputs",
+            "scope": "integrated_amplifier_mixed_level_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "speaker_level_stereo_binding_posts_A_B_C",
+            "scope": "integrated_amplifier_mixed_level_ports",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "front_stereo_headphone_output",
+            "scope": "integrated_amplifier_mixed_level_ports",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "Phono inputs require a cartridge-level signal; ordinary RCA line inputs require line-level signals. A/B/C speaker banks are switching options, not three independent stereo power amplifiers. Speaker terminal connection and headphone output do not establish load compatibility."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -3790,6 +3900,15 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://audiocircuit.dk/downloads/yamaha/Yamaha-A720-int-sm.pdf",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "North American rear panel page 2 shows stereo RCA line and PHONO input banks, TAPE record/play loops, A/B/C stereo speaker binding terminals",
+            "Front panel shows stereo PHONES connection"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://audiocircuit.dk/downloads/yamaha/Yamaha-A720-int-sm.pdf",
           "from": "system-check/gear.js",
@@ -4505,9 +4624,59 @@
         "speaker_amplification"
       ],
       "connections": {
-        "inputs": [],
-        "outputs": [],
-        "descriptions": []
+        "inputs": [
+          {
+            "type": "hdmi_audio_video_input_4",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "toslink_optical_spdif_inputs",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "coaxial_spdif_inputs",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_analogue_line_inputs",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "hdmi_audio_video_output_arc",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "speaker_level_front_center_surround_5_channels",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_line_level_surround_back_L_R_preouts",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_line_level_subwoofer_preout",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          },
+          {
+            "type": "rca_stereo_audio_line_out",
+            "scope": "av_receiver_input_output_5_power_channels",
+            "from": "equipment/source-master.json"
+          }
+        ],
+        "descriptions": [
+          "Surround-back PRE OUT has no built-in power stage and requires an external power amplifier. Powered SUBWOOFER jack is line-level, not a speaker-level amplifier. Do not count optional surround-back PRE OUT as two additional internal amplifier channels."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerPowerRatings": {
@@ -4588,6 +4757,16 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://data.yamaha.com/files/download/other_assets/6/321226/HTR-4063_om_en-1.pdf",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "North American HTR-4063 owner's manual rear panel p. En 6 shows four HDMI IN, one HDMI OUT, optical and coaxial digital audio input, RCA analogue input/output",
+            "Five powered speaker channels FRONT L/R CENTER SURROUND L/R and separate SURROUND BACK L/R PRE OUT for optional external amp",
+            "RCA SUBWOOFER PRE OUT for powered subwoofer; analogue AUDIO OUT is line-level"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://www.manualowl.com/m/Yamaha/HTR-4063/Manual/249545?page=79",
           "from": "system-check/gear.js",
@@ -12167,9 +12346,18 @@
         "studio_monitoring"
       ],
       "connections": {
-        "inputs": [],
+        "inputs": [
+          {
+            "type": "passive_speaker_level_binding_post_positive_negative_pair",
+            "scope": "passive_loudspeaker_speaker_level_input",
+            "from": "equipment/source-master.json"
+          }
+        ],
         "outputs": [],
-        "descriptions": []
+        "descriptions": [
+          "The speaker is passive, not a powered studio monitor; compatible amplifier load still depends on measured impedance and manufacturer ratings. Banana/spade/bare wire are physical terminations, not different signals."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerNominalImpedanceOhms": {
@@ -12221,6 +12409,14 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://www.manua.ls/paradigm/titan-v3/manual?p=4",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Paradigm Titan v3 manual identifies binding posts and bare-wire, banana, pin or spade terminal connections"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://www.canuckaudiomart.com/details/649350799-paradigm-titan-bookshelf-speakers-v3-black-with-wall-mounts/",
           "from": "system-check/compare/specs.js",
@@ -16709,10 +16905,18 @@
             "type": "passive_speaker_binding_posts",
             "scope": "speaker documented physical input",
             "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "passive_speaker_level_binding_post_positive_negative_pair",
+            "scope": "passive_loudspeaker_speaker_level_input",
+            "from": "equipment/source-master.json"
           }
         ],
         "outputs": [],
-        "descriptions": []
+        "descriptions": [
+          "One passive loudspeaker needs amplifier speaker-level output, not a line RCA or microphone output. Binding posts do not specify minimum impedance or independent speaker power handling."
+        ],
+        "reviewedAdaptableInputs": []
       },
       "facts": {
         "speakerKind": {
@@ -16789,6 +16993,14 @@
         }
       ],
       "evidence": [
+        {
+          "url": "https://www.manualslib.com/manual/2391450/Pioneer-Sp-Fs52.html?page=2",
+          "from": "equipment/source-master.json",
+          "fields": [
+            "Original SP-FS52 operating manual connecting your system: pair of red/black binding post terminals for passive speaker wire"
+          ],
+          "checkedDate": "2026-11-18"
+        },
         {
           "url": "https://images-na.ssl-images-amazon.com/images/G/01/HARDLINES/usermanual/27_2_15/B008NCD2LG._V327293103_.pdf",
           "from": "research/recording-input-catalog-v1.json",
