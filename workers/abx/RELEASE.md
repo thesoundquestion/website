@@ -1,9 +1,9 @@
 # Manual ABX Worker release runbook — Cloudflare Free plan
 
-Public site: https://thesoundquestion.pages.dev/
+Public site: https://thesoundquestion.com/ (Cloudflare Pages custom domain active; HTML meta/URL edits staged in PR #15)
 Worker endpoint: https://tsq-abx.thesoundquestion.workers.dev
 D1 database: tsq-abx-scores (cbc80c8b-457e-496a-be9b-621d99f1cfd3), shared by ABX and moderated community entries
-Status (2026-11-17): **Worker uploaded and deployed to Cloudflare**, with D1, rate limits and service bindings verified by Cloudflare API. Its workers.dev subdomain is enabled. **The user installed MODERATION_READ_SECRET in Cloudflare and reports placing the matching key in the Google Apps Script project's Script Properties.** The private `MODERATION_ALERTS_ENABLED` flag was enabled via API and verified. Public ABX, community and gear features remain disabled. ABX_SECRET and cron are not configured. The gear_suggestions table and indexes exist with zero entries. Live authenticated HTTP verification remains open. No Cloudflare Pages deployment or PR merge has occurred.
+Status (2026-11-17): **Worker uploaded and deployed to Cloudflare**, with D1, rate limits and service bindings verified by Cloudflare API. Its workers.dev subdomain is enabled. **The user installed MODERATION_READ_SECRET in Cloudflare and reports placing the matching key in the Google Apps Script project's Script Properties.** The private `MODERATION_ALERTS_ENABLED` flag was enabled via API and verified. Public ABX, community and gear features remain disabled. ABX_SECRET and cron are not configured. The gear_suggestions table and indexes exist with zero entries. Live authenticated HTTP verification remains open. No Cloudflare Pages deployment or PR merge has occurred. The custom .com domain is active and old-host/www Cloudflare 301 redirects are configured, but live HTML remains from the previous production build until the domain metadata release.
 
 ## Before launch
 

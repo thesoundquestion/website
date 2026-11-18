@@ -1,6 +1,7 @@
 # The Sound Question — project Gmail inbox
 
-**Account:** thesoundquestion@gmail.com  
+**Account:** thesoundquestion@gmail.com (actual inbox)  
+**Public visitor email:** contact@thesoundquestion.com (Cloudflare Email Routing forwards here; outbound replies still use Gmail)  
 **Last structured:** November 17, 2026
 
 The real connected Gmail inbox has been organized with **Gmail labels** (the

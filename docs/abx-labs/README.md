@@ -46,7 +46,7 @@ The Worker source is workers/abx/index.mjs, D1 schema workers/abx/schema.sql, re
 - Listeners choose whether to include a *completed* score in community statistics. The checkbox is OFF by default. Scores are grouped by versioned comparison, mode and trial count, not by distinct people. Groups with fewer than 10 shared completed sessions are suppressed.
 - Final results report correct answers and the binomial probability of that score or higher under random guessing. They do not correct for repeated attempts, playback gear, preference or participant selection. There are no personal leaderboards.
 - No account, name or email is stored with a score. D1 does not save IP addresses; short-lived IP rate-limit keys are used by Cloudflare. Unfinished sessions expire after 2 hours; completed private scores are scheduled for deletion after 24 hours, opted-in sessions after 180 days. Daily cleanup runs only once the Worker is deployed.
-- Privacy and community-result wording appears in privacy/index.html. The public site contact is thesoundquestion@gmail.com; visitors may suggest test ideas and offer permission to use recordings.
+- Privacy and community-result wording appears in privacy/index.html. The public site contact is contact@thesoundquestion.com (forwarded to the existing thesoundquestion@gmail.com inbox); visitors may suggest test ideas and offer permission to use recordings.
 
 ## Adding future ABX comparisons
 
