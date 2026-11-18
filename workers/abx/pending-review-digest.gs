@@ -10,6 +10,7 @@
  * Set the Apps Script project timezone to America/Halifax.
  * Run installDailyPendingDigest() once and grant the requested permissions.
  * No messages are sent when there are no entries pending approval.
+ * Includes gear model nominations when the independent gear queue is enabled.
  */
 const REVIEW_ADDRESS = 'thesoundquestion@gmail.com';
 function sendPendingReviewDigest(){
@@ -28,10 +29,11 @@ function sendPendingReviewDigest(){
   const counts=[
     ['Listening Room suggestions',result.listeningRoomSuggestions],
     ['Listening Room comments',result.listeningRoomComments],
-    ['ABX Lab comments',result.abxComments]
+    ['ABX Lab comments',result.abxComments],
+    ['Equipment model recommendations',result.gearSuggestions]
   ];
   const text=[
-    'There '+(pending===1?'is':'are')+' '+pending+' pending community '+(pending===1?'entry':'entries')+' awaiting review.',
+    'There '+(pending===1?'is':'are')+' '+pending+' pending website '+(pending===1?'entry':'entries')+' awaiting review.',
     '',
     ...counts.map(([label,n])=>label+': '+Number(n||0)),
     '',
@@ -39,11 +41,14 @@ function sendPendingReviewDigest(){
     'Read-only SQL:',
     "SELECT id,section,kind,category,artist,title,body FROM community_posts WHERE status='pending' ORDER BY created_at ASC LIMIT 50;",
     '',
-    'Approve or reject entries manually. No entry is published automatically.',
+    'Equipment models, if the gear queue is enabled:',
+    "SELECT id,category,brand,model,variant,approx_year,region,reference_url FROM gear_suggestions WHERE status='pending' ORDER BY created_at ASC LIMIT 50;",
+    '',
+    'Approve or reject community entries manually; research gear models before publishing a preset. Nothing is published automatically.',
     '',
     'This is a daily digest. You will not receive one email per submission.'
   ].join('\n');
-  GmailApp.sendEmail(REVIEW_ADDRESS,'The Sound Question: '+pending+' pending community '+(pending===1?'entry':'entries'),text);
+  GmailApp.sendEmail(REVIEW_ADDRESS,'The Sound Question: '+pending+' pending community '+(pending===1?'review':'reviews'),text);
 }
 function installDailyPendingDigest(){
   const name='sendPendingReviewDigest';
