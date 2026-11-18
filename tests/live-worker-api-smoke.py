@@ -19,7 +19,7 @@ MARKER="TSQSMOKE-"+str(int(time.time()))
 
 def request(path, *,method="GET",payload=None,origin=ORIGIN,extra=None):
     data=None if payload is None else json.dumps(payload).encode()
-    headers={"Accept":"application/json"}
+    headers={"Accept":"application/json","User-Agent":"curl/8.5.0"}  # Avoid Python-urllib default UA blocked at Cloudflare edge.
     if origin: headers["Origin"]=origin
     if payload is not None: headers["Content-Type"]="application/json"
     headers.update(extra or {})
