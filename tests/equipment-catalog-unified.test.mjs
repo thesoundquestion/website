@@ -164,6 +164,40 @@ test('all three mixer models distinguish mic preamps from computer recording cha
  assert.equal(z.standaloneRecorderMaxTracks44And48Khz,14);
  assert.equal(z.standaloneRecorderMaxTracks96Khz,12);
 });
+test('entry-level integrated amps preserve phono, digital, speaker and line-level distinctions',()=>{
+ const yamaha=by('Yamaha A-S301','amp');
+ const rs202=by('Yamaha R-S202','amp');
+ const denon=by('Denon PMA-600NE','amp');
+ const cambridge=by('Cambridge Audio AXA35','amp');
+ assert.ok(yamaha.connections.inputs.some(x=>x.type==='rca_phono_moving_magnet_with_ground'));
+ assert.ok(yamaha.connections.inputs.some(x=>x.type==='toslink_optical_pcm_digital_input'));
+ assert.ok(yamaha.connections.outputs.some(x=>x.type==='rca_mono_subwoofer_line_preout'));
+ assert.ok(rs202.connections.inputs.some(x=>x.type==='rca_stereo_cd_line_input'));
+ assert.ok(!rs202.connections.inputs.some(x=>x.type.includes('phono')));
+ assert.ok(!rs202.connections.inputs.some(x=>x.type.includes('optical')));
+ assert.ok(denon.connections.inputs.some(x=>x.type==='rca_phono_moving_magnet_input'));
+ assert.ok(denon.connections.inputs.some(x=>x.type==='toslink_optical_spdif_input_2'));
+ assert.ok(denon.connections.outputs.some(x=>x.type==='rca_mono_subwoofer_line_preout'));
+ assert.ok(cambridge.connections.outputs.some(x=>x.type==='usb_type_a_5v_power_only'));
+ assert.ok(!cambridge.connections.inputs.some(x=>x.type.includes('usb')));
+ assert.ok(cambridge.connections.outputs.some(x=>x.type==='speaker_level_stereo_binding_post_terminals'));
+ for(const item of [yamaha,rs202,denon,cambridge]){
+  assert.ok(item.evidence.some(x=>x.from==='equipment/source-master.json'));
+  assert.ok(item.connections.outputs.some(x=>x.type.includes('speaker_level_')));
+  assert.ok(item.facts.speakerPowerRatings?.value?.length>0);
+ }
+});
+test('new passive speaker binding posts do not imply line-level or powered monitor input',()=>{
+ for(const model of ['Polk Signature Elite ES15','Klipsch R-50M','Paradigm Monitor SE Atom']){
+  const item=by(model,'speaker');
+  assert.equal(item.connections.inputs.length,1);
+  assert.ok(item.connections.inputs[0].type.startsWith('passive_speaker_level_'));
+  assert.equal(item.connections.outputs.length,0);
+  assert.ok(item.evidence.some(e=>e.from==='equipment/source-master.json'));
+ }
+ // Original Phantom v1 connector construction remains unverified.
+ assert.equal(by('Paradigm Phantom v1','speaker').connections.inputs.length,0);
+});
 test('Pioneer manual and studio/PA models preserve separate signal and performance bases',()=>{
   const pioneer=by('Pioneer SP-FS52','speaker');
   assert.equal(pioneer.facts.speakerNominalImpedanceOhms.value,6);
