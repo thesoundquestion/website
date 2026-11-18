@@ -5,7 +5,7 @@ const catalog=JSON.parse(readFileSync(new URL('../research/recording-input-catal
 const byId=id=>catalog.records.find(r=>r.id===id);
 test('research inventory is a separate typed catalogue, not a change to System Check',()=>{
  assert.equal(catalog.status,'research_only');
- assert.equal(catalog.records.length,24);
+ assert.equal(catalog.records.length,29);
  assert.equal(new Set(catalog.records.map(x=>x.id)).size,catalog.records.length);
  assert.equal(catalog.records.filter(x=>x.comparisonAnchor).length,3);
  for(const record of catalog.records){
@@ -55,7 +55,10 @@ test('existing user amplifier/speaker/source/headphone records are reused, not c
   assert.ok(source.includes('"model": "'+record.model+'"'),'missing existing preset: '+record.model);
   assert.equal(record.notDuplicated,true);
  }
- assert.ok(catalog.uncataloguedComparisonModels.some(x=>x.model==='SP-FS52'&&x.numericFields===null));
+ const pioneer=catalog.records.find(x=>x.id==='pioneer-sp-fs52');
+ assert.equal(pioneer.speakerNominalImpedanceOhms,6);
+ assert.equal(pioneer.speakerSensitivityDb,87);
+ assert.equal(pioneer.frequencyRangeToleranceDb,null);
 });
 test('missing specs are explicit and not used to claim suitability or prices',()=>{
  const ro=byId('rode-podmic-xlr');
