@@ -54,7 +54,7 @@
 
 ### D. Admin follow-up, **not a release blocker**
 - [ ] Authorize Gmail native filters if desired; scheduled inbox triage already runs.
-- [ ] Configure the shared private security key in Cloudflare Worker and Google Apps Script, enable and live-test the optional daily D1 moderation email digest. It now includes **gear model recommendations** when that independently gated queue is enabled, alongside Listening Room and ABX submissions. Existing Gmail filter subject matching remains intact. No separate gear-notification script is needed.
+- [~] Private D1 moderation digest: user installed matching private secret and endpoint in Google Apps Script and Cloudflare; Cloudflare API verified `MODERATION_ALERTS_ENABLED=true` while public ABX, community and gear flags remain false. **Still needed:** user runs `sendPendingReviewDigest` once, then `installDailyPendingDigest`, verifies the authorized response and trigger, and confirms no notification when queue is empty. Digest It now includes **gear model recommendations** when that independently gated queue is enabled, alongside Listening Room and ABX submissions. Existing Gmail filter subject matching remains intact. No separate gear-notification script is needed.
 - [ ] Review pending posts and permissions periodically through the existing administrative workflow.
 
 ### E. Outreach and optional reader support (Ko-fi connected; support links still staged)
