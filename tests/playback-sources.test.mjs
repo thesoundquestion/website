@@ -17,6 +17,9 @@ test('current curriculum count, matching tutor answers and complete numbered nav
   assert.ok(lessons.length>=19);
   assert.equal(lessons.findIndex(x => x.slug==='playback-sources'),13);
   assert.deepEqual(Object.keys(bank),lessons.map(x=>x.slug));
+  assert.equal(lessons.length,26);
+  assert.equal(lessons.findIndex(x=>x.slug==='speaker-types'),20);
+  assert.equal(lessons.findIndex(x=>x.slug==='microphone-types'),22);
   for(let i=0;i<lessons.length;i++){
     const lesson=lessons[i],page=read('decoder/'+lesson.slug+'/index.html');
     const next=lessons[(i+1)%lessons.length],prior=lessons[i-1];

@@ -26,7 +26,7 @@ for(const l of lessons){
   assert.match(s,/<figcaption>/);
   assert.match(s,/<img [^>]*alt="[^"]+"/);
   assert.match(s,/<nav class="page-endnav[^"]*" aria-label="End-of-page navigation">/);
-  assert.match(s,/<div class="dl-end container">/);
+  assert.match(s,/<!-- LESSON_NAV_BEGIN -->/);
   assert.ok(s.includes('/assets/illustrations/'+l.visual),'correct new instructional diagram');
   assert.ok(existsSync(path.join(root,'assets/illustrations',l.visual)));
   assert.ok(s.includes('id="'+l.anchor+'"'));
