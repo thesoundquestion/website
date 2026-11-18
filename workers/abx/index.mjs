@@ -1,4 +1,4 @@
-/* The Sound Question ABX score service, staged and NOT deployed.
+/* The Sound Question ABX score service, deployed with deliberate feature flags.
  * Curated, previously prepared comparisons are informal listening games.
  * The client is untrusted. No browser-supplied score, answer key or A/B mapping is accepted.
  */
@@ -19,7 +19,7 @@ const SOURCES=Object.freeze({
 // Training choices stay on the browser; only these comparisons can create scored sessions.
 // Difficulty describes game length/intent, not certified hearing ability.
 const VALIDATED=new Map([
- ['master-eq-v1',['challenge']],
+ // EQ remains a synchronized local challenge until server-scored switching is independently verified.
  ['formats-light-128-v1',['challenge']],
  ['formats-diva-128-v1',['challenge']],
  ['formats-light-320-v1',['advanced']],

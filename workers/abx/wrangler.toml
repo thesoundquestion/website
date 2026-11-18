@@ -3,15 +3,16 @@ main = "index.mjs"
 compatibility_date = "2026-11-16"
 workers_dev = true
 
-# All comparisons are kept OFF until the next coordinated manual launch.
+# Public ABX scoring, community submissions and gear suggestions approved on 2026-11-17.
+# Production Worker flags are enabled only after real API validation; use explicit rollback if necessary.
 # Never commit a secret here. Set ABX_SECRET (at least 32 random characters)
-# using `npx wrangler secret put ABX_SECRET` during the deliberate Worker release.
+# using `npx wrangler secret put ABX_SECRET`. This has been installed securely in Cloudflare.
 [vars]
-ABX_PUBLIC_ENABLED = "false"
-COMMUNITY_PUBLIC_ENABLED = "false"
-MODERATION_ALERTS_ENABLED = "false"
+ABX_PUBLIC_ENABLED = "true"
+COMMUNITY_PUBLIC_ENABLED = "true"
+MODERATION_ALERTS_ENABLED = "true"
 # Separate launch gate for moderated equipment model suggestions.
-GEAR_SUBMISSIONS_ENABLED = "false"
+GEAR_SUBMISSIONS_ENABLED = "true"
 
 # Provisioned on the Cloudflare free tier on 2026-11-17.
 [[d1_databases]]

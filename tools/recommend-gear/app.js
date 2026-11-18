@@ -1,5 +1,5 @@
 /* The Sound Question: standalone, moderated equipment suggestion form.
- * Disabled in draft until both the Worker and D1 release gates are approved.
+ * Public form enabled only after Worker and D1 validation. All entries stay private pending manual review.
  */
 (() => {
   'use strict';

@@ -1,9 +1,9 @@
 /* Shared ABX Listening Labs framework, v1. No public scores without server verification. */
 (() => {
 'use strict';
-// The beta uses local, unverified games until the private scoring Worker
-// passes its release gates. Do not enable public score submission here.
-const PRACTICE_ONLY = true;
+// Only the verified canonical site offers server-scored Challenge/Advanced.
+// Local/preview hosts run self-contained practice, never the live score API.
+const PRACTICE_ONLY = location.origin !== 'https://thesoundquestion.com';
 const API = 'https://tsq-abx.thesoundquestion.workers.dev';
 const AUDIO = 'https://tsq-lab-audio.thesoundquestion.workers.dev';
 const tests = {
@@ -25,11 +25,12 @@ if(!catalog.length)return;
 root.classList.add('tsq-abx');root.innerHTML='';
 root.append(el('p',{class:'tsq-abx-kicker'},'BLIND LISTENING / TRAINING → CHALLENGE → ADVANCED'));
 root.append(el('h2',{},'Hear it. Then test yourself.'));
-root.append(el('p',{},'Start with Training, then try 10 rounds in Challenge or 20 in Advanced. During this beta, your score stays on this device and is not submitted. These games are for practice, not a hearing test.'));
+root.append(el('p',{},'Start with Training, then try 10 rounds in Challenge or 20 in Advanced. On this website, eligible comparisons use anonymous, server-verified scores; you can choose whether to include your completed score in community statistics. Preview versions remain private practice. These are informal listening games, not hearing tests.'));
 const notice=el('p',{class:'tsq-abx-notice'},'The comparisons use the same performances with obvious level differences controlled where practical. Personal listening conditions vary. The deliberately unequal-volume masters are excluded from ABX.');root.append(notice);
 const tabs=el('div',{class:'tsq-abx-tabs',role:'group','aria-label':'ABX difficulty'});
 const modes=[['training','Training'],['challenge','Challenge · 10 trials'],['advanced','Advanced · 20 trials']];
 let mode='training',testId=catalog[0][0],round=0,correct=0,answer='A',locked=false,live=null,session=null,version=0;
+const localOnly=()=>PRACTICE_ONLY||testId==='master-eq-v1'; // EQ scored native switching still awaits separate verification.
 const choose=el('select',{'aria-label':'Choose ABX comparison'});
 const lesson=el('a',{class:'tsq-abx-lesson-link',href:'/labs/'},'Explore the original lesson');
 const byMode=which=>catalog.filter(([,v])=>v.modes.includes(which));
@@ -108,7 +109,8 @@ const spec=testId?tests[testId]:null;meta.textContent=spec?spec.note:'No compari
 configureLessonLink();
 const scored=mode!=='training';
 const total=scored?(mode==='advanced'?20:10):10;
-consentLabel.hidden=PRACTICE_ONLY||!scored||!spec;
+consentLabel.hidden=localOnly()||!scored||!spec;
+startButton.textContent=localOnly()?'Start practice challenge':'Start scored session';
 statsButton.hidden=PRACTICE_ONLY;
 startButton.hidden=!scored||!spec||Boolean(session);startButton.disabled=pending||!spec;
 prepareButton.hidden=scored||!spec||Boolean(live)||round>=10;prepareButton.disabled=pending;
@@ -119,9 +121,9 @@ for(const b of Object.values(playButtons))b.disabled=pending||!live;
 for(const b of tabs.querySelectorAll('button'))b.disabled=Boolean(session);
 consent.disabled=Boolean(session);
 choose.disabled=!spec||Boolean(session)||pending;
-progress.textContent=spec?'Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':PRACTICE_ONLY?' · Beta practice; nothing submitted':' · Answers shown at completion'):'Select another level for available experiments.';
+progress.textContent=spec?'Round '+Math.min(round+1,total)+' of '+total+(mode==='training'?' · Practice, no public score':localOnly()?' · Private practice; nothing submitted':' · Answers shown at completion'):'Select another level for available experiments.';
 }
-function reset(){version++;stop();trainingBuffer?.dispose();trainingBuffer=null;root.dataset.playbackMode='native';cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent=PRACTICE_ONLY?'This is a practice game. Choose Start practice challenge to load the recordings. Results stay on this device.':'Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
+function reset(){version++;stop();trainingBuffer?.dispose();trainingBuffer=null;root.dataset.playbackMode='native';cache.clear();prepareFailed=false;round=0;correct=0;locked=false;session=null;live=null;pending=false;scoreboard.textContent='';render();if(mode==='training'&&testId)newTraining();else if(testId)scoreboard.textContent=localOnly()?'This is a practice game. Choose Start practice challenge to load the recordings. Results stay on this device.':'Play the references as often as needed, then identify X. Choose whether to share your completed score before starting.';}
 function newTraining(){
  answer=Math.random()<.5?'A':'B';locked=false;
  const a=localSource(TRAIN_A),b=localSource(TRAIN_B);
@@ -254,7 +256,7 @@ async function prepareScoredTrial(urls,{initial=false}={}){
 }
 async function startScored(){
 if(!testId||pending||session)return;
-if(PRACTICE_ONLY){await startPractice();return}
+if(localOnly()){await startPractice();return}
 // New attempts reset the previous completed-score lock, buffers and counters.
 version++;const myVersion=version;
 stop();trainingBuffer?.dispose();trainingBuffer=null;cache.clear();round=0;correct=0;locked=false;session=null;live=null;prepareFailed=false;
@@ -383,7 +385,7 @@ prepareButton.onclick=()=>prepareTraining();
 next.onclick=()=>{if(mode==='training'){round++;if(round>=10){scoreboard.textContent='Training complete: '+correct+'/10. These results are not submitted.';live=null;render()}else newTraining()}};
 choose.onchange=()=>{testId=choose.value;reset();recordSelection()};
 startButton.onclick=()=>{if(mode!=='training'&&!session&&!pending)startScored()};
-statsButton.onclick=async()=>{statsBox.textContent='Checking available community statistics…';try{const response=await fetch(API+'/v1/stats',{mode:'cors'});if(!response.ok)throw Error('unavailable');const data=await response.json();const values=Array.isArray(data.results)?data.results:[];statsBox.textContent='';if(!values.length){statsBox.textContent='No eligible community results yet. At least 10 completed opt-in sessions are required per comparison.';return}const table=el('table',{class:'tsq-abx-results'}),header=el('tr');for(const field of ['Comparison','Level','Sessions','Mean correct'])header.append(el('th',{},field));table.append(header);for(const x of values){const tr=el('tr');for(const value of [tests[x.test_id]?.label||x.test_id,x.mode,String(x.sessions),Math.round(Number(x.accuracy)*100)+'%'])tr.append(el('td',{},value));table.append(tr)}statsBox.append(table,el('p',{},data.note||'Unsupervised, voluntary community listening sessions.'))}catch{statsBox.textContent='Community results are not yet available. The secure scoring service has not been released.'}};
+statsButton.onclick=async()=>{statsBox.textContent='Checking available community statistics…';try{const response=await fetch(API+'/v1/stats',{mode:'cors'});if(!response.ok)throw Error('unavailable');const data=await response.json();const values=Array.isArray(data.results)?data.results:[];statsBox.textContent='';if(!values.length){statsBox.textContent='No eligible community results yet. At least 10 completed opt-in sessions are required per comparison.';return}const table=el('table',{class:'tsq-abx-results'}),header=el('tr');for(const field of ['Comparison','Level','Sessions','Mean correct'])header.append(el('th',{},field));table.append(header);for(const x of values){const tr=el('tr');for(const value of [tests[x.test_id]?.label||x.test_id,x.mode,String(x.sessions),Math.round(Number(x.accuracy)*100)+'%'])tr.append(el('td',{},value));table.append(tr)}statsBox.append(table,el('p',{},data.note||'Unsupervised, voluntary community listening sessions.'))}catch{statsBox.textContent='Community results are temporarily unavailable. Please try again later.'}};
 const query=new URLSearchParams(location.search);
 const requestedTest=query.get('test');const requestedMode=query.get('mode');
 const wantedMode=modes.some(([id])=>id===requestedMode)?requestedMode:(requestedTest&&tests[requestedTest]?.modes.includes('challenge')?'challenge':requestedTest&&tests[requestedTest]?.modes.includes('advanced')?'advanced':'training');
