@@ -62,7 +62,14 @@ const catalog=composeEquipmentCatalog({
 });
 const moduleSource=`/** AUTO-GENERATED from equipment/source-master.json; do not edit. */
 const products = ${JSON.stringify(master.builderOnly,null,2)};
-const freezeList = list => Object.freeze(list.map(item => Object.freeze(item)));
+const deepFreeze = value => {
+  if(value&&typeof value==='object'&&!Object.isFrozen(value)){
+    for(const child of Object.values(value))deepFreeze(child);
+    Object.freeze(value);
+  }
+  return value;
+};
+const freezeList = list => Object.freeze(list.map(item => deepFreeze(item)));
 export const BUILDER_ONLY_SPEAKERS=freezeList(products.speakers);
 export const BUILDER_ONLY_AMPS=freezeList(products.amplifiers);
 export const BUILDER_ONLY_HEADPHONES=freezeList(products.headphones);
