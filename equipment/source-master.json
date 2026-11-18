@@ -5885,6 +5885,73 @@
       "adaptableInputs": [],
       "electricalRole": "passive_loudspeaker_speaker_level_input",
       "caveat": "Original Paradigm Monitor SE Atom binding posts accept several cable terminations; this does not establish the terminal types on older Paradigm Titan or Phantom revisions. Check local banana-plug safety and amp/speaker load."
+    },
+    {
+      "equipmentId": "legacy/amp/yamaha-a-s501",
+      "category": "amp",
+      "sourceUrl": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "Shared A-S701/A-S501/A-S301 owner manual rear-panel specifications: stereo line RCA input/output jacks, PHONO MM/GND, DIGITAL OPTICAL and COAXIAL, SUBWOOFER OUT, SPEAKERS A/B",
+        "Model-specific rated output, impedances and power modes remain in original per-model specifications, not copied from the A-S301."
+      ],
+      "inputs": [
+        "rca_stereo_line_input_banks",
+        "rca_phono_moving_magnet_with_ground",
+        "toslink_optical_pcm_digital_input",
+        "coaxial_spdif_pcm_digital_input"
+      ],
+      "outputs": [
+        "speaker_level_front_stereo_A_B_terminals",
+        "rca_mono_subwoofer_line_preout",
+        "rca_stereo_record_line_out",
+        "front_stereo_headphone_output"
+      ],
+      "adaptableInputs": [],
+      "electricalRole": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+      "caveat": "Yamaha A-S501 shares general input/output connection types with the A-S301 family but not necessarily rated power, impedance operating limits or operating controls. Two speaker banks are not two independent amplifiers; subwoofer OUT is line-level."
+    },
+    {
+      "equipmentId": "legacy/amp/yamaha-a-s701",
+      "category": "amp",
+      "sourceUrl": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "Shared A-S701/A-S501/A-S301 owner manual rear-panel specifications: stereo line RCA input/output jacks, PHONO MM/GND, DIGITAL OPTICAL and COAXIAL, SUBWOOFER OUT, SPEAKERS A/B",
+        "Model-specific rated output, impedances and power modes remain in original per-model specifications, not copied from the A-S301."
+      ],
+      "inputs": [
+        "rca_stereo_line_input_banks",
+        "rca_phono_moving_magnet_with_ground",
+        "toslink_optical_pcm_digital_input",
+        "coaxial_spdif_pcm_digital_input"
+      ],
+      "outputs": [
+        "speaker_level_front_stereo_A_B_terminals",
+        "rca_mono_subwoofer_line_preout",
+        "rca_stereo_record_line_out",
+        "front_stereo_headphone_output"
+      ],
+      "adaptableInputs": [],
+      "electricalRole": "integrated_amplifier_stereo_analogue_digital_speaker_ports",
+      "caveat": "Yamaha A-S701 shares general input/output connection types with the A-S301 family but not necessarily rated power, impedance operating limits or operating controls. Two speaker banks are not two independent amplifiers; subwoofer OUT is line-level."
+    },
+    {
+      "equipmentId": "legacy/speaker/polk-signature-elite-es20",
+      "category": "speaker",
+      "sourceUrl": "https://www.polkaudio.com/en-ca/product/home-speakers/bookshelf/signature-elite-es20/300364.html",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "Polk Signature Elite ES20 manufacturer product family lists gold-plated five-way binding posts on the passive enclosure",
+        "One red/black speaker-terminal pair takes external amplifier speaker-level output"
+      ],
+      "inputs": [
+        "passive_speaker_level_five_way_binding_post_pair"
+      ],
+      "outputs": [],
+      "adaptableInputs": [],
+      "electricalRole": "passive_loudspeaker_speaker_level_input",
+      "caveat": "Five-way binding posts accept speaker cable terminations, not RCA line-level signals. Similar product family does not imply same sensitivity or impedance as ES15."
     }
   ]
 }
