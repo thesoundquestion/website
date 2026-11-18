@@ -22,7 +22,8 @@ test('homepage is a short signpost with prominent real goals and simple essentia
  assert.match(home,/class="home-goal-grid"/);
  assert.equal((home.match(/class="home-goal-card"/g)||[]).length,6);
  assert.ok(home.indexOf('class="home-goal-grid"')<home.indexOf('home-fast-paths'),'goals must precede secondary navigation');
- assert.equal((home.match(/<a class="discovery-card" href="/g)||[]).length,4,'Keep one short set of Lessons, Labs, Tools, Library');
+ assert.equal((home.match(/class="home-quick-links"/g)||[]).length,1,'Keep a single compact set of quick links');
+ assert.equal((home.match(/class="discovery-card"/g)||[]).length,0,'Avoid a competing second card grid');
  for(const id of ['hifi','vocal','songwriter','stream','band','live']){
   assert.match(home,new RegExp('href="/tools/find-my-setup/\\?goal='+id+'"'));
   assert.ok(byId(id),id+' must be a working deep link');
