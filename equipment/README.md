@@ -123,11 +123,13 @@ compatibility views of the shared registry**. Exact legacy preset ordering,
 all fields (including `extra` and `distortionResearch`), test conditions,
 supplemental comparison notes and citations are retained. The existing
 calculation, comparison and recommendation JavaScript engines are unchanged.
-The original editable `system-check/gear.js`, `compare/specs.js` and Builder
-supplements are **still source inputs** during this migration. Thus there is
-one shared read model for all three pages, but source authoring is not yet
-consolidated into a single editable master file. Do not misrepresent this as
-completed source consolidation.
+The canonical editable source is now **`equipment/source-master.json`**.
+Legacy `system-check/gear.js`, `compare/specs.js`, and the research JSON files
+remain as **generated/synchronized compatibility mirrors** because existing
+modules still export calculator and recommendation logic. Builder supplemental
+model data is generated from the master. The mirror-sync and freshness checks
+reject drift; authors must not independently edit those legacy data copies.
+All existing calculations and recommendations remain unchanged.
 
 The static release builder has an exact generated-file freshness gate and
 publishes only six approved `equipment/` runtime assets, excluding this
