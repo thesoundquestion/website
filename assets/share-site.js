@@ -1,7 +1,7 @@
 /* Share The Sound Question, no analytics or third-party scripts. */
 (() => {
   'use strict';
-  const url='https://thesoundquestion.pages.dev/';
+  const url='https://thesoundquestion.com/';
   const btn=document.getElementById('nativeShare');
   const copy=document.getElementById('copySiteLink');
   const feedback=document.getElementById('shareFeedback');

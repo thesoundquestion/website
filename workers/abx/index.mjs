@@ -7,10 +7,10 @@ import {handlePendingSummary} from './moderation-summary.mjs';
 import {handleGearSuggestions,cleanGearSuggestions} from './gear-suggestions.mjs';
 const HOST='https://tsq-lab-audio.thesoundquestion.workers.dev';
 const SOURCES=Object.freeze({
-  'formats-light-128-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/light-128.mp3',HOST+'/mixing/reference.flac'],
-  'formats-light-320-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/light-320.mp3',HOST+'/mixing/reference.flac'],
-  'formats-diva-128-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/diva-128.mp3',HOST+'/mastering/dynamic.flac'],
-  'formats-diva-320-v1':['https://thesoundquestion.pages.dev/assets/audio/formats/diva-320.mp3',HOST+'/mastering/dynamic.flac'],
+  'formats-light-128-v1':['https://thesoundquestion.com/assets/audio/formats/light-128.mp3',HOST+'/mixing/reference.flac'],
+  'formats-light-320-v1':['https://thesoundquestion.com/assets/audio/formats/light-320.mp3',HOST+'/mixing/reference.flac'],
+  'formats-diva-128-v1':['https://thesoundquestion.com/assets/audio/formats/diva-128.mp3',HOST+'/mastering/dynamic.flac'],
+  'formats-diva-320-v1':['https://thesoundquestion.com/assets/audio/formats/diva-320.mp3',HOST+'/mastering/dynamic.flac'],
   'master-dynamic-moderate-v1':[HOST+'/mastering/matched-dynamic.flac',HOST+'/mastering/matched-moderate.flac'],
   'master-moderate-brick-v1':[HOST+'/mastering/matched-moderate.flac',HOST+'/mastering/matched-brickwalled.flac'],
   'master-eq-v1':[HOST+'/mastering/eq-off.flac',HOST+'/mastering/eq-on.flac']
@@ -25,7 +25,7 @@ const VALIDATED=new Map([
  ['formats-light-320-v1',['advanced']],
  ['formats-diva-320-v1',['advanced']]
 ]);
-const ORIGIN='https://thesoundquestion.pages.dev';
+const ORIGIN='https://thesoundquestion.com';
 const SESSION_MS=2*60*60*1000;
 const DAY=24*60*60*1000;
 const statsText='Voluntary, anonymous, unsupervised listening games. Sessions are not unique people. Results are not hearing tests or controlled scientific measurements.';
