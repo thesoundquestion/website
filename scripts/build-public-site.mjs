@@ -20,6 +20,8 @@ const mediaExt = new Set(['.wav', '.flac', '.mp3', '.ogg', '.aiff', '.aif', '.m4
 // Release only the exactly approved 59-page illustrated handbook.
 const retiredHandbook = 'library/make-audio-make-sense/make-audio-make-sense.pdf';
 const illustratedHandbook = 'library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
+const approvedPumpImage = 'assets/illustrations/tsq-pump-taps-approved.png';
+const approvedPumpImageSha256 = 'df1c51dc0ab6c3b82468873110131617825865bc21a604883e1a4fffcde4a1da';
 const illustratedHandbookExpectedSize = 12018958;
 const illustratedHandbookExpectedSha256 = 'd647ee22a1931adf45e8cf72fd25792fb10d12a8017e64d54ca105209cfeee77';
 /* Allow only explicitly reviewed, checked full-band MP3 examples. Keep the
@@ -54,6 +56,10 @@ for (const entry of tracked) {
   const from = path.join(root, ...parts);
   if (!existsSync(from)) throw new Error('Tracked runtime file absent: ' + entry);
   if (!lstatSync(from).isFile()) throw new Error('Non-regular runtime file: ' + entry);
+  if (entry === approvedPumpImage) {
+    const digest = createHash('sha256').update(readFileSync(from)).digest('hex');
+    if (digest !== approvedPumpImageSha256) throw new Error('The approved pump and taps illustration has changed: ' + entry);
+  }
   if (entry === illustratedHandbook) {
     const fileSize = statSync(from).size;
     if (fileSize !== illustratedHandbookExpectedSize) throw new Error('Wrong illustrated handbook file size: ' + fileSize);
@@ -81,7 +87,8 @@ if (files.length > 20000) throw new Error('Cloudflare Free 20,000-file quota exc
 if (maxBytes > 25 * 1024 * 1024) throw new Error('Cloudflare Pages 25 MiB per-file limit exceeded');
 const required = [
  'index.html', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
- 'decoder/index.html', 'labs/index.html', 'lab/index.html',
+ 'decoder/index.html', 'decoder/technical-glossary/index.html', approvedPumpImage,
+ 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
  'system-builder/index.html', illustratedHandbook,
  'labs/abx/index.html', 'assets/abx-lab.js', 'assets/abx-lab.css',
