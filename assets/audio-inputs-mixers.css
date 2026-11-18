@@ -1,0 +1,24 @@
+/* New input equipment lesson, reusing approved TSQ equipment-type visual language. */
+.io-page .types-hero h1{max-width:1050px}
+.io-matrix{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.45rem 0}
+.io-route{position:relative;display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;padding:1rem;border-radius:14px;background:linear-gradient(125deg,#102a40,#101c2e);border:1px solid #335b76}
+.io-route .io-step{display:inline-flex;align-items:center;justify-content:center;min-height:2.9rem;padding:.45rem .6rem;border:1px solid #5484a1;border-radius:8px;font-size:.93rem;color:#e5f5ff;line-height:1.35;font-weight:700;background:#193b53}
+.io-route .io-step.alt{border-color:#bd9a6b;background:#3c3027}
+.io-route .io-arrow{color:#75d7fc;font-weight:800;line-height:1}
+.io-contrast-table{border-collapse:collapse;width:100%;font-size:.94rem;line-height:1.6;margin:1.3rem 0;overflow-wrap:anywhere}
+.io-contrast-table th{color:#edfbff;text-align:left;background:#1c394f}
+.io-contrast-table td,.io-contrast-table th{border:1px solid #36556e;padding:.83rem .87rem;vertical-align:top}
+.io-contrast-table tr:nth-child(odd) td{background:#132c40}
+.io-contrast-table tr:nth-child(even) td{background:#0e2335}
+.io-contrast-table td:first-child{font-weight:750;color:#eafaff;width:28%}
+.io-mini{font-size:.9rem;color:#b3d0e2}
+.io-spec{border:1px solid #3a5a76;background:#0e2437;border-radius:12px;padding:1rem;margin:1rem 0}
+.io-spec h3{margin:0 0 .5rem}
+.io-spec p{margin:.35rem 0}
+.io-page .types-section a:not(.types-next a){color:#90dcfa}
+.io-page .types-section a:hover{color:#fff}
+.io-page .types-section>div.container{max-width:1160px}
+.io-vs{display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:#f5cc96;font-weight:800;letter-spacing:.08em}
+.io-page .types-figure img{max-height:none}
+@media(max-width:720px){.io-matrix{grid-template-columns:minmax(0,1fr)}.io-contrast-table{font-size:.86rem}.io-contrast-table th,.io-contrast-table td{padding:.58rem .52rem}.io-route{gap:.38rem}.io-route .io-step{font-size:.82rem}.io-contrast-table td:first-child{width:34%}}
+@media(max-width:420px){.io-contrast-table{font-size:.8rem}.io-page .types-figure{margin-left:-.5rem;margin-right:-.5rem}}
