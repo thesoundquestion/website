@@ -13,6 +13,11 @@ functions/categories, so category totals intentionally exceed the model count.
   same-product joins and stable model IDs.
 - `catalog-client.mjs`: lazy browser reader for the future Builder, Checker,
   comparisons and goal guide; not wired to those screens yet.
+- `catalog-legacy-adapters.mjs`: read-only compatibility views reconstruct
+  all original Checker presets and supplemental comparison details, plus
+  neutral goal-category candidates, with no calculation or suitability claim.
+- `../tests/equipment-catalog-adapters.test.mjs`: verifies that every legacy
+  numeric rating, note, link and comparison detail survives conversion.
 - `../scripts/build-equipment-catalog.mjs`: generate and check data.
 - `../tests/equipment-catalog-unified.test.mjs`: identity, source provenance,
   same-device roles, user comparison anchors, manufacturer test bases and unknowns.
@@ -22,7 +27,7 @@ Run:
 ```sh
 node scripts/build-equipment-catalog.mjs
 node scripts/build-equipment-catalog.mjs --check
-node --test tests/equipment-catalog-unified.test.mjs
+node --test tests/equipment-catalog-unified.test.mjs tests/equipment-catalog-adapters.test.mjs
 ```
 
 ## How the model avoids bad comparisons
@@ -59,7 +64,9 @@ node --test tests/equipment-catalog-unified.test.mjs
 ## What is already covered
 
 The original System Check records remain authoritative for its existing
-speaker/amp calculations during this transition. The shared catalogue gives
+speaker/amp calculations during this transition. The adapter provides
+equivalent data structures that are regression-tested against originals; it
+is not yet wired into the live Checker or Builder. The shared catalogue gives
 future features one normalized way to read the original facts without
 duplicating their maintenance. No calculator, recommendation, or homepage
 is changed in this PR.
