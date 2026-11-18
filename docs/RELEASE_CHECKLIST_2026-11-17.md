@@ -54,7 +54,7 @@
 
 ### D. Admin follow-up, **not a release blocker**
 - [ ] Authorize Gmail native filters if desired; scheduled inbox triage already runs.
-- [ ] Authorize optional daily moderation reminder email when convenient. The community can be moderated directly in D1 without email alerts.
+- [ ] Authorize the optional daily D1 moderation email digest once the Worker is released. It now includes **gear model recommendations** when that independently gated queue is enabled, alongside Listening Room and ABX submissions. Existing Gmail filter subject matching remains intact. No separate gear-notification script is needed.
 - [ ] Review pending posts and permissions periodically through the existing administrative workflow.
 
 ### E. Outreach and optional reader support (Ko-fi connected; support links still staged)
