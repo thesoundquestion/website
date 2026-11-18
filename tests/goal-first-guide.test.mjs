@@ -18,7 +18,8 @@ const pathNames=p=>p.steps.map(s=>s.name).join(' | ');
 const words=html=>html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().split(/\s+/).length;
 
 test('homepage is a short signpost with prominent real goals and simple essentials',()=>{
- assert.match(home,/<h1 id="home-title">The Sound /);\n assert.match(home,/From the microphone to your ears\\./);
+ assert.match(home,/<h1 id="home-title">The Sound /);
+ assert.match(home,/From the microphone to your ears\./);
  assert.match(home,/class="home-goal-grid"/);
  assert.equal((home.match(/class="home-goal-card"/g)||[]).length,6);
  assert.ok(home.indexOf('home-fast-paths')<home.indexOf('class="home-goal-grid"'),'Jump Straight In must precede Choose Your Path');
