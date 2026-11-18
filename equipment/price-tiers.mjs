@@ -18,8 +18,12 @@ export const retailCategoryFor=entry=>{
   if(entry.categories?.includes('audio_interface'))return 'usb_audio_interfaces';
   if(entry.categories?.includes('mixer_recorder'))return 'mixers_recorders';
   if(entry.categories?.includes('headphone_amplifier'))return 'headphone_amplifiers';
-  if(entry.categories?.includes('amp'))return 'amplifiers_receivers';
-  if(entry.categories?.includes('speaker'))return 'passive_speakers_per_pair';
+  // The historic 'amp' and 'speaker' presets contain integrated amps,
+  // AV receivers, power amps, stereo pairs, centres and floorstanders.
+  // Without an explicitly verified subtype and package quantity, it is
+  // unsafe to group their prices together, even when their plugs match.
+  if(entry.categories?.includes('amp'))return null;
+  if(entry.categories?.includes('speaker'))return null;
   return null;
 };
 const median=items=>{
