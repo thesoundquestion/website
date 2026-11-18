@@ -15,11 +15,11 @@
     "system-builder/supplemental-headphones.mjs"
   ],
   "summary": {
-    "totalModels": 173,
+    "totalModels": 175,
     "byCategory": {
       "amp": 46,
       "headphone": 16,
-      "speaker": 73,
+      "speaker": 75,
       "source": 19,
       "computer_sound_card": 1,
       "headphone_amplifier": 5,
@@ -27,7 +27,7 @@
       "microphone": 6,
       "mixer_recorder": 3
     },
-    "researchProfiles": 29,
+    "researchProfiles": 31,
     "legacyProfiles": 130,
     "builderSupplementProfiles": 17
   },
@@ -17795,6 +17795,278 @@
             "two-way 5 inch monitor",
             "74 Hz–24 kHz at -3 dB",
             "45 W LF and 25 W HF internal amplifier, 70 W combined"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/speaker/yamaha-hs7-studio",
+      "model": "Yamaha HS7",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "balanced_xlr_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "responseMinus3DbHz": {
+          "value": [
+            55,
+            24000
+          ],
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "unitsPerRetailPackage": {
+          "value": 1,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "internalAmplificationWatts": {
+          "value": {
+            "lf": 60,
+            "hf": 35,
+            "combined": 95
+          },
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "yamaha-hs7-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring"
+          ],
+          "specifications": {
+            "physicalInputTypes": [
+              "balanced_xlr_line",
+              "6.35mm_trs_line"
+            ],
+            "physicalOutputTypes": [],
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 1,
+            "wooferInches": 6.5,
+            "tweeterInches": 1,
+            "boxType": "bass_reflex",
+            "internalAmplificationWatts": {
+              "lf": 60,
+              "hf": 35,
+              "combined": 95
+            },
+            "responseMinus3DbHz": [
+              55,
+              24000
+            ],
+            "quotedRangeMinus10DbHz": [
+              43,
+              30000
+            ],
+            "passiveSpeakerOutputRequired": false
+          },
+          "note": "Factory HS Series specification. ONE powered cabinet, not a stereo pair. Built-in biamp output is not an external amp continuous/ch power rating; do not connect passive speaker terminals to its line inputs. A stereo system uses two cabinets and suitable level/volume control."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/specs.html",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "2-way bass reflex 6.5-inch LF / 1-inch HF powered studio monitor",
+            "internal biamplification 60W LF + 35W HF = 95W per cabinet",
+            "55 Hz–24 kHz at -3 dB",
+            "43 Hz–30 kHz at -10 dB",
+            "one balanced XLR and one 6.35 mm TRS line-level input"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/speaker/yamaha-hs8-studio",
+      "model": "Yamaha HS8",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "balanced_xlr_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "responseMinus3DbHz": {
+          "value": [
+            47,
+            24000
+          ],
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "unitsPerRetailPackage": {
+          "value": 1,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "internalAmplificationWatts": {
+          "value": {
+            "lf": 75,
+            "hf": 45,
+            "combined": 120
+          },
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "yamaha-hs8-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring"
+          ],
+          "specifications": {
+            "physicalInputTypes": [
+              "balanced_xlr_line",
+              "6.35mm_trs_line"
+            ],
+            "physicalOutputTypes": [],
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 1,
+            "wooferInches": 8,
+            "tweeterInches": 1,
+            "boxType": "bass_reflex",
+            "internalAmplificationWatts": {
+              "lf": 75,
+              "hf": 45,
+              "combined": 120
+            },
+            "responseMinus3DbHz": [
+              47,
+              24000
+            ],
+            "quotedRangeMinus10DbHz": [
+              38,
+              30000
+            ],
+            "passiveSpeakerOutputRequired": false
+          },
+          "note": "Factory HS Series specification. ONE powered cabinet, not a stereo pair. Built-in biamp output is not an external amp continuous/ch power rating; do not connect passive speaker terminals to its line inputs. A stereo system uses two cabinets and suitable level/volume control."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/specs.html",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "2-way bass reflex 8-inch LF / 1-inch HF powered studio monitor",
+            "internal biamplification 75W LF + 45W HF = 120W per cabinet",
+            "47 Hz–24 kHz at -3 dB",
+            "38 Hz–30 kHz at -10 dB",
+            "one balanced XLR and one 6.35 mm TRS line-level input"
           ],
           "checkedDate": "2026-11-18"
         }
