@@ -67,8 +67,8 @@ test('approved navigation and diagrams make the next action obvious',()=>{
  assert.doesNotMatch(contact,/>Support the project on Ko-fi/);
  assert.match(css,/\.contact-panels\{display:grid/);
  const hero=home.indexOf('class="container home-goal-intro"'),goals=home.indexOf('class="home-goal-grid"');
- const cards=home.indexOf('class="section section-border home-fast-paths"'),support=home.indexOf('class="section section-border home-essentials"');
- assert.ok(hero>=0&&hero<cards&&cards<goals&&goals<support,'Branded hero, Jump Straight In, Choose Your Path, then support');
+ const cards=home.indexOf('class="section section-border home-fast-paths"'),support=home.indexOf('class="section section-border home-more"');
+ assert.ok(hero>=0&&hero<cards&&cards<goals&&goals<support,'Branded hero, Jump Straight In, Choose Your Path, then smaller reference cards');
  assert.doesNotMatch(home,/class="container home-support-invite"/,'No donation interruption above goal choices');
  assert.ok(home.length<12000,'Homepage remains intentionally concise');
 });
