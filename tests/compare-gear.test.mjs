@@ -5,8 +5,8 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
 const read = file => readFileSync(new URL('../' + file, import.meta.url), 'utf8');
-const gearSource = read('system-check/gear.js');
-const detailSource = read('system-check/compare/specs.js');
+const gearSource = read('equipment/legacy-presets.generated.js');
+const detailSource = read('equipment/compare-details.generated.js');
 const compareSource = read('system-check/compare/compare.js');
 const html = read('system-check/compare/index.html');
 const gear = vm.runInNewContext(gearSource + '\nsystemCheckGear', {});
