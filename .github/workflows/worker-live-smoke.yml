@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      EXPECT_OPEN: 'false'
+      EXPECT_OPEN: 'true'
     steps:
       - uses: actions/checkout@v4
       - name: Diagnose public HTTP routing (no credentials)
