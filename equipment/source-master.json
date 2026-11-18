@@ -5308,6 +5308,90 @@
         "priceKind": "regular",
         "unit": "one_product",
         "stockStatus": "not_verified_for_purchase"
+      },
+      {
+        "equipmentId": "research/audio_interface/focusrite-scarlett-solo-4",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 219,
+        "retailerId": "musicredone",
+        "url": "https://musicredone.com/products/focusrite-scarlett-solo-2-in-2-out-audio-interface-4th-gen",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "listed_available_at_capture"
+      },
+      {
+        "equipmentId": "research/audio_interface/focusrite-scarlett-solo-4",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 219,
+        "retailerId": "garage-a-musique",
+        "url": "https://www.garageamusique.ca/en/shop/scarlett-solo-4th-gen-focusrite-scarlett-solo-4th-gen-usb-c-audio-interface-173249",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "distributor_stock_not_local"
+      },
+      {
+        "equipmentId": "research/audio_interface/focusrite-scarlett-2i2-4",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 309,
+        "retailerId": "musiccitycanada",
+        "url": "https://musiccitycanada.com/products/focusrite-scarlett-2i2-4th-gen-usb-audio-interface",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "listed_available_at_capture"
+      },
+      {
+        "equipmentId": "research/audio_interface/focusrite-scarlett-2i2-4",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 309,
+        "retailerId": "musicredone",
+        "url": "https://musicredone.com/products/focusrite-scarlette-2i2-studio-quality-2-in-2-out-audio-interface-4th-gen",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "stock_not_independently_verified"
+      },
+      {
+        "equipmentId": "research/audio_interface/audient-id4-mkii",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 299,
+        "retailerId": "musiccitycanada",
+        "url": "https://musiccitycanada.com/products/audient-id4-mkii-usb-audio-interface",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "listed_available_at_capture"
+      },
+      {
+        "equipmentId": "research/audio_interface/audient-id4-mkii",
+        "region": "CA",
+        "currency": "CAD",
+        "category": "usb_audio_interfaces",
+        "amount": 299,
+        "retailerId": "studio-economik",
+        "url": "https://www.economik.com/products/id4-mkii",
+        "checkedOn": "2026-11-18",
+        "condition": "new",
+        "priceKind": "regular",
+        "unit": "one_product",
+        "stockStatus": "listed_unavailable_at_capture"
       }
     ],
     "missingRegions": [
@@ -5316,6 +5400,6 @@
       "EU",
       "AU"
     ],
-    "note": "Initial Canadian wired-headphone sample is small and not a representative market-wide price survey. No current stock check has been performed. Refresh evidence before enabling broad public price tiers."
+    "note": "Initial Canadian wired-headphone sample is small and not a representative market-wide price survey. No current stock check has been performed. Refresh evidence before enabling broad public price tiers. Canadian USB audio interfaces are now a separate 3-model evidence sample; deliberately no tier assigned until at least five qualified models. Source quotes and regular-price status are verified from model-specific pages; any stock indicator is historical and is not used as real-time availability."
   }
 }
