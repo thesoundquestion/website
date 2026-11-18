@@ -13,6 +13,7 @@ function makeLink(to,label,cls=''){
 function showGoal(id,options={}){
  const goal=byId.get(id);if(!goal)return;
  selected=id;
+ $('goal-after').hidden=true;
  for(const b of picker.querySelectorAll('button[data-goal]')){
   const active=b.dataset.goal===id;
   b.setAttribute('aria-pressed',String(active));
