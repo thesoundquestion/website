@@ -17,7 +17,7 @@ No login, email, name, serial number, or user-uploaded file is requested.
   identified. No headphone-output rating is silently applied to an RCA output.
 - The `other` category needs deliberate classification before any preset can be published.
 
-## Staged technical design (NOT deployed)
+## Staged technical design (Worker deployed, submissions disabled)
 
 - `tools/recommend-gear/index.html`: dedicated **Recommend your gear** page, linked from System Check, Compare My Gear, System Builder and Tools, with an explicitly disabled draft form (`data-submissions-enabled="false"`).
 - `tools/recommend-gear/app.js`: on direct submit, POST
@@ -27,9 +27,9 @@ No login, email, name, serial number, or user-uploaded file is requested.
   status `pending`. It does **not** expose a public GET/list/approve endpoint.
   Abuse is limited with the existing `COMMUNITY_LIMITER`. It does not
   fetch user-provided URLs, and the table has no IP/name/email columns.
-- `workers/abx/gear-schema.sql`: **not applied to live D1**. Run only during
-  a separately approved Worker/database release. Table is in existing
-  `tsq-abx-scores` D1 database, no new account or separate database.
+- `workers/abx/gear-schema.sql`: **applied to existing D1 on 2026-11-17**,
+  creating an empty private `gear_suggestions` table and both indexes, verified
+  by Cloudflare's API. No new account or separate database.
 - `workers/abx/wrangler.toml`: independent
   `GEAR_SUBMISSIONS_ENABLED = "false"`; do not open with the ABX/Community flags
   automatically. Public site and Worker must be coordinated before turning on.
@@ -101,21 +101,21 @@ The existing 9 a.m. Google Apps Script digest (`workers/abx/pending-review-diges
 includes that count alongside Listening Room and ABX discussions and sends
 nothing if the entire queue is empty. It never includes unreviewed model text.
 No second daily script or Gmail filter is needed. This is staged and disabled
-until the D1 table, Worker and Gmail authorization are intentionally released.
+until the gear-submission flag, real endpoint checks and Gmail authorization are intentionally released. The D1 table and disabled Worker now exist.
 
 ### Operational status
 
 - Connected Cloudflare D1 read query: **verified** on 2026-11-17.
 - Public standalone `/tools/recommend-gear/` form: **staged in PR #15, inactive**.
-- Worker endpoint: **staged, not deployed**.
-- D1 gear table: **not yet created**.
+- Worker endpoint: **deployed with all public/alert flags off**, workers.dev enabled; direct HTTP smoke check outstanding.
+- D1 gear table: **created and verified, zero records**.
 - No live submissions, public API or public preset modifications from this work.
 - Do not represent this feature as available at release until the
   independent gate and end-to-end D1, privacy, abuse, UI and calculator checks pass.
 
 ### Release checklist
 
-- [ ] Approval to apply `gear-schema.sql` to D1 and verify correct indexes.
+- [x] Apply `gear-schema.sql` to D1 and verify the table and indexes, without opening public submissions.
 - [ ] Confirm real D1 INSERT, validation, duplicate handling, rate limits and no public pending GET.
 - [ ] Confirm pending queue read through connected Cloudflare D1 account.
 - [ ] Confirm privacy and retention wording, review/delete permissions and receipt process.
