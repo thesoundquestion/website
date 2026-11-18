@@ -3615,6 +3615,16 @@
             "fields": [
               "16-bit maximum digital format"
             ]
+          },
+          {
+            "url": "https://cdn.inmusicbrands.com/m-audio/maudio_documentation/M-Track%20Solo%20-%20User%20Guide%20-%20v1.6.pdf",
+            "fields": [
+              "channel 1 combo input for microphone or line",
+              "channel 2 6.35mm line/instrument input",
+              "direct monitoring",
+              "RCA output",
+              "headphone jack"
+            ]
           }
         ],
         "comparisonAnchor": true,
@@ -3641,7 +3651,19 @@
           "loadOhms": 32,
           "testConditions": "M-Audio published headphone output rating; distortion threshold unspecified",
           "source": "https://www.m-audio.com/audio-midi-interfaces/m-track-solo.html"
-        }
+        },
+        "physicalInputTypes": [
+          "channel_1_combo_xlr_mic_or_6_35mm_trs_line",
+          "channel_2_6_35mm_switchable_line_or_instrument"
+        ],
+        "inputRoutingConstraints": [
+          "Only one microphone preamp; the channel 1 combo socket and channel 2 TRS are separate simultaneous recording inputs",
+          "Channel 2 line/instrument switch changes input sensitivity; instrument role is not a second microphone preamp"
+        ],
+        "physicalOutputTypes": [
+          "rca_stereo_line_out",
+          "3_5mm_stereo_headphone_out"
+        ]
       },
       {
         "id": "focusrite-scarlett-solo-4",
@@ -3717,6 +3739,15 @@
             "fields": [
               "input types and channels"
             ]
+          },
+          {
+            "url": "https://userguides.focusrite.com/hc/en-gb/articles/19640363197458-Scarlett-2i2-4th-Gen-hardware-features",
+            "fields": [
+              "rear XLR microphone inputs",
+              "front 6.35mm line or instrument inputs",
+              "shared physical recording channels",
+              "front headphone connector"
+            ]
           }
         ],
         "preampGainRangeDb": 69,
@@ -3727,7 +3758,19 @@
         "priceCheckedDate": null,
         "availability": null,
         "ratingsConsensus": null,
-        "roleOfRecord": "research_comparison_not_published_recommendation"
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "two_rear_xlr_microphone_inputs",
+          "two_front_6_35mm_switchable_line_or_instrument_inputs"
+        ],
+        "inputRoutingConstraints": [
+          "Two recording channels total, not four independent analogue inputs",
+          "Inserting a front-panel line/instrument jack disables the corresponding rear microphone XLR input on that channel"
+        ],
+        "physicalOutputTypes": [
+          "two_rear_6_35mm_balanced_line_outputs",
+          "one_front_6_35mm_stereo_headphone_output"
+        ]
       },
       {
         "id": "audient-id4-mkii",
@@ -3868,6 +3911,14 @@
               "USB 2-in/2-out",
               "24-bit 192 kHz"
             ]
+          },
+          {
+            "url": "https://data.yamaha.com/files/download/other_assets/8/1506958/MG10XU_owners_manual_En_B0.pdf",
+            "fields": [
+              "4 mono MIC/LINE channels",
+              "global +48 V switch to mono input XLR microphone sockets",
+              "USB LINE/USB source switching"
+            ]
           }
         ],
         "usbRecordingMode": "stereo_mix_only",
@@ -3882,7 +3933,20 @@
         "priceCheckedDate": null,
         "availability": null,
         "ratingsConsensus": null,
-        "roleOfRecord": "research_comparison_not_published_recommendation"
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "four_mono_mic_line_channels_xlr",
+          "stereo_line_input_channels"
+        ],
+        "physicalOutputTypes": [
+          "stereo_main_mix_outputs",
+          "usb_2in_2out_stereo_audio",
+          "headphone_monitor_output"
+        ],
+        "inputRoutingConstraints": [
+          "USB records the stereo mix as two computer channels; the advertised ten mixer channels are not ten separately recorded DAW tracks",
+          "48 V phantom is applied to the relevant XLR microphone sockets under the Yamaha manual's global switch conditions"
+        ]
       },
       {
         "id": "behringer-1204usb",
