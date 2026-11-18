@@ -284,7 +284,26 @@
           "3.5 mm single-ended / 4.4 mm balanced cables included; do not connect balanced output without correct source compatibility"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 32,
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 113,
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_V",
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -347,7 +366,26 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 60,
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 101,
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_mW",
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -407,7 +445,26 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 60,
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 101,
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_mW",
+          "scope": "headphone",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -468,7 +525,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 89,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -598,7 +669,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -663,7 +748,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -728,7 +827,14 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -795,7 +901,14 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -862,7 +975,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -926,7 +1053,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 88,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -992,7 +1133,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 90,
+          "scope": "speaker",
+          "from": "system-builder/supplemental-*.mjs",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -1057,7 +1212,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 35,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "Manufacturer rated power; published THD applies at 80% of rated power"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1116,7 +1285,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "Manufacturer rated output; published THD applies at 80% of rated power"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1175,7 +1358,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 60,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "Manufacturer RMS rating"
+            },
+            {
+              "wattsPerChannel": 90,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "Manufacturer RMS rating"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1240,7 +1443,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 80,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "Manufacturer RMS rating"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "Manufacturer RMS rating"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1305,7 +1528,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 80,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "Manufacturer RMS rating"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "Manufacturer RMS rating"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1370,7 +1613,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 75,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.08% THD, front channels"
+            },
+            {
+              "wattsPerChannel": 110,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.7% THD, front channels"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1433,7 +1696,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 80,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.08% THD, front channels"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.7% THD, front channels"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1496,7 +1779,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 80,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.08% THD, front channels"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.7% THD, front channels"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1559,7 +1862,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.08% THD, 2 channels driven"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.7% THD, 2 channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1622,7 +1945,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 80,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, <0.05% THD, both channels driven"
+            },
+            {
+              "wattsPerChannel": 130,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 1% THD, DIN"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1688,7 +2031,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 45,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.07% THD, both channels driven"
+            },
+            {
+              "wattsPerChannel": 70,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.7% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1753,7 +2116,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 50,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.07% THD, 2 channels driven"
+            },
+            {
+              "wattsPerChannel": 85,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.7% THD, 2 channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1818,7 +2201,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 30,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "Rated continuous, both channels driven"
+            },
+            {
+              "wattsPerChannel": 30,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "Rated continuous, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1881,7 +2284,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 70,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, both channels driven"
+            },
+            {
+              "wattsPerChannel": 70,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -1944,7 +2367,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 45,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, both channels driven; 0.08% THD listed at 8 Ω"
+            },
+            {
+              "wattsPerChannel": 60,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, both channels driven; 4 Ω THD not listed"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2010,7 +2453,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 75,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.08% THD, 2 channels driven"
+            },
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.7% THD, 2 channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2073,7 +2536,33 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 20,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, both channels driven"
+            },
+            {
+              "wattsPerChannel": 39,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "Manufacturer dynamic rating"
+            },
+            {
+              "wattsPerChannel": 58,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "Manufacturer dynamic rating"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2145,7 +2634,39 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 40,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, <0.03% THD, both channels driven"
+            },
+            {
+              "wattsPerChannel": 40,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, <0.03% THD, both channels driven"
+            },
+            {
+              "wattsPerChannel": 90,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2220,7 +2741,33 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 45,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.08% THD, 2 channels driven"
+            },
+            {
+              "wattsPerChannel": 80,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "Onkyo dynamic power, front"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "Onkyo dynamic power, front"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2289,7 +2836,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "40 Hz–20 kHz, 0.9% THD, both channels driven"
+            },
+            {
+              "wattsPerChannel": 105,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.05% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2355,7 +2922,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 45,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.05% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2412,7 +2993,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 85,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.1% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2469,7 +3064,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 65,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.025% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2529,7 +3138,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 85,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.025% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2589,7 +3212,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 80,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "40 Hz–20 kHz, 0.09% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2648,7 +3285,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 90,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, ≤0.09% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2705,7 +3356,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 90,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, ≤0.09% THD, both channels driven"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2762,7 +3427,39 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 64,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "Hi-Fi News lab output, below 1% THD"
+            },
+            {
+              "wattsPerChannel": 125,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "Hi-Fi News lab output, below 1% THD"
+            },
+            {
+              "wattsPerChannel": 59,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "Hi-Fi News dynamic lab output, below 1% THD"
+            },
+            {
+              "wattsPerChannel": 110,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "Hi-Fi News dynamic lab output, below 1% THD"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2837,7 +3534,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.005% THD"
+            },
+            {
+              "wattsPerChannel": 140,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.007% THD"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2902,7 +3619,45 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 105,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.005% THD"
+            },
+            {
+              "wattsPerChannel": 125,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.007% THD"
+            },
+            {
+              "wattsPerChannel": 145,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 180,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 240,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -2987,7 +3742,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 90,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.07% THD, stereo"
+            },
+            {
+              "wattsPerChannel": 150,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.07% THD, stereo"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3052,7 +3827,45 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 60,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.019% THD"
+            },
+            {
+              "wattsPerChannel": 70,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.038% THD"
+            },
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 140,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3136,7 +3949,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.07% THD, stereo"
+            },
+            {
+              "wattsPerChannel": 150,
+              "loadOhms": 4,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.07% THD, stereo"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3201,7 +4034,45 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 85,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.019% THD"
+            },
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.038% THD"
+            },
+            {
+              "wattsPerChannel": 130,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 150,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 185,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3285,7 +4156,45 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.019% THD"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.038% THD"
+            },
+            {
+              "wattsPerChannel": 140,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 170,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 220,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3369,7 +4278,45 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.019% THD"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.038% THD"
+            },
+            {
+              "wattsPerChannel": 140,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 170,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            },
+            {
+              "wattsPerChannel": 220,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3453,7 +4400,39 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 105,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "1 kHz, 0.9% THD, front-channel RMS rating"
+            },
+            {
+              "wattsPerChannel": 110,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power, front channels"
+            },
+            {
+              "wattsPerChannel": 130,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power, front channels"
+            },
+            {
+              "wattsPerChannel": 160,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power, front channels"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3530,7 +4509,39 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 80,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.07% THD"
+            },
+            {
+              "wattsPerChannel": 105,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 125,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 150,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3605,7 +4616,39 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.07% THD"
+            },
+            {
+              "wattsPerChannel": 140,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 170,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 220,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3680,7 +4723,39 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "40 Hz–20 kHz, 0.2% THD, 2 channels"
+            },
+            {
+              "wattsPerChannel": 125,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "Manufacturer dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 150,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "Manufacturer dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 165,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "Manufacturer dynamic power per channel"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3758,7 +4833,45 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 65,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.04% THD"
+            },
+            {
+              "wattsPerChannel": 70,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.06% THD"
+            },
+            {
+              "wattsPerChannel": 95,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 115,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 135,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3842,7 +4955,33 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 70,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.09% THD, 2 channels driven"
+            },
+            {
+              "wattsPerChannel": 110,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 130,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "Yamaha dynamic power per channel"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "amp",
@@ -3913,7 +5052,26 @@
           "Headphone cable/plug (review wording): Detachable 3.5 mm analogue cable / 6.3 mm adapter"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 38,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 99,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_mW",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -3988,7 +5146,20 @@
           "Headphone cable/plug (review wording): Fixed analogue cable, 3.5 mm + 6.3 mm adapter"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 80,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": null,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "unknown"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4062,7 +5233,26 @@
           "Headphone cable/plug (review wording): Fixed 3.5 mm analogue cable with adapter"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 38,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 99.8,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_mW",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4138,7 +5328,26 @@
           "Headphone cable/plug (review wording): 3.5 mm analogue"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 32,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 99.8,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_mW",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4214,7 +5423,26 @@
           "Headphone cable/plug (review wording): 3.5 mm analogue"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 38,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 99.8,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_mW",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4290,7 +5518,26 @@
           "Headphone cable/plug (review wording): 0.78 mm 2-pin cable / 3.5 mm plug"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 18,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 119,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_V",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4366,7 +5613,26 @@
           "Headphone cable/plug (review wording): 3.5 mm analogue / 6.3 mm adapter"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 120,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 110,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_V",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4442,7 +5708,26 @@
           "Headphone cable/plug (review wording): Detachable analogue cable"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 300,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 97,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_V",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4517,7 +5802,26 @@
           "Headphone cable/plug (review wording): MMCX detachable cable"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 17,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 107,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_mW",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4593,7 +5897,26 @@
           "Headphone cable/plug (review wording): Fixed coiled analogue cable; 3.5 mm / 6.3 mm adapter"
         ]
       },
-      "facts": {},
+      "facts": {
+        "nominalImpedanceOhms": {
+          "value": 63,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityDb": {
+          "value": 106,
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "sensitivityBasis": {
+          "value": "dB_SPL_per_mW",
+          "scope": "headphone",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "headphone",
@@ -4674,7 +5997,14 @@
         ],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "lineOutputVoltageVrms": {
+          "value": 2,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "source",
@@ -5115,6 +6445,12 @@
         "descriptions": []
       },
       "facts": {
+        "lineOutputVoltageVrms": {
+          "value": 2,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
         "simultaneousAnalogInputs": {
           "value": null,
           "scope": "computer_sound_card",
@@ -5879,6 +7215,12 @@
         "descriptions": []
       },
       "facts": {
+        "lineOutputVoltageVrms": {
+          "value": 1.95,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
         "hasBuiltInDac": {
           "value": true,
           "scope": "headphone_amplifier",
@@ -6059,7 +7401,20 @@
         ],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "lineOutputVoltageVrms": {
+          "value": 2.1,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "lineOutputImpedanceOhms": {
+          "value": 100,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "source",
@@ -6148,7 +7503,20 @@
         ],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "lineOutputVoltageVrms": {
+          "value": 2,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "lineOutputImpedanceOhms": {
+          "value": 75,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "source",
@@ -6228,7 +7596,14 @@
         ],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "lineOutputVoltageVrms": {
+          "value": 2,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "source",
@@ -6314,7 +7689,20 @@
         ],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "lineOutputVoltageVrms": {
+          "value": 2.1,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "lineOutputImpedanceOhms": {
+          "value": 20,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "source",
@@ -6401,7 +7789,14 @@
         ],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "lineOutputVoltageVrms": {
+          "value": 2,
+          "scope": "source",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "source",
@@ -6483,7 +7878,14 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -6549,7 +7951,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 102,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -6623,7 +8039,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 94,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -6694,7 +8124,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 96,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -6765,7 +8209,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 98,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -6836,7 +8294,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 101,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -6907,7 +8379,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 90.8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -6985,7 +8471,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 92.3,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7063,7 +8563,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 95.3,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7141,7 +8655,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7217,7 +8745,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7293,7 +8835,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 88,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7369,7 +8925,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 88.5,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7445,7 +9015,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7522,7 +9106,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7599,7 +9197,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 4.8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86.5,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7680,7 +9298,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 4.8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7761,7 +9399,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87.5,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7843,7 +9501,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7919,7 +9591,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -7996,7 +9682,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 85,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8072,7 +9772,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 91.2,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8149,7 +9863,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 90,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8227,7 +9955,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8303,7 +10045,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 91,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8381,7 +10137,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8457,7 +10227,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.5,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 85,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8535,7 +10325,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.2,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8613,7 +10423,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.7,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8691,7 +10521,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.2,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8769,7 +10619,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.7,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8847,7 +10717,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.5,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -8925,7 +10815,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.2,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9003,7 +10913,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 88,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9081,7 +11011,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.2,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 91,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9159,7 +11109,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 99,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9236,7 +11200,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 96,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "1 W at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9312,7 +11290,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 92,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9390,7 +11382,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 93,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9467,7 +11473,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.5,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 89.6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9546,7 +11572,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 90,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9623,7 +11663,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9700,7 +11754,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9779,7 +11847,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9859,7 +11941,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 92,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -9934,7 +12030,15 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerSensitivityDb": {
+          "value": 89,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10001,7 +12105,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 3.8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10079,7 +12203,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 85,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10155,7 +12293,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 86,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10231,7 +12383,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 90,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10308,7 +12474,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 88,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10385,7 +12571,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 87,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10461,7 +12661,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 88,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10539,7 +12759,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 4,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 88,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10618,7 +12858,27 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerMinimumImpedanceOhms": {
+          "value": 5,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 89,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10696,7 +12956,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 8,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 90,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10771,7 +13045,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 88,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10848,7 +13136,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 90,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -10926,7 +13228,21 @@
         "outputs": [],
         "descriptions": []
       },
-      "facts": {},
+      "facts": {
+        "speakerNominalImpedanceOhms": {
+          "value": 6,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        },
+        "speakerSensitivityDb": {
+          "value": 89,
+          "scope": "speaker",
+          "from": "system-check/gear.js",
+          "reference": "2.83 V at about 3.28 ft",
+          "evidenceStatus": "source_stated"
+        }
+      },
       "profiles": [
         {
           "category": "speaker",
@@ -11657,7 +13973,18 @@
       ],
       "connections": {
         "inputs": [],
-        "outputs": [],
+        "outputs": [
+          {
+            "type": "rca_stereo",
+            "scope": "audio interface line output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "3.5mm",
+            "scope": "audio interface headphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
         "descriptions": []
       },
       "facts": {
