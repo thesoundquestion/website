@@ -7,7 +7,7 @@ import { test } from 'node:test';
 import { handleTutorRequest } from '../../deployment/lesson-tutor/handler.js';
 import { networkPrefix } from '../../deployment/lesson-tutor/identity.js';
 import { MAX_COMPLETION_TOKENS, MAX_MESSAGE_BYTES, MODEL } from '../../deployment/lesson-tutor/provider.js';
-import { DAY_MS, LIMITS } from '../../deployment/lesson-tutor/quota.js';
+import { DAY_MS, LIMITS, releasedRequestSlots, MAX_DAILY_REQUESTS } from '../../deployment/lesson-tutor/quota.js';
 
 const ORIGIN = 'https://thesoundquestion.com';
 const AT = Date.parse('2026-11-11T12:00:00Z');
@@ -185,34 +185,72 @@ test('only one encrypted clarification can be used by the originating visitor fo
   assert.equal(calls.length, 2);
 });
 
-test('throttle, duplicate protection and visitor and network limits apply independently', async t => {
+test('first answers have priority; one normal question per visitor, with network throttling', async t => {
   const { ask, calls } = harness(t);
   const first = await ask();
   const secondQuestion = { question: 'How could the amplifier supply more current at a low impedance?' };
   assert.equal((await ask({ now: AT + 1_000, body: secondQuestion })).status, 429);
-  const duplicate = await ask({ now: AT + 6_000, body: { question: defaultBody.question.toUpperCase() } });
+  const duplicate = await ask({ now: AT + 6_000, cookie: first.cookie, body: { question: defaultBody.question.toUpperCase() } });
   assert.equal(duplicate.status, 429);
-  const second = await ask({ now: AT + 6_000, cookie: first.cookie, body: secondQuestion });
-  assert.equal(second.status, 200);
-  const thirdQuestion = { question: 'How could power supply limits show up during a loud impedance test?' };
-  assert.equal((await ask({ now: AT + 12_000, body: thirdQuestion })).status, 429);
-  assert.equal((await ask({ now: AT + 12_000, cookie: first.cookie, ip: '198.51.100.30', body: thirdQuestion })).status, 429);
-  assert.equal(calls.length, 2);
+  // A first question consumes that visitor's one new-question allowance.
+  assert.equal((await ask({ now: AT + 6_000, cookie: first.cookie, body: secondQuestion })).status, 429);
+  // A different browser on the same network can still ask a first question.
+  const neighbor = await ask({ now: AT + 6_000, body: secondQuestion });
+  assert.equal(neighbor.status, 200);
+  const another = await ask({ now: AT + 12_000, ip: '198.51.100.30', body: secondQuestion });
+  assert.equal(another.status, 200);
+  assert.equal(calls.length, 3);
   assert.equal((await ask({ now: AT + DAY_MS, cookie: first.cookie })).status, 200);
 });
 
-test('IPv6 temporary addresses on the same /64 share the network budget', async t => {
+test('IPv6 temporary addresses on a shared /64 receive six first-question slots', async t => {
   const { ask, calls } = harness(t);
   assert.equal(networkPrefix('2001:db8:1::1'), networkPrefix('2001:0db8:1:0:aa:bb:0:2'));
   assert.equal(networkPrefix('2001:bad::fish'), null);
-  assert.equal((await ask({ ip: '2001:db8:1::1' })).status, 200);
-  assert.equal((await ask({
-    ip: '2001:db8:1::2', now: AT + 6_000, body: { question: 'Why does the amp run hot with low impedance?' },
-  })).status, 200);
-  assert.equal((await ask({
-    ip: '2001:db8:1::3', now: AT + 12_000, body: { question: 'How can I tell if there is an impedance dip?' },
-  })).status, 429);
-  assert.equal(calls.length, 2);
+  for (let n = 1; n <= LIMITS.networkPerDay; n++) {
+    const response = await ask({ ip: '2001:db8:1::' + n, now: AT + (n - 1) * 6_000 });
+    assert.equal(response.status, 200, 'shared network visitor ' + n);
+  }
+  assert.equal((await ask({ ip: '2001:db8:1::f', now: AT + 40_000 })).status, 429);
+  assert.equal(calls.length, LIMITS.networkPerDay);
+});
+
+test('daily AI capacity opens at regular intervals and unused slots carry forward', async t => {
+  const { ask, db, calls } = harness(t);
+  const midnight = Date.parse('2026-11-11T00:00:00Z');
+  assert.equal(releasedRequestSlots(midnight), 1);
+  assert.equal(releasedRequestSlots(midnight + 35 * 60_000), 1);
+  assert.equal(releasedRequestSlots(midnight + 36 * 60_000), 2);
+  assert.equal(releasedRequestSlots(midnight + 12 * 60 * 60_000), 21);
+  assert.equal(releasedRequestSlots(midnight + 23 * 60 * 60_000 + 24 * 60_000), MAX_DAILY_REQUESTS);
+  assert.equal((await ask({ ip: '198.51.100.10', now: midnight })).status, 200);
+  assert.equal((await ask({ ip: '198.51.100.11', now: midnight + 6_000 })).status, 429);
+  assert.equal((await ask({ ip: '198.51.100.12', now: midnight + 36 * 60_000 })).status, 200);
+  assert.equal((await ask({ ip: '198.51.100.13', now: midnight + 36 * 60_000 + 6_000 })).status, 429);
+  assert.equal((await ask({ ip: '198.51.100.14', now: midnight + 12 * 60 * 60_000 })).status, 200);
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM tutor_requests').get().n, 3);
+  assert.equal(calls.length, 3);
+});
+
+test('clarifications share the daily cap but cannot consume more than eight slots', async t => {
+  const { ask, calls } = harness(t);
+  const late = Date.parse('2026-11-11T23:30:00Z');
+  for (let n = 1; n <= LIMITS.followUpsPerDay; n++) {
+    const ip = '198.51.100.' + (n + 20);
+    const first = await ask({ ip, now: late });
+    assert.equal(first.status, 200);
+    const follow = await ask({ ip, now: late + 6_000, cookie: first.cookie, body: {
+      question: 'Why is that?', followUp: first.data.followUp,
+    } });
+    assert.equal(follow.status, 200, 'clarification ' + n);
+  }
+  const first = await ask({ ip: '198.51.100.50', now: late + 20_000 });
+  assert.equal(first.status, 200);
+  const denied = await ask({ ip: '198.51.100.50', now: late + 26_000, cookie: first.cookie, body: {
+    question: 'Why is that?', followUp: first.data.followUp,
+  } });
+  assert.equal(denied.status, 429);
+  assert.equal(calls.length, LIMITS.followUpsPerDay * 2 + 1);
 });
 
 test('concurrent requests reserve capacity before calling the provider', async t => {
@@ -234,18 +272,19 @@ test('concurrent requests reserve capacity before calling the provider', async t
 
 test('daily inference budget is shared and exhausted requests still get prepared answers', async t => {
   const { ask, db, calls } = harness(t);
+  const atEndOfDay = Date.parse('2026-11-11T23:30:00Z');
   const allowed = LIMITS.siteNeuronsPerDay / LIMITS.reservedNeurons;
   for (let index = 1; index <= allowed; index += 1) {
-    assert.equal((await ask({ ip: '198.51.100.' + index })).status, 200, 'reservation ' + index);
+    assert.equal((await ask({ ip: '198.51.100.' + index, now: atEndOfDay })).status, 200, 'reservation ' + index);
   }
-  const exhausted = await ask({ ip: '198.51.100.250' });
+  const exhausted = await ask({ ip: '198.51.100.250', now: atEndOfDay });
   assert.equal(exhausted.status, 429);
   assert.match(exhausted.data.message, /prepared answers/);
-  const local = await ask({ ip: '198.51.100.250', body: { question: 'What does this rating mean?' } });
+  const local = await ask({ ip: '198.51.100.250', now: atEndOfDay, body: { question: 'What does this rating mean?' } });
   assert.equal(local.data.source, 'prepared');
   assert.equal(calls.length, allowed);
   assert.equal(db.prepare('SELECT SUM(reserved_neurons) AS n FROM tutor_requests').get().n, LIMITS.siteNeuronsPerDay);
-  assert.equal((await ask({ now: AT + 2 * DAY_MS })).status, 200);
+  assert.equal((await ask({ now: atEndOfDay + DAY_MS })).status, 200);
   assert.equal(db.prepare('SELECT COUNT(*) AS n FROM tutor_requests').get().n, 1);
 });
 
