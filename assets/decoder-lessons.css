@@ -640,3 +640,18 @@
     width: 100%;
   }
 }
+
+/* A lesson index, not a wall of links: lesson one starts immediately. */
+.dl-home-hero{padding-block:clamp(24px,4vw,48px) clamp(14px,2vw,26px)}
+.dl-home-hero h1{font-size:clamp(2.05rem,4.4vw,3.6rem);line-height:1.15;margin:.4rem 0 .7rem}
+.dl-home-hero .lead{max-width:760px;line-height:1.6;margin-bottom:1.15rem}
+.dl-topic-jump{display:block;margin-top:.85rem;max-width:760px}
+.dl-topic-jump summary{cursor:pointer;color:#b2dbf7;font-size:.89rem;font-weight:650;list-style:revert}
+.dl-topic-jump nav{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.6rem}
+.dl-topic-jump nav a{padding:.38rem .65rem;border-radius:7px;border:1px solid #3b6079;color:#d6ebf7;font-size:.83rem}
+.dl-resource-section .dl-home-section-head{margin-bottom:1rem}
+.dl-resources-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.dl-resources-grid a{display:flex;flex-direction:column;gap:.35rem;border:1px solid #436580;background:#12293a;padding:1rem 1.15rem;border-radius:11px;line-height:1.45}
+.dl-resources-grid a strong{font-size:1.03rem;color:#e9f6ff}
+.dl-resources-grid a span{font-size:.87rem;color:#b7d1e3}
+@media(max-width:660px){.dl-resources-grid{grid-template-columns:1fr}.dl-home-hero{padding-top:20px}}
