@@ -5573,6 +5573,118 @@
       ],
       "electricalRole": "passive_unbalanced_stereo_headphone",
       "caveat": "Exact cable and adapter pairing differs by HD 600 revision/sales market; inspect user's cable. 300 ohms alone does not determine power requirement."
+    },
+    {
+      "equipmentId": "legacy/amp/yamaha-a-720",
+      "category": "amp",
+      "sourceUrl": "https://audiocircuit.dk/downloads/yamaha/Yamaha-A720-int-sm.pdf",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "North American rear panel page 2 shows stereo RCA line and PHONO input banks, TAPE record/play loops, A/B/C stereo speaker binding terminals",
+        "Front panel shows stereo PHONES connection"
+      ],
+      "inputs": [
+        "rca_stereo_line_in_cd_tuner_aux",
+        "rca_phono_input_mm_mc_selection",
+        "rca_stereo_tape_play_inputs"
+      ],
+      "outputs": [
+        "rca_stereo_tape_record_outputs",
+        "speaker_level_stereo_binding_posts_A_B_C",
+        "front_stereo_headphone_output"
+      ],
+      "adaptableInputs": [],
+      "electricalRole": "integrated_amplifier_mixed_level_ports",
+      "caveat": "Phono inputs require a cartridge-level signal; ordinary RCA line inputs require line-level signals. A/B/C speaker banks are switching options, not three independent stereo power amplifiers. Speaker terminal connection and headphone output do not establish load compatibility."
+    },
+    {
+      "equipmentId": "legacy/amp/panasonic-sa-he100",
+      "category": "amp",
+      "sourceUrl": "https://help.na.panasonic.com/wp-content/uploads/2023/02/SAHE100_RQT6209_ENG.pdf",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "RQT6208 speaker and rear panel diagrams show front A and B speaker banks, center and surround speaker connections",
+        "DVD 6CH analogue RCA input, stereo line inputs and tape monitor playback/record jacks",
+        "OPTICAL 1/2/3 and COAXIAL digital audio inputs, optical digital recording output, analogue subwoofer pre-out"
+      ],
+      "inputs": [
+        "rca_stereo_line_inputs",
+        "rca_six_channel_dvd_analogue_input",
+        "rca_stereo_tape_monitor_play_input",
+        "toslink_optical_digital_input_3",
+        "coaxial_spdif_digital_input_1",
+        "rca_phono_magnetic_cartridge_input"
+      ],
+      "outputs": [
+        "speaker_level_front_A_binding_posts",
+        "speaker_level_front_B_spring_terminals",
+        "speaker_level_center_surround_spring_terminals",
+        "rca_line_level_subwoofer_pre_out",
+        "rca_stereo_tape_record_outputs",
+        "toslink_optical_digital_output"
+      ],
+      "adaptableInputs": [],
+      "electricalRole": "av_receiver_analogue_digital_speaker_line_ports",
+      "caveat": "DVD 6-channel analogue input is multichannel line-level, not six microphone preamps. Optical digital OUT is not an analogue line output. Front A and B speaker sets share the amplifier channels; confirm manufacturer A+B impedance conditions before simultaneous use. Subwoofer OUT is a line-level pre-out for a powered subwoofer, not powered speaker output."
+    },
+    {
+      "equipmentId": "legacy/amp/yamaha-htr-4063-us-canada",
+      "category": "amp",
+      "sourceUrl": "https://data.yamaha.com/files/download/other_assets/6/321226/HTR-4063_om_en-1.pdf",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "North American HTR-4063 owner's manual rear panel p. En 6 shows four HDMI IN, one HDMI OUT, optical and coaxial digital audio input, RCA analogue input/output",
+        "Five powered speaker channels FRONT L/R CENTER SURROUND L/R and separate SURROUND BACK L/R PRE OUT for optional external amp",
+        "RCA SUBWOOFER PRE OUT for powered subwoofer; analogue AUDIO OUT is line-level"
+      ],
+      "inputs": [
+        "hdmi_audio_video_input_4",
+        "toslink_optical_spdif_inputs",
+        "coaxial_spdif_inputs",
+        "rca_stereo_analogue_line_inputs"
+      ],
+      "outputs": [
+        "hdmi_audio_video_output_arc",
+        "speaker_level_front_center_surround_5_channels",
+        "rca_line_level_surround_back_L_R_preouts",
+        "rca_line_level_subwoofer_preout",
+        "rca_stereo_audio_line_out"
+      ],
+      "adaptableInputs": [],
+      "electricalRole": "av_receiver_input_output_5_power_channels",
+      "caveat": "Surround-back PRE OUT has no built-in power stage and requires an external power amplifier. Powered SUBWOOFER jack is line-level, not a speaker-level amplifier. Do not count optional surround-back PRE OUT as two additional internal amplifier channels."
+    },
+    {
+      "equipmentId": "research/speaker/pioneer-sp-fs52",
+      "category": "speaker",
+      "sourceUrl": "https://www.manualslib.com/manual/2391450/Pioneer-Sp-Fs52.html?page=2",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "Original SP-FS52 operating manual connecting your system: pair of red/black binding post terminals for passive speaker wire"
+      ],
+      "inputs": [
+        "passive_speaker_level_binding_post_positive_negative_pair"
+      ],
+      "outputs": [],
+      "adaptableInputs": [],
+      "electricalRole": "passive_loudspeaker_speaker_level_input",
+      "caveat": "One passive loudspeaker needs amplifier speaker-level output, not a line RCA or microphone output. Binding posts do not specify minimum impedance or independent speaker power handling."
+    },
+    {
+      "equipmentId": "legacy/speaker/paradigm-titan-v3",
+      "category": "speaker",
+      "sourceUrl": "https://www.manua.ls/paradigm/titan-v3/manual?p=4",
+      "checkedOn": "2026-11-18",
+      "connectorEvidence": [
+        "Paradigm Titan v3 manual identifies binding posts and bare-wire, banana, pin or spade terminal connections"
+      ],
+      "inputs": [
+        "passive_speaker_level_binding_post_positive_negative_pair"
+      ],
+      "outputs": [],
+      "adaptableInputs": [],
+      "electricalRole": "passive_loudspeaker_speaker_level_input",
+      "caveat": "The speaker is passive, not a powered studio monitor; compatible amplifier load still depends on measured impedance and manufacturer ratings. Banana/spade/bare wire are physical terminations, not different signals."
     }
   ]
 }
