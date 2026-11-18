@@ -12,7 +12,6 @@
   <url><loc>https://thesoundquestion.com/journey/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/quick-reference/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/audiophile-glossary/</loc></url>
-  <url><loc>https://thesoundquestion.com/decoder/technical-glossary/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/playback-sources/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/source-levels/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/dac-specifications/</loc></url>
@@ -31,6 +30,7 @@
   <url><loc>https://thesoundquestion.com/decoder/amplifier-classes/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/speaker-drivers/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/speaker-dispersion/</loc></url>
+  <url><loc>https://thesoundquestion.com/decoder/speaker-types/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/headphone-types/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/headphone-frequency-response/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/headphone-sensitivity/</loc></url>
@@ -40,6 +40,7 @@
   <url><loc>https://thesoundquestion.com/system-check/</loc></url>
   <url><loc>https://thesoundquestion.com/system-check/compare/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/recording-sources/</loc></url>
+  <url><loc>https://thesoundquestion.com/decoder/microphone-types/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/recording-resolution/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/mixing-soundstage/</loc></url>
   <url><loc>https://thesoundquestion.com/decoder/mastering-dynamic-range/</loc></url>
@@ -47,6 +48,7 @@
   <url><loc>https://thesoundquestion.com/lab/</loc></url>
   <url><loc>https://thesoundquestion.com/lab/mastering/</loc></url>
   <url><loc>https://thesoundquestion.com/tools/</loc></url>
+  <url><loc>https://thesoundquestion.com/tools/find-my-setup/</loc></url>
   <url><loc>https://thesoundquestion.com/tools/recommend-gear/</loc></url>
   <url><loc>https://thesoundquestion.com/system-builder/</loc></url>
 </urlset>
