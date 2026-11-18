@@ -1,5 +1,5 @@
 // Publish tracked website runtime files only; preserve engineering/tests in Git.
-import { copyFileSync, existsSync, mkdirSync, rmSync, lstatSync, statSync, readFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, rmSync, lstatSync, statSync, readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -103,6 +103,14 @@ for (const {entry, from} of files) {
   const dest = path.join(output, ...entry.split('/'));
   mkdirSync(path.dirname(dest), { recursive: true });
   copyFileSync(from, dest);
+  // Git for Windows can convert tracked SVG text to CRLF during checkout.
+  // Restore the canonical LF bytes only for the three measured waveform
+  // diagrams, then enforce their ORIGINAL SHA-256 values below. This does
+  // not relax their integrity checks or affect any other asset/binary file.
+  if (/^assets\/waveforms\/mastering-(?:dynamic|moderate|brickwalled)\.svg$/.test(entry)) {
+    const checkedOut = readFileSync(dest, 'utf8');
+    if (checkedOut.includes('\r\n')) writeFileSync(dest, checkedOut.replace(/\r\n/g, '\n'), 'utf8');
+  }
   maxBytes = Math.max(maxBytes, statSync(dest).size);
 }
 if (files.length > 20000) throw new Error('Cloudflare Free 20,000-file quota exceeded');
