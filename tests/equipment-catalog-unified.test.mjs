@@ -125,6 +125,45 @@ test('reviewed headphone connector overlays preserve electrical roles and legacy
   assert.ok(!grado.connections.outputs.length,'passive headphones cannot be signal sources');
   assert.ok(!hd.connections.outputs.length,'passive headphones cannot be signal sources');
 });
+test('manufacturer-backed amplifier and passive speaker overlays keep signal roles distinct',()=>{
+ const a720=by('Yamaha A-720','amp');
+ assert.ok(a720.connections.inputs.some(x=>x.type==='rca_phono_input_mm_mc_selection'));
+ assert.ok(a720.connections.inputs.some(x=>x.type==='rca_stereo_line_in_cd_tuner_aux'));
+ assert.ok(a720.connections.outputs.some(x=>x.type==='speaker_level_stereo_binding_posts_A_B_C'));
+ assert.ok(a720.connections.outputs.some(x=>x.type==='rca_stereo_tape_record_outputs'));
+ const pan=by('Panasonic SA-HE100','amp');
+ assert.ok(pan.connections.inputs.some(x=>x.type==='rca_six_channel_dvd_analogue_input'));
+ assert.ok(pan.connections.outputs.some(x=>x.type==='rca_line_level_subwoofer_pre_out'));
+ assert.ok(pan.connections.outputs.some(x=>x.type==='speaker_level_front_A_binding_posts'));
+ const htr=by('Yamaha HTR-4063 (US/Canada)','amp');
+ assert.ok(htr.connections.outputs.some(x=>x.type==='speaker_level_front_center_surround_5_channels'));
+ assert.ok(htr.connections.outputs.some(x=>x.type==='rca_line_level_surround_back_L_R_preouts'));
+ const titan=by('Paradigm Titan v3','speaker');
+ assert.ok(titan.connections.inputs.some(x=>x.type==='passive_speaker_level_binding_post_positive_negative_pair'));
+ const pioneer=by('Pioneer SP-FS52','speaker');
+ assert.ok(pioneer.connections.inputs.some(x=>x.type==='passive_speaker_level_binding_post_positive_negative_pair'));
+ assert.equal(pioneer.facts.speakerNominalImpedanceOhms.value,6);
+ // Do not write speculative Phantom v1 terminals from newer models' manuals.
+ const phantom=by('Paradigm Phantom v1','speaker');
+ assert.ok(phantom);
+ assert.equal(phantom.connections.inputs.length,0);
+ assert.equal(a720.facts.speakerPowerRatings.value.length,5);
+});
+test('all three mixer models distinguish mic preamps from computer recording channels',()=>{
+ const b=by('Behringer XENYX 1204USB','mixer_recorder');
+ assert.equal(b.facts.micPreampCount.value,4);
+ assert.equal(b.facts.computerRecordingInputs.value,2);
+ assert.ok(b.connections.outputs.some(x=>x.type==='stereo_usb_recording_output_2_channels'));
+ const zoom=by('Zoom LiveTrak L-12','mixer_recorder');
+ assert.equal(zoom.facts.micPreampCount.value,8);
+ assert.equal(zoom.facts.computerRecordingInputs.value,14);
+ assert.equal(zoom.facts.usbRecordingMode.value,'multitrack');
+ assert.ok(zoom.connections.outputs.some(x=>x.type.includes('usb_audio_record_14')));
+ const z=zoom.profiles.find(x=>x.category==='mixer_recorder').specifications;
+ assert.equal(z.usbRecordingRateLimitKhz,48);
+ assert.equal(z.standaloneRecorderMaxTracks44And48Khz,14);
+ assert.equal(z.standaloneRecorderMaxTracks96Khz,12);
+});
 test('Pioneer manual and studio/PA models preserve separate signal and performance bases',()=>{
   const pioneer=by('Pioneer SP-FS52','speaker');
   assert.equal(pioneer.facts.speakerNominalImpedanceOhms.value,6);
