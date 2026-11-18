@@ -18,3 +18,54 @@
 .sb-purpose-result .sb-chain-known_limit{border-left:3px solid #f1b78a;padding:.45rem .8rem;background:#2e251e}
 .sb-purpose-result .sb-chain-needs_check,.sb-purpose-result .sb-chain-unverified{border-left:3px solid #86b6d8;padding:.45rem .8rem;background:#18283a}
 .sb-chain-disclaimer{font-size:.88rem;border-top:1px solid #36536e;padding-top:1rem;line-height:1.7}
+
+/* Creating Builder: beginner flow and usable equipment shopping plans. */
+.sb-beginner-questions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.05rem;padding:1.15rem;background:#12293c;border:1px solid #39576f;border-radius:13px;margin-top:.8rem}
+.sb-beginner-questions .sb-tracks,.sb-beginner-questions .sb-monitors-choice{grid-column:1/-1}
+.sb-field-explain{display:block;font-weight:400;line-height:1.65;font-size:.91rem;color:#bdd4e5;margin-top:.42rem}
+.sb-explained-check,.sb-monitors-choice{padding:.8rem 1rem;border:1px solid #314b61;border-radius:10px;background:#0c1d2c}
+.sb-explained-check .sb-inline,.sb-monitors-choice .sb-inline{font-weight:650}
+.sb-explained-check .sb-field-explain,.sb-monitors-choice .sb-field-explain{margin:.4rem 0 0}
+.sb-own-equipment{border:1px solid #47647d;border-radius:12px;background:#101f31;padding:.9rem 1rem}
+.sb-own-equipment summary{font-weight:700;cursor:pointer;font-size:1.05rem;color:#d0edff}
+.sb-own-equipment>p{color:#c4d9ea;line-height:1.6;margin:.75rem 0}
+.sb-own-equipment .sb-grid{margin-top:.8rem}
+.sb-own-equipment .sb-field>input{margin-top:.5rem;width:100%}
+.sb-price-preferences{margin-top:.2rem}
+.sb-purpose-panel .sb-actions{margin-top:.3rem}
+.sb-purpose-panel .sb-actions button{font-weight:750}
+.sb-build-opening{font-size:1.03rem;line-height:1.6;margin:1rem 0}
+.sb-build-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;padding:.8rem 0}
+.sb-build-summary>div{border:1px solid #3b5f77;border-radius:10px;padding:.75rem;background:#162b3d;font-weight:650;font-size:.91rem}
+.sb-build-list-title{margin:1.1rem 0 .8rem}
+.sb-build-flow{display:grid;gap:.82rem;list-style:none!important;padding:0!important;margin:0 0 1.2rem}
+.sb-build-step{margin:0!important;border:1px solid #3e6178;border-radius:12px;padding:clamp(.9rem,2vw,1.25rem);background:linear-gradient(150deg,#152d40,#0d1d2d)}
+.sb-build-step-top{display:flex;align-items:center;gap:.75rem;margin-bottom:.65rem}
+.sb-build-step-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex:none;border-radius:9px;background:#23435b;color:#bce5ff;font-weight:800;font-size:.84rem}
+.sb-build-step-title{flex:1;min-width:0}
+.sb-build-step-title h4{font-size:1.15rem!important;color:#eff9ff;margin:0 0 .2rem}
+.sb-build-status{font-size:.81rem;font-weight:650;color:#a8c8da;margin:0!important}
+.sb-build-status-reuse{color:#9cddbd}
+.sb-build-status-verify{color:#ecc99d}
+.sb-build-qty{flex:none;padding:.3rem .55rem;background:#213c51;border-radius:7px;font-size:.82rem;font-weight:700}
+.sb-build-purpose{color:#d3e8f3;margin:.45rem 0 .65rem;line-height:1.62}
+.sb-build-pick{border-left:3px solid #65b4d2;padding:.55rem .7rem;background:#101e2f;border-radius:0 7px 7px 0;margin:.55rem 0}
+.sb-build-pick>strong{color:#f0fbff;font-size:1.08rem}
+.sb-build-pick .sb-verified-link{display:inline-block;margin-top:.3rem}
+.sb-price-category{display:inline-block;margin:.2rem .5rem;font-size:.79rem;color:#cce9f6}
+.sb-build-reason,.sb-build-example,.sb-build-detail{font-size:.91rem;line-height:1.6;color:#bfd5e5;margin:.4rem 0}
+.sb-build-alternatives,.sb-build-checks{padding:.5rem .6rem;border-top:1px solid #365169;margin-top:.55rem}
+.sb-build-alternatives summary,.sb-build-checks summary{cursor:pointer;color:#a8def6;font-weight:600}
+.sb-build-alternatives li{margin:.5rem 0}
+.sb-build-alternatives li>a{margin-left:.5rem}
+.sb-build-alerts{border-left:3px solid #dfae80;padding:.8rem;background:#2a251f;margin:1rem 0}
+.sb-build-alerts h4{margin:0 0 .45rem}
+.sb-shopping-summary{margin:1.25rem 0;padding:1rem;border:1px solid #466b80;border-radius:12px;background:#102c38}
+.sb-shopping-summary h4{margin:0 0 .45rem!important}
+.sb-shopping-summary li{margin:.45rem 0}
+.sb-build-next,.sb-build-learning{border-top:1px solid #38576f;margin-top:1.25rem;padding-top:.5rem}
+.sb-builder-notes{padding-left:1.35rem!important}
+.sb-builder-notes li{line-height:1.62;margin:.45rem 0}
+.sb-verified-link{color:#9bdcff;text-decoration:underline;text-underline-offset:.15em}
+.sb-build-checker{margin-top:1.2rem}
+@media(max-width:750px){.sb-beginner-questions,.sb-build-summary{grid-template-columns:1fr}.sb-build-step-top{align-items:flex-start}}
