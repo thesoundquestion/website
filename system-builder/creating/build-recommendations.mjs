@@ -135,7 +135,7 @@ const lessonsFor={
 };
 export function buildCreatingSystem(catalog,{
   mode='vocal',microphoneCount=1,independentTracks=false,micConnection='xlr',
-  includeMonitors=false,region='CA',pricePreference='any',
+  includeMonitors=false,region='CA',pricePreference='any',prices=null,
   owned={},ownedNames={}
 }={}){
   if(!Array.isArray(catalog?.records))throw new TypeError('Shared equipment catalogue required');
