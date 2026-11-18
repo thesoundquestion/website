@@ -438,3 +438,44 @@ main{flex:1}
 @media(max-width:620px){.home-brand-signature{gap:1rem}.home-brand-signature>img{width:68px}.home-simple .home-quick-links{grid-template-columns:1fr}.home-simple .home-quick-links a{min-height:0;padding:1rem 1.2rem}.home-brand-signature h1{font-size:clamp(2.05rem,9vw,3.2rem)}}
 
 .library-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.2rem}.library-actions .button{font-size:.88rem;min-height:42px;padding:.6rem .85rem}
+
+/* Homepage hierarchy: three major destinations, restrained supporting references. */
+.home-simple .home-fast-paths{padding-block:clamp(24px,3.4vw,42px)}
+.home-simple .home-quick-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin:0}
+.home-simple .home-quick-links a{min-height:158px;padding:1.25rem 1.3rem;border:1px solid #47718a;border-radius:15px;background:linear-gradient(145deg,#18354a,#0c2032);transition:border-color .15s,transform .15s}
+.home-simple .home-quick-links a:hover{border-color:#9ae5ff;transform:translateY(-2px)}
+.home-simple .home-quick-links a strong{font-size:1.22rem;color:#effaff}
+.home-simple .home-quick-links a small{font-size:.9rem;line-height:1.55;color:#c3dbe9}
+.home-simple .home-goal-section{padding-top:clamp(24px,3.2vw,42px);padding-bottom:clamp(26px,3.4vw,44px)}
+.home-simple .home-goal-section h2{font-size:clamp(1.55rem,2.6vw,2.15rem);margin:.2rem 0 .45rem}
+.home-simple .home-goal-grid{gap:.6rem}
+.home-simple .home-goal-card{min-height:85px;padding:.75rem .85rem;gap:.6rem;align-items:center;border-radius:11px}
+.home-simple .home-goal-icon{width:30px;height:30px;border-radius:8px;font-size:1.12rem}
+.home-simple .home-goal-copy{gap:.22rem}
+.home-simple .home-goal-copy strong{font-size:.93rem;line-height:1.25}
+.home-simple .home-goal-copy small{font-size:.76rem;line-height:1.35}
+.home-simple .home-goal-arrow{font-size:.91rem}
+.home-simple .home-goal-other{margin-top:.75rem;font-size:.86rem}
+.home-simple .home-more{padding-block:clamp(25px,3.5vw,43px)}
+.home-simple .home-more h2{font-size:clamp(1.38rem,2.3vw,1.95rem);margin:.3rem 0 1rem}
+.home-more-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem}
+.home-more-grid a{display:flex;flex-direction:column;gap:.28rem;min-width:0;min-height:95px;padding:.85rem .95rem;border:1px solid #355773;border-radius:10px;background:#102235;text-decoration:none;transition:border-color .15s}
+.home-more-grid a:hover{border-color:#8ed8f2}
+.home-more-grid a:focus-visible{outline:3px solid #a0e8ff;outline-offset:3px}
+.home-more-grid strong{font-size:.94rem;color:#e3f6ff;line-height:1.3}
+.home-more-grid small{font-size:.8rem;line-height:1.42;color:#acc7da}
+.home-reference-links{margin:.9rem 0 0;font-size:.86rem;line-height:1.5;color:#b4cedf}
+.home-reference-links a,.home-share-strip a{color:#a3e0fb;text-underline-offset:3px}
+.home-share-strip{padding-block:1rem;border-bottom:1px solid #314b62}
+.home-share-inner{display:flex;gap:.6rem 1.2rem;align-items:center;flex-wrap:wrap}
+.home-share-inner>div:first-child{font-size:.9rem;color:#b9d4e4}
+.home-share-inner>div:first-child strong{color:#f0faff}
+.home-share-strip-actions{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin-left:auto}
+.home-share-strip-actions .button{font-size:.8rem;padding:.47rem .7rem;min-height:40px}
+.home-share-strip .home-social-links{font-size:.82rem;margin:0}
+.home-share-strip .home-share-feedback{flex-basis:100%;font-size:.8rem;margin:0}
+@media(max-width:940px){.home-more-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.home-simple .home-quick-links{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.home-simple .home-quick-links{grid-template-columns:1fr}.home-simple .home-quick-links a{min-height:95px;padding:1rem 1.15rem}.home-simple .home-goal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-share-strip-actions{margin-left:0}}
+@media(max-width:520px){.home-simple .home-goal-grid,.home-more-grid{grid-template-columns:1fr}.home-simple .home-goal-card{min-height:67px;padding:.7rem .8rem}.home-more-grid a{min-height:0;padding:.75rem .9rem}.home-simple .home-quick-links a strong{font-size:1.1rem}}
+@media(prefers-reduced-motion:reduce){.home-simple .home-quick-links a{transition:none}.home-simple .home-quick-links a:hover{transform:none}}
