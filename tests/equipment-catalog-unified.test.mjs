@@ -73,6 +73,20 @@ test('recording counts and phantom-power facts remain separate, with no invented
   assert.ok(scarlett.connections.inputs.some(x=>x.type.includes('front_6_35mm')));
   assert.match(scarlett.profiles.find(x=>x.category==='audio_interface').specifications
     .inputRoutingConstraints.join(' '),/disables the corresponding rear microphone/);
+  const solo4=by('Focusrite Scarlett Solo (4th Gen)','audio_interface');
+  assert.equal(solo4.facts.micPreampCount.value,1);
+  assert.ok(solo4.connections.inputs.some(x=>x.type.includes('microphone_input_channel_2')));
+  assert.match(solo4.profiles.find(x=>x.category==='audio_interface').specifications.inputRoutingConstraints.join(' '),/loopback channels/);
+  for(const [model,needle] of [
+    ['Audient iD4 MkII','jfet_hiz'],
+    ['Behringer U-PHORIA UMC202HD','combo_xlr'],
+    ['Arturia MiniFuse 2','combo_xlr']
+  ]) {
+    const entry=by(model,'audio_interface');
+    assert.ok(entry.connections.inputs.some(x=>x.type.includes(needle)),model+' port missing');
+    assert.ok(entry.connections.outputs.some(x=>/headphone/.test(x.type)),model+' headphone port missing');
+    assert.ok(entry.profiles.find(x=>x.category==='audio_interface').specifications.inputRoutingConstraints.length);
+  }
   const yamaha=by('Yamaha MG10XU','mixer_recorder');
   assert.equal(yamaha.facts.advertisedMixerChannels.value,10);
   assert.equal(yamaha.facts.micPreampCount.value,4);
