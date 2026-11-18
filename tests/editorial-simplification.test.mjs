@@ -66,9 +66,11 @@ test('approved navigation and diagrams make the next action obvious',()=>{
  assert.match(contact,/>Donate ↗<\/a>/);
  assert.doesNotMatch(contact,/>Support the project on Ko-fi/);
  assert.match(css,/\.contact-panels\{display:grid/);
- const hero=home.indexOf('class="journey-hero'),invite=home.indexOf('class="container home-support-invite"');
- const cards=home.indexOf('class="section site-hub"'),share=home.indexOf('class="section section-border home-share-section"');
- assert.ok(hero>=0&&hero<invite&&invite<cards&&cards<share,'Donation prompt precedes learning cards, full support follows them');
+ const hero=home.indexOf('class="container home-goal-intro"'),goals=home.indexOf('class="home-goal-grid"');
+ const cards=home.indexOf('class="section section-border home-fast-paths"'),support=home.indexOf('class="section section-border home-essentials"');
+ assert.ok(hero>=0&&hero<goals&&goals<cards&&cards<support,'Goal choices first, then concise navigation and support');
+ assert.doesNotMatch(home,/class="container home-support-invite"/,'No donation interruption above goal choices');
+ assert.ok(home.length<12000,'Homepage remains intentionally concise');
 });
 
 test('source levels and power handling retain essential qualification',()=>{
