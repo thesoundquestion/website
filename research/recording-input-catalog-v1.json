@@ -2,10 +2,12 @@
   "schemaVersion": "0.1.0",
   "date": "2026-11-18",
   "status": "research_only",
-  "description": "Separate recording and streaming product records; no impact on live amplifier/speaker calculator.",
+  "description": "Separate researched recording, monitoring and headphone product records with owned Grado anchor references; no change to live amplifier/speaker calculator.",
   "counts": {
-    "models": 16,
-    "ownedComparisonAnchors": 3
+    "models": 24,
+    "ownedComparisonAnchors": 3,
+    "newHeadphoneModels": 3,
+    "newHeadphoneAmplifierModels": 5
   },
   "records": [
     {
@@ -659,6 +661,358 @@
         "category": "source",
         "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)"
       }
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "akg-k371",
+      "category": "headphone",
+      "model": "AKG K371",
+      "design": "closed_back_over_ear",
+      "nominalImpedanceOhms": 32,
+      "sensitivityDb": 114,
+      "sensitivityBasis": "dB_SPL_per_V",
+      "sensitivityConditions": "1 kHz, manufacturer nominal",
+      "digitalInput": false,
+      "connection": "wired_analog",
+      "requiresExternalHeadphoneAmplifier": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.akg.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw374aeecb/pdfs/AKG_K371_Sell_Sheet.pdf",
+          "fields": [
+            "closed back",
+            "32 ohm impedance",
+            "114 dB SPL/V at 1 kHz"
+          ]
+        }
+      ],
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "private_listening"
+      ],
+      "editorialNote": "Never compare 114 dB SPL/V numerically to a headphone rated dB/mW without converting with its impedance."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "audio-technica-ath-m40x",
+      "category": "headphone",
+      "model": "Audio-Technica ATH-M40x",
+      "design": "closed_back_over_ear",
+      "nominalImpedanceOhms": null,
+      "sensitivityDb": null,
+      "sensitivityBasis": null,
+      "sensitivityConditions": "1 kHz, manufacturer nominal",
+      "digitalInput": false,
+      "connection": "wired_analog",
+      "requiresExternalHeadphoneAmplifier": false,
+      "sourceEvidence": [
+        {
+          "url": "https://docs.audio-technica.com/eu/M-Series_leaflet_ENG_L00053_V1.0.pdf",
+          "fields": [
+            "ATH-M40x identity",
+            "closed-back monitoring design"
+          ]
+        }
+      ],
+      "role": [
+        "tracking",
+        "studio_monitoring"
+      ],
+      "editorialNote": "Model-specific sensitivity and impedance left unverified rather than importing ATH-M50x figures."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "shure-srh440a",
+      "category": "headphone",
+      "model": "Shure SRH440A",
+      "design": "closed_back_over_ear",
+      "nominalImpedanceOhms": null,
+      "sensitivityDb": null,
+      "sensitivityBasis": null,
+      "sensitivityConditions": "1 kHz, manufacturer nominal",
+      "digitalInput": false,
+      "connection": "wired_analog",
+      "requiresExternalHeadphoneAmplifier": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.shure.com/en-US/products/headphones/srh440?variant=SRH440A",
+          "fields": [
+            "closed back over ear",
+            "40 mm dynamic driver",
+            "detachable cable and 6.3 mm adapter"
+          ]
+        }
+      ],
+      "role": [
+        "podcast_monitoring",
+        "studio_tracking"
+      ],
+      "editorialNote": "SRH440A not identical to older SRH440; impedance/sensitivity pending manufacturer manual verification."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "jds-atom-amp-2",
+      "category": "headphone_amplifier",
+      "model": "JDS Labs Atom Amp 2",
+      "amplifierKind": "analog_headphone_amp",
+      "headphoneOutputTypes": [
+        "6.35mm_single_ended",
+        "4.4mm_compatible_single_ended"
+      ],
+      "sourceInputTypes": [
+        "rca_stereo_analog"
+      ],
+      "hasBuiltInDac": false,
+      "ratedOutputMilliwatts": [
+        {
+          "loadOhms": 32,
+          "wattsPerChannel": 2.65,
+          "metric": "maximum_continuous",
+          "testConditions": "9.22 Vrms, JDS Labs manufacturer"
+        },
+        {
+          "loadOhms": 300,
+          "wattsPerChannel": 0.286,
+          "metric": "maximum_continuous",
+          "testConditions": "9.27 Vrms, JDS Labs manufacturer"
+        }
+      ],
+      "outputImpedanceOhms": 0.7,
+      "outputImpedanceCeilingOhms": null,
+      "gainSettingsDb": null,
+      "headphoneOutputCount": 1,
+      "sourceEvidence": [
+        {
+          "url": "https://jdslabs.com/product/atom-amp-2/",
+          "fields": [
+            "RCA input and stereo analog headphone amp",
+            "max continuous 2.65 W at 32 ohm",
+            "286 mW at 300 ohm",
+            "0.7 ohm output impedance"
+          ]
+        }
+      ],
+      "editorialNote": "The 4.4 mm socket is a convenience output, not automatically a differential/balanced drive output. Analog headphone amp requires compatible analogue line source/DAC, not digital USB direct."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "topping-l30-ii",
+      "category": "headphone_amplifier",
+      "model": "Topping L30 II",
+      "amplifierKind": "analog_headphone_amp",
+      "headphoneOutputTypes": [
+        "6.35mm_single_ended"
+      ],
+      "sourceInputTypes": [
+        "rca_stereo_analog"
+      ],
+      "hasBuiltInDac": false,
+      "ratedOutputMilliwatts": [],
+      "outputImpedanceOhms": null,
+      "outputImpedanceCeilingOhms": null,
+      "gainSettingsDb": [
+        -14,
+        0,
+        16.5
+      ],
+      "headphoneOutputCount": 1,
+      "sourceEvidence": [
+        {
+          "url": "https://dl.topping.audio/usermanual/l30ii.pdf",
+          "fields": [
+            "L30 II version",
+            "RCA analog input and preamp output",
+            "6.35mm headphone output",
+            "gain switch -14, 0, 16.5 dB"
+          ]
+        }
+      ],
+      "editorialNote": "No built-in DAC. Do not import L30 (first generation) or L30 II output ratings without matching load and test conditions."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "fiio-k11",
+      "category": "headphone_amplifier",
+      "model": "FiiO K11",
+      "amplifierKind": "dac_headphone_amp",
+      "headphoneOutputTypes": [
+        "6.35mm_single_ended",
+        "4.4mm_balanced"
+      ],
+      "sourceInputTypes": [
+        "usb_c_digital",
+        "optical_digital",
+        "coaxial_digital"
+      ],
+      "hasBuiltInDac": true,
+      "ratedOutputMilliwatts": [
+        {
+          "loadOhms": 32,
+          "wattsPerChannel": 0.52,
+          "metric": "manufacturer_min_at_thdn_below_1_percent",
+          "testConditions": "6.35mm single-ended, high gain"
+        },
+        {
+          "loadOhms": 32,
+          "wattsPerChannel": 1.4,
+          "metric": "manufacturer_min_at_thdn_below_1_percent",
+          "testConditions": "4.4mm balanced, high gain"
+        }
+      ],
+      "outputImpedanceOhms": null,
+      "outputImpedanceCeilingOhms": 1.2,
+      "gainSettingsDb": null,
+      "headphoneOutputCount": 2,
+      "sourceEvidence": [
+        {
+          "url": "https://www.fiio.com/k11_parameters",
+          "fields": [
+            "K11 exact model",
+            "USB optical coaxial inputs",
+            "6.35mm SE and 4.4mm balanced",
+            "520 mW @ 32 ohm SE",
+            "1400 mW @32 ohm balanced",
+            "output impedance thresholds"
+          ]
+        }
+      ],
+      "outputImpedanceConditions": "6.35 mm single-ended output only; 4.4 mm specification is <2.4 ohm",
+      "editorialNote": "Do not conflate 4.4 mm balanced output power with 6.35 mm power or use mismatched plugs/adapters. K11 is not a recording microphone interface."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "fiio-q11",
+      "category": "headphone_amplifier",
+      "model": "FiiO Q11",
+      "amplifierKind": "portable_dac_headphone_amp",
+      "headphoneOutputTypes": [
+        "3.5mm_single_ended",
+        "4.4mm_balanced"
+      ],
+      "sourceInputTypes": [
+        "usb_digital"
+      ],
+      "hasBuiltInDac": true,
+      "ratedOutputMilliwatts": [
+        {
+          "loadOhms": 16,
+          "wattsPerChannel": 0.31,
+          "metric": "manufacturer_min_at_thdn_below_1_percent",
+          "testConditions": "manufacturer USB input, output path as specified in full table"
+        }
+      ],
+      "outputImpedanceOhms": null,
+      "outputImpedanceCeilingOhms": null,
+      "gainSettingsDb": null,
+      "headphoneOutputCount": 2,
+      "sourceEvidence": [
+        {
+          "url": "https://www.fiio.com/q11_parameters",
+          "fields": [
+            "Q11 portable DAC/amp identity",
+            "USB input",
+            "310 mW at 16 ohm",
+            "single-ended and balanced headphone ports"
+          ]
+        }
+      ],
+      "editorialNote": "Portable DAC/headphone amplifier, not standalone analogue preamplifier or microphone recording device. Power measurement conditions must be checked per output; no blanket ability-to-drive verdict."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "schiit-magni-6",
+      "category": "headphone_amplifier",
+      "model": "Schiit Magni 6",
+      "amplifierKind": "analog_headphone_amp",
+      "headphoneOutputTypes": [
+        "6.35mm_single_ended",
+        "4.4mm_halo"
+      ],
+      "sourceInputTypes": [
+        "rca_stereo_analog"
+      ],
+      "hasBuiltInDac": false,
+      "ratedOutputMilliwatts": [
+        {
+          "loadOhms": 32,
+          "wattsPerChannel": 3,
+          "metric": "manufacturer_max_rms",
+          "testConditions": "manufacturer 32 ohm rating, current Magni 6"
+        }
+      ],
+      "outputImpedanceOhms": null,
+      "outputImpedanceCeilingOhms": 0.1,
+      "gainSettingsDb": null,
+      "headphoneOutputCount": 2,
+      "sourceEvidence": [
+        {
+          "url": "https://www.schiit.com/products/magni-6",
+          "fields": [
+            "Magni 6 model identity",
+            "3 W RMS @32 ohm",
+            "SE output impedance below 0.1 ohm",
+            "4.4 mm Halo output impedance differs"
+          ]
+        }
+      ],
+      "outputImpedanceConditions": "6.35 mm SE only, less-than 0.1 ohm; 4.4 mm Halo different (<2 ohm)",
+      "editorialNote": "Schiit historical Magni Unity URL redirects to Magni 6; never mix Unity/6 parameters. A version may have optional DAC hardware; base record is analogue-only. Manufacturer 4.4 mm 'Halo' output must not be treated as ordinary universal balanced output."
     }
   ],
   "existingPresetCrossReferences": [
@@ -721,5 +1075,69 @@
       "numericFields": null,
       "reason": "A comparison anchor for the user's existing stereo speakers; do not invent driver or sensitivity specifications."
     }
-  ]
+  ],
+  "comparisonGroups": [
+    {
+      "id": "headphone-listening-and-monitoring",
+      "recordIds": [
+        "akg-k371",
+        "audio-technica-ath-m40x",
+        "shure-srh440a"
+      ],
+      "existingPresetModels": [
+        "Grado SR80e",
+        "Grado SR80x",
+        "Grado SR60x",
+        "Audio-Technica ATH-M50x",
+        "beyerdynamic DT 770 PRO (80 Ω)",
+        "Sennheiser HD 560S",
+        "Sennheiser HD 600",
+        "Sony MDR-7506",
+        "Moondrop Chu II"
+      ],
+      "purpose": "Compare design, isolation, impedance and sensitivity while preserving sensitivity reference basis."
+    },
+    {
+      "id": "headphone-amplification",
+      "recordIds": [
+        "jds-atom-amp-2",
+        "topping-l30-ii",
+        "fiio-k11",
+        "fiio-q11",
+        "schiit-magni-6"
+      ],
+      "existingPresetModels": [
+        "FiiO K11 (RCA line out)"
+      ],
+      "purpose": "Separate amplifier output power at a stated headphone load, output impedance, connection types and whether a DAC is included. Existing FiiO K11 line-out source preset is not an existing headphone power-amplifier measurement."
+    }
+  ],
+  "headphoneCompatibilityRules": {
+    "status": "planned_only",
+    "notEnabledInSystemCheck": true,
+    "required": [
+      "headphone impedance ohms",
+      "headphone sensitivity value AND reference basis (dB SPL per mW or per V)",
+      "requested SPL and peak headroom (use conservative choices)",
+      "amp voltage and current limits or power vs rated load",
+      "amp output impedance",
+      "matching physical connector and output topology",
+      "volume/noise control for sensitive headphones"
+    ],
+    "uncertainWithout": [
+      "power rating at relevant load and stated distortion",
+      "actual sensitivity measurement",
+      "max output voltage or load performance when interpolating",
+      "exact source signal level for stand-alone analogue amp"
+    ],
+    "caveats": [
+      "Impedance alone cannot establish loudness.",
+      "Do not compare dB/mW to dB/V numerically without conversion.",
+      "Power stated at 32 ohms cannot be used as guaranteed power at 300 ohms.",
+      "Output jack size is not a guarantee of balanced output; unsafe adapter wiring can damage equipment.",
+      "Some source devices already drive headphones adequately; do not prescribe an amplifier solely because headphone impedance exceeds an arbitrary threshold.",
+      "Headphone max power handling is not a recommended listening level.",
+      "Ensure safe listening levels."
+    ]
+  }
 }
