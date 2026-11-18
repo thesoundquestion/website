@@ -4,11 +4,11 @@
   "status": "research_only",
   "description": "Research-stage recording, headphones and powered/passive speaker products, including original Pioneer SP-FS52 manual; numeric unknowns remain explicit.",
   "counts": {
-    "models": 29,
+    "models": 31,
     "ownedComparisonAnchors": 3,
     "newHeadphoneModels": 3,
     "newHeadphoneAmplifierModels": 5,
-    "addedSpeakerModels": 5
+    "addedSpeakerModels": 7
   },
   "records": [
     {
@@ -1312,6 +1312,118 @@
         }
       ],
       "editorialNote": "One cabinet, not a stereo pair. Internal 70 W biamplification must not be compared to an external amplifier's 70 W/channel. Requires line-level input, not direct passive speaker terminals.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "yamaha-hs7-studio",
+      "category": "speaker",
+      "model": "Yamaha HS7",
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "studio_monitoring"
+      ],
+      "physicalInputTypes": [
+        "balanced_xlr_line",
+        "6.35mm_trs_line"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_studio_monitor",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "wooferInches": 6.5,
+      "tweeterInches": 1,
+      "boxType": "bass_reflex",
+      "internalAmplificationWatts": {
+        "lf": 60,
+        "hf": 35,
+        "combined": 95
+      },
+      "responseMinus3DbHz": [
+        55,
+        24000
+      ],
+      "quotedRangeMinus10DbHz": [
+        43,
+        30000
+      ],
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/specs.html",
+          "fields": [
+            "2-way bass reflex 6.5-inch LF / 1-inch HF powered studio monitor",
+            "internal biamplification 60W LF + 35W HF = 95W per cabinet",
+            "55 Hz–24 kHz at -3 dB",
+            "43 Hz–30 kHz at -10 dB",
+            "one balanced XLR and one 6.35 mm TRS line-level input"
+          ]
+        }
+      ],
+      "editorialNote": "Factory HS Series specification. ONE powered cabinet, not a stereo pair. Built-in biamp output is not an external amp continuous/ch power rating; do not connect passive speaker terminals to its line inputs. A stereo system uses two cabinets and suitable level/volume control.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "yamaha-hs8-studio",
+      "category": "speaker",
+      "model": "Yamaha HS8",
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "studio_monitoring"
+      ],
+      "physicalInputTypes": [
+        "balanced_xlr_line",
+        "6.35mm_trs_line"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_studio_monitor",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "wooferInches": 8,
+      "tweeterInches": 1,
+      "boxType": "bass_reflex",
+      "internalAmplificationWatts": {
+        "lf": 75,
+        "hf": 45,
+        "combined": 120
+      },
+      "responseMinus3DbHz": [
+        47,
+        24000
+      ],
+      "quotedRangeMinus10DbHz": [
+        38,
+        30000
+      ],
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/specs.html",
+          "fields": [
+            "2-way bass reflex 8-inch LF / 1-inch HF powered studio monitor",
+            "internal biamplification 75W LF + 45W HF = 120W per cabinet",
+            "47 Hz–24 kHz at -3 dB",
+            "38 Hz–30 kHz at -10 dB",
+            "one balanced XLR and one 6.35 mm TRS line-level input"
+          ]
+        }
+      ],
+      "editorialNote": "Factory HS Series specification. ONE powered cabinet, not a stereo pair. Built-in biamp output is not an external amp continuous/ch power rating; do not connect passive speaker terminals to its line inputs. A stereo system uses two cabinets and suitable level/volume control.",
       "evidenceCheckedDate": "2026-11-18",
       "evidenceTier": "manufacturer_primary_or_documented",
       "price": null,
