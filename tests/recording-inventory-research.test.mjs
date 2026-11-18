@@ -9,7 +9,7 @@ test('research inventory is a separate typed catalogue, not a change to System C
  assert.equal(new Set(catalog.records.map(x=>x.id)).size,catalog.records.length);
  assert.equal(catalog.records.filter(x=>x.comparisonAnchor).length,3);
  for(const record of catalog.records){
-   assert.ok(['microphone','audio_interface','mixer_recorder','computer_sound_card','headphone','headphone_amplifier'].includes(record.category));
+   assert.ok(['microphone','audio_interface','mixer_recorder','computer_sound_card','headphone','headphone_amplifier','speaker'].includes(record.category));
    assert.ok(record.model && record.sourceEvidence.length>0);
    assert.ok(record.sourceEvidence.every(e=>e.url.startsWith('https://')&&e.fields.length>0));
    assert.equal(record.price,null);
