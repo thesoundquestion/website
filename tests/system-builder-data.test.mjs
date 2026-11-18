@@ -7,8 +7,8 @@ const file = name => readFileSync(new URL(name,import.meta.url),'utf8');
 function loadAdapter() {
   const sandbox = {window:{}};
   createContext(sandbox);
-  runInContext(file('../system-check/gear.js'),sandbox);
-  runInContext(file('../system-check/compare/specs.js'),sandbox);
+  runInContext(file('../equipment/legacy-presets.generated.js'),sandbox);
+  runInContext(file('../equipment/compare-details.generated.js'),sandbox);
   runInContext(file('../system-builder/catalog-adapter.js'),sandbox);
   return sandbox.window.systemBuilderInventory;
 }
