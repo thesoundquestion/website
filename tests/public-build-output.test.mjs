@@ -17,9 +17,15 @@ test('static Pages build includes tracked runtime assets and excludes internal/u
   'equipment/compare-details.generated.js','equipment/catalog-core.mjs',
   'equipment/catalog-legacy-adapters.mjs','equipment/catalog-client.mjs',
   'equipment/price-tiers.mjs','equipment/price-tier-client.mjs',
-  'equipment/price-tiers.generated.json']) {
+  'equipment/price-tiers.generated.json',
+  'equipment/comparison-model.mjs']) {
   assert.ok(existsSync(path.join(dir,name)), 'missing unified inventory runtime: '+name);
  }
+ for(const name of [
+  'tools/equipment-comparison-preview/index.html',
+  'tools/equipment-comparison-preview/preview.mjs',
+  'tools/equipment-comparison-preview/style.css'
+ ])assert.ok(existsSync(path.join(dir,name)), 'missing draft comparison review asset: '+name);
  assert.ok(!existsSync(path.join(dir,'equipment/README.md')), 'internal inventory handoff was published');
  assert.ok(!existsSync(path.join(dir,'equipment/source-master.json')), 'editable equipment master must not publish');
  assert.ok(!existsSync(path.join(dir,'equipment/REGIONAL_PRICE_TIERS_2026_11_18.md')), 'retail evidence memo must not publish');
