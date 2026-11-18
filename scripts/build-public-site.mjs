@@ -6,6 +6,10 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// Never publish a stale projection or a partially updated inventory.
+// This is a read-only preflight; regeneration remains an explicit development step.
+execFileSync(process.execPath,['scripts/build-equipment-catalog.mjs','--check'],
+  {cwd:root,stdio:'pipe'});
 const output = path.join(root, 'site-dist');
 const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
