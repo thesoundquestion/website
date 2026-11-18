@@ -37,6 +37,8 @@ test('model filter and comparison are accessible in review markup',()=>{
   assert.doesNotMatch(script,/innerHTML/);
 });
 test('both models retain source references and unknowns without recommendations',()=>{
+  assert.match(html,/What actually changes\?/);
+  assert.match(script,/comparison\.observations/);
   assert.match(html,/Manufacturer and source references/);
   assert.match(script,/item\.evidence/);
   assert.match(script,/No verified regional retail pricing label/);
