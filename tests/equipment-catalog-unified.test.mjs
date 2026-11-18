@@ -15,7 +15,7 @@ const profile=(entry,from)=>entry.profiles.find(p=>p.from===from);
 test('the generated catalogue is current with all three existing data sources',()=>{
   const msg=execFileSync(process.execPath,['scripts/build-equipment-catalog.mjs','--check'],
     {cwd:root,encoding:'utf8'});
-  assert.match(msg,/Catalogue current/);
+  assert.match(msg,/Catalogue and legacy views current/);
   assert.equal(registry.schemaVersion,'1.0.0');
   assert.equal(registry.status,'draft_not_published');
   assert.equal(registry.summary.legacyProfiles,130);
