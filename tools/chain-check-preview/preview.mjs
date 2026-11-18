@@ -66,6 +66,17 @@ function draw(result){
     ratings.append(li);
   }
   ratingArea.hidden=!rows.length;
+  const otherArea=$('other-ratings'),otherList=$('other-list');
+  otherList.replaceChildren();
+  const other=result.otherPublishedLoads||[];
+  for(const rating of other){
+    const li=document.createElement('li');
+    li.textContent=rating.milliwattsPerChannel+' mW per channel at '+rating.loadOhms+' Ω'+
+      ' | '+rating.outputPath+' | '+rating.testConditions;
+    otherList.append(li);
+  }
+  otherArea.hidden=!other.length;
+
 }
 function reportError(message){
   $('results').hidden=true;
