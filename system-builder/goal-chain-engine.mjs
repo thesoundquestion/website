@@ -31,7 +31,7 @@ const asCount=x=>Number.isInteger(x)&&x>=1&&x<=32?x:1;
 
 export function buildGoalChain(catalog,{
   mode='vocal',microphoneId='',captureId='',headphoneId='',headphoneOutputId='',
-  paSpeakerId='',speakerId='',microphoneCount=1,independentTracks=false
+  paSpeakerId='',speakerId='',monitorSpeakerId='',microphoneCount=1,independentTracks=false
 }={}){
   if(!Array.isArray(catalog?.records))throw new TypeError('Shared equipment catalogue required');
   if(!CHAIN_MODE_IDS.has(mode)||mode==='listening')throw new RangeError('Unsupported specialist builder goal');
@@ -41,6 +41,7 @@ export function buildGoalChain(catalog,{
   const output=find(catalog,headphoneOutputId);
   const pa=find(catalog,paSpeakerId);
   const speaker=find(catalog,speakerId);
+  const monitorSpeaker=find(catalog,monitorSpeakerId);
   const count=asCount(microphoneCount);
   const stages=[],checks=[],notes=[],lessons=[];
   if(mode==='tv'){
@@ -81,6 +82,17 @@ export function buildGoalChain(catalog,{
     stages.push(stage('Interface, mixer or recorder',capture,'Verify microphone preamps, USB recording channels and whether the device records independent tracks.'));
     stages.push(stage('Recording computer / recorder',null,'Check compatible drivers, software, monitoring and the desired capture format.'));
     stages.push(stage('Headphones / monitoring',headphone,'Monitor the performance without speaker spill; confirm the real headphone output and cable.'));
+    if(monitorSpeaker){
+      if(monitorSpeaker.categories?.includes('speaker')&&value(monitorSpeaker,'speakerKind')==='powered_studio_monitor'){
+        stages.push(stage('Powered studio monitoring',monitorSpeaker,
+          'This catalogue record is for one powered cabinet. A conventional stereo listening pair requires two and a proper volume-controlled line-level source.'));
+        checks.push(observation('evidence','The selected studio monitor is a self-powered, line-level-input cabinet. Its built-in amplifier is not an external passive speaker amplifier.'));
+        checks.push(observation('needs_check','Verify two monitors for stereo, electrical mains power, appropriate line output connections, cable wiring, listening levels and placement.'));
+      } else {
+        stages.push(stage('Monitoring speaker',monitorSpeaker,'The selected model has no verified powered-studio role; its electrical input path and monitoring arrangement need verification.'));
+        checks.push(observation('needs_check','Do not connect amplifier speaker outputs to equipment expecting line-level signals. Confirm the speaker type first.'));
+      }
+    }
     if(microphone&&capture&&microphone.categories?.includes('microphone')&&capture.categories?.some(c=>captureKinds.includes(c))){
       const audit=assessRecordingChain(catalog,{
         captureDeviceId:capture.id,microphoneIds:Array.from({length:count},()=>microphone.id),
