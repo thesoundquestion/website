@@ -11,7 +11,7 @@
   display: none;
 }
 
-.lesson-tutor summary {
+.lesson-tutor > summary {
   min-block-size: 44px;
   box-sizing: border-box;
   padding: .65rem .9rem;
@@ -21,7 +21,7 @@
   font-weight: 700;
 }
 
-.lesson-tutor[open] summary {
+.lesson-tutor[open] > summary {
   border-block-end: 1px solid var(--line, #273a50);
   border-end-start-radius: 0;
   border-end-end-radius: 0;
@@ -71,6 +71,68 @@
 
 .lesson-tutor-shortcut {
   margin-block: .5rem 0;
+}
+
+
+.lesson-tutor-free-help {
+  margin: .65rem 0 .55rem;
+  color: var(--text, #f3f7fb);
+  font-size: .92rem;
+  line-height: 1.5;
+}
+
+.lesson-tutor-ai-guidance {
+  margin-block: .55rem .8rem;
+  border: 1px solid var(--line, #273a50);
+  border-radius: .6rem;
+  padding: .65rem .8rem;
+  background: var(--bg2, #0b1421);
+  color: var(--muted, #aebed0);
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+.lesson-tutor-ai-guidance p {
+  margin: .25rem 0 .65rem;
+}
+
+.lesson-tutor-ai-guidance strong {
+  color: var(--text, #f3f7fb);
+}
+
+.lesson-tutor-prompt-guide {
+  margin-block-start: .55rem;
+  border-block-start: 1px solid var(--line, #273a50);
+  padding-block-start: .35rem;
+}
+
+.lesson-tutor-prompt-guide > summary {
+  display: list-item;
+  min-block-size: 44px;
+  padding: .6rem .1rem;
+  cursor: pointer;
+  color: #b8e4f8;
+  font-weight: 650;
+}
+
+.lesson-tutor-prompt-guide ol {
+  margin: .25rem 0 .75rem;
+  padding-inline-start: 1.3rem;
+}
+
+.lesson-tutor-prompt-guide li {
+  margin-block-end: .45rem;
+}
+
+.lesson-tutor-prompt-example {
+  padding: .55rem .65rem;
+  border-inline-start: 2px solid #58748e;
+  background: var(--surface, #111d2b);
+  color: var(--text, #f3f7fb);
+}
+
+.lesson-tutor-use-example {
+  margin-block: .1rem .25rem;
 }
 
 .lesson-tutor-form label {
