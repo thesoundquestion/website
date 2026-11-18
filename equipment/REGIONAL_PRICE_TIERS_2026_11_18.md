@@ -80,6 +80,35 @@ Current stock status was not independently checked. Some retailer pages
 mark models unavailable; they serve as ordinary *list price references*,
 not evidence of immediate purchasing access.
 
+## Second Canadian trial: USB audio interfaces
+
+Five exact USB interface models now have two model-specific Canadian retailer
+price observations each, including the same original versions used in our
+recording equipment comparisons. **This is still a limited and deliberately
+incomplete market sample.** Functional differences (one versus two microphone
+preamps, monitor options, headphone power) should be shown as separate specs,
+never inferred from the tier.
+
+| Model | Provisional Canadian price position | Evidence |
+| --- | --- | --- |
+| M-Audio M-Track Solo | Budget pricing | [Music City Canada](https://musiccitycanada.com/products/m-audio-m-track-solo-2-channel-usb-audio-interface), [AVShop](https://www.avshop.ca/recording-audio-interfaces/audiotrack-solo-2-channel-usb-audio-interface) |
+| Arturia MiniFuse 2 (original, not OTG) | Budget pricing | [Nightlife Electronics](https://nightlife-electronics.com/products/arturia-minifuse-2-black), [Cicada Sound](https://cicadasound.ca/products/minifuse-2) |
+| Focusrite Scarlett Solo (4th Gen) | Mid-priced | [RedOne Music](https://musicredone.com/products/focusrite-scarlett-solo-2-in-2-out-audio-interface-4th-gen), [Garage à Musique](https://www.garageamusique.ca/en/shop/scarlett-solo-4th-gen-focusrite-scarlett-solo-4th-gen-usb-c-audio-interface-173249) |
+| Audient iD4 MkII | Premium pricing (within five-model sample) | [Music City Canada](https://musiccitycanada.com/products/audient-id4-mkii-usb-audio-interface), [Studio Economik](https://www.economik.com/products/id4-mkii) |
+| Focusrite Scarlett 2i2 (4th Gen) | Premium pricing (within five-model sample) | [Music City Canada](https://musiccitycanada.com/products/focusrite-scarlett-2i2-4th-gen-usb-audio-interface), [RedOne Music](https://musicredone.com/products/focusrite-scarlette-2i2-studio-quality-2-in-2-out-audio-interface-4th-gen) |
+
+These price bands expire **2027-01-02** until refreshed. Some source
+listings were marked pre-order or out of stock, and others have conflicting
+stock text. Their documented *regular listed asking prices* can indicate
+market positioning but **must not be presented as real-time availability**.
+For discontinued products, use a separate used/vintage market classification
+only after obtaining distinct, region-specific sold-listing evidence.
+
+A five-device cohort can put two closely priced interfaces on opposite
+sides of a boundary. Therefore the public UI must retain the phrase
+**"Indicative pricing position based on a small sample"** rather than imply
+a substantial price difference or measurable quality tier.
+
 ## Rollout
 
 - `equipment/price-tiers.mjs` holds the testable regional validation and
