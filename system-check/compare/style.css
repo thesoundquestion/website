@@ -129,3 +129,11 @@
  .gc-table .gc-section-row th{font-size:.7rem;padding:.6rem}
  .gc-compare-explainer{font-size:.82rem}
 }
+
+/* Evidence-gated retail price position in Compare My Gear */
+.gc-price-summary{border:1px solid #36556d;padding:1.1rem 1.3rem;margin:1.1rem 0 1.45rem;background:#122436;border-radius:12px}
+.gc-price-summary h3{font-size:1.16rem;margin:0 0 .7rem}
+.gc-price-summary label{display:flex;flex-direction:column;gap:.35rem;max-width:380px;font-weight:650}
+.gc-price-summary select{font:inherit;background:#0a1827;border:1px solid #55738c;color:#f0faff;border-radius:8px;padding:.6rem}
+.gc-price-summary p{margin:.6rem 0;color:#cfdeea}
+.gc-price-caution{font-size:.85rem}
