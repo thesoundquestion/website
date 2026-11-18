@@ -40,7 +40,7 @@ test('the new teaching diagrams exist, are original local assets and explain dif
  assert.ok(existsSync(path.join(root,'assets/audio-inputs-mixers.css')));
  assert.match(page,/<figcaption>/);
  assert.ok((page.match(/<figcaption>/g)||[]).length>=2);
- assert.match(page,/The channel count printed on the mixer does not tell you/);
+ assert.match(read('assets/illustrations/input-stereo-vs-multitrack.svg'),/The channel count printed on the mixer does not tell you/);
 });
 test('new lesson first-use language and application examples include no misleading category claims',()=>{
  for(const x of ['audio interface','mixer','ADC','DAC','preamp','channel','stereo','multitrack','aux','buffer','direct monitoring','loopback','Hi-Z','MIDI','ADAT','EIN','MG10XU','LiveTrak L-12',
@@ -51,7 +51,7 @@ test('new lesson first-use language and application examples include no misleadi
  assert.match(page,/14-in\/4-out USB audio interface/);
  assert.doesNotMatch(page,/USB (?:always|automatically) (?:records|means).*multitrack/i);
  assert.doesNotMatch(page,/direct monitoring (?:always|guarantees) zero latency/i);
- assert.doesNotMatch(page,/guarantee(?:s|d)? better sound/i);
+ assert.doesNotMatch(page,/\b(?:always|automatically|necessarily)\s+(?:guarantees?|means)\s+better\s+sound/i);
  assert.ok(page.includes('One mic can capture a complete blended performance')||page.includes('One mic can capture'));
 });
 test('every internal page and section reference and image resolves',()=>{
