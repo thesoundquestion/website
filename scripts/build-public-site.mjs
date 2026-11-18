@@ -15,7 +15,7 @@ const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
   'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets', 'equipment',
 ]);
-const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects', 'favicon.ico', 'favicon-96x96.png']);
+const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects', '_routes.json', 'favicon.ico', 'favicon-96x96.png']);
 const runtimeExt = new Set([
   '.html', '.css', '.js', '.mjs', '.json', '.svg', '.webp', '.png',
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
@@ -41,6 +41,8 @@ const equipmentRuntime = new Set([
 // Release only the exactly approved 59-page illustrated handbook.
 const retiredHandbook = 'library/make-audio-make-sense/make-audio-make-sense.pdf';
 const illustratedHandbook = 'library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
+const approvedPumpImage = 'assets/illustrations/tsq-pump-taps-approved.png';
+const approvedPumpImageSha256 = 'df1c51dc0ab6c3b82468873110131617825865bc21a604883e1a4fffcde4a1da';
 const illustratedHandbookExpectedSize = 12018958;
 const illustratedHandbookExpectedSha256 = 'd647ee22a1931adf45e8cf72fd25792fb10d12a8017e64d54ca105209cfeee77';
 /* Allow only explicitly reviewed, checked full-band MP3 examples. Keep the
@@ -76,6 +78,10 @@ for (const entry of tracked) {
   const from = path.join(root, ...parts);
   if (!existsSync(from)) throw new Error('Tracked runtime file absent: ' + entry);
   if (!lstatSync(from).isFile()) throw new Error('Non-regular runtime file: ' + entry);
+  if (entry === approvedPumpImage) {
+    const digest = createHash('sha256').update(readFileSync(from)).digest('hex');
+    if (digest !== approvedPumpImageSha256) throw new Error('Approved pump illustration hash mismatch: '+entry);
+  }
   if (entry === illustratedHandbook) {
     const fileSize = statSync(from).size;
     if (fileSize !== illustratedHandbookExpectedSize) throw new Error('Wrong illustrated handbook file size: ' + fileSize);
@@ -102,8 +108,8 @@ for (const {entry, from} of files) {
 if (files.length > 20000) throw new Error('Cloudflare Free 20,000-file quota exceeded');
 if (maxBytes > 25 * 1024 * 1024) throw new Error('Cloudflare Pages 25 MiB per-file limit exceeded');
 const required = [
- 'index.html', 'favicon.ico', 'favicon-96x96.png', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
- 'decoder/index.html', 'labs/index.html', 'lab/index.html',
+ 'index.html', '_routes.json', 'favicon.ico', 'favicon-96x96.png', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
+ 'decoder/index.html', 'decoder/technical-glossary/index.html', approvedPumpImage, 'labs/index.html', 'lab/index.html',
  'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
  'system-builder/index.html', 'equipment/catalog.generated.json',
  'equipment/legacy-presets.generated.js', 'equipment/compare-details.generated.js',
@@ -131,6 +137,10 @@ const required = [
 for (const file of required) {
  if (!existsSync(path.join(output, ...file.split('/')))) throw new Error('Required runtime file missing: ' + file);
 }
+// Only the optional tutor API is permitted to run through Pages Functions.
+const routeManifest = JSON.parse(readFileSync(path.join(output,'_routes.json'),'utf8'));
+if(routeManifest.version!==1 || JSON.stringify(routeManifest.include)!==JSON.stringify(['/api/lesson-tutor']) ||
+   JSON.stringify(routeManifest.exclude)!==JSON.stringify([])) throw new Error('Unapproved Pages Function route');
 // Waveform images must be measured from actual published master audio once,
 // never generated with browser-side audio downloads on initial page visit.
 const waveformManifest = JSON.parse(readFileSync(path.join(output, 'assets/waveforms/mastering-provenance.json'),'utf8'));
