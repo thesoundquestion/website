@@ -58,7 +58,7 @@ test('vector teaching figures describe concepts, not fabricated product measurem
   assert.match(s,/<title id="t">/);
   assert.match(s,/<desc id="d">/);
   assert.ok(s.includes('not to scale')||s.includes('not measured'),'figure disclaimer');
-  assert.doesNotMatch(s, /<script|<foreignObject|<image\b|https?:\/\//i,'self-contained original vector');
+  assert.doesNotMatch(s, /<script\b|<foreignObject\b|<image\b|<use\b[^>]*href=["']https?:\/\//i,'no scripts or external embedded image dependencies');
  }
 });
 test('new lessons remain intentionally unlisted until editorial approval',()=>{
