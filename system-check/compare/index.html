@@ -15,6 +15,7 @@
   <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
   <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
   <script defer src="/system-check/compare/compare.js?v=spec-audit-20261111-final"></script>
+  <script type="module" src="/system-check/compare/retail-tiers.mjs"></script>
   <title>Compare My Gear | The Sound Question</title>
 </head>
 <body>
@@ -59,6 +60,15 @@
       <section id="comparison" class="sc-results" aria-labelledby="comparison-title" hidden>
         <h2 id="comparison-title">Specs side by side</h2>
         <p id="comparison-takeaway"></p>
+        <section class="gc-price-summary" id="gc-price-summary" aria-labelledby="gc-price-title">
+          <h3 id="gc-price-title">Retail price category (not a quality rating)</h3>
+          <label for="gc-price-region">Regional evidence
+            <select id="gc-price-region"><option value="CA">Canada (limited verified sample)</option><option value="US">United States</option><option value="GB">United Kingdom</option><option value="EU">Europe</option><option value="AU">Australia</option><option value="none">Hide regional labels</option></select>
+          </label>
+          <div id="gc-price-labels" role="status" aria-live="polite"><p>Choose two products to see available regional pricing categories.</p></div>
+          <p class="gc-price-caution">Budget, mid-priced and premium refer only to typical new-retail expense among comparable equipment types in the selected region. A category is shown only when enough dated retailer evidence exists. Unknown is not “budget,” and more expensive does not mean better.</p>
+          <p><a href="/tools/equipment-comparison-preview/">Compare interfaces, mixers, microphones and other equipment using the expanded catalogue →</a></p>
+        </section>
         <p class="gc-compare-explainer">These numbers describe particular products, but they are <strong>not sound-quality scores</strong>. For instance, a headphone's claimed frequency range says little about how evenly it plays bass and treble unless the maker also states a level tolerance and test method. A missing or unchecked figure appears as “—” rather than an invented value.</p>
         <p class="gc-audit-link">Verification standards: <a href="https://github.com/thesoundquestion/website/blob/main/system-check/compare/SPECIFICATION_SOURCE_AUDIT_2026_11_11.md" target="_blank" rel="noopener noreferrer">source audit, known manufacturer conflicts and unverified models</a>. A checked manufacturer specification is still not an independent bench measurement.</p>
         <table class="gc-table"><caption class="gc-table-caption">Model specifications, with test conditions and sources where available</caption>
