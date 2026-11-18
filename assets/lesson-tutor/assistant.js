@@ -261,7 +261,7 @@ export function mountLessonTutor() {
         plot: current.plotId, example: current.exampleId, followUp: clarification,
       };
       aiButton.hidden = false;
-      status.textContent = 'There is no prepared answer for this question. Ask AI sends your question to Cloudflare Workers AI for a short lesson explanation.';
+      status.textContent = 'No prepared answer matched. Optional AI sends the question to Cloudflare: one new AI question per browser per UTC day, with limited shared slots released through the day.';
     }
   });
 
