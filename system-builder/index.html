@@ -16,6 +16,8 @@
 <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
 <script defer src="/system-builder/catalog-adapter.js"></script>
 <script type="module" src="/system-builder/app.mjs"></script>
+<script type="module" src="/system-builder/goal-chain-builder.mjs"></script>
+<link rel="stylesheet" href="/system-builder/goal-chain-builder.css">
 <title>System Builder | The Sound Question</title>
 </head>
 <body>
@@ -26,13 +28,41 @@
 </div></header>
 <main id="main" class="container sb">
 <header class="sb-hero">
-<p class="section-kicker">RECORDING TO ROOM · COMPATIBILITY FIRST</p>
+<p class="section-kicker">SYSTEM BUILDING · FROM RECORDING TO PLAYBACK</p>
 <h1>Build around the sound you want.</h1>
-<p class="lead">Start with what matters to your ears, not a brand or a wattage contest. See specific equipment examples, compare what complete systems require, reuse working gear, and learn what to verify before buying.</p>
-<div class="sb-hero-meta"><span>7 listening priorities</span><span>Passive · powered · studio · headphones · party</span><span>No paid search or account</span></div>
+<p class="lead">Choose what you want to do, then assemble the important parts of the system. Use the detailed listening builder for amplifiers, speakers and rooms, or plan recording, headphones, streaming and live sound with checked equipment facts.</p>
+<div class="sb-hero-meta"><span>Listening · Recording · Streaming · Live sound</span><span>Shared 173-device equipment inventory</span><span>No paid search or account</span></div>
 </header>
 <aside class="tsq-recommend-link" aria-label="Recommend missing equipment"><p><strong>Don't see your model?</strong> Help us grow the verified presets for everyone using these tools.</p><a href="/tools/recommend-gear/">Recommend your gear →</a></aside>
-<div class="sb-preview"><strong>Start with a few systems to explore.</strong> Open a card for the parts, connection checks and links. Recent price references appear with the date they were checked. Your selections are processed in this page and are not sent to a paid equipment service.</div>
+<div class="sb-preview" id="sb-listening-intro"><strong>Start with a few systems to explore.</strong> Open a card for the parts, connection checks and links. Recent price references appear with the date they were checked. Your selections are processed in this page and are not sent to a paid equipment service.</div>
+<section class="sb-purpose" aria-labelledby="sb-purpose-heading">
+  <p class="section-kicker">ONE BUILDER · MULTIPLE AUDIO JOBS</p>
+  <h2 id="sb-purpose-heading">What type of system are you building?</h2>
+  <p>Choose the job first. Home listening uses our established room and amplifier tools. Recording, headphones, streaming and live sound use a separate catalogue-driven signal-chain planner.</p>
+  <label class="sb-field" for="sb-purpose-select">My system is for
+    <select id="sb-purpose-select"><option value="listening">Hi-fi / home listening</option><option value="tv">TV, movies and gaming</option><option value="headphones">Headphones and headphone amplifiers</option><option value="vocal">Recording vocals</option><option value="songwriter">Recording my own songs</option><option value="drums">Recording drums</option><option value="band">Recording a band</option><option value="podcast">Podcast or interview</option><option value="stream">Streaming or video creation</option><option value="live">Live sound / PA</option></select>
+  </label>
+</section>
+<section class="sb-purpose-panel" id="sb-purpose-panel" aria-labelledby="sb-purpose-panel-heading" hidden>
+  <h2 id="sb-purpose-panel-heading">Build a signal chain for your goal</h2>
+  <p id="sb-purpose-description">Select the components you own or are considering; unknown specifications stay unknown.</p>
+  <form id="sb-purpose-form">
+    <div class="sb-grid">
+      <label class="sb-field sb-capture" for="sb-purpose-microphone">Microphone model<select id="sb-purpose-microphone"></select></label>
+      <label class="sb-field sb-capture" for="sb-purpose-input">Audio interface, mixer or recorder<select id="sb-purpose-input"></select></label>
+      <label class="sb-field sb-capture sb-count" for="sb-purpose-count">Microphones needed simultaneously<input type="number" id="sb-purpose-count" min="1" max="32" step="1" value="1"></label>
+      <label class="sb-field sb-headphone" for="sb-purpose-headphone">Headphone model<select id="sb-purpose-headphone"></select></label>
+      <label class="sb-field sb-headphone-output" for="sb-purpose-output">Headphone output equipment<select id="sb-purpose-output"></select></label>
+      <label class="sb-field sb-live" for="sb-purpose-pa">Audience PA speaker<select id="sb-purpose-pa"></select></label>
+      <label class="sb-field sb-tv" for="sb-purpose-tv-speaker">Speakers / receiver model<select id="sb-purpose-tv-speaker"></select></label>
+    </div>
+    <label class="sb-inline sb-tracks" for="sb-purpose-tracks"><input type="checkbox" id="sb-purpose-tracks">I want each microphone on a separate editable recording track</label>
+    <p class="sb-help">Equipment choices are illustrative selections from the shared catalogue. Only documented capacities are evaluated. Enter a different model using <a href="/tools/recommend-gear/">Recommend Your Gear</a>; never treat an absent model as incompatible.</p>
+    <div class="sb-actions"><button class="button button-primary" type="submit">Review this signal chain</button></div>
+  </form>
+  <p id="sb-purpose-status" role="status" aria-live="polite">Loading equipment choices…</p>
+  <section id="sb-purpose-result" class="sb-purpose-result" hidden aria-live="polite"><h3 id="sb-purpose-result-title">Your signal chain</h3><div id="sb-purpose-result-body"></div></section>
+</section>
 <noscript><p class="sb-noscript">JavaScript is required to generate a pathway report. You can still use the <a href="/system-check/">System Check</a> for amplifier headroom and read the <a href="/decoder/">Decoder lessons</a> for the engineering behind the choices.</p></noscript>
 <form id="sb-form" class="sb-form">
 <section class="sb-panel" aria-labelledby="sb-aim">
