@@ -225,10 +225,22 @@
       "description": "Why sound changes away from the centre seat, how to read horizontal/vertical response and speaker directivity."
     },
     {
+      "slug": "speaker-types",
+      "category": "speakers",
+      "title": "Speaker types: hi-fi, studio, nearfield and PA",
+      "description": "Understand which loudspeaker designs suit a desk, living room, stage or audience, and where their uses overlap."
+    },
+    {
       "slug": "recording-sources",
       "category": "recording",
       "title": "Microphones, DI and virtual instruments",
       "description": "Trace microphones, direct instrument inputs, hardware synths and software instruments into a recording; see how mic placement and a room change the captured sound."
+    },
+    {
+      "slug": "microphone-types",
+      "category": "recording",
+      "title": "Microphone types and practical uses",
+      "description": "Compare dynamic, condenser, ribbon, shotgun and other microphones by how they work and the jobs they suit."
     },
     {
       "slug": "recording-resolution",

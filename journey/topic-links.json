@@ -26,8 +26,9 @@
     ],
     "capture": [
       {
-        "label": "Mic types",
-        "lesson": "recording-sources"
+        "label": "Microphone types and uses",
+        "lesson": "microphone-types",
+        "fragment": "#inside"
       },
       {
         "label": "placement",
@@ -172,6 +173,11 @@
       }
     ],
     "speakers": [
+      {
+        "label": "Speaker types for home, studio and live",
+        "lesson": "speaker-types",
+        "fragment": "#jobs"
+      },
       {
         "label": "Driver materials",
         "lesson": "speaker-drivers"
