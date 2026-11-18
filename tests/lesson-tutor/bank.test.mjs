@@ -27,11 +27,11 @@ test('each published lesson has six prompts, its printed spec and a bank matchin
       const [_, id] = figure;
       const plot = lesson.plots[id];
       const chunk = html.slice(figure.index, figures[index + 1]?.index ?? html.length);
-      const buttons = [...chunk.matchAll(/<button[^>]*data-select-case="([^"]+)"[^>]*>([^<]+)<\/button>/g)];
+      const buttons = [...chunk.matchAll(/<button[^>]*data-select-case="([^"]+)"[^>]*>([\s\S]*?)<\/button>/g)];
       assert.deepEqual(Object.keys(plot.examples).sort(), buttons.map(match => match[1]).sort(), id);
       assert.equal(buttons.filter(match => match[0].includes('aria-pressed="true"')).length, 1, id);
       for (const [, exampleId, label] of buttons) {
-        assert.equal(plot.examples[exampleId].label, label.trim(), id);
+        assert.equal(plot.examples[exampleId].label, label.replace(/<small[^>]*>[\s\S]*?<\/small>/g, '').replace(/<[^>]+>/g, '').trim(), id);
         for (const { id: suggestion } of SUGGESTIONS) {
           const answer = preparedAnswer(graph(slug, id, exampleId), suggestion);
           assert.ok(answer?.text && isLessonLink(answer.href), slug + ' ' + suggestion);
