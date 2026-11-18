@@ -185,25 +185,26 @@ test('only one encrypted clarification can be used by the originating visitor fo
   assert.equal(calls.length, 2);
 });
 
-test('first answers have priority; one normal question per visitor, with network throttling', async t => {
+test('three new visitor questions are allowed, but the fourth is held and shared networks remain accessible', async t => {
   const { ask, calls } = harness(t);
   const first = await ask();
   const secondQuestion = { question: 'How could the amplifier supply more current at a low impedance?' };
-  assert.equal((await ask({ now: AT + 1_000, body: secondQuestion })).status, 429);
+  assert.equal((await ask({ now: AT + 1_000, body: secondQuestion })).status, 429, 'network throttle');
   const duplicate = await ask({ now: AT + 6_000, cookie: first.cookie, body: { question: defaultBody.question.toUpperCase() } });
-  assert.equal(duplicate.status, 429);
-  // A first question consumes that visitor's one new-question allowance.
-  assert.equal((await ask({ now: AT + 6_000, cookie: first.cookie, body: secondQuestion })).status, 429);
-  // A different browser on the same network can still ask a first question.
-  const neighbor = await ask({ now: AT + 6_000, body: secondQuestion });
+  assert.equal(duplicate.status, 429, 'duplicate question');
+  const second = await ask({ now: AT + 6_000, cookie: first.cookie, body: secondQuestion });
+  assert.equal(second.status, 200);
+  const thirdQuestion = { question: 'How can a low impedance affect the current an amplifier delivers?' };
+  assert.equal((await ask({ now: AT + 12_000, cookie: first.cookie, body: thirdQuestion })).status, 200);
+  assert.equal((await ask({ now: AT + 18_000, cookie: first.cookie, body: { question: 'What makes an impedance dip harder for an amplifier to drive?' } })).status, 429);
+  // A different browser on the same network retains its independent allowance.
+  const neighbor = await ask({ now: AT + 18_000, body: secondQuestion });
   assert.equal(neighbor.status, 200);
-  const another = await ask({ now: AT + 12_000, ip: '198.51.100.30', body: secondQuestion });
-  assert.equal(another.status, 200);
-  assert.equal(calls.length, 3);
+  assert.equal(calls.length, 4);
   assert.equal((await ask({ now: AT + DAY_MS, cookie: first.cookie })).status, 200);
 });
 
-test('IPv6 temporary addresses on a shared /64 receive six first-question slots', async t => {
+test('IPv6 temporary addresses on a shared /64 receive twelve first-question slots', async t => {
   const { ask, calls } = harness(t);
   assert.equal(networkPrefix('2001:db8:1::1'), networkPrefix('2001:0db8:1:0:aa:bb:0:2'));
   assert.equal(networkPrefix('2001:bad::fish'), null);
@@ -211,28 +212,30 @@ test('IPv6 temporary addresses on a shared /64 receive six first-question slots'
     const response = await ask({ ip: '2001:db8:1::' + n, now: AT + (n - 1) * 6_000 });
     assert.equal(response.status, 200, 'shared network visitor ' + n);
   }
-  assert.equal((await ask({ ip: '2001:db8:1::f', now: AT + 40_000 })).status, 429);
+  assert.equal((await ask({ ip: '2001:db8:1::f', now: AT + LIMITS.networkPerDay * 6_000 })).status, 429);
   assert.equal(calls.length, LIMITS.networkPerDay);
 });
 
-test('daily AI capacity opens at regular intervals and unused slots carry forward', async t => {
+test('a generous initial AI pool is available while later slots are retained for later arrivals', async t => {
   const { ask, db, calls } = harness(t);
   const midnight = Date.parse('2026-11-11T00:00:00Z');
-  assert.equal(releasedRequestSlots(midnight), 1);
-  assert.equal(releasedRequestSlots(midnight + 35 * 60_000), 1);
-  assert.equal(releasedRequestSlots(midnight + 36 * 60_000), 2);
-  assert.equal(releasedRequestSlots(midnight + 12 * 60 * 60_000), 21);
+  assert.equal(MAX_DAILY_REQUESTS, 97);
+  assert.equal(releasedRequestSlots(midnight), 58);
+  assert.equal(releasedRequestSlots(midnight + 35 * 60_000), 58);
+  assert.equal(releasedRequestSlots(midnight + 36 * 60_000), 59);
+  assert.equal(releasedRequestSlots(midnight + 12 * 60 * 60_000), 78);
   assert.equal(releasedRequestSlots(midnight + 23 * 60 * 60_000 + 24 * 60_000), MAX_DAILY_REQUESTS);
-  assert.equal((await ask({ ip: '198.51.100.10', now: midnight })).status, 200);
-  assert.equal((await ask({ ip: '198.51.100.11', now: midnight + 6_000 })).status, 429);
-  assert.equal((await ask({ ip: '198.51.100.12', now: midnight + 36 * 60_000 })).status, 200);
-  assert.equal((await ask({ ip: '198.51.100.13', now: midnight + 36 * 60_000 + 6_000 })).status, 429);
-  assert.equal((await ask({ ip: '198.51.100.14', now: midnight + 12 * 60 * 60_000 })).status, 200);
-  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM tutor_requests').get().n, 3);
-  assert.equal(calls.length, 3);
+  for (let i = 1; i <= 58; i++) {
+    assert.equal((await ask({ ip: '198.51.100.' + i, now: midnight })).status, 200, 'early slot ' + i);
+  }
+  assert.equal((await ask({ ip: '198.51.100.100', now: midnight + 6_000 })).status, 429, 'later capacity retained');
+  assert.equal((await ask({ ip: '198.51.100.101', now: midnight + 36 * 60_000 })).status, 200);
+  assert.equal((await ask({ ip: '198.51.100.102', now: midnight + 36 * 60_000 + 6_000 })).status, 429);
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM tutor_requests').get().n, 59);
+  assert.equal(calls.length, 59);
 });
 
-test('clarifications share the daily cap but cannot consume more than eight slots', async t => {
+test('clarifications share the daily cap but cannot consume more than twenty slots', async t => {
   const { ask, calls } = harness(t);
   const late = Date.parse('2026-11-11T23:30:00Z');
   for (let n = 1; n <= LIMITS.followUpsPerDay; n++) {
@@ -283,7 +286,7 @@ test('daily inference budget is shared and exhausted requests still get prepared
   const local = await ask({ ip: '198.51.100.250', now: atEndOfDay, body: { question: 'What does this rating mean?' } });
   assert.equal(local.data.source, 'prepared');
   assert.equal(calls.length, allowed);
-  assert.equal(db.prepare('SELECT SUM(reserved_neurons) AS n FROM tutor_requests').get().n, LIMITS.siteNeuronsPerDay);
+  assert.equal(db.prepare('SELECT SUM(reserved_neurons) AS n FROM tutor_requests').get().n, allowed * LIMITS.reservedNeurons);
   assert.equal((await ask({ now: atEndOfDay + 2 * DAY_MS })).status, 200);
   assert.equal(db.prepare('SELECT COUNT(*) AS n FROM tutor_requests').get().n, 1);
 });
