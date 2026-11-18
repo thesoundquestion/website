@@ -38,7 +38,8 @@ test('all creating goal routes have a visible selector and a real engine mode',(
     assert.ok(GOALS.some(g=>g.id===id),'unreachable guide goal '+id);
     assert.match(creating,new RegExp('value="'+id+'"'));
   }
-  assert.deepEqual([...creating.matchAll(/<option value="([^"]+)"/g)].map(m=>m[1]),expected);
+  const goalSelect=creating.match(/<select id="sb-purpose-select">([\s\S]*?)<\/select>/)?.[1]||'';
+  assert.deepEqual([...goalSelect.matchAll(/<option value="([^"]+)"/g)].map(m=>m[1]),expected);
   for(const id of ['sb-purpose-select','sb-purpose-panel','sb-purpose-form','sb-purpose-microphone',
     'sb-purpose-input','sb-purpose-count','sb-purpose-headphone','sb-purpose-pa',
     'sb-purpose-tracks','sb-purpose-status','sb-purpose-result','sb-purpose-result-body']){
