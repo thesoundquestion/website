@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Unpublished recording and headphone signal-chain check preview.">
+  <title>Recording and headphones: equipment chain preview | The Sound Question</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./preview.mjs"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a><nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></div></header>
+<main id="main" class="container chain-preview">
+  <p class="eyebrow">Unpublished engineering review preview</p>
+  <h1>Can these pieces of equipment work together?</h1>
+  <p class="lead">Start with the equipment you want to use. We'll distinguish documented capacity, known limits and information that still needs checking. We do not certify safe wiring or predict sound quality.</p>
+  <label for="workflow">What are you working on?<select id="workflow">
+    <option value="recording">Recording microphones</option>
+    <option value="headphones">Listening with headphones</option>
+  </select></label>
+  <section id="recording" aria-labelledby="recording-title">
+    <h2 id="recording-title">Check a microphone recording setup</h2>
+    <div class="chain-fields">
+      <label for="capture">Audio interface, mixer or recorder<select id="capture"></select></label>
+      <label for="mic-one">First microphone<select id="mic-one"></select></label>
+      <label for="mic-count">How many of that microphone?<input id="mic-count" type="number" min="1" max="8" step="1" value="1"></label>
+      <label for="mic-two">Add one more microphone (optional)<select id="mic-two"><option value="">None</option></select></label>
+    </div>
+    <label class="chain-checkbox" for="separate"><input id="separate" type="checkbox"> I need each microphone on a separate editable recording track</label>
+    <button id="recording-check" type="button">Check recording requirements</button>
+  </section>
+  <section id="headphones" aria-labelledby="headphone-title" hidden>
+    <h2 id="headphone-title">Check a headphone output</h2>
+    <div class="chain-fields">
+      <label for="headphone-model">Your headphones<select id="headphone-model"></select></label>
+      <label for="headphone-amp">Equipment providing the headphone output<select id="headphone-amp"></select></label>
+    </div>
+    <button id="headphone-check" type="button">Review headphone output evidence</button>
+  </section>
+  <p id="status" role="status" aria-live="polite">Loading the shared equipment catalogue…</p>
+  <section id="results" aria-labelledby="results-heading" hidden>
+    <h2 id="results-heading">What the available evidence says</h2>
+    <p id="outcome"></p>
+    <ul id="checks" class="chain-checks"></ul>
+    <div id="matched-ratings" hidden><h3>Published output power at this exact load</h3><ul id="matched-list"></ul><p>Power figures may refer to different single-ended or balanced outputs and test limits. Do not interpret them as guaranteed listening loudness.</p></div>
+    <p id="disclaimer"></p>
+  </section>
+  <p class="chain-review">These tools are still under review. They are not part of the public System Check, System Builder or homepage, and no compatibility claim should be treated as certified.</p>
+</main>
+<footer class="site-footer"><div class="container"><a href="/">The Sound Question</a></div></footer>
+</body>
+</html>
