@@ -15,7 +15,7 @@
     "system-builder/supplemental-headphones.mjs"
   ],
   "summary": {
-    "totalModels": 175,
+    "totalModels": 192,
     "byCategory": {
       "amp": 46,
       "headphone": 16,
@@ -23,11 +23,11 @@
       "source": 19,
       "computer_sound_card": 1,
       "headphone_amplifier": 5,
-      "audio_interface": 6,
-      "microphone": 6,
+      "audio_interface": 12,
+      "microphone": 17,
       "mixer_recorder": 3
     },
-    "researchProfiles": 31,
+    "researchProfiles": 48,
     "legacyProfiles": 130,
     "builderSupplementProfiles": 17
   },
@@ -14245,6 +14245,136 @@
       }
     },
     {
+      "id": "research/audio_interface/arturia-minifuse-1",
+      "model": "Arturia MiniFuse 1 (original)",
+      "aliases": [],
+      "categories": [
+        "audio_interface"
+      ],
+      "goalTags": [
+        "recording",
+        "role:content_creation",
+        "role:recording",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "xlr_trs_combo_mic_line_instrument_channel_1",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "balanced_stereo_line_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 1,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": 1,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerRecordingInputs": {
+          "value": 1,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "directMonitor": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "loopback": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "usbRecordingMode": {
+          "value": "independent_mono_channels",
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "arturia-minifuse-1",
+          "roles": [
+            "recording",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 1,
+            "simultaneousAnalogInputs": 1,
+            "computerRecordingInputs": 1,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": true,
+            "directMonitor": true,
+            "loopback": true,
+            "physicalInputTypes": [
+              "xlr_trs_combo_mic_line_instrument_channel_1"
+            ],
+            "physicalOutputTypes": [
+              "balanced_stereo_line_out"
+            ],
+            "usbRecordingMode": "independent_mono_channels"
+          },
+          "note": "One combo microphone/instrument/line channel. Stereo virtual loopback does not create a second physical mic preamp."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.arturia.com/products/audio/minifuse/minifuse-1",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
       "id": "research/audio_interface/arturia-minifuse-2",
       "model": "Arturia MiniFuse 2",
       "aliases": [],
@@ -14799,6 +14929,412 @@
       }
     },
     {
+      "id": "research/audio_interface/behringer-umc22",
+      "model": "Behringer U-PHORIA UMC22",
+      "aliases": [],
+      "categories": [
+        "audio_interface"
+      ],
+      "goalTags": [
+        "recording",
+        "role:content_creation",
+        "role:recording",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "xlr_trs_combo_mic_or_line_channel_1",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "6_35mm_instrument_channel_2",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "stereo_line_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 1,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerRecordingInputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "directMonitor": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "loopback": {
+          "value": null,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "usbRecordingMode": {
+          "value": "independent_mono_channels",
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "behringer-umc22",
+          "roles": [
+            "recording",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 1,
+            "simultaneousAnalogInputs": 2,
+            "computerRecordingInputs": 2,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": true,
+            "directMonitor": true,
+            "loopback": null,
+            "physicalInputTypes": [
+              "xlr_trs_combo_mic_or_line_channel_1",
+              "6_35mm_instrument_channel_2"
+            ],
+            "physicalOutputTypes": [
+              "stereo_line_out"
+            ],
+            "usbRecordingMode": "independent_mono_channels"
+          },
+          "note": "Budget 2x2 interface with one Midas mic preamp and separate instrument input; not two independently usable mic preamps."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://behringer.com/en/products/0805-AAJ",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.loopback"
+        ]
+      }
+    },
+    {
+      "id": "research/audio_interface/behringer-umc404hd",
+      "model": "Behringer U-PHORIA UMC404HD",
+      "aliases": [],
+      "categories": [
+        "audio_interface"
+      ],
+      "goalTags": [
+        "recording",
+        "role:content_creation",
+        "role:recording",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "four_xlr_trs_combo_mic_line_instrument_inputs",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "four_6_35mm_line_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 4,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": 4,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerRecordingInputs": {
+          "value": 4,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 4,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "directMonitor": {
+          "value": null,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "loopback": {
+          "value": null,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "usbRecordingMode": {
+          "value": "independent_mono_channels",
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "behringer-umc404hd",
+          "roles": [
+            "recording",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 4,
+            "simultaneousAnalogInputs": 4,
+            "computerRecordingInputs": 4,
+            "computerPlaybackOutputs": 4,
+            "hasPhantom48v": true,
+            "directMonitor": null,
+            "loopback": null,
+            "physicalInputTypes": [
+              "four_xlr_trs_combo_mic_line_instrument_inputs"
+            ],
+            "physicalOutputTypes": [
+              "four_6_35mm_line_out"
+            ],
+            "usbRecordingMode": "independent_mono_channels"
+          },
+          "note": "Four independent combination inputs with four mic preamps and USB 4x4 I/O. UMC404 (no HD) is a different variant."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://behringer.com/en/products/0805-AAT",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.directMonitor",
+          "research.loopback"
+        ]
+      }
+    },
+    {
+      "id": "research/audio_interface/elgato-wave-xlr-mk2",
+      "model": "Elgato Wave XLR MK.2",
+      "aliases": [],
+      "categories": [
+        "audio_interface"
+      ],
+      "goalTags": [
+        "recording",
+        "role:content_creation",
+        "role:podcasting",
+        "role:streaming",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "single_xlr_microphone_input",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "stereo_headphone_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 1,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": 1,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerRecordingInputs": {
+          "value": 1,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "directMonitor": {
+          "value": null,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "loopback": {
+          "value": null,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "usbRecordingMode": {
+          "value": "independent_mono_channels",
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "elgato-wave-xlr-mk2",
+          "roles": [
+            "streaming",
+            "podcasting",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 1,
+            "simultaneousAnalogInputs": 1,
+            "computerRecordingInputs": 1,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": true,
+            "directMonitor": null,
+            "loopback": null,
+            "physicalInputTypes": [
+              "single_xlr_microphone_input"
+            ],
+            "physicalOutputTypes": [
+              "stereo_headphone_out"
+            ],
+            "usbRecordingMode": "independent_mono_channels"
+          },
+          "note": "Exact 2026 MK.2 XLR-to-USB creator interface: one microphone input, 48 V and Wave Link/DSP controls. Software mixing is not another physical preamp."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.elgato.com/ca/en/p/wave-xlr",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.directMonitor",
+          "research.loopback"
+        ]
+      }
+    },
+    {
       "id": "research/audio_interface/focusrite-scarlett-2i2-4",
       "model": "Focusrite Scarlett 2i2 (4th Gen)",
       "aliases": [],
@@ -15154,6 +15690,138 @@
       }
     },
     {
+      "id": "research/audio_interface/maudio-mtrack-duo",
+      "model": "M-Audio M-Track Duo",
+      "aliases": [],
+      "categories": [
+        "audio_interface"
+      ],
+      "goalTags": [
+        "recording",
+        "role:content_creation",
+        "role:recording",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "two_xlr_trs_combo_mic_line_instrument_inputs",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "stereo_line_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerRecordingInputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "directMonitor": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "loopback": {
+          "value": null,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "usbRecordingMode": {
+          "value": "independent_mono_channels",
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "maudio-mtrack-duo",
+          "roles": [
+            "recording",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 2,
+            "simultaneousAnalogInputs": 2,
+            "computerRecordingInputs": 2,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": true,
+            "directMonitor": true,
+            "loopback": null,
+            "physicalInputTypes": [
+              "two_xlr_trs_combo_mic_line_instrument_inputs"
+            ],
+            "physicalOutputTypes": [
+              "stereo_line_out"
+            ],
+            "usbRecordingMode": "independent_mono_channels"
+          },
+          "note": "Two independent XLR/TRS combo inputs with two Crystal mic preamps; not the one-preamp M-Track Solo."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.m-audio.com/audio-midi-interfaces/m-track-duo.html",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.loopback"
+        ]
+      }
+    },
+    {
       "id": "research/audio_interface/maudio-mtrack-solo",
       "model": "M-Audio M-Track Solo",
       "aliases": [],
@@ -15377,6 +16045,144 @@
           "research.loopback",
           "research.maxBitDepth",
           "research.midiPorts"
+        ]
+      }
+    },
+    {
+      "id": "research/audio_interface/presonus-audiobox-go",
+      "model": "PreSonus AudioBox GO",
+      "aliases": [],
+      "categories": [
+        "audio_interface"
+      ],
+      "goalTags": [
+        "recording",
+        "role:content_creation",
+        "role:recording",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "xlr_trs_combo_mic_or_line_channel_1",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "6_35mm_instrument_channel_2",
+            "scope": "audio_interface documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "two_balanced_trs_line_out",
+            "scope": "audio_interface documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 1,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerRecordingInputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "directMonitor": {
+          "value": true,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "loopback": {
+          "value": null,
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "usbRecordingMode": {
+          "value": "independent_mono_channels",
+          "scope": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "audio_interface",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "presonus-audiobox-go",
+          "roles": [
+            "recording",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 1,
+            "simultaneousAnalogInputs": 2,
+            "computerRecordingInputs": 2,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": true,
+            "directMonitor": true,
+            "loopback": null,
+            "physicalInputTypes": [
+              "xlr_trs_combo_mic_or_line_channel_1",
+              "6_35mm_instrument_channel_2"
+            ],
+            "physicalOutputTypes": [
+              "two_balanced_trs_line_out"
+            ],
+            "usbRecordingMode": "independent_mono_channels"
+          },
+          "note": "One XLR mic preamp plus one independent instrument input: 2-in/2-out does not mean two microphone preamps."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.presonus.com/collections/audio-interfaces/products/audiobox-go",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.loopback"
         ]
       }
     },
@@ -16177,6 +16983,82 @@
       }
     },
     {
+      "id": "research/microphone/akg-p120",
+      "model": "AKG P120",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:acoustic_instruments",
+        "role:spoken_word",
+        "role:studio_vocals"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "xlr_3pin",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": true,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "akg-p120",
+          "roles": [
+            "studio_vocals",
+            "spoken_word",
+            "acoustic_instruments"
+          ],
+          "specifications": {
+            "capsule": "condenser",
+            "pattern": "cardioid",
+            "outputs": [
+              "xlr_3pin"
+            ],
+            "requires48v": true
+          },
+          "note": "XLR condenser, not a USB microphone; requires compatible phantom supply."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://global.akg.com/P120-.html",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
       "id": "research/microphone/audio-technica-at2020-xlr",
       "model": "Audio-Technica AT2020 (XLR)",
       "aliases": [],
@@ -16255,6 +17137,404 @@
           "research.selfNoiseDba",
           "research.sensitivityDbvPa"
         ]
+      }
+    },
+    {
+      "id": "research/microphone/audio-technica-atr2100x-usb",
+      "model": "Audio-Technica ATR2100x-USB",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:live_vocals",
+        "role:podcasting",
+        "role:spoken_word",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "usb_c_digital_audio",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "xlr_3pin",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "audio-technica-atr2100x-usb",
+          "roles": [
+            "podcasting",
+            "spoken_word",
+            "streaming",
+            "live_vocals"
+          ],
+          "specifications": {
+            "capsule": "moving_coil_dynamic",
+            "pattern": "cardioid",
+            "outputs": [
+              "usb_c_digital_audio",
+              "xlr_3pin"
+            ],
+            "requires48v": false
+          },
+          "note": "Different from the older ATR2100-USB. The user manual documents USB-C, balanced XLR and a cardioid dynamic capsule."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://docs.audio-technica.com/us/P52830_01_ATR2100x_USB_UM.pdf",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/microphone/behringer-c1",
+      "model": "Behringer C-1",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:acoustic_instruments",
+        "role:spoken_word",
+        "role:studio_vocals"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "xlr_3pin",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": true,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "behringer-c1",
+          "roles": [
+            "studio_vocals",
+            "spoken_word",
+            "acoustic_instruments"
+          ],
+          "specifications": {
+            "capsule": "condenser",
+            "pattern": "cardioid",
+            "outputs": [
+              "xlr_3pin"
+            ],
+            "requires48v": true
+          },
+          "note": "Budget studio condenser. Manufacturer states phantom supply +36 to +52 V; use an actual supported mic input."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://behringer.com/en/products/0504-AAE",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/microphone/behringer-xm8500",
+      "model": "Behringer XM8500",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:live_vocals",
+        "role:recorded_vocals",
+        "role:spoken_word",
+        "role:stage"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "xlr_3pin",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "behringer-xm8500",
+          "roles": [
+            "live_vocals",
+            "stage",
+            "spoken_word",
+            "recorded_vocals"
+          ],
+          "specifications": {
+            "capsule": "moving_coil_dynamic",
+            "pattern": "cardioid",
+            "outputs": [
+              "xlr_3pin"
+            ],
+            "requires48v": false
+          },
+          "note": "Low-cost XLR vocal dynamic; requires a microphone preamp, not a computer USB port."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://behringer.com/en/products/0502-AAA",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/microphone/elgato-wave3-mk2",
+      "model": "Elgato Wave:3 MK.2",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:content_creation",
+        "role:podcasting",
+        "role:spoken_word",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "usb_c_digital_audio",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "elgato-wave3-mk2",
+          "roles": [
+            "streaming",
+            "podcasting",
+            "spoken_word",
+            "content_creation"
+          ],
+          "specifications": {
+            "capsule": "condenser",
+            "pattern": "cardioid",
+            "outputs": [
+              "usb_c_digital_audio"
+            ],
+            "requires48v": false
+          },
+          "note": "Exact MK.2 revision. USB mic and software routing, not an XLR microphone. System audio routing depends on host software and configuration."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.elgato.com/ca/en/p/wave-3",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/microphone/fifine-am8",
+      "model": "FIFINE AmpliGame AM8 (USB/XLR)",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:podcasting",
+        "role:spoken_word",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "usb_c_digital_audio",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "xlr_3pin",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "fifine-am8",
+          "roles": [
+            "streaming",
+            "podcasting",
+            "spoken_word"
+          ],
+          "specifications": {
+            "capsule": "moving_coil_dynamic",
+            "pattern": "cardioid",
+            "outputs": [
+              "usb_c_digital_audio",
+              "xlr_3pin"
+            ],
+            "requires48v": false
+          },
+          "note": "Two alternative output paths on one microphone. Do not assume the USB gain, RGB, mute and monitoring functions also operate over passive XLR."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://fifinemicrophone.com/collections/dynamic-microphones/products/fifine-ampligame-am8-microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
       }
     },
     {
@@ -16349,6 +17629,170 @@
       }
     },
     {
+      "id": "research/microphone/fifine-k688",
+      "model": "FIFINE AmpliTank K688 (USB/XLR)",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:podcasting",
+        "role:spoken_word",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "usb_digital_audio",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "xlr_3pin",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "fifine-k688",
+          "roles": [
+            "streaming",
+            "podcasting",
+            "spoken_word"
+          ],
+          "specifications": {
+            "capsule": "moving_coil_dynamic",
+            "pattern": "cardioid",
+            "outputs": [
+              "usb_digital_audio",
+              "xlr_3pin"
+            ],
+            "requires48v": false
+          },
+          "note": "USB/XLR hybrid. Monitoring and buttons can behave differently on USB versus XLR."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://fifinemicrophone.com/en-ca/products/fifine-amplitank-k688-microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/microphone/maono-pd200x",
+      "model": "MAONO PD200X (USB/XLR)",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:podcasting",
+        "role:spoken_word",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "usb_c_digital_audio",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "xlr_3pin",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "maono-pd200x",
+          "roles": [
+            "streaming",
+            "podcasting",
+            "spoken_word"
+          ],
+          "specifications": {
+            "capsule": "moving_coil_dynamic",
+            "pattern": "cardioid",
+            "outputs": [
+              "usb_c_digital_audio",
+              "xlr_3pin"
+            ],
+            "requires48v": false
+          },
+          "note": "Dual USB/XLR podcast microphone; hardware and software features can differ by connection mode."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.maono.com/products/maono-pd200x-dynamic-usb-and-xlr-internet-microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
       "id": "research/microphone/rode-podmic-xlr",
       "model": "RØDE PodMic (XLR)",
       "aliases": [],
@@ -16427,6 +17871,248 @@
           "research.selfNoiseDba",
           "research.sensitivityDbvPa"
         ]
+      }
+    },
+    {
+      "id": "research/microphone/rode-smartlav-plus",
+      "model": "RØDE smartLav+",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:interview",
+        "role:mobile_video",
+        "role:spoken_word",
+        "role:wearable"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "3_5mm_trrs_mic",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "rode-smartlav-plus",
+          "roles": [
+            "mobile_video",
+            "wearable",
+            "interview",
+            "spoken_word"
+          ],
+          "specifications": {
+            "capsule": "electret_condenser",
+            "pattern": "omnidirectional",
+            "outputs": [
+              "3_5mm_trrs_mic"
+            ],
+            "requires48v": false,
+            "powerMethod": "host_plug_in_power_trrs"
+          },
+          "note": "TRRS phone-style lavalier. It is NOT an XLR mic or a direct standard stereo TRS camera mic; compatible input or suitable adapter required."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://rode.com/en-us/products/smartlav-plus",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/microphone/rode-videomicro-ii",
+      "model": "RØDE VideoMicro II",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:interview",
+        "role:mobile_video",
+        "role:on_camera",
+        "role:vlogging"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "3_5mm_trs_mic",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "rode-videomicro-ii",
+          "roles": [
+            "on_camera",
+            "mobile_video",
+            "vlogging",
+            "interview"
+          ],
+          "specifications": {
+            "capsule": "electret_condenser",
+            "pattern": "supercardioid",
+            "outputs": [
+              "3_5mm_trs_mic"
+            ],
+            "requires48v": false,
+            "powerMethod": "plug_in_power_1_5_to_5_volts"
+          },
+          "note": "Camera-mounted shotgun-style mic with 3.5 mm TRS output; requires compatible plug-in power (1.5–5 V) and camera/phone mic input or proper adapter."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://rode.com/en-ca/products/videomicro-ii",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/microphone/samson-q2u",
+      "model": "Samson Q2U (USB/XLR)",
+      "aliases": [],
+      "categories": [
+        "microphone"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:live_vocals",
+        "role:podcasting",
+        "role:spoken_word",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "usb_digital_audio",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "xlr_3pin",
+            "scope": "microphone output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "requires48v": {
+          "value": false,
+          "scope": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "microphone",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "samson-q2u",
+          "roles": [
+            "podcasting",
+            "spoken_word",
+            "streaming",
+            "live_vocals"
+          ],
+          "specifications": {
+            "capsule": "moving_coil_dynamic",
+            "pattern": "cardioid",
+            "outputs": [
+              "usb_digital_audio",
+              "xlr_3pin"
+            ],
+            "requires48v": false
+          },
+          "note": "USB/XLR dynamic handheld mic. Research accessory bundle and host-device compatibility before promising a complete kit."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.samsontech.com/products/microphones/usb-microphones/q2u/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
       }
     },
     {
