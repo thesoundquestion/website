@@ -116,4 +116,6 @@ Owner feedback: "All dropdowns and input boxes should also be labelled required 
 
 **Deliberate boundary:** Neither Google nor a manufacturer's page can be reliably scraped directly from this no-backend Pages form. A search link does **not** populate specs by itself. True automatic source extraction would need a separately approved retrieval/verification service, provenance review and quota/privacy safeguards. Do not market this as automatic lookup. Search + exact manual entry is the free, honest fallback.
 
+**Further owned categories:** The same search/manual workflow is now available for sources/DACs (documented output connector) and headphones (impedance, sensitivity and measurement basis). The `improve_existing` task retains these entries rather than silently dropping them. Subwoofer wiring already separately asks for actual amplifier output, subwoofer input and main-speaker filtering; source/connection verification for arbitrary sub models remains limited.
+
 **Review gates:** Real Android interaction, UI clarity, explicit evidence wording and full GitHub CI are still required. Existing unrelated Builder-card copy assertions must be reconciled rather than waived. All changes stay on the draft branch, with no merge, Cloudflare preview or production deployment.
