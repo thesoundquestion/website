@@ -602,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shop.append(more);
       }
       if (request.character !== 'faithful')
-        addText(shop,'p','Your sound-character preference is recorded, but this preview does not yet verify or re-rank models by your preferred tonal flavour.','sb-brief-note');
+        addText(shop,'p','Your sound-character preference is recorded, but this tool cannot reliably verify or rank models by your preferred tonal flavour.','sb-brief-note');
       addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
     } else {
       addText(shop,'p',speakerFocus ?
@@ -870,7 +870,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link(referrals,'/system-check/','System Check for verified headroom');
     link(referrals,'/system-check/compare/','Compare My Gear source notes');
     const limitation = section('Evidence limits');
-    addText(limitation,'p','This preview has no rights-cleared, method-compatible catalog-wide acoustic dataset, only limited source-verified category-specific regional price samples, and no calibrated preference-to-product scoring. Manufacturer specs, independent review links and original measurements are different evidence tiers. No data is scraped or copied from third-party review graphs.');
+    addText(limitation,'p','This Builder does not have a rights-cleared, method-compatible, catalogue-wide acoustic measurement dataset, only limited source-verified category-specific regional price samples, and no calibrated preference-to-product scoring. Manufacturer specs, independent review links and original measurements are different evidence tiers. No data is scraped or copied from third-party review graphs.');
     link(limitation,'https://www.erinsaudiocorner.com/measurement-data-policy/','Independent measurement-data usage policy');
   }
 
