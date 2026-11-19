@@ -103,6 +103,17 @@ export function scopedBuilderInputs(formData,id,advancedOpen=false){
     for(const key of ['secondary'])data.delete(key);
     data.set('subMode','no_sub');
   }
+  // The equipment being purchased is never an "owned" model merely
+  // because an old choice is still present in a hidden or advanced field.
+  if(id==='amp_for_speakers'){
+    data.set('amp','');data.set('ampOther','');
+  }
+  if(id==='speakers_for_amp'){
+    data.set('speaker','');data.set('speakerOther','');
+  }
+  if(id==='headphones'){
+    data.set('headphone','');data.set('headphoneOther','');
+  }
   if(plan.architecture)data.set('architecture',plan.architecture);
   return data;
 }
