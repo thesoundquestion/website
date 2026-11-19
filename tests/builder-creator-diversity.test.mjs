@@ -37,9 +37,10 @@ test('User-selected headphone fit remains a hard constraint, and noisy/shared de
  }
 });
 test('Budget and creator expansion includes XLR dynamics, condensers, hybrid USB, lavalier and camera inputs',()=>{
- assert.equal(catalog.records.length,192);
+ assert.equal(catalog.records.length,197);
  assert.equal(catalog.records.filter(r=>r.categories.includes('microphone')).length,17);
  assert.equal(catalog.records.filter(r=>r.categories.includes('audio_interface')).length,12);
+ assert.equal(catalog.records.filter(r=>r.categories.includes('mixer_recorder')).length,8);
  for(const name of ['Behringer XM8500','Behringer C-1','AKG P120',
    'FIFINE AmpliGame AM8 (USB/XLR)','MAONO PD200X (USB/XLR)',
    'RØDE smartLav+','RØDE VideoMicro II','Elgato Wave:3 MK.2']){
