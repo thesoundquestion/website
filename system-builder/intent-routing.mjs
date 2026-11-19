@@ -37,6 +37,15 @@ export const BUILDER_INTENTS=Object.freeze({
     requiredOwn:null,
     resultTitle:'What to keep, check or improve'
   },
+  subwoofer:{
+    label:'Add a subwoofer to my system',
+    description:'Start with the amplifier or speakers you have, then tell us what connections are available. We will show the wiring, any extra hardware and whether the main speakers lose bass.',
+    fields:['amp','ampOther','speaker','speakerOther','subName','subAmpOutput','subInput','subHighPass','region','budget'],
+    architecture:null,
+    requiredOwn:null,
+    resultTitle:'How a subwoofer would connect to your system',
+    dedicatedSubRoute:true
+  },
   headphones:{
     label:'Find headphones for how I listen',
     description:'Tell us where you will use them. A separate headphone amp or DAC is not automatically required.',
@@ -94,7 +103,7 @@ export function scopedBuilderInputs(formData,id,advancedOpen=false){
   if(!advancedOpen){
     const keep=id==='amp_for_speakers'?['speaker']:
       id==='speakers_for_amp'?['amp']:
-      id==='improve_existing'?['speaker','amp']:
+      id==='improve_existing'||id==='subwoofer'?['speaker','amp']:
       id==='complete_system'?[]:
       id==='headphones'?[]:[];
     for(const type of ['speaker','amp','source','headphone']){
@@ -113,6 +122,13 @@ export function scopedBuilderInputs(formData,id,advancedOpen=false){
   }
   if(id==='headphones'){
     data.set('headphone','');data.set('headphoneOther','');
+  }
+  if(id==='subwoofer'){
+    data.set('subMode','plan_sub');
+    data.set('subCount','1');
+    if(!['yes','no','unknown'].includes(data.get('subOwned')))data.set('subOwned','no');
+    // No full-system architecture is assumed from the presence of a sub.
+    // The dedicated report checks amp/sub signal connectors independently.
   }
   if(plan.architecture)data.set('architecture',plan.architecture);
   return data;
