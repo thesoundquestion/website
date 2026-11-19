@@ -12,6 +12,20 @@ This is a **fun, informal, voluntary community listening experiment**, not an ac
 - The current selection is encoded in a shareable ABX URL: ?test=versioned-id&mode=training|challenge|advanced. Browser history is updated without placing any session credential or answer key in the URL.
 - The previous small inline Mastering ABX control is hidden, retained only for a separately reviewed cleanup. It is not an additional public ABX destination.
 
+## Mandatory ABX evidence-status review before public release
+
+**Release blocker.** The five-row “What is actually tested?” matrix in `library/behind-the-experiments/index.html#` (the `#abx` section) reflects the current **draft implementation**, not a promise of what will be available after final validation. Its “Available procedure” column must be reconciled with actual release conditions **immediately before merging or publishing**, because those statuses may change as comparisons complete fairness testing.
+
+- Verify both **Mixing/stereo-width** comparisons: are they still Training only, or have any additional modes and scored paths been implemented and verified?
+- Verify both **Mastering dynamics** comparisons: keep the intentionally unequal-volume mastering demonstrations excluded from scored ABX; inspect any new loudness-matched eligible tests.
+- Verify **Mastering EQ**: private synchronized Challenge remains the only validated non-Training option as of this draft. Do not promote it to server-scored until native scored playback's answer-correlated audio gaps, levels and timing have been assessed on real devices and the live worker allowlist updated.
+- Verify the two **128 kbps MP3** comparisons for Training and 10-trial Challenge, and both **320 kbps MP3** comparisons for Training and 20-trial Advanced. Confirm versioned source assets, source hashes, matching, actual server allowlist and Worker feature flag.
+- Compare the browser catalogue (`assets/abx-lab.js`), scoring allowlist (`workers/abx/index.mjs`), **deployed** Cloudflare Worker configuration/health, canonical-origin behavior and a clean preview/practice run. A GitHub commit alone does not update the Worker.
+- Update the **five table rows**, caption and surrounding “How do the three modes work?” explanations together. Update the Lab landing page and `docs/abx-labs/README.md` / `workers/abx/RELEASE.md` if any availability changes. Review the privacy and public-statistics statements if scoring or consent behavior changes.
+- Run the full site regression, ABX browser smoke and real desktop/mobile audio checks before release. Record the final supported modes and evidence in PR #32; do not infer “scored” from the presence of a mode button or working practice UI.
+
+Until that review is completed and the site owner approves publication, **do not merge the release-candidate branch or deploy production**.
+
 ## Curated test catalogue
 
 | Mode | Examples | Result |
