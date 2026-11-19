@@ -109,7 +109,7 @@ test('rights policy offers direct contact and long lessons begin with plain-lang
   assert.match(read(page),/tsq-lesson-shortcut/);
   assert.match(read(page),/Start with the simple idea:/);
  }
- assert.match(read('library/curators-listening-room/index.html'),/52 selections cover 54 tracks/);
+ assert.match(read('library/curators-listening-room/index.html'),/51 selections cover 55 tracks/);
 });
 
 test('Mastering metrics and MP3 technical notes explain core units without assuming audio jargon',()=>{
