@@ -3,6 +3,7 @@ import {priceContextFor} from './market-price-context.mjs';
 import {BUILDER_ONLY_SPEAKERS} from './supplemental-speakers.mjs';
 import {internationalPriceContextFor, corroboratedInternationalPairPriceFor} from './international-price-context.mjs';
 import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
+import {speakerPairingEvidence} from './pairing-evidence.mjs';
 
 const CA_PRICE_DATE='2026-11-12';
 
@@ -267,10 +268,19 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       components:[{label:model+' pair',amount:regular.amount,url:regular.url}]} : null;
     return [model,{...retailPriceReference(snapshot,input.referenceDate),marketContext:links.length?{regular:links}:null}];
   }));
-  // Listener priorities and room come first. Among similarly suitable options,
-  // several relevant first-person owner accounts are more useful than an
-  // unverified claimed sound signature. No invented acoustic match score.
+  // Budget is a hard visitor constraint when a *dated known pair price* is
+  // available. Inside that budget class, stronger documented electrical
+  // screening comes ahead of broad goal tags, review impressions or retail
+  // price. Unknown prices never count as zero or within budget.
+  const pairingByModel=new Map(ids.map(model=>[
+    model,speakerPairingEvidence(ownedAmp,screen,byModel.get(model))
+  ]));
   const ordered=[...ids].sort((a,b)=>{
+    const budgetClass=compareBudgetReferences(
+      pricesByModel.get(a).subtotal,pricesByModel.get(b).subtotal,input);
+    if(budgetClass)return budgetClass;
+    const coverage=pairingByModel.get(a).tier-pairingByModel.get(b).tier;
+    if(coverage)return coverage;
     const x=ideas.get(a);
     const y=ideas.get(b);
     const goalA=x?.goals.includes(partyMode?'party':goal)?0:1;
@@ -368,12 +378,13 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       loadCaution:loadUnknown ?
         'Load unknown: do not connect these speakers to '+screen.ampName+' until the manufacturer’s requirements are checked.' :
         screen.explicitNominalFloor?'Confirm load: '+screen.ampName+' requires suitable speakers; '+nominal+' Ω nominal alone does not prove a safe match.':null,
+      pairingEvidence:pairingByModel.get(model),
       ownerEvidenceLabel:ownerEvidenceFor(model)?.label || 'Model specifications; listening reports not verified',
       ownerEvidenceBasis:ownerEvidenceFor(model)?.band || 'spec_led',
       ownedAmpName:screen.ampName,
       speakerValues:record.values,
       decisionReasons:[
-        ...(idea.goals.includes(goal)?['The primary listening goal is an editorial fit tag, not a measured acoustic score.']:[]),
+        'Pairing evidence: '+pairingByModel.get(model).label+'. A published speaker nominal load or amplifier resistive power rating does not certify real-world compatibility.',        ...(idea.goals.includes(goal)?['The primary listening goal is an editorial fit tag, not a measured acoustic score.']:[]),
         ...(second.filter(g=>idea.goals.includes(g)).length?[
           'Also considered: '+second.filter(g=>idea.goals.includes(g)).join(', ')+'.']:[]),
         ...(scene==='party'?['Party context favors efficient speakers, but clean continuous output and coverage remain unknown.']:[]),
