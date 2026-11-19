@@ -61,10 +61,8 @@ export function explainBeginnerOption(item,request={}){
   const goalExplanation=noDirectGoal
     ?'This is another system type to compare. We do not have proof that it best fits your main listening goal.'
     :'We included this option because it is listed as a possible fit for '+goal+'. That is a starting point, not a listening test or a promise of sound quality.';
-  const reason=pairing?
-    (pairing.manufacturerNominalGuidance&&!pairing.demandingMinimum?
-      'We suggested these speakers because their published ohm rating fits the range your amplifier maker recommends. That makes this a sensible starting match.':
-      'These speakers might work with your amplifier, but we still need to check a specific missing or unusual rating.'):
+  // Describe the actual evidence instead of implying every pair hides a problem.
+  const reason=pairing?pairing.plainWhy:
     reuse?'We started with equipment you already own. If it meets your needs, there is no reason to replace it just to complete a shopping list.':
     item?.ownedAmpName?'This option lets you keep your '+item.ownedAmpName+
       ' and look at speakers without buying another amplifier. We still need to check the exact match.':
