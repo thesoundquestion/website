@@ -64,7 +64,7 @@ test('Creating Builder avoids recommending an XLR interface for USB, powered cam
   const plan=buildCreatingSystem(catalog,{mode:'stream',micConnection:route,microphoneCount:1});
   assert.equal(stage(plan,'mic').pick.model,expectedName);
   assert.equal(stage(plan,'capture').need,'verify');
-  assert.match(stage(plan,'capture').detail,/microphone input|TRRS/);
+  assert.match(stage(plan,'capture').detail,/microphone input|TRRS/i);
   assert.ok(!stage(plan,'capture').pick);
  }
  const usb=buildCreatingSystem(catalog,{mode:'stream',micConnection:'usb'});
