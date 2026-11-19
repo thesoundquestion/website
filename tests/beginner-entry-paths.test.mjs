@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {explainBeginnerOption} from '../system-builder/beginner-output.mjs';
 import {speakerPairingEvidence} from '../system-builder/pairing-evidence.mjs';
 import {subwooferConnections,knownSubExamplePlan} from '../system-builder/subwoofer-connection.mjs';
-import {BUILDER_INTENTS,builderIntent,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from '../system-builder/intent-routing.mjs';
+import {BUILDER_INTENTS,builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from '../system-builder/intent-routing.mjs';
 import {GOALS,buildPath} from '../tools/find-my-setup/engine.mjs';
 
 const find=(goal,answers)=>buildPath(goal,answers);
@@ -496,4 +496,50 @@ test('no known amp or sub sockets means check first, not a made-up purchase plan
   assert.equal(x.direct,false);
   assert.equal(x.sourceLinks.length,0);
   assert.match(x.next,/back panels/);
+});
+
+test('all visible Builder dropdowns and typed fields receive task-sensitive Required or Optional labels',async()=>{
+  const app=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+  const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
+  const styles=await readFile(new URL('../system-builder/style.css',import.meta.url),'utf8');
+  assert.match(app,/function updateFieldRequirements\(\)/);
+  assert.match(app,/form\.querySelectorAll\('label\.sb-field'\)/);
+  assert.match(app,/status\.textContent=messages\[rule\]/);
+  assert.match(app,/field\.required=rule==='required'/);
+  assert.match(page,/id="sb-required-group-help"/);
+  assert.match(styles,/\.sb-field-requirement\[data-requirement="required_either"\]/);
+  assert.ok(!/<input[^>]*name="distanceFt"[^>]*\brequired\b/.test(page),
+    'Listening distance is defaulted and must not secretly block submission');
+});
+test('finding an amp requires identification of owned speakers, either by dropdown OR typed name',()=>{
+  assert.equal(builderFieldRequirement('amp_for_speakers','buildIntent'),'required');
+  assert.equal(builderFieldRequirement('amp_for_speakers','speaker'),'required_either');
+  assert.equal(builderFieldRequirement('amp_for_speakers','speakerOther'),'optional_alternative');
+  for(const name of ['amp','ampOther','budget','goal','level','distanceFt','region','subInput'])
+    assert.equal(builderFieldRequirement('amp_for_speakers',name),'optional',name);
+  const d=new FormData();
+  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,false);
+  d.set('speakerOther','My unlisted speakers');
+  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,true);
+  d.set('speakerOther','');d.set('speaker','A catalog speaker pair');
+  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,true);
+});
+test('finding speakers makes only the existing amplifier identity necessary',()=>{
+  assert.equal(builderFieldRequirement('speakers_for_amp','amp'),'required_either');
+  assert.equal(builderFieldRequirement('speakers_for_amp','ampOther'),'optional_alternative');
+  for(const name of ['speaker','speakerOther','budget','distanceFt','level'])
+    assert.equal(builderFieldRequirement('speakers_for_amp',name),'optional');
+  const d=new FormData();
+  assert.equal(validateBuilderIntent('speakers_for_amp',d).ok,false);
+  d.set('ampOther','An old integrated amplifier');
+  assert.equal(validateBuilderIntent('speakers_for_amp',d).ok,true);
+});
+test('subwoofer and complete-system tasks mark connector and specification details optional',()=>{
+  for(const intent of ['subwoofer','complete_system','improve_existing','headphones']){
+    for(const field of ['amp','ampOther','speaker','speakerOther','subName','subAmpOutput','subInput','subHighPass','budget','distanceFt'])
+      assert.equal(builderFieldRequirement(intent,field),'optional',intent+' '+field);
+    assert.equal(builderFieldRequirement(intent,'buildIntent'),'required');
+  }
+  assert.equal(builderFieldRequirement('source_connections','subInput'),'optional');
+  assert.equal(builderFieldRequirement('','buildIntent'),'required');
 });
