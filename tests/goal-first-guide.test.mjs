@@ -34,10 +34,10 @@ test('homepage is a short signpost with prominent real goals and simple essentia
  }
  for(const id of ['nativeShare','copySiteLink','shareFeedback'])assert.ok(home.includes('id="'+id+'"'),id);
  assert.match(home,/href="https:\/\/ko-fi.com\/thesoundquestion"/);
- assert.match(home,/mailto:contact@thesoundquestion\.com/);
- assert.match(home,/href="\/connect\/#business-inquiries"/);
+ assert.match(home,/href="\/connect\/"/);
+ assert.match(read('connect/index.html'),/id="business-inquiries"/);
  assert.match(home,/51 personal picks/);
- assert.match(home,/make-audio-make-sense-illustrated\.pdf" download/);
+ assert.match(read('library/index.html'),/make-audio-make-sense-illustrated\.pdf" download/);
  assert.ok(home.length<12000,'Homepage should not grow into a wall of text');
  assert.ok(words(home)<850,'Homepage should be much shorter than the former feature wall');
  assert.match(style,/\.home-goal-grid\{display:grid/);
