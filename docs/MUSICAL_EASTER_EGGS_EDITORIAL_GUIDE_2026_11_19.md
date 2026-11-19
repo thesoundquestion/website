@@ -35,6 +35,16 @@ A merely music-themed sentence isn't a song Easter egg. Before logging a placeme
 7. Maintain an internal map of placements, source inspirations and status; distinguish *proposed*, *draft branch*, *merged*, and *actually deployed/published*. Never assume a GitHub commit is on Cloudflare.
 8. Avoid unauthorized music playback, commercial audio clips, cover art or claims of artist endorsement. Those require separate rights and provenance review.
 
+
+## Lesson title and opening paragraph rule
+- The **lesson overview, directory cards and Previous/Next links** use descriptive technical subject names, not musical puns. Search/browser metadata should prioritize the technical topic.
+- The **individual lesson H1** may use an owner-approved musical title, preferably with a clear technical descriptor.
+- The **first explanatory paragraph directly below the H1** must bridge the title to the technical subject. A reader unfamiliar with the song should still understand why the heading fits; the paragraph must immediately teach something useful rather than explain the reference or apologize for the pun.
+- Do not name the artist, identify the lyric, label the joke, or force the reference a second time. Avoid gratuitous rhyme and sacrifice neither factual accuracy nor beginner clarity.
+- Audit the H1/lead pairing whenever a musical title changes; ensure mobile layouts and the lesson overview remain coherent.
+
+**Approved examples**: “Chains Keep It Together” opens by walking the signal through source, conversion and amplification; “Over the Ears and Far Away” opens with fit, cup design and leakage; “Born to Be Loud” contrasts concert PA output with nearfield and living-room uses.
+
 ## Script-writing / video-specific check
 - **Long form:** A few well-placed lines can reward attentive viewers; avoid running gags and scripted-sounding references. Read aloud and cut any line that sounds rehearsed or derails the user's natural speaking style. Leave room for ad-libs.
 - **Shorts:** Usually one or none; the hook, demonstration and takeaway have priority. A reference must not consume the seconds needed to explain the concept.
