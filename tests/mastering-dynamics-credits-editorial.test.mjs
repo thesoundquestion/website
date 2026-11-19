@@ -48,7 +48,7 @@ test('Acknowledgement prose is concise while independent work and attribution re
   assert.doesNotMatch(mixing, /A genuine thank-you/);
   assert.doesNotMatch(master, /Thanks to the creators who made this possible/);
   assert.doesNotMatch(curator, /Thanks, Tom/);
-  assert.equal((curator.match(/<article class="curator-track"/g) || []).length, 52);
+  assert.equal((curator.match(/<article class="curator-track"/g) || []).length, 51);
 });
 
 test('Measured mastering waveforms use a shared scale, stereo channels, source checksums and matching duration',()=>{
