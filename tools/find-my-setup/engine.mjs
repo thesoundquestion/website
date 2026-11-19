@@ -168,7 +168,7 @@ export function buildPath(goalId,answers={}){
  }
  if(goalId==='improve'){
    const focus=a.problem,headphones=a.gear==='headphones';
-   const focusLink=focus==='bass'?'bass':focus==='space'?'soundstage':focus==='harsh'?'amp':'soundbasics';
+   const focusLink=focus==='bass'?'bass':focus==='space'?'soundstage':focus==='harsh'?'mastering':'soundbasics';
    return make(goal,a,{
      description:'Start by isolating one change in your existing playback chain. A questionnaire cannot diagnose the cause of a listening impression.',
      steps:[role('Use a familiar recording and a safe listening level','Try to compare the same version of the music rather than two different masters.'),
