@@ -4,7 +4,7 @@
   "status": "research_only",
   "description": "Research-stage recording, headphones and powered/passive speaker products, including original Pioneer SP-FS52 manual; numeric unknowns remain explicit.",
   "counts": {
-    "models": 31,
+    "models": 48,
     "ownedComparisonAnchors": 3,
     "newHeadphoneModels": 3,
     "newHeadphoneAmplifierModels": 5,
@@ -1564,6 +1564,676 @@
       "availability": null,
       "ratingsConsensus": null,
       "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "behringer-xm8500",
+      "category": "microphone",
+      "model": "Behringer XM8500",
+      "role": [
+        "live_vocals",
+        "stage",
+        "spoken_word",
+        "recorded_vocals"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://behringer.com/en/products/0502-AAA",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0502-AAA",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Low-cost XLR vocal dynamic; requires a microphone preamp, not a computer USB port.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "behringer-c1",
+      "category": "microphone",
+      "model": "Behringer C-1",
+      "role": [
+        "studio_vocals",
+        "spoken_word",
+        "acoustic_instruments"
+      ],
+      "capsule": "condenser",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": true,
+      "manufacturerSpec": "https://behringer.com/en/products/0504-AAE",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0504-AAE",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Budget studio condenser. Manufacturer states phantom supply +36 to +52 V; use an actual supported mic input.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "akg-p120",
+      "category": "microphone",
+      "model": "AKG P120",
+      "role": [
+        "studio_vocals",
+        "spoken_word",
+        "acoustic_instruments"
+      ],
+      "capsule": "condenser",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": true,
+      "manufacturerSpec": "https://global.akg.com/P120-.html",
+      "sourceEvidence": [
+        {
+          "url": "https://global.akg.com/P120-.html",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "XLR condenser, not a USB microphone; requires compatible phantom supply.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "fifine-am8",
+      "category": "microphone",
+      "model": "FIFINE AmpliGame AM8 (USB/XLR)",
+      "role": [
+        "streaming",
+        "podcasting",
+        "spoken_word"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_c_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://fifinemicrophone.com/collections/dynamic-microphones/products/fifine-ampligame-am8-microphone",
+      "sourceEvidence": [
+        {
+          "url": "https://fifinemicrophone.com/collections/dynamic-microphones/products/fifine-ampligame-am8-microphone",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Two alternative output paths on one microphone. Do not assume the USB gain, RGB, mute and monitoring functions also operate over passive XLR.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "maono-pd200x",
+      "category": "microphone",
+      "model": "MAONO PD200X (USB/XLR)",
+      "role": [
+        "streaming",
+        "podcasting",
+        "spoken_word"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_c_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.maono.com/products/maono-pd200x-dynamic-usb-and-xlr-internet-microphone",
+      "sourceEvidence": [
+        {
+          "url": "https://www.maono.com/products/maono-pd200x-dynamic-usb-and-xlr-internet-microphone",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Dual USB/XLR podcast microphone; hardware and software features can differ by connection mode.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "samson-q2u",
+      "category": "microphone",
+      "model": "Samson Q2U (USB/XLR)",
+      "role": [
+        "podcasting",
+        "spoken_word",
+        "streaming",
+        "live_vocals"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.samsontech.com/products/microphones/usb-microphones/q2u/",
+      "sourceEvidence": [
+        {
+          "url": "https://www.samsontech.com/products/microphones/usb-microphones/q2u/",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "USB/XLR dynamic handheld mic. Research accessory bundle and host-device compatibility before promising a complete kit.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "audio-technica-atr2100x-usb",
+      "category": "microphone",
+      "model": "Audio-Technica ATR2100x-USB",
+      "role": [
+        "podcasting",
+        "spoken_word",
+        "streaming",
+        "live_vocals"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_c_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://docs.audio-technica.com/us/P52830_01_ATR2100x_USB_UM.pdf",
+      "sourceEvidence": [
+        {
+          "url": "https://docs.audio-technica.com/us/P52830_01_ATR2100x_USB_UM.pdf",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Different from the older ATR2100-USB. The user manual documents USB-C, balanced XLR and a cardioid dynamic capsule.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "rode-smartlav-plus",
+      "category": "microphone",
+      "model": "RØDE smartLav+",
+      "role": [
+        "mobile_video",
+        "wearable",
+        "interview",
+        "spoken_word"
+      ],
+      "capsule": "electret_condenser",
+      "pattern": "omnidirectional",
+      "outputs": [
+        "3_5mm_trrs_mic"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://rode.com/en-us/products/smartlav-plus",
+      "sourceEvidence": [
+        {
+          "url": "https://rode.com/en-us/products/smartlav-plus",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "TRRS phone-style lavalier. It is NOT an XLR mic or a direct standard stereo TRS camera mic; compatible input or suitable adapter required.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "powerMethod": "host_plug_in_power_trrs"
+    },
+    {
+      "id": "rode-videomicro-ii",
+      "category": "microphone",
+      "model": "RØDE VideoMicro II",
+      "role": [
+        "on_camera",
+        "mobile_video",
+        "vlogging",
+        "interview"
+      ],
+      "capsule": "electret_condenser",
+      "pattern": "supercardioid",
+      "outputs": [
+        "3_5mm_trs_mic"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://rode.com/en-ca/products/videomicro-ii",
+      "sourceEvidence": [
+        {
+          "url": "https://rode.com/en-ca/products/videomicro-ii",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Camera-mounted shotgun-style mic with 3.5 mm TRS output; requires compatible plug-in power (1.5–5 V) and camera/phone mic input or proper adapter.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "powerMethod": "plug_in_power_1_5_to_5_volts"
+    },
+    {
+      "id": "elgato-wave3-mk2",
+      "category": "microphone",
+      "model": "Elgato Wave:3 MK.2",
+      "role": [
+        "streaming",
+        "podcasting",
+        "spoken_word",
+        "content_creation"
+      ],
+      "capsule": "condenser",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_c_digital_audio"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.elgato.com/ca/en/p/wave-3",
+      "sourceEvidence": [
+        {
+          "url": "https://www.elgato.com/ca/en/p/wave-3",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Exact MK.2 revision. USB mic and software routing, not an XLR microphone. System audio routing depends on host software and configuration.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "fifine-k688",
+      "category": "microphone",
+      "model": "FIFINE AmpliTank K688 (USB/XLR)",
+      "role": [
+        "streaming",
+        "podcasting",
+        "spoken_word"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://fifinemicrophone.com/en-ca/products/fifine-amplitank-k688-microphone",
+      "sourceEvidence": [
+        {
+          "url": "https://fifinemicrophone.com/en-ca/products/fifine-amplitank-k688-microphone",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "USB/XLR hybrid. Monitoring and buttons can behave differently on USB versus XLR.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "presonus-audiobox-go",
+      "category": "audio_interface",
+      "model": "PreSonus AudioBox GO",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": null,
+      "manufacturerSpec": "https://www.presonus.com/collections/audio-interfaces/products/audiobox-go",
+      "sourceEvidence": [
+        {
+          "url": "https://www.presonus.com/collections/audio-interfaces/products/audiobox-go",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "One XLR mic preamp plus one independent instrument input: 2-in/2-out does not mean two microphone preamps.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "xlr_trs_combo_mic_or_line_channel_1",
+        "6_35mm_instrument_channel_2"
+      ],
+      "physicalOutputTypes": [
+        "two_balanced_trs_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "arturia-minifuse-1",
+      "category": "audio_interface",
+      "model": "Arturia MiniFuse 1 (original)",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 1,
+      "computerRecordingInputs": 1,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": true,
+      "manufacturerSpec": "https://www.arturia.com/products/audio/minifuse/minifuse-1",
+      "sourceEvidence": [
+        {
+          "url": "https://www.arturia.com/products/audio/minifuse/minifuse-1",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "One combo microphone/instrument/line channel. Stereo virtual loopback does not create a second physical mic preamp.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "xlr_trs_combo_mic_line_instrument_channel_1"
+      ],
+      "physicalOutputTypes": [
+        "balanced_stereo_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "maudio-mtrack-duo",
+      "category": "audio_interface",
+      "model": "M-Audio M-Track Duo",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 2,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": null,
+      "manufacturerSpec": "https://www.m-audio.com/audio-midi-interfaces/m-track-duo.html",
+      "sourceEvidence": [
+        {
+          "url": "https://www.m-audio.com/audio-midi-interfaces/m-track-duo.html",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "Two independent XLR/TRS combo inputs with two Crystal mic preamps; not the one-preamp M-Track Solo.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "two_xlr_trs_combo_mic_line_instrument_inputs"
+      ],
+      "physicalOutputTypes": [
+        "stereo_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "behringer-umc404hd",
+      "category": "audio_interface",
+      "model": "Behringer U-PHORIA UMC404HD",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 4,
+      "simultaneousAnalogInputs": 4,
+      "computerRecordingInputs": 4,
+      "computerPlaybackOutputs": 4,
+      "hasPhantom48v": true,
+      "directMonitor": null,
+      "loopback": null,
+      "manufacturerSpec": "https://behringer.com/en/products/0805-AAT",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0805-AAT",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "Four independent combination inputs with four mic preamps and USB 4x4 I/O. UMC404 (no HD) is a different variant.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "four_xlr_trs_combo_mic_line_instrument_inputs"
+      ],
+      "physicalOutputTypes": [
+        "four_6_35mm_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "behringer-umc22",
+      "category": "audio_interface",
+      "model": "Behringer U-PHORIA UMC22",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": null,
+      "manufacturerSpec": "https://behringer.com/en/products/0805-AAJ",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0805-AAJ",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "Budget 2x2 interface with one Midas mic preamp and separate instrument input; not two independently usable mic preamps.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "xlr_trs_combo_mic_or_line_channel_1",
+        "6_35mm_instrument_channel_2"
+      ],
+      "physicalOutputTypes": [
+        "stereo_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "elgato-wave-xlr-mk2",
+      "category": "audio_interface",
+      "model": "Elgato Wave XLR MK.2",
+      "role": [
+        "streaming",
+        "podcasting",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 1,
+      "computerRecordingInputs": 1,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": null,
+      "loopback": null,
+      "manufacturerSpec": "https://www.elgato.com/ca/en/p/wave-xlr",
+      "sourceEvidence": [
+        {
+          "url": "https://www.elgato.com/ca/en/p/wave-xlr",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "Exact 2026 MK.2 XLR-to-USB creator interface: one microphone input, 48 V and Wave Link/DSP controls. Software mixing is not another physical preamp.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "single_xlr_microphone_input"
+      ],
+      "physicalOutputTypes": [
+        "stereo_headphone_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
     }
   ],
   "existingPresetCrossReferences": [
