@@ -97,3 +97,23 @@ Owner feedback: "All dropdowns and input boxes should also be labelled required 
 - Added focused regression fixtures for required vs optional mapping, select-or-type equivalence, missing model errors and no hidden mandatory distance.
 
 **Important:** The task-specific field labels are integrated without touching amplifier power, electrical compatibility, speaker ranking, subwoofer signal checking or pricing calculations. The release stays **draft only**, not merged to main or deployed. At this checkpoint, GitHub's focused beginner guide checks and static build passed; wider site regression still includes failures from earlier output-card redesign and needs separate reconciliation before merge.
+
+
+## Follow-up: replace name-only unlisted fields with source-first gear search
+
+**Owner correction:** A free-text "enter your model" box is not a workable match input by itself. The old Builder set its record to `null` for custom names, so it could display an ownership label but had no usable impedance, power or connection figures. The previous OR-group validation incorrectly allowed name-only entries to unlock a model-specific shortlist.
+
+**Current GitHub-only implementation:**
+- The existing amplifier and speaker presets remain the primary trusted fast path.
+- Each unlisted speaker/amplifier input is now labelled as a search, with **Search for my gear** checking the actually loaded catalogue selections and presenting matching models as one-click preset choices.
+- For a missing model, a separate, user-initiated **Google manufacturer-specification search** opens externally. The search is not an importer; no scraping, paid API or inferred fields.
+- A compact, task-specific manual/specification entry captures an exact HTTPS source URL. Speaker-to-amp shopping requires the owned speaker's **nominal impedance**; optional minimum impedance and sensitivity are accepted only with an identified sensitivity basis. Amp-to-speaker shopping requires the owned amplifier's **permitted nominal load**, **continuous watts/channel** and **rating test load**. This is the smallest currently usable subset for *provisional* screening, not proof of clean headroom or safe real-reactive-load operation.
+- `system-builder/unlisted-gear.mjs` validates the source link and numeric ranges and creates a temporary, browser-only `record` that the existing `chosenGear()`, ownership routing, amplifier comparison and speaker shortlist functions can consume.
+- Names without sufficient specs no longer pass the two specific shopping intents. Optional improvement/subwoofer workflows can still describe general possibilities but do not assert missing specifications.
+- The Required/Optional tags update when a visitor selects a goal or starts typing an unlisted model. Required fields in the manual entry remain behind a deliberate unlisted-model choice; choosing a supported preset needs no additional spec entry.
+- Provisional imported-by-hand figures retain `userEntered:true` and `evidence:'user_entered_unverified'` status; manufacturer permission flags, the basic-match badge and automatic verified-power claims cannot be awarded to visitor-supplied records. A visible report warning and cited user-supplied source distinguish them from reviewed presets.
+- Regression coverage includes missing-figure failure, verified-catalogue route, temporary numeric record creation, conservative pairing and local/manual search. Browser preflight now exercises a custom speaker with source and nominal load on desktop/mobile emulation.
+
+**Deliberate boundary:** Neither Google nor a manufacturer's page can be reliably scraped directly from this no-backend Pages form. A search link does **not** populate specs by itself. True automatic source extraction would need a separately approved retrieval/verification service, provenance review and quota/privacy safeguards. Do not market this as automatic lookup. Search + exact manual entry is the free, honest fallback.
+
+**Review gates:** Real Android interaction, UI clarity, explicit evidence wording and full GitHub CI are still required. Existing unrelated Builder-card copy assertions must be reconciled rather than waived. All changes stay on the draft branch, with no merge, Cloudflare preview or production deployment.
