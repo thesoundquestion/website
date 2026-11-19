@@ -27,6 +27,13 @@ function walk(dir=''){
 const pages=walk();
 for(const p of pages){
  const s=read(p);
+ if(p===path.join(root,'index.html').replaceAll('\\','/')){
+  assert.doesNotMatch(s,/class="main-nav"|class="mobile-nav"/);
+  assert.match(s,/class="home-quick-links"/);
+  assert.match(s,/class="home-more-grid"/);
+  assert.match(s,/class="home-legal-links"/);
+  continue;
+ }
  const nav=s.match(/<nav class="main-nav"[^>]*>([\s\S]*?)<\/nav>/);
  assert.ok(nav,p+' missing main-nav');
  const targets=['/decoder/','/labs/','/tools/','/library/','/about/','/connect/'];
