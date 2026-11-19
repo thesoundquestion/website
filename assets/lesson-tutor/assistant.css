@@ -49,6 +49,18 @@
   margin-block: .6rem .85rem;
 }
 
+.lesson-tutor-related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-block: .5rem .8rem;
+}
+
+.lesson-tutor-related button {
+  text-align: start;
+  border-style: dashed;
+}
+
 .lesson-tutor button,
 .lesson-tutor-shortcut {
   min-block-size: 44px;
