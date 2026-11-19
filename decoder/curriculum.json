@@ -201,6 +201,12 @@
       "description": "Learn to read SNR, THD+N, voltage levels and the limits of DAC specifications."
     },
     {
+      "slug": "audio-interfaces-mixers",
+      "category": "sources",
+      "title": "Audio interfaces, mixers and recording channels",
+      "description": "See what a microphone preamp, computer audio interface and mixer each do, and why mixer channels are not necessarily separate recorded tracks."
+    },
+    {
       "slug": "sample-rate",
       "category": "sources",
       "title": "Sample rates and audio bandwidth",

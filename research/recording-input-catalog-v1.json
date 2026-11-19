@@ -1,0 +1,2604 @@
+{
+  "schemaVersion": "0.1.0",
+  "date": "2026-11-18",
+  "status": "research_only",
+  "description": "Research-stage recording, headphones and powered/passive speaker products, including original Pioneer SP-FS52 manual; numeric unknowns remain explicit.",
+  "counts": {
+    "models": 53,
+    "ownedComparisonAnchors": 3,
+    "newHeadphoneModels": 3,
+    "newHeadphoneAmplifierModels": 5,
+    "addedSpeakerModels": 7
+  },
+  "records": [
+    {
+      "id": "fifine-k669d",
+      "category": "microphone",
+      "model": "FIFINE K669D",
+      "role": [
+        "vocals",
+        "spoken_word",
+        "streaming"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://fifinemicrophone.com/en-ca/collections/fifine-amplitank-microphones/products/fifine-k669d-xlr-dynamic-microphone",
+      "sensitivityDbvPa": null,
+      "selfNoiseDba": null,
+      "maxSplDb": null,
+      "sourceEvidence": [
+        {
+          "url": "https://fifinemicrophone.com/en-ca/collections/fifine-amplitank-microphones/products/fifine-k669d-xlr-dynamic-microphone",
+          "fields": [
+            "dynamic transducer",
+            "XLR output"
+          ]
+        },
+        {
+          "url": "https://manuals.plus/m/df19bb4069a456a14bd0b04948cff319d002e613d483428373c5efe9b7e758c2_optim.pdf",
+          "fields": [
+            "cardioid pattern"
+          ]
+        }
+      ],
+      "comparisonAnchor": true,
+      "editorialNote": "Comparison anchor from user's recording setup. XLR-only model, not USB FIFINE K669B; phantom power is not needed for a passive dynamic mic.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "shure-sm58",
+      "category": "microphone",
+      "model": "Shure SM58",
+      "role": [
+        "live_vocals",
+        "recorded_vocals"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.shure.com/en-US/docs/guide/sm58",
+      "sensitivityDbvPa": null,
+      "selfNoiseDba": null,
+      "maxSplDb": null,
+      "sourceEvidence": [
+        {
+          "url": "https://www.shure.com/en-US/docs/guide/sm58",
+          "fields": [
+            "capsule",
+            "pickup",
+            "connection"
+          ]
+        }
+      ],
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "shure-sm57",
+      "category": "microphone",
+      "model": "Shure SM57",
+      "role": [
+        "instrument_mic",
+        "recorded_vocals",
+        "stage"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.shure.com/en-US/docs/guide/SM57",
+      "sensitivityDbvPa": null,
+      "selfNoiseDba": null,
+      "maxSplDb": null,
+      "sourceEvidence": [
+        {
+          "url": "https://www.shure.com/en-US/docs/guide/SM57",
+          "fields": [
+            "capsule",
+            "pickup",
+            "connection"
+          ]
+        }
+      ],
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "rode-podmic-xlr",
+      "category": "microphone",
+      "model": "RØDE PodMic (XLR)",
+      "role": [
+        "podcasting",
+        "spoken_word"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://rode.com/en-ca/products/podmic",
+      "sensitivityDbvPa": null,
+      "selfNoiseDba": null,
+      "maxSplDb": null,
+      "sourceEvidence": [
+        {
+          "url": "https://rode.com/en-ca/products/podmic",
+          "fields": [
+            "capsule",
+            "pickup",
+            "connection"
+          ]
+        }
+      ],
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "audio-technica-at2020-xlr",
+      "category": "microphone",
+      "model": "Audio-Technica AT2020 (XLR)",
+      "role": [
+        "studio_vocals",
+        "acoustic_instruments"
+      ],
+      "capsule": "condenser",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": true,
+      "manufacturerSpec": "https://docs.audio-technica.com/us/at2020_english.pdf",
+      "sensitivityDbvPa": null,
+      "selfNoiseDba": null,
+      "maxSplDb": 144,
+      "sourceEvidence": [
+        {
+          "url": "https://docs.audio-technica.com/us/at2020_english.pdf",
+          "fields": [
+            "capsule",
+            "pickup",
+            "connection"
+          ]
+        }
+      ],
+      "maxSplConditions": "1 kHz, 1% THD, manufacturer",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "shure-mv7-plus",
+      "category": "microphone",
+      "model": "Shure MV7+",
+      "role": [
+        "podcasting",
+        "streaming"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": null,
+      "outputs": [
+        "usb_c_and_xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.shure.com/en-US/docs/guide/mv7plus",
+      "sensitivityDbvPa": null,
+      "selfNoiseDba": null,
+      "maxSplDb": null,
+      "sourceEvidence": [
+        {
+          "url": "https://www.shure.com/en-US/docs/guide/mv7plus",
+          "fields": [
+            "capsule",
+            "pickup",
+            "connection"
+          ]
+        }
+      ],
+      "usbIntegratedInterface": true,
+      "editorialNote": "USB and XLR signal paths may differ; XLR output does not necessarily carry onboard USB DSP effects.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "maudio-mtrack-solo",
+      "category": "audio_interface",
+      "model": "M-Audio M-Track Solo",
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": null,
+      "instrumentInputCount": 1,
+      "computerPlaybackOutputs": 2,
+      "headphoneOutputs": 1,
+      "maxRateKhz": 48,
+      "maxBitDepth": null,
+      "midiPorts": null,
+      "sourceEvidence": [
+        {
+          "url": "https://www.m-audio.com/audio-midi-interfaces/m-track-solo.html",
+          "fields": [
+            "two simultaneous inputs",
+            "one Crystal mic preamp",
+            "48 V phantom",
+            "instrument input",
+            "direct monitoring",
+            "48 kHz",
+            "gain 54 dB",
+            "EIN -128 dBu",
+            "RCA and 3.5mm outputs",
+            "headphone output 60 mW per channel at 32 ohms"
+          ]
+        },
+        {
+          "url": "https://www.thomannmusic.com/m_audio_m_track_solo.htm",
+          "fields": [
+            "16-bit maximum digital format"
+          ]
+        },
+        {
+          "url": "https://cdn.inmusicbrands.com/m-audio/maudio_documentation/M-Track%20Solo%20-%20User%20Guide%20-%20v1.6.pdf",
+          "fields": [
+            "channel 1 combo input for microphone or line",
+            "channel 2 6.35mm line/instrument input",
+            "direct monitoring",
+            "RCA output",
+            "headphone jack"
+          ]
+        }
+      ],
+      "comparisonAnchor": true,
+      "preampGainRangeDb": 54,
+      "preampEinDbu": -128,
+      "preampEinConditions": "maximum gain, 40 ohm source, A-weighted",
+      "outputLineConnectors": [
+        "rca_stereo"
+      ],
+      "headphoneConnector": "3.5mm",
+      "editorialNote": "Two simultaneous recording inputs but one microphone preamp. The manufacturer publishes a 16-bit/48 kHz Windows setup example, while retailer material lists 16-bit/48 kHz; the maximum bit depth across all drivers remains unconfirmed here. Manufacturer headphone amplifier rating: 60 mW/channel into 32 Ω. This rating alone cannot establish adequate loudness for every headphone.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "documentedSetupBitDepth": 16,
+      "bitDepthMaximumEvidenceStatus": "not_confirmed_by_direct_manufacturer_maximum_specification",
+      "headphoneOutputPowerRating": {
+        "milliwattsPerChannel": 60,
+        "loadOhms": 32,
+        "testConditions": "M-Audio published headphone output rating; distortion threshold unspecified",
+        "source": "https://www.m-audio.com/audio-midi-interfaces/m-track-solo.html"
+      },
+      "physicalInputTypes": [
+        "channel_1_combo_xlr_mic_or_6_35mm_trs_line",
+        "channel_2_6_35mm_switchable_line_or_instrument"
+      ],
+      "inputRoutingConstraints": [
+        "Only one microphone preamp; the channel 1 combo socket and channel 2 TRS are separate simultaneous recording inputs",
+        "Channel 2 line/instrument switch changes input sensitivity; instrument role is not a second microphone preamp"
+      ],
+      "physicalOutputTypes": [
+        "rca_stereo_line_out",
+        "3_5mm_stereo_headphone_out"
+      ],
+      "bitDepthSourceConflictNote": "Manufacturer manual directs Windows 16-bit 48k playback setup while at least one retailer describes 24-bit 48k conversion. Neither confirms all supported driver capture modes. Do not use retailer prose as proof of a maximum bit depth."
+    },
+    {
+      "id": "focusrite-scarlett-solo-4",
+      "category": "audio_interface",
+      "model": "Focusrite Scarlett Solo (4th Gen)",
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": null,
+      "loopback": null,
+      "instrumentInputCount": 1,
+      "computerPlaybackOutputs": null,
+      "headphoneOutputs": null,
+      "maxRateKhz": 192,
+      "maxBitDepth": 24,
+      "midiPorts": null,
+      "sourceEvidence": [
+        {
+          "url": "https://focusrite.com/products/scarlett-solo",
+          "fields": [
+            "single mic preamp",
+            "instrument input",
+            "4th-generation identity"
+          ]
+        },
+        {
+          "url": "https://userguides.focusrite.com/hc/en-gb/articles/17505454908562-Scarlett-Solo-4th-Gen-Specifications",
+          "fields": [
+            "2-in/2-out",
+            "digital resolution",
+            "57 dB mic gain"
+          ]
+        }
+      ],
+      "preampGainRangeDb": 57,
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "one_rear_xlr_microphone_input_channel_2",
+        "one_front_6_35mm_switchable_line_or_instrument_input_channel_1"
+      ],
+      "physicalOutputTypes": [
+        "two_balanced_6_35mm_line_outputs",
+        "one_stereo_headphone_output",
+        "usb_c_audio"
+      ],
+      "inputRoutingConstraints": [
+        "Two simultaneous physical analog input channels: channel 1 line or instrument, channel 2 microphone",
+        "Manufacturer 4x2 host I/O includes two virtual loopback channels; it does not provide four physical recording inputs"
+      ]
+    },
+    {
+      "id": "focusrite-scarlett-2i2-4",
+      "category": "audio_interface",
+      "model": "Focusrite Scarlett 2i2 (4th Gen)",
+      "micPreampCount": 2,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": null,
+      "loopback": null,
+      "instrumentInputCount": 2,
+      "computerPlaybackOutputs": null,
+      "headphoneOutputs": null,
+      "maxRateKhz": 192,
+      "maxBitDepth": 24,
+      "midiPorts": null,
+      "sourceEvidence": [
+        {
+          "url": "https://focusrite.com/products/scarlett-2i2",
+          "fields": [
+            "two microphone preamps",
+            "69 dB gain range",
+            "digital resolution"
+          ]
+        },
+        {
+          "url": "https://userguides.focusrite.com/hc/en-gb/articles/19640392541202-Scarlett-2i2-4th-Gen-Specifications",
+          "fields": [
+            "input types and channels"
+          ]
+        },
+        {
+          "url": "https://userguides.focusrite.com/hc/en-gb/articles/19640363197458-Scarlett-2i2-4th-Gen-hardware-features",
+          "fields": [
+            "rear XLR microphone inputs",
+            "front 6.35mm line or instrument inputs",
+            "shared physical recording channels",
+            "front headphone connector"
+          ]
+        }
+      ],
+      "preampGainRangeDb": 69,
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "two_rear_xlr_microphone_inputs",
+        "two_front_6_35mm_switchable_line_or_instrument_inputs"
+      ],
+      "inputRoutingConstraints": [
+        "Two recording channels total, not four independent analogue inputs",
+        "Inserting a front-panel line/instrument jack disables the corresponding rear microphone XLR input on that channel"
+      ],
+      "physicalOutputTypes": [
+        "two_rear_6_35mm_balanced_line_outputs",
+        "one_front_6_35mm_stereo_headphone_output"
+      ]
+    },
+    {
+      "id": "audient-id4-mkii",
+      "category": "audio_interface",
+      "model": "Audient iD4 MkII",
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": true,
+      "instrumentInputCount": 1,
+      "computerPlaybackOutputs": null,
+      "headphoneOutputs": 2,
+      "maxRateKhz": 96,
+      "maxBitDepth": 24,
+      "midiPorts": null,
+      "sourceEvidence": [
+        {
+          "url": "https://docs.audient.com/id4/overview/",
+          "fields": [
+            "one mic preamp",
+            "separate JFET instrument input",
+            "two analogue channels",
+            "loopback"
+          ]
+        },
+        {
+          "url": "https://docs.audient.com/id4/technical-specifications/",
+          "fields": [
+            "24-bit/96 kHz",
+            "58 dB mic gain",
+            "ADC dynamic range",
+            "headphone outputs"
+          ]
+        },
+        {
+          "url": "https://docs.audient.com/id4/hardware-connections/",
+          "fields": [
+            "exact analog input/output connector topology",
+            "channel roles and non-audio interfaces"
+          ]
+        }
+      ],
+      "preampGainRangeDb": 58,
+      "editorialNote": "Do not confuse iD4 MkII with recently introduced Audient iD1 Mk3.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "one_rear_combo_xlr_mic_or_trs_line_channel_1",
+        "one_front_6_35mm_jfet_hiz_instrument_channel_2"
+      ],
+      "physicalOutputTypes": [
+        "two_rear_balanced_line_outputs",
+        "one_6_35mm_stereo_headphone_out",
+        "one_3_5mm_stereo_headphone_out",
+        "usb_c_audio"
+      ],
+      "inputRoutingConstraints": [
+        "One microphone preamp and one separate JFET instrument path support two simultaneous analog input channels",
+        "Two physical headphone jacks share one stereo headphone output path, not two independently routable monitor mixes"
+      ]
+    },
+    {
+      "id": "arturia-minifuse-2",
+      "category": "audio_interface",
+      "model": "Arturia MiniFuse 2",
+      "micPreampCount": 2,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": null,
+      "loopback": true,
+      "instrumentInputCount": 2,
+      "computerPlaybackOutputs": null,
+      "headphoneOutputs": null,
+      "maxRateKhz": null,
+      "maxBitDepth": null,
+      "midiPorts": true,
+      "sourceEvidence": [
+        {
+          "url": "https://www.arturia.com/products/audio/minifuse/minifuse-2",
+          "fields": [
+            "two combo inputs",
+            "MIDI",
+            "loopback",
+            "48V"
+          ]
+        },
+        {
+          "url": "https://support.arturia.com/hc/en-us/articles/4411358022802-MiniFuse-2-Connections",
+          "fields": [
+            "exact analog input/output connector topology",
+            "channel roles and non-audio interfaces"
+          ]
+        }
+      ],
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "two_combo_xlr_mic_or_trs_line_instrument_inputs",
+        "midi_din_input"
+      ],
+      "physicalOutputTypes": [
+        "two_balanced_line_outputs",
+        "one_6_35mm_stereo_headphone_output",
+        "midi_din_output",
+        "usb_c_audio",
+        "usb_type_a_hub_not_audio_input"
+      ],
+      "inputRoutingConstraints": [
+        "Two simultaneous physical analog recording channels; XLR and TRS roles share each combo connector and are not four independent preamps",
+        "The USB-A hub and MIDI DIN connectors do not create additional independent analog audio recording inputs",
+        "Verify model name is original MiniFuse 2 and not MiniFuse 2 OTG before applying port counts"
+      ]
+    },
+    {
+      "id": "behringer-umc202hd",
+      "category": "audio_interface",
+      "model": "Behringer U-PHORIA UMC202HD",
+      "micPreampCount": 2,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": null,
+      "loopback": null,
+      "instrumentInputCount": null,
+      "computerPlaybackOutputs": null,
+      "headphoneOutputs": null,
+      "maxRateKhz": 192,
+      "maxBitDepth": 24,
+      "midiPorts": null,
+      "sourceEvidence": [
+        {
+          "url": "https://www.behringer.com/en/products/0805-AAR",
+          "fields": [
+            "two mic preamps",
+            "2x2 recording",
+            "48 V phantom",
+            "24-bit 192 kHz"
+          ]
+        },
+        {
+          "url": "https://behringer.com/en/products/0805-AAR",
+          "fields": [
+            "exact analog input/output connector topology",
+            "channel roles and non-audio interfaces"
+          ]
+        }
+      ],
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "two_combo_xlr_mic_or_6_35mm_line_instrument_inputs",
+        "two_selectable_line_or_instrument_input_roles"
+      ],
+      "physicalOutputTypes": [
+        "two_6_35mm_balanced_line_outputs",
+        "one_6_35mm_stereo_headphone_out",
+        "usb_2in_2out_audio"
+      ],
+      "inputRoutingConstraints": [
+        "Two physical mic preamps and two simultaneous analog recording channels; line/instrument switches change sensitivity and do not add channels",
+        "Global 48V phantom switch applies to microphone XLR inputs according to manufacturer's switching scheme"
+      ]
+    },
+    {
+      "id": "yamaha-mg10xu",
+      "category": "mixer_recorder",
+      "model": "Yamaha MG10XU",
+      "advertisedMixerChannels": 10,
+      "micPreampCount": 4,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "independentMonitorMixes": null,
+      "standaloneRecording": false,
+      "sourceEvidence": [
+        {
+          "url": "https://data.yamaha.com/files/download/other_assets/2/1507032/MG10XU_technical_specifications_En_B0.pdf",
+          "fields": [
+            "10 mixing channels",
+            "four microphone inputs",
+            "USB 2-in/2-out",
+            "24-bit 192 kHz"
+          ]
+        },
+        {
+          "url": "https://data.yamaha.com/files/download/other_assets/8/1506958/MG10XU_owners_manual_En_B0.pdf",
+          "fields": [
+            "4 mono MIC/LINE channels",
+            "global +48 V switch to mono input XLR microphone sockets",
+            "USB LINE/USB source switching"
+          ]
+        }
+      ],
+      "usbRecordingMode": "stereo_mix_only",
+      "mixerArchitecture": "analog_with_usb_and_digital_fx",
+      "maxRateKhz": 192,
+      "maxBitDepth": 24,
+      "editorialNote": "Four XLR microphone preamps, ten mixer channels, but USB carries two-channel stereo recording; never recommend for four separately editable computer tracks.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "four_mono_mic_line_channels_xlr",
+        "stereo_line_input_channels"
+      ],
+      "physicalOutputTypes": [
+        "stereo_main_mix_outputs",
+        "usb_2in_2out_stereo_audio",
+        "headphone_monitor_output"
+      ],
+      "inputRoutingConstraints": [
+        "USB records the stereo mix as two computer channels; the advertised ten mixer channels are not ten separately recorded DAW tracks",
+        "48 V phantom is applied to the relevant XLR microphone sockets under the Yamaha manual's global switch conditions"
+      ]
+    },
+    {
+      "id": "behringer-1204usb",
+      "category": "mixer_recorder",
+      "model": "Behringer XENYX 1204USB",
+      "advertisedMixerChannels": 12,
+      "micPreampCount": 4,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": null,
+      "independentMonitorMixes": null,
+      "standaloneRecording": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.behringer.com/en/products/0601-ACM",
+          "fields": [
+            "12 input mixer",
+            "four mic preamps",
+            "bidirectional stereo USB"
+          ]
+        }
+      ],
+      "usbRecordingMode": "stereo_mix_only",
+      "mixerArchitecture": "analog_with_stereo_usb",
+      "editorialNote": "Not the X1204USB effects variant; avoid mixing model versions.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "four_xlr_mic_preamp_inputs_with_line_inputs_same_mono_channels",
+        "stereo_line_input_channel_pairs",
+        "stereo_rca_2_track_playback_input"
+      ],
+      "physicalOutputTypes": [
+        "stereo_main_mix_line_outputs",
+        "stereo_rca_2_track_record_output",
+        "stereo_usb_recording_output_2_channels",
+        "stereo_control_room_line_outputs",
+        "headphone_monitor_output",
+        "analogue_subgroup_alt_3_4_outputs"
+      ],
+      "inputRoutingConstraints": [
+        "USB sends a two-channel stereo mix to the computer, not individual mixer-channel stems",
+        "ALT 3-4 analogue outputs provide additional routing to external recording equipment, but do not convert built-in USB into four separate DAW tracks",
+        "Four microphone inputs belong to four mono mixer channels. An XLR mic socket is not a USB recording channel by itself.",
+        "This is XENYX 1204USB, not X1204USB effects model."
+      ]
+    },
+    {
+      "id": "zoom-livetrak-l12",
+      "category": "mixer_recorder",
+      "model": "Zoom LiveTrak L-12",
+      "advertisedMixerChannels": 12,
+      "micPreampCount": 8,
+      "computerRecordingInputs": 14,
+      "computerPlaybackOutputs": 4,
+      "hasPhantom48v": true,
+      "independentMonitorMixes": null,
+      "standaloneRecording": true,
+      "sourceEvidence": [
+        {
+          "url": "https://zoomcorp.com/documents/188/E_L-12_4.pdf",
+          "fields": [
+            "12 mixer input channels (8 mono and 2 stereo pairs)",
+            "eight microphone preamps",
+            "14-in/4-out USB",
+            "up to 14-track standalone recorder"
+          ]
+        },
+        {
+          "url": "https://www.zoom.co.jp/sites/default/files/products/downloads/pdfs/Zoom_LiveTrak_L-12_OperationManual_English.pdf",
+          "fields": [
+            "eight XLR/TRS mono mic/line combo channels",
+            "two stereo line channel pairs",
+            "USB 14 input 4 playback at 44.1/48 kHz",
+            "SD recorder 14 tracks 44.1/48 kHz versus 12 tracks 96 kHz",
+            "independent monitor jack routing"
+          ]
+        }
+      ],
+      "usbRecordingMode": "multitrack",
+      "mixerArchitecture": "digital_mixer_recorder",
+      "editorialNote": "Fourteen USB recording channels ≠ fourteen mic preamps. Standalone track count may include stereo mix and depends on mode.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "eight_mono_xlr_trs_combo_mic_line_inputs",
+        "two_stereo_line_channel_pairs_9_10_and_11_12_trs_rca"
+      ],
+      "physicalOutputTypes": [
+        "stereo_balanced_xlr_master_line_out",
+        "monitor_out_A_balanced_trs_stereo_pair",
+        "five_stereo_headphone_monitor_out_A_to_E",
+        "usb_audio_record_14_playback_4_at_44_1_or_48_khz",
+        "sd_card_multitrack_wav_recording"
+      ],
+      "inputRoutingConstraints": [
+        "Eight XLR mic preamps are not 14 mic preamps. USB audio interface records 14 channels at 44.1/48 kHz and returns four playback channels.",
+        "Standalone SD recorder supports up to 14 simultaneous tracks at 44.1/48 kHz but up to 12 at 96 kHz; 96 kHz capability does not imply 14-channel USB operation.",
+        "Monitor A-E headphone jacks are independent monitoring destinations; not five separate computer USB audio interface recording inputs.",
+        "Mixer channels 9/10 and 11/12 are stereo line paths, not four more XLR microphone preamps."
+      ],
+      "usbRecordingRateLimitKhz": 48,
+      "standaloneRecorderMaxTracks44And48Khz": 14,
+      "standaloneRecorderMaxTracks96Khz": 12
+    },
+    {
+      "id": "creative-xfi-titanium-hd",
+      "category": "computer_sound_card",
+      "model": "Creative Sound Blaster X-Fi Titanium HD",
+      "comparisonAnchor": true,
+      "role": [
+        "analog_stereo_playback",
+        "line_level_capture"
+      ],
+      "physicalInputTypes": [
+        "rca_stereo_line_input"
+      ],
+      "physicalOutputTypes": [
+        "rca_stereo_line_output"
+      ],
+      "hasDedicatedXlrMicPreamps": false,
+      "simultaneousAnalogInputs": null,
+      "computerRecordingInputs": null,
+      "playbackDac": true,
+      "recordingAdc": true,
+      "maxLineInputResolution": {
+        "bits": 24,
+        "khz": 96
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://sg.creative.com/corporate/pressroom?id=13137",
+          "fields": [
+            "RCA stereo line input",
+            "24-bit/96 kHz ADC",
+            "RCA playback"
+          ]
+        },
+        {
+          "url": "https://support.creative.com/kb/ShowArticle.aspx?sid=54521",
+          "fields": [
+            "exact Titanium HD vs other X-Fi model identity"
+          ]
+        }
+      ],
+      "editorialNote": "User-owned source/player comparison anchor. Has RCA line input, but is NOT a plug-in replacement for an XLR microphone preamp/interface. Details of additional front-panel headers and software capture require revision-specific verification.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "existingPresetRef": {
+        "category": "source",
+        "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)"
+      }
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "akg-k371",
+      "category": "headphone",
+      "model": "AKG K371",
+      "design": "closed_back_over_ear",
+      "nominalImpedanceOhms": 32,
+      "sensitivityDb": 114,
+      "sensitivityBasis": "dB_SPL_per_V",
+      "sensitivityConditions": "1 kHz, manufacturer nominal",
+      "digitalInput": false,
+      "connection": "wired_analog",
+      "requiresExternalHeadphoneAmplifier": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.akg.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw374aeecb/pdfs/AKG_K371_Sell_Sheet.pdf",
+          "fields": [
+            "closed back",
+            "32 ohm impedance",
+            "114 dB SPL/V at 1 kHz"
+          ]
+        }
+      ],
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "private_listening"
+      ],
+      "editorialNote": "Never compare 114 dB SPL/V numerically to a headphone rated dB/mW without converting with its impedance."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "audio-technica-ath-m40x",
+      "category": "headphone",
+      "model": "Audio-Technica ATH-M40x",
+      "design": "closed_back_over_ear",
+      "nominalImpedanceOhms": null,
+      "sensitivityDb": null,
+      "sensitivityBasis": null,
+      "sensitivityConditions": "1 kHz, manufacturer nominal",
+      "digitalInput": false,
+      "connection": "wired_analog",
+      "requiresExternalHeadphoneAmplifier": false,
+      "sourceEvidence": [
+        {
+          "url": "https://docs.audio-technica.com/eu/M-Series_leaflet_ENG_L00053_V1.0.pdf",
+          "fields": [
+            "ATH-M40x identity",
+            "closed-back monitoring design"
+          ]
+        }
+      ],
+      "role": [
+        "tracking",
+        "studio_monitoring"
+      ],
+      "editorialNote": "Model-specific sensitivity and impedance left unverified rather than importing ATH-M50x figures."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "shure-srh440a",
+      "category": "headphone",
+      "model": "Shure SRH440A",
+      "design": "closed_back_over_ear",
+      "nominalImpedanceOhms": null,
+      "sensitivityDb": null,
+      "sensitivityBasis": null,
+      "sensitivityConditions": "1 kHz, manufacturer nominal",
+      "digitalInput": false,
+      "connection": "wired_analog",
+      "requiresExternalHeadphoneAmplifier": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.shure.com/en-US/products/headphones/srh440?variant=SRH440A",
+          "fields": [
+            "closed back over ear",
+            "40 mm dynamic driver",
+            "detachable cable and 6.3 mm adapter"
+          ]
+        }
+      ],
+      "role": [
+        "podcast_monitoring",
+        "studio_tracking"
+      ],
+      "editorialNote": "SRH440A not identical to older SRH440; impedance/sensitivity pending manufacturer manual verification."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "jds-atom-amp-2",
+      "category": "headphone_amplifier",
+      "model": "JDS Labs Atom Amp 2",
+      "amplifierKind": "analog_headphone_amp",
+      "headphoneOutputTypes": [
+        "6.35mm_single_ended",
+        "4.4mm_compatible_single_ended"
+      ],
+      "sourceInputTypes": [
+        "rca_stereo_analog"
+      ],
+      "hasBuiltInDac": false,
+      "ratedOutputMilliwatts": [
+        {
+          "loadOhms": 32,
+          "wattsPerChannel": 2.65,
+          "metric": "maximum_continuous",
+          "testConditions": "9.22 Vrms, JDS Labs manufacturer"
+        },
+        {
+          "loadOhms": 300,
+          "wattsPerChannel": 0.286,
+          "metric": "maximum_continuous",
+          "testConditions": "9.27 Vrms, JDS Labs manufacturer"
+        }
+      ],
+      "outputImpedanceOhms": 0.7,
+      "outputImpedanceCeilingOhms": null,
+      "gainSettingsDb": null,
+      "headphoneOutputCount": 1,
+      "sourceEvidence": [
+        {
+          "url": "https://jdslabs.com/product/atom-amp-2/",
+          "fields": [
+            "RCA input and stereo analog headphone amp",
+            "max continuous 2.65 W at 32 ohm",
+            "286 mW at 300 ohm",
+            "0.7 ohm output impedance"
+          ]
+        }
+      ],
+      "editorialNote": "The 4.4 mm socket is a convenience output, not automatically a differential/balanced drive output. Analog headphone amp requires compatible analogue line source/DAC, not digital USB direct."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "topping-l30-ii",
+      "category": "headphone_amplifier",
+      "model": "Topping L30 II",
+      "amplifierKind": "analog_headphone_amp",
+      "headphoneOutputTypes": [
+        "6.35mm_single_ended"
+      ],
+      "sourceInputTypes": [
+        "rca_stereo_analog"
+      ],
+      "hasBuiltInDac": false,
+      "ratedOutputMilliwatts": [],
+      "outputImpedanceOhms": null,
+      "outputImpedanceCeilingOhms": null,
+      "gainSettingsDb": [
+        -14,
+        0,
+        16.5
+      ],
+      "headphoneOutputCount": 1,
+      "sourceEvidence": [
+        {
+          "url": "https://dl.topping.audio/usermanual/l30ii.pdf",
+          "fields": [
+            "L30 II version",
+            "RCA analog input and preamp output",
+            "6.35mm headphone output",
+            "gain switch -14, 0, 16.5 dB"
+          ]
+        }
+      ],
+      "editorialNote": "No built-in DAC. Do not import L30 (first generation) or L30 II output ratings without matching load and test conditions."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "fiio-k11",
+      "category": "headphone_amplifier",
+      "model": "FiiO K11",
+      "amplifierKind": "dac_headphone_amp",
+      "headphoneOutputTypes": [
+        "6.35mm_single_ended",
+        "4.4mm_balanced"
+      ],
+      "sourceInputTypes": [
+        "usb_c_digital",
+        "optical_digital",
+        "coaxial_digital"
+      ],
+      "hasBuiltInDac": true,
+      "ratedOutputMilliwatts": [
+        {
+          "loadOhms": 32,
+          "wattsPerChannel": 0.52,
+          "metric": "manufacturer_min_at_thdn_below_1_percent",
+          "testConditions": "6.35mm single-ended, high gain"
+        },
+        {
+          "loadOhms": 32,
+          "wattsPerChannel": 1.4,
+          "metric": "manufacturer_min_at_thdn_below_1_percent",
+          "testConditions": "4.4mm balanced, high gain"
+        }
+      ],
+      "outputImpedanceOhms": null,
+      "outputImpedanceCeilingOhms": 1.2,
+      "gainSettingsDb": null,
+      "headphoneOutputCount": 2,
+      "sourceEvidence": [
+        {
+          "url": "https://www.fiio.com/k11_parameters",
+          "fields": [
+            "K11 exact model",
+            "USB optical coaxial inputs",
+            "6.35mm SE and 4.4mm balanced",
+            "520 mW @ 32 ohm SE",
+            "1400 mW @32 ohm balanced",
+            "output impedance thresholds"
+          ]
+        }
+      ],
+      "outputImpedanceConditions": "6.35 mm single-ended output only; 4.4 mm specification is <2.4 ohm",
+      "editorialNote": "Do not conflate 4.4 mm balanced output power with 6.35 mm power or use mismatched plugs/adapters. K11 is not a recording microphone interface."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "fiio-q11",
+      "category": "headphone_amplifier",
+      "model": "FiiO Q11",
+      "amplifierKind": "portable_dac_headphone_amp",
+      "headphoneOutputTypes": [
+        "3.5mm_single_ended",
+        "4.4mm_balanced"
+      ],
+      "sourceInputTypes": [
+        "usb_digital"
+      ],
+      "hasBuiltInDac": true,
+      "ratedOutputMilliwatts": [
+        {
+          "loadOhms": 16,
+          "wattsPerChannel": 0.31,
+          "metric": "manufacturer_min_at_thdn_below_1_percent",
+          "testConditions": "manufacturer USB input, output path as specified in full table"
+        }
+      ],
+      "outputImpedanceOhms": null,
+      "outputImpedanceCeilingOhms": null,
+      "gainSettingsDb": null,
+      "headphoneOutputCount": 2,
+      "sourceEvidence": [
+        {
+          "url": "https://www.fiio.com/q11_parameters",
+          "fields": [
+            "Q11 portable DAC/amp identity",
+            "USB input",
+            "310 mW at 16 ohm",
+            "single-ended and balanced headphone ports"
+          ]
+        }
+      ],
+      "editorialNote": "Portable DAC/headphone amplifier, not standalone analogue preamplifier or microphone recording device. Power measurement conditions must be checked per output; no blanket ability-to-drive verdict."
+    },
+    {
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "id": "schiit-magni-6",
+      "category": "headphone_amplifier",
+      "model": "Schiit Magni 6",
+      "amplifierKind": "analog_headphone_amp",
+      "headphoneOutputTypes": [
+        "6.35mm_single_ended",
+        "4.4mm_halo"
+      ],
+      "sourceInputTypes": [
+        "rca_stereo_analog"
+      ],
+      "hasBuiltInDac": false,
+      "ratedOutputMilliwatts": [
+        {
+          "loadOhms": 32,
+          "wattsPerChannel": 3,
+          "metric": "manufacturer_max_rms",
+          "testConditions": "manufacturer 32 ohm rating, current Magni 6"
+        }
+      ],
+      "outputImpedanceOhms": null,
+      "outputImpedanceCeilingOhms": 0.1,
+      "gainSettingsDb": null,
+      "headphoneOutputCount": 2,
+      "sourceEvidence": [
+        {
+          "url": "https://www.schiit.com/products/magni-6",
+          "fields": [
+            "Magni 6 model identity",
+            "3 W RMS @32 ohm",
+            "SE output impedance below 0.1 ohm",
+            "4.4 mm Halo output impedance differs"
+          ]
+        }
+      ],
+      "outputImpedanceConditions": "6.35 mm SE only, less-than 0.1 ohm; 4.4 mm Halo different (<2 ohm)",
+      "editorialNote": "Schiit historical Magni Unity URL redirects to Magni 6; never mix Unity/6 parameters. A version may have optional DAC hardware; base record is analogue-only. Manufacturer 4.4 mm 'Halo' output must not be treated as ordinary universal balanced output."
+    },
+    {
+      "id": "pioneer-sp-fs52",
+      "category": "speaker",
+      "model": "Pioneer SP-FS52",
+      "role": [
+        "home_listening",
+        "passive_speaker"
+      ],
+      "physicalInputTypes": [
+        "passive_speaker_binding_posts"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "passive_floorstanding",
+      "powered": false,
+      "speakerNominalImpedanceOhms": 6,
+      "speakerSensitivityDb": 87,
+      "speakerSensitivityBasis": "2.83_V_at_1_m_assumed_distance",
+      "speakerFrequencyRangeHz": [
+        40,
+        20000
+      ],
+      "frequencyRangeToleranceDb": null,
+      "maxInputPowerWatts": 130,
+      "maxInputPowerDuration": null,
+      "crossoverHz": [
+        250,
+        3000
+      ],
+      "minimumImpedanceOhms": null,
+      "phaseResponse": null,
+      "sourceEvidence": [
+        {
+          "url": "https://images-na.ssl-images-amazon.com/images/G/01/HARDLINES/usermanual/27_2_15/B008NCD2LG._V327293103_.pdf",
+          "fields": [
+            "3-way bass-reflex floorstanding",
+            "nominal impedance 6 ohms",
+            "87 dB at 2.83 V",
+            "130 W maximum input, unspecified duration",
+            "40 Hz–20 kHz range without tolerance",
+            "crossover 250 Hz and 3 kHz"
+          ]
+        }
+      ],
+      "editorialNote": "Original Pioneer manual. Sensitivity published at 2.83 V but source table does not explicitly state test distance; do not treat 130 W maximum as a continuous handling guarantee or 40 Hz endpoint as a -3 dB result.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "yamaha-hs5-studio",
+      "category": "speaker",
+      "model": "Yamaha HS5",
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "studio_monitoring"
+      ],
+      "physicalInputTypes": [
+        "balanced_xlr_line",
+        "6.35mm_trs_line"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_studio_monitor",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "internalAmplificationWatts": {
+        "lf": 45,
+        "hf": 25,
+        "combined": 70
+      },
+      "responseMinus3DbHz": [
+        74,
+        24000
+      ],
+      "quotedRangeMinus10DbHz": [
+        54,
+        30000
+      ],
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/",
+          "fields": [
+            "single powered monitor",
+            "XLR and TRS balanced or unbalanced signal inputs",
+            "two-way 5 inch monitor",
+            "74 Hz–24 kHz at -3 dB",
+            "45 W LF and 25 W HF internal amplifier, 70 W combined"
+          ]
+        }
+      ],
+      "editorialNote": "One cabinet, not a stereo pair. Internal 70 W biamplification must not be compared to an external amplifier's 70 W/channel. Requires line-level input, not direct passive speaker terminals.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "yamaha-hs7-studio",
+      "category": "speaker",
+      "model": "Yamaha HS7",
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "studio_monitoring"
+      ],
+      "physicalInputTypes": [
+        "balanced_xlr_line",
+        "6.35mm_trs_line"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_studio_monitor",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "wooferInches": 6.5,
+      "tweeterInches": 1,
+      "boxType": "bass_reflex",
+      "internalAmplificationWatts": {
+        "lf": 60,
+        "hf": 35,
+        "combined": 95
+      },
+      "responseMinus3DbHz": [
+        55,
+        24000
+      ],
+      "quotedRangeMinus10DbHz": [
+        43,
+        30000
+      ],
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/specs.html",
+          "fields": [
+            "2-way bass reflex 6.5-inch LF / 1-inch HF powered studio monitor",
+            "internal biamplification 60W LF + 35W HF = 95W per cabinet",
+            "55 Hz–24 kHz at -3 dB",
+            "43 Hz–30 kHz at -10 dB",
+            "one balanced XLR and one 6.35 mm TRS line-level input"
+          ]
+        }
+      ],
+      "editorialNote": "Factory HS Series specification. ONE powered cabinet, not a stereo pair. Built-in biamp output is not an external amp continuous/ch power rating; do not connect passive speaker terminals to its line inputs. A stereo system uses two cabinets and suitable level/volume control.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "yamaha-hs8-studio",
+      "category": "speaker",
+      "model": "Yamaha HS8",
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "studio_monitoring"
+      ],
+      "physicalInputTypes": [
+        "balanced_xlr_line",
+        "6.35mm_trs_line"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_studio_monitor",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "wooferInches": 8,
+      "tweeterInches": 1,
+      "boxType": "bass_reflex",
+      "internalAmplificationWatts": {
+        "lf": 75,
+        "hf": 45,
+        "combined": 120
+      },
+      "responseMinus3DbHz": [
+        47,
+        24000
+      ],
+      "quotedRangeMinus10DbHz": [
+        38,
+        30000
+      ],
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/specs.html",
+          "fields": [
+            "2-way bass reflex 8-inch LF / 1-inch HF powered studio monitor",
+            "internal biamplification 75W LF + 45W HF = 120W per cabinet",
+            "47 Hz–24 kHz at -3 dB",
+            "38 Hz–30 kHz at -10 dB",
+            "one balanced XLR and one 6.35 mm TRS line-level input"
+          ]
+        }
+      ],
+      "editorialNote": "Factory HS Series specification. ONE powered cabinet, not a stereo pair. Built-in biamp output is not an external amp continuous/ch power rating; do not connect passive speaker terminals to its line inputs. A stereo system uses two cabinets and suitable level/volume control.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "jbl-305p-mkii-studio",
+      "category": "speaker",
+      "model": "JBL 305P MkII",
+      "role": [
+        "recording_monitoring",
+        "mixing_reference",
+        "studio_monitoring"
+      ],
+      "physicalInputTypes": [
+        "balanced_xlr_line",
+        "6.35mm_trs_line"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_studio_monitor",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "maxContinuousSplDb": 94,
+      "maxContinuousSplTestConditions": "manufacturer published figure, do not compare to PA peak SPL",
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://jblpro.com/en-US/products/305p-mkii.html",
+          "fields": [
+            "powered 5 inch studio monitor",
+            "XLR and TRS inputs",
+            "selectable +4 dBu / -10 dBV sensitivity",
+            "94 dB maximum continuous SPL under manufacturer test"
+          ]
+        }
+      ],
+      "editorialNote": "One speaker cabinet. Manufacturer continuous SPL must not be compared directly to PA peak SPL; source-level connection required. Output channels/pair cost need separate checks.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "qsc-k12-2-pa",
+      "category": "speaker",
+      "model": "QSC K12.2",
+      "role": [
+        "live_sound",
+        "portable_pa",
+        "stage_monitor"
+      ],
+      "physicalInputTypes": [
+        "xlr_6.35mm_combo_mic_or_line_A",
+        "xlr_6.35mm_combo_line_or_hiz_B",
+        "3.5mm_stereo_line"
+      ],
+      "physicalOutputTypes": [
+        "xlr_loop_through",
+        "xlr_mix_output"
+      ],
+      "speakerKind": "powered_pa_speaker",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "hasMicrophoneInput": true,
+      "hasInstrumentHizInput": true,
+      "onboardPhantomPowerVolts": null,
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.qscaudio.com/products-solutions/loudspeakers/portable/powered/portable-pa/k2-series/k122/",
+          "fields": [
+            "two selectable combo input roles, different on channels A and B",
+            "3.5 mm stereo input",
+            "separate loop-through and mix XLR outputs",
+            "mains 100-240V"
+          ]
+        }
+      ],
+      "editorialNote": "Channel A mic/line and channel B Hi-Z/line are not two interchangeable mic preamps. Do not assume phantom power. Do not use marketing amplifier peak wattage as sustained acoustic output.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "electrovoice-zlx-12p-g2",
+      "category": "speaker",
+      "model": "Electro-Voice ZLX-12P-G2",
+      "role": [
+        "live_sound",
+        "portable_pa",
+        "stage_monitor"
+      ],
+      "physicalInputTypes": [
+        "xlr_6.35mm_combo_mic_line",
+        "bluetooth_stream"
+      ],
+      "physicalOutputTypes": [],
+      "speakerKind": "powered_pa_speaker",
+      "powered": true,
+      "unitsPerRetailPackage": 1,
+      "onboardPhantomPowerVolts": 24,
+      "hasMicrophoneInput": true,
+      "hasInstrumentHizInput": true,
+      "manufacturerMaximumSplDb": 127,
+      "manufacturerMaximumSplConditions": null,
+      "passiveSpeakerOutputRequired": false,
+      "sourceEvidence": [
+        {
+          "url": "https://www.electrovoice.com/product/zlx-12p-g2",
+          "fields": [
+            "powered 12 inch two-way PA",
+            "two XLR/TRS combo inputs",
+            "24 V phantom power, not 48 V",
+            "Hi-Z support with onboard mixer",
+            "127 dB manufacturer maximum SPL, measurement conditions not normalized"
+          ]
+        }
+      ],
+      "editorialNote": "Explicitly 24 V phantom, not standard 48 V. Phantom-fed condenser microphones may not work as intended: verify their required voltage. Max SPL cannot be compared unqualified to JBL continuous SPL.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "behringer-xm8500",
+      "category": "microphone",
+      "model": "Behringer XM8500",
+      "role": [
+        "live_vocals",
+        "stage",
+        "spoken_word",
+        "recorded_vocals"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://behringer.com/en/products/0502-AAA",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0502-AAA",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Low-cost XLR vocal dynamic; requires a microphone preamp, not a computer USB port.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "behringer-c1",
+      "category": "microphone",
+      "model": "Behringer C-1",
+      "role": [
+        "studio_vocals",
+        "spoken_word",
+        "acoustic_instruments"
+      ],
+      "capsule": "condenser",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": true,
+      "manufacturerSpec": "https://behringer.com/en/products/0504-AAE",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0504-AAE",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Budget studio condenser. Manufacturer states phantom supply +36 to +52 V; use an actual supported mic input.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "akg-p120",
+      "category": "microphone",
+      "model": "AKG P120",
+      "role": [
+        "studio_vocals",
+        "spoken_word",
+        "acoustic_instruments"
+      ],
+      "capsule": "condenser",
+      "pattern": "cardioid",
+      "outputs": [
+        "xlr_3pin"
+      ],
+      "requires48v": true,
+      "manufacturerSpec": "https://global.akg.com/P120-.html",
+      "sourceEvidence": [
+        {
+          "url": "https://global.akg.com/P120-.html",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "XLR condenser, not a USB microphone; requires compatible phantom supply.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "fifine-am8",
+      "category": "microphone",
+      "model": "FIFINE AmpliGame AM8 (USB/XLR)",
+      "role": [
+        "streaming",
+        "podcasting",
+        "spoken_word"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_c_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://fifinemicrophone.com/collections/dynamic-microphones/products/fifine-ampligame-am8-microphone",
+      "sourceEvidence": [
+        {
+          "url": "https://fifinemicrophone.com/collections/dynamic-microphones/products/fifine-ampligame-am8-microphone",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Two alternative output paths on one microphone. Do not assume the USB gain, RGB, mute and monitoring functions also operate over passive XLR.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "maono-pd200x",
+      "category": "microphone",
+      "model": "MAONO PD200X (USB/XLR)",
+      "role": [
+        "streaming",
+        "podcasting",
+        "spoken_word"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_c_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.maono.com/products/maono-pd200x-dynamic-usb-and-xlr-internet-microphone",
+      "sourceEvidence": [
+        {
+          "url": "https://www.maono.com/products/maono-pd200x-dynamic-usb-and-xlr-internet-microphone",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Dual USB/XLR podcast microphone; hardware and software features can differ by connection mode.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "samson-q2u",
+      "category": "microphone",
+      "model": "Samson Q2U (USB/XLR)",
+      "role": [
+        "podcasting",
+        "spoken_word",
+        "streaming",
+        "live_vocals"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.samsontech.com/products/microphones/usb-microphones/q2u/",
+      "sourceEvidence": [
+        {
+          "url": "https://www.samsontech.com/products/microphones/usb-microphones/q2u/",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "USB/XLR dynamic handheld mic. Research accessory bundle and host-device compatibility before promising a complete kit.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "audio-technica-atr2100x-usb",
+      "category": "microphone",
+      "model": "Audio-Technica ATR2100x-USB",
+      "role": [
+        "podcasting",
+        "spoken_word",
+        "streaming",
+        "live_vocals"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_c_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://docs.audio-technica.com/us/P52830_01_ATR2100x_USB_UM.pdf",
+      "sourceEvidence": [
+        {
+          "url": "https://docs.audio-technica.com/us/P52830_01_ATR2100x_USB_UM.pdf",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Different from the older ATR2100-USB. The user manual documents USB-C, balanced XLR and a cardioid dynamic capsule.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "rode-smartlav-plus",
+      "category": "microphone",
+      "model": "RØDE smartLav+",
+      "role": [
+        "mobile_video",
+        "wearable",
+        "interview",
+        "spoken_word"
+      ],
+      "capsule": "electret_condenser",
+      "pattern": "omnidirectional",
+      "outputs": [
+        "3_5mm_trrs_mic"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://rode.com/en-us/products/smartlav-plus",
+      "sourceEvidence": [
+        {
+          "url": "https://rode.com/en-us/products/smartlav-plus",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "TRRS phone-style lavalier. It is NOT an XLR mic or a direct standard stereo TRS camera mic; compatible input or suitable adapter required.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "powerMethod": "host_plug_in_power_trrs"
+    },
+    {
+      "id": "rode-videomicro-ii",
+      "category": "microphone",
+      "model": "RØDE VideoMicro II",
+      "role": [
+        "on_camera",
+        "mobile_video",
+        "vlogging",
+        "interview"
+      ],
+      "capsule": "electret_condenser",
+      "pattern": "supercardioid",
+      "outputs": [
+        "3_5mm_trs_mic"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://rode.com/en-ca/products/videomicro-ii",
+      "sourceEvidence": [
+        {
+          "url": "https://rode.com/en-ca/products/videomicro-ii",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Camera-mounted shotgun-style mic with 3.5 mm TRS output; requires compatible plug-in power (1.5–5 V) and camera/phone mic input or proper adapter.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "powerMethod": "plug_in_power_1_5_to_5_volts"
+    },
+    {
+      "id": "elgato-wave3-mk2",
+      "category": "microphone",
+      "model": "Elgato Wave:3 MK.2",
+      "role": [
+        "streaming",
+        "podcasting",
+        "spoken_word",
+        "content_creation"
+      ],
+      "capsule": "condenser",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_c_digital_audio"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://www.elgato.com/ca/en/p/wave-3",
+      "sourceEvidence": [
+        {
+          "url": "https://www.elgato.com/ca/en/p/wave-3",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "Exact MK.2 revision. USB mic and software routing, not an XLR microphone. System audio routing depends on host software and configuration.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "fifine-k688",
+      "category": "microphone",
+      "model": "FIFINE AmpliTank K688 (USB/XLR)",
+      "role": [
+        "streaming",
+        "podcasting",
+        "spoken_word"
+      ],
+      "capsule": "moving_coil_dynamic",
+      "pattern": "cardioid",
+      "outputs": [
+        "usb_digital_audio",
+        "xlr_3pin"
+      ],
+      "requires48v": false,
+      "manufacturerSpec": "https://fifinemicrophone.com/en-ca/products/fifine-amplitank-k688-microphone",
+      "sourceEvidence": [
+        {
+          "url": "https://fifinemicrophone.com/en-ca/products/fifine-amplitank-k688-microphone",
+          "fields": [
+            "exact manufacturer model identity",
+            "microphone type and connector",
+            "documented intended use"
+          ]
+        }
+      ],
+      "editorialNote": "USB/XLR hybrid. Monitoring and buttons can behave differently on USB versus XLR.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation"
+    },
+    {
+      "id": "presonus-audiobox-go",
+      "category": "audio_interface",
+      "model": "PreSonus AudioBox GO",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": null,
+      "manufacturerSpec": "https://www.presonus.com/collections/audio-interfaces/products/audiobox-go",
+      "sourceEvidence": [
+        {
+          "url": "https://www.presonus.com/collections/audio-interfaces/products/audiobox-go",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "One XLR mic preamp plus one independent instrument input: 2-in/2-out does not mean two microphone preamps.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "xlr_trs_combo_mic_or_line_channel_1",
+        "6_35mm_instrument_channel_2"
+      ],
+      "physicalOutputTypes": [
+        "two_balanced_trs_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "arturia-minifuse-1",
+      "category": "audio_interface",
+      "model": "Arturia MiniFuse 1 (original)",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 1,
+      "computerRecordingInputs": 1,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": true,
+      "manufacturerSpec": "https://www.arturia.com/products/audio/minifuse/minifuse-1",
+      "sourceEvidence": [
+        {
+          "url": "https://www.arturia.com/products/audio/minifuse/minifuse-1",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "One combo microphone/instrument/line channel. Stereo virtual loopback does not create a second physical mic preamp.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "xlr_trs_combo_mic_line_instrument_channel_1"
+      ],
+      "physicalOutputTypes": [
+        "balanced_stereo_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "maudio-mtrack-duo",
+      "category": "audio_interface",
+      "model": "M-Audio M-Track Duo",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 2,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": null,
+      "manufacturerSpec": "https://www.m-audio.com/audio-midi-interfaces/m-track-duo.html",
+      "sourceEvidence": [
+        {
+          "url": "https://www.m-audio.com/audio-midi-interfaces/m-track-duo.html",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "Two independent XLR/TRS combo inputs with two Crystal mic preamps; not the one-preamp M-Track Solo.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "two_xlr_trs_combo_mic_line_instrument_inputs"
+      ],
+      "physicalOutputTypes": [
+        "stereo_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "behringer-umc404hd",
+      "category": "audio_interface",
+      "model": "Behringer U-PHORIA UMC404HD",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 4,
+      "simultaneousAnalogInputs": 4,
+      "computerRecordingInputs": 4,
+      "computerPlaybackOutputs": 4,
+      "hasPhantom48v": true,
+      "directMonitor": null,
+      "loopback": null,
+      "manufacturerSpec": "https://behringer.com/en/products/0805-AAT",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0805-AAT",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "Four independent combination inputs with four mic preamps and USB 4x4 I/O. UMC404 (no HD) is a different variant.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "four_xlr_trs_combo_mic_line_instrument_inputs"
+      ],
+      "physicalOutputTypes": [
+        "four_6_35mm_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "behringer-umc22",
+      "category": "audio_interface",
+      "model": "Behringer U-PHORIA UMC22",
+      "role": [
+        "recording",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": true,
+      "loopback": null,
+      "manufacturerSpec": "https://behringer.com/en/products/0805-AAJ",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0805-AAJ",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "Budget 2x2 interface with one Midas mic preamp and separate instrument input; not two independently usable mic preamps.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "xlr_trs_combo_mic_or_line_channel_1",
+        "6_35mm_instrument_channel_2"
+      ],
+      "physicalOutputTypes": [
+        "stereo_line_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "elgato-wave-xlr-mk2",
+      "category": "audio_interface",
+      "model": "Elgato Wave XLR MK.2",
+      "role": [
+        "streaming",
+        "podcasting",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 1,
+      "computerRecordingInputs": 1,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "directMonitor": null,
+      "loopback": null,
+      "manufacturerSpec": "https://www.elgato.com/ca/en/p/wave-xlr",
+      "sourceEvidence": [
+        {
+          "url": "https://www.elgato.com/ca/en/p/wave-xlr",
+          "fields": [
+            "exact manufacturer model",
+            "XLR preamp count",
+            "physical input versus USB channel count"
+          ]
+        }
+      ],
+      "editorialNote": "Exact 2026 MK.2 XLR-to-USB creator interface: one microphone input, 48 V and Wave Link/DSP controls. Software mixing is not another physical preamp.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "single_xlr_microphone_input"
+      ],
+      "physicalOutputTypes": [
+        "stereo_headphone_out"
+      ],
+      "usbRecordingMode": "independent_mono_channels"
+    },
+    {
+      "id": "behringer-xenyx-302usb",
+      "model": "Behringer XENYX 302USB",
+      "category": "mixer_recorder",
+      "role": [
+        "podcasting",
+        "streaming",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": null,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": null,
+      "loopback": null,
+      "usbRecordingMode": "stereo_mix_only",
+      "advertisedMixerChannels": 5,
+      "manufacturerSpec": "https://behringer.com/en/products/0601-ADN",
+      "sourceEvidence": [
+        {
+          "url": "https://behringer.com/en/products/0601-ADN",
+          "fields": [
+            "exact model and microphone preamps",
+            "USB audio recording channels and documented modes",
+            "local monitoring, caller routing or phantom capability"
+          ]
+        }
+      ],
+      "editorialNote": "Five mixer input channels do not mean five separate USB microphone recordings. One XENYX mic preamp plus headset mic input. Exact phantom voltage is unverified and must not be inferred as 48 V.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "xlr_microphone_input_channel_1",
+        "headset_microphone_input"
+      ],
+      "physicalOutputTypes": [
+        "stereo_main_out",
+        "stereo_phones_out"
+      ],
+      "inputRoutingConstraints": [
+        "USB capture is a stereo mixer path, not independent per-strip multitrack input."
+      ]
+    },
+    {
+      "id": "yamaha-ag03mk2",
+      "model": "Yamaha AG03MK2",
+      "category": "mixer_recorder",
+      "role": [
+        "podcasting",
+        "streaming",
+        "content_creation"
+      ],
+      "micPreampCount": 1,
+      "simultaneousAnalogInputs": 2,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "loopback": true,
+      "usbRecordingMode": "selectable_dry_or_stereo_mix",
+      "advertisedMixerChannels": 3,
+      "manufacturerSpec": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag03mk2/specs.html",
+      "sourceEvidence": [
+        {
+          "url": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag03mk2/specs.html",
+          "fields": [
+            "exact model and microphone preamps",
+            "USB audio recording channels and documented modes",
+            "local monitoring, caller routing or phantom capability"
+          ]
+        }
+      ],
+      "editorialNote": "One XLR mic preamp and a second 6.35 mm guitar/line channel. USB streaming modes include dry inputs, combined input mix and loopback. A three-channel mixer is not a three-mic recorder.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "channel_1_combo_xlr_mic_or_line",
+        "channel_2_6_35mm_guitar_or_line",
+        "4_pole_3_5mm_trrs_smartphone_i_o"
+      ],
+      "physicalOutputTypes": [
+        "stereo_monitor_out",
+        "stereo_main_out"
+      ],
+      "inputRoutingConstraints": [
+        "Single XLR microphone preamp; TRRS headset/phone connection is not an additional independently recorded USB mic track."
+      ]
+    },
+    {
+      "id": "yamaha-ag06mk2",
+      "model": "Yamaha AG06MK2",
+      "category": "mixer_recorder",
+      "role": [
+        "podcasting",
+        "streaming",
+        "content_creation"
+      ],
+      "micPreampCount": 2,
+      "simultaneousAnalogInputs": null,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "loopback": true,
+      "usbRecordingMode": "selectable_dry_or_stereo_mix",
+      "advertisedMixerChannels": 6,
+      "manufacturerSpec": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag06mk2/specs.html",
+      "sourceEvidence": [
+        {
+          "url": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag06mk2/specs.html",
+          "fields": [
+            "exact model and microphone preamps",
+            "USB audio recording channels and documented modes",
+            "local monitoring, caller routing or phantom capability"
+          ]
+        }
+      ],
+      "editorialNote": "Two XLR combo mic channels with 48 V phantom, 2-in/2-out USB. Streaming output selector has dry CH1/2G, input-mix and loopback modes; check software and routing before promising two editable channels in a specific streaming configuration.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "channel_1_combo_mic_or_line",
+        "channel_2_combo_mic_guitar_or_line",
+        "stereo_line_input"
+      ],
+      "physicalOutputTypes": [
+        "stereo_main_out",
+        "stereo_monitor_out"
+      ],
+      "inputRoutingConstraints": [
+        "Dry channel mode and mixed loopback are different routes. Both XLR channels and 3.5 mm headset microphone cannot all be treated as independently captured inputs."
+      ]
+    },
+    {
+      "id": "mackie-profx6v3-plus",
+      "model": "Mackie ProFX6v3+",
+      "category": "mixer_recorder",
+      "role": [
+        "podcasting",
+        "streaming",
+        "content_creation"
+      ],
+      "micPreampCount": 2,
+      "simultaneousAnalogInputs": null,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 4,
+      "hasPhantom48v": true,
+      "loopback": true,
+      "usbRecordingMode": "independent_mono_channels",
+      "advertisedMixerChannels": 6,
+      "manufacturerSpec": "https://mackie.com/en/products/mixers/profxv3-series/ProFX6v3plus.html",
+      "sourceEvidence": [
+        {
+          "url": "https://mackie.com/en/products/mixers/profxv3-series/ProFX6v3plus.html",
+          "fields": [
+            "exact model and microphone preamps",
+            "USB audio recording channels and documented modes",
+            "local monitoring, caller routing or phantom capability"
+          ]
+        }
+      ],
+      "editorialNote": "Two Onyx mic preamps, USB-C 2x4. Interface mode records channels 1/2 without effects; Standard records full mix; Loopback adds computer audio. Do not claim six independent USB microphone tracks.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "two_xlr_trs_combo_mic_line_channels",
+        "stereo_line_channel_3_4",
+        "stereo_3_5mm_line_channel_5_6"
+      ],
+      "physicalOutputTypes": [
+        "stereo_main_out",
+        "stereo_headphone_out"
+      ],
+      "inputRoutingConstraints": [
+        "Two independent mic channels to USB only in the documented Interface recording mode; Standard and Loopback combine sources."
+      ]
+    },
+    {
+      "id": "zoom-podtrak-p4",
+      "model": "Zoom PodTrak P4",
+      "category": "mixer_recorder",
+      "role": [
+        "podcasting",
+        "streaming",
+        "content_creation"
+      ],
+      "micPreampCount": 4,
+      "simultaneousAnalogInputs": 4,
+      "computerRecordingInputs": 2,
+      "computerPlaybackOutputs": 2,
+      "hasPhantom48v": true,
+      "loopback": null,
+      "usbRecordingMode": "stereo_mix_only",
+      "advertisedMixerChannels": 4,
+      "manufacturerSpec": "https://zoomcorp.com/en/ca/podcast-recorders/podcast-recorders/podtrak-p4/",
+      "sourceEvidence": [
+        {
+          "url": "https://zoomcorp.com/en/ca/podcast-recorders/podcast-recorders/podtrak-p4/",
+          "fields": [
+            "exact model and microphone preamps",
+            "USB audio recording channels and documented modes",
+            "local monitoring, caller routing or phantom capability"
+          ]
+        }
+      ],
+      "editorialNote": "Four XLR mic preamps and separate on-device podcast/SD recording features; as a USB audio interface it presents two inputs and two outputs. Do not confuse stand-alone multitrack storage with four independent computer USB mic channels.",
+      "evidenceCheckedDate": "2026-11-18",
+      "evidenceTier": "manufacturer_primary_or_documented",
+      "price": null,
+      "priceCurrency": null,
+      "priceCheckedDate": null,
+      "availability": null,
+      "ratingsConsensus": null,
+      "roleOfRecord": "research_comparison_not_published_recommendation",
+      "physicalInputTypes": [
+        "four_xlr_microphone_inputs",
+        "3_5mm_trrs_remote_guest_input"
+      ],
+      "physicalOutputTypes": [
+        "four_individual_headphone_outputs",
+        "usb_audio_stereo_out"
+      ],
+      "standaloneRecordTracks": 4,
+      "inputRoutingConstraints": [
+        "USB interface is 2-in/2-out. Independent podcast tracks are recorded locally, not four separate computer USB capture channels."
+      ]
+    }
+  ],
+  "existingPresetCrossReferences": [
+    {
+      "model": "Yamaha A-720",
+      "category": "amp",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Panasonic SA-HE100",
+      "category": "amp",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Yamaha HTR-4063 (US/Canada)",
+      "category": "amp",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Paradigm Phantom v1",
+      "category": "speaker",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Paradigm Titan v3",
+      "category": "speaker",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Grado SR80e",
+      "category": "headphone",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    },
+    {
+      "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)",
+      "category": "source",
+      "source": "system-check/gear.js",
+      "use": "reuse_verified_existing_record",
+      "notDuplicated": true
+    }
+  ],
+  "uncataloguedComparisonModels": [],
+  "comparisonGroups": [
+    {
+      "id": "headphone-listening-and-monitoring",
+      "recordIds": [
+        "akg-k371",
+        "audio-technica-ath-m40x",
+        "shure-srh440a"
+      ],
+      "existingPresetModels": [
+        "Grado SR80e",
+        "Grado SR80x",
+        "Grado SR60x",
+        "Audio-Technica ATH-M50x",
+        "beyerdynamic DT 770 PRO (80 Ω)",
+        "Sennheiser HD 560S",
+        "Sennheiser HD 600",
+        "Sony MDR-7506",
+        "Moondrop Chu II"
+      ],
+      "purpose": "Compare design, isolation, impedance and sensitivity while preserving sensitivity reference basis."
+    },
+    {
+      "id": "headphone-amplification",
+      "recordIds": [
+        "jds-atom-amp-2",
+        "topping-l30-ii",
+        "fiio-k11",
+        "fiio-q11",
+        "schiit-magni-6"
+      ],
+      "existingPresetModels": [
+        "FiiO K11 (RCA line out)"
+      ],
+      "purpose": "Separate amplifier output power at a stated headphone load, output impedance, connection types and whether a DAC is included. Existing FiiO K11 line-out source preset is not an existing headphone power-amplifier measurement."
+    }
+  ],
+  "headphoneCompatibilityRules": {
+    "status": "planned_only",
+    "notEnabledInSystemCheck": true,
+    "required": [
+      "headphone impedance ohms",
+      "headphone sensitivity value AND reference basis (dB SPL per mW or per V)",
+      "requested SPL and peak headroom (use conservative choices)",
+      "amp voltage and current limits or power vs rated load",
+      "amp output impedance",
+      "matching physical connector and output topology",
+      "volume/noise control for sensitive headphones"
+    ],
+    "uncertainWithout": [
+      "power rating at relevant load and stated distortion",
+      "actual sensitivity measurement",
+      "max output voltage or load performance when interpolating",
+      "exact source signal level for stand-alone analogue amp"
+    ],
+    "caveats": [
+      "Impedance alone cannot establish loudness.",
+      "Do not compare dB/mW to dB/V numerically without conversion.",
+      "Power stated at 32 ohms cannot be used as guaranteed power at 300 ohms.",
+      "Output jack size is not a guarantee of balanced output; unsafe adapter wiring can damage equipment.",
+      "Some source devices already drive headphones adequately; do not prescribe an amplifier solely because headphone impedance exceeds an arbitrary threshold.",
+      "Headphone max power handling is not a recommended listening level.",
+      "Ensure safe listening levels."
+    ]
+  }
+}

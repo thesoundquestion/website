@@ -14,28 +14,41 @@ function pages(dir=root){
  return found;
 }
 const read=p=>readFileSync(p,'utf8');
-test('every page offers end-of-page wayfinding with a useful, local next step',()=>{
+test('every page has one purposeful way out, not stacked navigation panels',()=>{
  const all=pages();
- assert.ok(all.length>=43,'expected the full published site');
+ assert.ok(all.length>=43);
+ const hubs=new Set(['index.html','decoder/index.html','labs/index.html','tools/index.html','library/index.html']);
  for(const file of all){
   const relative=path.relative(root,file).replaceAll('\\','/');
   const html=read(file);
-  const blocks=[...html.matchAll(/<nav class="page-endnav[^"]*" aria-label="End-of-page navigation">([\s\S]*?)<\/nav>/g)];
-  assert.equal(blocks.length,1,relative+': exactly one end-of-page nav');
-  const block=blocks[0][1];
-  assert.match(block,/href="#"[^>]*>↑ Back to top<\/a>/,relative+': missing top link');
+  const end=[...html.matchAll(/<nav class="page-endnav[^"]*" aria-label="End-of-page navigation">([\s\S]*?)<\/nav>/g)];
+  const course=[...html.matchAll(/<nav class="dl-continue container" aria-label="Continue learning">/g)];
+  const isCourse=html.includes('<!-- LESSON_NAV_BEGIN -->');
+  if(hubs.has(relative)){
+   assert.equal(end.length,0,relative+': primary cards are the navigation');
+   if(relative==='index.html'){
+    assert.match(html,/class="home-quick-links"/);
+    assert.match(html,/class="home-more-grid"/);
+   }
+   continue;
+  }
+  if(isCourse){
+   assert.equal(course.length,1,relative+': exactly one course-navigation panel');
+   assert.equal(end.length,0,relative+': no duplicate end-of-page panel');
+   assert.doesNotMatch(html,/<!-- LESSON_TOP_NAV_BEGIN -->/,relative+': duplicate top-next action');
+   continue;
+  }
+  assert.equal(end.length,1,relative+': one contextual end action');
+  const block=end[0][1];
+  assert.match(block,/href="#"[^>]*>↑ Back to top<\/a>/,relative+': missing back-to-top');
   const m=block.match(/class="page-endnav-primary" href="([^"]+)"/);
-  assert.ok(m,relative+': missing contextual action');
-  assert.ok(m[1].startsWith('/'),relative+': local contextual target');
+  assert.ok(m&&m[1].startsWith('/'),relative+': missing local contextual action');
   const pathname=m[1].split('#')[0].split('?')[0];
   const target=path.resolve(root,pathname.replace(/^\//,'')+(pathname.endsWith('/')?'index.html':''));
-  assert.ok(existsSync(target),relative+': nonexistent contextual destination '+m[1]);
-  if(relative==='index.html')assert.doesNotMatch(block,/href="\/"[^>]*>Home<\/a>/);
-  else{
-   assert.match(block,/href="\/"[^>]*>Home<\/a>/,relative+': missing home link');
-   assert.notEqual(pathname,'/'+relative.replace(/index.html$/,''),relative+': contextual action points to itself');
-  }
-  assert.ok(html.lastIndexOf('page-endnav')<html.lastIndexOf('</main>'),relative+': nav must be inside main');
+  assert.ok(existsSync(target),relative+': missing destination '+m[1]);
+  assert.notEqual(pathname,'/'+relative.replace(/index.html$/,''),relative+': self-target');
+  assert.doesNotMatch(block,/href="\/"[^>]*>Home<\/a>|>All lessons<\/a>|>All tools<\/a>/i,relative+': generic duplicate links');
+  assert.ok(html.lastIndexOf('page-endnav')<html.lastIndexOf('</main>'),relative+': nav must live inside main');
  }
 });
 test('lesson progression remains intact and end-page buttons work without JavaScript',()=>{

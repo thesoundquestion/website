@@ -5,16 +5,15 @@ const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const home=read('index.html'),connect=read('connect/index.html'),privacy=read('privacy/index.html'),js=read('assets/share-site.js'),abx=read('assets/abx-lab.js'),worker=read('workers/abx/index.mjs');
 
 test('public email invites educational ideas and permission offers with no contact-form dependency',()=>{
- for(const page of [home,connect]){
-  assert.match(page,/contact@thesoundquestion\.com/);
-  assert.match(page,/mailto:contact@thesoundquestion\.com/);
- }
- assert.match(home,/permission/i);
+ assert.match(home,/<a href="\/connect\/">\s*<strong>Contact<\/strong>/);
+ assert.match(connect,/contact@thesoundquestion\.com/);
+ assert.match(connect,/mailto:contact@thesoundquestion\.com/);
+ assert.match(connect,/permission/i);
  assert.match(connect,/materials you own or are authorized to share/);
  assert.match(privacy,/Contact email/);
 });
 test('equipment-loan outreach is discoverable and independent',()=>{
- assert.match(home,/href="\/connect\/#business-inquiries"/);
+ assert.match(home,/<a href="\/connect\/">\s*<strong>Contact<\/strong>/);
  assert.match(connect,/id="business-inquiries"/);
  assert.match(connect,/mailto:contact@thesoundquestion\.com\?subject=The%20Sound%20Question%20-%20Equipment/);
  assert.match(connect,/temporary loan/);
@@ -29,7 +28,9 @@ test('optional Ko-fi support links do not gate lessons or embed payment scripts'
  assert.match(connect,/id="support-project"/);
  assert.match(connect,/Nothing is locked behind a contribution/);
  assert.match(privacy,/Donations open Ko-fi's external payment page/);
- assert.equal((privacy.match(/Cloudflare/g)||[]).length,1);
+ assert.ok((privacy.match(/Cloudflare/g)||[]).length>=1,'Cloudflare hosting/privacy disclosure retained');
+ assert.match(privacy,/clicking its separate button will send the question/);
+ assert.match(privacy,/short-lived signed browser cookie/);
  assert.match(privacy,/temporary limits based on your IP address/);
  assert.match(privacy,/a separate scoring service will check blind-test answers/);
  for(const page of [home,connect]){
@@ -41,10 +42,8 @@ test('homepage has real sharing actions and no third-party social media scripts'
  assert.match(home,/id="nativeShare"/);
  assert.match(home,/id="copySiteLink"/);
  assert.match(home,/\/assets\/share-site\.js/);
- assert.match(home,/facebook\.com\/sharer/);
- assert.match(home,/reddit\.com\/submit/);
- assert.match(home,/whatsapp\.com\/send/);
- assert.match(home,/mailto:\?subject=/);
+ assert.doesNotMatch(home,/facebook\.com\/sharer|reddit\.com\/submit|whatsapp\.com\/send|mailto:\?subject=/);
+ assert.match(home,/class="home-share-strip"/);
  assert.match(js,/navigator\.share/);
  assert.match(js,/navigator\.clipboard\.writeText/);
  assert.doesNotMatch(js,/fetch\(/);
@@ -110,7 +109,7 @@ test('rights policy offers direct contact and long lessons begin with plain-lang
   assert.match(read(page),/tsq-lesson-shortcut/);
   assert.match(read(page),/Start with the simple idea:/);
  }
- assert.match(read('library/curators-listening-room/index.html'),/51 selections cover 53 tracks/);
+ assert.match(read('library/curators-listening-room/index.html'),/51 selections cover 55 tracks/);
 });
 
 test('Mastering metrics and MP3 technical notes explain core units without assuming audio jargon',()=>{

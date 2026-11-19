@@ -15,7 +15,7 @@
   <link rel="canonical" href="https://thesoundquestion.com/decoder/amplifier-power/">
   <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
   <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="stylesheet" href="/assets/decoder-lessons.css?v=equipment-tools">
+  <link rel="stylesheet" href="/assets/decoder-lessons.css?v=equipment-tools"><link rel="stylesheet" href="/assets/impedance-pump.css">
   <title>Why doesn't a 150-watt amplifier always outperform an 80-watt one? | The Sound Question</title>
 </head>
 <body>
@@ -29,7 +29,7 @@
     </header>
     <main id="main">
 <div class="dl-lesson-top container"><div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Amplifier power</span></nav>
-<!-- LESSON_TOP_NAV_BEGIN --><a class="dl-top-next" href="/decoder/amplifier-distortion/" aria-label="Next lesson: Amplifier distortion and harmonics">Next lesson: Amplifier distortion and harmonics →</a><!-- LESSON_TOP_NAV_END --></div>
+</div>
  <p class="section-kicker">LESSON 07 · AMPLIFIERS · CLEAN OUTPUT AND HEADROOM</p>
  <h1>Why doesn't a 150-watt amplifier always outperform an 80-watt one?</h1><p class="lead">Power specifications, speaker load, headroom, and how to spot a misleading wattage claim.</p>
  <div class="dl-example-spec" role="note">
@@ -52,6 +52,7 @@
 <div class="dl-stat-grid"><div class="dl-stat-chart"><svg class="dl-stat-svg" viewBox="0 0 730 284" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two equal bars illustrate a printed rating of 80 watts per channel into an eight-ohm load across the stated rated power frequency band. The claim as written omits test distortion and number of driven channels."><rect width="730" height="284" rx="10" fill="#0b1c2d"/><line x1="90" y1="227" x2="640" y2="227" stroke="#7192a9"/><line x1="90" y1="55" x2="90" y2="227" stroke="#7192a9"/><line x1="90" y1="91" x2="640" y2="91" stroke="#a7d2e4" stroke-dasharray="5 6"/><text x="78" y="96" text-anchor="end" class="dl-stat-axis">80 W</text><rect x="202" y="91" width="122" height="136" fill="#83d3f0" rx="5"/><rect x="409" y="91" width="122" height="136" fill="#9ddfb9" rx="5"/><text x="263" y="78" text-anchor="middle" class="dl-stat-label">80 W</text><text x="469" y="78" text-anchor="middle" class="dl-stat-label">80 W</text><text x="263" y="253" text-anchor="middle" class="dl-stat-small">Channel L</text><text x="469" y="253" text-anchor="middle" class="dl-stat-small">Channel R</text><text x="365" y="35" text-anchor="middle" class="dl-stat-cap">8 Ω load · 20 Hz–20 kHz stated band</text><text x="18" y="21" class="dl-stat-small">Rated output claim · not a distortion sweep</text></svg><p class="dl-stat-caption">Illustrative diagram, not a manufacturer's measured response or verification of a product.</p></div>
 <div class="dl-stat-explanation"><p class="dl-stat-key">80 W is the output rating; 8 Ω is the test load; 20 Hz–20 kHz is the stated frequency band.</p><p>The specification claims up to 80 watts of electrical power per channel while driving a stated 8-ohm test load, associated with a rated power frequency band of 20 Hz to 20 kHz. The illustration highlights what the words claim, not what a test would actually measure.</p><p class="dl-stat-warning"><strong>What it doesn't tell you:</strong> As written, it still omits the permitted distortion level, test duration and how many channels were driven simultaneously. Without those conditions, a comparable continuous-power claim is incomplete.</p></div></div>
 </section>
+<section class="container pump-lesson" id="pump-analogy"><p class="section-kicker">ELECTRICITY WITHOUT THE EQUATIONS</p><h2>One pump. Two taps. Different demands.</h2><p>Imagine the amplifier as a pump. At the <strong>same pressure (voltage)</strong>, a wider bathtub tap asks for more water <strong>(current)</strong> than a narrow sink tap. But opening the tap wider cannot increase what the pump is capable of supplying.</p><figure class="pump-figure" tabindex="0" aria-label="Scrollable pump and tap comparison"><img src="/assets/illustrations/tsq-pump-taps-approved.png" width="1672" height="941" loading="lazy" decoding="async" alt="Side-by-side pump analogy. A narrow sink tap represents an eight-ohm load requesting one amp at the same voltage. A wide bathtub tap represents a four-ohm load requesting two amps. The pump's fictional current capacity is one and a half amps, so the wider tap requests more flow than it can sustain at that voltage."><figcaption><strong>Illustration, not a product measurement:</strong> The taps represent simple fixed loads, not complete speaker behaviour. The example 1.5 A pump limit is invented. Real speakers change impedance with pitch and amplifiers have several limits. <a href="/decoder/ohms-law/#same-voltage">See the optional worked example.</a></figcaption></figure></section>
 <section class="dl-chart-section container" id="compare"><div class="dl-heading"><p class="section-kicker">LOOK AT THE GRAPH</p><h2>The same amplifier, tested with different electrical loads</h2><p>Think of the two sides as different demands placed on the same amplifier: 4 Ω on the left and 8 Ω on the right. At the same voltage, the 4 Ω test load asks for twice as much current. That's why two amps with the same 80 W rating into 8 Ω may behave differently into 4 Ω. See the <a href="/decoder/ohms-law/#same-voltage">simple voltage-and-current example</a>.</p></div>
  <div class="dl-figure" data-lesson-plot="amplifier-power">
  <div class="dl-graph-toolbar" role="group" aria-label="Select example curve"><span><b>TRY THE GRAPH</b><small>Click each example to see what changes</small></span><button type="button" class="dl-option is-current" data-select-case="even" aria-pressed="true">More reserve</button><button type="button" class="dl-option" data-select-case="character" aria-pressed="false">Less reserve</button><button type="button" class="dl-option" data-select-case="issue" aria-pressed="false">Vague headline</button></div>
@@ -222,25 +223,19 @@
  </div><div class="dl-references"><h2>Sources &amp; further reading</h2><p>These sources explain the measurement principles and research context. None of the charts above were taken from them; every example graph is original and fictional.</p><ul><li><a href="https://www.ftc.gov/legal-library/browse/rules/amplifier-rule" rel="noopener noreferrer">US Federal Trade Commission: Amplifier Rule ↗</a></li><li><a href="https://www.audioholics.com/audio-amplifier/basic-amplifier-measurement-techniques" rel="noopener noreferrer">Audioholics: Amplifier measurement methods ↗</a></li><li><a href="https://www.crownaudio.com/en-US/faq_categories/1" rel="noopener noreferrer">Crown Audio: amplifier FAQ ↗</a></li><li><a href="https://www.crownaudio.com/en/how-much-amplifier-power" rel="noopener noreferrer">Crown Audio: Power requirements, dynamics and headroom ↗</a></li></ul></div>
  </section>
  <!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
- <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 07 of 26 · Amplifiers</span></div>
+ <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 07 of 27 · Amplifiers</span></div>
  <a class="dl-next-card" href="/decoder/amplifier-distortion/">
   <span class="dl-next-copy"><span class="dl-next-kicker">UP NEXT · AMPLIFIERS</span>
   <strong>Amplifier distortion and harmonics</strong><span>Compare distortion curves and understand the added tones.</span></span>
   <span class="dl-next-arrow" aria-hidden="true">→</span>
  </a>
  <div class="dl-nav-utilities"><a href="/decoder/speaker-drivers/">← Previous: Speaker drivers, materials and crossovers</a><a href="/decoder/">All lessons ↗</a></div>
- </nav><!-- LESSON_NAV_END -->
+ </nav><div class="dl-related-action"><span>Related next step</span><a href="/system-check/">Estimate your system's headroom</a></div>
+<!-- LESSON_NAV_END -->
  <div class="dl-end container"><a href="/decoder/">← Back to the Spec Sheet Decoder</a><a href="/journey/">How this fits the sound journey →</a></div>
-<nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">TRY THIS NEXT</span><a class="page-endnav-primary" href="/system-check/">Estimate your system's headroom <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/">Home</a><a href="#">↑ Back to top</a></div></nav>
+
 </main>
-    <footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-brand"><img src="/assets/mark.svg" width="29" height="29" alt=""><span>The Sound Question</span></div>
-    <div class="footer-links"><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a><a href="/privacy/">Privacy</a></div>
-    <p>From the first sound to the final listen. Understand what shapes what you hear.</p>
-    <small>© 2026 The Sound Question. Free to explore, no account required.</small>
-  </div>
-</footer>
+    <footer class="site-footer tsq-footer-compact"><div class="container tsq-footer-inner"><span>© 2026 The Sound Question · Free to explore</span><nav aria-label="Policies"><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></nav></div></footer>
   </div>
 <script defer src="/assets/decoder-lessons.js?v=headroom-load"></script>
 </body>

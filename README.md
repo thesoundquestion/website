@@ -35,7 +35,9 @@ AI-agent development guidance and the free-tier / authorization safeguards are i
 
 ## Updating
 
-Use an isolated review branch, run regression checks and obtain approval before merging or triggering a production deployment. Cloudflare automatic Git deployments are disabled. If the build configuration is edited in Cloudflare, ensure that this plain HTML site continues to publish the repository root.
+**Permanent default for every website edit and prototype:** work on a GitHub review branch/draft PR, run GitHub Actions and/or local regression/browser tests, and review from GitHub or a local checkout. **Do not trigger Cloudflare Pages builds or deployments of any kind (including previews) unless the owner explicitly authorizes that particular deployment.** Automatic Cloudflare Git builds remain disabled, and ordinary development must not consume Pages Free build quotas. A request to edit, continue, finish, prepare for launch or review a prototype is not permission to deploy. Obtain separate approval before merging into production `main`. If a later authorized deployment changes Cloudflare build configuration, preserve the website's static `site-dist/` output and free-only restrictions.
+
+See [AGENTS.md](AGENTS.md#permanent-github-first-cloudflare-on-approval-workflow--all-edits-and-prototypes) for the complete mandatory workflow. Existing Cloudflare preview URLs are historical snapshots; new GitHub commits do not update them.
 
 Use relative-to-root links (`/library/`, `/assets/styles.css`) so page paths work on all devices.
 
@@ -45,7 +47,7 @@ The decoder teaches through labelled **fictional specifications**, calculated ex
 
 ## Ask The Sound Question
 
-The Decoder’s 23 lessons include a compact tutor with prepared answers and local typed-question matching. The tutor reads each lesson’s selected example and links to the relevant explanation. The answer bank loads when the panel is opened. Typed questions stay in the browser in the current release.
+The Decoder’s 27 lessons include a compact tutor with prepared answers and local typed-question matching. The tutor reads each lesson’s selected example and links to the relevant explanation. The answer bank loads when the panel is opened. Typed questions stay in the browser in the current release.
 
 Maintain the [approved answers](assets/lesson-tutor/approved-answers.json) alongside the lessons. Run the [tutor tests](deployment/lesson-tutor/README.md#verification) when changing lesson specifications, example IDs or anchors. The [development handoff](deployment/lesson-tutor/README.md) covers editorial changes, privacy, operating limits and the optional Cloudflare Workers AI setup.
 

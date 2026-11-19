@@ -7,8 +7,8 @@ const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 
 test('Library entry matches actual Listening Room selection and track count',()=>{
  const index=read('library/index.html'),room=read('library/curators-listening-room/index.html');
- assert.match(index,/51 listening selections covering 53 tracks/);
- assert.match(room,/51 selections cover 53 tracks/);
+ assert.match(index,/51 listening selections covering 55 tracks/);
+ assert.match(room,/51 selections cover 55 tracks/);
  assert.doesNotMatch(index,/38 personally selected/);
 });
 
@@ -66,9 +66,11 @@ test('approved navigation and diagrams make the next action obvious',()=>{
  assert.match(contact,/>Donate ↗<\/a>/);
  assert.doesNotMatch(contact,/>Support the project on Ko-fi/);
  assert.match(css,/\.contact-panels\{display:grid/);
- const hero=home.indexOf('class="journey-hero'),invite=home.indexOf('class="container home-support-invite"');
- const cards=home.indexOf('class="section site-hub"'),share=home.indexOf('class="section section-border home-share-section"');
- assert.ok(hero>=0&&hero<invite&&invite<cards&&cards<share,'Donation prompt precedes learning cards, full support follows them');
+ const hero=home.indexOf('class="container home-goal-intro"'),goals=home.indexOf('class="home-goal-grid"');
+ const cards=home.indexOf('class="section section-border home-fast-paths"'),support=home.indexOf('class="section section-border home-more"');
+ assert.ok(hero>=0&&hero<cards&&cards<goals&&goals<support,'Branded hero, Jump Straight In, Choose Your Path, then smaller reference cards');
+ assert.doesNotMatch(home,/class="container home-support-invite"/,'No donation interruption above goal choices');
+ assert.ok(home.length<12000,'Homepage remains intentionally concise');
 });
 
 test('source levels and power handling retain essential qualification',()=>{

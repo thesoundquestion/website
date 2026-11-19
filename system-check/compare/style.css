@@ -129,3 +129,62 @@
  .gc-table .gc-section-row th{font-size:.7rem;padding:.6rem}
  .gc-compare-explainer{font-size:.82rem}
 }
+
+/* Evidence-gated retail price position in Compare My Gear */
+.gc-price-summary{border:1px solid #36556d;padding:1.1rem 1.3rem;margin:1.1rem 0 1.45rem;background:#122436;border-radius:12px}
+.gc-price-summary h3{font-size:1.16rem;margin:0 0 .7rem}
+.gc-price-summary label{display:flex;flex-direction:column;gap:.35rem;max-width:380px;font-weight:650}
+.gc-price-summary select{font:inherit;background:#0a1827;border:1px solid #55738c;color:#f0faff;border-radius:8px;padding:.6rem}
+.gc-price-summary p{margin:.6rem 0;color:#cfdeea}
+.gc-price-caution{font-size:.85rem}
+
+/* Shared-catalogue recording and headphone-amp comparisons. The four legacy
+   audio playback categories keep their original calculator and layout. */
+#gc-legacy[hidden],#gc-expanded[hidden],#gc-expanded-results[hidden],
+#gc-expanded-observations-block[hidden]{display:none!important}
+.gc-expanded{margin-top:1.25rem}
+.gc-expanded #gc-expanded-intro{margin:0 0 1.1rem}
+.gc-expanded-pickers{margin-bottom:.9rem}
+.gc-expanded-pickers fieldset{min-width:0}
+.gc-expanded-pickers label{display:block;margin:.65rem 0 .35rem}
+.gc-expanded-pickers input,.gc-expanded-pickers select{
+  width:100%;min-width:0;max-width:100%;box-sizing:border-box;
+  font:inherit;border:1px solid #52738b;border-radius:7px;
+  color:#eef8ff;background:#102839;padding:.7rem .75rem
+}
+.gc-expanded-pickers :is(input,select):focus-visible{
+  outline:3px solid #87e5f1;outline-offset:2px
+}
+.gc-expanded #gc-expanded-status{min-height:1.6em}
+.gc-expanded #gc-expanded-results{margin-top:1.3rem}
+.gc-expanded #gc-expanded-results h2{margin-bottom:.7rem}
+.gc-expanded .gc-expanded-table-scroll{overflow-x:auto;border:1px solid #36556d;border-radius:12px}
+.gc-expanded .gc-expanded-table-scroll:focus-visible{outline:3px solid #87e5f1}
+.gc-expanded .gc-table{width:100%;min-width:600px;margin:0;border-collapse:collapse}
+.gc-expanded .gc-table th,.gc-expanded .gc-table td{
+  padding:.7rem;overflow-wrap:anywhere;vertical-align:top
+}
+.gc-expanded .gc-table caption{
+  caption-side:bottom;padding:.7rem;text-align:left;color:#bdd0e0;font-size:.88rem
+}
+.gc-expanded .gc-expanded-caution td{
+  color:#c7dcea;background:rgba(51,81,108,.27);font-size:.9rem;padding:.55rem .8rem
+}
+.gc-expanded #gc-expanded-warning{margin-bottom:1.1rem}
+.gc-expanded #gc-expanded-results>section{margin-top:1.4rem}
+.gc-expanded .gc-expanded-sources{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem
+}
+.gc-expanded .gc-expanded-sources>section{
+  border:1px solid #36556d;padding:1rem;border-radius:10px;min-width:0
+}
+.gc-expanded .gc-expanded-sources h4{margin:.25rem 0 .7rem}
+.gc-expanded .gc-expanded-sources ul{padding-left:1.25rem}
+.gc-expanded .gc-expanded-sources li{overflow-wrap:anywhere;margin-bottom:.5rem}
+.gc-expanded .gc-expanded-sources li span{color:#bcd1e0;font-size:.88rem}
+@media(max-width:580px){
+ .gc-expanded .gc-expanded-sources{grid-template-columns:minmax(0,1fr)}
+ .gc-expanded .gc-table{min-width:520px}
+ .gc-expanded .gc-expanded-caution td{font-size:.83rem}
+ .gc-types button{font-size:.87rem}
+}

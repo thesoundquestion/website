@@ -1,0 +1,2771 @@
+// AUTO-GENERATED from assets/lesson-tutor/approved-answers.json.
+// Shared approved teaching text; update the JSON source and regenerate this file together.
+// Plain JavaScript avoids Wrangler Pages' older JSON import-attributes parser.
+export default {
+  "sound-basics": {
+    "title": "Frequency, dB and distortion",
+    "specification": "60 Hz–15 kHz (±3 dB)",
+    "topic": "sound basics",
+    "terms": [
+      "frequency",
+      "hertz",
+      "decibel",
+      "dB",
+      "distortion",
+      "harmonic",
+      "frequency response",
+      "equalization",
+      "human hearing",
+      "ultrasound",
+      "infrasound",
+      "clipping",
+      "loudness",
+      "speaker response",
+      "masking"
+    ],
+    "sections": [
+      "frequency",
+      "music",
+      "decibels",
+      "response",
+      "distortion",
+      "outside-hearing",
+      "next"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Frequency describes how low or high a sound is. Decibels describe its measured strength compared with a reference. Distortion changes the waveform; nonlinear distortion can add tones not present in the source.",
+        "section": "frequency"
+      },
+      "spec": {
+        "text": "The fictional 60 Hz–15 kHz, plus-or-minus 3 dB speaker example stays relatively level within that stated range, not necessarily below or above it. The graph is an illustration, not a product measurement.",
+        "section": "response"
+      },
+      "hear": {
+        "text": "More bass output may add weight. A midrange rise can bring vocals and guitars forward. A distortion component may add roughness, though audibility depends on type and level. Listening and measurement answer different questions.",
+        "section": "music"
+      },
+      "buy": {
+        "text": "Frequency endpoints alone do not guarantee a good speaker. Look for the decibel tolerance, measurements under comparable conditions, sound radiated to the sides and distortion at realistic volumes.",
+        "section": "response"
+      },
+      "related": {
+        "text": "The next lesson explores real frequency-response specifications and how measurement conditions shape the graph.",
+        "href": "/decoder/speaker-frequency-response/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/speaker-frequency-response/#compare"
+    ],
+    "plots": {},
+    "questions": [
+      {
+        "phrases": [
+          "is 3 db twice as loud",
+          "does 3 db mean double the volume"
+        ],
+        "text": "No. A three-decibel difference in level is not a doubling of perceived loudness. Roughly ten decibels is sometimes described as about twice as loud, but it depends on the listening conditions.",
+        "section": "decibels"
+      },
+      {
+        "phrases": [
+          "do speakers have to play 20 hz",
+          "why can a speaker not play deep bass"
+        ],
+        "text": "A speaker can fall off in deep bass while reproducing midrange well. The quoted frequency limits need a level tolerance to tell you how weak the output has become.",
+        "section": "response"
+      },
+      {
+        "phrases": [
+          "does distortion mean added frequencies",
+          "is guitar distortion always bad"
+        ],
+        "text": "Natural instrument harmonics are part of the source. Nonlinear playback distortion can add new harmonics or other tones that were not in the incoming signal. Musicians can deliberately use distortion as an effect.",
+        "section": "distortion"
+      }
+    ]
+  },
+  "speaker-frequency-response": {
+    "title": "Speaker frequency response",
+    "specification": "55 Hz–20 kHz (±3 dB)",
+    "topic": "speaker response",
+    "terms": [
+      "frequency response",
+      "response curve",
+      "tonal balance",
+      "flat response",
+      "bass shelf",
+      "bass boost",
+      "treble",
+      "midrange",
+      "roll off",
+      "room response",
+      "decibel",
+      "on axis",
+      "off axis"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying",
+      "measured-speakers",
+      "amplifier-pairing"
+    ],
+    "answers": {
+      "simple": {
+        "text": "A frequency response shows which notes a speaker makes stronger or quieter. Read the graph left to right, from bass to treble. A broad rise can give a speaker its own tonal balance. A sharp peak or dip can make just a few notes stick out or fade.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "55 Hz to 20 kHz is the range being described. ±3 dB is how far the response is stated to wander above or below its reference level across that range under the test conditions. Ask where the microphone was placed and how the speaker was measured.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "A broad bass lift can put more weight behind kick drums. A broad rise higher up can make vocals feel closer. The room and where you sit can change both effects, and listeners can prefer different balances.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Compare actual curves taken under similar conditions. Look for smoothness and check the response to the sides as well as straight ahead. If the listing gives only two frequency endpoints, ask for the decibel tolerance.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "The dispersion lesson explains how a speaker’s balance can change when you move away from the spot straight in front of it.",
+        "href": "/decoder/speaker-dispersion/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/speaker-dispersion/#compare",
+      "/decoder/bass-extension/#compare"
+    ],
+    "plots": {
+      "speaker-frequency-response": {
+        "section": "compare",
+        "reading": "In this fictional graph, left to right is frequency (pitch), and up or down is relative sound strength in decibels.",
+        "referenceCases": [
+          "even",
+          "character"
+        ],
+        "examples": {
+          "even": {
+            "label": "Even reference",
+            "text": "Most middle notes stay at similar levels. The line slopes down toward the deepest bass, so those notes come through more quietly."
+          },
+          "character": {
+            "label": "Different character",
+            "text": "The broad lift adds energy where parts of vocals and guitar attack sit. You might hear more presence, depending on the room, music and your preference."
+          },
+          "bass": {
+            "label": "Bass emphasis",
+            "text": "A broad lift of roughly 5 dB adds weight to a range of bass notes, then blends into the middle. This can feel fuller without turning one particular note into a thump."
+          },
+          "issue": {
+            "label": "Warning sign",
+            "text": "A tall, narrow peak beside a deep dip can make nearby notes sound very different in level. In a measured speaker this would be a reason to check the measurement and investigate further."
+          }
+        }
+      },
+      "speaker-response-rooms": {
+        "section": "measured-speakers",
+        "reading": "Read from bass to treble. These fictional profiles show possible tonal balances and how placement can change what reaches a seat.",
+        "referenceCases": [
+          "balanced",
+          "bright"
+        ],
+        "examples": {
+          "balanced": {
+            "label": "Balanced",
+            "text": "A generally even middle and a gradual bass roll-off keep a wide range of notes in similar proportion."
+          },
+          "bright": {
+            "label": "Bright / forward",
+            "text": "A broad rise in the presence region and treble can make vocals, guitars and cymbals feel closer or brighter."
+          },
+          "warm": {
+            "label": "Warm / full",
+            "text": "Extra upper bass and lower mids can give notes more body. The upper range has a gentler balance."
+          },
+          "vshape": {
+            "label": "V-shaped",
+            "text": "The bass and upper treble stand out relative to the middle. A singer can feel farther back in the mix."
+          },
+          "uneven": {
+            "label": "Uneven / resonant",
+            "text": "Narrow rises and dips can draw attention to a few frequencies and make nearby notes feel unequal."
+          }
+        }
+      },
+      "amp-speaker-load-effects": {
+        "section": "amplifier-pairing",
+        "reading": "The top plot shows the example speaker’s impedance. The other plot shows the electrical level change from two amplifier output impedances, matched at 1 kHz.",
+        "referenceCases": [
+          "bass",
+          "mid"
+        ],
+        "examples": {
+          "bass": {
+            "label": "Bass change",
+            "text": "A broad bass impedance hump changes the level by up to about 1.8 dB between the two amplifiers in this model."
+          },
+          "mid": {
+            "label": "Midrange change",
+            "text": "The change follows a feature in the speaker’s midrange impedance, reaching about 1.5 dB between the amplifiers."
+          },
+          "treble": {
+            "label": "Treble change",
+            "text": "A rising speaker impedance in the high frequencies produces up to about 1.9 dB difference in the example."
+          },
+          "minimal": {
+            "label": "Minimal effect",
+            "text": "A flatter speaker load leaves only a few tenths of a decibel difference across the example."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "is a bass boost boomy",
+          "does bass emphasis sound boomy",
+          "is a bass shelf bad"
+        ],
+        "text": "A broad bass boost can sound full and controlled. The word “boomy” describes an impression. A narrow peak or a room resonance can make a few notes linger or dominate. Try listening to several different bass notes and moving your seat to see whether the effect follows the room.",
+        "section": "compare"
+      }
+    ]
+  },
+  "bass-extension": {
+    "title": "Bass extension",
+    "specification": "45 Hz at −6 dB",
+    "topic": "bass extension",
+    "terms": [
+      "bass extension",
+      "deep bass",
+      "low end",
+      "lowest note",
+      "roll off",
+      "bass rolloff",
+      "subwoofer",
+      "bass hump",
+      "low frequency",
+      "bass response",
+      "room gain",
+      "boomy"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Bass extension is how far down a speaker can play before the deepest notes start fading. A speaker can sound bassy because one part of the bass is loud, even when it runs out of steam on deeper notes.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "At 45 Hz the example speaker is 6 dB down relative to its reference level. Notes around 45 Hz are already quieter than the reference. A 45 Hz rating at −3 dB and one at −6 dB describe different amounts of bass loss.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "Deeper reach can put more weight behind a low synth or organ note. A hump higher up can make certain bass notes thump while others fade. If a bass note changes a lot when you move around the room, the room may be contributing.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Compare bass ratings at the same decibel drop, and look for a curve if one is available. For loud playback, also check how much clean bass the speaker can produce. A subwoofer can handle the deepest notes when a compact speaker suits the room.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Speaker frequency response puts that low-end falloff in context with the rest of the notes.",
+        "href": "/decoder/speaker-frequency-response/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/speaker-frequency-response/#compare"
+    ],
+    "plots": {
+      "bass-extension": {
+        "section": "compare",
+        "reading": "The fictional graph shows bass pitch along the bottom and relative bass strength in decibels up the side.",
+        "referenceCases": [
+          "even",
+          "character"
+        ],
+        "examples": {
+          "even": {
+            "label": "Deeper reach",
+            "text": "This curve holds its level farther into the lowest notes. It gives the best example of deeper reach here, with maximum clean bass output left to a separate test."
+          },
+          "character": {
+            "label": "Earlier roll-off",
+            "text": "This curve slopes down sooner. A bass guitar or kick drum can still sound clear while the lowest synth and organ notes lose weight."
+          },
+          "issue": {
+            "label": "Boom and fade",
+            "text": "A bass hump creates a strong thump over a narrow band, then the curve drops quickly. That can make the speaker sound bassy without extending very deep."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does more bass mean deeper bass",
+          "why does a speaker sound boomy without deep bass"
+        ],
+        "text": "Not necessarily. A bump higher up can make some bass notes thump while the lowest notes fade. Bass extension means how far down the speaker continues to play; the room can also exaggerate certain bass notes.",
+        "section": "understand"
+      },
+      {
+        "phrases": [
+          "what does minus 6 db at 45 hz mean",
+          "is 45 hz at minus 3 db the same as minus 6 db"
+        ],
+        "text": "In this fictional example, output at 45 Hz is 6 dB below the reference. A −3 dB point and a −6 dB point describe different amounts of roll-off. Compare ratings at the same tolerance.",
+        "section": "decode-the-spec"
+      }
+    ]
+  },
+  "speaker-sensitivity": {
+    "title": "Speaker sensitivity",
+    "specification": "87 dB at 2.83 V / 3.28 ft",
+    "topic": "speaker sensitivity",
+    "terms": [
+      "sensitivity",
+      "sound pressure level",
+      "spl",
+      "2.83 v",
+      "3.28 ft",
+      "one metre",
+      "one meter",
+      "one watt",
+      "output limiting",
+      "power compression",
+      "listening distance",
+      "sound level"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Sensitivity tells you how loudly a speaker plays for a set electrical input at a set distance. A more sensitive speaker can reach the same loudness with less power when the test conditions match.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "The example rating states 87 dB SPL, a sound level, at 3.28 ft with 2.83 volts applied. On an 8 Ω resistive load 2.83 V is about 1 watt. On a 4 Ω resistive load it is about 2 watts, so compare the voltage and power conventions carefully.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "Higher sensitivity can help when you sit farther away or want loud drum hits from a lower-power amp. At matched listening levels, tonal balance and distortion are separate questions. If the speaker compresses at high levels, peaks may stop getting much louder as power rises.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Check whether the spec uses volts or watts and compare at the same distance. Then consider how far away you sit, how loud you listen, the amp’s supported impedance and the speaker’s clean output at higher levels.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "The amplifier power lesson shows how much extra room an amplifier has for short peaks once the speakers reach your usual listening level.",
+        "href": "/decoder/amplifier-power/#headroom"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/amplifier-power/#headroom",
+      "/decoder/ohms-law/#same-voltage"
+    ],
+    "plots": {
+      "speaker-sensitivity": {
+        "section": "compare",
+        "reading": "The fictional graph compares electrical input in watts along the bottom with sound level in decibels up the side.",
+        "referenceCases": [
+          "even",
+          "character"
+        ],
+        "examples": {
+          "even": {
+            "label": "Higher sensitivity",
+            "text": "For the same test power and distance, this example produces more sound. That is the sensitivity advantage shown here."
+          },
+          "character": {
+            "label": "Lower sensitivity",
+            "text": "This example needs more watts for the same sound level. Its starting sensitivity tells you little about which speaker you would prefer."
+          },
+          "issue": {
+            "label": "Output limiting",
+            "text": "The line flattens at high power. Each extra increase in watts produces less extra sound. That is an example of output compression."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does higher speaker sensitivity mean better sound",
+          "are more sensitive speakers always better"
+        ],
+        "text": "Higher sensitivity means more loudness from a specified input under matching test conditions. It does not prove a smoother tonal balance or lower distortion; those are separate measurements.",
+        "section": "listening"
+      },
+      {
+        "phrases": [
+          "is 2.83 volts always one watt",
+          "why does 2.83v equal two watts into four ohms"
+        ],
+        "text": "2.83 V is about 1 W into an 8 Ω resistor and about 2 W into a 4 Ω resistor. Check whether ratings use the same voltage or power and the same measurement distance.",
+        "section": "decode-the-spec"
+      }
+    ]
+  },
+  "speaker-impedance": {
+    "title": "Speaker impedance and matching",
+    "specification": "8 Ω nominal · minimum 6.4 Ω",
+    "topic": "speaker impedance",
+    "terms": [
+      "impedance",
+      "nominal",
+      "ohm",
+      "4 ohm",
+      "8 ohm",
+      "6.4",
+      "current",
+      "resistance",
+      "parallel",
+      "phase angle",
+      "load dip",
+      "low impedance",
+      "amps",
+      "power supply"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Impedance is how much a speaker opposes the electrical current from the amp. It changes with the notes being played. When the amp holds the same voltage, a lower ohm value means it has to supply more current.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "8 Ω nominal is the speaker’s general load rating. The example says the impedance magnitude gets as low as 6.4 Ω. Look at where the dips occur and check what loads your amp can drive comfortably.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "At modest levels a demanding speaker may play cleanly. On loud peaks, an amplifier that cannot supply enough current may sound rough, overheat or go into protection. The ohm number by itself does not tell you how the bass will sound.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Check the amp’s supported loads and the speaker’s minimum impedance. Check sensitivity too, since that helps you estimate how much drive you need at your listening distance.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Ohm’s law shows why the amp supplies more current at the same voltage into fewer ohms. The power lesson shows how amplifier ratings can reflect that extra demand.",
+        "href": "/decoder/ohms-law/#same-voltage"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/ohms-law/#same-voltage",
+      "/decoder/amplifier-power/#compare"
+    ],
+    "plots": {
+      "speaker-impedance": {
+        "section": "compare",
+        "reading": "This fictional curve puts frequency along the bottom and the size of the electrical load in ohms up the side.",
+        "referenceCases": [
+          "even",
+          "character"
+        ],
+        "examples": {
+          "even": {
+            "label": "8 Ω nominal",
+            "text": "The curve rises near the speaker’s bass resonance, then falls back. An 8 Ω speaker can present different loads as the music changes."
+          },
+          "character": {
+            "label": "4 Ω nominal",
+            "text": "The lower values mean the amp supplies more current if it keeps the same voltage. A 4 Ω test resistor takes twice the current of an 8 Ω one at the same voltage."
+          },
+          "issue": {
+            "label": "Deep dip",
+            "text": "At the dip the amp must supply more current to hold the same voltage. A real speaker’s electrical phase can make the load harder to drive, so you would want more than this magnitude curve."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "why does lower impedance draw more current",
+          "why do fewer ohms draw more current",
+          "why does 4 ohms draw twice the current",
+          "how does impedance affect current",
+          "does 4 ohms draw more current than 8 ohms",
+          "what happens to current when impedance drops",
+          "4 vs 8 ohms",
+          "why do 4 ohm speakers draw more amps",
+          "why does an amp work harder at 4 ohms"
+        ],
+        "text": "At the same voltage, fewer ohms offer less opposition to current. A 4 Ω test resistor draws twice the current of an 8 Ω resistor at the same voltage. It also takes twice the watts if the amplifier can hold that voltage. The supply and output circuitry have to handle the extra current. A speaker’s impedance changes with frequency.",
+        "section": "understand"
+      }
+    ]
+  },
+  "speaker-drivers": {
+    "title": "Speaker drivers, materials and crossovers",
+    "specification": "2-way · 6.5″ woofer · 1″ dome tweeter",
+    "topic": "speaker drivers",
+    "terms": [
+      "woofer",
+      "tweeter",
+      "dome",
+      "soft dome",
+      "metal dome",
+      "beryllium",
+      "titanium",
+      "aluminum",
+      "amt",
+      "air motion transformer",
+      "crossover",
+      "diaphragm",
+      "driver",
+      "two way",
+      "waveguide"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "A woofer handles lower notes, a tweeter handles higher notes, and a crossover shares the music between them. How the parts work together matters as much as what each one is made from.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "Two-way means two frequency ranges, usually shared between a woofer and a tweeter. The 6.5-inch and 1-inch figures describe the driver sizes. They leave questions about bass depth, treble balance and side-to-side coverage open.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "A smooth blend between the drivers can help a voice sound consistent from note to note. A dome material can influence the design, but the finished speaker’s tuning, coverage and resonances help determine what you actually hear.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Check the finished speaker’s response straight ahead and off to the sides. Use the driver material as a clue to the design. A costly dome earns its value through what the whole speaker delivers in your use.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Dispersion shows why the drivers and crossover have to work together for listeners sitting away from the middle.",
+        "href": "/decoder/speaker-dispersion/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/speaker-dispersion/#compare",
+      "/decoder/speaker-frequency-response/#compare"
+    ],
+    "plots": {
+      "speaker-drivers": {
+        "section": "compare",
+        "reading": "These drawings show different tweeter designs. They have no measured response axes.",
+        "referenceCases": [
+          "even",
+          "character"
+        ],
+        "examples": {
+          "even": {
+            "label": "Soft dome",
+            "text": "The flexible dome can damp some vibration within the material. Its shape, motor, surrounding waveguide and crossover still affect how it sounds."
+          },
+          "character": {
+            "label": "Metal dome",
+            "text": "A stiff metal dome can remain rigid over much of its working range. Designers use its shape and crossover to manage resonances that can appear higher up."
+          },
+          "issue": {
+            "label": "AMT",
+            "text": "An air motion transformer uses folds in its diaphragm to move air. Its shape affects how sound spreads. The full speaker design determines the result."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "is a beryllium tweeter automatically better",
+          "are expensive tweeter materials always better"
+        ],
+        "text": "No material guarantees better sound from the finished speaker. The drivers, crossover, tuning, resonances and off-axis response work together. An expensive tweeter must earn its value in the complete design.",
+        "section": "buying"
+      },
+      {
+        "phrases": [
+          "what does a speaker crossover do",
+          "why does a speaker need a crossover"
+        ],
+        "text": "A crossover divides the signal among the drivers, often sending lower notes to a woofer and higher notes to a tweeter. How their outputs join helps determine tonal balance and coverage.",
+        "section": "understand"
+      }
+    ]
+  },
+  "amplifier-power": {
+    "title": "Amplifier power",
+    "specification": "80 W/channel, 8 Ω, 20 Hz–20 kHz",
+    "topic": "amplifier power and headroom",
+    "terms": [
+      "watts",
+      "wattage",
+      "power rating",
+      "output power",
+      "amp power",
+      "amplifier power",
+      "headroom",
+      "reserve",
+      "clip",
+      "clipping",
+      "current",
+      "power supply",
+      "load",
+      "ohm",
+      "distortion curve",
+      "peak",
+      "2 channels"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "headroom",
+      "understand",
+      "listening",
+      "buying",
+      "headroom-distortion-curve",
+      "headroom-quality"
+    ],
+    "answers": {
+      "simple": {
+        "text": "An amp needs enough clean output for your usual listening level and the brief peaks above it. Headroom is the extra output available for those peaks. Speakers that need more current can make the amp work harder even if its headline watt rating looks generous.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "The example says 80 watts per channel into an 8 Ω test load over 20 Hz to 20 kHz. For a fair comparison you also need the distortion limit, how many channels were driven, and how long the test lasted.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "When peaks exceed an amp’s clean range, loud drum hits can sound rough or flattened. Even below hard clipping, some amps add more distortion near their limit. Check the distortion-versus-power curve at the levels your speakers actually demand.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Start with speaker sensitivity, distance, listening level and the lowest loads the amp must handle. Compare power into similar loads at the same distortion limit. An amp with less power can be a good match if it has enough clean reserve for your listening.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Ohm’s law shows why a lower load demands more current at the same voltage. The distortion lesson shows what can happen before and near the amplifier’s output limit.",
+        "href": "/decoder/ohms-law/#same-voltage"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/ohms-law/#same-voltage",
+      "/decoder/amplifier-distortion/#compare",
+      "/decoder/speaker-impedance/#compare"
+    ],
+    "plots": {
+      "amplifier-power": {
+        "section": "compare",
+        "reading": "In this fictional graph, test load runs from 4 Ω on the left to 8 Ω on the right. Height shows output watts per channel.",
+        "referenceCases": [
+          "even",
+          "character"
+        ],
+        "examples": {
+          "even": {
+            "label": "More reserve",
+            "text": "This example rises from 80 W into 8 Ω to 140 W into 4 Ω. Under matching test conditions it can supply more output into the harder load than the other 80 W example."
+          },
+          "character": {
+            "label": "Less reserve",
+            "text": "This example rises from 80 W into 8 Ω to 95 W into 4 Ω. That leaves less extra output available into the harder load. It may be plenty for easier speakers or modest listening levels."
+          },
+          "issue": {
+            "label": "Vague headline",
+            "text": "“150 W MAX” leaves out test conditions such as load, distortion and duration. The lesson leaves that rating unplotted because those details are needed for a fair comparison."
+          }
+        }
+      },
+      "amplifier-headroom": {
+        "section": "headroom",
+        "reading": "The dashed line shows what a fictional drum passage asks of the amp. Output power uses the left scale and modeled distortion uses the right scale. The 4 Ω and 8 Ω test loads ask for different current.",
+        "referenceCases": [
+          "small",
+          "enough"
+        ],
+        "examples": {
+          "small": {
+            "label": "25 W amp",
+            "text": "The peak needs about 60 W into 8 Ω, where this amp stops at 25 W. It needs about 119 W into 4 Ω, where the amp stops at 30 W. Both clip the peak in this model."
+          },
+          "enough": {
+            "label": "80 W amp",
+            "text": "The 60 W peak fits into the 80 W limit at 8 Ω with about 1.3 dB of room. Into 4 Ω the amp supplies the average level and clips the 119 W peak at its 100 W limit."
+          },
+          "extra": {
+            "label": "150 W amp",
+            "text": "The 60 W peak fits into the 150 W limit at 8 Ω. The 119 W peak also fits into the 180 W limit at 4 Ω. The modeled amp delivers both peaks without clipping."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "what is headroom",
+          "how much headroom",
+          "why want more headroom",
+          "why do i need headroom",
+          "what happens at 60 watts"
+        ],
+        "text": "Headroom is the room left for loud peaks. In this model the 60 W peak has 1.3 dB of room below the 80 W limit into 8 Ω. Into 4 Ω the same voltage asks for about 119 W and the amp clips at its 100 W limit.",
+        "section": "headroom"
+      },
+      {
+        "phrases": [
+          "why does 4 ohms need more current",
+          "why does lower impedance draw more current",
+          "how does impedance affect power",
+          "why does lower impedance increase power",
+          "why more watts at 4 ohms",
+          "why does a 4 ohm load need more amps",
+          "why do amps make more watts at 4 ohms"
+        ],
+        "text": "Hold the voltage steady and a lower-ohm test load draws more current. That extra current raises the watts the load receives and makes the amplifier’s supply and output stage work harder. The 4 Ω rating can fall short of double the 8 Ω rating when the amp reaches its current, heat or supply limits.",
+        "section": "compare"
+      },
+      {
+        "phrases": [
+          "can distortion rise before clipping",
+          "why does thd rise before clipping",
+          "why do the 80 watt and 150 watt amps have different distortion",
+          "how do i read the headroom distortion graph"
+        ],
+        "text": "The pink line shows the model’s distortion rising as the amp nears its limit. Into 8 Ω the 80 W example has less room before its limit on the tallest hit than the 150 W example. Compare measured distortion at the same output and load when checking real amps.",
+        "section": "headroom-distortion-curve"
+      }
+    ]
+  },
+  "amplifier-distortion": {
+    "title": "Amplifier distortion and harmonics",
+    "specification": "0.09% THD · at 1 kHz",
+    "topic": "THD and distortion",
+    "terms": [
+      "distortion",
+      "thd",
+      "thd n",
+      "harmonics",
+      "harmonic",
+      "clipping",
+      "noise floor",
+      "added tones",
+      "coloration",
+      "sine wave",
+      "sweep",
+      "power curve",
+      "second harmonic",
+      "third harmonic"
+    ],
+    "sections": [
+      "ratings",
+      "compare",
+      "thd-plus-noise",
+      "rating-context",
+      "understand",
+      "listening",
+      "harmonics",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Distortion is a change an amplifier adds to the original signal. With a single test tone, one kind of distortion shows up as extra tones related to that note. Total harmonic distortion, or THD, rolls those extra tones into one figure.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "0.09% THD at 1 kHz gives the combined level of the added harmonics relative to the original test tone. To compare it, ask for the output level, load and test conditions. THD+N also includes noise captured within the test bandwidth.",
+        "section": "ratings"
+      },
+      "hear": {
+        "text": "If added sound gets strong enough, a loud passage may sound rough or strained. The percentage alone cannot tell you how noticeable it is. Which extra tones are present, their level and the music all matter.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Look for distortion versus output power into a load close to your speakers, and check the frequency and measurement bandwidth. One rating can be useful when test conditions match. The full curve shows how behavior changes as output rises.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "The amplifier power lesson connects this curve to musical peaks and shows why headroom and clean output belong in the same comparison.",
+        "href": "/decoder/amplifier-power/#headroom"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/amplifier-power/#headroom"
+    ],
+    "plots": {
+      "amplifier-distortion": {
+        "section": "compare",
+        "reading": "This fictional 8 Ω test shows output watts along the bottom and total harmonic distortion as a percentage up the side.",
+        "referenceCases": [
+          "even",
+          "issue"
+        ],
+        "examples": {
+          "even": {
+            "label": "Low and flat",
+            "text": "The line stays low through much of the range and rises sharply near the output limit. That is where you would check for clipping or limiting in an actual test."
+          },
+          "issue": {
+            "label": "Early rise / more distortion",
+            "text": "Distortion starts rising earlier, so you would check how large it is at the outputs you use and which extra sounds contribute."
+          },
+          "character": {
+            "label": "Different harmonics",
+            "text": "The main THD curve stays the same. The inset illustrates how the same total can contain different amounts of second and third harmonics. Those are different added tones."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "what is thd plus noise",
+          "what does thd n mean",
+          "difference between thd and thd n",
+          "what is the difference between thd and thd+n"
+        ],
+        "text": "THD totals the extra harmonics a device adds to a test tone. THD+N also counts noise in the measured frequency range. A bigger measured bandwidth can include more noise, so match the test settings when comparing figures.",
+        "section": "thd-plus-noise"
+      }
+    ]
+  },
+  "amplifier-classes": {
+    "title": "Amplifier classes and devices",
+    "specification": "Class AB · MOSFET output stage",
+    "topic": "amplifier classes",
+    "terms": [
+      "class a",
+      "class ab",
+      "class d",
+      "amplifier class",
+      "mosfet",
+      "switching",
+      "conduction",
+      "crossover distortion",
+      "bias",
+      "efficiency",
+      "heat",
+      "output stage"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "preferences",
+      "listening"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Amplifier class describes how the output parts do their work. Class A keeps them working throughout the signal, Class AB shares the signal with an overlap, and Class D uses fast switching. Each approach can make a well-performing amp.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "Class AB describes how the output devices share the waveform. MOSFET names the type of transistor used in the example output stage. The label alone leaves power, heat, noise and distortion to separate measurements.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "Well-designed amps of different classes can sound similar at matched levels with suitable speakers. If you hear a difference, look at response, distortion, noise and how each amp behaves into that load.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Class A can appeal to listeners who want a continuously conducting output stage and have room for heat. Class AB is a common compromise for power and efficiency. Class D can deliver high output in a compact, cooler-running box. Compare the actual designs for your speakers and space.",
+        "section": "preferences"
+      },
+      "related": {
+        "text": "The distortion lesson shows how to compare what an amplifier adds to the signal under different conditions.",
+        "href": "/decoder/amplifier-distortion/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/amplifier-distortion/#compare",
+      "/decoder/amplifier-power/#compare"
+    ],
+    "plots": {
+      "amplifier-classes": {
+        "section": "compare",
+        "reading": "The drawings show how output devices operate in each class. There are no measured response axes.",
+        "referenceCases": [
+          "even",
+          "character"
+        ],
+        "examples": {
+          "even": {
+            "label": "Class A",
+            "text": "In Class A the output devices conduct throughout the signal cycle. This avoids the usual output-device handoff and uses substantial power as heat, even at idle."
+          },
+          "character": {
+            "label": "Class AB",
+            "text": "In Class AB the output devices share the waveform. They overlap at the handoff to reduce crossover distortion while using less idle power than a comparable pure Class A design."
+          },
+          "issue": {
+            "label": "Class D",
+            "text": "In Class D the output devices switch rapidly. The switching pattern and filter produce the audio output. The design can be efficient even when fed an analog signal."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does class a always sound better than class d",
+          "can class d sound as good as class a"
+        ],
+        "text": "The amplifier class explains how the output stage works, not an automatic sound signature. Well-designed amplifiers of different classes can sound similar at matched levels with suitable speakers. Compare their actual response, noise and distortion.",
+        "section": "listening"
+      },
+      {
+        "phrases": [
+          "why does class a run hot",
+          "why is class a less efficient than class d"
+        ],
+        "text": "Class A keeps its output devices conducting throughout the signal and typically releases more wasted electrical power as heat. Class D uses rapid switching and can be much more efficient.",
+        "section": "preferences"
+      }
+    ]
+  },
+  "headphone-types": {
+    "title": "Headphones and IEM types",
+    "specification": "32 Ω · 102 dB SPL at 1 mW",
+    "topic": "headphone and IEM fit",
+    "terms": [
+      "headphone",
+      "headphones",
+      "earbud",
+      "earbuds",
+      "iem",
+      "iems",
+      "open back",
+      "closed back",
+      "semi open",
+      "over ear",
+      "on ear",
+      "in ear",
+      "ear tip",
+      "fit",
+      "isolation",
+      "leakage",
+      "seal",
+      "pads"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "compare-fit",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Over-ear cups sit around your ears, on-ear pads rest on them, earbuds sit at the entrance, and in-ear monitors (IEMs) typically seal in the canal. Open or closed back describes the rear of a headphone cup. Fit and cup design affect how much sound gets in or out.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "32 Ω is the headphone’s electrical load rating. 102 dB SPL at 1 mW says how loud it is in the specified test when it gets one milliwatt. Those figures help you match a headphone to a source. To judge leakage, isolation or comfort, look at the design and fit.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "An open back lets room sounds in and music out, which can be comfortable in a quiet room. A well-sealed closed back or IEM can make it easier to hear the music around noise. Bass can change if pads or tips leak.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Try over-ear for longer sessions if you prefer pressure around the ear. Try on-ear for smaller cups, earbuds if you prefer the entrance of the ear to stay unsealed, and IEMs if you want isolation in a small package. Check fit with your own glasses or ear tips.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "The headphone response lesson compares bass tuning with a bass change caused by a gap in the seal.",
+        "href": "/decoder/headphone-frequency-response/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/headphone-frequency-response/#compare",
+      "/decoder/headphone-sensitivity/#compare"
+    ],
+    "plots": {
+      "headphone-types": {
+        "section": "compare",
+        "reading": "These examples show the back of the cup and how sound can pass through it. They have no measured response axes.",
+        "referenceCases": [
+          "open",
+          "closed"
+        ],
+        "examples": {
+          "open": {
+            "label": "Open-back",
+            "text": "The grille leaves the rear of the driver open to the room. Outside sounds reach you easily and some of your music escapes."
+          },
+          "closed": {
+            "label": "Closed-back",
+            "text": "The rear shell forms a chamber, so it usually reduces leakage. Pad fit and any tuning vents affect how much sound gets in or out."
+          },
+          "semi-open": {
+            "label": "Semi-open",
+            "text": "This cup is partly vented. The amount of sound that gets in or out varies across models, even when they share the same name."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "earbuds vs iems",
+          "earbuds versus iems",
+          "difference between earbuds and iems",
+          "why choose an iem",
+          "why choose earbuds"
+        ],
+        "text": "An ordinary earbud rests at the entrance to the ear. It can be easy to slip in and leaves more of the room audible. An IEM usually uses a tip to seal the canal. With a good fit, that can block more outside noise and keep the bass more consistent.",
+        "section": "compare-fit"
+      }
+    ]
+  },
+  "headphone-frequency-response": {
+    "title": "Headphone frequency response and fit",
+    "specification": "20 Hz–20 kHz",
+    "topic": "headphone response and seal",
+    "terms": [
+      "frequency response",
+      "target",
+      "pad gap",
+      "seal",
+      "bass lift",
+      "fit",
+      "glasses",
+      "ear shape",
+      "coupler",
+      "fixture",
+      "headphone response",
+      "bass tuning",
+      "pad wear"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "A headphone response shows how the strength of notes changes from bass to treble. Many charts compare the headphone with a target, a chosen reference balance. The fit around your ear can change the bass even with the same headphone.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "20 Hz to 20 kHz gives two endpoints. There is no stated tolerance or reference level in that label. A curve measured on a known fixture, along with the target and fit used, tells you much more about the balance.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "A broad lift can give kick drums and bass guitar more weight. If moving your glasses or gently reseating the cups restores bass, a gap in the seal may explain what you heard.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Compare curves from the same test fixture and target, then try the fit you will actually use. Look for repeated placements or seal tests if glasses or pad wear could matter for you.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "The headphone types lesson compares cup designs and explains why over-ear, on-ear, earbuds and IEMs fit differently.",
+        "href": "/decoder/headphone-types/#compare-fit"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/headphone-types/#compare-fit",
+      "/decoder/headphone-output-impedance/#compare"
+    ],
+    "plots": {
+      "headphone-frequency-response": {
+        "section": "compare",
+        "reading": "The fictional graph runs from low to high notes. Its vertical scale is how far above or below the example target the sound falls, in decibels.",
+        "referenceCases": [
+          "seated",
+          "bass-lift"
+        ],
+        "examples": {
+          "seated": {
+            "label": "Seated fit",
+            "text": "The pads make even contact and the curve meets the example target at 50 Hz. This is the reference fit."
+          },
+          "bass-lift": {
+            "label": "Bass lift",
+            "text": "A second fictional model is 4 dB above the target at 50 Hz. Its midrange returns to the same level, illustrating a deliberate change in bass tuning."
+          },
+          "pad-gap": {
+            "label": "Pad gap",
+            "text": "A gap in the first headphone’s pad drops the bass by 8 dB at 50 Hz in this example. Most of the midrange stays close to the seated fit."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "why do my glasses reduce bass",
+          "can glasses reduce bass",
+          "does a pad gap reduce bass",
+          "why does a bad seal reduce bass"
+        ],
+        "text": "A gap can let air move in and out around the pad. On some headphones that reduces low notes. Try reseating the cups with your usual glasses and compare. The result depends on the design and the size of the gap.",
+        "section": "compare"
+      }
+    ]
+  },
+  "headphone-sensitivity": {
+    "title": "Headphone sensitivity and impedance",
+    "specification": "300 Ω · 102 dB SPL at 1 V RMS",
+    "topic": "headphone sensitivity and drive",
+    "terms": [
+      "headphone sensitivity",
+      "sensitivity",
+      "voltage",
+      "current",
+      "amps",
+      "milliamp",
+      "milliwatt",
+      "db spl",
+      "mw",
+      "rms",
+      "ohms",
+      "impedance",
+      "drive",
+      "headphone amp",
+      "dongle",
+      "headphone jack",
+      "loudness"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Sensitivity tells you how much sound a headphone makes for a stated electrical input. Impedance helps tell you whether your jack will need to supply more voltage or more current for that input. Read the two figures together.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "The example headphone has a 300 Ω load rating and produces 102 dB SPL in the specified test at 1 volt RMS. RMS is a standard way of stating the effective voltage. A rating in dB at 1 volt and a rating in dB at 1 milliwatt need to be put on the same basis first.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "A source short on voltage or current may run out of clean room on loud peaks. Very sensitive headphones and IEMs may reveal hiss between tracks. A sensitivity number helps estimate drive and leaves the headphone’s tonal balance to other tests.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Find the sensitivity unit, the impedance and the jack’s clean output into a similar load. Consider the volume and peak room you actually need. If the only amp rating is into a very different load, look for a closer test.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "The output impedance lesson shows how the jack’s own opposition to current can affect the voltage that reaches a headphone.",
+        "href": "/decoder/headphone-output-impedance/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/headphone-output-impedance/#compare",
+      "/decoder/ohms-law/#same-voltage"
+    ],
+    "plots": {
+      "headphone-sensitivity": {
+        "section": "compare",
+        "reading": "This is a calculated comparison using fictional headphones at the same 90 dB SPL test point. The bars show voltage, current and power in their own units.",
+        "referenceCases": [
+          "efficient",
+          "high-z"
+        ],
+        "examples": {
+          "efficient": {
+            "label": "32 Ω · Modest drive",
+            "text": "The 32 Ω example reaches the shared test level with about 45 mV and 1.40 mA. Its sensitivity helps it reach that level with modest drive."
+          },
+          "high-z": {
+            "label": "300 Ω · More voltage",
+            "text": "The 300 Ω example needs 251 mV and 0.84 mA. It needs the most voltage of the three at the shared level."
+          },
+          "high-current": {
+            "label": "16 Ω · More current",
+            "text": "The 16 Ω example needs 200 mV and 12.53 mA at the shared level. Even with less voltage than the 300 Ω example, it needs about fifteen times the current."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does higher impedance mean harder to drive",
+          "are 300 ohm headphones harder to drive",
+          "does low impedance mean easy to drive"
+        ],
+        "text": "A high-ohm headphone can need more voltage, and a low-ohm headphone can need more current. How much of either you need for the same loudness also depends on sensitivity. The three lesson examples hold the sound level at 90 dB SPL so you can compare their electrical needs.",
+        "section": "compare"
+      }
+    ]
+  },
+  "headphone-output-impedance": {
+    "title": "Headphone output impedance and source matching",
+    "specification": "10 Ω output impedance at 1 kHz",
+    "topic": "headphone jack output impedance",
+    "terms": [
+      "output impedance",
+      "source impedance",
+      "voltage drop",
+      "voltage divider",
+      "current",
+      "impedance curve",
+      "steady load",
+      "load impedance",
+      "headphone jack",
+      "dongle",
+      "earphone",
+      "headphone amp",
+      "1 ohm",
+      "10 ohm",
+      "flat load"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "The jack and the headphones share the available voltage. A jack with a high output impedance can leave less voltage for the headphones. If the headphones’ impedance changes from note to note, the amount they receive can change too.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "10 Ω at 1 kHz describes the jack’s output impedance at a test frequency. Compare it with the headphone’s impedance over the music range. The headphone’s ohm rating, sensitivity and the jack’s available clean voltage also affect the result.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "If the jack reduces some notes more than others, the tonal balance can shift. In the lesson’s steady-load example every note loses the same share, so you get less level at the same setting and the same balance.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "A low output impedance is a useful starting point if you use different headphones or IEMs. Check it against the headphone’s lowest impedance, and look at noise and clean output into that load too.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Ohm’s law explains the current behind the voltage sharing. Headphone sensitivity shows how much voltage and current a headphone needs for a given level.",
+        "href": "/decoder/ohms-law/#source-and-load"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/ohms-law/#source-and-load",
+      "/decoder/headphone-sensitivity/#compare"
+    ],
+    "plots": {
+      "headphone-output-impedance": {
+        "section": "compare",
+        "reading": "The two bars show how much voltage reaches the headphones at 100 Hz and at 1 kHz, with a full bar representing 1.00 V RMS. The optional calculated sweep shows the relative voltage in dB, using 1 kHz as its reference.",
+        "referenceCases": [
+          "low-z",
+          "high-z"
+        ],
+        "examples": {
+          "low-z": {
+            "label": "1 Ω jack",
+            "text": "The headphones receive about 0.98 V at the bass note and 0.94 V at the midrange note. In the sweep the bass note is about 0.35 dB above the midrange reference."
+          },
+          "high-z": {
+            "label": "10 Ω jack",
+            "text": "The same headphones get about 0.83 V at the bass note and 0.62 V at the midrange note. After matching the midrange level, the bass can sound stronger."
+          },
+          "flat-load": {
+            "label": "10 Ω jack, steady load",
+            "text": "A steady 32 Ω load gets about 0.76 V at both notes. Both lose the same share of voltage, so the relative trace stays flat while the level can fall."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does a higher output impedance always boost bass",
+          "why does a 10 ohm jack change bass",
+          "can output impedance change the sound"
+        ],
+        "text": "A jack with higher output impedance can change the balance if the headphone’s impedance varies across notes. In the 10 Ω jack example, the bass loses less voltage than the midrange, so bass can sound stronger after you match the midrange level. With a steady load the notes lose the same share.",
+        "section": "compare"
+      }
+    ]
+  },
+  "playback-sources": {
+    "title": "Playback sources: vinyl, CD, DACs and sound cards",
+    "specification": "A DAC is a function, not necessarily a separate box.",
+    "topic": "playback signal paths and source conversion",
+    "terms": [
+      "playback source",
+      "vinyl",
+      "record",
+      "turntable",
+      "phono",
+      "cartridge",
+      "moving magnet",
+      "moving coil",
+      "riaa",
+      "cd",
+      "cd transport",
+      "compact disc",
+      "digital",
+      "dac",
+      "sound card",
+      "audio interface",
+      "streamer",
+      "usb",
+      "bluetooth",
+      "cassette",
+      "line level",
+      "input",
+      "output",
+      "mastering",
+      "resampling"
+    ],
+    "sections": [
+      "signal-path",
+      "source-types",
+      "where-changes-happen",
+      "riaa",
+      "connection-check",
+      "takeaways",
+      "sources"
+    ],
+    "answers": {
+      "simple": {
+        "text": "The music can begin on a record, CD, computer or streamer. A turntable cartridge needs phono gain and RIAA playback equalization; digital playback needs a DAC somewhere before an ordinary analogue amplifier input. Those functions can already be inside the source or the amplifier.",
+        "section": "signal-path"
+      },
+      "spec": {
+        "text": "A DAC converts digital audio into analogue audio. A complete CD player, internal sound card or streamer with RCA outputs already has a DAC. An external DAC is optional unless a digital-only source feeds an analogue-only amplifier or you have a specific performance or connectivity reason.",
+        "section": "signal-path"
+      },
+      "hear": {
+        "text": "Differences can come from record surface noise, cartridge response and tracking, DAC noise/distortion, output levels, operating-system processing or different masters. A source category by itself does not guarantee a distinctive sound. Level-match and compare the same mastering.",
+        "section": "where-changes-happen"
+      },
+      "buy": {
+        "text": "Check the output type and the input type first. Raw turntables usually need an appropriate phono preamp; digital-only CD transports or streamers need a DAC before analogue line inputs. A clean CD player, sound card or streamer with RCA line out already includes the required DAC.",
+        "section": "connection-check"
+      },
+      "related": {
+        "text": "Next, learn how source output voltage and amplifier input sensitivity interact. Our DAC measurements lesson explains noise, distortion, and output level rather than treating sample-rate support as a sound-quality score.",
+        "href": "/decoder/source-levels/#decode-the-spec"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/source-levels/#decode-the-spec",
+      "/decoder/dac-specifications/#decode-the-spec",
+      "/decoder/sample-rate/#decode-the-spec",
+      "/decoder/bit-depth/#decode-the-spec"
+    ],
+    "plots": {},
+    "questions": [
+      {
+        "phrases": [
+          "does a cd player need a separate dac",
+          "do i need a dac with a cd player",
+          "is a cd transport the same as a cd player"
+        ],
+        "text": "A CD player with analogue RCA outputs has an internal DAC. A digital-only transport needs a DAC downstream, either in the receiver or in a separate converter. Whether an external DAC improves sound depends on the actual devices, not the word external.",
+        "section": "source-types"
+      },
+      {
+        "phrases": [
+          "can i connect my turntable to aux",
+          "what is a phono preamp for",
+          "why does vinyl need riaa"
+        ],
+        "text": "A typical raw moving-magnet or moving-coil cartridge sends a small, RIAA-encoded signal. A compatible phono preamp adds gain and complementary playback equalization. A turntable with its phono stage switched on can supply an ordinary line input instead.",
+        "section": "riaa"
+      },
+      {
+        "phrases": [
+          "is an internal sound card worse than a usb dac",
+          "are sound cards bad compared to dacs",
+          "should i replace the sound card with a dac"
+        ],
+        "text": "A sound card already contains a DAC. Some measure very well; others have higher noise or less convenient connectivity. Compare actual analogue-output performance and source settings before deciding an external DAC would help.",
+        "section": "source-types"
+      },
+      {
+        "phrases": [
+          "is vinyl warmer than a cd",
+          "why does vinyl sound different from streaming",
+          "does digital sound cold"
+        ],
+        "text": "Vinyl playback can add measurable cartridge response variation, noise or distortion, and CD or streaming releases may have different masters. The medium label alone does not establish a fixed warm or cold character. Check mastering and playback levels first.",
+        "section": "where-changes-happen"
+      }
+    ]
+  },
+  "source-levels": {
+    "title": "Source levels and amplifier input sensitivity",
+    "specification": "Source: 2.0 V RMS at 0 dBFS · Amp: 200 mV RMS input sensitivity",
+    "topic": "source voltage and input headroom",
+    "terms": [
+      "source level",
+      "line level",
+      "input sensitivity",
+      "input level",
+      "input voltage",
+      "input limit",
+      "output voltage",
+      "overload",
+      "clipping",
+      "gain",
+      "rms",
+      "dbfs",
+      "volume control",
+      "2 v",
+      "200 mv"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "A source sends a voltage to the amplifier’s input. Input sensitivity tells you the signal needed to reach rated output under stated settings. The maximum clean input tells you how much voltage that input can accept before it overloads.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "The source reaches 2.0 V RMS at digital full scale (0 dBFS). The amp’s 200 mV sensitivity is the input for its rated output under stated conditions. Look for a separate maximum clean input rating to judge whether the 2 V signal overloads the input.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "An overloaded input can make loud passages sound rough. If the volume control sits after the overloaded stage, turning the amp down may make that distortion quieter while leaving it in the signal.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Compare the source’s maximum output voltage with the specific input’s maximum clean voltage. Check the input mode, gain options and whether the output level can be adjusted.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "The amplifier power lesson describes the later output stage and what happens when it runs out of room on peaks.",
+        "href": "/decoder/amplifier-power/#headroom"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/amplifier-power/#headroom",
+      "/decoder/dac-specifications/#decode-the-spec"
+    ],
+    "plots": {
+      "source-levels": {
+        "section": "compare",
+        "reading": "These fictional ratings share a horizontal voltage ruler. The source stays at 2.0 V RMS and the stated input limit changes.",
+        "referenceCases": [
+          "margin",
+          "overload"
+        ],
+        "examples": {
+          "margin": {
+            "label": "4 V limit",
+            "text": "2.0 V fits under the stated 4 V input limit. The input has room in this example. The amp’s clean speaker output still has its own limits."
+          },
+          "overload": {
+            "label": "1 V limit",
+            "text": "2.0 V exceeds the stated 1 V input limit. The input may already distort before a later volume control can turn it down."
+          },
+          "unknown": {
+            "label": "Unspecified",
+            "text": "The maximum clean input rating is missing. The sensitivity figure alone leaves the overload question open."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "is 2 volts too much for 200 millivolts",
+          "does 2 v overload a 200 mv input",
+          "is input sensitivity the maximum input"
+        ],
+        "text": "The 200 mV figure tells you what signal reaches rated output under the stated conditions. A 2 V source is safe from input overload only if the input can accept it cleanly. Ask for the maximum clean input rating and check where the volume control sits.",
+        "section": "compare"
+      }
+    ]
+  },
+  "dac-specifications": {
+    "title": "DAC noise, output level and distortion",
+    "specification": "SNR: 110 dB · A-weighted · referenced to 2.0 V RMS at 0 dBFS",
+    "topic": "DAC noise and specifications",
+    "terms": [
+      "dac",
+      "snr",
+      "signal to noise",
+      "dynamic range",
+      "a weighted",
+      "weighting",
+      "thd n",
+      "noise",
+      "hiss",
+      "noise floor",
+      "full scale",
+      "2 v",
+      "microvolt",
+      "output level"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "A digital-to-analogue converter (DAC) turns digital samples into an electrical audio signal. Signal-to-noise ratio, or SNR, tells you how far the measured noise sits below a reference signal. Higher SNR means less noise under the same test.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "110 dB SNR compares the measured noise with a 2.0 V RMS full-scale signal. A-weighting means the test filters the measured noise to emphasize frequencies people generally hear more readily. Compare readings with the same reference level, filter and bandwidth.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "Noise from a DAC or another part of the system can come through as hiss. Whether you hear it depends on gain, the speakers or headphones, background noise and listening level. A higher SNR alone leaves soundstage and musical dynamics to other tests.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Compare SNR, output level and distortion under similar test conditions. Then check whether the output suits your amp’s input. The system’s noise level matters more to listening than which device wins one specification.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Source levels shows how the DAC’s voltage fits an amplifier input and why input sensitivity and maximum clean input are different measurements.",
+        "href": "/decoder/source-levels/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/source-levels/#compare",
+      "/decoder/bit-depth/#compare"
+    ],
+    "plots": {
+      "dac-specifications": {
+        "section": "compare",
+        "reading": "These are calculated noise comparisons for the same 2.0 V RMS reference and weighting. The illustration shows separation in dB, alongside equivalent noise voltage.",
+        "referenceCases": [
+          "100",
+          "110"
+        ],
+        "examples": {
+          "100": {
+            "label": "100 dB SNR",
+            "text": "At 100 dB below the reference the calculated noise is about 20 microvolts RMS. Whether you hear it depends on the rest of the system."
+          },
+          "110": {
+            "label": "110 dB SNR",
+            "text": "At 110 dB below the reference it is about 6.3 microvolts RMS. The 10 dB improvement describes less measured noise in the same test."
+          },
+          "120": {
+            "label": "120 dB SNR",
+            "text": "At 120 dB below the reference it is about 2 microvolts RMS. This calculation describes the noise voltage and leaves the spatial presentation to other evidence."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "what does 110 db snr mean on a dac",
+          "does 110db snr mean no noise"
+        ],
+        "text": "In this fictional example, 110 dB SNR compares measured noise against a 2.0 V RMS full-scale signal. A-weighting filters the noise measurement. It does not guarantee that the whole listening system is silent.",
+        "section": "decode-the-spec"
+      },
+      {
+        "phrases": [
+          "will a higher dac snr improve soundstage",
+          "does a high dac snr always sound better"
+        ],
+        "text": "Not by itself. SNR measures noise relative to a reference, not stereo soundstage. Whether noise becomes audible also depends on system gain, speakers or headphones, background noise and listening level.",
+        "section": "listening"
+      }
+    ]
+  },
+  "audio-interfaces-mixers": {
+    "title": "Audio interfaces, mixers and recording channels",
+    "specification": "1 mic / 2 mic inputs / stereo mix",
+    "topic": "audio interfaces and recording mixers",
+    "terms": [
+      "audio interface",
+      "mixer",
+      "microphone",
+      "preamp",
+      "input",
+      "usb",
+      "stereo",
+      "multitrack",
+      "recording channel",
+      "48v",
+      "headphone monitoring"
+    ],
+    "sections": [
+      "jobs",
+      "journey",
+      "tracks",
+      "mixer",
+      "examples",
+      "monitoring",
+      "inputs",
+      "specs",
+      "decision"
+    ],
+    "answers": {
+      "simple": {
+        "text": "An audio interface connects microphones and instruments to a computer for recording. A mixer brings several sounds together and lets you adjust their levels. Some products combine both functions.",
+        "section": "jobs"
+      },
+      "spec": {
+        "text": "A ten-channel mixer can send only two combined USB channels to a computer. Count the separate computer recording inputs, not just the mixer knobs or physical input strips.",
+        "section": "tracks"
+      },
+      "hear": {
+        "text": "Separate tracks let you adjust or edit one voice or instrument after recording. A combined stereo recording no longer lets you turn down only one microphone by itself.",
+        "section": "tracks"
+      },
+      "buy": {
+        "text": "For one microphone, a suitable interface or a USB microphone may be enough. For several microphones recorded individually, check microphone preamps, independently routed computer recording channels and monitoring outputs.",
+        "section": "decision"
+      },
+      "related": {
+        "text": "The recording sources chapter shows how microphone placement and instrument inputs affect the captured sound.",
+        "href": "/decoder/recording-sources/#paths"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/recording-sources/#paths",
+      "/decoder/mixing-soundstage/#multitrack"
+    ],
+    "plots": {},
+    "questions": [
+      {
+        "phrases": [
+          "does a ten channel mixer record ten separate tracks",
+          "can a 10 channel mixer record 10 usb tracks"
+        ],
+        "text": "Not necessarily. Ten physical mixer channels may go to only two combined USB recording channels. Check how many independent tracks the device can send to recording software if you want to edit instruments individually.",
+        "section": "tracks"
+      },
+      {
+        "phrases": [
+          "do i need a mixer to record one microphone",
+          "should i buy a mixer or audio interface for one mic"
+        ],
+        "text": "For one microphone, a suitable audio interface or USB microphone may be enough. A mixer can combine and adjust several sources, but check its separate computer recording channels before buying for multitrack work.",
+        "section": "decision"
+      }
+    ]
+  },
+  "sample-rate": {
+    "title": "Sample rates and audio bandwidth",
+    "specification": "48 kHz PCM · 48,000 samples/second per channel",
+    "topic": "digital sample rate",
+    "terms": [
+      "sample rate",
+      "sampling",
+      "48 khz",
+      "44.1 khz",
+      "96 khz",
+      "192 khz",
+      "nyquist",
+      "alias",
+      "aliasing",
+      "filter",
+      "ultrasonic",
+      "pcm",
+      "bandwidth",
+      "reconstruction",
+      "samples per second"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Sample rate says how often a digital system records the signal’s level. The rate sets the top of the frequency range it can represent. A playback converter uses a filter to turn the samples back into a smooth analogue signal.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "48 kHz PCM means 48,000 stored samples per second for each channel. Half the rate, 24 kHz here, is the ideal upper boundary. A real filter needs room to roll off near that boundary.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "A higher rate can help with some recording and processing work. For music already properly captured and played within the audible band, compare the same master at matched levels before attributing a sound difference to sample rate.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Check compatibility with your recording, editing or playback equipment. Compare devices by their actual response, noise and distortion. A high maximum sample rate alone tells you little about the quality of ordinary playback.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Bit depth explains how finely the level of each sample is stored. Sample rate tells you how often the levels are taken.",
+        "href": "/decoder/bit-depth/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/bit-depth/#compare",
+      "/decoder/lossy-lossless/#compare"
+    ],
+    "plots": {
+      "sample-rate": {
+        "section": "compare",
+        "reading": "The diagrams calculate the number of samples in 10 milliseconds. The horizontal frequency ruler marks the ideal upper boundary at half the sample rate.",
+        "referenceCases": [
+          "480",
+          "441"
+        ],
+        "examples": {
+          "441": {
+            "label": "44.1 kHz",
+            "text": "At 44.1 kHz there are 441 samples in 10 milliseconds and a theoretical boundary of 22.05 kHz."
+          },
+          "480": {
+            "label": "48 kHz",
+            "text": "At 48 kHz there are 480 samples in 10 milliseconds and a theoretical boundary of 24 kHz."
+          },
+          "960": {
+            "label": "96 kHz",
+            "text": "At 96 kHz there are 960 samples in 10 milliseconds and a theoretical boundary of 48 kHz. Some studio processes use the additional bandwidth."
+          },
+          "1920": {
+            "label": "192 kHz",
+            "text": "At 192 kHz there are 1,920 samples in 10 milliseconds and a theoretical boundary of 96 kHz. The wider numerical range by itself leaves audibility to a separate test."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "is 96 khz better than 48 khz",
+          "does 192 khz sound better",
+          "does a higher sample rate sound better"
+        ],
+        "text": "A higher rate allows a wider theoretical frequency range and can help some studio processing. Whether it changes what you hear depends on the recording, filtering and playback. Compare the same master and level before attributing an audible change to the rate.",
+        "section": "listening"
+      }
+    ]
+  },
+  "bit-depth": {
+    "title": "Bit depth: more level choices, not better music",
+    "specification": "CD audio: 16-bit · 65,536 possible level values per sample",
+    "topic": "bit depth, rounding audio sample levels, recording headroom, quiet audio and dither",
+    "terms": [
+      "bit depth",
+      "16 bit",
+      "24 bit",
+      "8 bit",
+      "dither",
+      "quantization",
+      "rounding",
+      "dynamic range",
+      "amplitude code",
+      "resolution",
+      "noise floor",
+      "pcm",
+      "sample value"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "dynamics",
+      "dither",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Bit depth is the number of choices available for the height of each sound snapshot. More bits mean smaller rounding gaps, not more samples per second or a louder song. Try the simple 8/32/256-level wave in the first exercise.",
+        "section": "compare"
+      },
+      "spec": {
+        "text": "16-bit PCM stores one of 65,536 possible level values at each sample moment. 24-bit offers 16,777,216 values, with 256 times finer spacing. Signed PCM and the quantization math are explained under optional technical vocabulary.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "In the extremely quiet no-dither demo, too few digital level choices cause visible rounding. Properly applied dither can preserve quiet signals as low-level noise rather than a harsh cutoff. A well-mastered 16-bit release can already sound excellent; different masters often matter more than bit depth.",
+        "section": "understand"
+      },
+      "buy": {
+        "text": "For recording, 24-bit provides generous numerical space to leave input headroom for loud notes while keeping rounding noise very low. For buying music, choose the better master rather than assuming a 24-bit label adds dynamics, instrument separation or imaging.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Sample rate explains the other basic PCM number. It tells you how many samples are stored per second.",
+        "href": "/decoder/sample-rate/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/sample-rate/#compare",
+      "/decoder/dac-specifications/#compare"
+    ],
+    "plots": {
+      "bit-depth": {
+        "section": "understand",
+        "reading": "An intentionally magnified, undithered sine wave. Gold is the same quiet test signal; blue dots show its stored values at unchanged sample times. The slider changes signal amplitude while the controls switch real 8/16/24-bit PCM.",
+        "referenceCases": [
+          "16",
+          "8"
+        ],
+        "examples": {
+          "8": {
+            "label": "8-bit",
+            "text": "8-bit stores 256 possible levels, so a very quiet signal can round to zero in this no-dither example."
+          },
+          "16": {
+            "label": "16-bit",
+            "text": "16-bit stores 65,536 possible levels. At about −90 dBFS peak, only around one numerical step remains from zero to the peak in this deliberately no-dither demonstration."
+          },
+          "24": {
+            "label": "24-bit",
+            "text": "24-bit stores 16,777,216 possible levels. Even at −90 dBFS peak, there are hundreds of steps above zero; real converters have analogue noise limits."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "what is dither",
+          "why add dither",
+          "why add noise when reducing bit depth",
+          "why does dither help"
+        ],
+        "text": "Dither adds a little random noise before rounding to fewer bits. It breaks up the pattern between a quiet signal and the rounding error, trading patterned distortion for a smoother noise floor. This can help a quiet note fade more naturally.",
+        "section": "dither"
+      }
+    ]
+  },
+  "lossy-lossless": {
+    "title": "Lossless vs lossy audio and bitrates",
+    "specification": "MP3 · stereo · 320 kb/s CBR",
+    "topic": "lossy and lossless audio",
+    "terms": [
+      "mp3",
+      "flac",
+      "aac",
+      "lossy",
+      "lossless",
+      "codec",
+      "bitrate",
+      "bit rate",
+      "128 kbps",
+      "320 kbps",
+      "cbr",
+      "wav",
+      "pcm",
+      "compression",
+      "artifact",
+      "master",
+      "transcode"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "formats",
+      "artifacts",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Lossless compression can restore the original samples exactly. Lossy compression saves more space by leaving out information the encoder expects will be less noticeable. Whether you hear that trade-off depends on the recording, codec and settings.",
+        "section": "formats"
+      },
+      "spec": {
+        "text": "MP3 is the codec, or way the file was encoded. Stereo means two channels and 320 kb/s CBR means a constant encoded rate of about 320 kilobits per second. This describes the stream and its storage needs. To judge the sound, you need the recording and encoder too.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "A demanding lossy encode can change cymbal texture, soften an attack or add a swirly sound on some passages. Try a level-matched comparison from the same master. A different mix or master can easily account for an apparent format difference.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Lossless is handy if you want an exact archive or plan to convert files later. A good lossy encode can save data for streaming or travel. Turning an MP3 into FLAC preserves what is in the MP3 without recovering information discarded in the first encode.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Sample rate and bit depth explain the two numbers that help set uncompressed PCM’s storage rate.",
+        "href": "/decoder/sample-rate/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/sample-rate/#compare",
+      "/decoder/bit-depth/#compare"
+    ],
+    "plots": {
+      "lossy-lossless": {
+        "section": "compare",
+        "reading": "The horizontal ruler compares stream bitrate in kilobits per second. The four-minute sizes are calculated storage estimates, with listening quality left to a separate comparison.",
+        "referenceCases": [
+          "mp3320",
+          "mp3128"
+        ],
+        "examples": {
+          "mp3320": {
+            "label": "MP3 · 320",
+            "text": "At 320 kb/s the four-minute MP3 is about 9.60 MB. It is a higher-bitrate lossy example with about 23% of the raw PCM stream rate."
+          },
+          "mp3128": {
+            "label": "MP3 · 128",
+            "text": "At 128 kb/s the four-minute MP3 is about 3.84 MB. The encoder has less space for difficult musical events. Audibility depends on the encode and passage."
+          },
+          "aac256": {
+            "label": "AAC · 256",
+            "text": "At the example 256 kb/s the four-minute AAC is about 7.68 MB. Different codecs use their bits differently, so their rates alone cannot rank their sound."
+          },
+          "pcm": {
+            "label": "PCM · 1411.2",
+            "text": "Uncompressed 16-bit, 44.1 kHz stereo uses 1,411.2 kb/s, or about 42.34 MB in four minutes. FLAC can store the same samples in less space."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does converting mp3 to flac improve quality",
+          "does flac restore mp3",
+          "will wav restore an mp3"
+        ],
+        "text": "Converting a decoded MP3 to FLAC can preserve those decoded samples exactly. The original MP3 encoder already discarded some information, so a larger file cannot recover it. For an exact copy, start with the original lossless source.",
+        "section": "formats"
+      }
+    ]
+  },
+  "speaker-dispersion": {
+    "title": "Speaker dispersion and off-axis response",
+    "specification": "8 kHz · 30° horizontal: −6 dB relative to 0°",
+    "topic": "speaker dispersion and off-axis response",
+    "terms": [
+      "dispersion",
+      "directivity",
+      "off axis",
+      "on axis",
+      "toe in",
+      "seating",
+      "listening angle",
+      "sideways",
+      "vertical",
+      "horizontal",
+      "8 khz",
+      "30 degrees",
+      "soundstage",
+      "coverage",
+      "reflections"
+    ],
+    "sections": [
+      "decode-the-spec",
+      "compare",
+      "understand",
+      "vertical",
+      "listening",
+      "buying"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Dispersion describes how a speaker spreads sound around the room. A speaker can send less treble toward a seat off to the side than straight ahead. The way its sound spreads also affects what reaches you after bouncing off the walls.",
+        "section": "understand"
+      },
+      "spec": {
+        "text": "At 8 kHz and 30° to the side, the example is 6 dB below the speaker’s own straight-ahead output at the same note. It compares angles at one frequency. It leaves the full response and the rest of the angles to a larger set of measurements.",
+        "section": "decode-the-spec"
+      },
+      "hear": {
+        "text": "The fictional speaker loses more treble as you move to the side. Vocals or cymbals can seem darker in that seat. Stereo image and spaciousness also depend on room reflections, speaker placement and the recording.",
+        "section": "listening"
+      },
+      "buy": {
+        "text": "Compare the straight-ahead curve and several curves to the sides and above or below. Decide how wide a seating area you want. If the crossover changes the sound with ear height, check the speaker from your actual seat.",
+        "section": "buying"
+      },
+      "related": {
+        "text": "Speaker frequency response shows the overall note balance. The dispersion graph shows how that balance changes compared with the same speaker straight ahead.",
+        "href": "/decoder/speaker-frequency-response/#compare"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/speaker-frequency-response/#compare",
+      "/decoder/speaker-drivers/#understand"
+    ],
+    "plots": {
+      "speaker-dispersion": {
+        "section": "compare",
+        "reading": "The fictional graph shows frequency along the bottom. The vertical axis is the change in dB from straight ahead at that same frequency.",
+        "referenceCases": [
+          "30",
+          "0"
+        ],
+        "examples": {
+          "0": {
+            "label": "0° on axis",
+            "text": "The difference is 0 dB at every point because the speaker is compared with itself straight ahead. The curve measures a difference between positions."
+          },
+          "15": {
+            "label": "15° sideways",
+            "text": "At 8 kHz this example is 3 dB down. A smaller angle produces a smaller high-frequency change in this example."
+          },
+          "30": {
+            "label": "30° sideways",
+            "text": "At 8 kHz this example is 6 dB lower 30° to the side. The upper notes drop more than the lower notes in this particular drawing."
+          },
+          "60": {
+            "label": "60° sideways",
+            "text": "At 8 kHz this example is 12 dB down. A side seat can get less treble, and the room gets a different mix of sound to reflect."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "why is the on axis line flat",
+          "does the 0 degree line mean flat response",
+          "why is 0 degrees always 0 db"
+        ],
+        "text": "Every point on the 0° trace subtracts the speaker’s straight-ahead response from itself. The difference is zero at every frequency. To see how even the speaker actually sounds straight ahead, look at its absolute frequency-response curve.",
+        "section": "compare"
+      }
+    ]
+  },
+  "speaker-types": {
+    "title": "Speaker types: hi-fi, studio, nearfield and PA",
+    "topic": "speaker types",
+    "terms": [
+      "studio monitor",
+      "hi-fi speaker",
+      "nearfield",
+      "midfield",
+      "farfield",
+      "PA speaker",
+      "loudspeaker",
+      "stage monitor",
+      "wedge",
+      "line array",
+      "powered speakers",
+      "passive speakers",
+      "active speakers",
+      "coverage"
+    ],
+    "sections": [
+      "names",
+      "jobs",
+      "distance",
+      "special",
+      "power",
+      "situations",
+      "choose",
+      "overlap"
+    ],
+    "answers": {
+      "simple": {
+        "text": "All of these are loudspeakers, but they may be built for different jobs. Studio monitors help someone judge recordings, hi-fi speakers are used for listening at home, and PA speakers need to reach an audience. 'Nearfield' means you listen fairly close, often at a desk.",
+        "section": "jobs"
+      },
+      "spec": {
+        "text": "'Nearfield' describes the listening arrangement, not a special internal speaker part. 'Powered' means the system has amplification inside, while 'passive' means it needs a separate amplifier. Those labels do not tell you by themselves how accurately a speaker plays.",
+        "section": "names"
+      },
+      "hear": {
+        "text": "At a desk, sitting close often makes the direct speaker sound stronger relative to the room. On a couch, several seats may need consistent sound. At a live event, the speaker system has to reach an audience at useful volume. The actual speaker and setup determine how well it works.",
+        "section": "jobs"
+      },
+      "buy": {
+        "text": "Ask where you will sit or stand, how many people must hear it, how loud you need it, and what equipment will feed it. Check clean output, coverage, connections and whether an amplifier is needed. A studio, home or PA label isn't a sound-quality grade.",
+        "section": "choose"
+      },
+      "related": {
+        "text": "Speaker dispersion explains how a loudspeaker sends different amounts of sound in different directions. It helps you understand why your listening position, room and intended audience matter when choosing a speaker type.",
+        "href": "/decoder/speaker-dispersion/#understand"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/speaker-dispersion/#understand",
+      "/decoder/speaker-drivers/#ways-explained",
+      "/decoder/speaker-impedance/#understand"
+    ],
+    "plots": {},
+    "questions": [
+      {
+        "phrases": [
+          "are studio monitors better than hifi speakers",
+          "can i listen to music on studio monitors"
+        ],
+        "text": "Studio monitors can work well for enjoying music at home, and suitable home speakers can be used to judge a mix. The useful questions are their measured response, listening distance, room, volume and connections, not the label alone.",
+        "section": "overlap"
+      },
+      {
+        "phrases": [
+          "does nearfield mean powered speakers",
+          "what is nearfield listening"
+        ],
+        "text": "Nearfield simply means listening from fairly close, often at a desk. You can do it with powered or passive speakers. Sitting close changes the balance between direct sound and reflections, but it doesn't remove room effects.",
+        "section": "distance"
+      }
+    ]
+  },
+  "recording-sources": {
+    "title": "Microphones, DI and virtual instruments",
+    "specification": "12 × 15 ft",
+    "topic": "recording sources",
+    "terms": [
+      "microphone",
+      "direct input",
+      "di",
+      "synth",
+      "pickup pattern",
+      "cardioid",
+      "room reflections",
+      "mic placement",
+      "proximity effect"
+    ],
+    "sections": [
+      "paths",
+      "mic",
+      "room",
+      "choices",
+      "beyond"
+    ],
+    "answers": {
+      "simple": {
+        "text": "A recording can start with a microphone capturing air movement, an electrical signal from an instrument, or a sound built by a synth or software. Those routes capture different things.",
+        "section": "paths"
+      },
+      "spec": {
+        "text": "The 12 × 15 ft room is a fixed teaching example. Changing mic distance changes the balance of direct sound and reflections. The diagram illustrates that relationship without measuring the room.",
+        "section": "room"
+      },
+      "hear": {
+        "text": "Close to the mic, the voice often stands out more clearly against the room. Farther back, the same voice can sound more spacious or pick up reflections that make words less distinct.",
+        "section": "room"
+      },
+      "buy": {
+        "text": "Choose a pickup pattern and input type for the part you want to record. A directional mic can help reject room sound from certain angles, and a DI takes the instrument signal directly.",
+        "section": "choices"
+      },
+      "related": {
+        "text": "Once you pick the input, the next lesson shows how to leave space for the loudest note.",
+        "href": "/decoder/recording-resolution/#gain"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/recording-resolution/#gain",
+      "/decoder/mixing-soundstage/#multitrack"
+    ],
+    "plots": {
+      "recording-sources": {
+        "section": "paths",
+        "reading": "Follow the selected sound from its source into the recording.",
+        "referenceCases": [
+          "mic",
+          "di"
+        ],
+        "examples": {
+          "mic": {
+            "label": "Microphone",
+            "text": "The mic turns air movement into an electrical signal. Its placement affects how much of the instrument and the room you capture."
+          },
+          "di": {
+            "label": "Guitar / bass DI",
+            "text": "A direct input captures the instrument’s electrical signal. You can add an amp sound later or record a separate mic on the amp."
+          },
+          "hardware": {
+            "label": "Hardware synth",
+            "text": "The synth creates the sound internally. Its audio output can go straight to a suitable recording input."
+          },
+          "virtual": {
+            "label": "Software instrument",
+            "text": "The software makes the sound from note and control information, then sends audio into the mix."
+          }
+        }
+      },
+      "mic-polar": {
+        "section": "mic",
+        "reading": "The shape shows relative pickup around a microphone at one illustrative frequency.",
+        "referenceCases": [
+          "cardioid",
+          "omni"
+        ],
+        "examples": {
+          "cardioid": {
+            "label": "Cardioid",
+            "text": "The microphone is most sensitive at the front and much less sensitive at the rear."
+          },
+          "omni": {
+            "label": "Omnidirectional",
+            "text": "The illustrated mic picks up sound about equally from different directions."
+          },
+          "figure8": {
+            "label": "Figure-eight",
+            "text": "The two lobes show strong front and rear pickup with less sound picked up from the sides."
+          }
+        }
+      },
+      "mic-placement": {
+        "section": "room",
+        "reading": "The singer and fictional room stay in place as the microphone moves.",
+        "referenceCases": [
+          "close",
+          "mid"
+        ],
+        "examples": {
+          "close": {
+            "label": "Close: 0.5 ft",
+            "text": "The voice is strong compared with reflections. A close directional microphone can also bring up the bass and breath sounds."
+          },
+          "mid": {
+            "label": "Moderate: 2 ft",
+            "text": "More reflected sound reaches the mic relative to the voice. Aim and the room’s surfaces affect the result."
+          },
+          "far": {
+            "label": "Farther: 6 ft",
+            "text": "The room can become more audible. That can give a take space or obscure some of the words."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "why does microphone distance change room sound",
+          "is a close mic less roomy"
+        ],
+        "text": "Moving a microphone closer usually increases the direct voice or instrument relative to room reflections. Farther away often captures more room sound. Pickup direction and placement also matter.",
+        "section": "room"
+      },
+      {
+        "phrases": [
+          "does a di record the sound of the room",
+          "is direct input the same as a microphone"
+        ],
+        "text": "A direct input captures the instrument's electrical signal rather than acoustic sound in the room. A microphone captures air movement, including some room reflections. Those paths can give different results.",
+        "section": "paths"
+      }
+    ]
+  },
+  "microphone-types": {
+    "title": "Microphone types and practical uses",
+    "topic": "microphone types",
+    "terms": [
+      "dynamic microphone",
+      "moving-coil",
+      "condenser",
+      "ribbon",
+      "shotgun microphone",
+      "lavalier",
+      "headset",
+      "USB microphone",
+      "XLR",
+      "phantom power",
+      "podcasting",
+      "voice recording",
+      "microphone selection"
+    ],
+    "sections": [
+      "sort",
+      "inside",
+      "forms",
+      "power",
+      "situations",
+      "specs",
+      "takeaway"
+    ],
+    "answers": {
+      "simple": {
+        "text": "The word 'dynamic' usually means a moving-coil microphone. Condensers and ribbons make electrical signals in different ways. Shotgun, lavalier and headset mostly tell you how a mic is shaped or used, while USB and XLR describe how it connects. Different designs can work for the same recording.",
+        "section": "sort"
+      },
+      "spec": {
+        "text": "'Dynamic (moving-coil)' tells you how that mic generates a signal. 'Cardioid' describes the directions it picks up strongly; 'XLR' is a cable connection. These are categories, not a rating of sound quality. The right combination depends on the source and where the mic will sit.",
+        "section": "sort"
+      },
+      "hear": {
+        "text": "Two microphone designs can sound different, but placement and the room also change the result. Move a microphone closer to your voice and you will often pick up more direct voice relative to the room. A dynamic mic does not automatically ignore background noise.",
+        "section": "situations"
+      },
+      "buy": {
+        "text": "Start with what you're recording, how close the microphone can be, whether it must move and what input you own. Then compare pickup pattern, handling, noise and power requirements on actual models instead of assuming one category is always better.",
+        "section": "specs"
+      },
+      "related": {
+        "text": "The recording-sources lesson already explains microphone pickup direction and how moving a mic changes the balance between voice and room reflections. Use those concepts after choosing a suitable microphone design.",
+        "href": "/decoder/recording-sources/#room"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/recording-sources/#mic",
+      "/decoder/recording-sources/#room",
+      "/decoder/recording-resolution/#gain"
+    ],
+    "plots": {},
+    "questions": [
+      {
+        "phrases": [
+          "is a dynamic microphone the same as moving coil",
+          "what is a moving coil dynamic microphone"
+        ],
+        "text": "In everyday recording language, 'dynamic microphone' usually means a moving-coil design: moving air pushes a diaphragm and its small coil near a magnet. Ribbons also work by electromagnetic induction, but are usually discussed as their own group.",
+        "section": "inside"
+      },
+      {
+        "phrases": [
+          "does a dynamic microphone reject background noise",
+          "does a condenser hear more room noise"
+        ],
+        "text": "Neither capsule family automatically removes room sound. Distance, direction, source level and the particular microphone all matter. A mic close to the person speaking often gives a stronger voice-to-room balance.",
+        "section": "situations"
+      }
+    ]
+  },
+  "recording-resolution": {
+    "title": "Recording resolution, gain and oversampling",
+    "specification": "−12 dBFS",
+    "topic": "recording headroom",
+    "terms": [
+      "headroom",
+      "clipping",
+      "dbfs",
+      "24 bit",
+      "32 bit float",
+      "sample rate",
+      "aliasing",
+      "oversampling",
+      "converter"
+    ],
+    "sections": [
+      "chain",
+      "gain",
+      "float",
+      "aliasing",
+      "settings"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Set recording level so the quiet part is usable and the loudest unexpected note still fits. Bit depth helps describe small levels, and sample rate determines the highest frequencies a recording can represent.",
+        "section": "chain"
+      },
+      "spec": {
+        "text": "A peak at −12 dBFS leaves 12 dB of room below digital full scale. A note 6 dB louder would still fit in this example.",
+        "section": "gain"
+      },
+      "hear": {
+        "text": "An overloaded take can sound rough because the tops of its biggest waves flatten. Turning down the clipped recording makes that shape quieter.",
+        "section": "gain"
+      },
+      "buy": {
+        "text": "Check the mic and preamp’s real noise and overload limits along with the recording format. A float file has extra numerical room, and the analog input still has a physical limit.",
+        "section": "float"
+      },
+      "related": {
+        "text": "See how a mastering limiter handles the peaks once the mix is finished.",
+        "href": "/decoder/mastering-dynamic-range/#same-recording"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/bit-depth/#compare",
+      "/decoder/mastering-dynamic-range/#same-recording"
+    ],
+    "plots": {
+      "recording-gain": {
+        "section": "gain",
+        "reading": "Compare the shape and height of the same illustrative recording signal as input gain changes.",
+        "referenceCases": [
+          "safe",
+          "quiet"
+        ],
+        "examples": {
+          "safe": {
+            "label": "−12 dBFS",
+            "text": "The tallest rehearsal note leaves 12 dB for an unexpected peak."
+          },
+          "quiet": {
+            "label": "−24 dBFS",
+            "text": "There is lots of room for a peak. Whether the recorded noise matters depends on the analog chain and the source."
+          },
+          "hot": {
+            "label": "−3 dBFS",
+            "text": "The note fits with only 3 dB of room for a bigger hit."
+          },
+          "clip": {
+            "label": "3 dB over the limit",
+            "text": "The incoming peaks go beyond the ceiling and the recorded shape flattens."
+          }
+        }
+      },
+      "float-paths": {
+        "section": "float",
+        "reading": "Follow the signal to see where a peak can fit or get clipped.",
+        "referenceCases": [
+          "fixed",
+          "daw"
+        ],
+        "examples": {
+          "fixed": {
+            "label": "Recorder clips",
+            "text": "The input exceeds what the recorder captures, and the saved waveform contains that damage."
+          },
+          "daw": {
+            "label": "Too loud in software",
+            "text": "A floating-point stage can hold an over-scale value. Turning it down before a fixed-output limit can bring the intact peak back into range."
+          },
+          "recorder": {
+            "label": "32-bit float recorder",
+            "text": "A recorder designed to capture a wide input range can leave more flexibility when setting the level later."
+          },
+          "analogue": {
+            "label": "Mic or preamp clips",
+            "text": "If the hardware flattens a peak before conversion, the file stores the already changed shape."
+          }
+        }
+      },
+      "rate-alias": {
+        "section": "aliasing",
+        "reading": "The chart shows where a generated harmonic lands when processing at different rates.",
+        "referenceCases": [
+          "naive",
+          "high"
+        ],
+        "examples": {
+          "naive": {
+            "label": "48 kHz effect",
+            "text": "A 30 kHz harmonic made inside the effect folds to 18 kHz at a 48 kHz processing rate."
+          },
+          "high": {
+            "label": "Work at 96 kHz",
+            "text": "The 30 kHz harmonic fits under the higher Nyquist limit during processing."
+          },
+          "plugin": {
+            "label": "48 kHz · effect at 2×",
+            "text": "The effect temporarily works at 96 kHz and filters out the extra harmonic before returning to 48 kHz."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "can 32 bit float fix a clipped microphone preamp",
+          "does 32 bit float repair analog clipping"
+        ],
+        "text": "No. Floating-point processing can preserve certain over-scale digital values, but cannot restore peaks already flattened in a microphone, preamp or analog input stage. Prevent overload before conversion.",
+        "section": "float"
+      },
+      {
+        "phrases": [
+          "is recording at minus 12 dbfs too quiet",
+          "why not record as close to zero dbfs as possible"
+        ],
+        "text": "In the lesson's example, a peak at −12 dBFS leaves 12 dB of room for louder notes. Useful headroom depends on the performance and analog noise and overload limits. Recording near 0 dBFS is not automatically better.",
+        "section": "gain"
+      }
+    ]
+  },
+  "mixing-soundstage": {
+    "title": "Mixing, soundstage and spatial audio",
+    "specification": "0.25 ms",
+    "topic": "mixing",
+    "terms": [
+      "soundstage",
+      "stereo",
+      "imaging",
+      "panning",
+      "phase",
+      "mono",
+      "binaural",
+      "qsound",
+      "atmos",
+      "surround"
+    ],
+    "sections": [
+      "multitrack",
+      "mono",
+      "formats",
+      "recordings",
+      "glossary",
+      "next"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Mixing decides how loud, how far left or right, and how close each part of a performance seems. The recording and playback setup both contribute to the picture you hear.",
+        "section": "multitrack"
+      },
+      "spec": {
+        "text": "0.25 ms is a tiny timing gap between two otherwise identical microphone signals in the example. When combined to mono, their first dip is at about 2 kHz, which can soften part of a snare’s snap.",
+        "section": "mono"
+      },
+      "hear": {
+        "text": "Panning can make a guitar easier to locate, and lower levels or small tone changes can help a voice stay audible over the guitars. Room reflections affect how sharply those positions come through.",
+        "section": "multitrack"
+      },
+      "buy": {
+        "text": "Check which mix is included in an edition. The stereo, surround and binaural versions may give you different placements and require different playback setups.",
+        "section": "formats"
+      },
+      "related": {
+        "text": "The mastering lesson follows the finished stereo mix through remastering and release.",
+        "href": "/decoder/mastering-dynamic-range/#editions"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/recording-sources/#room",
+      "/decoder/mastering-dynamic-range/#editions"
+    ],
+    "plots": {
+      "mix-demo": {
+        "section": "multitrack",
+        "reading": "The stage shows pan placement. The lower plot shows schematic bands where parts can compete.",
+        "referenceCases": [
+          "crowded",
+          "pan"
+        ],
+        "examples": {
+          "crowded": {
+            "label": "Crowded center",
+            "text": "Several parts share the middle, and the guitar can make some vocal notes harder to pick out."
+          },
+          "pan": {
+            "label": "Pan for space",
+            "text": "Placing parts at different points left and right gives the ear more position cues."
+          },
+          "eq": {
+            "label": "Balance + EQ",
+            "text": "Small level and tone changes can make it easier to follow the vocal or bass."
+          },
+          "depth": {
+            "label": "Add ambience",
+            "text": "The added room effect gives some sounds a longer tail and can change how near they seem."
+          }
+        }
+      },
+      "phase-demo": {
+        "section": "mono",
+        "reading": "Compare how the same two sounds add together after they are combined to mono.",
+        "referenceCases": [
+          "coincident",
+          "quarter"
+        ],
+        "examples": {
+          "coincident": {
+            "label": "Same timing",
+            "text": "Identical sounds arrive together and add without the dips shown in the delayed cases."
+          },
+          "quarter": {
+            "label": "Small delay",
+            "text": "A small delay softens some upper frequencies first, which can change the edge of the hit."
+          },
+          "one": {
+            "label": "Longer delay",
+            "text": "With the longer delay, the first dip moves lower and the drum can lose some body."
+          }
+        }
+      },
+      "spatial-demo": {
+        "section": "formats",
+        "reading": "Each picture shows where the format gets its cues for placement.",
+        "referenceCases": [
+          "stereo",
+          "binaural"
+        ],
+        "examples": {
+          "stereo": {
+            "label": "Stereo",
+            "text": "The left and right channels create positions between two speakers by sharing a sound at different levels."
+          },
+          "binaural": {
+            "label": "Binaural",
+            "text": "Differences at the two ears can create a sense of direction over headphones. A recording or a renderer can supply those cues."
+          },
+          "qsound": {
+            "label": "QSound",
+            "text": "The mix changes cues in a two-channel signal to make certain sounds seem to extend beyond the speakers."
+          },
+          "surround": {
+            "label": "5.1 surround",
+            "text": "The mix can send separate parts to real speaker positions, with a dedicated low-frequency-effects channel."
+          },
+          "atmos": {
+            "label": "Dolby Atmos",
+            "text": "A renderer uses audio and position information to play back the mix on the available layout."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "why does my stereo mix change in mono",
+          "does phase affect mono compatibility"
+        ],
+        "text": "Small timing differences between related signals can reinforce or cancel parts of the spectrum when summed to mono. In this lesson, a 0.25 ms delay creates a first dip near 2 kHz.",
+        "section": "mono"
+      },
+      {
+        "phrases": [
+          "does panning make a mix sound wider",
+          "can panning help separate guitars and vocals"
+        ],
+        "text": "Panning changes where sounds sit left or right and can make instruments easier to locate. Perceived width also depends on the recording, level, tone, playback system and room reflections.",
+        "section": "multitrack"
+      }
+    ]
+  },
+  "mastering-dynamic-range": {
+    "title": "Mastering, remastering and dynamic range",
+    "specification": "2 V RMS",
+    "topic": "mastering",
+    "terms": [
+      "remaster",
+      "remix",
+      "compression",
+      "limiting",
+      "clipping",
+      "loudness",
+      "lufs",
+      "crest factor",
+      "rms",
+      "true peak",
+      "vinyl",
+      "headroom"
+    ],
+    "sections": [
+      "mix-and-master",
+      "editions",
+      "same-recording",
+      "remaster-example",
+      "delivery",
+      "loudness-war",
+      "meters",
+      "normalization",
+      "playback-demand"
+    ],
+    "answers": {
+      "simple": {
+        "text": "Mixing combines the separate tracks. Mastering usually starts from the finished mix and prepares it for release. Tone and the contrast between the loud hits and their backing can change at that stage.",
+        "section": "mix-and-master"
+      },
+      "spec": {
+        "text": "RMS is how the chart measures average electrical level. At 2 V RMS, all three versions use 0.5 W of average power into the example’s 8 Ω load. Their loudest hits can still ask the amp for different amounts of power.",
+        "section": "playback-demand"
+      },
+      "hear": {
+        "text": "At a matched listening level, follow the snare’s first crack, how the ring fades, and the bass beneath it. A denser master can bring the backing closer to the accents. EQ can make the same balance of instruments feel warmer or brighter.",
+        "section": "remaster-example"
+      },
+      "buy": {
+        "text": "Check the year, format and mastering or mixing credits. The same reissue may include the original mix with new mastering and a separate remix. Match levels when comparing the same passage.",
+        "section": "editions"
+      },
+      "related": {
+        "text": "The amplifier power lesson shows what clean headroom means when the music asks for a short, loud peak.",
+        "href": "/decoder/amplifier-power/#headroom"
+      }
+    },
+    "relatedLinks": [
+      "/decoder/amplifier-power/#headroom",
+      "/decoder/mixing-soundstage/#multitrack",
+      "/decoder/playback-sources/#riaa"
+    ],
+    "plots": {
+      "mastering-levels": {
+        "section": "same-recording",
+        "reading": "The lines show the voltage range of one channel of the same four-second synthetic performance.",
+        "referenceCases": [
+          "peak",
+          "rms"
+        ],
+        "examples": {
+          "peak": {
+            "label": "Match strongest peaks",
+            "text": "The strongest hit in each version reaches 10 V. The heavily limited version stays at a higher level between hits, so the amp delivers more average power."
+          },
+          "rms": {
+            "label": "Match average electrical level",
+            "text": "All three use 0.5 W on average into the 8 Ω example load. The restrained version still has the biggest drum hit, so the amp needs to deliver a bigger burst at that moment."
+          }
+        }
+      },
+      "same-mix-remaster": {
+        "section": "remaster-example",
+        "reading": "Compare the waveform in Peaks and body, or the applied EQ in Tonal balance.",
+        "referenceCases": [
+          "dynamics",
+          "tone"
+        ],
+        "examples": {
+          "dynamics": {
+            "label": "Peaks and body",
+            "text": "At the same playback gain, the remaster has lower peaks and more level between them."
+          },
+          "tone": {
+            "label": "Tonal balance",
+            "text": "The original is flat at 0 dB added EQ. The later master adds a bass lift and a treble trim before its dynamics processing."
+          }
+        }
+      },
+      "mastering-delivery": {
+        "section": "delivery",
+        "reading": "Follow the approved mix to the release and then to playback.",
+        "referenceCases": [
+          "digital",
+          "vinyl"
+        ],
+        "examples": {
+          "digital": {
+            "label": "CD and streaming",
+            "text": "The engineer checks the digital format and peaks. Streaming playback may adjust gain, and a CD uses 16-bit, 44.1 kHz PCM."
+          },
+          "vinyl": {
+            "label": "Vinyl",
+            "text": "The cutter sets groove level and spacing, using RIAA EQ and other adjustments as needed. The phono stage applies the complementary playback curve."
+          }
+        }
+      }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "can normalization restore dynamics",
+          "does spotify restore peaks"
+        ],
+        "text": "Turning a master down makes the entire waveform quieter, including any peaks that were already reduced during mastering. It can help you compare editions at a similar listening level.",
+        "section": "normalization"
+      },
+      {
+        "phrases": [
+          "what is a remaster",
+          "remaster versus remix",
+          "is a remaster a remix"
+        ],
+        "text": "A remaster prepares an existing mix again, so it can change overall tone, level or peaks. A remix starts from separated tracks or parts and builds a new balance.",
+        "section": "editions"
+      }
+    ]
+  }
+};

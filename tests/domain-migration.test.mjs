@@ -48,9 +48,9 @@ test('all sitemap routes have matching .com canonical and social URLs',()=>{
 
 test('sharing and public mail use the canonical domain without altering backend Gmail account',()=>{
  const home=read('index.html');
- assert.match(home,/https%3A%2F%2Fthesoundquestion\.com%2F/);
+ assert.match(home,/property="og:url" content="https:\/\/thesoundquestion\.com\/"/);
  assert.match(read('assets/share-site.js'),/https:\/\/thesoundquestion\.com\//);
- for(const file of ['index.html','connect/index.html','content-use/index.html','privacy/index.html']){
+ for(const file of ['connect/index.html','content-use/index.html','privacy/index.html']){
   assert.match(read(file),/contact@thesoundquestion\.com/);
  }
  const worker=read('workers/abx/index.mjs');

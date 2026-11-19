@@ -22,9 +22,9 @@ test('existing educational content has intentional related-reading paths',()=>{
 });
 test('home and Labs keep primary navigation concise, with detail available on demand',()=>{
  const home=read('index.html'),lab=read('labs/index.html');
- assert.match(home,/class="discovery-grid home-discovery"/);
- assert.equal((home.match(/class="discovery-card"/g)||[]).length,4);
- assert.match(home,/href="\/about\/">About this project/);
+ assert.match(home,/class="home-quick-links"/);
+ assert.equal((home.match(/class="home-goal-card"/g)||[]).length,6);
+ assert.match(home,/<a href="\/about\/">\s*<strong>About<\/strong>/);
  assert.match(lab,/class="lab-source-details"/);
  assert.match(lab,/<summary>Explore the four recording stages<\/summary>/);
 });

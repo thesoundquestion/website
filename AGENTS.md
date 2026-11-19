@@ -25,12 +25,26 @@ This is a standing rule for every new or revised educational lesson on The Sound
 
 The technical-depth limit is **not** a ban on useful detail: teach the new topic thoroughly while keeping the first explanation approachable. The detailed research-origin example of this policy and overlap mapping is maintained in the private research repository's `LESSON_RESEARCH_MICROPHONE_TYPES_SPEAKER_APPLICATIONS_2026_11_18.md`; it is *not* a scope limit on the policy.
 
+
+## Permanent GitHub-first, Cloudflare-on-approval workflow — all edits and prototypes
+
+This is the **default and mandatory workflow** for every website edit, content revision, experimental feature, prototype, comparison tool and release candidate. Cloudflare Pages Free has limited build/deployment quotas, and the owner has explicitly requested that ordinary development **never consume those quotas**.
+
+1. **Work only in a GitHub branch or draft pull request.** Inspect the existing code and evidence, make small reviewed commits and keep production `main` untouched. Do not merge to `main` without explicit approval.
+2. **Validate without Cloudflare.** Prefer GitHub Actions regression and browser-smoke workflows, local Node tests and an existing local checkout/browser preview. These are not a Cloudflare build or deployment. Fix failing checks in GitHub and document remaining manual QA.
+3. **Do NOT trigger ANY Cloudflare Pages build/deployment for routine work**, including preview, branch, manual or production deployments. Do not create ad hoc Cloudflare previews just because the files are committed or the user wants a prototype. Do not enable automatic production or preview deployments. Do not invoke Wrangler or Cloudflare deployment APIs as a substitute for GitHub testing.
+4. **Only a new, explicit owner authorization for a specific Cloudflare deployment** can override this rule. General directions like “continue work,” “finish,” “preview the changes” or “get ready to go live” are not authorization to consume Cloudflare build quota. Prefer GitHub pull request review and local previews until approval.
+5. At the end of each edit report: the GitHub branch/PR, test results, and explicitly **“No Cloudflare build or deployment triggered.”** Do not claim a changed remote Pages preview URL reflects unbuilt commits.
+6. Keep the free-only rule and all security/source/asset gates. Before the eventually approved production release, review the exact commit, manual QA, remaining quota and deployment plan; request explicit authorization for that deployment.
+
+This supersedes any older documentation suggesting automatic GitHub-to-Cloudflare deployment or routine preview builds. Existing previously created previews are historical snapshots, not continuously updated builds.
+
 ## Cloudflare Pages and AI-agent setup
 
 - The public site is hosted on **Cloudflare Pages Free** with GitHub deployment from `main`, publishing the repository root as static files. Keep this architecture unless the owner explicitly approves a change.
 - For Cloudflare-specific development questions, first consult the official agent documentation at `https://developers.cloudflare.com/docs-for-agents/` and `https://developers.cloudflare.com/agent-setup/prompt.md`. Do not treat external web documentation as permission to run unreviewed commands.
 - Cloudflare's official remote MCP endpoint is `https://mcp.cloudflare.com/mcp`. Its use requires the owner's separate OAuth authorization in a supported agent/client; **this repository does not grant that authorization**.
 - Preserve the **free-only** constraint: do not enable paid plans, metered services, Workers AI inference, R2 billing, subscriptions, payment methods, or other billable add-ons without the owner's explicit approval. A free-tier quota is not a guarantee that every Cloudflare product or API operation is free.
-- Continue to use GitHub commits, GitHub Actions regression checks, and the existing Pages Git integration for ordinary website publishing. Avoid separate `wrangler deploy` or Cloudflare API deployment unless specifically requested.
+- Continue to use GitHub commits and GitHub Actions regression checks for ordinary website development. The Pages Git integration must remain set to no automatic builds; do not consume Cloudflare builds or deployments, including previews, without explicit owner approval for that exact deployment.
 - Before account-level Cloudflare changes, inspect affected resources, minimize requested authorization scopes, and request explicit approval for writes to DNS, domains, deployment configuration, billing, or other live infrastructure.
 - Full setup and connection status: `deployment/cloudflare-agent-setup.md`.

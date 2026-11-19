@@ -147,3 +147,17 @@
 .sb-card-power,.sb-card-thd,.sb-card-review{font-size:.78rem;line-height:1.46;margin:.35rem 0;color:#c7e1ed}
 .sb-card-power strong,.sb-card-thd strong,.sb-card-review strong{color:#e1f5ff}
 .sb-card-review{color:#aecfe2}
+
+/* Hand off to the other specialist builder without mixing their forms. */
+.sb-bridge{border:1px solid #3a617c;background:#122638;border-radius:12px;padding:.85rem 1.15rem;line-height:1.7;margin:0 0 1.5rem;font-size:.95rem;color:#d1e5f4}
+.sb-bridge a{color:#95dcff;text-decoration:underline;text-underline-offset:.16em}
+
+/* Canonical powered-monitor discovery. Distinct from passive amplifier matching. */
+.sb-catalog-studio{margin:1.35rem 0;padding:clamp(1rem,2.5vw,1.6rem);border:1px solid #41617d;background:linear-gradient(155deg,#10293d,#101c2b);border-radius:14px}
+.sb-catalog-studio>h4{font-size:1.28rem;margin:0 0 .45rem}
+.sb-catalog-studio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin-top:1rem}
+.sb-catalog-studio-card{border:1px solid #385a70;background:#0b1b2b;border-radius:12px;padding:1rem;min-width:0}
+.sb-catalog-studio-card h5{font-size:1.09rem;margin:0 0 .5rem;color:#d7efff}
+.sb-catalog-studio-card li{line-height:1.52;margin:.24rem 0;overflow-wrap:anywhere}
+.sb-catalog-studio-card p{line-height:1.6}
+@media(max-width:730px){.sb-catalog-studio-grid{grid-template-columns:1fr}}

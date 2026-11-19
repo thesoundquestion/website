@@ -5,7 +5,7 @@ import {createContext,runInContext} from 'node:vm';
 import {ownershipPlan,shortlistAmpsForOwnedSpeakers} from '../system-builder/owned-gear-options.mjs';
 const src=p=>readFileSync(new URL(p,import.meta.url),'utf8');
 const context={window:{}};createContext(context);
-for(const p of ['../system-check/gear.js','../system-check/compare/specs.js','../system-builder/catalog-adapter.js'])
+for(const p of ['../equipment/legacy-presets.generated.js','../equipment/compare-details.generated.js','../system-builder/catalog-adapter.js'])
   runInContext(src(p),context);
 const inventory=context.window.systemBuilderInventory;
 const gear=(kind,name)=>({name,record:inventory[kind].find(x=>x.model===name)||null});

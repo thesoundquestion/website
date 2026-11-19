@@ -1,6 +1,6 @@
 # The Sound Question — ABX Lab implementation and future-lab handoff
 
-**Status, November 17, 2026: Worker live; visitor Pages release staged.** Draft PR #15 on `draft/abx-shared-framework-20261116` remains unmerged and Cloudflare Pages retains the previous production HTML. The Worker has distinct secrets, D1, rate limits, the live `ABX_PUBLIC_ENABLED=true` flag and a daily UTC cleanup cron. A complete 10-round live service acceptance run passed on Cloudflare ([evidence](https://github.com/thesoundquestion/website/actions/runs/44220509527)); all test records were removed. The final scored browser/audio and human editorial acceptance still belong to the controlled Pages release.
+**Status, November 18, 2026: public baseline launched; next full-site update remains draft.** PR #15 was merged and deployed on November 17 Atlantic time, with a successful read-only public smoke run (see `docs/PRODUCTION_LAUNCH_2026-11-17.md`). The ABX Worker is live; its D1, signed-answer secret, rate limiters and daily cleanup cron are configured. A previous 10-round live service acceptance passed ([evidence](https://github.com/thesoundquestion/website/actions/runs/44220509527)) and its test records were removed. Current release candidate PR #32 remains unpublished. The ABX evidence matrix was reconciled with the client mode map, server scoring allowlist and read-only Cloudflare Worker flags; real-device scored audio fairness and the new release's owner acceptance remain mandatory.
 
 This is a **fun, informal, voluntary community listening experiment**, not an accredited hearing test, clinical assessment, or controlled scientific experiment. It is not cheat-proof. We preserve reasonable fairness without delaying the site indefinitely for laboratory perfection.
 
@@ -11,6 +11,20 @@ This is a **fun, informal, voluntary community listening experiment**, not an ac
 - **Every ABX comparison has an explicit lessonUrl.** The “Explore the original [lesson] Lab” link opens its original lesson in another tab so the active test remains intact. Mastering EQ links straight to ?experiment=eq, matched masters to ?experiment=matched, and MP3 comparisons to ?song=light or ?song=diva. Source overviews carry recording credits and explanations.
 - The current selection is encoded in a shareable ABX URL: ?test=versioned-id&mode=training|challenge|advanced. Browser history is updated without placing any session credential or answer key in the URL.
 - The previous small inline Mastering ABX control is hidden, retained only for a separately reviewed cleanup. It is not an additional public ABX destination.
+
+## Mandatory ABX evidence-status review before public release
+
+**Release blocker.** The five-row “What is actually tested?” matrix in `library/behind-the-experiments/index.html` (the `#abx` section) reflects the current **draft implementation**, not a promise of what will be available after final validation. Its “Available procedure” column must be reconciled with actual release conditions **immediately before merging or publishing**, because those statuses may change as comparisons complete fairness testing.
+
+- Verify both **Mixing/stereo-width** comparisons: are they still Training only, or have any additional modes and scored paths been implemented and verified?
+- Verify both **Mastering dynamics** comparisons: keep the intentionally unequal-volume mastering demonstrations excluded from scored ABX; inspect any new loudness-matched eligible tests.
+- Verify **Mastering EQ**: private synchronized Challenge remains the only validated non-Training option as of this draft. Do not promote it to server-scored until native scored playback's answer-correlated audio gaps, levels and timing have been assessed on real devices and the live worker allowlist updated.
+- Verify the two **128 kbps MP3** comparisons for Training and 10-trial Challenge, and both **320 kbps MP3** comparisons for Training and 20-trial Advanced. Confirm versioned source assets, source hashes, matching, actual server allowlist and Worker feature flag.
+- Compare the browser catalogue (`assets/abx-lab.js`), scoring allowlist (`workers/abx/index.mjs`), **deployed** Cloudflare Worker configuration/health, canonical-origin behavior and a clean preview/practice run. A GitHub commit alone does not update the Worker.
+- Update the **five table rows**, caption and surrounding “How do the three modes work?” explanations together. Update the Lab landing page and `docs/abx-labs/README.md` / `workers/abx/RELEASE.md` if any availability changes. Review the privacy and public-statistics statements if scoring or consent behavior changes.
+- Run the full site regression, ABX browser smoke and real desktop/mobile audio checks before release. Record the final supported modes and evidence in PR #32; do not infer “scored” from the presence of a mode button or working practice UI.
+
+Until that review is completed and the site owner approves publication, **do not merge the release-candidate branch or deploy production**.
 
 ## Curated test catalogue
 
@@ -35,7 +49,7 @@ Difficulty is a property of the *game*, not the person or their gear. Visitors c
 
 The canonical `https://thesoundquestion.com` site supports server-scored Challenge and Advanced sessions for curated, eligible MP3 comparisons. The server signs answer mappings and round tokens; participation in the anonymized community statistics requires separate optional consent, off by default. Training is always private practice. Mastering EQ Challenge remains private practice because only the local synchronized playback has passed the owner's answer-cue listening tests, not the independent scored native playback path.
 
-When run from localhost, alternate hosts or preview branches, `PRACTICE_ONLY` remains true to avoid accidentally writing real scores during testing. The draft is not a public Pages release until explicitly merged and deployed. Worker and database flags are independent of Cloudflare Pages publication.
+When run from localhost, alternate hosts or preview branches, `PRACTICE_ONLY` remains true to avoid accidentally writing real scores during testing. The new PR #32 release candidate has not been published; the existing November 17 public site is live. Worker and database flags are independent of Cloudflare Pages publication.
 
 ## Scoring protocol and privacy
 
@@ -82,6 +96,6 @@ Historical research and earlier draft plans are archived in docs/abx-labs/PRIOR_
 
 The next draft adds a **moderated Listening Room nomination and discussion board**, plus short discussion comments in the ABX Lab. The Listening Room reuses the existing **seven category identifiers**, including their current label names. Visitors suggest **one recording per entry** (artist 64 characters, title 100, one category, explanation 20–280 characters) and are encouraged to share overlooked, lesser-known and distinctive recordings. Freeform comments are 5–280 characters. No direct uploads, contributor accounts or arbitrary HTML/links.
 
-`assets/community-board.js` and `assets/community-board.css` implement the lightweight UI. Approved suggestions display as plain cards with a site-generated Spotify search URL; approved comments appear below. Unreviewed entries do not appear. The API `workers/abx/community.mjs` handles `/v1/community/submit` and `/v1/community/approved` using the **existing free-tier D1 database**, not an added paid storage service. Manual moderation uses the Cloudflare D1 console, with SQL workflow in `workers/abx/COMMUNITY-REVIEW.md`. `COMMUNITY_PUBLIC_ENABLED` is a separate release flag, currently **true**; API pending-only and listing tests passed. Pages forms remain staged.
+`assets/community-board.js` and `assets/community-board.css` implement the lightweight UI. Approved suggestions display as plain cards with a site-generated Spotify search URL; approved comments appear below. Unreviewed entries do not appear. The API `workers/abx/community.mjs` handles `/v1/community/submit` and `/v1/community/approved` using the **existing free-tier D1 database**, not an added paid storage service. Manual moderation uses the Cloudflare D1 console, with SQL workflow in `workers/abx/COMMUNITY-REVIEW.md`. `COMMUNITY_PUBLIC_ENABLED` is a separate release flag, currently **true**; API pending-only and listing tests passed. The visitor-facing forms from the November 17 release are already live; manual moderation remains necessary.
 
 To extend this to another lesson, add a `data-community-scope` section only after defining an approved section and adjusting server permissions, privacy text, rate limits and review workflow. Do not expose unreviewed rows or add visitor-supplied links.

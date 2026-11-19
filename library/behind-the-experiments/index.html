@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#080d15">
-  <meta name="description" content="What our mixing comparisons establish, what they cannot prove, and how to judge mastering and dynamic range without confusing loudness with quality.">
+  <meta name="description" content="The evidence, audio sources, measurements and limitations behind our Mixing, Mastering, MP3 vs FLAC and ABX listening experiments.">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="The Sound Question">
   <meta property="og:title" content="Behind the Experiments | The Sound Question">
-  <meta property="og:description" content="The methods, listening observations and evidence limits behind our mixing and mastering comparisons.">
+  <meta property="og:description" content="The methods, audio provenance, measured differences, blind-testing rules and evidence limits behind all four listening experiments.">
   <meta property="og:url" content="https://thesoundquestion.com/library/behind-the-experiments/">
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://thesoundquestion.com/library/behind-the-experiments/">
@@ -28,9 +28,9 @@
 <section class="page-intro container experiment-intro">
 <p class="section-kicker">REFERENCE LIBRARY / EVIDENCE &amp; LISTENING</p>
 <h1>Behind the<br><span class="gradient-text">experiments.</span></h1>
-<p class="lead">The listening pages let you hear a difference. This is where we explain what changed, what we measured, and what we can reasonably conclude. The goal isn't to crown a winner. It's to make the cause of an audible change easier to understand.</p>
+<p class="lead">The listening pages let you hear a difference. This is where we explain what changed, what we measured, how blind comparisons work, and what we can reasonably conclude. The goal isn't to crown a winner. It's to make the cause of an audible change easier to understand.</p>
 <p class="experiment-route"><a href="/labs/#recordings">Meet the recordings and contributors behind the labs →</a></p>
-<nav class="experiment-jumps" aria-label="On this page"><a href="#mixing">Mixing findings</a><a href="#mastering">Mastering comparisons</a><a href="#method">How we compare</a><a href="#evidence">Evidence &amp; sources</a></nav>
+<nav class="experiment-jumps" aria-label="On this page"><a href="#mixing">Mixing findings</a><a href="#mastering">Mastering comparisons</a><a href="#formats">MP3 vs FLAC: sources &amp; encoding</a><a href="#abx">ABX: method &amp; scoring</a><a href="#method">How we compare</a><a href="#evidence">Evidence &amp; sources</a></nav>
 </section>
 <section class="section section-border" id="mixing"><div class="container narrow-content">
 <p class="section-kicker">01 / MIXING</p>
@@ -62,28 +62,89 @@
 <p>Look at <strong>integrated loudness</strong> (average level over the passage), <strong>peak and true-peak level</strong> (how close the strongest moments get to the ceiling), and measures of <strong>peak-to-average contrast</strong>. No single meter gives a universal score for musical quality. If EQ changes as well as compression, don't attribute every tonal difference to compression alone.</p>
 <p class="experiment-route"><a href="/lab/mastering/">Try the Mastering Lab →</a> <a href="/decoder/mastering-dynamic-range/">Explore the mastering and dynamic-range lesson →</a> <a href="/library/make-audio-make-sense/">Read the reference guide →</a></p>
 </div></section>
+
+<section class="section section-border" id="formats"><div class="container narrow-content">
+<p class="section-kicker">03 / MP3 VS FLAC</p>
+<h2>The same recording. Three different file versions.</h2>
+<p>Our <a href="/labs/formats/">MP3 vs Lossless Lab</a> asks a narrower question than “Which format is best?”: <strong>when you keep the music and master fixed, can you hear what MP3 encoding changes?</strong> We start with two existing educational FLAC recordings. FLAC is <em>lossless</em>, meaning decoding reconstructs the source audio without discarding sound information. MP3 makes a smaller file by removing or simplifying information according to its encoder. The format names alone cannot tell you whether an individual listener will hear a difference.</p>
+<h3>What recordings did we actually use?</h3>
+<div class="experiment-table-wrap"><table class="experiment-table">
+<caption>The same two source performances are used for the lossless reference and both MP3 versions of each example.</caption>
+<thead><tr><th scope="col">Music</th><th scope="col">Reference recording</th><th scope="col">Duration</th><th scope="col">Source audio</th></tr></thead><tbody>
+<tr><th scope="row">Let The Light In</th><td>Our conventional/reference teaching mix, not the artist's released master</td><td>30 seconds</td><td>Stereo FLAC, 44.1 kHz</td></tr>
+<tr><th scope="row">Diva</th><td>Our dynamic teaching master, not the artist's official release master</td><td>40 seconds</td><td>Stereo FLAC, 44.1 kHz</td></tr>
+</tbody></table></div>
+<p>Both performances come from music made available through AlbumDB, but <strong>the two source recordings are our already-prepared educational versions</strong>. Each MP3 was encoded directly from the corresponding FLAC. We did not record another take, change the balance of instruments, apply new EQ, or remix or remaster the files for this particular format comparison.</p>
+<h3>How we made and checked the MP3 versions</h3>
+<p>We encoded both sources with FFmpeg 8.0.1 using the LAME MP3 encoder, at the source's native <strong>44.1 kHz stereo</strong> rate. For each source we made one <strong>128 kbps</strong> and one <strong>320 kbps</strong> constant-bitrate (CBR) file. Bitrate is the amount of encoded data used per second. We checked the decoded duration, sample alignment, sample-level RMS and peak level, and recorded SHA-256 file hashes in our <a href="/assets/audio/formats/manifest.json">format-test provenance manifest</a>.</p>
+<div class="experiment-table-wrap"><table class="experiment-table">
+<caption>Measured decoded RMS change relative to each source FLAC, before any browser playback-volume correction. Byte counts refer to the published MP3 files.</caption>
+<thead><tr><th scope="col">Source</th><th scope="col">MP3 setting</th><th scope="col">File size</th><th scope="col">Decoded RMS difference</th><th scope="col">Alignment</th></tr></thead><tbody>
+<tr><th scope="row">Let The Light In</th><td>128 kbps</td><td>481,070 bytes</td><td>−0.4358 dB</td><td>0 samples</td></tr>
+<tr><th scope="row">Let The Light In</th><td>320 kbps</td><td>1,202,676 bytes</td><td>−0.0004 dB</td><td>0 samples</td></tr>
+<tr><th scope="row">Diva</th><td>128 kbps</td><td>641,148 bytes</td><td>−0.4363 dB</td><td>0 samples</td></tr>
+<tr><th scope="row">Diva</th><td>320 kbps</td><td>1,602,872 bytes</td><td>+0.0005 dB</td><td>0 samples</td></tr>
+</tbody></table></div>
+<p>The two 128 kbps files decode to an RMS level about <strong>0.44 dB lower</strong> than their FLAC originals. This matters because even a small volume difference can influence a casual listening judgement. The 320 kbps versions measured almost identical sample RMS to their sources. Zero-sample alignment and high signal correlation are useful engineering checks; they are <strong>not</strong> measurements of whether the differences are audible or musically important.</p>
+<h3>What happens when you press Play?</h3>
+<p>For the normal listening controls, the browser plays one version on demand and switches to approximately the same point in the other file. To reduce the measured level advantage of the lossless and 320 kbps files, the player applies <strong>playback-only</strong> volume multipliers of roughly 0.951 to those two versions; the 128 kbps file stays at 1.0. The stored recordings are unchanged. This is a practical, approximate <strong>sample-RMS match</strong>, not a calibrated perceived-loudness match.</p>
+<p>An optional <strong>Prepare instant switching</strong> control downloads and decodes all three versions of the chosen song. Where supported, a shared Web Audio clock starts them at the same time and playback position; the buttons then change their gain rather than restarting the files. Preparation is deliberately opt-in, with a 14 MiB total download cap and a 48 MiB decoded-audio limit. It uses additional memory and bandwidth. If preparation fails or the browser cannot decode the FLAC, ordinary audio playback remains available, but normal switching may pause or drift slightly in position.</p>
+<h3>What can we conclude?</h3>
+<p>These tests demonstrate that <strong>different encodings of the same source can be compared</strong>, and they document the actual encoding and level differences. If someone hears no difference, that is a perfectly useful personal observation. If they do hear one, a blind comparison can help check whether it survives without a visible format label. Neither result from one person, two excerpts or one playback setup proves what all listeners can hear. Encoding quality, musical material, listening conditions and replay level all matter.</p>
+<p class="experiment-route"><a href="/labs/formats/">Try MP3 vs FLAC →</a> <a href="/labs/abx/?test=formats-light-128-v1&amp;mode=training">Try a blind format comparison →</a> <a href="/decoder/lossy-lossless/">Learn what lossy and lossless mean →</a></p>
+</div></section>
+<section class="section section-border" id="abx"><div class="container narrow-content">
+<p class="section-kicker">04 / ABX BLIND LISTENING</p>
+<h2>When the label disappears, can you still tell?</h2>
+<p>Our <a href="/labs/abx/">ABX Lab</a> adds a different question to the sighted Mixing, Mastering and MP3 comparisons. You can hear known references <strong>A</strong> and <strong>B</strong> as many times as you need. A mystery <strong>X</strong> is one of them. You identify whether X matches A or B. The aim is to separate an audible difference you can repeatedly identify from a preference or expectation caused by seeing which version is playing.</p>
+<h3>What is actually tested?</h3>
+<!-- RELEASE GATE: Reverify every status in the five-row ABX comparison table before production.
+     Check assets/abx-lab.js modes, workers/abx/index.mjs VALIDATED,
+     actual Cloudflare Worker flags, fair switching on real devices, and
+     preview-vs-canonical scoring. Update the table and accompanying mode
+     descriptions together. Do not treat preview functionality as live scoring. -->
+<div class="experiment-table-wrap"><table class="experiment-table">
+<caption>ABX modes verified against the lesson catalogue and scoring allowlist for this release. Eligible scored sessions work only on thesoundquestion.com when its scoring service is enabled; local and preview sites run private practice.</caption>
+<thead><tr><th scope="col">Comparison</th><th scope="col">Recording pair</th><th scope="col">Available procedure</th></tr></thead><tbody>
+<tr><th scope="row">Mixing and stereo width</th><td>Narrow / reference and reference / creative mixes of the same performance</td><td>Training only</td></tr>
+<tr><th scope="row">Mastering dynamics</th><td>Dynamic / moderate and moderate / brickwalled, using specially loudness-matched masters</td><td>Training only</td></tr>
+<tr><th scope="row">Mastering EQ</th><td>EQ off / EQ on</td><td>Training and private practice Challenge; server-scored switching not yet validated</td></tr>
+<tr><th scope="row">MP3 at 128 kbps</th><td>Lossless vs 128 kbps, for Let The Light In or Diva</td><td>Training; eligible 10-trial scored Challenge on the canonical site</td></tr>
+<tr><th scope="row">MP3 at 320 kbps</th><td>Lossless vs 320 kbps, for Let The Light In or Diva</td><td>Training; eligible 20-trial scored Advanced on the canonical site</td></tr>
+</tbody></table></div>
+<p>The deliberately <strong>unequal-volume mastering examples are not ABX score tests</strong>: it would be too easy to identify which was playing merely by loudness. The blind MP3 games reuse the same fixed FLAC and MP3 sources documented above, including the small decoded level difference of the 128 kbps files. Training applies a compensating playback level for those comparisons, but scored playback must not be mistaken for a calibrated laboratory test.</p>
+<h3>How do the three modes work?</h3>
+<div class="principle-list">
+<div><span>01</span><div><h3>Training: ten practice rounds</h3><p>Choose a comparison and explicitly prepare the recordings. The browser randomly chooses X as A or B for each round and gives immediate feedback. When supported, it uses two decoded source buffers sharing one audio clock so switching A, B and X does not require new downloads or a restart. When synchronized decoding is unavailable, regular cached audio may introduce a pause. Training results stay on the device and are not published.</p></div></div>
+<div><span>02</span><div><h3>Challenge: ten rounds</h3><p>Eligible 128 kbps format comparisons use ten server-scored guesses on the canonical site. You can replay A, B and X, but you are not told whether a guess was right until the session ends. The mastering EQ challenge remains a private practice game because the separate server-scored playback path has not passed its fairness checks.</p></div></div>
+<div><span>03</span><div><h3>Advanced: twenty rounds</h3><p>Eligible 320 kbps lossless-versus-MP3 comparisons use twenty guesses. This provides a longer run with a subtler encoding comparison. It does not certify anyone's hearing or guarantee that the material contains an audible difference.</p></div></div>
+</div>
+<h3>How do we prevent the browser from awarding itself points?</h3>
+<p>The scored service, rather than the web page, chooses which underlying file corresponds to A and B, determines X for each round, and issues a round-specific token. It checks the current answer and advances the score only once, so resubmitting a guess cannot count it again. The browser receives the final correct-answer count and a <strong>chance probability</strong>, calculated as the probability of that many correct guesses <em>or more</em> if each two-choice guess were random. That calculation does not account for repeated attempts, a self-selected audience, different equipment or uncontrolled listening conditions.</p>
+<p>Scored audio is played through a separate authenticated delivery route and cached for the session. However, the scored player still uses normal browser media switching. Network timing, playback gaps, codec characteristics, small level differences or someone deliberately inspecting downloaded files can compromise blinding. The service hides the answer and avoids revealing results between rounds, but <strong>this is an informal listening game, not a cheat-proof or scientifically controlled hearing study</strong>.</p>
+<h3>What happens to the scores?</h3>
+<p>On the canonical site, choosing to include a completed result in anonymous community statistics is <strong>optional and off by default</strong>. Results are grouped by the specific versioned comparison, game mode and trial count. A group is not shown publicly until at least <strong>10 completed, opted-in sessions</strong> exist. These are counts of sessions, not unique people, and there are no individual rankings. The score database does not require an account, name or email. Unfinished sessions expire after two hours; completed private results are scheduled for deletion after 24 hours, and opted-in results after 180 days, with a scheduled cleanup job.</p>
+<p><strong>Public versus preview:</strong> On thesoundquestion.com, eligible MP3 Challenge and Advanced games use the scoring service, with optional community sharing off by default. On local builds or preview URLs, those same games run as <em>private practice only</em> and send no scores. Mastering EQ Challenge is private practice on every host until its separate scored playback path is validated. A browser practice result is not evidence that live scoring or audio switching is fair on every device.</p>
+<p class="experiment-route"><a href="/labs/abx/">Try the ABX Lab →</a> <a href="/labs/formats/">Review the format sources →</a> <a href="/privacy/">See privacy and retention details →</a></p>
+</div></section>
 <section class="section section-border" id="method"><div class="container narrow-content">
-<p class="section-kicker">03 / THE METHOD</p>
+<p class="section-kicker">05 / THE METHOD</p>
 <h2>What makes a listening comparison useful?</h2>
 <div class="principle-list">
 <div><span>01</span><div><h3>Hold the right things constant</h3><p>Use the same performance, time range and starting file when testing a specific production decision. Label any exceptions rather than hiding them.</p></div></div>
 <div><span>02</span><div><h3>Distinguish gain matching from mastering</h3><p>Our three mixing examples were gain-matched for listening; that operation did not make them separately mastered records. For mastering, report the chosen gain and dynamic treatment of each version.</p></div></div>
 <div><span>03</span><div><h3>Let your ears and the measurements ask different questions</h3><p>A stereo ratio tells us about side energy. A loudness meter tells us about level. Listening impressions can describe spaciousness or punch. They support one another, but none replaces the others.</p></div></div>
-<div><span>04</span><div><h3>Report limitations</h3><p>These are intentionally exaggerated educational mixes and masters. Informal listening on a particular system is not a blinded, representative study, and an exaggerated demonstration is not proof that one approach suits every song.</p></div></div>
+<div><span>04</span><div><h3>Report limitations</h3><p>Our deliberately exaggerated mixes and masters, and guided format switching, are teaching demonstrations, not a blinded, representative study. ABX helps reduce some expectation effects, but unsupervised games still have level, playback, participant-selection and procedural limitations. Do not turn a single score into proof of universal audibility.</p></div></div>
 </div>
 </div></section>
 <section class="section section-border" id="evidence"><div class="container narrow-content">
-<p class="section-kicker">04 / CREDITS &amp; SOURCES</p>
+<p class="section-kicker">06 / CREDITS &amp; SOURCES</p>
 <h2>Where the performance came from</h2>
 <p>The mixing excerpt is from <em>“Let The Light In”</em> by Tom McKenzie, from <em>Extraordinary</em> (2025). The stems came from <a href="https://zenodo.org/records/19683001">AlbumDB: A multitrack dataset of a ten-song album with stereo and immersive 7.1.4 masters</a>, credited to Thomas McKenzie, Eloi Moliner Juanpere and Alec Wright. The dataset lists a CC BY 4.0 licence; see also the <a href="https://aes.org/publications/elibrary/elibrary-page/?id=23185">AlbumDB research paper (AES Paper 10278)</a>. Our educational edits are independent; no endorsement is implied.</p>
-<p>To understand the surrounding concepts, continue with <a href="/decoder/audiophile-glossary/">the listening-language glossary</a>, <a href="/decoder/mixing-soundstage/">mixing and soundstage</a>, and <a href="/decoder/mastering-dynamic-range/">mastering and dynamic range</a>. The interactive demonstrations belong in the Lab; the reasoning belongs here.</p>
+<p>Our <em>Let The Light In</em> format reference is the educational stereo mix used in the Mixing Lab; our <em>Diva</em> reference is the educational dynamic master used in the Mastering Lab. The <a href="/assets/audio/formats/manifest.json">published MP3 comparison manifest</a> records exact input and encoded-output hashes, lengths, sample alignment, file sizes and decoded RMS/peak measurements. ABX scoring rules, source allowlists and retention are documented by the site implementation and in the <a href="/privacy/">privacy notice</a>; only supported, reviewed comparisons can use the score service.</p>
+<p>To understand the surrounding concepts, continue with <a href="/decoder/audiophile-glossary/">the listening-language glossary</a>, <a href="/decoder/mixing-soundstage/">mixing and soundstage</a>, <a href="/decoder/mastering-dynamic-range/">mastering and dynamic range</a>, and <a href="/decoder/lossy-lossless/">lossy versus lossless audio</a>. The interactive demonstrations belong in the Labs; the methods and evidence limits belong here.</p>
 </div></section>
-<nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/labs/">Try the listening experiments <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="/library/">Library</a><a href="/">Home</a><a href="#">↑ Back to top</a></div></nav>
+<nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/labs/">Try the listening experiments <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="#">↑ Back to top</a></div></nav>
 </main>
-<footer class="site-footer"><div class="container footer-inner">
-<div class="footer-brand"><img src="/assets/mark.svg" width="29" height="29" alt=""><span>The Sound Question</span></div>
-<div class="footer-links"><a href="/journey/">The Journey</a><a href="/decoder/">Spec Decoder</a><a href="/lab/">Listening Lab</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></div>
-<p>From the first sound to the final listen. Understand what shapes what you hear.</p>
-<small>© 2026 The Sound Question. Free to explore, no account required.</small>
-</div></footer>
+<footer class="site-footer tsq-footer-compact"><div class="container tsq-footer-inner"><span>© 2026 The Sound Question · Free to explore</span><nav aria-label="Policies"><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></nav></div></footer>
 </div></body></html>

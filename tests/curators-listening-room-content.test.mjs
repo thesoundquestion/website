@@ -56,3 +56,25 @@ test('New listening selections and platform links are published', () => {
   assert.match(html, /spotify\.com\/playlist\/2oIjBSeLGbg6gqqaeyGrKI/);
   assert.match(html, /sdz\.sh\/2r8wVo/);
 });
+
+test('paired Blind Melon opening songs count as one recommendation for the entire debut album',()=>{
+ const mixing=section('mixing');
+ const dynamics=section('dynamics');
+ const albumSection=mixing.match(/<article class="curator-track" id="track-mixing-2">([\s\S]*?)<\/article>/)?.[1]||'';
+ assert.equal([...mixing.matchAll(/<article class="curator-track"/g)].length,2);
+ assert.equal([...dynamics.matchAll(/<article class="curator-track"/g)].length,7);
+ assert.match(html,/05 \/ 2 SELECTIONS/);
+ assert.match(html,/04 \/ 7 SELECTIONS/);
+ assert.match(html,/Mixing &amp; Production Choices <span aria-hidden="true">\(2\)<\/span>/);
+ assert.match(html,/Dynamics, Emotion &amp; Performance <span aria-hidden="true">\(7\)<\/span>/);
+ assert.match(albumSection,/<p class="curator-artist">Blind Melon<\/p><h3>Soak the Sin \/ Tones of Home<\/h3>/);
+ for(const term of ['busy rock arrangement','remarkably open','drum tone','high-end detail','No Rain',
+   'one of my first favourite albums','almost every other track on this album outdoes it',
+   'Full-album recommendation','proper front-to-back listen']){
+  assert.ok(albumSection.includes(term),'Missing listening cue: '+term);
+ }
+ assert.match(albumSection,/open.spotify.com\/album\/7yz9SLBNG9nOTuP1aP638b/);
+ assert.doesNotMatch(albumSection,/Soup \(1995\)/);
+ assert.equal([...html.matchAll(/<article class="curator-track"/g)].length,51);
+ assert.match(html,/51 selections cover 55 tracks/);
+});

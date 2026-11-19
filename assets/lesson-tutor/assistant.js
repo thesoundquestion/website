@@ -1,7 +1,7 @@
 import { AI_ENABLED } from './config.js';
 import {
   MAX_QUESTION_LENGTH, SUGGESTIONS, asksAboutGraph, blockedReason, cleanQuestion, getContext, isInScope,
-  isLessonLink, matchQuestion, preparedAnswer, readGraphSelection, slugFromPath,
+  isLessonLink, matchQuestion, preparedAnswer, readGraphSelection, relatedPreparedQuestions, slugFromPath,
 } from './core.js';
 
 const AI_PATH = '/api/lesson-tutor';
@@ -42,6 +42,25 @@ export function mountLessonTutor() {
     '<div class="lesson-tutor-body">',
     '  <p class="lesson-tutor-context" hidden></p>',
     '  <div class="lesson-tutor-controls" hidden>',
+    "    <p class=\"lesson-tutor-free-help\"><strong>Start with the quick answers.</strong> They and the lesson examples are free, unlimited and never use AI.</p>",
+    ...(AI_ENABLED ? [
+      "    <section class=\"lesson-tutor-ai-guidance\" aria-label=\"Optional AI usage and question tips\">",
+      "      <p><strong>Optional AI: up to 3 new questions per browser per UTC day</strong>, plus 1 short clarification about an AI answer. Everyone shares a limited daily allowance, so availability is not guaranteed. Limits reset at 00:00 UTC.</p>",
+      "      <p><strong>What counts?</strong> Typing, searching prepared answers and opening tips are free. Only clicking “Ask AI” can use an AI attempt. An accepted request may count even if no useful answer is returned.</p>",
+      "      <p>AI only covers this lesson and related topics, not the whole internet. Shared networks may have additional limits.</p>",
+      "      <details class=\"lesson-tutor-prompt-guide\">",
+      "        <summary>How to get more from your AI questions</summary>",
+      "        <ol>",
+      "          <li><strong>Be specific.</strong> Name the part of the lesson, graph or number that confused you.</li>",
+      "          <li><strong>Explain what surprised you.</strong> Say what you expected and what you actually saw.</li>",
+      "          <li><strong>Ask for one useful explanation.</strong> For example, request everyday words and a familiar audio example.</li>",
+      "        </ol>",
+      "        <p><strong>Example you can edit:</strong></p>",
+      "        <p class=\"lesson-tutor-prompt-example\"></p>",
+      "        <button class=\"lesson-tutor-use-example\" type=\"button\">Use this example (does not ask AI)</button>",
+      "      </details>",
+      "    </section>",
+    ] : []),
     '    <div class="lesson-tutor-suggestions" role="group" aria-label="Suggested questions"></div>',
     '    <form class="lesson-tutor-form">',
     '      <label for="lesson-tutor-question">Your question about this lesson</label>',
@@ -52,7 +71,8 @@ export function mountLessonTutor() {
     '    </form>',
     '  </div>',
     '  <p class="lesson-tutor-status" role="status"></p>',
-    '  <button class="lesson-tutor-ai" type="button" hidden>Ask AI for this question</button>',
+    '  <div class="lesson-tutor-related" role="group" aria-label="Other prepared questions to try" hidden></div>',
+    '  <button class="lesson-tutor-ai" type="button" hidden>Ask AI (uses an attempt)</button>',
     '  <div class="lesson-tutor-answer" role="region" aria-labelledby="lesson-tutor-answer-title" tabindex="-1" hidden>',
     '    <h3 id="lesson-tutor-answer-title"></h3><p></p>',
     '    <a>Show me where this is explained</a>',
@@ -64,9 +84,12 @@ export function mountLessonTutor() {
 
   const summary = panel.querySelector('summary');
   const status = panel.querySelector('.lesson-tutor-status');
+  const related = panel.querySelector('.lesson-tutor-related');
   const contextLine = panel.querySelector('.lesson-tutor-context');
   const controls = panel.querySelector('.lesson-tutor-controls');
   const suggestions = panel.querySelector('.lesson-tutor-suggestions');
+  const exampleText = panel.querySelector('.lesson-tutor-prompt-example');
+  const useExample = panel.querySelector('.lesson-tutor-use-example');
   const form = panel.querySelector('form');
   const input = form.querySelector('input');
   const submit = form.querySelector('button');
@@ -103,13 +126,40 @@ export function mountLessonTutor() {
     submit.textContent = 'Find an answer';
   }
 
+  function clearAlternatives() {
+    related.replaceChildren();
+    related.hidden = true;
+  }
+
   function showAnswer(answer, source, moveFocus = true) {
+    clearAlternatives();
     answerBox.hidden = false;
     heading.textContent = source;
     answerText.textContent = answer.text;
     answerLink.hidden = !isLessonLink(answer.href);
     if (!answerLink.hidden) answerLink.href = answer.href;
     if (moveFocus) answerBox.focus();
+  }
+
+  function offerAlternatives(question) {
+    clearAlternatives();
+    for (const item of relatedPreparedQuestions(context(), question)) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = 'Try: ' + item.label;
+      button.addEventListener('click', () => {
+        const answer = item.question ? matchQuestion(context(), item.question) : preparedAnswer(context(), item.id);
+        if (!answer) return;
+        version += 1;
+        clearPending();
+        resetClarification();
+        shownGraph = null;
+        status.textContent = '';
+        showAnswer(answer, 'Prepared lesson answer');
+      });
+      related.append(button);
+    }
+    related.hidden = !related.childElementCount;
   }
 
   const chips = new Map(SUGGESTIONS.map(({ id, label }) => {
@@ -124,8 +174,15 @@ export function mountLessonTutor() {
   function renderContext() {
     const current = context();
     if (!current) return;
-    contextLine.textContent = current.lesson.title + (current.example ? ' · ' + current.example.label : '');
+    contextLine.textContent = current.lesson.title + (current.example ? ' · ' + current.example.label : '')
+      + (current.load ? ' · ' + current.load + ' Ω test load' : '');
     contextLine.hidden = false;
+    if (exampleText) {
+      const topic = current.lesson.topic;
+      exampleText.textContent = current.example
+        ? 'I selected “' + current.example.label + '” in the ' + topic + ' lesson. Why does this example behave that way? Explain it in everyday words.'
+        : 'I understand the definition of ' + topic + ', but why does it matter for what I hear? Give one everyday audio example.';
+    }
     const graphChip = chips.get('graph');
     graphChip.hidden = !current.example;
     if (current.example) graphChip.textContent = 'Explain “' + current.example.label + '”';
@@ -149,6 +206,7 @@ export function mountLessonTutor() {
     version += 1;
     if (pending || activeAi || clarification) status.textContent = '';
     clearPending();
+    clearAlternatives();
     resetClarification();
     renderContext();
     if (shownGraph) {
@@ -194,7 +252,7 @@ export function mountLessonTutor() {
   });
 
   main.addEventListener('click', event => {
-    const option = event.target.closest('button[data-select-case]');
+    const option = event.target.closest('button[data-select-case], button[data-select-load]');
     const selected = option?.closest('[data-lesson-plot]');
     if (selected) switchContext(selected, selected.closest('section[id]')?.id ?? null);
   });
@@ -218,16 +276,27 @@ export function mountLessonTutor() {
   }
 
   input.addEventListener('input', () => {
+    clearAlternatives();
     if (pending) {
       clearPending();
       status.textContent = '';
     }
   });
 
+  useExample?.addEventListener('click', () => {
+    if (!exampleText?.textContent) return;
+    input.value = exampleText.textContent.slice(0, MAX_QUESTION_LENGTH);
+    version += 1;
+    clearPending();
+    status.textContent = 'Edit this example if needed, then choose Find an answer. Nothing has been sent to AI.';
+    input.focus();
+  });
+
   form.addEventListener('submit', event => {
     event.preventDefault();
     version += 1;
     clearPending();
+    clearAlternatives();
     const question = cleanQuestion(input.value);
     if (!question) {
       status.textContent = 'Enter one short question about the lesson.';
@@ -252,7 +321,8 @@ export function mountLessonTutor() {
     } else if (!isInScope(bank, current, question, Boolean(clarification))) {
       status.textContent = OFF_TOPIC;
     } else if (!AI_ENABLED) {
-      status.textContent = 'There is no prepared answer for that wording. Try a suggested question above or use the lesson links.';
+      status.textContent = 'That wording did not match a prepared answer. These related questions may help:';
+      offerAlternatives(question);
     } else if (activeAi) {
       status.textContent = 'An AI answer is still loading. You can use the prepared answers in the meantime.';
     } else {
@@ -261,7 +331,7 @@ export function mountLessonTutor() {
         plot: current.plotId, example: current.exampleId, followUp: clarification,
       };
       aiButton.hidden = false;
-      status.textContent = 'There is no prepared answer for this question. Ask AI sends your question to Cloudflare Workers AI for a short lesson explanation.';
+      status.textContent = 'No free prepared answer matched. Click Ask AI only if you want to spend one of up to 3 new-question attempts today. An accepted attempt may count even if the answer fails.';
     }
   });
 

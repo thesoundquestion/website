@@ -55,5 +55,5 @@ test('cards show model-specific sound and exact preference explanation above exp
   assert.match(app,/Why this one:/);
   assert.match(app,/Sound:/);
   assert.match(app,/Sound description: evidence/);
-  assert.match(app,/this preview does not yet verify or re-rank models/);
+  assert.match(app,/this tool cannot reliably verify or rank models/);
 });

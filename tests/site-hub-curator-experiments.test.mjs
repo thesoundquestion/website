@@ -17,11 +17,19 @@ function linkTargets(text) {
   return [...text.matchAll(/\bhref="(\/[^"]+)"/g)].map(m => m[1].split(/[?#]/)[0]).filter(Boolean);
 }
 
-test('homepage offers four purpose-led entry points', () => {
-  const links = [...home.matchAll(/<a class="discovery-card" href="([^"]+)"/g)].map(m => m[1]);
-  assert.deepEqual(links, ['/decoder/', '/labs/', '/tools/', '/library/']);
-  assert.match(home, /CHOOSE YOUR NEXT QUESTION/);
-  assert.match(home, /Follow sound from performance to playback/);
+test('homepage has only three large jump cards, eight compact reference cards and six small goals', () => {
+  const links = [...home.matchAll(/<nav class="home-quick-links"[^>]*>([\s\S]*?)<\/nav>/g)].flatMap(m=>[...m[1].matchAll(/<a href="([^"]+)"/g)].map(x=>x[1]));
+  assert.deepEqual(links, ['/decoder/', '/labs/', '/tools/']);
+  const small = home.match(/<nav class="home-more-grid"[^>]*>([\s\S]*?)<\/nav>/)?.[1] || '';
+  const smallLinks = [...small.matchAll(/<a href="([^"]+)"/g)].map(m => m[1]);
+  assert.deepEqual(smallLinks, ['/decoder/technical-glossary/', '/decoder/audiophile-glossary/', '/library/', '/library/curators-listening-room/', '/journey/', '/about/', '/connect/', 'https://ko-fi.com/thesoundquestion']);
+  assert.ok(home.indexOf('home-quick-links') < home.indexOf('home-goal-grid') && home.indexOf('home-goal-grid') < home.indexOf('home-more-grid'));
+  assert.equal((home.match(/class="home-quick-links"/g)||[]).length,1);
+  assert.equal((home.match(/class="home-more-grid"/g)||[]).length,1);
+  assert.equal((home.match(/class="home-goal-card"/g)||[]).length,6);
+  assert.doesNotMatch(home,/class="discovery-card"/);
+  assert.match(home, /KNOW WHERE YOU WANT TO GO/);
+  assert.match(home, /Sound Journey/);
 });
 
 test('curator note copies the PDF narrative rather than generic branding', () => {
@@ -61,7 +69,7 @@ test('responsive layout and no live deployment placeholder on homepage', () => {
 });
 
 test('About is prominent and evidence explanations contain no private listening testimony',()=>{
- assert.match(home,/class="button button-secondary" href="\/about\/"[^>]*>About this project/);
+ assert.match(home,/<a href="\/about\/">\s*<strong>About<\/strong>/);
  assert.doesNotMatch(article,/Grado|Paradigm Phantom|During informal listening|my headphones|my speakers/i);
  assert.match(article,/Why playback can change the sense of space/);
  assert.match(labs,/href="\/lab\/mastering\/"/);
@@ -85,8 +93,36 @@ test('homepage playlist count matches Listening Room and approved handbook is di
   assert.match(home, new RegExp(cards + ' personal picks'));
   assert.match(curator, new RegExp(cards + ' listening selections'));
   const pdf = '/library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
-  assert.ok(home.includes('href="' + pdf + '" download'), 'homepage PDF download missing');
+  assert.ok(library.includes('href="' + pdf + '" download'), 'Library PDF download missing');
   assert.ok(existsSync(path.join(root, pdf.slice(1))), 'download target absent');
   assert.ok(!existsSync(path.join(root,'library/make-audio-make-sense/make-audio-make-sense.pdf')), 'retired PDF still tracked');
   assert.doesNotMatch(home, /38 personal picks|39 personal picks/);
+});
+
+test('Reference Library directly exposes MP3 versus FLAC and ABX labs without replacing the overview', () => {
+  assert.match(library, /href="\/labs\/"[^>]*><h2>Listening Labs<\/h2>/);
+  assert.match(library, /<h2>MP3 vs FLAC/);
+  assert.match(library, /lossless FLAC and 128 or 320 kbps MP3/);
+  assert.match(library, /href="\/labs\/formats\/">Try the listening test/);
+  assert.match(library, /href="\/library\/behind-the-experiments\/#formats">Read the methods and measurements/);
+  assert.match(library, /<h2>ABX Lab/);
+  assert.match(library, /Training, Challenge or Advanced/);
+  assert.match(library, /href="\/labs\/abx\/">Try the ABX Lab/);
+  assert.match(library, /href="\/library\/behind-the-experiments\/#abx">Read the methods and limits/);
+  assert.equal((library.match(/class="library-card/g) || []).length, 10);
+  for(const route of ['/labs/formats/','/labs/abx/']){
+    assert.equal((library.match(new RegExp('href="' + route.replaceAll('/', '\\/') + '"','g')) || []).length, 1, 'one clear Library card per lab');
+    assert.ok(existsSync(path.join(root, route.slice(1), 'index.html')), route + ' must resolve');
+  }
+});
+
+test('homepage restores the original curiosity-led introduction without another section',()=>{
+  const copy="Ever wonder why one recording moves you, why two speakers sound different, or whether expensive equipment is worth it? Follow music from the moment it's made to the moment you hear it, and understand what shapes the sound along the way.";
+  assert.ok(home.includes(copy));
+  assert.equal((home.match(/class="lead home-homepage-question"/g)||[]).length,1);
+  assert.ok(home.indexOf('home-homepage-question')>home.indexOf('home-brand-signature'));
+  assert.ok(home.indexOf('home-homepage-question')<home.indexOf('home-fast-paths'));
+  assert.match(styles,/\.home-simple \.home-goal-intro \.home-homepage-question\s*\{/);
+  assert.match(styles,/font-size:clamp\(\.93rem,1\.18vw,1\.06rem\)/);
+  assert.match(styles,/@media\(max-width:620px\)/);
 });

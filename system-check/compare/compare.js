@@ -74,7 +74,13 @@ const equipment = {
 
 const newSide = () => ({ model: '', values: {} });
 const comparisons = Object.fromEntries(Object.keys(equipment).map(kind => [kind, [newSide(), newSide()]]));
-const kindButtons = [...compareTool.querySelectorAll('[data-kind]')];
+const allKindButtons = [...compareTool.querySelectorAll('[data-kind]')];
+const kindButtons = allKindButtons.filter(button=>Object.hasOwn(equipment,button.dataset.kind));
+const legacyPanel=document.querySelector('#gc-legacy');
+const expandedPanel=document.querySelector('#gc-expanded');
+const expandedKinds=new Set(['audio_interface','mixer_recorder','microphone',
+  'headphone_amplifier','computer_sound_card']);
+const initialExpanded=expandedKinds.has(parameters.get('type'));
 const sides = [...compareTool.querySelectorAll('[data-side]')].map(root => ({
   filter: root.querySelector('[data-filter]'),
   select: root.querySelector('[data-preset]'),
@@ -402,7 +408,9 @@ function updateAddress() {
 }
 
 function showCategory() {
-  for (const button of kindButtons) button.setAttribute('aria-pressed', String(button.dataset.kind === kind));
+  if(legacyPanel)legacyPanel.hidden=false;
+  if(expandedPanel)expandedPanel.hidden=true;
+  for (const button of allKindButtons) button.setAttribute('aria-pressed', String(button.dataset.kind === kind));
   sides.forEach((side, index) => {
     side.filter.value = '';
     fillOptions(side, index);
@@ -432,6 +440,6 @@ if (typeof systemCheckGear !== 'undefined') {
       updateAddress();
     });
   }
-  showCategory();
+  if(!initialExpanded)showCategory();
   compareTool.hidden = false;
 }

@@ -1,25 +1,55 @@
 // Publish tracked website runtime files only; preserve engineering/tests in Git.
-import { copyFileSync, existsSync, mkdirSync, rmSync, lstatSync, statSync, readFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, rmSync, lstatSync, statSync, readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// Never publish a stale projection or a partially updated inventory.
+// This is a read-only preflight; regeneration remains an explicit development step.
+execFileSync(process.execPath,['scripts/build-equipment-catalog.mjs','--check'],
+  {cwd:root,stdio:'pipe'});
+// The Pages Functions bundler needs an ESM form of the same approved-answer
+// data the browser loads as JSON; refuse any stale or independently edited copy.
+execFileSync(process.execPath,['scripts/build-tutor-bank-module.mjs','--check'],
+  {cwd:root,stdio:'pipe'});
 const output = path.join(root, 'site-dist');
 const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
-  'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets',
+  'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets', 'equipment',
 ]);
-const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects']);
+const rootFiles = new Set(['index.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects', '_routes.json', 'favicon.ico', 'favicon-96x96.png']);
 const runtimeExt = new Set([
   '.html', '.css', '.js', '.mjs', '.json', '.svg', '.webp', '.png',
   '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.pdf', '.txt',
 ]);
 const mediaExt = new Set(['.wav', '.flac', '.mp3', '.ogg', '.aiff', '.aif', '.m4a', '.mp4', '.webm']);
+// A shared inventory is the only source of published preset projections.
+// Both legacy consumers must receive generated, checked records.
+const equipmentRuntime = new Set([
+  'equipment/catalog.generated.json',
+  'equipment/legacy-presets.generated.js',
+  'equipment/compare-details.generated.js',
+  'equipment/catalog-core.mjs',
+  'equipment/catalog-client.mjs',
+  'equipment/builder-catalog-options.mjs',
+  'equipment/catalog-legacy-adapters.mjs',
+ 'equipment/builder-catalog-options.mjs',
+  'equipment/price-tiers.mjs',
+  'equipment/price-tier-client.mjs',
+  'equipment/price-preference.mjs',
+  'equipment/price-tiers.generated.json',
+  // Phase 2 is review-only, but its isolated draft preview needs this module.
+  'equipment/comparison-model.mjs',
+  'equipment/recording-chain-check.mjs',
+  'equipment/headphone-chain-check.mjs'
+]);
 // Release only the exactly approved 59-page illustrated handbook.
 const retiredHandbook = 'library/make-audio-make-sense/make-audio-make-sense.pdf';
 const illustratedHandbook = 'library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
+const approvedPumpImage = 'assets/illustrations/tsq-pump-taps-approved.png';
+const approvedPumpImageSha256 = 'df1c51dc0ab6c3b82468873110131617825865bc21a604883e1a4fffcde4a1da';
 const illustratedHandbookExpectedSize = 12018958;
 const illustratedHandbookExpectedSha256 = 'd647ee22a1931adf45e8cf72fd25792fb10d12a8017e64d54ca105209cfeee77';
 /* Allow only explicitly reviewed, checked full-band MP3 examples. Keep the
@@ -47,6 +77,7 @@ for (const entry of tracked) {
   const topLevel = parts.length === 1 &&
     (rootFiles.has(entry) || /^[a-f0-9]{32}\.txt$/i.test(entry));
   if (!inPublicRoute && !topLevel) continue;
+  if (parts[0] === 'equipment' && !equipmentRuntime.has(entry)) continue;
   if (entry === retiredHandbook) continue; // Preserve in Git history, but do not serve the retired three-page edition.
   if (mediaExt.has(ext) && !approvedMedia.has(entry)) throw new Error('Publication of unapproved audio/video blocked: ' + entry);
   if (!topLevel && !runtimeExt.has(ext) && !approvedMedia.has(entry)) continue;
@@ -54,6 +85,10 @@ for (const entry of tracked) {
   const from = path.join(root, ...parts);
   if (!existsSync(from)) throw new Error('Tracked runtime file absent: ' + entry);
   if (!lstatSync(from).isFile()) throw new Error('Non-regular runtime file: ' + entry);
+  if (entry === approvedPumpImage) {
+    const digest = createHash('sha256').update(readFileSync(from)).digest('hex');
+    if (digest !== approvedPumpImageSha256) throw new Error('Approved pump illustration hash mismatch: '+entry);
+  }
   if (entry === illustratedHandbook) {
     const fileSize = statSync(from).size;
     if (fileSize !== illustratedHandbookExpectedSize) throw new Error('Wrong illustrated handbook file size: ' + fileSize);
@@ -75,15 +110,37 @@ for (const {entry, from} of files) {
   const dest = path.join(output, ...entry.split('/'));
   mkdirSync(path.dirname(dest), { recursive: true });
   copyFileSync(from, dest);
+  // Git for Windows can convert tracked SVG text to CRLF during checkout.
+  // Restore the canonical LF bytes only for the three measured waveform
+  // diagrams, then enforce their ORIGINAL SHA-256 values below. This does
+  // not relax their integrity checks or affect any other asset/binary file.
+  if (/^assets\/waveforms\/mastering-(?:dynamic|moderate|brickwalled)\.svg$/.test(entry)) {
+    const checkedOut = readFileSync(dest, 'utf8');
+    if (checkedOut.includes('\r\n')) writeFileSync(dest, checkedOut.replace(/\r\n/g, '\n'), 'utf8');
+  }
   maxBytes = Math.max(maxBytes, statSync(dest).size);
 }
 if (files.length > 20000) throw new Error('Cloudflare Free 20,000-file quota exceeded');
 if (maxBytes > 25 * 1024 * 1024) throw new Error('Cloudflare Pages 25 MiB per-file limit exceeded');
 const required = [
- 'index.html', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
- 'decoder/index.html', 'labs/index.html', 'lab/index.html',
- 'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
- 'system-builder/index.html', illustratedHandbook,
+ 'index.html', '_routes.json', 'favicon.ico', 'favicon-96x96.png', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
+ 'decoder/index.html', 'decoder/technical-glossary/index.html', approvedPumpImage, 'labs/index.html', 'lab/index.html',
+ 'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html', 'system-check/compare/index.html', 'system-check/compare/expanded.mjs',
+ 'system-builder/index.html', 'system-builder/headphone-options.mjs', 'system-builder/recommendations.mjs', 'system-builder/creating/index.html',
+ 'system-builder/creating/app.mjs', 'system-builder/creating/build-recommendations.mjs', 'system-builder/goal-chain-engine.mjs',
+ 'system-builder/goal-chain-builder.css', 'equipment/catalog.generated.json',
+ 'equipment/legacy-presets.generated.js', 'equipment/compare-details.generated.js',
+ 'equipment/catalog-core.mjs', 'equipment/catalog-client.mjs',
+ 'equipment/catalog-legacy-adapters.mjs',
+ 'equipment/price-tiers.mjs', 'equipment/price-tier-client.mjs', 'equipment/price-preference.mjs',
+ 'equipment/price-tiers.generated.json', 'equipment/comparison-model.mjs',
+ 'tools/equipment-comparison-preview/index.html',
+ 'tools/equipment-comparison-preview/preview.mjs',
+ 'tools/equipment-comparison-preview/style.css',
+ 'equipment/recording-chain-check.mjs', 'equipment/headphone-chain-check.mjs',
+ 'tools/chain-check-preview/index.html',
+ 'tools/chain-check-preview/preview.mjs',
+ 'tools/chain-check-preview/style.css', illustratedHandbook,
  'labs/abx/index.html', 'assets/abx-lab.js', 'assets/abx-lab.css',
  'assets/lab-readiness.js', 'assets/lab-readiness.css',
  'assets/format-comparison-engine.js',
@@ -97,6 +154,10 @@ const required = [
 for (const file of required) {
  if (!existsSync(path.join(output, ...file.split('/')))) throw new Error('Required runtime file missing: ' + file);
 }
+// Only the optional tutor API is permitted to run through Pages Functions.
+const functionRoutes = JSON.parse(readFileSync(path.join(output,'_routes.json'),'utf8'));
+if(functionRoutes.version!==1 || JSON.stringify(functionRoutes.include)!==JSON.stringify(['/api/lesson-tutor']) ||
+   JSON.stringify(functionRoutes.exclude)!==JSON.stringify([])) throw new Error('Unsafe Pages Functions routing');
 // Waveform images must be measured from actual published master audio once,
 // never generated with browser-side audio downloads on initial page visit.
 const waveformManifest = JSON.parse(readFileSync(path.join(output, 'assets/waveforms/mastering-provenance.json'),'utf8'));

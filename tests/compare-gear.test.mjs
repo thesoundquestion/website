@@ -5,8 +5,8 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
 const read = file => readFileSync(new URL('../' + file, import.meta.url), 'utf8');
-const gearSource = read('system-check/gear.js');
-const detailSource = read('system-check/compare/specs.js');
+const gearSource = read('equipment/legacy-presets.generated.js');
+const detailSource = read('equipment/compare-details.generated.js');
 const compareSource = read('system-check/compare/compare.js');
 const html = read('system-check/compare/index.html');
 const gear = vm.runInNewContext(gearSource + '\nsystemCheckGear', {});
@@ -43,9 +43,11 @@ test('calculator presets remain numeric and physically plausible', () => {
 test('the comparison loads gear, extended specifications and UI logic in that order', () => {
   const scriptSources = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map(m => m[1].split('?')[0]);
   assert.deepEqual(scriptSources, [
-    '/system-check/gear.js',
-    '/system-check/compare/specs.js',
-    '/system-check/compare/compare.js'
+    '/equipment/legacy-presets.generated.js',
+    '/equipment/compare-details.generated.js',
+    '/system-check/compare/compare.js',
+    '/system-check/compare/retail-tiers.mjs',
+    '/system-check/compare/expanded.mjs'
   ]);
   assert.match(compareSource, /function speakerRows/);
   assert.match(compareSource, /function sourceRows/);

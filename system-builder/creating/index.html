@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#080d15">
+<meta name="description" content="Build a recording, podcast, streaming or live-sound system around actual microphones, audio interfaces, mixers and documented signal-chain limits.">
+<meta property="og:title" content="Creating Builder | The Sound Question">
+<meta property="og:site_name" content="The Sound Question">
+<meta property="og:url" content="https://thesoundquestion.com/system-builder/creating/">
+<link rel="canonical" href="https://thesoundquestion.com/system-builder/creating/">
+<link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+<link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/system-builder/style.css">
+<link rel="stylesheet" href="/system-builder/goal-chain-builder.css">
+<script type="module" src="/system-builder/creating/app.mjs"></script>
+<title>Creating Builder | The Sound Question</title></head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="/" aria-label="The Sound Question home"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details>
+</div></header>
+
+<main id="main" class="container sb">
+<header class="sb-hero">
+<p class="section-kicker">RECORDING · STREAMING · LIVE AUDIO</p>
+<h1>Creating Builder</h1>
+<p class="lead">Tell us what you want to make. We’ll suggest the pieces of a complete recording or live-sound setup, show example equipment from our shared catalogue, and explain what you can reuse, what to look for and why.</p>
+<div class="sb-hero-meta"><span>Vocal and song recording</span><span>Podcasts · Streams · Band rehearsal</span><span>Live sound and PA</span></div>
+</header>
+<p class="sb-bridge"><strong>Building a music or home-theatre playback system?</strong> Use the <a href="/system-builder/">Listening Builder</a> for speakers, amplifiers, headphones and your room. <a href="/tools/find-my-setup/">Choose a path instead →</a></p>
+<section class="sb-purpose" aria-labelledby="sb-purpose-heading">
+ <p class="section-kicker">CHOOSE YOUR AUDIO PROJECT</p>
+ <h2 id="sb-purpose-heading">What are you creating?</h2>
+ <p>Recording a song, interviewing two people and playing to a crowd need different equipment. Start with the job, not a brand name or technical specification.</p>
+ <label class="sb-field" for="sb-purpose-select">My system is for
+ <select id="sb-purpose-select">
+  <option value="vocal">Recording vocals</option>
+  <option value="songwriter">Recording my own songs</option>
+  <option value="drums">Recording drums</option>
+  <option value="band">Recording a band</option>
+  <option value="podcast">Podcast or interview</option>
+  <option value="stream">Streaming or video creation</option>
+  <option value="live">Live sound / PA</option>
+ </select></label>
+</section>
+<section class="sb-purpose-panel" id="sb-purpose-panel" aria-labelledby="sb-purpose-panel-heading">
+  <h2 id="sb-purpose-panel-heading">Let's put your setup together</h2>
+  <p id="sb-purpose-description">A few simple answers help us suggest what belongs in the system.</p>
+  <form id="sb-purpose-form">
+    <div class="sb-beginner-questions">
+      <label class="sb-field sb-capture sb-count" for="sb-purpose-count">How many microphones will you use at the same time?
+        <input type="number" id="sb-purpose-count" min="1" max="32" step="1" value="1">
+        <span class="sb-field-explain">For example, one for a singer, two for an interview, or several to record a drum kit. A person or instrument plugged directly into an interface may need an extra input instead.</span>
+      </label>
+      <label class="sb-field sb-mic-route" for="sb-mic-route">How will the microphone connect?
+        <select id="sb-mic-route">
+          <option value="xlr">XLR microphone through an interface or mixer</option>
+          <option value="usb">USB microphone directly into a computer (one microphone)</option>
+          <option value="camera_trs">On-camera microphone via a compatible 3.5 mm TRS mic input</option>
+          <option value="phone_trrs">Clip-on/lavalier via a compatible 3.5 mm TRRS phone mic input</option>
+        </select>
+        <span class="sb-field-explain">XLR microphones need an appropriate preamp or mixer. A USB mic usually connects straight to a computer. Camera TRS and phone TRRS microphones need the correct powered microphone input or adapter; a headphone socket is not automatically a microphone input.</span>
+      </label>
+      <div class="sb-tracks sb-explained-check">
+        <label class="sb-inline" for="sb-purpose-tracks"><input type="checkbox" id="sb-purpose-tracks">I want to adjust each microphone separately after recording</label>
+        <p class="sb-field-explain">Example: two people record a podcast. If each voice is on its own track, you can turn one person down or edit their words without changing the other. A mixer that sends one combined recording to the computer won't let you separate them afterward. <a href="/decoder/audio-interfaces-mixers/">See how recording channels work.</a></p>
+      </div>
+      <div class="sb-monitors-choice">
+        <label class="sb-inline" for="sb-include-monitors"><input type="checkbox" id="sb-include-monitors">Also suggest studio speakers for listening to my recordings</label>
+        <p class="sb-field-explain">Optional. Headphones are a good starting point for recording close to a microphone. Powered studio speakers can be useful later when editing or mixing.</p>
+      </div>
+    </div>
+    <div class="sb-grid sb-price-preferences">
+      <label class="sb-field" for="sb-price-region">Where will you shop or compare prices?
+        <select id="sb-price-region"><option value="CA">Canada (CAD)</option><option value="US">United States (USD)</option><option value="GB">United Kingdom (GBP)</option><option value="EU">Europe (EUR)</option><option value="AU">Australia (AUD)</option></select>
+      </label>
+      <label class="sb-field" for="sb-price-preference">What price range should we favour?
+        <select id="sb-price-preference"><option value="any">No preference, show suitable choices</option><option value="budget">Favour budget pricing</option><option value="mid_grade">Favour mid-priced</option><option value="premium_pricing">Favour premium pricing</option></select>
+      </label>
+    </div>
+    <p class="sb-help" id="sb-price-evidence" role="status">The pricing preference only influences models with verified recent local retail evidence. It never replaces a necessary feature or proves sound quality.</p>
+    <details class="sb-own-equipment">
+      <summary>I already own some equipment (optional)</summary>
+      <p>Choose only the things you already own. Leave everything else blank and we'll suggest examples. If a model is missing from our catalogue, type its exact name; we'll include it but won't invent specifications.</p>
+      <div class="sb-grid">
+        <label class="sb-field sb-capture" for="sb-purpose-microphone">My microphone<select id="sb-purpose-microphone"></select>
+          <input id="sb-purpose-microphone-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+        <label class="sb-field sb-capture" for="sb-purpose-input">My audio interface / mixer<select id="sb-purpose-input"></select>
+          <input id="sb-purpose-input-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+        <label class="sb-field sb-headphone" for="sb-purpose-headphone">My recording headphones<select id="sb-purpose-headphone"></select>
+          <input id="sb-purpose-headphone-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+        <label class="sb-field sb-monitor" for="sb-purpose-monitor">My studio speakers (model per cabinet)<select id="sb-purpose-monitor"></select>
+          <input id="sb-purpose-monitor-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+        <label class="sb-field sb-live" for="sb-purpose-pa">My PA speakers (model per cabinet)<select id="sb-purpose-pa"></select>
+          <input id="sb-purpose-pa-other" maxlength="110" placeholder="Or enter my exact model">
+        </label>
+      </div>
+    </details>
+    <div class="sb-actions"><button class="button button-primary" type="submit">Build my creating setup</button></div>
+    <p class="sb-help">No account, live price feed or paid AI is needed. The Builder suggests real example models and explains the missing pieces; <a href="/system-check/compare/">Compare My Gear</a> shows source-backed microphone, interface and mixer specifications, including documented inputs, outputs and track limits.</p>
+  </form>
+  <p id="sb-purpose-status" role="status" aria-live="polite">Loading shared equipment choices…</p>
+  <section id="sb-purpose-result" class="sb-purpose-result" hidden aria-live="polite">
+    <h3 id="sb-purpose-result-title">Your suggested creating setup</h3>
+    <div id="sb-purpose-result-body"></div>
+  </section>
+</section>
+<nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">LISTEN, LEARN &amp; CHECK</span><a class="page-endnav-primary" href="/decoder/audio-interfaces-mixers/">Learn about interfaces and mixers <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="#">↑ Back to top</a></div></nav>
+</main>
+<footer class="site-footer tsq-footer-compact"><div class="container tsq-footer-inner"><span>© 2026 The Sound Question · Free to explore</span><nav aria-label="Policies"><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></nav></div></footer>
+</body>
+</html>

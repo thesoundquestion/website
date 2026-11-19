@@ -17,17 +17,17 @@ test('current curriculum count, matching tutor answers and complete numbered nav
   assert.ok(lessons.length>=19);
   assert.equal(lessons.findIndex(x => x.slug==='playback-sources'),13);
   assert.deepEqual(Object.keys(bank),lessons.map(x=>x.slug));
-  assert.equal(lessons.length,26);
-  assert.equal(lessons.findIndex(x=>x.slug==='speaker-types'),20);
-  assert.equal(lessons.findIndex(x=>x.slug==='microphone-types'),22);
+  assert.equal(lessons.length,27);
+  assert.equal(lessons.findIndex(x=>x.slug==='speaker-types'),21);
+  assert.equal(lessons.findIndex(x=>x.slug==='microphone-types'),23);
   for(let i=0;i<lessons.length;i++){
     const lesson=lessons[i],page=read('decoder/'+lesson.slug+'/index.html');
     const next=lessons[(i+1)%lessons.length],prior=lessons[i-1];
     assert.ok(page.includes('Lesson '+String(i+1).padStart(2,'0')+' of '+lessons.length),lesson.slug+' progress');
-    const top=page.match(/<!-- LESSON_TOP_NAV_BEGIN -->([\s\S]*?)<!-- LESSON_TOP_NAV_END -->/)?.[1];
-    assert.ok(top?.includes('/decoder/'+next.slug+'/'),lesson.slug+' next');
+    assert.doesNotMatch(page,/<!-- LESSON_TOP_NAV_BEGIN -->/,lesson.slug+' duplicate top-next');
     const bottom=page.match(/<!-- LESSON_NAV_BEGIN -->([\s\S]*?)<!-- LESSON_NAV_END -->/)?.[1];
-    assert.ok(bottom,lesson.slug+' navigation');
+    assert.ok(bottom,lesson.slug+' course navigation');
+    if(i<lessons.length-1)assert.ok(bottom.includes('/decoder/'+next.slug+'/'),lesson.slug+' next');
     if(prior)assert.ok(bottom.includes('/decoder/'+prior.slug+'/'),lesson.slug+' previous');
   }
 });

@@ -7,8 +7,8 @@ const file = name => readFileSync(new URL(name,import.meta.url),'utf8');
 function loadAdapter() {
   const sandbox = {window:{}};
   createContext(sandbox);
-  runInContext(file('../system-check/gear.js'),sandbox);
-  runInContext(file('../system-check/compare/specs.js'),sandbox);
+  runInContext(file('../equipment/legacy-presets.generated.js'),sandbox);
+  runInContext(file('../equipment/compare-details.generated.js'),sandbox);
   runInContext(file('../system-builder/catalog-adapter.js'),sandbox);
   return sandbox.window.systemBuilderInventory;
 }
@@ -55,8 +55,8 @@ test('HTML page has accessible fallback and does not use paid APIs', () => {
   const html=file('../system-builder/index.html');
   assert.match(html,/<noscript>/);
   assert.match(html,/aria-live=/);
-  assert.match(html,/system-check\/gear\.js/);
-  assert.match(html,/system-check\/compare\/specs\.js/);
+  assert.match(html,/equipment\/legacy-presets\.generated\.js/);
+  assert.match(html,/equipment\/compare-details\.generated\.js/);
   assert.doesNotMatch(html,/googleapis\.com\/customsearch|fetch\(.*retailer/i);
 });
 test('original System Check remains a separate validated calculator', () => {

@@ -76,6 +76,31 @@ function keepPoweredPair(own, request, pair) {
     levelCaution:request.level==='high', placementCaution:Number(request.distanceFt)>10}, own, used, msg);
   return {selected:[item], excluded:[], mode:'keep_powered_pair'};
 }
+function keepPoweredStudioMonitor(own,request){
+  // Shared catalogue explicitly identifies these as mains-powered, line-level
+  // studio cabinets, NOT passive loads and NOT a one-box stereo pair.
+  const sp=own.speaker.record;
+  const url=sp?.url||null;
+  const source=own.source?.name?['source']:[];
+  const item=attach({
+    ...common,id:'owned-studio-monitor',kind:'Keep a powered studio monitor · verify stereo quantity and input route',
+    title:own.speaker.name+' · powered studio monitor',architecture:'active_studio',
+    why:own.speaker.name+' contains its own amplifier. Connect a suitable line-level signal, not the speaker-level output of a receiver or power amplifier.',
+    tradeoff:'Catalogue evidence identifies one powered cabinet. Stereo listening usually requires two matched cabinets, suitable output connections and reliable volume control.',
+    parts:[{name:own.speaker.name,count:1,role:'Already owned powered studio cabinet; verify if you own one or two',url},
+      ...(own.source?.name?[part(own.source,'Potential source; connector, output level and monitoring volume unverified')]:[])],
+    extra:[
+      'NEVER connect the speaker outputs of an external amplifier to a powered studio monitor XLR or TRS input.',
+      'Check mains power for each cabinet, line-level output capability, cable type, gain trim and stereo speaker count.',
+      'Internal biamplifier watt figures are not external passive-speaker power ratings.',
+      ...(own.amp?.name?['Your '+own.amp.name+' amplifier is retained separately; it must not feed this monitor via speaker terminals.']:[])
+    ],
+    connectionStatus:'owned_path_unverified',
+    levelCaution:request.level==='high',
+    placementCaution:Number(request.distanceFt)>10
+  },own,['speaker',...source],'Reuse documented powered monitor(s); confirm quantity and source path before buying.');
+  return {selected:[item],excluded:[],mode:'keep_powered_studio'};
+}
 const amps=[
   {model:'Fosi Audio BT20A Pro',inputs:['analog','bluetooth'],compact:true,
     price:189.99,priceDate:'2026-11-13',url:'https://soulfi-audio.ca/product/fosi-audio-bt20a-pro-bluetooth-amplifier/'},
@@ -269,8 +294,15 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
   const event=arch==='party_pa'||request.power==='battery';
   const headphonePath=arch==='headphone_first'||(arch==='open'&&!has(own.speaker)&&!has(own.amp)&&has(own.headphone));
   const poweredPair=poweredSubPairFor(own.speaker?.name);
+  const poweredStudio=own.speaker?.record?.speakerKind==='powered_studio_monitor';
+  const poweredPa=own.speaker?.record?.speakerKind==='powered_pa_speaker';
   let plan;
   if(headphonePath&&has(own.headphone))plan={selected:[keepHeadphone(own,request)],excluded:[],mode:'keep_headphones'};
+  else if(poweredStudio||poweredPa) {
+    // No amplifier matching can ever run on these powered line-input units.
+    if(poweredStudio&&!event)plan=keepPoweredStudioMonitor(own,request);
+    else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_powered_separate'};
+  }
   else if(poweredPair) {
     if(!event&&(arch==='open'||arch==='consumer_powered_pair')) plan=keepPoweredPair(own,request,poweredPair);
     else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
