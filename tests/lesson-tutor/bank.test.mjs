@@ -4,6 +4,7 @@ import { test } from 'node:test';
 
 import curriculum from '../../decoder/curriculum.json' with { type: 'json' };
 import bank from '../../assets/lesson-tutor/approved-answers.json' with { type: 'json' };
+import generatedBank from '../../deployment/lesson-tutor/approved-answers.generated.js';
 import {
   SUGGESTIONS, blockedReason, cleanQuestion, getContext, isInScope, isLessonLink,
   matchQuestion, preparedAnswer, readGraphSelection, slugFromPath,
@@ -105,4 +106,13 @@ test('invalid or missing graph selections stay unknown', () => {
     querySelector: selector => selector.includes('[aria-pressed="true"]') ? { dataset: { selectCase: 'extra' } } : null,
   };
   assert.deepEqual(readGraphSelection(figure), { plot: 'amplifier-headroom', example: 'extra' });
+});
+
+test('Cloudflare-compatible server bank stays identical to canonical approved-answer JSON',()=>{
+  assert.deepEqual(generatedBank,bank);
+  const generator=read('scripts/build-tutor-bank-module.mjs');
+  assert.match(generator,/--check/);
+  const handler=read('deployment/lesson-tutor/handler.js');
+  assert.match(handler,/approved-answers\.generated\.js/);
+  assert.doesNotMatch(handler,/with \{ type: 'json' \}/);
 });
