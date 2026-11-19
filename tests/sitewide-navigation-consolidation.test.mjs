@@ -21,7 +21,7 @@ test('all published sitemap pages use one coherent navigation policy, with legal
   const footers=[...s.matchAll(/<footer\b[\s\S]*?<\/footer>/g)];
   assert.equal(footers.length,1,file+' should have exactly one footer');
   const footer=footers[0][0];
-  assert.match(footer,/<nav aria-label="Policies">/,file+' needs legal links');
+  assert.match(footer,/<nav (?:aria-label="Policies"|class="home-legal-links" aria-label="Legal information")>/,file+' needs legal links');
   for(const legal of ['/privacy/','/content-use/'])
    assert.ok(footer.includes('href="'+legal+'"'),file+' missing '+legal);
   assert.doesNotMatch(footer,/class="footer-links"/,file+' duplicates primary destinations in footer');
