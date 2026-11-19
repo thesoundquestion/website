@@ -231,3 +231,23 @@
 .sb-intent-panel .sb-listening-reference{margin:0}
 .sb-form>.sb-actions{margin:.4rem 0 1rem}
 @media(max-width:650px){.sb-quick-setup{grid-template-columns:minmax(0,1fr)}.sb-source-help .button{width:100%;justify-content:center}.sb-advanced-panels{padding:.55rem}}
+
+
+/* Subwoofer hookups: the cable, the main-speaker crossover and extra
+ * hardware are separate decisions, not buried in a spec-sheet appendix. */
+.sb-sub-route-section,.sb-sub-intent-report{margin:.8rem 0;padding:clamp(.8rem,2vw,1.25rem);background:#102639;border:1px solid #3d647b;border-radius:12px;min-width:0}
+.sb-sub-route{margin:.65rem 0;padding:clamp(.75rem,2vw,1.1rem);border:1px solid #45758b;border-radius:10px;background:#0c2132;min-width:0}
+.sb-sub-route h4{font-size:1.05rem;color:#eaf6ff;margin:.15rem 0 .45rem}
+.sb-sub-route h5{font-size:.9rem;margin:.85rem 0 .2rem;color:#b8e5f7}
+.sb-sub-route p{font-size:.88rem;line-height:1.57;overflow-wrap:anywhere}
+.sb-sub-connection-kind{color:#c4edff;font-weight:750;font-size:.92rem}
+.sb-sub-cable,.sb-sub-main-filter{padding:.5rem .65rem;background:#142f43;border-left:3px solid #62b9dc;border-radius:5px}
+.sb-sub-next{color:#d5e6ef}
+.sb-sub-routing-detail{border-top:1px solid #476478;margin:.6rem 0 0;padding-top:.55rem}
+.sb-sub-routing-detail>summary{font-size:.82rem;cursor:pointer;font-weight:700;color:#a5dfff}
+.sb-sub-routing-detail:focus-visible,.sb-sub-routing-detail>summary:focus-visible{outline:2px solid #85dfff;outline-offset:3px}
+.sb-sub-routing-detail ul{padding-left:1.1rem}
+.sb-sub-routing-detail li{font-size:.81rem;line-height:1.5}
+.sb-sub-cost{font-size:.87rem;color:#d8dfe9}
+.sb-sub-intent-report>.sb-sub-connection-kind{margin:.7rem 0}
+.sb-quick-setup [name=subOwned]{width:100%}
