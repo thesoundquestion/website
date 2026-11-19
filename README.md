@@ -29,6 +29,8 @@ The `thesoundquestion/research` repository is **private**. Nothing from it is au
 
 The site currently contains **no analytics scripts, third-party embeds, contact forms or advertising**. Please update the privacy notice if that changes.
 
+**Amazon Associates is deliberately deferred.** The [Amazon Associates integration plan](docs/AMAZON_ASSOCIATES_DEFERRED_PLAN_2026_11_19.md) records the three-qualifying-sale / 180-day US application-review gate, international OneLink approach, editorial independence, disclosures and owner-controlled activation steps. It authorizes **no signup, affiliate links, tracking, paid services or Cloudflare deployment**.
+
 ## Cloudflare agent integration
 
 AI-agent development guidance and the free-tier / authorization safeguards are in [`AGENTS.md`](AGENTS.md). For the official Cloudflare MCP endpoint, supported clients, setup options, and connection status, see [`deployment/cloudflare-agent-setup.md`](deployment/cloudflare-agent-setup.md). This is development guidance only; it does not install an MCP connection into ChatGPT or change the Pages build.
