@@ -97,6 +97,31 @@
 <input type="number" name="distanceFt" min="0.5" max="300" step="0.5" value="8" required></label>
 <label class="sb-field">Usual listening level
 <select name="level"><option value="quiet">Quiet / background</option><option value="moderate" selected>Comfortable / normal</option><option value="high">Occasionally loud, clean peaks important</option></select></label>
+
+<div class="sb-listening-reference" aria-labelledby="sb-listening-reference-title">
+  <h3 id="sb-listening-reference-title">What do these listening levels actually feel like?</h3>
+  <p class="sb-help"><strong>Think of the music at your listening chair, not the volume knob position.</strong> These approximate references describe <em>average</em> sound level (dBA), not a precise setting for every stereo or recording:</p>
+  <ul class="sb-listening-examples">
+    <li><strong>60–70 dBA: easy conversation.</strong> Music is present, but you can generally talk to somebody beside you without competing with it. Ordinary conversation is often around 60 dBA.</li>
+    <li><strong>Around 80 dBA: quite loud at home.</strong> Think of the sound level of a nearby vacuum cleaner or a busy kitchen appliance. Normal speech becomes harder to follow over the music.</li>
+    <li><strong>Around 85 dBA: loud for sustained listening.</strong> Some hair dryers or blenders reach this region nearby. You will probably raise your voice to talk. Duration matters to hearing risk.</li>
+    <li><strong>110 dB <em>brief peak</em>: a very different number.</strong> This describes a potentially extremely loud, short musical hit, <em>not</em> an 110 dBA listening average. Do not turn up your stereo to try to reproduce it.</li>
+  </ul>
+  <p class="sb-help">Appliance examples vary substantially by model and distance. A-rated average levels, instantaneous peak SPL and electrical amplifier headroom are different quantities; the Builder's three choices do <strong>not</strong> calculate or certify a particular dB value.</p>
+  <details class="sb-listening-measure">
+    <summary>Try a rough sound-level check with your phone</summary>
+    <ol>
+      <li>Use an SPL / sound-level app that shows <strong>dBA</strong> and preferably <strong>LAeq</strong> (the average sound energy over a period). The <a href="https://www.cdc.gov/niosh/noise/about/app.html" target="_blank" rel="noopener noreferrer">free NIOSH Sound Level Meter</a> is an iPhone/iPad example. On Android, <a href="https://f-droid.org/en/packages/org.noise_planet.noisecapture/" target="_blank" rel="noopener noreferrer">NoiseCapture</a> is an available option, but device accuracy varies.</li>
+      <li>In your actual listening room, put the phone at about seated ear height where you listen, with its microphone unobstructed. If testing elsewhere, note that distance and room change the result.</li>
+      <li>Play familiar music and choose a comfortable listening level. Read the <strong>LAeq over 30–60 seconds or longer</strong>, not just a flickering instantaneous number. Do not increase volume simply to reach a target dB.</li>
+      <li>If the app shows maximum or peak, note it separately; it is <em>not</em> the same as the average, and an ordinary phone microphone can clip or miss fast, loud transients.</li>
+    </ol>
+    <p><strong>Weighting made simple:</strong> A-weighting (dBA) reduces the influence of very low and high frequencies and is commonly used to describe hearing exposure. C-weighting (dBC) reduces bass much less, while Z-weighting is nominally flat. A <strong>LAeq</strong> average is more useful than a single jumping number for getting a rough feel for your usual music level.</p>
+    <p><strong>Know the limit:</strong> Phone microphones, cases and automatic processing differ, especially on Android. Without calibration this is a rough guide, not a certified SPL or safe-exposure measurement. It is also not a reliable way to verify a 110 dB transient, headphone/earbud output at your eardrum, or a speaker's maximum clean output.</p>
+    <p>For an actual amplifier power/headroom estimate, use <a href="/system-check/">System Check</a> with documented speaker and amplifier specifications. An app's dBA average is not automatically the same as its unweighted dB SPL target, and the assumed peak gap still needs separate consideration.</p>
+  </details>
+  <p class="sb-reference-sources">Reference examples and measurement guidance: <a href="https://www.cdc.gov/niosh/noise/about/app.html" target="_blank" rel="noopener noreferrer">CDC/NIOSH measurement guidance</a> · <a href="https://www.who.int/news-room/questions-and-answers/item/deafness-and-hearing-loss-safe-listening" target="_blank" rel="noopener noreferrer">WHO listening duration</a> · <a href="https://www.cdc.gov/niosh/noise/prevent/understand.html" target="_blank" rel="noopener noreferrer">NIOSH measuring sound</a></p>
+</div>
 <label class="sb-field">Source connection you need
 <select name="connection"><option value="undecided">Not sure yet</option><option value="analog">Analogue RCA / 3.5 mm</option><option value="usb">USB audio from a computer</option><option value="optical">Optical / digital input</option><option value="bluetooth">Bluetooth / wireless</option><option value="hdmi">HDMI / TV integration</option></select></label>
 <label class="sb-field">Power available
