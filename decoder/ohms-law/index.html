@@ -36,24 +36,24 @@
         <p class="lead"><strong>A chain reaction in the numbers: same voltage, fewer ohms, more amps.</strong> Ohms tell you how hard it is for current to flow.</p>
       </div>
 
-      <section class="container pump-lesson" id="pump-analogy"><p class="section-kicker">ELECTRICITY WITHOUT THE EQUATIONS</p><h2>One pump. Two taps. Different demands.</h2><p>Imagine the amplifier as a pump. At the <strong>same pressure (voltage)</strong>, a wider bathtub tap asks for more water <strong>(current)</strong> than a narrow sink tap. But opening the tap wider cannot increase what the pump is capable of supplying.</p><figure class="pump-figure" tabindex="0" aria-label="Full-width pump and tap comparison"><img src="/assets/illustrations/tsq-pump-taps-approved.png" width="1672" height="941" loading="lazy" decoding="async" alt="Side-by-side pump analogy. A narrow sink tap represents an eight-ohm load requesting one amp at the same voltage. A wide bathtub tap represents a four-ohm load requesting two amps. The pump's fictional current capacity is one and a half amps, so the wider tap requests more flow than it can sustain at that voltage."><figcaption><strong>Illustration, not a product measurement:</strong> The taps represent simple fixed loads, not complete speaker behaviour. The example 1.5 A pump limit is invented. Real speakers change impedance with pitch and amplifiers have several limits. <a href="/decoder/ohms-law/#same-voltage">See the optional worked example.</a> <a href="/assets/illustrations/tsq-pump-taps-approved.png" target="_blank" rel="noopener">Open full-size image</a></figcaption></figure></section>
+      <section class="container pump-lesson" id="pump-analogy"><p class="section-kicker">ELECTRICITY WITHOUT THE EQUATIONS</p><h2>One pump. Two taps. Different demands.</h2><p>Imagine the amplifier as a pump. At the <strong>same pressure (voltage)</strong>, a wider bathtub tap demands more water <strong>(current)</strong> than a narrow sink tap. But opening the tap wider cannot make the pump more powerful. If the load demands more current than the amplifier can safely supply at that voltage, the voltage may fall, the sound may distort, or current and thermal protection may limit or shut down the output. An underspecified or faulty amplifier pushed too hard can overheat or suffer damage; severe clipping or excessive output can also stress speakers. Protection helps, but is not a promise that nothing can fail.</p><figure class="pump-figure" tabindex="0" aria-label="Full-width pump and tap comparison"><img src="/assets/illustrations/tsq-pump-taps-approved.png" width="1672" height="941" loading="lazy" decoding="async" alt="Side-by-side pump analogy. A narrow sink tap represents an eight-ohm load requesting one amp at the same voltage. A wide bathtub tap represents a four-ohm load requesting two amps. The pump's fictional current capacity is one and a half amps, so the wider tap requests more flow than it can sustain at that voltage."><figcaption><strong>Illustration, not a product measurement:</strong> At an illustrative 8 V, the 8 Ω tap calls for 1 A while the 4 Ω tap would demand 2 A; this fictional pump can safely supply only 1.5 A, so the 4 Ω case cannot keep the assumed voltage. Real speakers vary with frequency and phase; protection and output limits differ by amplifier. <a href="/decoder/ohms-law/#same-voltage">See the optional worked example.</a> <a href="/assets/illustrations/tsq-pump-taps-approved.png" target="_blank" rel="noopener">Open full-size image</a></figcaption></figure></section>
 <section class="container dl-chart-section" id="same-voltage">
         <div class="dl-heading">
-          <h2>Same 4 volts, two loads</h2>
-          <p>The <strong>load</strong> is the electrical thing an amplifier is driving. In this teaching example, imagine connecting one simple 8-ohm resistor and then a 4-ohm resistor, sending the same 4 volts to each. These resistors stand in for the speaker's electrical demand; real speakers are more complicated.</p>
+          <h2>Same 8 volts, two loads</h2>
+          <p>The <strong>load</strong> is the electrical thing an amplifier is driving. In this teaching example, imagine connecting one simple 8-ohm resistor and then a 4-ohm resistor, asking the amplifier to keep the same 8 volts across each. These resistors stand in for the speaker's electrical demand; real speakers are more complicated.</p>
         </div>
-        <table class="dl-worked-table" aria-label="Current and power at 4 volts">
+        <table class="dl-worked-table" aria-label="Ideal current and power demands at eight volts">
           <thead><tr><th scope="col">Load (ohms)</th><th scope="col">Current (amps)</th><th scope="col">Power (watts)</th></tr></thead>
           <tbody>
             <tr>
               <th scope="row">8 Ω</th>
-              <td>0.5 A <meter class="dl-meter" min="0" max="1" value="0.5" aria-hidden="true"></meter></td>
-              <td>2 W <meter class="dl-meter" min="0" max="4" value="2" aria-hidden="true"></meter></td>
+              <td>1 A <meter class="dl-meter" min="0" max="2" value="1" aria-hidden="true"></meter></td>
+              <td>8 W <meter class="dl-meter" min="0" max="16" value="8" aria-hidden="true"></meter></td>
             </tr>
             <tr>
               <th scope="row">4 Ω</th>
-              <td>1 A <meter class="dl-meter" min="0" max="1" value="1" aria-hidden="true"></meter></td>
-              <td>4 W <meter class="dl-meter" min="0" max="4" value="4" aria-hidden="true"></meter></td>
+              <td>2 A <meter class="dl-meter" min="0" max="2" value="2" aria-hidden="true"></meter></td>
+              <td>16 W <meter class="dl-meter" min="0" max="16" value="16" aria-hidden="true"></meter></td>
             </tr>
           </tbody>
         </table>
@@ -67,7 +67,7 @@
         <div class="container dl-reading">
           <h2>Why the amp has to work harder</h2>
           <p>In this test, <strong>watts are volts times amps</strong>. With the same voltage and twice the current, the 4-ohm load gets twice the power.</p>
-          <p>The power supply has to keep up, and the circuitry that drives the speaker has to carry the extra current. If the amp reaches its limit, the sound can distort or the amp can shut down to protect itself.</p>
+          <p>At the same voltage, the lower load asks the output devices and power supply for more current. The table shows the <strong>ideal demand</strong>, not power a limited amplifier is guaranteed to deliver. An amplifier with only a 1.5 A safe limit cannot hold 8 V across the 4 Ω test load: it may reduce output, distort, limit current or activate protection. Sustained overload can overheat or damage an inadequate amplifier, and excessive/clipped output can threaten speakers.</p>
           <p>Check <a href="/decoder/amplifier-power/#compare">what the amp delivers into your speaker’s ohm rating</a> and <a href="/decoder/speaker-impedance/#compare">how low the speaker’s impedance can dip</a>.</p>
         </div>
       </section>
@@ -75,8 +75,8 @@
       <section class="container dl-buy-section" aria-label="Optional worked calculations">
         <details class="dl-advanced">
           <summary>Work out the amps and watts <small>Optional</small></summary>
-          <p id="formulas"><strong>Amps = volts ÷ ohms.</strong> For the 8 Ω test load, 4 ÷ 8 = 0.5 A. For the 4 Ω test load, 4 ÷ 4 = 1 A.</p>
-          <p><strong>Watts = volts × amps</strong> for these resistive loads. At 4 V, that is 2 W into 8 Ω and 4 W into 4 Ω.</p>
+          <p id="formulas"><strong>Amps = volts ÷ ohms.</strong> For the 8 Ω test load, 8 ÷ 8 = 1 A. For the 4 Ω test load, 8 ÷ 4 = 2 A (ideal demand).</p>
+          <p><strong>Watts = volts × amps</strong> for these resistive loads. At 8 V, that would be 8 W into 8 Ω and 16 W into 4 Ω <em>if the amplifier can sustain the required current</em>.</p>
           <p>At a fixed 8 Ω, raising the voltage from 4 to 8 V doubles the current from 0.5 to 1 A. Power rises from 2 to 8 W because both voltage and current doubled.</p>
           <p>These examples use <strong>RMS</strong> voltage and current, a way of describing their effective strength when they change over time. Real speakers do not behave like fixed resistors: their impedance changes with pitch. Voltage and current can also rise and fall at different times (a phase difference), changing the actual power delivered.</p>
         </details>
