@@ -1,7 +1,7 @@
 import { AI_ENABLED } from './config.js';
 import {
   MAX_QUESTION_LENGTH, SUGGESTIONS, asksAboutGraph, blockedReason, cleanQuestion, getContext, isInScope,
-  isLessonLink, matchQuestion, preparedAnswer, readGraphSelection, slugFromPath,
+  isLessonLink, matchQuestion, preparedAnswer, readGraphSelection, relatedPreparedQuestions, slugFromPath,
 } from './core.js';
 
 const AI_PATH = '/api/lesson-tutor';
@@ -71,6 +71,7 @@ export function mountLessonTutor() {
     '    </form>',
     '  </div>',
     '  <p class="lesson-tutor-status" role="status"></p>',
+    '  <div class="lesson-tutor-related" role="group" aria-label="Other prepared questions to try" hidden></div>',
     '  <button class="lesson-tutor-ai" type="button" hidden>Ask AI (uses an attempt)</button>',
     '  <div class="lesson-tutor-answer" role="region" aria-labelledby="lesson-tutor-answer-title" tabindex="-1" hidden>',
     '    <h3 id="lesson-tutor-answer-title"></h3><p></p>',
@@ -83,6 +84,7 @@ export function mountLessonTutor() {
 
   const summary = panel.querySelector('summary');
   const status = panel.querySelector('.lesson-tutor-status');
+  const related = panel.querySelector('.lesson-tutor-related');
   const contextLine = panel.querySelector('.lesson-tutor-context');
   const controls = panel.querySelector('.lesson-tutor-controls');
   const suggestions = panel.querySelector('.lesson-tutor-suggestions');
@@ -124,13 +126,40 @@ export function mountLessonTutor() {
     submit.textContent = 'Find an answer';
   }
 
+  function clearAlternatives() {
+    related.replaceChildren();
+    related.hidden = true;
+  }
+
   function showAnswer(answer, source, moveFocus = true) {
+    clearAlternatives();
     answerBox.hidden = false;
     heading.textContent = source;
     answerText.textContent = answer.text;
     answerLink.hidden = !isLessonLink(answer.href);
     if (!answerLink.hidden) answerLink.href = answer.href;
     if (moveFocus) answerBox.focus();
+  }
+
+  function offerAlternatives(question) {
+    clearAlternatives();
+    for (const item of relatedPreparedQuestions(context(), question)) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = 'Try: ' + item.label;
+      button.addEventListener('click', () => {
+        const answer = item.question ? matchQuestion(context(), item.question) : preparedAnswer(context(), item.id);
+        if (!answer) return;
+        version += 1;
+        clearPending();
+        resetClarification();
+        shownGraph = null;
+        status.textContent = '';
+        showAnswer(answer, 'Prepared lesson answer');
+      });
+      related.append(button);
+    }
+    related.hidden = !related.childElementCount;
   }
 
   const chips = new Map(SUGGESTIONS.map(({ id, label }) => {
@@ -145,7 +174,8 @@ export function mountLessonTutor() {
   function renderContext() {
     const current = context();
     if (!current) return;
-    contextLine.textContent = current.lesson.title + (current.example ? ' · ' + current.example.label : '');
+    contextLine.textContent = current.lesson.title + (current.example ? ' · ' + current.example.label : '')
+      + (current.load ? ' · ' + current.load + ' Ω test load' : '');
     contextLine.hidden = false;
     if (exampleText) {
       const topic = current.lesson.topic;
@@ -176,6 +206,7 @@ export function mountLessonTutor() {
     version += 1;
     if (pending || activeAi || clarification) status.textContent = '';
     clearPending();
+    clearAlternatives();
     resetClarification();
     renderContext();
     if (shownGraph) {
@@ -221,7 +252,7 @@ export function mountLessonTutor() {
   });
 
   main.addEventListener('click', event => {
-    const option = event.target.closest('button[data-select-case]');
+    const option = event.target.closest('button[data-select-case], button[data-select-load]');
     const selected = option?.closest('[data-lesson-plot]');
     if (selected) switchContext(selected, selected.closest('section[id]')?.id ?? null);
   });
@@ -245,6 +276,7 @@ export function mountLessonTutor() {
   }
 
   input.addEventListener('input', () => {
+    clearAlternatives();
     if (pending) {
       clearPending();
       status.textContent = '';
@@ -264,6 +296,7 @@ export function mountLessonTutor() {
     event.preventDefault();
     version += 1;
     clearPending();
+    clearAlternatives();
     const question = cleanQuestion(input.value);
     if (!question) {
       status.textContent = 'Enter one short question about the lesson.';
@@ -288,7 +321,8 @@ export function mountLessonTutor() {
     } else if (!isInScope(bank, current, question, Boolean(clarification))) {
       status.textContent = OFF_TOPIC;
     } else if (!AI_ENABLED) {
-      status.textContent = 'There is no prepared answer for that wording. Try a suggested question above or use the lesson links.';
+      status.textContent = 'That wording did not match a prepared answer. These related questions may help:';
+      offerAlternatives(question);
     } else if (activeAi) {
       status.textContent = 'An AI answer is still loading. You can use the prepared answers in the meantime.';
     } else {
