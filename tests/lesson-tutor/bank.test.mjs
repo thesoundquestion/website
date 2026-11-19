@@ -131,6 +131,8 @@ test('common beginner phrasings reuse authored answers without a model call', ()
 
 test('unmatched relevant questions receive local alternatives, never off-topic answers', () => {
   const interfaceLesson = getContext(bank, { lesson: 'audio-interfaces-mixers' });
+  assert.equal(isInScope(bank, interfaceLesson, 'How many inputs do I need for my band?'), true);
+  assert.equal(isInScope(bank, interfaceLesson, 'Can my interfaces record separate tracks?'), true);
   const suggestions = relatedPreparedQuestions(interfaceLesson, 'How many inputs do I need for my band?');
   assert.ok(suggestions.length > 0 && suggestions.length <= 3);
   for (const suggestion of suggestions) {
