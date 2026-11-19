@@ -95,7 +95,7 @@ function render(plan){
   add(row,'h3','','Explore a listening system');
   add(row,'p','','The Listening Builder covers speakers, amplifiers, room choices and headphones. Your guide answers are not silently applied; choose the actual equipment and requirements there.');
   row.append(makeLink('/system-builder/','Continue to Listening Builder →','button button-primary'));
-  if(plan.goalId==='headphones')row.append(makeLink('/tools/chain-check-preview/','Review headphone output evidence →','goal-secondary-link'));
+  if(plan.goalId==='headphones')row.append(makeLink('/system-check/compare/?type=headphone_amplifier','Compare headphone amplifier output ratings →','goal-secondary-link'));
  } else if(plan.goalId!=='learn'){
   const row=add(result,'section','goal-builder-handoff');
   add(row,'h3','','Build a system for this project');
