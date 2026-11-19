@@ -1,6 +1,6 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
-import {builderIntent,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
+import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
 import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
@@ -180,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sourceHelp=document.getElementById('sb-source-help');
   const intentNote=document.getElementById('sb-intent-note');
   const intentFeedback=document.getElementById('sb-intent-feedback');
+  const requiredGroupHelp=document.getElementById('sb-required-group-help');
   const moved=new Map();
   const reference=document.querySelector('.sb-listening-reference');
   const setFeedback=message=>{
@@ -200,6 +201,43 @@ document.addEventListener('DOMContentLoaded', () => {
     moved.set(node,marker);
     quick.append(node);
   }
+  function updateFieldRequirements(){
+    const id=intentSelect.value;
+    const route=builderIntent(id);
+    const messages={
+      required:'Required',
+      required_either:'Required: choose here OR type below',
+      optional_alternative:'Optional: type instead',
+      optional:'Optional'
+    };
+    // The label wraps the actual field, so screen-reader users hear the same
+    // requirement as sighted users. Every dropdown/text/number input gets one.
+    for(const label of form.querySelectorAll('label.sb-field')){
+      const field=label.querySelector('select, input:not([type="checkbox"])');
+      if(!field)continue;
+      const rule=builderFieldRequirement(id,field.name);
+      let status=label.querySelector('.sb-field-requirement');
+      if(!status){
+        status=el('span','sb-field-requirement');
+        label.insertBefore(status,field);
+      }
+      status.textContent=messages[rule];
+      status.dataset.requirement=rule;
+      // A model may be selected in the dropdown OR typed in a second input.
+      // Never mark either alternative individually required in the browser.
+      field.required=rule==='required';
+      if(rule==='required_either'||rule==='optional_alternative')
+        field.setAttribute('aria-describedby','sb-required-group-help');
+      else if(field.getAttribute('aria-describedby')==='sb-required-group-help')
+        field.removeAttribute('aria-describedby');
+    }
+    requiredGroupHelp.hidden=!route?.requiredOwn;
+    if(route?.requiredOwn){
+      const name=route.requiredOwn==='speaker'?'speakers':'amplifier or receiver';
+      requiredGroupHelp.textContent='Required: identify the '+name+
+        ' you already have. Choose a model from the dropdown OR type the model name in the next box. Only one of the two needs an answer.';
+    }else requiredGroupHelp.textContent='';
+  }
   function setBuilderIntent({preserveGuide=false}={}){
     const id=intentSelect.value;
     const route=builderIntent(id);
@@ -212,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sourceHelp.hidden=true;
       actionButtons.hidden=true;
       intentNote.textContent='Pick a task first. You never need to enter specifications for equipment you have not bought.';
+      updateFieldRequirements();
       return;
     }
     intentNote.textContent=route.description+' All other information is optional and can be added under More choices.';
@@ -227,13 +266,17 @@ document.addEventListener('DOMContentLoaded', () => {
     sourceHelp.hidden=!route.directRoute;
     actionButtons.hidden=Boolean(route.directRoute);
     quick.hidden=Boolean(route.directRoute);
-    if(route.directRoute)return;
+    if(route.directRoute){
+      updateFieldRequirements();
+      return;
+    }
     for(const key of route.fields){
       const control=form.elements.namedItem(key);
       const node=control?.closest('label');
       if(node)showQuickNode(node);
       if(key==='level'&&reference)showQuickNode(reference);
     }
+    updateFieldRequirements();
     // No route asks visitors for unowned product specifications. The advanced
     // section is still available to people who want technical fine-tuning.
   }
