@@ -52,6 +52,7 @@
 </select></label>
 <p class="sb-help" id="sb-intent-note" aria-live="polite">You do not need to own every piece of equipment or know specifications for something you haven't bought.</p>
 <div id="sb-quick-setup" class="sb-quick-setup sb-grid" hidden></div>
+<p id="sb-required-group-help" class="sb-required-group-help" aria-live="polite" hidden></p>
 <p id="sb-intent-feedback" class="sb-intent-feedback" role="status" aria-live="polite" hidden></p>
 <div id="sb-source-help" class="sb-source-help" hidden>
  <p>For sources, the first question is what you already have and which input it needs. Use the dedicated connection guides instead of a speaker shopping list.</p>
@@ -120,7 +121,7 @@
 <label class="sb-field">Where will you listen?
 <select name="useCase"><option value="living_room">Living room / shared room</option><option value="desk">Desk / nearfield</option><option value="bedroom">Bedroom / small room</option><option value="outdoors">Backyard / outdoors</option><option value="party">Gathering / event / party</option></select></label>
 <label class="sb-field">Distance to listening position (ft)
-<input type="number" name="distanceFt" min="0.5" max="300" step="0.5" value="8" required></label>
+<input type="number" name="distanceFt" min="0.5" max="300" step="0.5" value="8"></label>
 <label class="sb-field">Usual listening level
 <select name="level"><option value="quiet">Quiet / background</option><option value="moderate" selected>Comfortable / normal</option><option value="high">Occasionally loud, clean peaks important</option></select></label>
 
@@ -199,7 +200,7 @@
 <section class="sb-panel sb-sub-connect-section" aria-labelledby="sb-sub-connections">
 <div class="sb-step"><span>05</span><div><h2 id="sb-sub-connections">How will the subwoofer connect?</h2><p>These are ordinary socket types. Choose “Not sure” when you do not know. We will not assume that having an RCA input means your amplifier has an RCA output.</p></div></div>
 <div class="sb-grid">
-<label class="sb-field">Subwoofer model (optional)
+<label class="sb-field">Subwoofer model
 <input name="subName" maxlength="120" placeholder="e.g. Edifier T5, or leave blank"></label>
 <label class="sb-field">What signal can your amplifier or speakers send?
 <select name="subAmpOutput">
@@ -231,7 +232,7 @@
 <select name="region"><option value="CA">Canada</option><option value="US">United States</option><option value="GB">United Kingdom</option><option value="EU">European Union</option><option value="AU">Australia</option><option value="other">Other / not specified</option></select></label>
 <label class="sb-field">Currency
 <select name="currency"><option value="CAD">CAD</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="EUR">EUR</option><option value="AUD">AUD</option><option value="other">Other / unknown</option></select></label>
-<label class="sb-field">Maximum new spending (optional)
+<label class="sb-field">Maximum new spending
 <input name="budget" type="number" min="0" max="10000000" step="1" placeholder="No limit supplied"></label>
 <label class="sb-field">Budget preference
 <select name="budgetStrict"><option value="strict">Firm ceiling</option><option value="flex">Flexible if supported by evidence</option></select></label>
