@@ -30,20 +30,9 @@ Let the reader or viewer occasionally discover a musical reference that belongs 
 - **Titles, thumbnails and metadata:** Avoid presenting someone else's lyric or an artist's name as the video’s own core promise, or implying an affiliation. A subtle line in narration is preferable to bait in the title.
 - **Final script handoff:** Record the proposed reference, intended source, exact line/location, spoken-flow result, technical/copyright review, and its status, then keep the publicly released script free of behind-the-scenes annotation.
 
-## Initial website review-branch inventory (not yet published)
-Branch: `draft/editorial-musical-easter-eggs-20261119`
+## Placement tracking without spoiling the Easter eggs
 
-| Page | Source inspiration (editorial only) | Draft insertion | Status |
-| --- | --- | --- | --- |
-| `tools/index.html` | Dire Straits — *Money for Nothing* | Bigger numbers without a user benefit can be money for nothing | Draft |
-| `tools/find-my-setup/index.html` | Fleetwood Mac — *Go Your Own Way* | Choose a path based on the activity | Draft |
-| `decoder/index.html` | Radiohead — *Everything in Its Right Place* | Start with known sounds and place the information in context | Draft |
-| `journey/index.html` (mixing) | Meghan Trainor — *All About That Bass* | Leave space for the rest of the instruments | Draft |
-| `journey/index.html` (mastering) | The Who — *Won't Get Fooled Again* | Compare versions at equal listening levels | Draft |
-| `decoder/speaker-frequency-response/index.html` | The Beach Boys — *Good Vibrations* | A response curve cannot guarantee a preferred sound | Draft |
-| `decoder/speaker-sensitivity/index.html` | The Rolling Stones — *You Can't Always Get What You Want* | A single number cannot express every engineering trade-off | Draft |
-
-All seven examples are original educational copy or ordinary title/name references, not reproduced lyric passages. In the review process, favor the sentence that still sounds useful if the reader never catches the nod.
+The first draft now proposes **39 unobtrusive references across 35 existing website pages**. They are still review-branch source, not merged or deployed. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
 
 ## Editorial release checklist
 - Did the technical meaning survive unchanged?
