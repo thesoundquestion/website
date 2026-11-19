@@ -655,3 +655,15 @@
 .dl-resources-grid a strong{font-size:1.03rem;color:#e9f6ff}
 .dl-resources-grid a span{font-size:.87rem;color:#b7d1e3}
 @media(max-width:660px){.dl-resources-grid{grid-template-columns:1fr}.dl-home-hero{padding-top:20px}}
+
+/* The next lesson is the primary end-of-lesson action. Sources are optional, last. */
+.dl-sources-after-nav{max-width:960px;margin:0 auto 3rem;padding-inline:1.25rem}
+.dl-supplemental{border:1px solid #355974;border-radius:13px;background:#0d2234;padding:0 1.15rem}
+.dl-supplemental>summary{cursor:pointer;padding:1rem .25rem;font-weight:750;color:#aee4fb;line-height:1.45}
+.dl-supplemental[open]>summary{border-bottom:1px solid #355974}
+.dl-supplemental-content{padding:.5rem .3rem 1.1rem;font-size:.92rem;overflow-wrap:anywhere}
+.dl-supplemental-content .dl-references{margin:0;padding:.5rem 0;border:0}
+.dl-supplemental-content .dl-references h2{font-size:1.15rem}
+.dl-supplemental-content .dl-end{padding:1rem 0 0;gap:.6rem;font-size:.85rem}
+.dl-supplemental-content .dl-related-action{margin-top:.65rem;padding-top:.65rem;max-width:100%;width:100%}
+.dl-supplemental-content .sb-sources{line-height:1.65}
