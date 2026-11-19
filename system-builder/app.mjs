@@ -1,4 +1,5 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
+import {guideBuilderContext} from './guide-handoff.mjs';
 import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
 import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
@@ -86,6 +87,7 @@ const money = {CA:'CAD',US:'USD',GB:'GBP',EU:'EUR',AU:'AUD',other:'other'};
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('sb-form');
   if (!form) return;
+  const guideHandoff=guideBuilderContext(window.location.search);
   const inventory = window.systemBuilderInventory || null;
   let sharedCatalog=null;
   let priceSnapshot=null;
@@ -145,6 +147,25 @@ document.addEventListener('DOMContentLoaded', () => {
   goal.addEventListener('change', syncGoals);
   extras.forEach(x => x.addEventListener('change', syncGoals));
   syncGoals();
+
+  if(guideHandoff){
+    for(const [key,value] of Object.entries(guideHandoff.prefill)){
+      const field=form.elements.namedItem(key);
+      if(field && [...(field.options||[])].some(x=>x.value===value))field.value=value;
+    }
+    syncGoals();
+    syncHeadphoneInputs();
+    const panel=el('section','sb-preview sb-guide-handoff');
+    panel.setAttribute('aria-label','Your choices from Find My Setup');
+    addText(panel,'h2',guideHandoff.title);
+    addText(panel,'p',guideHandoff.summary);
+    addText(panel,'p','We carried over a few category choices from your guide. Review or change any Builder inputs. No equipment model has been guessed, and a source-to-speaker connection is not certified.');
+    const detail=el('details','sb-more');
+    addText(detail,'summary','What still needs checking');
+    list(detail,guideHandoff.checks);
+    panel.append(detail);
+    form.before(panel);
+  }
 
   function syncSub() {
     const sub = subMode.value !== 'no_sub';
@@ -302,6 +323,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function report(data) {
     body.replaceChildren();
     reportContainer = null;
+    if(guideHandoff){
+      const bridge=el('section','sb-preview sb-guide-result');
+      addText(bridge,'h3','Your original question: '+guideHandoff.title);
+      addText(bridge,'p','The examples below address speaker, amplifier and listening choices using your reviewed Builder inputs. They do not automatically prove the source chain or guarantee a complete purchase.');
+      list(bridge,guideHandoff.checks);
+      if(guideHandoff.intent==='vinyl')
+        addText(bridge,'p','Important: turntable, cartridge and phono-preamp prices are NOT included in the Builder’s displayed system subtotals. An eligible amplifier/speaker suggestion alone is not a complete vinyl system cost.','sb-brief-note');
+      body.append(bridge);
+    }
     const primary = String(data.get('goal') || 'all_rounder');
     const mainGoal = GOALS[primary] || GOALS.all_rounder;
     const secondary = extras.filter(x => x.checked && x.value !== primary).map(x => GOALS[x.value]).filter(Boolean);
