@@ -251,3 +251,12 @@
 .sb-sub-cost{font-size:.87rem;color:#d8dfe9}
 .sb-sub-intent-report>.sb-sub-connection-kind{margin:.7rem 0}
 .sb-quick-setup [name=subOwned]{width:100%}
+
+
+/* Every visible dropdown and typed field names whether it is needed for the
+ * current task; the pair of model inputs is one OR-choice, not two demands. */
+.sb-field-requirement{display:inline-block;justify-self:start;width:fit-content;max-width:100%;padding:.16rem .45rem;border:1px solid #526b7b;border-radius:5px;font-size:.73rem;line-height:1.4;font-weight:650;letter-spacing:0;color:#bbcfdf;background:#152b3a}
+.sb-field-requirement[data-requirement="required"],.sb-field-requirement[data-requirement="required_either"]{border-color:#87b7c9;color:#def4ff;background:#17364a}
+.sb-field-requirement[data-requirement="optional_alternative"]{color:#bde1ef;border-color:#507589}
+.sb-required-group-help{padding:.6rem .85rem;border-left:3px solid #83cbe6;background:#152f40;border-radius:5px;color:#d3ebf7;font-size:.86rem;line-height:1.55;margin:.65rem 0 0}
+@media(max-width:650px){.sb-field-requirement{font-size:.72rem}.sb-required-group-help{font-size:.83rem}}
