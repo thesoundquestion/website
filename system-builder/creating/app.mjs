@@ -92,6 +92,9 @@ async function showMode(){
   const id=mode.value;
   if(!CREATING_GOALS[id])return;
   countInput.value=DEFAULT_GOAL_COUNTS[id];
+  // A solo desktop creator usually needs no second USB interface. When the
+  // project changes, reset only the recording route, never the owned gear.
+  route.value=id==='stream'?'usb':'xlr';
   // Goals do not silently replace the visitor's owned gear.
   visible('.sb-tracks',recModes.has(id));
   visible('.sb-monitors-choice',recModes.has(id));
@@ -171,6 +174,7 @@ function renderStage(stage,index){
       const row=append(list,'li');
       append(row,'strong','',alt.model);
       if(alt.priceCategory)append(row,'span','sb-price-category',' '+alt.priceCategory);
+      if(alt.reason)append(row,'small','sb-build-alternative-reason',alt.reason);
       if(alt.source)link(row,alt.source,'Specifications');
     }
   }
