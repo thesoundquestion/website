@@ -12,6 +12,7 @@
 const number=x=>typeof x==='number'&&Number.isFinite(x)?x:null;
 export function speakerPairingEvidence(ownedAmp={},screen={},speaker={}){
   const values=speaker?.values||{};
+  const provisional=ownedAmp?.record?.userEntered===true||speaker?.userEntered===true;
   const nominal=number(values.load);
   const minimum=number(values.minimum);
   const explicit=number(screen?.explicitNominalFloor);
@@ -36,6 +37,7 @@ export function speakerPairingEvidence(ownedAmp={},screen={},speaker={}){
     exactRated?3:nominal!==null?5:8;
   if(demandingMinimum)tier=Math.max(6,tier);
   if(!confirmedSource)tier=Math.max(7,tier);
+  if(provisional)tier=Math.max(7,tier);
   const notes=[];
   if(hasManufacturerRule)
     notes.push('The amplifier has documented manufacturer guidance of at least '+explicit+
@@ -56,15 +58,21 @@ export function speakerPairingEvidence(ownedAmp={},screen={},speaker={}){
     notes.push('No directly comparable continuous amplifier rating at this speaker’s nominal load is documented.');
   if(demandingMinimum)
     notes.push('Published minimum impedance dips below the relevant nominal/test reference; the load may demand more current and must not be treated as cleared.');
+  if(provisional)
+    notes.unshift('At least one device uses visitor-entered values. The linked document and actual product revision have not been independently verified; this is a provisional screening only.');
   // A speaker minimum need NOT be published for its manufacturer's
   // nominal-impedance rating to be a useful ordinary buying guide.
-  const level=hasManufacturerRule&&!demandingMinimum&&confirmedSource?'basic_match':
+  const level=provisional?'needs_review':
+    hasManufacturerRule&&!demandingMinimum&&confirmedSource?'basic_match':
     exactRated&&!demandingMinimum&&confirmedSource?'rated_load_only':'needs_review';
-  const label=level==='basic_match'?'Good basic match based on published specifications':
+  const label=provisional?'Provisional: check the entered specifications against the actual manual':
+    level==='basic_match'?'Good basic match based on published specifications':
     level==='rated_load_only'?'The published load and power test can be compared':
     'Check the speaker and amplifier ratings before choosing';
   const ohms=nominal===null?'an unknown load':nominal+'-ohm speakers';
-  const plainWhy=hasManufacturerRule&&!demandingMinimum
+  const plainWhy=provisional
+    ?'This comparison uses specification numbers supplied by the visitor. It can narrow the options, but it does not verify the ratings or establish a safe electrical match.'
+    :hasManufacturerRule&&!demandingMinimum
     ?'The amplifier maker says it works with speakers rated '+explicit+
       ' ohms or higher, and these speakers are listed as '+ohms+
       '. Those published requirements line up for a single speaker pair.'
@@ -87,7 +95,8 @@ export function speakerPairingEvidence(ownedAmp={},screen={},speaker={}){
       :unknownNominal
         ?'Find the speaker’s nominal ohm rating.'
         :'Check the amplifier maker’s recommended speaker ratings, then consider listening distance and volume.';
-  return {tier,level,label,notes,nominal,minimum,manufacturerNominalGuidance:hasManufacturerRule,
+  return {tier,level,label,notes,nominal,minimum,provisional,
+    manufacturerNominalGuidance:!provisional&&hasManufacturerRule,
     continuousRatingAtNominal:exactRated,minimumDocumented:hasMinimum,
     demandingMinimum,sourceLinked:confirmedSource,plainWhy,plainMinimum,plainNext};
 }
