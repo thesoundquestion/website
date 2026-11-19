@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {explainBeginnerOption} from '../system-builder/beginner-output.mjs';
+import {speakerPairingEvidence} from '../system-builder/pairing-evidence.mjs';
+import {BUILDER_INTENTS,builderIntent,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from '../system-builder/intent-routing.mjs';
 import {GOALS,buildPath} from '../tools/find-my-setup/engine.mjs';
 
 const find=(goal,answers)=>buildPath(goal,answers);
@@ -189,11 +191,11 @@ test('beginner system results explain why, roles, uncertain pairing and first ri
     extra:['Confirm speaker cable is available.'],tradeoff:'Speaker impedance curve not fully verified.'
   };
   const x=explainBeginnerOption(candidate,{goal:'imaging',subMode:'no_sub'});
-  assert.match(x.status,/not fully verified/);
-  assert.match(x.reason,/small listening room/);
-  assert.match(x.rolePath,/passive left\/right speaker pair/);
+  assert.match(x.status,/A possible setup/);
+  assert.match(x.technicalEvidence,/small listening room/);
+  assert.match(x.rolePath,/amplifier.*two speakers/);
   assert.equal(x.roles.length,2);
-  assert.match(x.matchingEvidence,/NOT a manufacturer-verified electrical match/);
+  assert.match(x.matchingEvidence,/have not established that these exact models are an electrical match/);
   assert.match(x.firstChecks.join(' '),/speaker|amplifier|impedance/i);
   assert.ok(x.costAndTradeoffs.some(x=>/complete, current regional price/i.test(x)));
   assert.ok(!/guaranteed compatible|perfect sound|100% match/i.test(JSON.stringify(x)));
@@ -208,7 +210,7 @@ test('owned gear keeps the reuse option but elevates known load concerns first',
     tradeoff:'Check documentation and do not connect without approval.',extra:[]
   },{subMode:'no_sub'});
   assert.equal(x.priority,'critical');
-  assert.equal(x.status,'Important match concern');
+  assert.equal(x.status,'Check this pairing before connecting');
   assert.equal(x.reuse,true);
   assert.match(x.firstChecks[0],/8 ohm speakers/);
 });
@@ -218,13 +220,13 @@ test('powered and studio paths prevent costly or unsafe beginner assumptions',()
     id:'powered-example',architecture:'consumer_powered_pair',why:'Simple wired stereo pair',
     parts:[{name:'Powered stereo pair',role:'Built-in amplification',count:1}],extra:[],tradeoff:'No Bluetooth'
   },{});
-  assert.match(powered.rolePath,/no separate speaker power amplifier/i);
-  assert.match(powered.checks.join(' '),/Never connect amplifier speaker terminals/i);
+  assert.match(powered.rolePath,/do not need to buy a separate amplifier/i);
+  assert.match(powered.checks.join(' '),/Never connect the speaker outputs of another amplifier/i);
   const monitors=explainBeginnerOption({
     id:'studio',architecture:'active_studio',why:'A pair for nearfield listening',
     parts:[{name:'Studio monitor',role:'Sold per cabinet',count:2}],extra:[]
   },{});
-  assert.match(monitors.checks.join(' '),/Confirm TWO monitors/);
+  assert.match(monitors.checks.join(' '),/buying TWO speakers/);
   assert.ok(monitors.roles[0].startsWith('2 ×'));
   assert.ok(monitors.costAndTradeoffs.some(x=>/per cabinet/i.test(x)));
 });
@@ -235,7 +237,7 @@ test('exact-load power figure is qualified, never treated as real-speaker safety
     amplifierFit:{amp:{exact:true,watts:80,ohms:8},speaker:{}}
   },{});
   assert.match(x.matchingEvidence,/80 W\/channel/);
-  assert.match(x.matchingEvidence,/not proof/);
+  assert.match(x.matchingEvidence,/does not prove/);
 });
 
 test('extra adapters and unverified source inputs take priority over shopping',()=>{
@@ -244,9 +246,9 @@ test('extra adapters and unverified source inputs take priority over shopping',(
     sourceCaution:'Your streamer has a digital-only output.',
     id:'powered',parts:[],extra:[],tradeoff:'Verify the input types.'
   },{});
-  assert.equal(x.status,'Extra connection needed');
-  assert.equal(x.firstChecks[0],'Your streamer has a digital-only output.');
-  assert.ok(x.firstChecks.join(' ').includes('converter'));
+  assert.equal(x.status,'You may need another connection');
+  assert.match(x.firstChecks.join(' '),/music player may not plug straight/);
+  assert.ok(x.firstChecks.join(' ').includes('converts the signal'));
   assert.ok(x.costAndTradeoffs.some(x=>/priced separately/.test(x)));
 });
 
@@ -256,16 +258,139 @@ test('builder markup shows rationale and compatibility checks before technical o
   const css=await readFile(new URL('../system-builder/style.css',import.meta.url),'utf8');
   const first=app.indexOf("Why this option was suggested");
   const chain=app.indexOf("How these components would work together");
-  const proof=app.indexOf("What supports this pairing, and what does not");
+  const proof=app.indexOf("Why these pieces make sense together");
   const checks=app.indexOf("What to check before connecting or buying");
-  const evidence=app.indexOf("Published power figures and listening impressions");
+  const evidence=app.indexOf("See the technical details and original sources");
   assert.ok(first>0&&first<chain&&chain<proof&&proof<checks&&checks<evidence,
     'Reason, system roles, evidence limits and warnings must precede sound reviews');
   assert.match(app,/explainBeginnerOption\(item,request\)/);
   assert.match(app,/What is included|Full verification, trade-offs, equipment and sources/);
   assert.match(app,/Keeping equipment you already own is a valid outcome/);
   assert.match(page,/Your system options, explained/);
-  assert.match(page,/Show system options and why they fit/);
+  assert.match(page,/Show me options for my goal/);
   assert.match(css,/\.sb-recommendations\{grid-template-columns:minmax\(0,1fr\)/);
   assert.match(css,/\.sb-beginner-checks\{border-left/);
+});
+
+test('task-first Builder asks what is being purchased and only exposes relevant questions',async()=>{
+  const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
+  const app=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+  assert.match(page,/<h2 id="sb-intent-heading">What are you looking for\?<\/h2>/);
+  assert.match(page,/<select name="buildIntent" id="sb-build-intent" required>/);
+  assert.match(page,/id="sb-quick-setup"[^>]*hidden/);
+  assert.match(page,/<details class="sb-advanced-form"/);
+  assert.match(page,/id="sb-actions" hidden/);
+  assert.match(app,/const route=builderIntent\(id\)/);
+  assert.match(app,/showQuickNode\(node\)/);
+  assert.match(app,/scopedBuilderInputs\(raw,intentSelect.value,advanced.open\)/);
+  assert.match(app,/validateBuilderIntent\(intentSelect.value,raw\)/);
+});
+test('shopping for an amplifier requires speakers only, not amplifier details',()=>{
+  const plan=builderIntent('amp_for_speakers');
+  assert.equal(plan.requiredOwn,'speaker');
+  assert.ok(plan.fields.includes('speaker'));
+  assert.ok(!plan.fields.includes('amp'));
+  const data=new FormData();
+  data.set('speaker','Polk ES15');
+  data.set('amp','Old amp accidentally left selected');
+  data.set('architecture','open');
+  assert.deepEqual(validateBuilderIntent('amp_for_speakers',data),{ok:true,message:''});
+  const scope=scopedBuilderInputs(data,'amp_for_speakers');
+  assert.equal(scope.get('speaker'),'Polk ES15');
+  assert.equal(scope.get('amp'),'');
+  assert.equal(scope.get('architecture'),'passive_separates');
+});
+test('shopping for speakers requires amplifier only, not speaker specifications',()=>{
+  const plan=builderIntent('speakers_for_amp');
+  assert.equal(plan.requiredOwn,'amp');
+  assert.ok(plan.fields.includes('amp'));
+  assert.ok(!plan.fields.includes('speaker'));
+  const data=new FormData();
+  data.set('amp','Yamaha A-720');
+  data.set('speaker','Stale speaker from another goal');
+  assert.deepEqual(validateBuilderIntent('speakers_for_amp',data),{ok:true,message:''});
+  const scope=scopedBuilderInputs(data,'speakers_for_amp');
+  assert.equal(scope.get('amp'),'Yamaha A-720');
+  assert.equal(scope.get('speaker'),'');
+  assert.equal(scope.get('architecture'),'passive_separates');
+});
+test('only the equipment the visitor wants to shop for must be absent from inventory',()=>{
+  const missing=new FormData();
+  assert.equal(validateBuilderIntent('amp_for_speakers',missing).ok,false);
+  assert.match(validateBuilderIntent('amp_for_speakers',missing).message,/speakers model/i);
+  assert.equal(validateBuilderIntent('speakers_for_amp',missing).ok,false);
+  assert.equal(validateBuilderIntent('complete_system',missing).ok,true);
+  assert.equal(validateBuilderIntent('headphones',missing).ok,true);
+  assert.equal(validateBuilderIntent('improve_existing',missing).ok,true);
+});
+test('unlisted existing model is a permitted starting point without inventing a rating',()=>{
+  const d=new FormData();
+  d.set('speakerOther','Vintage speaker exact model');
+  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,true);
+  const s=scopedBuilderInputs(d,'amp_for_speakers');
+  assert.equal(s.get('speakerOther'),'Vintage speaker exact model');
+  assert.equal(s.get('ampOther'),'');
+});
+test('new shopping intent cannot inherit irrelevant hidden product values',()=>{
+  const d=new FormData();
+  d.set('speaker','Speakers for another task');
+  d.set('amp','Existing amp');
+  d.set('source','Digital source');
+  d.set('headphone','Headphones');
+  d.append('secondary','dynamic');
+  d.set('subMode','sub_unknown');
+  const ampForSpeakers=scopedBuilderInputs(d,'amp_for_speakers');
+  assert.equal(ampForSpeakers.get('amp'),'');
+  assert.equal(ampForSpeakers.get('source'),'');
+  assert.equal(ampForSpeakers.get('speaker'),'Speakers for another task');
+  assert.equal(ampForSpeakers.has('secondary'),false);
+  assert.equal(ampForSpeakers.get('subMode'),'no_sub');
+  const complete=scopedBuilderInputs(d,'complete_system');
+  assert.equal(complete.get('speaker'),'');
+  assert.equal(complete.get('amp'),'');
+  const advanced=scopedBuilderInputs(d,'amp_for_speakers',true);
+  assert.equal(advanced.get('amp'),'','No target amplifier should be counted as already owned');
+  assert.equal(advanced.get('source'),'Digital source','Advanced source choice is preserved');
+});
+test('guide-to-Builder handoff enters the correct task based on owned equipment',()=>{
+  assert.equal(handoffBuilderIntent({intent:'match',answers:{owned:'amp'}}),'speakers_for_amp');
+  assert.equal(handoffBuilderIntent({intent:'match',answers:{owned:'speakers'}}),'amp_for_speakers');
+  assert.equal(handoffBuilderIntent({intent:'match',answers:{owned:'both'}}),'improve_existing');
+  assert.equal(handoffBuilderIntent({intent:'headphones',answers:{}}),'headphones');
+  assert.equal(handoffBuilderIntent({intent:'vinyl',answers:{}}),'complete_system');
+});
+test('a source connection is routed to appropriate guidance, not a fabricated shopping match',()=>{
+  assert.equal(BUILDER_INTENTS.source_connections.directRoute,true);
+  const d=new FormData();
+  assert.equal(validateBuilderIntent('source_connections',d).ok,false);
+});
+test('an ordinary 8-ohm speaker meets the amplifier maker’s 8-ohm minimum without demanding an impedance lecture',()=>{
+  const amp={record:{ratings:[[80,8,'continuous']]}};
+  const speaker={url:'https://example.org/manual',values:{load:8,minimum:6.5}};
+  const p=speakerPairingEvidence(amp,{explicitNominalFloor:8,minPublishedTestOhms:8},speaker);
+  assert.equal(p.level,'basic_match');
+  assert.match(p.label,/Good basic match/);
+  assert.match(p.plainWhy,/published requirements line up for a single speaker pair/);
+  const summary=explainBeginnerOption({
+    id:'owned-speaker-test',architecture:'passive_separates',pairingEvidence:p,
+    loadCaution:'Details can be consulted',extra:[],parts:[]
+  },{goal:'all_rounder'});
+  assert.match(summary.status,/Good basic match/);
+  assert.doesNotMatch(summary.matchingEvidence,/minimum impedance|impedance curve/i);
+  assert.notEqual(summary.priority,'critical');
+});
+test('an unavailable minimum does not nullify matching published 8-ohm nominal ratings',()=>{
+  const p=speakerPairingEvidence({record:{ratings:[[60,8,'continuous']]}},
+    {explicitNominalFloor:8,minPublishedTestOhms:8},
+    {url:'https://example.org/manual',values:{load:8}});
+  assert.equal(p.level,'basic_match');
+  assert.equal(p.demandingMinimum,false);
+});
+test('an unusually low measured impedance is a specific exception, not the standard beginner match',()=>{
+  const p=speakerPairingEvidence({record:{ratings:[[60,8,'continuous']]}},
+    {explicitNominalFloor:8,minPublishedTestOhms:8},
+    {url:'https://example.org/manual',values:{load:8,minimum:3.5}});
+  assert.equal(p.level,'needs_review');
+  assert.equal(p.demandingMinimum,true);
+  assert.match(p.plainWhy,/unusually low/);
 });
