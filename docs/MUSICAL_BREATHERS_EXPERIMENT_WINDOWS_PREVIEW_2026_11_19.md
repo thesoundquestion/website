@@ -1,8 +1,14 @@
 # The Sound Question — Musical Breathers Editorial Experiment
 
-**Status:** Experimental draft, **not** a release candidate. Not merged or deployed.  
+**Status:** **ABANDONED editorial experiment**, not a release candidate. Never merged or deployed.  
 **Branch:** `draft/musical-breathers-experiment-20261119`  
 **Base:** `draft/consolidated-prelaunch-20261119`
+
+## Outcome: owner rejected this editorial direction
+
+**Decision (2026-11-19): Abandoned. Do not merge, deploy, reuse these musical passages, or treat this as a release candidate.**
+
+Review found that stitching multiple musical references into written instructional passages feels forced and interrupts natural teaching. Keep the website's references occasional and effortless; reserve most more overt puns and jokes for personally delivered video/live content. This branch is retained only as historical experimental work. The consolidated website draft never received these five experimental page edits.
 
 ## What changed
 Five pages have a short musical passage woven into the existing explanation or introductory goal question:
