@@ -36,17 +36,18 @@ export function explainBeginnerOption(item,request={}){
   };
   const reuse=['owned-complete','owned-headphones','owned-other-route','owned-powered-pair'].includes(item?.id);
   const pairing=item?.pairingEvidence||null;
+  const curated=item?.curatedPairing||null;
   // A routine caution on a screened speaker pair is not by itself proof of an
   // incompatibility. A known blocker, missing nominal data or demanding minimum
   // still belongs ahead of shopping recommendations.
   const blocked=Boolean(item?.ownershipBlocker||
-    (item?.loadCaution&&!pairing)||
+    (item?.loadCaution&&!pairing&&!curated)||
     (pairing&&(pairing.nominal===null||pairing.demandingMinimum)));
   const externalInput=item?.connectionStatus==='adapter_needed';
   const condition=Boolean(item?.sourceCaution||item?.pathwayCaution||item?.levelCaution||item?.placementCaution||item?.sourceBatteryCaution);
   const status=blocked?'Check this pairing before connecting':reuse?'Keep your gear if it meets your needs':
     externalInput?'You may need another connection':
-    pairing?pairing.label:'A possible setup, with details to check';
+    curated?curated.label:pairing?pairing.label:'A possible setup, with details to check';
   const rawReason=first(item?.headphoneRationale,item?.amplifierReason,item?.speakerRationale,
     item?.ownershipMessage,item?.why,
     'This option was chosen from the available system examples.');
@@ -62,7 +63,7 @@ export function explainBeginnerOption(item,request={}){
     ?'This is another system type to compare. We do not have proof that it best fits your main listening goal.'
     :'We included this option because it is listed as a possible fit for '+goal+'. That is a starting point, not a listening test or a promise of sound quality.';
   // Describe the actual evidence instead of implying every pair hides a problem.
-  const reason=pairing?pairing.plainWhy:
+  const reason=curated?curated.proof:pairing?pairing.plainWhy:
     reuse?'We started with equipment you already own. If it meets your needs, there is no reason to replace it just to complete a shopping list.':
     item?.ownedAmpName?'This option lets you keep your '+item.ownedAmpName+
       ' and look at speakers without buying another amplifier. We still need to check the exact match.':
@@ -78,7 +79,14 @@ export function explainBeginnerOption(item,request={}){
     item?.ownershipBlocker,item?.loadCaution,item?.sourceCaution,item?.pathwayCaution,
     ...((Array.isArray(item?.extra)?item.extra:[]))
   ]);
-  const checks=unique([
+  const checks=curated?unique([
+    curated.setup,
+    item?.sourceCaution?'This source requires an input or converter not included with the basic pair. Confirm the selected source connection.':'',
+    externalInput?'A compatible audio converter may be needed for the selected source.':'',
+    item?.levelCaution||item?.placementCaution?'For the requested high level or longer distance, clean output at the listening seat has not been established.':'',
+    item?.sourceBatteryCaution?'This system requires mains power.':'',
+    item?.bassSetup?'For a subwoofer, confirm its signal route and include the extra hardware cost.':''
+  ]):unique([
     item?.ownershipBlocker?'The equipment you selected may not fit this setup. Check the warning in the detailed notes before connecting anything.':'',
     pairing?.demandingMinimum?
       'These speakers may be harder for your amplifier to drive than the main rating suggests. Get the exact model manuals or manufacturer advice before connecting.':'',
@@ -104,7 +112,9 @@ export function explainBeginnerOption(item,request={}){
   ]);
   const fit=item?.amplifierFit;
   let matchingEvidence='';
-  if(pairing){
+  if(curated){
+    matchingEvidence=curated.proof;
+  }else if(pairing){
     matchingEvidence=pairing.plainWhy+
       (pairing.demandingMinimum?' '+pairing.plainMinimum:'');
   }else if(fit?.amp&&fit?.speaker){
@@ -128,11 +138,14 @@ export function explainBeginnerOption(item,request={}){
     item?.connectionStatus==='adapter_needed'?'A suitable converter/adapter and any required power/control hardware must be priced separately.':'',
     text(item?.tradeoff)
   ]);
-  const technicalEvidence=pairing?
+  const technicalEvidence=curated?
+    curated.notes.join(' ')+' '+curated.output:
+    pairing?
     pairing.notes.join(' ')+' These details explain the evidence behind the recommendation; they are not required reading for a normal manufacturer-specification match.':
     rawReason;
   return {status,reason,goalExplanation,rolePath:architecture.path,roles,matchingEvidence,checks,
+    checkHeading:curated?'How to connect this pairing':null,
     firstChecks:checks.slice(0,2),remainingChecks:checks.slice(2),costAndTradeoffs:missing,
     technicalEvidence,technicalChecks,reuse,
-    priority:blocked?'critical':externalInput||condition?'review':'conditional'};
+    priority:blocked?'critical':externalInput||condition?'review':curated?'supported':'conditional'};
 }
