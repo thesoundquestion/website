@@ -26,6 +26,16 @@ This is a standing rule for every new or revised educational lesson on The Sound
 The technical-depth limit is **not** a ban on useful detail: teach the new topic thoroughly while keeping the first explanation approachable. The detailed research-origin example of this policy and overlap mapping is maintained in the private research repository's `LESSON_RESEARCH_MICROPHONE_TYPES_SPEAKER_APPLICATIONS_2026_11_18.md`; it is *not* a scope limit on the policy.
 
 
+## Permanent cross-media musical Easter-egg convention (owner-confirmed 2026-11-19)
+
+The Sound Question's prose and future YouTube videos/Shorts may contain **subtle, unannounced references to recognizable songs, artists and band names**. Start with the current Curator's Listening Room, but draw also from popular, widely known recordings so casual viewers can catch them. References must work as ordinary explanations even when the audience doesn't recognize them. Do not bold, color, footnote, explain, or otherwise flag them in public copy or on screen.
+
+**Draft facts first, allusions second.** Prefer natural original wordplay or song-title/band-name nods rather than quoting or closely paraphrasing copyrighted lyric lines. Never introduce uncleared music recordings or imply artist endorsement. Avoid repeating a reference too often, forcing puns, undermining technical accuracy, or interrupting sensitive subjects. Any unclear or unnatural line should be removed, not defended.
+
+For YouTube long-form scripts, Shorts, voiceover cue cards, captions, titles and descriptions: use the same restrained approach, but prioritize natural spoken delivery, the original educational hook, and the owner's unscripted presentation. Most Shorts need no reference or one at most. The hidden references are a flavor, not a quota or gimmick.
+
+**Process:** After a draft has passed beginner-first/technical review, optionally add context-fitting references, read the final copy aloud, and privately track source inspiration, location, rights check, revision and draft/published status in the editorial handoff. The cross-media conventions and initial site inventory are in [docs/MUSICAL_EASTER_EGGS_EDITORIAL_GUIDE_2026_11_19.md](docs/MUSICAL_EASTER_EGGS_EDITORIAL_GUIDE_2026_11_19.md). This is an editorial style convention, not permission to deploy, publish or reuse protected media.
+
 ## Permanent GitHub-first, Cloudflare-on-approval workflow — all edits and prototypes
 
 This is the **default and mandatory workflow** for every website edit, content revision, experimental feature, prototype, comparison tool and release candidate. Cloudflare Pages Free has limited build/deployment quotas, and the owner has explicitly requested that ordinary development **never consume those quotas**.
