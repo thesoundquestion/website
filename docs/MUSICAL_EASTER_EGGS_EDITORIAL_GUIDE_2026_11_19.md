@@ -1,6 +1,6 @@
 # The Sound Question — Musical Easter Eggs: Cross-Media Editorial Standard
 **Established:** 2026-11-19  
-**Status:** Owner-approved creative direction. Editorial convention, not authorization to publish, deploy, use copyrighted recordings, or quote lyrics.
+**Status:** Revised 2026-11-19 by owner. Occasional natural Easter eggs only in written lessons; do not pursue dense musical passages. Editorial convention, not authorization to publish, deploy, use copyrighted recordings, or quote lyrics.
 
 ## Why this is part of the brand
 
@@ -23,14 +23,14 @@ Let the reader or viewer occasionally discover a musical reference that belongs 
 
 ## Reader-facing discovery standard
 
-These references exist to make dry audio lessons fun to explore, not to be invisible. The owner wants readers to recognize familiar music while they learn. Work several approachable, unhighlighted references into a normal-length lesson where the subject naturally permits; strong candidates include the introductory hook, a technical analogy that really helps, the listening example and, in selected lessons, an actual lesson title. Use a wide range of accessible musical touchstones, including pop, hip-hop, soul, country and other styles, rather than repeatedly relying on one era or the owner's preferred artists.
+These references exist to make dry audio lessons fun to explore, not to be invisible. The owner wants readers to recognize familiar music while they learn. Keep musical references rare and unhighlighted, using them only when a line already fits naturally. A good reference can occur in a short introduction, an example or an existing owner-approved lesson heading, but do not add one as a planned requirement. Use a wide range of accessible musical touchstones, including pop, hip-hop, soul, country and other styles, rather than repeatedly relying on one era or the owner's preferred artists.
 
 ### Recognition gate: familiarity is not enough
 
 A song or artist may be famous while the **particular words used** are too ordinary to signal anything musical. Passing this gate requires one of two outcomes:
 
 1. **Immediately identifiable:** the reference uses a highly recognizable song title, distinctive performer/band name or unmistakable original title-based pun. Readers who know mainstream popular music should have a reasonable chance of catching it without a label or a private key.
-2. **Enough original contextual setup:** if a brief fragment is generic (e.g., *the middle* or *can't get enough*), expand the surrounding **original, topic-relevant setup** or combine complementary well-known musical allusions so a reader can recognize the intended connection. Do not simply append copyrighted lyric lines or closely paraphrase a longer lyric to manufacture recognizability.
+2. **Easy recognition in existing context:** a line may be recognized through the natural teaching context, but do **not** extend a paragraph or stack musical references merely to make it recognizable. If the wording is too generic, omit the Easter egg. Do not copy or closely paraphrase copyrighted lyrics.
 
 **Reject** phrases whose only evidence of being a reference is that they also happen to be a song title. A listener should not need the source ledger, a genre footnote or the editor's explanation to know there is a musical allusion. Being technically true is necessary but not sufficient. Prefer one strong, recognizable, naturally written connection over several weak coincidences. Recheck this gate when proposed passages are reviewed, before counting them as active placements.
 
@@ -41,21 +41,21 @@ Never reproduce copyrighted lyrics or create hidden links that spoil the game. V
 1. Identify the actual teaching point first: clipping, signal-chain compatibility, amplifier headroom, speaker dispersion, room effects, recording, coding or a listening decision.
 2. Brainstorm **widely known** musical associations from many genres and decades. Explore multiple forms: artist/band names, album names, recognizable song titles, transformed titles, an original line with a meaningful double meaning, or an original analogy suggested by a lyrical concept.
 3. Choose the candidate that fits the **sentence and lesson** most naturally. It should be recognizable *and* useful. A famous reference that distracts from the point is worse than an ordinary clear explanation.
-4. Preserve the approved lesson titles and their short explanatory bridges. Where a different popular reference fits deeper in a lesson, add it without repeating an already-used musical hook.
+4. Do not remove existing owner-approved lesson titles without separate review. Do not proactively expand the number of in-lesson puns. Where a truly effortless reference happens to fit, check it for duplication and usefulness.
 5. Check the private editorial ledger for duplication and note the precise song/album/artist inspiration. References not yet written into the actual site are **candidates**, not active placements.
 
 Do not constrain the search to the owner's favorite artists, a prescribed genre distribution or a finite shortlist of songs. The aim is broad musical familiarity across the audience, not obscure-reference hunting.
 
-## Short musical breathers in technical lessons
+## Website editorial restraint: odd Easter egg, not planned comedic passages
 
-**Purpose: give an overloaded reader a short mental break without breaking the lesson.** Song-title, artist-name and other recognizable musical allusions are seasoning, not the meal. The bulk of every lesson stays straightforward, accurate, beginner-friendly instruction.
+**Owner decision, 2026-11-19:** The experiment that threaded multiple popular song references through introductions, mid-lesson anecdotes and teaching examples felt forced in practice. **Abandon that website-writing direction.** Do not import or reproduce the experimental musical-breathers branch in the consolidated website draft or a release candidate.
 
-- **Where they belong:** the occasional lesson opening, a short mid-lesson example after a dense explanation or graph, a relatable anecdote, a listening comparison or a natural transition. Insert where the reader benefits from a pause, not at fixed intervals.
-- **How long:** usually a single sentence or a brief two-to-four-sentence paragraph. On occasion, two compatible references can share a small scene, but avoid extended song-collage narratives or turning full lessons into connected-reference stories. No numerical quota or mandatory musical break for every section.
-- **What they accomplish:** restate one technical point in familiar terms, make an abstract claim tangible, or remind the reader why the specification matters for listening. After the breather, return directly to the technical topic. A reader who misses every allusion still gets a useful example.
-- **How they sound:** natural, unannounced prose, drawing on broadly recognizable songs, performer names, bands, titles and original puns from any genre. No labels explaining the joke and no decorative boxes just to announce an Easter egg.
-- **Editorial discipline:** write original examples, not commercial lyric passages or close paraphrases. Never sacrifice a definition, safety note, measurement caveat or explanation for the joke. Review pacing aloud and remove an allusion if it distracts or repeats an existing reference.
-- **No overuse:** a long technical section with no musical references is fine. Place a few memorable moments where they refresh attention, instead of trying to pack every paragraph with references. The site's teaching and practical examples remain the primary content.
+- Keep written lessons centered on clear technical explanation, honest examples, and a beginner-friendly reading experience. Do not build paragraphs around song references.
+- An **occasional, effortless** musical reference is welcome only where the normal wording already makes sense and the reference is widely recognizable as used. The density may be zero in most sections. Never add a song reference as a quota or required mental break.
+- Do not manufacture elaborate chains of titles, names or puns, or invent technical misunderstandings to justify them. If a reference requires explanation or interrupts the point, cut it.
+- Preserve existing owner-approved H1s for now as a **separate** editorial decision; this change does not approve inserting the experimental prose or undo prior headings.
+- Reserve more overt puns, dad jokes, musical riffs and playful asides primarily for **live/personally presented content** (e.g., filmed or spoken videos), where the presenter can make them sound spontaneous. Even there, keep explanations accurate, natural and mindful of copyright.
+- Track future placements privately, distinguishing approved website text from retired ideas and experiments. No automatic promotion from a preview branch.
 
 ## How to write them
 1. Draft the accurate, beginner-friendly explanation or script **without** the Easter egg first.
