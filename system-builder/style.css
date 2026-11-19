@@ -161,3 +161,21 @@
 .sb-catalog-studio-card li{line-height:1.52;margin:.24rem 0;overflow-wrap:anywhere}
 .sb-catalog-studio-card p{line-height:1.6}
 @media(max-width:730px){.sb-catalog-studio-grid{grid-template-columns:1fr}}
+
+
+/* Listening-level orientation: relatable examples first; precise measurement limits available on demand. */
+.sb-listening-reference{grid-column:1/-1;border:1px solid #3b6178;border-radius:12px;background:#10263a;padding:clamp(.85rem,2vw,1.25rem);min-width:0}
+.sb-listening-reference h3{font-size:1rem;margin:0;color:#e5f6ff}
+.sb-listening-reference>.sb-help{margin:.4rem 0 .7rem}
+.sb-listening-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;list-style:none;padding:0;margin:0}
+.sb-listening-examples li{min-width:0;padding:.65rem .75rem;background:#0b1b2b;border:1px solid #30536b;border-radius:9px;font-size:.82rem;line-height:1.52;color:#c8dfec}
+.sb-listening-examples strong{color:#f1faff}
+.sb-listening-measure{margin-top:.8rem;padding:.75rem .85rem;background:#0b1b2b;border:1px solid #30536b;border-radius:9px}
+.sb-listening-measure>summary{cursor:pointer;font-weight:700;color:#a5dfff;font-size:.89rem}
+.sb-listening-measure>summary:focus-visible{outline:2px solid #85dfff;outline-offset:3px}
+.sb-listening-measure[open]>summary{margin-bottom:.65rem}
+.sb-listening-measure :is(li,p){font-size:.82rem;line-height:1.55;color:#cbdfe9}
+.sb-listening-measure li{margin:.45rem 0}
+.sb-listening-reference a{color:#9cddff;text-underline-offset:.15em}
+.sb-reference-sources{font-size:.75rem;color:#99b9ce;line-height:1.5;margin:.7rem 0 0}
+@media(max-width:650px){.sb-listening-examples{grid-template-columns:minmax(0,1fr)}}
