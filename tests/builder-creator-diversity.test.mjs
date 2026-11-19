@@ -85,3 +85,28 @@ test('Two- and four-mic recording interfaces are not confused with one-preamp de
  assert.ok(get(stage(four,'capture').pick.model)?.facts.micPreampCount.value>=4);
  assert.ok(four.stages.every(x=>x.need!=='included'||x.key!=='capture'));
 });
+
+
+test('Streaming mixers distinguish actual USB channel modes from front-panel input counts',()=>{
+ const getFact=(model,key)=>get(model)?.facts?.[key]?.value;
+ for(const [model,preamps,usbIn] of [
+   ['Behringer XENYX 302USB',1,2],
+   ['Yamaha AG03MK2',1,2],
+   ['Yamaha AG06MK2',2,2],
+   ['Mackie ProFX6v3+',2,2],
+   ['Zoom PodTrak P4',4,2]
+ ]){
+  assert.equal(getFact(model,'micPreampCount'),preamps,model+' preamp count');
+  assert.equal(getFact(model,'computerRecordingInputs'),usbIn,model+' computer USB channel count');
+ }
+ assert.equal(getFact('Behringer XENYX 302USB','hasPhantom48v'),null,'unknown supply is never promoted to 48 V');
+ assert.equal(getFact('Yamaha AG03MK2','loopback'),true);
+ assert.equal(getFact('Mackie ProFX6v3+','usbRecordingMode'),'independent_mono_channels');
+ assert.equal(getFact('Zoom PodTrak P4','usbRecordingMode'),'stereo_mix_only');
+ const podcast=buildCreatingSystem(catalog,{mode:'podcast',microphoneCount:4,independentTracks:true});
+ const options=[stage(podcast,'capture').pick,...stage(podcast,'capture').alternatives]
+   .filter(Boolean).map(x=>x.model);
+ assert.ok(!options.includes('Zoom PodTrak P4'),'P4 standalone SD tracks are not independent four-channel computer USB capture');
+ assert.ok(options.includes('Zoom LiveTrak L-12')||options.includes('Behringer U-PHORIA UMC404HD'),
+  'Podcast path should retain a four-preamp independent USB option');
+});
