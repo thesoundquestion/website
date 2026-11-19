@@ -101,10 +101,14 @@ test('homepage playlist count matches Listening Room and approved handbook is di
 
 test('Reference Library directly exposes MP3 versus FLAC and ABX labs without replacing the overview', () => {
   assert.match(library, /href="\/labs\/"[^>]*><h2>Listening Labs<\/h2>/);
-  assert.match(library, /href="\/labs\/formats\/"[^>]*><h2>MP3 vs FLAC/);
-  assert.match(library, /lossless FLAC and as 128 or 320 kbps MP3/);
-  assert.match(library, /href="\/labs\/abx\/"[^>]*><h2>ABX Lab/);
+  assert.match(library, /<h2>MP3 vs FLAC/);
+  assert.match(library, /lossless FLAC and 128 or 320 kbps MP3/);
+  assert.match(library, /href="\/labs\/formats\/">Try the listening test/);
+  assert.match(library, /href="\/library\/behind-the-experiments\/#formats">Read the methods and measurements/);
+  assert.match(library, /<h2>ABX Lab/);
   assert.match(library, /Training, Challenge or Advanced/);
+  assert.match(library, /href="\/labs\/abx\/">Try the ABX Lab/);
+  assert.match(library, /href="\/library\/behind-the-experiments\/#abx">Read the methods and limits/);
   assert.equal((library.match(/class="library-card/g) || []).length, 10);
   for(const route of ['/labs/formats/','/labs/abx/']){
     assert.equal((library.match(new RegExp('href="' + route.replaceAll('/', '\\/') + '"','g')) || []).length, 1, 'one clear Library card per lab');
