@@ -28,7 +28,7 @@ test('Creating Builder produces a model-backed system for all seven goals, witho
 
 test('A single USB microphone does not require another external mic interface',()=>{
  const plan=buildCreatingSystem(catalog,{mode:'vocal',micConnection:'usb',microphoneCount:1});
- assert.match(stage(plan,'mic').pick.model,/MV7\+/);
+ assert.ok(catalog.records.find(r=>r.id===stage(plan,'mic').pick.id)?.connections.outputs.some(p=>p.type.includes('usb')),'chosen microphone must actually have USB audio output');
  assert.equal(stage(plan,'capture').need,'included');
  assert.ok(!plan.purchased.some(x=>x.key==='capture'));
 });
