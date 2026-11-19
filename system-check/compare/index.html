@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Compare amplifier, speaker, sound-card, DAC and headphone specifications side by side with Compare My Gear.">
+  <meta name="description" content="Compare amplifiers, speakers, headphones, DACs, microphones, audio interfaces, mixers, recorders, headphone amplifiers and sound cards using source-backed specifications.">
   <link rel="canonical" href="https://thesoundquestion.com/system-check/compare/">
   <meta property="og:url" content="https://thesoundquestion.com/system-check/compare/">
   <link rel="icon" href="/assets/mark.svg">
@@ -16,6 +16,7 @@
   <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
   <script defer src="/system-check/compare/compare.js?v=spec-audit-20261111-final"></script>
   <script type="module" src="/system-check/compare/retail-tiers.mjs"></script>
+  <script type="module" src="/system-check/compare/expanded.mjs"></script>
   <title>Compare My Gear | The Sound Question</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
   <main id="main" class="container sc gc">
     <h1>Compare My Gear</h1>
     <p class="gc-audit-link">New to vinyl, CD players, sound cards and streamers? <a href="/decoder/playback-sources/">See how playback sources connect to amplifiers</a> before comparing the specifications.</p>
-    <p class="lead">Put a model you already own next to one you're considering. You'll see the published figures side by side: amplifier power, how easily speakers play loudly, how speaker drivers divide the sound, what digital formats a sound card accepts, and how headphones are built. We explain what can and cannot be compared fairly.</p>
+    <p class="lead">Put a model you already own next to one you're considering. Compare the relevant specifications for nine equipment types, from amplifier power and speaker sensitivity to microphone pickup patterns, recording channels and actual input/output connections. Missing or unverified information stays clearly marked, not guessed.</p>
     <nav class="sc-tool-tabs" aria-label="Equipment tools">
       <a class="button button-secondary" href="/system-check/">System Check</a>
       <a class="button button-primary" href="/system-check/compare/" aria-current="page">Compare My Gear</a>
@@ -41,7 +42,13 @@
         <button class="sc-button" type="button" data-kind="speaker" aria-pressed="false">Speakers</button>
         <button class="sc-button" type="button" data-kind="source" aria-pressed="false">DACs &amp; sound cards</button>
         <button class="sc-button" type="button" data-kind="headphone" aria-pressed="false">Headphones &amp; IEMs</button>
+        <button class="sc-button" type="button" data-kind="audio_interface" aria-pressed="false">Audio interfaces</button>
+        <button class="sc-button" type="button" data-kind="mixer_recorder" aria-pressed="false">Mixers &amp; recorders</button>
+        <button class="sc-button" type="button" data-kind="microphone" aria-pressed="false">Microphones</button>
+        <button class="sc-button" type="button" data-kind="headphone_amplifier" aria-pressed="false">Headphone amplifiers</button>
+        <button class="sc-button" type="button" data-kind="computer_sound_card" aria-pressed="false">Computer sound cards</button>
       </div>
+      <div id="gc-legacy">
       <div class="gc-pickers">
         <fieldset data-side="left">
           <legend>Your gear</legend>
@@ -67,7 +74,7 @@
           </label>
           <div id="gc-price-labels" role="status" aria-live="polite"><p>Choose two products to see available regional pricing categories.</p></div>
           <p class="gc-price-caution">Budget, mid-priced and premium refer only to typical new-retail expense among comparable equipment types in the selected region. A category is shown only when enough dated retailer evidence exists. Unknown is not “budget,” and more expensive does not mean better.</p>
-          <p><a href="/tools/equipment-comparison-preview/">Compare interfaces, mixers, microphones and other equipment using the expanded catalogue →</a></p>
+          <p>Regional labels are shown only where dated, comparable retailer evidence exists. For newly added equipment categories, no price category is inferred from a missing sample.</p>
         </section>
         <p class="gc-compare-explainer">These numbers describe particular products, but they are <strong>not sound-quality scores</strong>. For instance, a headphone's claimed frequency range says little about how evenly it plays bass and treble unless the maker also states a level tolerance and test method. A missing or unchecked figure appears as “—” rather than an invented value.</p>
         <p class="gc-audit-link">Verification standards: <a href="https://github.com/thesoundquestion/website/blob/main/system-check/compare/SPECIFICATION_SOURCE_AUDIT_2026_11_11.md" target="_blank" rel="noopener noreferrer">source audit, known manufacturer conflicts and unverified models</a>. A checked manufacturer specification is still not an independent bench measurement.</p>
@@ -76,6 +83,37 @@
           <tbody id="comparison-rows"></tbody>
         </table>
         <p class="gc-lesson"><a id="comparison-lesson" href="/decoder/">How to read these specs</a> · <a href="/decoder/speaker-drivers/">Drivers and crossovers</a> · <a href="/decoder/sample-rate/">Sample rate</a> · <a href="/decoder/headphone-frequency-response/">Headphone frequency response</a></p>
+      </section>
+      </div>
+      <section id="gc-expanded" class="gc-expanded" aria-label="Additional equipment category comparison" hidden>
+        <p id="gc-expanded-intro" class="gc-compare-explainer">Choose two models to see the documented specification and connection differences.</p>
+        <div class="gc-pickers gc-expanded-pickers">
+          <fieldset>
+            <legend>Your gear</legend>
+            <label>Find a model<input type="search" id="gc-expanded-left-filter" autocomplete="off" placeholder="Brand or model"></label>
+            <label>Your model<select id="gc-expanded-left"></select></label>
+          </fieldset>
+          <fieldset>
+            <legend>Compare with</legend>
+            <label>Find an alternative<input type="search" id="gc-expanded-right-filter" autocomplete="off" placeholder="Brand or model"></label>
+            <label>Comparison model<select id="gc-expanded-right"></select></label>
+          </fieldset>
+        </div>
+        <p id="gc-expanded-status" role="status" aria-live="polite">Choose an equipment category.</p>
+        <div id="gc-expanded-results" hidden>
+          <h2>Specifications side by side</h2>
+          <p id="gc-expanded-warning" class="gc-compare-explainer"></p>
+          <div class="gc-expanded-table-scroll" tabindex="0" role="region" aria-label="Equipment specifications and documented connections">
+            <table class="gc-table">
+              <caption>Manufacturer and research-backed facts. “Not verified” does not mean a feature is absent.</caption>
+              <thead><tr><th scope="col">Specification</th><th scope="col" id="gc-expanded-left-title"></th><th scope="col" id="gc-expanded-right-title"></th></tr></thead>
+              <tbody id="gc-expanded-rows"></tbody>
+            </table>
+          </div>
+          <section id="gc-expanded-observations-block" hidden><h3>Documented differences</h3><ul id="gc-expanded-observations"></ul></section>
+          <section><h3>Manufacturer and source references</h3><p>Each source may verify only certain specifications; a manufacturer claim is not an independent measurement.</p><div class="gc-expanded-sources" id="gc-expanded-sources"></div></section>
+          <section><h3>How to interpret this comparison</h3><ul id="gc-expanded-notes"></ul></section>
+        </div>
       </section>
     </div>
   <nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/system-builder/">Build a system around your needs <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="#">↑ Back to top</a></div></nav>
