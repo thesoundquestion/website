@@ -37,16 +37,16 @@ A merely music-themed sentence isn't a song Easter egg. Before logging a placeme
 
 Do not constrain the search to the owner's favorite artists, a prescribed genre distribution or a finite shortlist of songs. The aim is broad musical familiarity across the audience, not obscure-reference hunting.
 
-## Connected-reference storytelling within technical lessons
+## Short musical breathers in technical lessons
 
-The musical references need not be isolated punchlines. In the right **listening scene, troubleshooting walkthrough, comparison, or explanation**, multiple recognizable references can connect into a coherent miniature narrative. An equipment problem can progress from hearing the symptom to testing the source, finding the real cause and choosing the fix. Let the music references follow that actual story, rather than inserting unrelated titles one after another.
+**Purpose: give an overloaded reader a short mental break without breaking the lesson.** Song-title, artist-name and other recognizable musical allusions are seasoning, not the meal. The bulk of every lesson stays straightforward, accurate, beginner-friendly instruction.
 
-- **Teach through the passage.** Each sentence still advances the audio concept, observation or next practical action. Musical wordplay is woven into the prose, never a substitute for engineering clarity.
-- **Vary the reference mechanism:** transformed song and album titles, group and performer names, cultural allusions, original puns, and original phrasing that evokes a familiar musical idea. Look broadly across recognizable mainstream hits from every genre and generation; do not privilege the owner's collection.
-- **Allow clusters when earned.** A sustained scenario may use several connected popular references, rather than requiring one reference per paragraph or treating every Easter egg as a freestanding joke. Avoid stacking unrelated fragments merely to demonstrate how many songs you know. Technical definitions and safety instructions may need no Easter eggs.
-- **Keep references discovery-oriented:** unannounced in public copy, normal typography, no artist/song explanations or public spoiler notes. The private ledger identifies the source for each intentional allusion, and distinguishes title-to-intro bridges from independent body placements.
-- **Original copy only.** An illustrative user-submitted collage demonstrates the creative technique; it does not authorize borrowing commercial lyric sequences, exact lines or close paraphrases for the site. Write new technically grounded passages and prefer recognizable title/artist wordplay that does not require copying lyrics.
-- **Read aloud and check the logic.** If removing the musical connections leaves a useful, accurate explanation with sensible transitions, the writing is working. Otherwise rewrite for technical value first. Check duplicates across the site before inclusion.
+- **Where they belong:** the occasional lesson opening, a short mid-lesson example after a dense explanation or graph, a relatable anecdote, a listening comparison or a natural transition. Insert where the reader benefits from a pause, not at fixed intervals.
+- **How long:** usually a single sentence or a brief two-to-four-sentence paragraph. On occasion, two compatible references can share a small scene, but avoid extended song-collage narratives or turning full lessons into connected-reference stories. No numerical quota or mandatory musical break for every section.
+- **What they accomplish:** restate one technical point in familiar terms, make an abstract claim tangible, or remind the reader why the specification matters for listening. After the breather, return directly to the technical topic. A reader who misses every allusion still gets a useful example.
+- **How they sound:** natural, unannounced prose, drawing on broadly recognizable songs, performer names, bands, titles and original puns from any genre. No labels explaining the joke and no decorative boxes just to announce an Easter egg.
+- **Editorial discipline:** write original examples, not commercial lyric passages or close paraphrases. Never sacrifice a definition, safety note, measurement caveat or explanation for the joke. Review pacing aloud and remove an allusion if it distracts or repeats an existing reference.
+- **No overuse:** a long technical section with no musical references is fine. Place a few memorable moments where they refresh attention, instead of trying to pack every paragraph with references. The site's teaching and practical examples remain the primary content.
 
 ## How to write them
 1. Draft the accurate, beginner-friendly explanation or script **without** the Easter egg first.
