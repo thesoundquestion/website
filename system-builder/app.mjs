@@ -756,7 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const whyBox=el('div','sb-beginner-reason');
       addText(whyBox,'h5',overview.reuse?'Why keeping this is a valid option':'Why this option was suggested');
       addText(whyBox,'p',overview.reason,'sb-beginner-plain');
-      addText(whyBox,'p',overview.goalExplanation,'sb-beginner-basis');
+      if(overview.goalExplanation)addText(whyBox,'p',overview.goalExplanation,'sb-beginner-basis');
       card.append(whyBox);
       const pathBox=el('div','sb-beginner-connection');
       addText(pathBox,'h5','How these components would work together');
@@ -767,10 +767,13 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(proof,'h5','Why these pieces make sense together');
       addText(proof,'p',overview.matchingEvidence,'sb-beginner-plain');
       card.append(proof);
-      const firstChecks=el('div','sb-beginner-checks');
-      addText(firstChecks,'h5',overview.priority==='critical'?'Important: resolve before connecting':'What to check before connecting or buying');
-      list(firstChecks,overview.firstChecks,'sb-beginner-checklist');
-      card.append(firstChecks);
+      if(overview.firstChecks.length){
+        const firstChecks=el('div','sb-beginner-checks');
+        addText(firstChecks,'h5',overview.priority==='critical'?'Important: resolve before connecting':
+          overview.checkHeading||'What to check before connecting or buying');
+        list(firstChecks,overview.firstChecks,'sb-beginner-checklist');
+        card.append(firstChecks);
+      }
       if(overview.costAndTradeoffs.length)
         addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
       const evidence=el('details','sb-beginner-evidence');
@@ -835,6 +838,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (item.keptSeparate?.length) {
         addText(details,'h5','Also owned, kept for other use');
         list(details,item.keptSeparate);
+      }
+      if (item.curatedPairing?.sources?.length){
+        addText(details,'h5','Published manufacturer information for this exact pairing');
+        for(const source of item.curatedPairing.sources)
+          if(source?.url && source?.label)link(details,source.url,source.label);
       }
       if (item.amplifierEvidence?.length) {
         addText(details,'h5','Why this amplifier: technical evidence and checks');
