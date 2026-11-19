@@ -89,7 +89,7 @@ test('AlbumDB credit remains visible without obsolete unresolved-permission warn
 test('homepage playlist count matches Listening Room and approved handbook is directly downloadable', () => {
   const curator = read('library/curators-listening-room/index.html');
   const cards = [...curator.matchAll(/<article class="curator-track"/g)].length;
-  assert.equal(cards, 51, 'unexpected number of curator selections');
+  assert.equal(cards, 52, 'unexpected number of curator selections');
   assert.match(home, new RegExp(cards + ' personal picks'));
   assert.match(curator, new RegExp(cards + ' listening selections'));
   const pdf = '/library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
