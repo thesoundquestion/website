@@ -84,19 +84,12 @@
 <div class="dl-claims-grid"><div class="dl-audiophile"><p class="dl-box-label">POPULAR CLAIM</p><p>“A 320 kb/s MP3 contains only 23% of the sound, so it must sound 77% worse.”</p></div><div class="dl-evidence"><p class="dl-box-label">WHAT WE CAN ACTUALLY SAY</p><p>The data rate is roughly 23% of CD-style PCM, but codec design is deliberately selective. <strong>Data-rate reduction is not a percentage of audible quality lost.</strong> Only suitable listening tests can establish whether differences are reliably audible.</p></div></div>
 <details class="dl-advanced"><summary>What is CBR versus VBR? <small>Optional detail</small></summary><p><strong>CBR</strong> aims for a constant encoded bitrate. <strong>VBR</strong> means variable bitrate, so the encoder can devote more or fewer bits to different parts of the recording. VBR files are often described by their overall <em>average</em> bitrate or by an encoder quality setting, not a guaranteed bitrate at every moment. Even two 256 kb/s files made by different encoders are not automatically equivalent in audible quality.</p><p>For uncompressed stereo PCM, <strong>16 bits × 44,100 samples/s × 2 channels = 1,411,200 bits/s</strong>. For a 320 kb/s constant-rate stream, four minutes of audio contain about <strong>9.60 MB</strong> of encoded data. See <a href="/decoder/bit-depth/">bit depth</a> and <a href="/decoder/sample-rate/">sample rate</a> for the two separate PCM terms.</p></details>
 </div></section>
-<section class="container dl-buy-section" id="buying"><div class="dl-reading"><h2>Which format should you actually use?</h2>
+<section class="container dl-buy-section" id="buying"><div class="dl-reading"><h2>Take it easy: which format should you actually use?</h2>
 <ol class="dl-buy-list"><li><strong>Archiving CDs or a music library?</strong> Prefer genuine lossless sources such as FLAC when storage permits. They preserve the decoded PCM and can be converted to other formats later without inherited lossy damage.</li>
 <li><strong>Listening on limited storage or bandwidth?</strong> Well-encoded MP3, AAC and other modern lossy codecs can offer useful size savings. Choose a reasonable quality setting and verify compatibility rather than worshipping one number.</li>
 <li><strong>Already have MP3 files?</strong> Keep the original files until you obtain genuinely lossless versions. Merely re-encoding MP3 to FLAC or a higher MP3 bitrate does not restore missing information, and repeated lossy re-encoding can compound damage.</li>
 <li><strong>Judging an upgrade?</strong> Compare like-for-like masters under controlled levels, and distinguish compression artifacts from EQ, remastering, amplification, speaker placement and room effects.</li></ol>
-<p>Related lessons: <a href="/decoder/bit-depth/">16-bit versus 24-bit</a>, <a href="/decoder/sample-rate/">sample-rate limits</a> and <a href="/decoder/dac-specifications/">DAC performance numbers</a>.</p>
-<div class="dl-references"><h2>Sources and further reading</h2><ul><li><a href="https://www.xiph.org/flac/features.html" rel="noopener noreferrer">Xiph.Org · What FLAC preserves and why it is lossless ↗</a></li>
-<li><a href="https://www.xiph.org/flac/documentation_format_overview.html" rel="noopener noreferrer">Xiph.Org · How FLAC stores PCM and variable-rate frames ↗</a></li>
-<li><a href="https://www.audacityteam.org/blog/on-audio-quality/" rel="noopener noreferrer">Audacity · Lossy versus lossless and perceptual transparency ↗</a></li>
-<li><a href="https://www.izotope.com/community/blog/avoid-artifacts-with-clip-free-compression-in-rx-7?page=0" rel="noopener noreferrer">iZotope · MP3/AAC encoding artifacts and peaks ↗</a></li>
-<li><a href="https://www.foobar2000.org/components/view/foo_abx" rel="noopener noreferrer">foobar2000 · ABX comparator for double-blind listening ↗</a></li></ul>
-<p><strong>Integrity note:</strong> Every size and bar on this page is a mathematical teaching example. No commercial audio excerpt, real encoder output, listening-test result or proprietary recording is presented as proof.</p></div>
-</div></section>
+<p>Related lessons: <a href="/decoder/bit-depth/">16-bit versus 24-bit</a>, <a href="/decoder/sample-rate/">sample-rate limits</a> and <a href="/decoder/dac-specifications/">DAC performance numbers</a>.</p></section>
 <!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
  <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 20 of 27 · Sources & DACs</span></div>
  <a class="dl-next-card" href="/decoder/speaker-dispersion/">
@@ -106,7 +99,15 @@
  </a>
  <div class="dl-nav-utilities"><a href="/decoder/bit-depth/">← Previous: Bit depth and dynamic range</a><a href="/decoder/">All lessons ↗</a></div>
  
- </nav><div class="dl-related-action"><span>Related next step</span><a href="/decoder/sample-rate/">Understand digital audio rates</a></div>
+ </nav>
 <!-- LESSON_NAV_END -->
 
+<section class="container dl-reading dl-sources-after-nav" aria-label="Optional reading and links"><details class="dl-supplemental"><summary>Additional reading, sources and optional activities</summary><div class="dl-supplemental-content">
+<div class="dl-references"><h2>Sources and further reading</h2><ul><li><a href="https://www.xiph.org/flac/features.html" rel="noopener noreferrer">Xiph.Org · What FLAC preserves and why it is lossless ↗</a></li>
+<li><a href="https://www.xiph.org/flac/documentation_format_overview.html" rel="noopener noreferrer">Xiph.Org · How FLAC stores PCM and variable-rate frames ↗</a></li>
+<li><a href="https://www.audacityteam.org/blog/on-audio-quality/" rel="noopener noreferrer">Audacity · Lossy versus lossless and perceptual transparency ↗</a></li>
+<li><a href="https://www.izotope.com/community/blog/avoid-artifacts-with-clip-free-compression-in-rx-7?page=0" rel="noopener noreferrer">iZotope · MP3/AAC encoding artifacts and peaks ↗</a></li>
+<li><a href="https://www.foobar2000.org/components/view/foo_abx" rel="noopener noreferrer">foobar2000 · ABX comparator for double-blind listening ↗</a></li></ul>
+<p><strong>Integrity note:</strong> Every size and bar on this page is a mathematical teaching example. No commercial audio excerpt, real encoder output, listening-test result or proprietary recording is presented as proof.</p></div>
+</div><div class="dl-related-action"><span>Related next step</span><a href="/decoder/sample-rate/">Understand digital audio rates</a></div></div></details></section>
 </main><footer class="site-footer tsq-footer-compact"><div class="container tsq-footer-inner"><span>© 2026 The Sound Question · Free to explore</span><nav aria-label="Policies"><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></nav></div></footer></div><script defer src="/assets/decoder-lessons.js"></script></body></html>
