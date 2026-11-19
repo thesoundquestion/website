@@ -55,3 +55,29 @@ Private source plans:
 - The new quick-link labels and discoverability are **hypotheses** to test with newcomers, not validated conversion improvements. The homepage card count and original curiosity-led introduction were preserved after existing CI checks flagged their approved constraints.
 
 **Hard release boundary:** no merge to `main` and no Cloudflare build/deployment without explicit owner authorization for that specific action.
+
+
+## 2026-11-19 follow-on: direct Builder handoff and beginner listening-level references
+
+**Original usability feedback:** The first guide draft produced general equipment-role explanations but did not actually retain the answers when opening a Builder. Beginners already know they have an amplifier or turntable; explaining that fact and restarting a long form is not an actionable result.
+
+**Second functional pass on same draft PR #35:**
+- `system-builder/guide-handoff.mjs`: explicit allowlisted link contract, `guideBuilderHref()` and `guideBuilderContext()`, for existing listening/headphone/TV and four new beginner intents. Only selected enum categories are passed in a URL, **not** model names, prices, or free-form data. Unknown/invalid/duplicate parameters fail closed to normal Builder defaults.
+- `tools/find-my-setup/app.mjs`: a primary **Continue in Listening Builder with my choices** link appears at the answer, before optional educational reading. Existing creator-specific routes still go to Creating Builder.
+- `system-builder/app.mjs`: validates and conditionally preselects supported architecture/listening preference; announces the carried-over context and unresolved limits. Model selection remains manual/reviewable. Exact source-chain, phono stages, adapters and amp/speaker safety are not declared verified. The Builder recommendation/math engine is untouched.
+- **Vinyl cost gate:** the Builder does not include turntables/cartridges/phono-preamp costs in displayed example subtotals; the relevant handoff now says so both before and after results.
+- `system-builder/index.html` and `system-builder/style.css`: **listening level dropdown** now has immediately adjacent everyday-language approximate 60–70, 80, 85 dBA and 110 dB **brief peak** references. This is a semantic aid; the Builder's quiet/moderate/high choices are still qualitative, not calibrated numeric dB measurements. The source-cited expanded phone-app guide explains LAeq versus maximum, A/C/Z weighting, measurement at the actual listening seat, and iOS versus Android accuracy limits.
+- `tests/beginner-entry-paths.test.mjs`: validates allowlisted handoffs, unknowns, source/price safeguards and everyday sound-level content.
+
+**Critical facts, not guarantees:** CDC/NIOSH's official SLM app is **iOS-only**; Android apps such as NoiseCapture exist but microphone/algorithm accuracy differs between devices and must not be sold as certified SPL, music transient, hearing exposure or headphone output measurements. A **dBA LAeq average** is not interchangeable with a 110 dB **instantaneous peak**, or with the System Check's assumed unweighted dB SPL target. Household equipment sound levels depend on model/distance; examples are approximate ranges, not calibrations. WHO safe listening exposure depends on **level AND duration**.
+
+**External references used in content draft:** 
+- https://www.cdc.gov/niosh/noise/about/app.html
+- https://www.cdc.gov/niosh/noise/prevent/understand.html
+- https://www.who.int/news-room/questions-and-answers/item/deafness-and-hearing-loss-safe-listening
+- https://f-droid.org/en/packages/org.noise_planet.noisecapture/
+- https://nepis.epa.gov/Exe/ZyPURL.cgi?Dockey=5000208G.TXT
+
+**Review / test still required:** physical Android layout and guide→Builder transfer verification, especially mobile, phono warning placement, back/edit behavior and unexpected URL parameters; no suggestion that phone readings confirm an 110 dB peak. GitHub-only CI status must be checked at last draft commit, not inferred from older pass.
+
+**Still deferred:** complete shared typed inventory/model transfer, source-chain/cable/adapter certification, actual phono or source pricing and the deep Builder requirements engine. No public deploy or Cloudflare build.
