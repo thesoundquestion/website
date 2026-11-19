@@ -1,0 +1,45 @@
+# The Sound Question — PR #32 release preflight and controlled launch gate
+
+**Audit:** November 18, 2026 (Atlantic; GitHub CI logs may be November 19 UTC)
+**Candidate:** draft PR #32, `release-candidate/full-site-preview-20261118`
+**Decision:** **HOLD FOR FINAL OWNER/PHYSICAL-DEVICE APPROVAL. Do not merge or deploy.**
+**Cloudflare builds consumed in this audit:** **0**. All website build checks executed on GitHub Actions. Cloudflare reads below were read-only status/configuration checks.
+
+## What was checked and passed
+
+1. **Source and CI:** The candidate is mergeable into `main`, and the repo's site regression, Ask TSQ free-only/function-route build, and browser audio/ABX smoke have been green on the release candidate. The regression suite now contains 579 Node tests; recheck all final-head jobs before authorization, including the latest editorial/code corrections.
+2. **Packaged website:** `node scripts/build-public-site.mjs`, on a GitHub runner, reported `PUBLIC_BUILD_OK trackedFiles=217 maxBytes=12018958`. File limits, generated-catalogue freshness, approved media hashes, the 59-page illustrated handbook, waveform provenance, restricted static runtime files and the single-function `_routes.json` gate passed. These are **not Cloudflare Pages deployments**.
+3. **Navigation and indexing:** Source-level crosslink/anchor tests and the 54-URL sitemap passed. Sitewide navigation includes 27 lessons, both Builders, Compare My Gear, Labs, Library and the detailed evidence page; intentional noindex prototype pages are not sitemap URLs.
+4. **Browser preflight added in this audit:** `tests/release-browser-preflight.mjs` runs the **packaged** `site-dist/` in Chrome desktop (1365×900) and mobile emulation (390×844), both from localhost. It passed the restored homepage copy/font footprint, Reference Library full-methods anchors, all nine Compare My Gear categories and I/O rows, preserved legacy amplifier comparisons, and successful equipment output from both the Listening and Creating Builders. It also guards page-level JavaScript exceptions, unexpected horizontal body overflow and outbound Worker calls. Its job is `.github/workflows/release-browser-preflight.yml`. **This is not a physical handset test**.
+5. **Catalogue and engineering boundaries:** The unified catalogue has 197 records across nine comparison functions. New interfaces, mixers, microphones, headphone amplifiers and computer sound cards use source-specific facts, documented ports/connection roles and unknowns. Recording channels are kept distinct from mixer channels, output paths and microphone preamp counts. No missing spec becomes a fabricated value; relative retail categories are not quality rankings.
+6. **Cloudflare configuration, READ-ONLY:** Pages project `thesoundquestion` still uses production branch `main`, with `deployments_enabled=false`, `production_deployments_enabled=false` and `preview_deployment_setting=none`. The current visible **production deployment** is `f70bbc13-f2c8-417f-be12-73bfe74c3afb` at source commit `4ba273ebfdde88164dcb153fc0a68df31a73fb12`, confirmed in the deployment list. Older preview snapshots are not the current candidate.
+7. **ABX/service binding configuration, READ-ONLY:** The `tsq-abx` Worker has ABX scoring, moderated community, gear recommendations and moderation alerts enabled, with D1, ratelimits, audio service binding and daily `17 4 * * *` UTC cron present. This is configuration evidence, **not a fresh live end-to-end HTTP or physical listening acceptance test**. The November 17 public launch and the earlier 10-round scored API smoke are recorded in `docs/PRODUCTION_LAUNCH_2026-11-17.md` and `docs/WORKER_PUBLIC_RELEASE_2026-11-17.md`.
+8. **Free-only optional tutor:** The browser's `assets/lesson-tutor/config.js` retains `AI_ENABLED=false`. The optional Pages Function is routed only to `/api/lesson-tutor` and remains fail-closed without its separately authorized bindings. No Workers AI activation or billing changes were made.
+
+## Issues found and corrected before release
+
+- **Unlisted Chain Check was being linked publicly.** Public Tools, Creating Builder, generated Creating reports and the goal guide led to `/tools/chain-check-preview/`, even though it is labelled an unpublished, noindex prototype. Replaced those links with the supported Compare My Gear pages. Both prototype routes remain noindex and out of the sitemap. Added `tests/unlisted-prototypes-release.test.mjs` so public HTML/scripts cannot silently link them again.
+- **ABX evidence copy was draft-specific.** Rechecked the five rows against `assets/abx-lab.js` and `workers/abx/index.mjs`. Mixing and matched mastering remain Training only; Mastering EQ Challenge remains private practice; both 128 kbps MP3 versions are eligible for ten-trial scored Challenge on the canonical site, and both 320 kbps versions for twenty-trial scored Advanced. Updated the evidence caption and public/preview explanation so they remain accurate when published. Added a source-to-copy regression guard.
+- **Builder visitor copy still said “preview.”** Reworded these statements without inflating verified sound-quality or compatibility claims. Updated the matching regression test.
+- **Old PR/handoff documents described the November 17 public release as still staged.** Updated the ABX handoff to distinguish the released public baseline from the pending full-site candidate.
+
+## Remaining release gates (NOT yet satisfied)
+
+- [ ] **Owner's real desktop and physical Android/mobile visual review.** Review homepage hierarchy, small-screen navigation, keyboard tab/focus order, all nine equipment type selectors and horizontal spec tables. Automation checks layout overflow but cannot judge every screen reader, real touch interaction or visual clarity.
+- [ ] **Physical listening and ABX fairness:** Listen to real Mixing/Mastering/MP3 examples, synchronized switching, Training, private EQ Challenge and scored MP3 playback on the canonical production site after approval. Verify no answer-correlated timing/volume cue, source-load errors or audible stutter. Do not promote EQ to public server scoring without separate acceptance.
+- [ ] **Live API and moderation acceptance:** Read-only health and public-listing checks; if testing submissions, use isolated records and documented clean-up, with owner approval. Verify opt-in community stats remain off by default, pending submissions are private, rate limits/retention remain enabled.
+- [ ] **Editorial and rights review:** Spot-check existing AlbumDB/CC BY credits, Content Use and Privacy, newest Recording/Creating/handbook explanations, curatorial paired-song notes, outbound Spotify/manufacturer/resource URLs, and claims in equipment spec sheets. Automated source links are not a substitute for reviewing rights and changed external websites.
+- [ ] **Regional retail disclosures:** Confirm limited, date-scoped comparison/Builder price labels still suppress unsupported or stale regions; do not publish live-price or value claims.
+- [ ] **Version scope:** `main` contains **10 commits beyond the current deployed production commit**, including the approved microphone/speaker lessons and related copy. These would ship along with PR #32. Review the **combined release**, not just PR #32's diff. GitHub `main` is currently **not branch-protected**, so keep explicit manual merge authorization.
+- [ ] **Final-head CI:** Require every current-commit GitHub workflow (site regression, tutor/static build, audio/ABX browser smoke and the new full-site browser preflight) to be green after corrections. Resolve failures rather than waiving them.
+- [ ] **Explicit owner go-live authorization**, separately permitting the merge and a specific one-off Cloudflare production deployment. No approval is implied by passing preflights.
+
+## When the owner approves a controlled launch
+
+1. Re-read the PR head and `main` ancestry, reconcile the combined release, ensure no new edits, and confirm all GitHub checks and manual sign-offs.
+2. Confirm the Free plan/build allowance and the Cloudflare project settings **read-only**. Keep automatic Pages deployments disabled.
+3. Merge only the reviewed commit by an explicitly authorized GitHub action. Then request separate explicit authorization for **one** Cloudflare production build/deployment of the intended `main` commit. Do not deploy a preview to prepare for it.
+4. After the authorized deployment, run public read-only smoke: custom domain, HTTP/HTTPS redirects, sitemap/robots, all primary hubs, both Builders, Compare My Gear, album and MP3 assets, ABX service, privacy, library and download. Verify the exact deployed SHA.
+5. Test the optionally writable community/gear flows only with controlled clean-up and approval; observe Worker/D1/Pages quota use and errors. On a failure, use the documented previously working production deployment `f70bbc13-f2c8-417f-be12-73bfe74c3afb` as the rollback reference after verifying it remains available.
+
+**No production merge, build, Pages preview or deployment is authorized by this document.**
