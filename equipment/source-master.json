@@ -3337,7 +3337,7 @@
     "status": "research_only",
     "description": "Research-stage recording, headphones and powered/passive speaker products, including original Pioneer SP-FS52 manual; numeric unknowns remain explicit.",
     "counts": {
-      "models": 48,
+      "models": 53,
       "ownedComparisonAnchors": 3,
       "newHeadphoneModels": 3,
       "newHeadphoneAmplifierModels": 5,
@@ -5567,6 +5567,255 @@
           "stereo_headphone_out"
         ],
         "usbRecordingMode": "independent_mono_channels"
+      },
+      {
+        "id": "behringer-xenyx-302usb",
+        "model": "Behringer XENYX 302USB",
+        "category": "mixer_recorder",
+        "role": [
+          "podcasting",
+          "streaming",
+          "content_creation"
+        ],
+        "micPreampCount": 1,
+        "simultaneousAnalogInputs": null,
+        "computerRecordingInputs": 2,
+        "computerPlaybackOutputs": 2,
+        "hasPhantom48v": null,
+        "loopback": null,
+        "usbRecordingMode": "stereo_mix_only",
+        "advertisedMixerChannels": 5,
+        "manufacturerSpec": "https://behringer.com/en/products/0601-ADN",
+        "sourceEvidence": [
+          {
+            "url": "https://behringer.com/en/products/0601-ADN",
+            "fields": [
+              "exact model and microphone preamps",
+              "USB audio recording channels and documented modes",
+              "local monitoring, caller routing or phantom capability"
+            ]
+          }
+        ],
+        "editorialNote": "Five mixer input channels do not mean five separate USB microphone recordings. One XENYX mic preamp plus headset mic input. Exact phantom voltage is unverified and must not be inferred as 48 V.",
+        "evidenceCheckedDate": "2026-11-18",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "xlr_microphone_input_channel_1",
+          "headset_microphone_input"
+        ],
+        "physicalOutputTypes": [
+          "stereo_main_out",
+          "stereo_phones_out"
+        ],
+        "inputRoutingConstraints": [
+          "USB capture is a stereo mixer path, not independent per-strip multitrack input."
+        ]
+      },
+      {
+        "id": "yamaha-ag03mk2",
+        "model": "Yamaha AG03MK2",
+        "category": "mixer_recorder",
+        "role": [
+          "podcasting",
+          "streaming",
+          "content_creation"
+        ],
+        "micPreampCount": 1,
+        "simultaneousAnalogInputs": 2,
+        "computerRecordingInputs": 2,
+        "computerPlaybackOutputs": 2,
+        "hasPhantom48v": true,
+        "loopback": true,
+        "usbRecordingMode": "selectable_dry_or_stereo_mix",
+        "advertisedMixerChannels": 3,
+        "manufacturerSpec": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag03mk2/specs.html",
+        "sourceEvidence": [
+          {
+            "url": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag03mk2/specs.html",
+            "fields": [
+              "exact model and microphone preamps",
+              "USB audio recording channels and documented modes",
+              "local monitoring, caller routing or phantom capability"
+            ]
+          }
+        ],
+        "editorialNote": "One XLR mic preamp and a second 6.35 mm guitar/line channel. USB streaming modes include dry inputs, combined input mix and loopback. A three-channel mixer is not a three-mic recorder.",
+        "evidenceCheckedDate": "2026-11-18",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "channel_1_combo_xlr_mic_or_line",
+          "channel_2_6_35mm_guitar_or_line",
+          "4_pole_3_5mm_trrs_smartphone_i_o"
+        ],
+        "physicalOutputTypes": [
+          "stereo_monitor_out",
+          "stereo_main_out"
+        ],
+        "inputRoutingConstraints": [
+          "Single XLR microphone preamp; TRRS headset/phone connection is not an additional independently recorded USB mic track."
+        ]
+      },
+      {
+        "id": "yamaha-ag06mk2",
+        "model": "Yamaha AG06MK2",
+        "category": "mixer_recorder",
+        "role": [
+          "podcasting",
+          "streaming",
+          "content_creation"
+        ],
+        "micPreampCount": 2,
+        "simultaneousAnalogInputs": null,
+        "computerRecordingInputs": 2,
+        "computerPlaybackOutputs": 2,
+        "hasPhantom48v": true,
+        "loopback": true,
+        "usbRecordingMode": "selectable_dry_or_stereo_mix",
+        "advertisedMixerChannels": 6,
+        "manufacturerSpec": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag06mk2/specs.html",
+        "sourceEvidence": [
+          {
+            "url": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag06mk2/specs.html",
+            "fields": [
+              "exact model and microphone preamps",
+              "USB audio recording channels and documented modes",
+              "local monitoring, caller routing or phantom capability"
+            ]
+          }
+        ],
+        "editorialNote": "Two XLR combo mic channels with 48 V phantom, 2-in/2-out USB. Streaming output selector has dry CH1/2G, input-mix and loopback modes; check software and routing before promising two editable channels in a specific streaming configuration.",
+        "evidenceCheckedDate": "2026-11-18",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "channel_1_combo_mic_or_line",
+          "channel_2_combo_mic_guitar_or_line",
+          "stereo_line_input"
+        ],
+        "physicalOutputTypes": [
+          "stereo_main_out",
+          "stereo_monitor_out"
+        ],
+        "inputRoutingConstraints": [
+          "Dry channel mode and mixed loopback are different routes. Both XLR channels and 3.5 mm headset microphone cannot all be treated as independently captured inputs."
+        ]
+      },
+      {
+        "id": "mackie-profx6v3-plus",
+        "model": "Mackie ProFX6v3+",
+        "category": "mixer_recorder",
+        "role": [
+          "podcasting",
+          "streaming",
+          "content_creation"
+        ],
+        "micPreampCount": 2,
+        "simultaneousAnalogInputs": null,
+        "computerRecordingInputs": 2,
+        "computerPlaybackOutputs": 4,
+        "hasPhantom48v": true,
+        "loopback": true,
+        "usbRecordingMode": "independent_mono_channels",
+        "advertisedMixerChannels": 6,
+        "manufacturerSpec": "https://mackie.com/en/products/mixers/profxv3-series/ProFX6v3plus.html",
+        "sourceEvidence": [
+          {
+            "url": "https://mackie.com/en/products/mixers/profxv3-series/ProFX6v3plus.html",
+            "fields": [
+              "exact model and microphone preamps",
+              "USB audio recording channels and documented modes",
+              "local monitoring, caller routing or phantom capability"
+            ]
+          }
+        ],
+        "editorialNote": "Two Onyx mic preamps, USB-C 2x4. Interface mode records channels 1/2 without effects; Standard records full mix; Loopback adds computer audio. Do not claim six independent USB microphone tracks.",
+        "evidenceCheckedDate": "2026-11-18",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "two_xlr_trs_combo_mic_line_channels",
+          "stereo_line_channel_3_4",
+          "stereo_3_5mm_line_channel_5_6"
+        ],
+        "physicalOutputTypes": [
+          "stereo_main_out",
+          "stereo_headphone_out"
+        ],
+        "inputRoutingConstraints": [
+          "Two independent mic channels to USB only in the documented Interface recording mode; Standard and Loopback combine sources."
+        ]
+      },
+      {
+        "id": "zoom-podtrak-p4",
+        "model": "Zoom PodTrak P4",
+        "category": "mixer_recorder",
+        "role": [
+          "podcasting",
+          "streaming",
+          "content_creation"
+        ],
+        "micPreampCount": 4,
+        "simultaneousAnalogInputs": 4,
+        "computerRecordingInputs": 2,
+        "computerPlaybackOutputs": 2,
+        "hasPhantom48v": true,
+        "loopback": null,
+        "usbRecordingMode": "stereo_mix_only",
+        "advertisedMixerChannels": 4,
+        "manufacturerSpec": "https://zoomcorp.com/en/ca/podcast-recorders/podcast-recorders/podtrak-p4/",
+        "sourceEvidence": [
+          {
+            "url": "https://zoomcorp.com/en/ca/podcast-recorders/podcast-recorders/podtrak-p4/",
+            "fields": [
+              "exact model and microphone preamps",
+              "USB audio recording channels and documented modes",
+              "local monitoring, caller routing or phantom capability"
+            ]
+          }
+        ],
+        "editorialNote": "Four XLR mic preamps and separate on-device podcast/SD recording features; as a USB audio interface it presents two inputs and two outputs. Do not confuse stand-alone multitrack storage with four independent computer USB mic channels.",
+        "evidenceCheckedDate": "2026-11-18",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "physicalInputTypes": [
+          "four_xlr_microphone_inputs",
+          "3_5mm_trrs_remote_guest_input"
+        ],
+        "physicalOutputTypes": [
+          "four_individual_headphone_outputs",
+          "usb_audio_stereo_out"
+        ],
+        "standaloneRecordTracks": 4,
+        "inputRoutingConstraints": [
+          "USB interface is 2-in/2-out. Independent podcast tracks are recorded locally, not four separate computer USB capture channels."
+        ]
       }
     ],
     "existingPresetCrossReferences": [
