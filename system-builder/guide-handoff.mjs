@@ -95,7 +95,7 @@ export function guideBuilderContext(query){
   }else if(intent==='headphones'){
     title='Find a headphone setup for your listening needs';
     prefill.architecture='headphone_first';
-    prefill.headphoneUse=answers.use==='noisy'?'commute':answers.use==='gaming'?'gaming':answers.use==='create'?'studio':'quiet';
+    prefill.headphoneUse=answers.use==='noisy'?'portable':answers.use==='gaming'?'shared':answers.use==='create'?'tracking':'quiet';
     summary='Explore a headphone listening route without assuming you need to purchase a separate DAC or amplifier.';
     checks=['Verify the headphone output, plug, available output level and comfort/fit on your actual source.'];
   }else if(intent==='tv'){
