@@ -83,3 +83,77 @@ test('Decoder landing explicitly welcomes refreshers and keeps beginner route',a
   assert.match(source,/No course or previous knowledge required/i);
   assert.match(source,/href="#start-here"/);
 });
+
+import {guideBuilderHref,guideBuilderContext} from '../system-builder/guide-handoff.mjs';
+
+const newGoalIds=new Set(['match','vinyl','digital','improve','hifi','headphones','tv']);
+
+test('every supported guide selection transfers only allowlisted category answers to the Builder',()=>{
+  let paths=0;
+  for(const goal of GOALS.filter(g=>newGoalIds.has(g.id))){
+    const recurse=(i,answers)=>{
+      if(i===goal.questions.length){
+        const href=guideBuilderHref(goal.id,answers);
+        assert.match(href,/^\/system-builder\/\?from=find-my-setup&intent=/);
+        const context=guideBuilderContext(href.split('?')[1]);
+        assert.equal(context.intent,goal.id);
+        assert.deepEqual(context.answers,answers);
+        assert.ok(context.title&&context.summary&&context.checks.length);
+        assert.ok(!href.includes('modelId'),'No hardware or personal data is passed');
+        paths++;
+        return;
+      }
+      const q=goal.questions[i];
+      for(const choice of q.options)recurse(i+1,{...answers,[q.id]:choice.value});
+    };
+    recurse(0,{});
+  }
+  assert.ok(paths>=100);
+});
+
+test('malformed, unrecognized and duplicate handoff query values are ignored',()=>{
+  for(const query of [
+    '?from=other&intent=vinyl&phono=yes&speakers=powered',
+    '?from=find-my-setup&intent=vinyl&phono=yes',
+    '?from=find-my-setup&intent=vinyl&phono=no&speakers=powered&phono=yes',
+    '?from=find-my-setup&intent=vinyl&phono=<script>&speakers=powered',
+    '?from=find-my-setup&intent=unknown&phono=yes&speakers=powered'
+  ])assert.equal(guideBuilderContext(query),null);
+  assert.equal(guideBuilderHref('vinyl',{phono:'yes',speakers:'not-a-speaker'}),'/system-builder/');
+});
+
+test('vinyl handed to Builder preserves phono requirements and does not imply complete pricing',()=>{
+  const withStage=guideBuilderContext('?from=find-my-setup&intent=vinyl&phono=yes&speakers=powered');
+  assert.equal(withStage.prefill.architecture,'consumer_powered_pair');
+  assert.match(withStage.summary,/LINE output/);
+  assert.match(withStage.checks.join(' '),/NOT include or price a turntable, cartridge or phono preamp/);
+  const raw=guideBuilderContext('?from=find-my-setup&intent=vinyl&phono=no&speakers=receiver');
+  assert.equal(raw.prefill.architecture,'passive_separates');
+  assert.match(raw.summary,/phono stage/i);
+});
+
+test('amplifier matching and digital source routes preselect only supported system categories',()=>{
+  const pair=guideBuilderContext('?from=find-my-setup&intent=match&owned=both&speakerType=passive');
+  assert.equal(pair.prefill.architecture,'passive_separates');
+  assert.match(pair.checks.join(' '),/System Check/);
+  const digital=guideBuilderContext('?from=find-my-setup&intent=digital&player=computer&listen=powered');
+  assert.equal(digital.prefill.architecture,'consumer_powered_pair');
+  assert.match(digital.checks.join(' '),/separate DAC unnecessary/);
+});
+
+test('improve route passes a listening priority and owned gear category, not a diagnosis',()=>{
+  const p=guideBuilderContext('?from=find-my-setup&intent=improve&problem=bass&gear=passive');
+  assert.deepEqual(p.prefill,{architecture:'passive_separates',goal:'bass'});
+  assert.match(p.checks.join(' '),/cannot identify the cause/);
+});
+
+test('guide and Builder reference the same explicit handoff contract without storage',async()=>{
+  const source=await readFile(new URL('../tools/find-my-setup/app.mjs',import.meta.url),'utf8');
+  const builder=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+  assert.match(source,/guideBuilderHref\(plan.goalId,answers\)/);
+  assert.match(builder,/guideBuilderContext\(window.location.search\)/);
+  assert.match(builder,/guideHandoff.prefill/);
+  assert.match(builder,/phono-preamp prices are NOT included/);
+  for(const script of [source,builder])
+    assert.doesNotMatch(script,/\b(?:localStorage|sessionStorage|XMLHttpRequest|sendBeacon)\b/);
+});
