@@ -207,8 +207,14 @@ export function shortlistExamples(input = {}, catalog = null) {
     const prices = examplePriceFor(product, input);
     const configured=configureSubExample(product, input);
     const curatedPairing=curatedPairingFor(configured);
-    // A named, manufacturer-supported pair is different from an unverified
-    // example. Do not re-label it as a dangerous electrical mismatch.
+    // A prebuilt passive system must name an amp/speaker pairing that the
+    // manufacturer data actually supports. Unknown combinations belong in
+    // research, not among ready-to-buy recommendations.
+    if(configured.architecture==='passive_separates'&&!curatedPairing){
+      excluded.push({title:configured.title,reason:
+        'This exact passive amplifier/speaker combination has not passed the manufacturer-load specification check. It is not offered as a recommended new system.'});
+      continue;
+    }
     selected.push({ ...configured, ...prices, curatedPairing,
       editorialGoalFocus: product.goals.includes(aim),
       decisionReasons:explainExampleInteractions(product,input),
