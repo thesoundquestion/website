@@ -21,6 +21,12 @@ test('every page offers end-of-page wayfinding with a useful, local next step',(
   const relative=path.relative(root,file).replaceAll('\\','/');
   const html=read(file);
   const blocks=[...html.matchAll(/<nav class="page-endnav[^"]*" aria-label="End-of-page navigation">([\s\S]*?)<\/nav>/g)];
+  if(relative==='index.html'){
+    assert.equal(blocks.length,0,'Homepage cards replace redundant end navigation');
+    assert.match(html,/class="home-quick-links"/);
+    assert.match(html,/class="home-more-grid"/);
+    continue;
+  }
   assert.equal(blocks.length,1,relative+': exactly one end-of-page nav');
   const block=blocks[0][1];
   assert.match(block,/href="#"[^>]*>↑ Back to top<\/a>/,relative+': missing top link');
