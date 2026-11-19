@@ -137,7 +137,7 @@ export function readGraphSelection(figure) {
   return {
     plot: figure.dataset.lessonPlot,
     example: selected?.dataset.selectCase ?? null,
-    ...(selectedLoad ? { load: selectedLoad.dataset.selectLoad } : {}),
+    ...(selectedLoad?.dataset?.selectLoad ? { load: selectedLoad.dataset.selectLoad } : {}),
   };
 }
 
