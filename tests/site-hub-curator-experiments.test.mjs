@@ -93,7 +93,7 @@ test('homepage playlist count matches Listening Room and approved handbook is di
   assert.match(home, new RegExp(cards + ' personal picks'));
   assert.match(curator, new RegExp(cards + ' listening selections'));
   const pdf = '/library/make-audio-make-sense/make-audio-make-sense-illustrated.pdf';
-  assert.ok(home.includes('href="' + pdf + '" download'), 'homepage PDF download missing');
+  assert.ok(library.includes('href="' + pdf + '" download'), 'Library PDF download missing');
   assert.ok(existsSync(path.join(root, pdf.slice(1))), 'download target absent');
   assert.ok(!existsSync(path.join(root,'library/make-audio-make-sense/make-audio-make-sense.pdf')), 'retired PDF still tracked');
   assert.doesNotMatch(home, /38 personal picks|39 personal picks/);
