@@ -66,8 +66,8 @@ test('approved lessons have no duplicate menu links, and connect to older canoni
   ['speaker-types','/decoder/speaker-dispersion/#understand','/system-builder/']
  ]){
   const html=read('decoder/'+slug+'/index.html');
-  const end=html.match(/<nav class="page-endnav container" aria-label="End-of-page navigation">([\s\S]*?)<\/nav>/)?.[1]||'';
-  assert.doesNotMatch(end,/>All lessons<\/a>/,'Do not repeat course link in page footer');
+  const end=html.match(/<div class="dl-related-action">([\s\S]*?)<\/div>/)?.[1]||'';
+  assert.doesNotMatch(html,/<nav class="page-endnav container" aria-label="End-of-page navigation">/,'No second end-of-page panel');
   assert.ok(html.includes('href="'+prev+'"'),slug+' should link to prior teaching');
   assert.ok(end.includes('href="'+now+'"'),slug+' practical next step');
   assert.equal((html.match(/<!-- LESSON_NAV_BEGIN -->/g)||[]).length,1);

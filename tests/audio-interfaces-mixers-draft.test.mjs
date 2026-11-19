@@ -20,8 +20,9 @@ test('input equipment is fully integrated as numbered lesson 17 of 27',()=>{
  assert.match(page,/<main id="main" class="types-page io-page">/);
  assert.match(page,/<nav class="main-nav"[^>]*>/);
  assert.match(page,/<details class="mobile-nav">/);
- assert.match(page,/<nav class="page-endnav container" aria-label="End-of-page navigation">/);
- assert.match(page,/<a href="#">↑ Back to top<\/a>/);
+ assert.doesNotMatch(page,/<nav class="page-endnav container" aria-label="End-of-page navigation">/);
+ assert.match(page,/<nav class="dl-continue container" aria-label="Continue learning">/);
+ assert.match(page,/class="dl-related-action"/);
  assert.match(page,/<!-- LESSON_NAV_BEGIN -->/);
  assert.match(page,/Lesson 17 of 27/);
  assert.match(page,/href="\/decoder\/sample-rate\/"/);
