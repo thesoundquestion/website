@@ -32,7 +32,7 @@ Let the reader or viewer occasionally discover a musical reference that belongs 
 
 ## Placement tracking without spoiling the Easter eggs
 
-The first draft now proposes **39 unobtrusive references across 35 existing website pages**. They are still review-branch source, not merged or deployed. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
+The first draft now proposes **44 unobtrusive references across 36 existing website pages**. They are still review-branch source, not merged or deployed. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
 
 ## Editorial release checklist
 - Did the technical meaning survive unchanged?
