@@ -37,6 +37,17 @@ A merely music-themed sentence isn't a song Easter egg. Before logging a placeme
 
 Do not constrain the search to the owner's favorite artists, a prescribed genre distribution or a finite shortlist of songs. The aim is broad musical familiarity across the audience, not obscure-reference hunting.
 
+## Connected-reference storytelling within technical lessons
+
+The musical references need not be isolated punchlines. In the right **listening scene, troubleshooting walkthrough, comparison, or explanation**, multiple recognizable references can connect into a coherent miniature narrative. An equipment problem can progress from hearing the symptom to testing the source, finding the real cause and choosing the fix. Let the music references follow that actual story, rather than inserting unrelated titles one after another.
+
+- **Teach through the passage.** Each sentence still advances the audio concept, observation or next practical action. Musical wordplay is woven into the prose, never a substitute for engineering clarity.
+- **Vary the reference mechanism:** transformed song and album titles, group and performer names, cultural allusions, original puns, and original phrasing that evokes a familiar musical idea. Look broadly across recognizable mainstream hits from every genre and generation; do not privilege the owner's collection.
+- **Allow clusters when earned.** A sustained scenario may use several connected popular references, rather than requiring one reference per paragraph or treating every Easter egg as a freestanding joke. Avoid stacking unrelated fragments merely to demonstrate how many songs you know. Technical definitions and safety instructions may need no Easter eggs.
+- **Keep references discovery-oriented:** unannounced in public copy, normal typography, no artist/song explanations or public spoiler notes. The private ledger identifies the source for each intentional allusion, and distinguishes title-to-intro bridges from independent body placements.
+- **Original copy only.** An illustrative user-submitted collage demonstrates the creative technique; it does not authorize borrowing commercial lyric sequences, exact lines or close paraphrases for the site. Write new technically grounded passages and prefer recognizable title/artist wordplay that does not require copying lyrics.
+- **Read aloud and check the logic.** If removing the musical connections leaves a useful, accurate explanation with sensible transitions, the writing is working. Otherwise rewrite for technical value first. Check duplicates across the site before inclusion.
+
 ## How to write them
 1. Draft the accurate, beginner-friendly explanation or script **without** the Easter egg first.
 2. Find a naturally compatible sentence: e.g. signal path, a gear trade-off, comparing levels, a room problem, setup choices, or a listening impression.
