@@ -59,11 +59,11 @@ export function explainBeginnerOption(item,request={}){
   };
   const goal=plainGoals[request?.goal]||'your selected listening needs';
   const noDirectGoal=item?.editorialGoalFocus===false;
-  const goalExplanation=noDirectGoal
+  const goalExplanation=curated?'':noDirectGoal
     ?'This is another system type to compare. We do not have proof that it best fits your main listening goal.'
     :'We included this option because it is listed as a possible fit for '+goal+'. That is a starting point, not a listening test or a promise of sound quality.';
   // Describe the actual evidence instead of implying every pair hides a problem.
-  const reason=curated?curated.proof:pairing?pairing.plainWhy:
+  const reason=curated?(text(item?.why)||'A documented passive stereo system with compatible published speaker-load specifications.'):pairing?pairing.plainWhy:
     reuse?'We started with equipment you already own. If it meets your needs, there is no reason to replace it just to complete a shopping list.':
     item?.ownedAmpName?'This option lets you keep your '+item.ownedAmpName+
       ' and look at speakers without buying another amplifier. We still need to check the exact match.':
