@@ -115,3 +115,14 @@ test('Reference Library directly exposes MP3 versus FLAC and ABX labs without re
     assert.ok(existsSync(path.join(root, route.slice(1), 'index.html')), route + ' must resolve');
   }
 });
+
+test('homepage restores the original curiosity-led introduction without another section',()=>{
+  const copy="Ever wonder why one recording moves you, why two speakers sound different, or whether expensive equipment is worth it? Follow music from the moment it's made to the moment you hear it, and understand what shapes the sound along the way.";
+  assert.ok(home.includes(copy));
+  assert.equal((home.match(/class="lead home-homepage-question"/g)||[]).length,1);
+  assert.ok(home.indexOf('home-homepage-question')>home.indexOf('home-brand-signature'));
+  assert.ok(home.indexOf('home-homepage-question')<home.indexOf('home-fast-paths'));
+  assert.match(styles,/\.home-simple \.home-goal-intro \.home-homepage-question\s*\{/);
+  assert.match(styles,/font-size:clamp\(\.93rem,1\.18vw,1\.06rem\)/);
+  assert.match(styles,/@media\(max-width:620px\)/);
+});
