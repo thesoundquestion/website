@@ -25,7 +25,16 @@ Let the reader or viewer occasionally discover a musical reference that belongs 
 
 These references exist to make dry audio lessons fun to explore, not to be invisible. The owner wants readers to recognize familiar music while they learn. Work several approachable, unhighlighted references into a normal-length lesson where the subject naturally permits; strong candidates include the introductory hook, a technical analogy that really helps, the listening example and, in selected lessons, an actual lesson title. Use a wide range of accessible musical touchstones, including pop, hip-hop, soul, country and other styles, rather than repeatedly relying on one era or the owner's preferred artists.
 
-A merely music-themed sentence isn't a song Easter egg. Before logging a placement, identify its real song title/artist internally and check that the phrase is distinctive enough to catch without the hidden ledger. It must still read naturally and technically accurately to someone who doesn't recognize it. Vary eras and styles; quality takes priority over numerical quotas. Never reproduce song lyrics or create hidden links that spoil the game.
+### Recognition gate: familiarity is not enough
+
+A song or artist may be famous while the **particular words used** are too ordinary to signal anything musical. Passing this gate requires one of two outcomes:
+
+1. **Immediately identifiable:** the reference uses a highly recognizable song title, distinctive performer/band name or unmistakable original title-based pun. Readers who know mainstream popular music should have a reasonable chance of catching it without a label or a private key.
+2. **Enough original contextual setup:** if a brief fragment is generic (e.g., *the middle* or *can't get enough*), expand the surrounding **original, topic-relevant setup** or combine complementary well-known musical allusions so a reader can recognize the intended connection. Do not simply append copyrighted lyric lines or closely paraphrase a longer lyric to manufacture recognizability.
+
+**Reject** phrases whose only evidence of being a reference is that they also happen to be a song title. A listener should not need the source ledger, a genre footnote or the editor's explanation to know there is a musical allusion. Being technically true is necessary but not sufficient. Prefer one strong, recognizable, naturally written connection over several weak coincidences. Recheck this gate when proposed passages are reviewed, before counting them as active placements.
+
+Never reproduce copyrighted lyrics or create hidden links that spoil the game. Vary genres and eras, but recognizability and technical clarity take priority over quotas.
 
 ## Reference selection: narrative first, recognition second
 
