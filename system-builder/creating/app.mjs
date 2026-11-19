@@ -106,7 +106,7 @@ async function showMode(){
     ' You can leave the owned-equipment section empty. We will still suggest a setup.';
   result.hidden=true;body.replaceChildren();
   try{await loadOnce()}catch{
-    status.textContent='Equipment inventory could not load. We cannot responsibly recommend specific models. Try refreshing the preview.';
+    status.textContent='Equipment inventory could not load. We cannot responsibly recommend specific models. Try reloading this page.';
   }
 }
 for(const choice of Object.values(choices)){
