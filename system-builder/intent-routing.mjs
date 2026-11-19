@@ -64,6 +64,19 @@ export const BUILDER_INTENTS=Object.freeze({
     resultTitle:'Find the correct source connection'
   }
 });
+/**
+ * Form copy and validation share this rule. For a user supplying an owned model,
+ * the dropdown and free-text entry are alternatives: one is needed, not both.
+ * Do not apply HTML 'required' to either individual control.
+ */
+export function builderFieldRequirement(id,fieldName){
+  if(fieldName==='buildIntent')return 'required';
+  const plan=BUILDER_INTENTS[id];
+  if(!plan)return 'optional';
+  if(plan.requiredOwn&&fieldName===plan.requiredOwn)return 'required_either';
+  if(plan.requiredOwn&&fieldName===plan.requiredOwn+'Other')return 'optional_alternative';
+  return 'optional';
+}
 const empty=(x)=>!String(x??'').trim();
 export function builderIntent(id){return BUILDER_INTENTS[id]||null;}
 export function handoffBuilderIntent(handoff){
