@@ -298,11 +298,13 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     if(secondaryA!==secondaryB)return secondaryB-secondaryA;
     const budgetOrder=compareBudgetReferences(pricesByModel.get(a).subtotal,pricesByModel.get(b).subtotal,input);
     if(budgetOrder)return budgetOrder;
-    const coverage=pairingByModel.get(a).tier-pairingByModel.get(b).tier;
-    if(coverage)return coverage;
     const ownerA=ownerEvidenceTier(a,goal);
     const ownerB=ownerEvidenceTier(b,goal);
     if(ownerA!==ownerB)return ownerA-ownerB;
+    // Among options with the same useful goal/price/owner context, prefer a
+    // manufacturer-confirmed nominal-load match over a poorly documented one.
+    const coverage=pairingByModel.get(a).tier-pairingByModel.get(b).tier;
+    if(coverage)return coverage;
     return ids.indexOf(a)-ids.indexOf(b);
   });
   for(const model of ordered) {
