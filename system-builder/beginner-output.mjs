@@ -6,24 +6,24 @@
  */
 const architectures=Object.freeze({
   passive_separates:{
-    path:'A music source feeds an amplifier or receiver, which drives a passive left/right speaker pair.',
-    check:'Before connecting, verify the amplifier maker’s permitted load against the exact speakers, including any documented impedance minimum and phase. Confirm source input, volume control and clean level at your seat.'
+    path:'The music player plugs into an amplifier, which powers the two speakers. These speakers need a separate amplifier because they do not have one built in.',
+    check:'Before connecting, check the amplifier manual to see which speakers it can handle. Check the actual input sockets and whether it can play cleanly at the volume you want.'
   },
   consumer_powered_pair:{
-    path:'A suitable source feeds a powered stereo pair. The speakers contain amplification, so no separate speaker power amplifier is required.',
-    check:'Confirm this listing contains a full left/right pair, a usable source input and volume control. Never connect amplifier speaker terminals to a powered speaker’s line-level input.'
+    path:'Your music player connects straight to the powered speakers. Their amplifier is already built in, so you do not need to buy a separate amplifier to power them.',
+    check:'Check that the price includes both speakers, that they accept your music player's connection and that you can adjust the volume. Never connect the speaker outputs of another amplifier to their ordinary audio input.'
   },
   active_studio:{
-    path:'A suitable stereo line-level signal feeds two individually amplified monitors. Their amplification is inside the cabinets.',
-    check:'Confirm TWO monitors rather than one, two power feeds, compatible line-level inputs and a practical stereo volume control. Do not feed an amplifier speaker output into monitor line inputs.'
+    path:'Your music player connects to two powered studio speakers. Each speaker has its own amplifier; you do not need a separate speaker amplifier.',
+    check:'Make sure you are buying TWO speakers. Some studio monitors are sold one at a time. Check that you have the right audio connections, a way to control volume and power for each speaker. Never connect an external amplifier's speaker output to these speakers' audio inputs.'
   },
   headphone_first:{
-    path:'The music source needs a suitable headphone output and level control, followed by headphones that fit and work for your listening environment.',
-    check:'A DAC line output or matching plug alone does not confirm headphone drive. Verify output capability, headphone connector, fit, leakage and listening level.'
+    path:'Your phone, computer or music player needs a suitable headphone output. Choose headphones that fit comfortably and suit where you listen.',
+    check:'Check that the device has an actual headphone output, not just an audio output meant for an amplifier. Also check the plug, comfort, sound leakage and safe volume.'
   },
   party_pa:{
-    path:'A playback or microphone source feeds the appropriate mixer/control input, then the powered party or PA system.',
-    check:'A single powered cabinet may not provide stereo or adequate venue coverage. Check mains or battery power, safe mounting, weather protection, audience requirements and sustainable clean output.'
+    path:'Your music player or microphone connects to the system's sound controls, which send audio to the powered speakers.',
+    check:'One speaker may not cover the whole space or give you stereo sound. Check power, placement, weather protection and whether it can play clearly at the level you need.'
   }
 });
 const text=x=>typeof x==='string'?x.trim():'';
@@ -44,40 +44,76 @@ export function explainBeginnerOption(item,request={}){
     (pairing&&(pairing.nominal===null||pairing.demandingMinimum)));
   const externalInput=item?.connectionStatus==='adapter_needed';
   const condition=Boolean(item?.sourceCaution||item?.pathwayCaution||item?.levelCaution||item?.placementCaution||item?.sourceBatteryCaution);
-  const status=blocked?'Important match concern':reuse?'Use what you own · still verify':
-    externalInput?'Extra connection needed':
-    pairing?pairing.label:'Candidate system · not fully verified';
-  const reason=first(item?.headphoneRationale,item?.amplifierReason,item?.speakerRationale,
+  const status=blocked?'Check this pairing before connecting':reuse?'Keep your gear if it meets your needs':
+    externalInput?'You may need another connection':
+    pairing?pairing.label:'A possible setup, with details to check';
+  const rawReason=first(item?.headphoneRationale,item?.amplifierReason,item?.speakerRationale,
     item?.ownershipMessage,item?.why,
-    'This option was included for your selected listening priorities and system approach.');
+    'This option was chosen from the available system examples.');
+  const plainGoals={
+    all_rounder:'general music listening',natural:'clear, natural-sounding voices and instruments',
+    imaging:'a clear sense of where instruments sit between the speakers',
+    bass:'fuller bass',dynamic:'clean musical peaks',low_volume:'enjoyable listening at lower volume',
+    party:'playing music over a wider area'
+  };
+  const goal=plainGoals[request?.goal]||'your selected listening needs';
+  const noDirectGoal=item?.editorialGoalFocus===false;
+  const goalExplanation=noDirectGoal
+    ?'This is another system type to compare. We do not have proof that it best fits your main listening goal.'
+    :'We included this option because it is listed as a possible fit for '+goal+'. That is a starting point, not a listening test or a promise of sound quality.';
+  const reason=pairing?
+    'You already have an amplifier. We looked for speakers whose published electrical information gives us a reasonable starting point for checking whether they can work together.':
+    reuse?'We started with equipment you already own. If it meets your needs, there is no reason to replace it just to complete a shopping list.':
+    item?.ownedAmpName?'This option lets you keep your '+item.ownedAmpName+
+      ' and look at speakers without buying another amplifier. We still need to check the exact match.':
+    item?.soundTarget?'This option keeps your existing speakers and looks at the other pieces they may need.':
+    item?.architecture==='consumer_powered_pair'?
+      'These speakers already contain amplification. This is a simpler setup with fewer separate boxes, as long as your player can connect to them.':
+    item?.architecture==='passive_separates'?
+      'This example includes a separate amplifier and passive speakers. That is a complete starting layout for stereo playback, but the exact models still need checking.':
+    item?.architecture==='headphone_first'?
+      'This is a headphone-based listening option. Check comfort, the source connection and volume before buying extra equipment.':
+      'This equipment type could suit what you want to do, but we still need to check the actual devices.';
+  const technicalChecks=unique([
+    item?.ownershipBlocker,item?.loadCaution,item?.sourceCaution,item?.pathwayCaution,
+    ...((Array.isArray(item?.extra)?item.extra:[]))
+  ]);
   const checks=unique([
-    item?.ownershipBlocker||item?.loadCaution,
-    pairing?.demandingMinimum?'The published impedance minimum may be demanding; obtain actual amplifier/manual approval before connecting.':'',
-    item?.sourceCaution,
-    item?.pathwayCaution,
-    externalInput?'Your chosen source connection needs a verified converter, adapter or different input. A cable is not always sufficient.':'',
-    item?.sourceBatteryCaution?'This route needs a suitable battery-powered source/output or a different power plan.':'',
-    item?.levelCaution||item?.placementCaution?'The clean output needed at your listening distance and speaker placement is not established.':'',
-    item?.sceneCaution?'This equipment has not been verified for your chosen venue, coverage or environment.':'',
+    item?.ownershipBlocker?'The equipment you selected may not fit this setup. Check the warning in the detailed notes before connecting anything.':'',
+    pairing?.demandingMinimum?
+      'These speakers may be harder for your amplifier to drive than the main rating suggests. Get the exact model manuals or manufacturer advice before connecting.':'',
+    pairing?.plainNext,
+    item?.loadCaution&&!pairing?
+      'We have not confirmed that this amplifier can safely power these particular speakers. Check their exact model ratings and the amplifier manual first.':'',
+    item?.sourceCaution?
+      'Your music player may not plug straight into this setup. Check the audio output on the player and the input on the amplifier or speakers.':'',
+    externalInput?
+      'A different plug does not always fix a connection problem. You might need a device that converts the signal.':'',
+    item?.pathwayCaution?
+      'Some of your existing equipment may not fit the system type you selected. Check the detailed explanation before buying.':'',
+    item?.sourceBatteryCaution?
+      'Check whether this setup can run on batteries if you need to use it away from a power outlet.':'',
+    item?.levelCaution||item?.placementCaution?
+      'Check that the system can play clearly at your normal listening distance and volume. A watt rating alone cannot tell us that.':'',
+    item?.sceneCaution?
+      'Check whether this equipment fits the room or outdoor space where you will use it.':'',
     architecture.check,
-    item?.bassSetup?'Check subwoofer routing, crossover configuration and total cost.':'',
-    ...((Array.isArray(item?.extra)?item.extra:[]).slice(0,2))
+    item?.bassSetup?'If you add a subwoofer for deeper bass, check its connections and include its cost.':''
   ]);
   const fit=item?.amplifierFit;
   let matchingEvidence='';
   if(pairing){
-    matchingEvidence=pairing.label+'. '+pairing.notes.join(' ')+
-      ' Higher documentation coverage improves this shortlist’s ordering but does NOT certify a safe, audible or perfect match.';
+    matchingEvidence=pairing.plainWhy+' '+pairing.plainMinimum;
   }else if(fit?.amp&&fit?.speaker){
     matchingEvidence=fit.amp.exact&&Number.isFinite(fit.amp.watts)&&Number.isFinite(fit.amp.ohms)
-      ?'A published amplifier rating exists at '+fit.amp.ohms+' Ω ('+fit.amp.watts+' W/channel). That is a relevant electrical data point, not proof the actual speaker impedance curve or listening headroom is acceptable.'
-      :'No published amplifier output rating at this speaker’s nominal load has been established for this comparison. Electrical suitability remains uncertain.';
+      ?'The amplifier is rated at '+fit.amp.watts+' W/channel into '+fit.amp.ohms+' Ω in a published test. In everyday terms, that tells us how much electrical power it supplied under those test conditions. It does not prove how loudly these speakers will play in your room or whether they are a safe load.'
+      :'We have not found an amplifier power rating measured with the same electrical load these speakers are listed for. That does not make the system bad, but we need more information before calling it a good match.';
   }else if(item?.architecture==='passive_separates'){
-    matchingEvidence='This is a plausible passive-speaker/amplifier arrangement, NOT a manufacturer-verified electrical match. Check load compatibility and clean power separately.';
+    matchingEvidence='The amplifier supplies the power the speakers need, so the types of equipment make sense together. But we have not established that these exact models are an electrical match. Check the amplifier manual and speaker load details first.';
   }else if(item?.architecture==='consumer_powered_pair'||item?.architecture==='active_studio'){
-    matchingEvidence='The speaker amplification is internal to this type of system. The source input, voltage/level, controls and actual included cabinets still need confirmation.';
+    matchingEvidence='The speakers have their own amplifier, so there is no separate speaker amplifier to match. We still need to check the music player's connection, volume control and whether the price includes both speakers.';
   }else{
-    matchingEvidence='This equipment type fits the selected use case in principle; the exact model, source path and performance are not certified here.';
+    matchingEvidence='This type of system could work for the activity you chose. We still need to check the actual connections and whether the pieces meet your needs.';
   }
   const parts=Array.isArray(item?.parts)?item.parts.filter(p=>p&&text(p.name)):[];
   const roles=parts.map(p=>(Number.isInteger(p.count)&&p.count>1?p.count+' × ':'')+
@@ -89,7 +125,9 @@ export function explainBeginnerOption(item,request={}){
     item?.connectionStatus==='adapter_needed'?'A suitable converter/adapter and any required power/control hardware must be priced separately.':'',
     text(item?.tradeoff)
   ]);
-  return {status,reason,rolePath:architecture.path,roles,matchingEvidence,checks,
+  const technicalEvidence=pairing?pairing.notes.join(' '):rawReason;
+  return {status,reason,goalExplanation,rolePath:architecture.path,roles,matchingEvidence,checks,
     firstChecks:checks.slice(0,2),remainingChecks:checks.slice(2),costAndTradeoffs:missing,
-    reuse,priority:blocked?'critical':externalInput||condition?'review':'conditional'};
+    technicalEvidence,technicalChecks,reuse,
+    priority:blocked?'critical':externalInput||condition?'review':'conditional'};
 }
