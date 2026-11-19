@@ -43,6 +43,63 @@ function containsPhrase(text, phrase) {
   return (' ' + text + ' ').includes(' ' + normalizeQuestion(phrase) + ' ');
 }
 
+// Keep matching local and deliberately conservative. Unlike generative inference,
+// these comparisons may select ONLY human-reviewed answers already in the bank.
+const ignoreWords = new Set([
+  'a', 'an', 'and', 'are', 'at', 'be', 'by', 'can', 'could', 'do', 'does',
+  'for', 'from', 'have', 'how', 'i', 'in', 'is', 'it', 'me', 'my', 'of',
+  'on', 'or', 'please', 'should', 'tell', 'than', 'that', 'the', 'these',
+  'this', 'to', 'what', 'when', 'where', 'which', 'who', 'why', 'will',
+  'with', 'would', 'you',
+]);
+const equivalentWords = {
+  amplifiers: 'amplifier', speakers: 'speaker', microphones: 'microphone',
+  mixers: 'mixer', interfaces: 'interface', headphones: 'headphone',
+  watts: 'watt', volts: 'volt', decibels: 'decibel', ratings: 'rating',
+  graphs: 'graph', curves: 'curve', examples: 'example',
+  drawing: 'draw', draws: 'draw', pulled: 'draw', pulls: 'draw',
+  extra: 'more', additional: 'more', increased: 'more',
+  differences: 'difference', differs: 'differ', tracks: 'track',
+};
+const premiseWords = new Set(['not', 'never', 'always', 'guarantee', 'only', 'every', 'without', 'cannot']);
+
+function meaningTokens(question) {
+  return new Set(normalizeQuestion(question).split(' ')
+    .filter(word => word && !ignoreWords.has(word))
+    .map(word => equivalentWords[word] ?? word));
+}
+
+function sharedMeaning(left, right) {
+  const a = meaningTokens(left);
+  const b = meaningTokens(right);
+  if (a.size < 2 || b.size < 2) return { score: 0, shared: 0 };
+  // A negated/absolute claim must never silently match a positive question.
+  for (const term of premiseWords) if (a.has(term) !== b.has(term)) return { score: 0, shared: 0 };
+  let shared = 0;
+  for (const word of a) if (b.has(word)) shared++;
+  return { score: (2 * shared) / (a.size + b.size), shared };
+}
+
+function authoredQuestionMatch(lesson, question) {
+  let best = null;
+  let bestScore = 0;
+  let runnerUp = 0;
+  for (const entry of lesson.questions ?? []) {
+    let score = 0;
+    for (const phrase of entry.phrases) {
+      const result = sharedMeaning(question, phrase);
+      if (result.shared >= 2) score = Math.max(score, result.score);
+    }
+    if (score > bestScore) {
+      runnerUp = bestScore;
+      bestScore = score;
+      best = entry;
+    } else if (score > runnerUp) runnerUp = score;
+  }
+  // Prefer an unambiguous decline to a confident-sounding wrong answer.
+  return bestScore >= 0.82 && bestScore - runnerUp >= 0.08 ? best : null;
+}
+
 export function slugFromPath(path) {
   return lessonPath.exec(path)?.[1] ?? null;
 }
@@ -56,7 +113,7 @@ export function lessonLink(slug, section) {
 }
 
 // The browser and server both resolve identifiers against the authored bank.
-export function getContext(bank, { lesson: slug, section, plot: plotId, example: exampleId }) {
+export function getContext(bank, { lesson: slug, section, plot: plotId, example: exampleId, load }) {
   const lesson = own(bank, slug);
   if (!lesson) return null;
   const plot = own(lesson.plots, plotId);
@@ -69,15 +126,18 @@ export function getContext(bank, { lesson: slug, section, plot: plotId, example:
     plot,
     exampleId: example ? exampleId : null,
     example,
+    load: plotId === 'amplifier-headroom' && ['4', '8'].includes(load) ? load : null,
   };
 }
 
 export function readGraphSelection(figure) {
   if (!figure) return { plot: null, example: null };
   const selected = figure.querySelector('button[data-select-case][aria-pressed="true"]');
+  const selectedLoad = figure.querySelector('button[data-select-load][aria-pressed="true"]');
   return {
     plot: figure.dataset.lessonPlot,
     example: selected?.dataset.selectCase ?? null,
+    ...(selectedLoad ? { load: selectedLoad.dataset.selectLoad } : {}),
   };
 }
 
@@ -92,6 +152,7 @@ function graphAnswer(context, compare) {
   if (!context.plot || !context.example) return null;
   const { plot, example, exampleId } = context;
   let text = plot.reading + ' You selected “' + example.label + '.” ' + example.text;
+  if (context.load) text += ' The graph is currently set to the ' + context.load + ' Ω test load; look at that load’s peak and this amplifier’s limit.';
   if (compare) {
     const otherId = plot.referenceCases.find(id => id !== exampleId);
     const other = plot.examples[otherId];
@@ -146,11 +207,48 @@ export function matchQuestion(context, rawQuestion) {
       return preparedAnswer(context, suggestion.id);
     }
   }
-  const definition = /^(?:what is|what are|what does|explain) (.+?)(?: mean| in simple terms)?$/.exec(q);
-  if (definition && [lesson.topic, lesson.terms[0]].some(term => normalizeQuestion(term) === definition[1])) {
+  const definition = /^(?:what is|what are|what does|explain|define) (?:a |an |the )?(.+?)(?: mean| in simple terms)?$/.exec(q);
+  if (definition && [lesson.topic, ...lesson.terms.slice(0, 2)].some(term => normalizeQuestion(term) === definition[1])) {
     return preparedAnswer(context, 'simple');
   }
+  const authored = authoredQuestionMatch(lesson, q);
+  if (authored) return asAnswer(context, authored);
+
+  // A few clear intents can safely reuse reviewed summary answers.
+  const topicTerms = lesson.terms.slice(0, 4).filter(term => containsPhrase(q, term));
+  if (/^(?:whats|what is|what are) the difference between |^compare /.test(q) && topicTerms.length >= 2) {
+    return preparedAnswer(context, 'simple');
+  }
+  if (topicTerms.length && /\b(?:what should i buy|which should i choose|what should i look for|do i need to buy)\b/.test(q)) {
+    return preparedAnswer(context, 'buy');
+  }
   return null;
+}
+
+// Offer existing answers rather than a dead end when typed wording misses.
+// These are suggestions, not auto-answers, and never invoke the AI backend.
+export function relatedPreparedQuestions(context, question, limit = 3) {
+  if (!context || blockedReason(question)) return [];
+  const entries = (context.lesson.questions ?? [])
+    .map(entry => {
+      let score = 0;
+      for (const phrase of entry.phrases) score = Math.max(score, sharedMeaning(question, phrase).score);
+      return { score, label: entry.phrases[0], question: entry.phrases[0] };
+    })
+    .filter(entry => entry.score >= 0.3)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, Math.max(0, limit - 1));
+  const q = normalizeQuestion(question);
+  const generic = /\b(?:buy|choose|shopping|purchase)\b/.test(q) ? 'buy'
+    : /\b(?:hear|sound|music|audible|listening)\b/.test(q) ? 'hear'
+      : /\b(?:rating|spec|specification|watt|volt|ohm|db|hz)\b/.test(q) ? 'spec' : 'simple';
+  const ids = [generic, 'simple', 'spec', 'hear'];
+  for (const id of ids) {
+    if (entries.length >= limit) break;
+    if (entries.some(item => item.id === id)) continue;
+    entries.push({ id, label: SUGGESTIONS.find(item => item.id === id).label });
+  }
+  return entries.slice(0, limit);
 }
 
 export function isInScope(bank, context, rawQuestion, clarification = false) {
