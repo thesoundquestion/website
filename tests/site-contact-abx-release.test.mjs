@@ -5,16 +5,15 @@ const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const home=read('index.html'),connect=read('connect/index.html'),privacy=read('privacy/index.html'),js=read('assets/share-site.js'),abx=read('assets/abx-lab.js'),worker=read('workers/abx/index.mjs');
 
 test('public email invites educational ideas and permission offers with no contact-form dependency',()=>{
- for(const page of [home,connect]){
-  assert.match(page,/contact@thesoundquestion\.com/);
-  assert.match(page,/mailto:contact@thesoundquestion\.com/);
- }
- assert.match(home,/permission/i);
+ assert.match(home,/<a href="\/connect\/">\s*<strong>Contact<\/strong>/);
+ assert.match(connect,/contact@thesoundquestion\.com/);
+ assert.match(connect,/mailto:contact@thesoundquestion\.com/);
+ assert.match(connect,/permission/i);
  assert.match(connect,/materials you own or are authorized to share/);
  assert.match(privacy,/Contact email/);
 });
 test('equipment-loan outreach is discoverable and independent',()=>{
- assert.match(home,/href="\/connect\/#business-inquiries"/);
+ assert.match(home,/<a href="\/connect\/">\s*<strong>Contact<\/strong>/);
  assert.match(connect,/id="business-inquiries"/);
  assert.match(connect,/mailto:contact@thesoundquestion\.com\?subject=The%20Sound%20Question%20-%20Equipment/);
  assert.match(connect,/temporary loan/);
@@ -43,10 +42,8 @@ test('homepage has real sharing actions and no third-party social media scripts'
  assert.match(home,/id="nativeShare"/);
  assert.match(home,/id="copySiteLink"/);
  assert.match(home,/\/assets\/share-site\.js/);
- assert.match(home,/facebook\.com\/sharer/);
- assert.match(home,/reddit\.com\/submit/);
- assert.match(home,/whatsapp\.com\/send/);
- assert.match(home,/mailto:\?subject=/);
+ assert.doesNotMatch(home,/facebook\.com\/sharer|reddit\.com\/submit|whatsapp\.com\/send|mailto:\?subject=/);
+ assert.match(home,/class="home-share-strip"/);
  assert.match(js,/navigator\.share/);
  assert.match(js,/navigator\.clipboard\.writeText/);
  assert.doesNotMatch(js,/fetch\(/);
