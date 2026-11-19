@@ -19,6 +19,12 @@ Let the reader or viewer occasionally discover a musical reference that belongs 
 - A well-fitting reference from outside the Listening Room is preferable to a forced one from inside it.
 - Refer to artists and titles accurately in the **private editorial ledger**; the public copy does not need to identify the reference.
 
+## Reader-facing discovery standard
+
+These references exist to make dry audio lessons fun to explore, not to be invisible. The owner wants readers to recognize familiar music while they learn. Work several approachable, unhighlighted references into a normal-length lesson where the subject naturally permits; strong candidates include the introductory hook, a technical analogy that really helps, the listening example and, in selected lessons, an actual lesson title. Prioritize Beatles, Queen, Michael Jackson, Fleetwood Mac and other widely recognized music when appropriate, rather than assuming specialist musical knowledge.
+
+A merely music-themed sentence isn't a song Easter egg. Before logging a placement, identify its real song title/artist internally and check that the phrase is distinctive enough to catch without the hidden ledger. It must still read naturally and technically accurately to someone who doesn't recognize it. Vary eras and styles; quality takes priority over numerical quotas. Never reproduce song lyrics or create hidden links that spoil the game.
+
 ## How to write them
 1. Draft the accurate, beginner-friendly explanation or script **without** the Easter egg first.
 2. Find a naturally compatible sentence: e.g. signal path, a gear trade-off, comparing levels, a room problem, setup choices, or a listening impression.
@@ -38,7 +44,7 @@ Let the reader or viewer occasionally discover a musical reference that belongs 
 
 ## Placement tracking without spoiling the Easter eggs
 
-The first draft now proposes **45 unobtrusive references across 37 existing website pages**. They are still review-branch source, not merged or deployed. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
+The consolidated draft now proposes **97 recognizable title/artist reference placements across 39 website source pages**. They are still review-branch source, not merged or deployed. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
 
 ## Editorial release checklist
 - Did the technical meaning survive unchanged?
