@@ -94,7 +94,7 @@ function captureQualifies(record,{count,independent,live,phantom}){
 }
 function captureRank(record,{mode,count,independent}){
   let score=has(record,mode==='live'?'mixer_recorder':'audio_interface')?20:9;
-  if(independent&&count>1&&fact(record,'usbRecordingMode')==='multitrack')score+=15;
+  if(independent&&count>1&&['multitrack','independent_mono_channels'].includes(fact(record,'usbRecordingMode')))score+=15;
   if(!independent&&count>1&&fact(record,'usbRecordingMode')==='stereo_mix_only')score+=6;
   if(mode==='stream'&&fact(record,'loopback')===true)score+=9;
   if(mode==='podcast'&&count>1&&fact(record,'usbRecordingMode')==='multitrack')score+=5;
