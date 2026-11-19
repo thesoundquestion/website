@@ -346,7 +346,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     }
     if(selected.length>=5)continue; // Continue checking exclusions even once the visible shortlist is full.
     const prices=pricesByModel.get(model);
-    const caution=loadUnknown ?
+    const caution=screen.userSupplied ?
+      'Your amplifier’s minimum-load and power numbers were copied into the form. They have not been independently verified. Check the exact manufacturer manual before connecting any new speakers.' :
+      loadUnknown ?
       'This speaker’s nominal load is not verified. Your amplifier has '+
       (screen.minPublishedTestOhms??'no verified')+
       ' Ω published continuous-load test data, which does not establish compatibility. Do NOT connect to '+
