@@ -163,6 +163,7 @@ export function buildPath(goalId,answers={}){
      ],
      skip:['A separate DAC may be unnecessary if your source already has a suitable analogue output or your receiving device has the compatible DAC/input.','An adapter cable alone cannot turn a digital signal into an analogue signal.'],
      verify:['Exact output and input connectors, signal direction and supported audio formats.','Volume control, output levels and any necessary active conversion.','Model and cable requirements; the guide has not verified your individual devices.'],
+     alternative:'If your existing player has a suitable analogue output, you may be able to connect it directly to an amplifier or powered speakers with a line input. A compatible digital input can offer another route.',
      learn:['sources','digital','soundbasics'],next:'sources'
    });
  }
