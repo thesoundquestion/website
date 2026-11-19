@@ -136,9 +136,9 @@ const PROFILE_CATEGORIES=new Set(['audio_interface','mixer_recorder','microphone
   'headphone_amplifier','computer_sound_card']);
 function connectorLabel(value) {
   return String(value).replace(/_/g,' ')
-    .replace(/\b6 35mm\b/gi,'6.35 mm')
-    .replace(/\b3 5mm\b/gi,'3.5 mm')
-    .replace(/\b4 4mm\b/gi,'4.4 mm')
+    .replace(/\b6(?:\s+|\.)35\s*mm\b/gi,'6.35 mm')
+    .replace(/\b3(?:\s+|\.)5\s*mm\b/gi,'3.5 mm')
+    .replace(/\b4(?:\s+|\.)4\s*mm\b/gi,'4.4 mm')
     .replace(/\b48v\b/gi,'48 V')
     .replace(/\bxlr\b/gi,'XLR').replace(/\btrs\b/gi,'TRS')
     .replace(/\brca\b/gi,'RCA').replace(/\busb\b/gi,'USB')
