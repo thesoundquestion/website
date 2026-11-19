@@ -305,7 +305,25 @@
           }
         }
       }
-    }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does more bass mean deeper bass",
+          "why does a speaker sound boomy without deep bass"
+        ],
+        "text": "Not necessarily. A bump higher up can make some bass notes thump while the lowest notes fade. Bass extension means how far down the speaker continues to play; the room can also exaggerate certain bass notes.",
+        "section": "understand"
+      },
+      {
+        "phrases": [
+          "what does minus 6 db at 45 hz mean",
+          "is 45 hz at minus 3 db the same as minus 6 db"
+        ],
+        "text": "In this fictional example, output at 45 Hz is 6 dB below the reference. A −3 dB point and a −6 dB point describe different amounts of roll-off. Compare ratings at the same tolerance.",
+        "section": "decode-the-spec"
+      }
+    ]
   },
   "speaker-sensitivity": {
     "title": "Speaker sensitivity",
@@ -381,7 +399,25 @@
           }
         }
       }
-    }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does higher speaker sensitivity mean better sound",
+          "are more sensitive speakers always better"
+        ],
+        "text": "Higher sensitivity means more loudness from a specified input under matching test conditions. It does not prove a smoother tonal balance or lower distortion; those are separate measurements.",
+        "section": "listening"
+      },
+      {
+        "phrases": [
+          "is 2.83 volts always one watt",
+          "why does 2.83v equal two watts into four ohms"
+        ],
+        "text": "2.83 V is about 1 W into an 8 Ω resistor and about 2 W into a 4 Ω resistor. Check whether ratings use the same voltage or power and the same measurement distance.",
+        "section": "decode-the-spec"
+      }
+    ]
   },
   "speaker-impedance": {
     "title": "Speaker impedance and matching",
@@ -555,7 +591,25 @@
           }
         }
       }
-    }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "is a beryllium tweeter automatically better",
+          "are expensive tweeter materials always better"
+        ],
+        "text": "No material guarantees better sound from the finished speaker. The drivers, crossover, tuning, resonances and off-axis response work together. An expensive tweeter must earn its value in the complete design.",
+        "section": "buying"
+      },
+      {
+        "phrases": [
+          "what does a speaker crossover do",
+          "why does a speaker need a crossover"
+        ],
+        "text": "A crossover divides the signal among the drivers, often sending lower notes to a woofer and higher notes to a tweeter. How their outputs join helps determine tonal balance and coverage.",
+        "section": "understand"
+      }
+    ]
   },
   "amplifier-power": {
     "title": "Amplifier power",
@@ -866,7 +920,25 @@
           }
         }
       }
-    }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "does class a always sound better than class d",
+          "can class d sound as good as class a"
+        ],
+        "text": "The amplifier class explains how the output stage works, not an automatic sound signature. Well-designed amplifiers of different classes can sound similar at matched levels with suitable speakers. Compare their actual response, noise and distortion.",
+        "section": "listening"
+      },
+      {
+        "phrases": [
+          "why does class a run hot",
+          "why is class a less efficient than class d"
+        ],
+        "text": "Class A keeps its output devices conducting throughout the signal and typically releases more wasted electrical power as heat. Class D uses rapid switching and can be much more efficient.",
+        "section": "preferences"
+      }
+    ]
   },
   "headphone-types": {
     "title": "Headphones and IEM types",
@@ -1509,7 +1581,25 @@
           }
         }
       }
-    }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "what does 110 db snr mean on a dac",
+          "does 110db snr mean no noise"
+        ],
+        "text": "In this fictional example, 110 dB SNR compares measured noise against a 2.0 V RMS full-scale signal. A-weighting filters the noise measurement. It does not guarantee that the whole listening system is silent.",
+        "section": "decode-the-spec"
+      },
+      {
+        "phrases": [
+          "will a higher dac snr improve soundstage",
+          "does a high dac snr always sound better"
+        ],
+        "text": "Not by itself. SNR measures noise relative to a reference, not stereo soundstage. Whether noise becomes audible also depends on system gain, speakers or headphones, background noise and listening level.",
+        "section": "listening"
+      }
+    ]
   },
   "audio-interfaces-mixers": {
     "title": "Audio interfaces, mixers and recording channels",
@@ -1565,7 +1655,25 @@
       "/decoder/recording-sources/#paths",
       "/decoder/mixing-soundstage/#multitrack"
     ],
-    "plots": {}
+    "plots": {},
+    "questions": [
+      {
+        "phrases": [
+          "does a ten channel mixer record ten separate tracks",
+          "can a 10 channel mixer record 10 usb tracks"
+        ],
+        "text": "Not necessarily. Ten physical mixer channels may go to only two combined USB recording channels. Check how many independent tracks the device can send to recording software if you want to edit instruments individually.",
+        "section": "tracks"
+      },
+      {
+        "phrases": [
+          "do i need a mixer to record one microphone",
+          "should i buy a mixer or audio interface for one mic"
+        ],
+        "text": "For one microphone, a suitable audio interface or USB microphone may be enough. A mixer can combine and adjust several sources, but check its separate computer recording channels before buying for multitrack work.",
+        "section": "decision"
+      }
+    ]
   },
   "sample-rate": {
     "title": "Sample rates and audio bandwidth",
@@ -2139,7 +2247,25 @@
           }
         }
       }
-    }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "why does microphone distance change room sound",
+          "is a close mic less roomy"
+        ],
+        "text": "Moving a microphone closer usually increases the direct voice or instrument relative to room reflections. Farther away often captures more room sound. Pickup direction and placement also matter.",
+        "section": "room"
+      },
+      {
+        "phrases": [
+          "does a di record the sound of the room",
+          "is direct input the same as a microphone"
+        ],
+        "text": "A direct input captures the instrument's electrical signal rather than acoustic sound in the room. A microphone captures air movement, including some room reflections. Those paths can give different results.",
+        "section": "paths"
+      }
+    ]
   },
   "microphone-types": {
     "title": "Microphone types and practical uses",
@@ -2338,7 +2464,25 @@
           }
         }
       }
-    }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "can 32 bit float fix a clipped microphone preamp",
+          "does 32 bit float repair analog clipping"
+        ],
+        "text": "No. Floating-point processing can preserve certain over-scale digital values, but cannot restore peaks already flattened in a microphone, preamp or analog input stage. Prevent overload before conversion.",
+        "section": "float"
+      },
+      {
+        "phrases": [
+          "is recording at minus 12 dbfs too quiet",
+          "why not record as close to zero dbfs as possible"
+        ],
+        "text": "In the lesson's example, a peak at −12 dBFS leaves 12 dB of room for louder notes. Useful headroom depends on the performance and analog noise and overload limits. Recording near 0 dBFS is not automatically better.",
+        "section": "gain"
+      }
+    ]
   },
   "mixing-soundstage": {
     "title": "Mixing, soundstage and spatial audio",
@@ -2469,7 +2613,25 @@
           }
         }
       }
-    }
+    },
+    "questions": [
+      {
+        "phrases": [
+          "why does my stereo mix change in mono",
+          "does phase affect mono compatibility"
+        ],
+        "text": "Small timing differences between related signals can reinforce or cancel parts of the spectrum when summed to mono. In this lesson, a 0.25 ms delay creates a first dip near 2 kHz.",
+        "section": "mono"
+      },
+      {
+        "phrases": [
+          "does panning make a mix sound wider",
+          "can panning help separate guitars and vocals"
+        ],
+        "text": "Panning changes where sounds sit left or right and can make instruments easier to locate. Perceived width also depends on the recording, level, tone, playback system and room reflections.",
+        "section": "multitrack"
+      }
+    ]
   },
   "mastering-dynamic-range": {
     "title": "Mastering, remastering and dynamic range",
