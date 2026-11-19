@@ -65,9 +65,12 @@ test('Blind Melon Soak the Sin highlights an open busy mix and encourages full-a
   assert.match(mixing, /id="track-mixing-2"/);
   assert.match(mixing, /<p class="curator-artist">Blind Melon<\/p><h3>Soak the Sin<\/h3>/);
   for(const term of ['busy rock song','remarkably open','drum tone','high-end detail',
-    'No Rain','Full-album recommendation','Don&#39;t stop at the single']){
+    'No Rain','one of my first favourite albums','almost every other track on this album outdoes it',
+    'Full-album recommendation','listen from beginning to end']){
     assert.ok(mixing.includes(term), 'Missing listening cue: '+term);
   }
   assert.match(mixing, /open\.spotify\.com\/album\/7yz9SLBNG9nOTuP1aP638b/);
-  assert.match(mixing, /open\.spotify\.com\/album\/1oFb2lITfburNYlKeyGnMO/);
+  assert.doesNotMatch(mixing, /Soup \(1995\)/, 'The entry should focus on the entire 1992 debut album');
+  assert.match(mixing, /album is the recommendation, not a separate counted selection/);
+  assert.equal([...html.matchAll(/<article class="curator-track"/g)].length, 52);
 });
