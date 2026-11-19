@@ -33,9 +33,9 @@ test('approved Proclaimers listening comparisons survive every pre-release build
 });
 
 test('Listening Room catalog, links and editorial tone remain intact',()=>{
- assert.equal([...html.matchAll(/<article class="curator-track"/g)].length,51);
- assert.match(html,/51 selections cover 53 tracks/);
- assert.match(html,/51 listening selections/);
+ assert.equal([...html.matchAll(/<article class="curator-track"/g)].length,52);
+ assert.match(html,/52 selections cover 54 tracks/);
+ assert.match(html,/52 listening selections/);
  assert.match(html,/open.spotify.com\/playlist\/2oIjBSeLGbg6gqqaeyGrKI/);
  assert.match(html,/sdz.sh\/2r8wVo/);
  assert.match(html,/id="community-listening-room"/);
