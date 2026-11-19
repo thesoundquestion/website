@@ -9,6 +9,7 @@ import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
+import {explainBeginnerOption} from './beginner-output.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
 import {BUILDER_ONLY_AMPS, builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
@@ -468,17 +469,35 @@ document.addEventListener('DOMContentLoaded', () => {
         head.append(badge);
       }
       card.append(head);
+      const overview=explainBeginnerOption(item,request);
+      addText(card,'p',overview.status,'sb-beginner-status sb-beginner-'+overview.priority);
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
       if (item.bassSetup)
         addText(card,'p',item.bassSetup.label,'sb-card-minor');
       else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
         addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
-      const fit = el('p','sb-card-match');
-      addText(fit,'strong',item.headphoneRationale?'Why these headphones: ':item.amplifierReason ? 'Why this amplifier: ' : item.speakerRationale ? 'Why these speakers: ' : item.ownershipMessage ? 'Why keep it: ' : 'Why this one: ');
-      fit.append(document.createTextNode(item.headphoneRationale || item.amplifierReason || item.speakerRationale || item.ownershipMessage || (item.bassSetup && item.why) || recommendationWhy(item,request,
-        Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
-      card.append(fit);
+      const whyBox=el('div','sb-beginner-reason');
+      addText(whyBox,'h5',overview.reuse?'Why keeping this is a valid option':'Why this option was suggested');
+      addText(whyBox,'p',overview.reason,'sb-beginner-plain');
+      card.append(whyBox);
+      const pathBox=el('div','sb-beginner-connection');
+      addText(pathBox,'h5','How these components would work together');
+      addText(pathBox,'p',overview.rolePath,'sb-beginner-plain');
+      if(overview.roles.length)list(pathBox,overview.roles.slice(0,4),'sb-beginner-parts');
+      card.append(pathBox);
+      const proof=el('div','sb-beginner-proof');
+      addText(proof,'h5','What supports this pairing, and what does not');
+      addText(proof,'p',overview.matchingEvidence,'sb-beginner-plain');
+      card.append(proof);
+      const firstChecks=el('div','sb-beginner-checks');
+      addText(firstChecks,'h5',overview.priority==='critical'?'Important: resolve before connecting':'What to check before connecting or buying');
+      list(firstChecks,overview.firstChecks,'sb-beginner-checklist');
+      card.append(firstChecks);
+      if(overview.costAndTradeoffs.length)
+        addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
+      const evidence=el('details','sb-beginner-evidence');
+      addText(evidence,'summary','Published power figures and listening impressions');
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
@@ -500,19 +519,19 @@ document.addEventListener('DOMContentLoaded', () => {
           'Less power on paper is not automatically inadequate at your normal volume.' :
           'No handling-based power target can be justified from the current data.';
         p.append(document.createTextNode(load+compared+'. '+headroom));
-        card.append(p);
+        evidence.append(p);
         const thd=el('p','sb-card-thd');
         addText(thd,'strong','Distortion evidence: ');
         thd.append(document.createTextNode(fitInfo.amp.distortionEvidence==='strong' ||
           fitInfo.amp.distortionEvidence==='documented'
           ? fitInfo.amp.thd+'% THD at rated power across 20 Hz–20 kHz; not an audible-quality score.'
           : 'A comparable full-band low-distortion rating is not documented for this load.'));
-        card.append(thd);
+        evidence.append(thd);
         if (fitInfo.context) {
           const impression=el('p','sb-card-review');
           addText(impression,'strong','Reviewer/lab context: ');
           impression.append(document.createTextNode(fitInfo.context.text));
-          card.append(impression);
+          evidence.append(impression);
         }
       }
       const sound = soundProfileFor(item);
@@ -523,25 +542,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const soundLine = el('p','sb-card-sound');
         addText(soundLine,'strong',sound.ownerSources?.length ? 'Owner experiences: ' : (item.soundTarget ? 'Your speaker’s sound: ' : 'Sound: '));
         soundLine.append(document.createTextNode(sound.text));
-        card.append(soundLine);
+        evidence.append(soundLine);
       }
 
-      // Only material blockers and urgent caveats interrupt the skim view.
-      if (item.loadCaution)
-        addText(card,'p',item.loadCaution,'sb-card-alert');
-      else if (item.connectionStatus === 'adapter_needed')
-        addText(card,'p','Your chosen source connection needs extra hardware.','sb-card-alert');
-      else if (item.sourceBatteryCaution)
-        addText(card,'p','Battery-powered source/output required separately.','sb-card-alert');
-      else if (item.levelCaution || item.placementCaution)
-        addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
-      if (item.sourceCaution)
-        addText(card,'p',item.sourceCaution,'sb-card-alert');
-      if (item.pathwayCaution)
-        addText(card,'p',item.pathwayCaution,'sb-card-alert');
+      if(evidence.childElementCount>1)card.append(evidence);
 
       const details = el('details','sb-card-details');
-      addText(details,'summary','What is included, drawbacks & sources');
+      addText(details,'summary','Full verification, trade-offs, equipment and sources');
       addText(details,'p',item.why,'sb-card-why-full');
       if (item.reuseNames?.length) {
         addText(details,'h5','What stays in your system');
@@ -595,30 +602,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       addText(details,'h5','Trade-offs');
       addText(details,'p',item.tradeoff);
-      const checks = [...item.extra];
-      if (item.bassSetup) {
+      const checks=[...new Set([...overview.checks,...(item.extra||[])])];
+      if(overview.costAndTradeoffs.length){
+        addText(details,'h5','Complete-cost gaps and trade-offs');
+        list(details,overview.costAndTradeoffs);
+      }
+      if(item.bassSetup){
         addText(details,'h5','Connect and set up the subwoofer');
         addText(details,'p',item.bassSetup.setup);
         link(details,item.bassSetup.source,'Manufacturer bass-routing instructions');
       }
-      if (item.connectionStatus === 'adapter_needed')
-        checks.unshift('No native connection for your chosen input: add and price a suitable adapter, receiver or interface.');
-      if (item.sourceCaution)
-        checks.unshift(item.sourceCaution);
-      if (item.sourceBatteryCaution)
-        checks.unshift('Allow for a compatible battery-powered source with a headphone output.');
-      if (item.levelCaution || item.placementCaution)
-        checks.unshift('Verify clean output at your intended distance and level, especially with compact nearfield designs.');
-      if (item.sceneCaution)
-        checks.unshift('Check whether this product is appropriate for the chosen venue and coverage.');
-      if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first' && !item.bassSetup && !noPurchase)
-        checks.push('Confirm the subwoofer connection and any crossover needed before pricing the full setup.');
+      addText(details,'h5','Full before-you-buy checklist');
       list(details,checks);
       card.append(details);
       return card;
     };
 
     if (shortlist.selected.length) {
+      addText(shop,'p','These are starting options, not guaranteed matches. First see why each was suggested, then check the real connections, speaker load, missing parts and total cost. Keeping equipment you already own is a valid outcome.','sb-results-orientation');
       const visible = shortlist.selected.slice(0,3);
       const grid = el('div','sb-recommendations');
       for (const item of visible) grid.append(renderCard(item));
