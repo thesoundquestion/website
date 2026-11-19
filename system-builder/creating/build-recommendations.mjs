@@ -32,11 +32,14 @@ const micRoles={
   drums:['instrument_mic','stage','acoustic_instruments'],
   band:['live_vocals','stage','instrument_mic'],
   podcast:['podcasting','spoken_word','streaming'],
-  stream:['streaming','spoken_word','podcasting'],
+  stream:['streaming','content_creation','spoken_word','podcasting','on_camera','mobile_video','vlogging','wearable'],
   live:['live_vocals','stage','recorded_vocals']
 };
 const routeSupports=(r,route)=>r?.connections?.outputs?.some(p=>
-  route==='usb'?p.type.includes('usb'):p.type==='xlr_3pin'||p.type.includes('xlr_3pin'))||false;
+  route==='usb'?p.type.includes('usb'):
+  route==='camera_trs'?p.type==='3_5mm_trs_mic':
+  route==='phone_trrs'?p.type==='3_5mm_trrs_mic':
+  p.type==='xlr_3pin'||p.type.includes('xlr_3pin'))||false;
 function equipmentItem(record,{prices,region,reason}={}){
   if(!record)return null;
   const tier=regionalPriceLabel(prices,record.id,{region:region||'CA'});
@@ -67,6 +70,10 @@ function microphoneRank(record,mode){
   let score=0;
   for(const [i,role] of (micRoles[mode]||[]).entries())
     if(tags.includes(role))score=Math.max(score,15-i*2);
+  // A creator's requested output and use are more important than a generic
+  // "premium" brand. No price, tonal character or noise rejection score.
+  if(mode==='stream'&&tags.includes('streaming'))score+=6;
+  if(mode==='podcast'&&tags.includes('podcasting'))score+=4;
   return score;
 }
 function captureQualifies(record,{count,independent,live,phantom}){
@@ -95,13 +102,46 @@ function captureRank(record,{mode,count,independent}){
   if(Number.isInteger(extra))score+=Math.max(0,5-Math.abs(extra-count));
   return score;
 }
+const headphoneStyles=new Map([
+ ['Sony MDR-7506','closed'],['Audio-Technica ATH-M50x','closed'],
+ ['Audio-Technica ATH-M40x','closed'],['AKG K371','closed'],
+ ['Shure SRH440A','closed'],['FiiO FT1','closed'],
+ ['beyerdynamic DT 770 PRO (80 Ω)','closed'],['Shure SE215','iem'],
+ ['Moondrop Chu II','iem'],['Sennheiser HD 560S','open'],
+ ['Sennheiser HD 600','open'],['Grado SR80x','open'],
+ ['Grado SR60x','open'],['Grado SR80e','open'],
+ ['Koss KSC75','open'],['Koss Porta Pro (wired)','open']
+]);
+const headphoneStyle=r=>headphoneStyles.get(r.model)||'unknown';
 function headphoneRank(record,mode){
-  const tags=roles(record);
-  let score=tags.includes('studio_tracking')||tags.includes('tracking')?20:0;
-  if(mode==='podcast'&&tags.includes('podcast_monitoring'))score+=6;
-  if(tags.includes('recording_monitoring'))score+=10;
-  if(/MDR-7506|ATH-M40x|ATH-M50x|DT 770 PRO|K371|SRH440A/i.test(record.model))score+=5;
+  const tags=roles(record),style=headphoneStyle(record);
+  let score=style==='closed'?16:style==='iem'?9:0;
+  if(tags.includes('studio_tracking')||tags.includes('tracking'))score+=12;
+  if(mode==='podcast'&&tags.includes('podcast_monitoring'))score+=5;
+  if(tags.includes('recording_monitoring'))score+=7;
+  if(mode==='stream'&&style==='iem')score+=5;
   return score;
+}
+const micStyle=r=>r?.profiles?.find(p=>p.category==='microphone')?.specifications?.capsule||'unknown';
+const maker=r=>r.model.split(/\s+/)[0].toLowerCase();
+function diverse(candidates,selected,key,count){
+  const rest=candidates.filter(r=>r.id!==selected?.id);
+  const chosen=selected?[selected]:[];
+  const result=[];
+  while(rest.length&&result.length<count){
+    let best=-1,bestScore=-Infinity;
+    for(let i=0;i<rest.length;i++){
+      const r=rest[i];
+      const seen=[...chosen,...result];
+      const differentMaker=!seen.some(x=>maker(x)===maker(r));
+      const differentStyle=key==='mic'?!seen.some(x=>micStyle(x)===micStyle(r)):
+        key==='headphones'?!seen.some(x=>headphoneStyle(x)===headphoneStyle(r)):false;
+      const score=(differentMaker?5:0)+(differentStyle?9:0)-i*.02;
+      if(score>bestScore){best=i;bestScore=score}
+    }
+    result.push(rest.splice(best,1)[0]);
+  }
+  return result;
 }
 function stage(key,title,purpose,{pick=null,alternatives=[],quantity=1,need='research',
   checks=[],detail='',included=false}={}){
@@ -115,8 +155,11 @@ function buildStage(catalog,{key,title,purpose,owned,ownedNames,candidates,price
   const pick=chosen?equipmentItem(chosen,{prices,region,reason}):
     custom?{id:null,model:custom,source:null,priceCategory:null,
       reason:'Already owned but not in our verified catalogue; check its manual.'}:null;
-  const optionList=candidates.filter(x=>x.id!==chosen?.id).slice(0,alternatives)
-    .map(x=>equipmentItem(x,{prices,region}));
+  const optionList=diverse(candidates,chosen,key,alternatives)
+    .map(x=>equipmentItem(x,{prices,region,reason:key==='mic'?
+      'Another microphone design or maker for your selected recording route; compare room fit, connection and real cost.':
+      key==='headphones'?'Another listening fit to investigate; isolation, comfort and output needs vary.':
+      'Different model with documented input/output capacity; compare monitoring and host setup.'}));
   return stage(key,title,purpose,{pick,alternatives:optionList,quantity,need,checks,
     detail:need==='research'?'Example to investigate before buying; not a sale or availability claim.':
       need==='reuse'?'Use what you own if its documented connections and capacity suit this plan.':'No verified catalogue candidate meets all requested requirements.'});
@@ -145,10 +188,12 @@ export function buildCreatingSystem(catalog,{
     throw new RangeError('Choose 1 to 32 microphones at once');
   const live=mode==='live';
   const independent=!live&&Boolean(independentTracks)&&count>1;
-  const chosenPath=micConnection==='usb'&&count===1&&!live?'usb':'xlr';
+  const supportedRoutes=['usb','xlr','camera_trs','phone_trrs'];
+  const routeRequested=supportedRoutes.includes(micConnection)?micConnection:'xlr';
+  const chosenPath=routeRequested!=='xlr'&&count===1&&!live?routeRequested:'xlr';
   const messages=[],stages=[],notes=[];
-  if(micConnection==='usb'&&count>1)
-    messages.push('For several microphones at the same time, this example uses XLR microphones and a capture device. Multiple USB microphones do not automatically combine into separate tracks.');
+  if(routeRequested!=='xlr'&&count>1)
+    messages.push('For several microphones at once, this example uses XLR microphones and an appropriate multichannel capture device. Multiple USB, camera or phone microphones cannot be treated as a simple independent multitrack setup.');
   const micCandidates=sorted(category(catalog,'microphone').filter(r=>routeSupports(r,chosenPath)),
     r=>microphoneRank(r,mode),prices,region,pricePreference);
   const ownMic=safeOwned(catalog,owned,'mic');
@@ -166,12 +211,23 @@ export function buildCreatingSystem(catalog,{
   const mic=ownMic||(!owningCustomMic?micCandidates[0]||null:null);
   const requiresPhantom=fact(mic,'requires48v')===true;
   const directUSB=chosenPath==='usb'&&count===1&&routeSupports(mic,chosenPath);
+  const directCamera=chosenPath==='camera_trs'&&routeSupports(mic,chosenPath);
+  const directPhone=chosenPath==='phone_trrs'&&routeSupports(mic,chosenPath);
   const captureRule={count,independent,live,phantom:requiresPhantom};
   if(directUSB){
     stages.push(stage('capture','Computer microphone connection',
       'The chosen USB microphone can connect to the computer without a second external microphone interface.',{
       need:'included',quantity:1,detail:'Use its documented USB output. Confirm drivers, monitoring and how it appears in the recording program.',
       checks:['Do not add a second interface just because studio setups often use one.']}));
+  }else if(directCamera||directPhone){
+    const camera=directCamera;
+    stages.push(stage('capture',camera?'Camera microphone input':'Phone microphone input / adapter',
+      'The microphone is connected to the recording device rather than to a typical XLR audio interface.',{
+      need:'verify',quantity:1,
+      detail:camera?'Check that the exact camera has a 3.5 mm TRS MICROPHONE input supplying the required plug-in power. A headphone socket or ordinary line input is not equivalent.':
+        'Confirm a compatible TRRS headset microphone input, adapter wiring and plug-in power on this exact phone. A headphone-only dongle will not record the lavalier.',
+      checks:[camera?'Camera power and TRS cabling must be verified before connection.':
+        'TRRS pinout and any USB-C/Lightning adapter microphone support must be checked.']}));
   }else{
     const captureCandidates=sorted(catalog.records.filter(r=>captureQualifies(r,captureRule)),
       r=>captureRank(r,{mode,count,independent}),prices,region,pricePreference);
@@ -229,16 +285,19 @@ export function buildCreatingSystem(catalog,{
       'Connect and safely position the equipment.',
       'Plan one appropriate mic cable per XLR microphone, secure stands, speaker stands, rated power and cable routing. Specific connector types and quantities depend on the exact devices.'));
   }else{
-    const headphoneCandidates=sorted(category(catalog,'headphone'),r=>headphoneRank(r,mode),prices,region,pricePreference);
+    const headphoneCandidates=sorted(category(catalog,'headphone').filter(r=>headphoneStyle(r)==='closed'||headphoneStyle(r)==='iem'),
+      r=>headphoneRank(r,mode),prices,region,pricePreference);
     stages.push(buildStage(catalog,{key:'headphones',title:'Monitoring headphones',
       purpose:'Hear a backing track or the recording without speaker sound leaking into a nearby microphone.',
-      owned,ownedNames,candidates:headphoneCandidates,prices,region,quantity:1,
+      owned,ownedNames,candidates:headphoneCandidates,prices,region,quantity:1,alternatives:3,
       reason:'Catalogued headphone model to investigate for tracking comfort and isolation.',
       checks:['Confirm the headphone plug, output level, volume control and comfortable fit.',
         count>1?'More than one performer may need extra headphone outputs or a distribution amplifier.':'A separate headphone amplifier is not automatically needed.']}));
     stages.push(generic('software',mode==='stream'?'Streaming or video software':'Recording and editing software',
       mode==='stream'?'Combine microphone and computer/video sound for a broadcast or recording.':
         'Record, name, listen to and edit the tracks on a computer.',
+      mode==='stream'&&directCamera?'Use a compatible camera recorder and video editing software. Confirm power and microphone-input setup on the camera itself.':
+      mode==='stream'&&directPhone?'Record using a compatible phone app; confirm the mic input is actually detected. A headphone-only adapter will not work.':
       mode==='stream'?'Example: OBS Studio (free); check the exact operating system, audio devices and guest/game-audio routing.':
         independent||mode==='band'||mode==='drums'||mode==='songwriter'?
           'Choose a multi-track recording program (DAW). Free examples include Waveform Free and Audacity; confirm the exact editing, driver and track-routing features you need.':
@@ -259,7 +318,8 @@ export function buildCreatingSystem(catalog,{
   }
   if(mode==='songwriter')notes.push('A guitar plugged straight into an interface uses an instrument input rather than another microphone preamp. If you sing and play simultaneously, check both input roles and recording channels before buying.');
   if(mode==='drums')notes.push('An electronic drum kit may need a stereo line input or MIDI instead of microphone inputs. These example microphones describe an acoustic kit only.');
-  if(mode==='podcast'||mode==='stream')notes.push('Remote guests need a correctly configured return/loopback route so they do not hear their own delayed voice. A product’s microphone input count alone cannot confirm this.');
+  if(mode==='podcast'||mode==='stream')notes.push('Remote guests or desktop sound may need software capture/loopback. A product’s microphone count does not guarantee clean guest/game routing, echo cancellation or a mix-minus return.');
+  if(mode==='stream')notes.push('Streaming and content creation can be a one-mic USB desktop setup, XLR with an interface, a powered 3.5 mm camera microphone, or a compatible phone lavalier. Those are different signal chains.');
   if(independent)notes.push('Separate tracks mean you can change the volume or edit each microphone later. A mixer with many channels may still send only one combined stereo recording to the computer.');
   else if(count>1&&!live)notes.push('You chose a combined recording. Everyone is recorded together, so you usually cannot turn down one microphone afterward without affecting the others.');
   const purchased=stages.filter(x=>x.need==='research');
