@@ -3,6 +3,7 @@ import {priceContextFor} from './market-price-context.mjs';
 import {BUILDER_ONLY_SPEAKERS} from './supplemental-speakers.mjs';
 import {internationalPriceContextFor, corroboratedInternationalPairPriceFor} from './international-price-context.mjs';
 import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
+import {speakerPairingEvidence} from './pairing-evidence.mjs';
 
 const CA_PRICE_DATE='2026-11-12';
 
@@ -214,20 +215,26 @@ export function shortlistPartyPassiveConcepts(input={}) {
  * loudspeaker is safe, or define amplifier impedance permissions. */
 export function ampSpeakerScreening(amp) {
   const ratings = amp?.record?.ratings || [];
+  const provisional=amp?.record?.userEntered===true;
   const continuous = ratings.filter(x=>Array.isArray(x) && x[2]==='continuous' &&
     Number.isFinite(x[1]) && x[1]>=2 && x[1]<=16).map(x=>x[1]);
-  const minPublishedTestOhms = continuous.length ? Math.min(...continuous) : null;
+  const minPublishedTestOhms = !provisional&&continuous.length ? Math.min(...continuous) : null;
   const model=String(amp?.name||amp?.record?.model||'');
-  const explicitNominalFloor = model === 'Yamaha R-S202' ? 8 : model === 'Sony STR-DH190' ? 6 :
+  const explicitNominalFloor = provisional ? null : model === 'Yamaha R-S202' ? 8 : model === 'Sony STR-DH190' ? 6 :
     amp?.record?.details?.minNominalOhms ?? null;
-  const discoveryFloor = explicitNominalFloor || (minPublishedTestOhms !== null ?
+  // Visitor-entered specifications can screen preliminary candidates, but
+  // are not manufacturer-verified load permission or published test evidence.
+  const enteredFloor=provisional?Number(amp.record.userNominalFloor):null;
+  const discoveryFloor = provisional&&Number.isFinite(enteredFloor) ? enteredFloor :
+    explicitNominalFloor || (minPublishedTestOhms !== null ?
     Math.min(8,Math.max(4,minPublishedTestOhms)) : 8);
   const exactManufacturerRule = model === 'Yamaha R-S202' ?
     'Yamaha specifies 8 Ω or higher for a single speaker pair A or B (and 16 Ω or higher for A+B where applicable). A nominal label alone does not establish actual impedance minimum or thermal safety.' :
     model === 'Sony STR-DH190' ? 'Sony lists 6–16 Ω speakers; verify the exact regional revision and operating conditions.' :
     explicitNominalFloor ? 'The manual specifies a '+explicitNominalFloor+' Ω minimum nominal speaker load. Follow the speaker impedance setting in the manual.' : '';
   return {ampName:model||'Unlisted amplifier',discoveryFloor,minPublishedTestOhms,
-    explicitNominalFloor,exactManufacturerRule,known:!!amp?.record};
+    explicitNominalFloor,exactManufacturerRule,known:!!amp?.record&&!provisional,
+    userSupplied:provisional};
 }
 
 export function shortlistSpeakersForOwnedAmplifier(input={}) {
@@ -267,9 +274,14 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       components:[{label:model+' pair',amount:regular.amount,url:regular.url}]} : null;
     return [model,{...retailPriceReference(snapshot,input.referenceDate),marketContext:links.length?{regular:links}:null}];
   }));
-  // Listener priorities and room come first. Among similarly suitable options,
-  // several relevant first-person owner accounts are more useful than an
-  // unverified claimed sound signature. No invented acoustic match score.
+  // Keep practical needs and genuine budget limits ahead of a document
+  // count. Among similarly suitable candidates, models with manufacturer
+  // speaker-load guidance and source-linked impedance data come first,
+  // before informal owner impressions. Missing data remains a conditional
+  // candidate, not an invented mismatch.
+  const pairingByModel=new Map(ids.map(model=>[
+    model,speakerPairingEvidence(ownedAmp,screen,byModel.get(model))
+  ]));
   const ordered=[...ids].sort((a,b)=>{
     const x=ideas.get(a);
     const y=ideas.get(b);
@@ -295,6 +307,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     const ownerA=ownerEvidenceTier(a,goal);
     const ownerB=ownerEvidenceTier(b,goal);
     if(ownerA!==ownerB)return ownerA-ownerB;
+    // Manufacturer load restrictions already screen known conflicts. For
+    // eligible speakers, preserve the previously tested listener/room/budget
+    // order; publication of extra measurements is not superior sound quality.
     return ids.indexOf(a)-ids.indexOf(b);
   });
   for(const model of ordered) {
@@ -331,7 +346,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     }
     if(selected.length>=5)continue; // Continue checking exclusions even once the visible shortlist is full.
     const prices=pricesByModel.get(model);
-    const caution=loadUnknown ?
+    const caution=screen.userSupplied ?
+      'Your amplifier’s minimum-load and power numbers were copied into the form. They have not been independently verified. Check the exact manufacturer manual before connecting any new speakers.' :
+      loadUnknown ?
       'This speaker’s nominal load is not verified. Your amplifier has '+
       (screen.minPublishedTestOhms??'no verified')+
       ' Ω published continuous-load test data, which does not establish compatibility. Do NOT connect to '+
@@ -365,15 +382,18 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       extra:[caution,'Check the exact speaker revision, nominal and minimum impedance, phase angle, and your amplifier manual before connecting.',
         'Speaker cable, source connectivity and any necessary stands are extra. No new amplifier has been included in the price.',
         'Use System Check to evaluate clean level at your actual listening position; manufacturer sensitivity figures may use different conventions.'],
-      loadCaution:loadUnknown ?
+      loadCaution:screen.userSupplied ?
+        'Amplifier figures were entered by the visitor and have not been checked against the manufacturer manual. Check the actual supported load before connecting.' :
+        loadUnknown ?
         'Load unknown: do not connect these speakers to '+screen.ampName+' until the manufacturer’s requirements are checked.' :
         screen.explicitNominalFloor?'Confirm load: '+screen.ampName+' requires suitable speakers; '+nominal+' Ω nominal alone does not prove a safe match.':null,
+      pairingEvidence:pairingByModel.get(model),
       ownerEvidenceLabel:ownerEvidenceFor(model)?.label || 'Model specifications; listening reports not verified',
       ownerEvidenceBasis:ownerEvidenceFor(model)?.band || 'spec_led',
       ownedAmpName:screen.ampName,
       speakerValues:record.values,
       decisionReasons:[
-        ...(idea.goals.includes(goal)?['The primary listening goal is an editorial fit tag, not a measured acoustic score.']:[]),
+        'Pairing evidence: '+pairingByModel.get(model).label+'. A published speaker nominal load or amplifier resistive power rating does not certify real-world compatibility.',        ...(idea.goals.includes(goal)?['The primary listening goal is an editorial fit tag, not a measured acoustic score.']:[]),
         ...(second.filter(g=>idea.goals.includes(g)).length?[
           'Also considered: '+second.filter(g=>idea.goals.includes(g)).join(', ')+'.']:[]),
         ...(scene==='party'?['Party context favors efficient speakers, but clean continuous output and coverage remain unknown.']:[]),

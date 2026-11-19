@@ -161,3 +161,117 @@
 .sb-catalog-studio-card li{line-height:1.52;margin:.24rem 0;overflow-wrap:anywhere}
 .sb-catalog-studio-card p{line-height:1.6}
 @media(max-width:730px){.sb-catalog-studio-grid{grid-template-columns:1fr}}
+
+
+/* Listening-level orientation: relatable examples first; precise measurement limits available on demand. */
+.sb-listening-reference{grid-column:1/-1;border:1px solid #3b6178;border-radius:12px;background:#10263a;padding:clamp(.85rem,2vw,1.25rem);min-width:0}
+.sb-listening-reference h3{font-size:1rem;margin:0;color:#e5f6ff}
+.sb-listening-reference>.sb-help{margin:.4rem 0 .7rem}
+.sb-listening-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;list-style:none;padding:0;margin:0}
+.sb-listening-examples li{min-width:0;padding:.65rem .75rem;background:#0b1b2b;border:1px solid #30536b;border-radius:9px;font-size:.82rem;line-height:1.52;color:#c8dfec}
+.sb-listening-examples strong{color:#f1faff}
+.sb-listening-measure{margin-top:.8rem;padding:.75rem .85rem;background:#0b1b2b;border:1px solid #30536b;border-radius:9px}
+.sb-listening-measure>summary{cursor:pointer;font-weight:700;color:#a5dfff;font-size:.89rem}
+.sb-listening-measure>summary:focus-visible{outline:2px solid #85dfff;outline-offset:3px}
+.sb-listening-measure[open]>summary{margin-bottom:.65rem}
+.sb-listening-measure :is(li,p){font-size:.82rem;line-height:1.55;color:#cbdfe9}
+.sb-listening-measure li{margin:.45rem 0}
+.sb-listening-reference a{color:#9cddff;text-underline-offset:.15em}
+.sb-reference-sources{font-size:.75rem;color:#99b9ce;line-height:1.5;margin:.7rem 0 0}
+@media(max-width:650px){.sb-listening-examples{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Explanation-first Builder results. Preserve technical source detail on demand. */
+.sb-recommendations{grid-template-columns:minmax(0,1fr);gap:.8rem}
+.sb-recommend-compact{padding:clamp(1rem,2.5vw,1.4rem)}
+.sb-results-orientation{border-left:3px solid #7acde8;padding:.55rem .75rem;background:#132d41;border-radius:4px;color:#d2e9f7;font-size:.89rem;line-height:1.55}
+.sb-beginner-status{margin:.45rem 0 .6rem;padding:.3rem .65rem;border:1px solid #607f91;border-radius:7px;font-size:.78rem;line-height:1.4;font-weight:750;color:#e6f3fa;width:fit-content;max-width:100%}
+.sb-beginner-critical{border-color:#d69d72;color:#ffe0ba;background:#342a25}
+.sb-beginner-review{border-color:#bca575;color:#f0dfb3;background:#282c2e}
+.sb-beginner-conditional{background:#102c3d}
+.sb-beginner-reason,.sb-beginner-connection,.sb-beginner-proof,.sb-beginner-checks{margin:.65rem 0;padding:.65rem .8rem;background:#0b2031;border:1px solid #35536a;border-radius:9px;min-width:0}
+.sb-recommend-compact :is(.sb-beginner-reason,.sb-beginner-connection,.sb-beginner-proof,.sb-beginner-checks) h5{font-size:.96rem;color:#e8f6ff;margin:0 0 .35rem;line-height:1.35}
+.sb-recommend-compact .sb-beginner-plain{font-size:.87rem;line-height:1.58;color:#d5e6f0;margin:.2rem 0}
+.sb-beginner-basis{font-size:.8rem;color:#9fcbe0;line-height:1.5;margin:.5rem 0 0}
+.sb-recommend-compact .sb-beginner-parts,.sb-recommend-compact .sb-beginner-checklist{margin:.4rem 0 0;padding-left:1.2rem}
+.sb-recommend-compact .sb-beginner-parts li,.sb-recommend-compact .sb-beginner-checklist li{font-size:.84rem;line-height:1.5;margin:.3rem 0;overflow-wrap:anywhere}
+.sb-beginner-checks{border-left:3px solid #e1b078;background:#251f1d;border-color:#765a41}
+.sb-beginner-checks h5{color:#ffdfb4!important}
+.sb-beginner-cost{font-size:.83rem;line-height:1.5;color:#c8d6e4;margin:.5rem 0}
+.sb-beginner-evidence{margin:.65rem 0;border-top:1px solid #38556b;border-bottom:1px solid #38556b;padding:.5rem .2rem}
+.sb-beginner-evidence>summary{cursor:pointer;color:#a5dfff;font-size:.84rem;font-weight:700}
+.sb-beginner-evidence>summary:focus-visible{outline:2px solid #85dfff;outline-offset:3px}
+.sb-beginner-evidence[open]>summary{margin-bottom:.6rem}
+.sb-beginner-evidence :is(p,li){font-size:.82rem;line-height:1.5}
+@media(min-width:880px){
+ .sb-recommend-compact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem .85rem}
+ .sb-recommend-compact>.sb-card-head,.sb-recommend-compact>.sb-beginner-status,.sb-recommend-compact>.sb-card-retained,.sb-recommend-compact>.sb-card-minor,.sb-recommend-compact>.sb-beginner-reason,.sb-recommend-compact>.sb-beginner-checks,.sb-recommend-compact>.sb-beginner-cost,.sb-recommend-compact>.sb-beginner-evidence,.sb-recommend-compact>.sb-card-details{grid-column:1/-1}
+ .sb-recommend-compact>.sb-beginner-connection,.sb-recommend-compact>.sb-beginner-proof{height:100%}
+}
+
+
+/* Task-first, progressive form. Advanced fields are available without
+ * demanding that newcomers fill in equipment they do not own. */
+.sb-intent-panel{border-color:#46809e}
+.sb-intent-select{max-width:620px}
+.sb-intent-panel .sb-step{margin-bottom:.85rem}
+.sb-quick-setup{margin-top:1.15rem;align-items:start}
+.sb-quick-setup>.sb-listening-reference{grid-column:1/-1}
+.sb-quick-setup .sb-field{min-width:0}
+.sb-intent-feedback{padding:.8rem 1rem;margin:1rem 0 0;border-left:3px solid #e0a864;border-radius:8px;background:#30271e;color:#ffe4c0;line-height:1.5}
+.sb-source-help{padding:.8rem 1rem;margin-top:.9rem;background:#0b2033;border:1px solid #42617a;border-radius:10px}
+.sb-source-help p{font-size:.9rem;line-height:1.6}
+.sb-source-help .button{display:inline-flex;margin:.25rem .6rem .25rem 0}
+.sb-advanced-form{border:1px solid #3a6078;border-radius:13px;background:#0e2031}
+.sb-advanced-form>summary{padding:1rem 1.2rem;cursor:pointer;font-size:.88rem;font-weight:700;color:#aee4ff;line-height:1.45}
+.sb-advanced-form>summary:focus-visible{outline:3px solid #7adfff;outline-offset:3px}
+.sb-advanced-form[open]>summary{border-bottom:1px solid #3a6078}
+.sb-advanced-panels{display:grid;gap:1rem;padding:.85rem}
+.sb-advanced-form .sb-panel{background:#0e1b2b;border-color:#2b4558}
+.sb-intent-panel .sb-listening-reference{margin:0}
+.sb-form>.sb-actions{margin:.4rem 0 1rem}
+@media(max-width:650px){.sb-quick-setup{grid-template-columns:minmax(0,1fr)}.sb-source-help .button{width:100%;justify-content:center}.sb-advanced-panels{padding:.55rem}}
+
+
+/* Subwoofer hookups: the cable, the main-speaker crossover and extra
+ * hardware are separate decisions, not buried in a spec-sheet appendix. */
+.sb-sub-route-section,.sb-sub-intent-report{margin:.8rem 0;padding:clamp(.8rem,2vw,1.25rem);background:#102639;border:1px solid #3d647b;border-radius:12px;min-width:0}
+.sb-sub-route{margin:.65rem 0;padding:clamp(.75rem,2vw,1.1rem);border:1px solid #45758b;border-radius:10px;background:#0c2132;min-width:0}
+.sb-sub-route h4{font-size:1.05rem;color:#eaf6ff;margin:.15rem 0 .45rem}
+.sb-sub-route h5{font-size:.9rem;margin:.85rem 0 .2rem;color:#b8e5f7}
+.sb-sub-route p{font-size:.88rem;line-height:1.57;overflow-wrap:anywhere}
+.sb-sub-connection-kind{color:#c4edff;font-weight:750;font-size:.92rem}
+.sb-sub-cable,.sb-sub-main-filter{padding:.5rem .65rem;background:#142f43;border-left:3px solid #62b9dc;border-radius:5px}
+.sb-sub-next{color:#d5e6ef}
+.sb-sub-routing-detail{border-top:1px solid #476478;margin:.6rem 0 0;padding-top:.55rem}
+.sb-sub-routing-detail>summary{font-size:.82rem;cursor:pointer;font-weight:700;color:#a5dfff}
+.sb-sub-routing-detail:focus-visible,.sb-sub-routing-detail>summary:focus-visible{outline:2px solid #85dfff;outline-offset:3px}
+.sb-sub-routing-detail ul{padding-left:1.1rem}
+.sb-sub-routing-detail li{font-size:.81rem;line-height:1.5}
+.sb-sub-cost{font-size:.87rem;color:#d8dfe9}
+.sb-sub-intent-report>.sb-sub-connection-kind{margin:.7rem 0}
+.sb-quick-setup [name=subOwned]{width:100%}
+
+
+/* Every visible dropdown and typed field names whether it is needed for the
+ * current task; the pair of model inputs is one OR-choice, not two demands. */
+.sb-field-requirement{display:inline-block;justify-self:start;width:fit-content;max-width:100%;padding:.16rem .45rem;border:1px solid #526b7b;border-radius:5px;font-size:.73rem;line-height:1.4;font-weight:650;letter-spacing:0;color:#bbcfdf;background:#152b3a}
+.sb-field-requirement[data-requirement="required"],.sb-field-requirement[data-requirement="required_either"]{border-color:#87b7c9;color:#def4ff;background:#17364a}
+.sb-field-requirement[data-requirement="optional_alternative"]{color:#bde1ef;border-color:#507589}
+.sb-required-group-help{padding:.6rem .85rem;border-left:3px solid #83cbe6;background:#152f40;border-radius:5px;color:#d3ebf7;font-size:.86rem;line-height:1.55;margin:.65rem 0 0}
+@media(max-width:650px){.sb-field-requirement{font-size:.72rem}.sb-required-group-help{font-size:.83rem}}
+
+
+/* Source-led search for models not yet in the built-in, vetted catalogue. */
+.sb-gear-search{grid-column:1/-1;min-width:0;margin:.2rem 0 .7rem;padding:clamp(.75rem,2vw,1.1rem);border:1px solid #426781;border-radius:12px;background:#0b2134}
+.sb-gear-search .sb-help{margin:.2rem 0 .7rem}
+.sb-gear-search-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:.65rem 0}
+.sb-gear-search-actions a{font-size:.91rem;text-decoration:underline;text-underline-offset:.2em;overflow-wrap:anywhere}
+.sb-gear-matches{display:flex;flex-wrap:wrap;gap:.4rem;min-width:0}
+.sb-gear-matches .sb-help{flex-basis:100%}
+.sb-gear-matches button{text-align:left;max-width:100%}
+.sb-gear-source-detail{margin:.75rem 0;padding:.7rem;border:1px solid #45687b;border-radius:9px;background:#10283a}
+.sb-gear-source-detail summary{font-weight:700;cursor:pointer}
+.sb-gear-source-detail .sb-grid{margin-top:.6rem}
+.sb-gear-message{font-size:.85rem;color:#c5dcec;line-height:1.5;margin:.65rem 0 0}
+@media(max-width:650px){.sb-gear-search-actions{align-items:stretch;flex-direction:column}.sb-gear-search-actions button{width:100%}}

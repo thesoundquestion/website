@@ -1,4 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
+import {guideBuilderContext} from './guide-handoff.mjs';
+import {catalogueGearMatches,googleGearSearchUrl,unlistedSpecAssessment} from './unlisted-gear.mjs';
+import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
 import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
@@ -8,11 +11,13 @@ import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
+import {explainBeginnerOption} from './beginner-output.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
 import {BUILDER_ONLY_AMPS, builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {usedWatchlistFor} from './used-amp-watchlist.mjs';
 import {homeSubwooferRequest, ownedSubwooferPath, POWERED_SUB_PAIRS, poweredSubPairFor, USED_SUB_MODELS} from './stereo-subwoofer-examples.mjs';
+import {subwooferConnections,knownSubExamplePlan} from './subwoofer-connection.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -86,6 +91,7 @@ const money = {CA:'CAD',US:'USD',GB:'GBP',EU:'EUR',AU:'AUD',other:'other'};
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('sb-form');
   if (!form) return;
+  const guideHandoff=guideBuilderContext(window.location.search);
   const inventory = window.systemBuilderInventory || null;
   let sharedCatalog=null;
   let priceSnapshot=null;
@@ -146,6 +152,172 @@ document.addEventListener('DOMContentLoaded', () => {
   extras.forEach(x => x.addEventListener('change', syncGoals));
   syncGoals();
 
+  if(guideHandoff){
+    for(const [key,value] of Object.entries(guideHandoff.prefill)){
+      const field=form.elements.namedItem(key);
+      if(field && [...(field.options||[])].some(x=>x.value===value))field.value=value;
+    }
+    syncGoals();
+    syncHeadphoneInputs();
+    const panel=el('section','sb-preview sb-guide-handoff');
+    panel.setAttribute('aria-label','Your choices from Find My Setup');
+    addText(panel,'h2',guideHandoff.title);
+    addText(panel,'p',guideHandoff.summary);
+    addText(panel,'p','We carried over a few category choices from your guide. Review or change any Builder inputs. No equipment model has been guessed, and a source-to-speaker connection is not certified.');
+    const detail=el('details','sb-more');
+    addText(detail,'summary','What still needs checking');
+    list(detail,guideHandoff.checks);
+    panel.append(detail);
+    form.before(panel);
+  }
+
+  // The task picker is the actual first step. Existing, source-backed
+  // equipment selectors are moved, never cloned, so the original Builder
+  // validation and catalog remain authoritative.
+  const intentSelect=form.elements.namedItem('buildIntent');
+  const quick=document.getElementById('sb-quick-setup');
+  const advanced=document.getElementById('sb-advanced-form');
+  const actionButtons=document.getElementById('sb-actions');
+  const sourceHelp=document.getElementById('sb-source-help');
+  const intentNote=document.getElementById('sb-intent-note');
+  const intentFeedback=document.getElementById('sb-intent-feedback');
+  const requiredGroupHelp=document.getElementById('sb-required-group-help');
+  const moved=new Map();
+  const reference=document.querySelector('.sb-listening-reference');
+  const setFeedback=message=>{
+    intentFeedback.textContent=message;
+    intentFeedback.hidden=!message;
+  };
+  function restoreQuickFields(){
+    for(const [node,marker] of moved){
+      if(marker.parentNode)marker.replaceWith(node);
+    }
+    moved.clear();
+    quick.replaceChildren();
+  }
+  function showQuickNode(node){
+    if(!node||moved.has(node))return;
+    const marker=document.createComment('Original Builder field position');
+    node.replaceWith(marker);
+    moved.set(node,marker);
+    quick.append(node);
+  }
+  function updateFieldRequirements(){
+    const id=intentSelect.value;
+    const route=builderIntent(id);
+    const messages={
+      required:'Required',
+      required_either:'Required: choose here OR type below',
+      optional_alternative:'Search for my gear (if not listed)',
+      required_if_unlisted:'Required for an unlisted model',
+      optional:'Optional'
+    };
+    // The label wraps the actual field, so screen-reader users hear the same
+    // requirement as sighted users. Every dropdown/text/number input gets one.
+    for(const label of form.querySelectorAll('label.sb-field')){
+      const field=label.querySelector('select, input:not([type="checkbox"])');
+      if(!field)continue;
+      let rule=builderFieldRequirement(id,field.name);
+      if(rule==='required_if_unlisted'){
+        const kind=field.name.startsWith('speaker')?'speaker':'amp';
+        const hasCustom=String(form.elements.namedItem(kind+'Other')?.value||'').trim();
+        if(!hasCustom)rule='optional';
+      }
+      let status=label.querySelector('.sb-field-requirement');
+      if(!status){
+        status=el('span','sb-field-requirement');
+        label.insertBefore(status,field);
+      }
+      status.textContent=messages[rule];
+      status.dataset.requirement=rule;
+      // A model may be selected in the dropdown OR typed in a second input.
+      // Never mark either alternative individually required in the browser.
+      field.required=rule==='required';
+      if(rule==='required_either'||rule==='optional_alternative')
+        field.setAttribute('aria-describedby','sb-required-group-help');
+      else if(field.getAttribute('aria-describedby')==='sb-required-group-help')
+        field.removeAttribute('aria-describedby');
+    }
+    requiredGroupHelp.hidden=!route?.requiredOwn;
+    if(route?.requiredOwn){
+      const name=route.requiredOwn==='speaker'?'speakers':'amplifier or receiver';
+      requiredGroupHelp.textContent='Required: identify the '+name+
+        ' you already have. Choose a sourced model from the list, OR search for your unlisted model and add the relevant figures from its manufacturer specifications. A name alone is not enough for matching.';
+    }else requiredGroupHelp.textContent='';
+  }
+  function setBuilderIntent({preserveGuide=false}={}){
+    const id=intentSelect.value;
+    const route=builderIntent(id);
+    restoreQuickFields();
+    setFeedback('');
+    if(advanced)advanced.open=false;
+    if(!route){
+      quick.hidden=true;
+      advanced.hidden=true;
+      sourceHelp.hidden=true;
+      actionButtons.hidden=true;
+      intentNote.textContent='Pick a task first. You never need to enter specifications for equipment you have not bought.';
+      updateFieldRequirements();
+      return;
+    }
+    intentNote.textContent=route.description+' All other information is optional and can be added under More choices.';
+    if(route.architecture)architecture.value=route.architecture;
+    else if(!preserveGuide)architecture.value='open';
+    if(id==='subwoofer'){
+      subMode.value='plan_sub';
+      subOwnedField.value='no';
+    }
+    syncHeadphoneInputs();
+    syncSub();
+    advanced.hidden=Boolean(route.directRoute);
+    sourceHelp.hidden=!route.directRoute;
+    actionButtons.hidden=Boolean(route.directRoute);
+    quick.hidden=Boolean(route.directRoute);
+    if(route.directRoute){
+      updateFieldRequirements();
+      return;
+    }
+    for(const key of route.fields){
+      const control=form.elements.namedItem(key);
+      const node=control?.closest('label');
+      if(node)showQuickNode(node);
+      if(key.endsWith('Other')&&['speaker','amp','source','headphone'].includes(key.slice(0,-5)))
+        showQuickNode(document.getElementById('sb-'+key.slice(0,-5)+'-search'));
+      if(key==='level'&&reference)showQuickNode(reference);
+    }
+    updateFieldRequirements();
+    // No route asks visitors for unowned product specifications. The advanced
+    // section is still available to people who want technical fine-tuning.
+  }
+  intentSelect.addEventListener('change',()=>setBuilderIntent());
+  function renderSubwooferWiring(parent,plan,{heading='How the subwoofer connects',showSources=true}={}){
+    const box=el('div','sb-sub-route');
+    addText(box,'h4',heading);
+    addText(box,'p',plan.title,'sb-sub-connection-kind');
+    addText(box,'p',plan.signal);
+    addText(box,'p','Wiring: '+plan.cable,'sb-sub-cable');
+    addText(box,'h5','Will this take bass away from the main speakers?');
+    addText(box,'p',plan.mainBass,'sb-sub-main-filter');
+    addText(box,'p','Before connecting: '+plan.next,'sb-sub-next');
+    if(plan.warnings.length){
+      const d=el('details','sb-sub-routing-detail');
+      addText(d,'summary','Important connection notes');
+      list(d,plan.warnings);
+      box.append(d);
+    }
+    if(showSources&&plan.sourceLinks.length){
+      const d=el('details','sb-sub-routing-detail');
+      addText(d,'summary','Manufacturer instructions and connection evidence');
+      for(const source of plan.sourceLinks)link(d,source.url,source.title);
+      box.append(d);
+    }
+    parent.append(box);
+    return box;
+  }
+  const preselectedIntent=handoffBuilderIntent(guideHandoff);
+  if(preselectedIntent)intentSelect.value=preselectedIntent;
+  setBuilderIntent({preserveGuide:Boolean(preselectedIntent)});
+
   function syncSub() {
     const sub = subMode.value !== 'no_sub';
     document.getElementById('sb-sub-count').hidden = !sub;
@@ -166,12 +338,71 @@ document.addEventListener('DOMContentLoaded', () => {
   for (const kind of ['speaker','amp','source','headphone']) {
     const preset = form.elements.namedItem(kind);
     const other = form.elements.namedItem(kind+'Other');
-    preset.addEventListener('change', () => { if (preset.value) other.value = ''; });
-    other.addEventListener('input', () => { if (other.value.trim()) preset.value = ''; });
+    preset.addEventListener('change', () => {
+      if (preset.value)other.value = '';
+      refreshGearSearch(kind);
+      updateFieldRequirements();
+    });
+    other.addEventListener('input', () => {
+      if (other.value.trim()) preset.value = '';
+      refreshGearSearch(kind);
+      updateFieldRequirements();
+    });
+  }
+  // Free, client-side catalogue lookup, with an explicit external manual search
+  // only if no exact sourced preset matches. No scraping or fictional autofill.
+  function refreshGearSearch(kind){
+    const typed=String(form.elements.namedItem(kind+'Other')?.value||'').trim();
+    const link=document.querySelector('[data-gear-web="'+kind+'"]');
+    const message=document.querySelector('[data-gear-message="'+kind+'"]');
+    if(link)link.href=googleGearSearchUrl(kind,typed);
+    if(message)message.textContent=typed?
+      'Search our catalogue first. If there is no exact match, open the maker’s manual and copy the required numbers. This does not import web search results automatically.':
+      'Start by typing the manufacturer and exact model above.';
+  }
+  for(const kind of ['speaker','amp','source','headphone']){
+    const panel=document.getElementById('sb-'+kind+'-search');
+    if(!panel)continue;
+    const button=panel.querySelector('[data-gear-search]');
+    const results=panel.querySelector('[data-gear-matches]');
+    const detail=panel.querySelector('[data-gear-details]');
+    button.addEventListener('click',()=>{
+      const query=String(form.elements.namedItem(kind+'Other').value||'').trim();
+      results.replaceChildren();
+      if(query.length<2){
+        addText(results,'p','Type at least two letters of your equipment model to search.','sb-help');
+        return;
+      }
+      const options=[...form.elements.namedItem(kind).options]
+        .filter(x=>x.value).map(x=>({model:x.value}));
+      const matches=catalogueGearMatches(options,query);
+      if(!matches.length){
+        addText(results,'p','No exact model found in the current catalogue. Use the Google manufacturer search link, then enter the specifications from its manual below.','sb-help');
+        detail.open=true;
+        return;
+      }
+      addText(results,'p','Choose the exact model and revision below to use its source-backed catalogue specifications:','sb-help');
+      for(const item of matches){
+        const choose=el('button','button button-secondary',item.model);
+        choose.type='button';
+        choose.addEventListener('click',()=>{
+          form.elements.namedItem(kind).value=item.model;
+          form.elements.namedItem(kind+'Other').value='';
+          results.replaceChildren();
+          detail.open=false;
+          refreshGearSearch(kind);
+          updateFieldRequirements();
+        });
+        results.append(choose);
+      }
+    });
+    refreshGearSearch(kind);
   }
   form.addEventListener('reset', () => queueMicrotask(() => {
     subOwnershipChosen = false;
-    syncGoals(); syncSub(); result.hidden = true;
+    syncGoals(); syncSub(); syncHeadphoneInputs(); result.hidden = true;
+    intentSelect.value='';
+    setBuilderIntent();
   }));
 
   function asLegacyView(entry,kind){
@@ -280,14 +511,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function chosenGear(data, kind) {
     const exact = String(data.get(kind) || '');
-    const custom = String(data.get(kind+'Other') || '').trim();
+    const custom = exact ? '' : String(data.get(kind+'Other') || '').trim();
     const shared=availableShared(kind).find(x=>x.model===exact||x.aliases?.includes(exact));
     const record = (inventory?.[kind] || []).find(x => x.model === exact) ||
       (kind==='speaker' ? builderOnlySpeakerFor(exact) || poweredSubPairFor(exact) :
         kind==='headphone' ? builderOnlyHeadphoneFor(exact) :
         kind==='amp' ? builderOnlyAmpFor(exact) : null) ||
       (shared?asLegacyView(shared,kind):null);
-    return {name: custom || record?.model || '', record: custom ? null : record, unlisted: !!custom};
+    const submitted=custom?unlistedSpecAssessment(kind,data):null;
+    const resolved=custom?submitted?.record:record;
+    return {name: custom || resolved?.model || '', record: resolved||null,
+      unlisted: !!custom,userSupplied:submitted?.state==='provisional',
+      specStatus:submitted?.state||'catalogue',specMessage:submitted?.message||''};
   }
   let reportContainer = null;
   function section(title) {
@@ -299,9 +534,60 @@ document.addEventListener('DOMContentLoaded', () => {
     (reportContainer || body).append(node);
     return node;
   }
+  function dedicatedSubReport(data){
+    const amp=chosenGear(data,'amp');
+    const speakers=chosenGear(data,'speaker');
+    const model=String(data.get('subName')||'').trim();
+    const subOwned=String(data.get('subOwned')||'no');
+    const plan=subwooferConnections({
+      ampName:amp.name,subName:model,
+      ampOutput:String(data.get('subAmpOutput')||'unknown'),
+      subInput:String(data.get('subInput')||'unknown'),
+      highPass:String(data.get('subHighPass')||'unknown'),
+      subOwned
+    });
+    const box=el('section','sb-sub-intent-report');
+    addText(box,'h3','Your subwoofer connection plan');
+    const owned=[amp.name?speakers.name?amp.name+' and '+speakers.name:amp.name:speakers.name];
+    if(owned[0])addText(box,'p','Building around: '+owned[0]+(model?' · Subwoofer: '+model:''));
+    if(!amp.name&&!speakers.name)
+      addText(box,'p','You can explore the wiring without entering a model. We will need your equipment’s exact connections before calling a particular hookup ready.');
+    const kind=plan.direct?'A connection route to check':'Further information or hardware needed';
+    addText(box,'p',kind,'sb-sub-connection-kind');
+    renderSubwooferWiring(box,plan,{heading:'How the system would be wired'});
+    if(!model&&!['speaker_high','both'].includes(plan.input)&&plan.output==='speaker_only'){
+      addText(box,'p','Shopping tip: a powered subwoofer with compatible high-level inputs may be easier to add to an amplifier that only has speaker terminals. Otherwise include the cost of a manufacturer-approved converter.');
+    }
+    if(!model&&!['speaker_only','unknown'].includes(plan.output)){
+      addText(box,'p','Shopping tip: look for a powered subwoofer with a compatible RCA line input and documented controls. The Edifier T5 is one example of an RCA-input subwoofer, not a fit guarantee.');
+      link(box,'https://www.edifier.com/int/ca/p/subwoofers/t5','Edifier T5 input information');
+    }
+    addText(box,'p','A subwoofer purchase may also need a longer signal cable, speaker wire or a converter, a nearby power outlet, room for placement and time to adjust volume and crossover. Those extras are not included in a generic subwoofer price.','sb-sub-cost');
+    addText(box,'p','No amplifier watts or speaker impedance rating is needed to identify the basic subwoofer signal path. This connection plan does not promise how much bass the system will produce.','sb-help');
+    body.append(box);
+    const note=el('details','sb-audit');
+    addText(note,'summary','What is high-pass filtering, and why does it matter?');
+    addText(note,'p','A low-pass filter limits the high frequencies going to the sub. A high-pass filter limits low frequencies going to the main speakers. Some receivers or powered speaker systems do both; a normal RCA sub output alone does not prove the main speakers are filtered.');
+    addText(note,'p','When bass is deliberately reduced in the main speakers, they may have less low-frequency work to do. That benefit depends on the actual crossover and settings. Do not credit it if the wiring is unknown.');
+    body.append(note);
+  }
+
   function report(data) {
     body.replaceChildren();
     reportContainer = null;
+    if(guideHandoff){
+      const bridge=el('section','sb-preview sb-guide-result');
+      addText(bridge,'h3','Your original question: '+guideHandoff.title);
+      addText(bridge,'p','The examples below address speaker, amplifier and listening choices using your reviewed Builder inputs. They do not automatically prove the source chain or guarantee a complete purchase.');
+      list(bridge,guideHandoff.checks);
+      if(guideHandoff.intent==='vinyl')
+        addText(bridge,'p','Important: turntable, cartridge and phono-preamp prices are NOT included in the Builder’s displayed system subtotals. An eligible amplifier/speaker suggestion alone is not a complete vinyl system cost.','sb-brief-note');
+      body.append(bridge);
+    }
+    if(String(data.get('buildIntent'))==='subwoofer'){
+      dedicatedSubReport(data);
+      return;
+    }
     const primary = String(data.get('goal') || 'all_rounder');
     const mainGoal = GOALS[primary] || GOALS.all_rounder;
     const secondary = extras.filter(x => x.checked && x.value !== primary).map(x => GOALS[x.value]).filter(Boolean);
@@ -334,13 +620,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const speakerFocus = !!own.amp.name && !own.speaker.name &&
       (arch === 'open' || arch === 'passive_separates') && powered !== 'battery' &&
       useCase !== 'party' && primary !== 'party';
-    const shop = section(anyOwned ? 'Build around your owned equipment' : (speakerFocus ? 'Speakers for your ' + own.amp.name : 'A few options worth a look'));
+    const intent=builderIntent(String(data.get('buildIntent')||''));
+    const shop = section(intent?.resultTitle||
+      (anyOwned ? 'Build around your owned equipment' :
+        speakerFocus ? 'Speakers for your '+own.amp.name : 'A few options worth a look'));
     if (own.amp.name && !own.speaker.name && !speakerFocus)
       addText(shop,'p',powered === 'battery' ?
         'Your existing '+own.amp.name+' is not verified for battery operation. A separate passive-stereo route keeping it is shown for wall-powered listening.' :
         'Your chosen '+(options[arch]?.title || 'event/listening')+' route may not use '+own.amp.name+' directly. A separate compatible route retaining it is still shown below.','sb-brief-note');
     if (anyOwned)
       addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
+    if(Object.values(own).some(x=>x.userSupplied))
+      addText(shop,'p','Important: these suggestions use numerical figures you copied from a source. We have not independently verified the model revision or figures. Every equipment match is provisional until the manufacturer documentation and actual load are confirmed.','sb-brief-note');
     const preference=validPricePreference(String(data.get('pricePreference')||'any'));
     const budget = budgetText ? Number(budgetText) : null;
     const request = {
@@ -390,6 +681,19 @@ document.addEventListener('DOMContentLoaded', () => {
       list(decision,combinedFactors);
       shop.append(decision);
     }
+    if(bassMode!=='no_sub'&&arch!=='headphone_first'){
+      const genericPlan=subwooferConnections({
+        ampName:own.amp.name,
+        subName:String(data.get('subName')||'').trim(),
+        ampOutput:String(data.get('subAmpOutput')||'unknown'),
+        subInput:String(data.get('subInput')||'unknown'),
+        highPass:String(data.get('subHighPass')||'unknown'),
+        subOwned
+      });
+      const connectionBlock=el('section','sb-sub-route-section');
+      renderSubwooferWiring(connectionBlock,genericPlan,{heading:'Your subwoofer wiring and filtering'});
+      shop.append(connectionBlock);
+    }
     const hasSubExample = shortlist.selected.some(item => item.bassSetup);
     const retainedSubPath = ownedSubwooferPath(own, request);
     if (bassMode === 'plan_sub' && !retainedSubPath && homeSubwooferRequest(request)) {
@@ -438,20 +742,43 @@ document.addEventListener('DOMContentLoaded', () => {
         head.append(badge);
       }
       card.append(head);
+      const overview=explainBeginnerOption(item,request);
+      addText(card,'p',overview.status,'sb-beginner-status sb-beginner-'+overview.priority);
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
-      if (item.bassSetup)
+      if (item.bassSetup){
         addText(card,'p',item.bassSetup.label,'sb-card-minor');
+        const modelPlan=knownSubExamplePlan(item.id);
+        if(modelPlan)renderSubwooferWiring(card,modelPlan,{heading:'What connecting this subwoofer involves'});
+      }
       else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
         addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
-      const fit = el('p','sb-card-match');
-      addText(fit,'strong',item.headphoneRationale?'Why these headphones: ':item.amplifierReason ? 'Why this amplifier: ' : item.speakerRationale ? 'Why these speakers: ' : item.ownershipMessage ? 'Why keep it: ' : 'Why this one: ');
-      fit.append(document.createTextNode(item.headphoneRationale || item.amplifierReason || item.speakerRationale || item.ownershipMessage || (item.bassSetup && item.why) || recommendationWhy(item,request,
-        Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
-      card.append(fit);
-      if (item.ownershipMessage && item.preferenceMatchAvailable)
-        addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
-          Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
+      const whyBox=el('div','sb-beginner-reason');
+      addText(whyBox,'h5',overview.reuse?'Why keeping this is a valid option':'Why this option was suggested');
+      addText(whyBox,'p',overview.reason,'sb-beginner-plain');
+      addText(whyBox,'p',overview.goalExplanation,'sb-beginner-basis');
+      card.append(whyBox);
+      const pathBox=el('div','sb-beginner-connection');
+      addText(pathBox,'h5','How these components would work together');
+      addText(pathBox,'p',overview.rolePath,'sb-beginner-plain');
+      if(overview.roles.length)list(pathBox,overview.roles.slice(0,4),'sb-beginner-parts');
+      card.append(pathBox);
+      const proof=el('div','sb-beginner-proof');
+      addText(proof,'h5','Why these pieces make sense together');
+      addText(proof,'p',overview.matchingEvidence,'sb-beginner-plain');
+      card.append(proof);
+      const firstChecks=el('div','sb-beginner-checks');
+      addText(firstChecks,'h5',overview.priority==='critical'?'Important: resolve before connecting':'What to check before connecting or buying');
+      list(firstChecks,overview.firstChecks,'sb-beginner-checklist');
+      card.append(firstChecks);
+      if(overview.costAndTradeoffs.length)
+        addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
+      const evidence=el('details','sb-beginner-evidence');
+      addText(evidence,'summary','See the technical details and original sources');
+      addText(evidence,'p',overview.technicalEvidence,'sb-beginner-technical');
+      addText(evidence,'p',recommendationWhy(item,request,
+        Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-beginner-technical');
+      // The user-specific rationale is now above the system chain on every card.
       if (item.amplifierFit) {
         const fitInfo=item.amplifierFit;
         const p=el('p','sb-card-power');
@@ -470,19 +797,19 @@ document.addEventListener('DOMContentLoaded', () => {
           'Less power on paper is not automatically inadequate at your normal volume.' :
           'No handling-based power target can be justified from the current data.';
         p.append(document.createTextNode(load+compared+'. '+headroom));
-        card.append(p);
+        evidence.append(p);
         const thd=el('p','sb-card-thd');
         addText(thd,'strong','Distortion evidence: ');
         thd.append(document.createTextNode(fitInfo.amp.distortionEvidence==='strong' ||
           fitInfo.amp.distortionEvidence==='documented'
           ? fitInfo.amp.thd+'% THD at rated power across 20 Hz–20 kHz; not an audible-quality score.'
           : 'A comparable full-band low-distortion rating is not documented for this load.'));
-        card.append(thd);
+        evidence.append(thd);
         if (fitInfo.context) {
           const impression=el('p','sb-card-review');
           addText(impression,'strong','Reviewer/lab context: ');
           impression.append(document.createTextNode(fitInfo.context.text));
-          card.append(impression);
+          evidence.append(impression);
         }
       }
       const sound = soundProfileFor(item);
@@ -493,25 +820,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const soundLine = el('p','sb-card-sound');
         addText(soundLine,'strong',sound.ownerSources?.length ? 'Owner experiences: ' : (item.soundTarget ? 'Your speaker’s sound: ' : 'Sound: '));
         soundLine.append(document.createTextNode(sound.text));
-        card.append(soundLine);
+        evidence.append(soundLine);
       }
 
-      // Only material blockers and urgent caveats interrupt the skim view.
-      if (item.loadCaution)
-        addText(card,'p',item.loadCaution,'sb-card-alert');
-      else if (item.connectionStatus === 'adapter_needed')
-        addText(card,'p','Your chosen source connection needs extra hardware.','sb-card-alert');
-      else if (item.sourceBatteryCaution)
-        addText(card,'p','Battery-powered source/output required separately.','sb-card-alert');
-      else if (item.levelCaution || item.placementCaution)
-        addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
-      if (item.sourceCaution)
-        addText(card,'p',item.sourceCaution,'sb-card-alert');
-      if (item.pathwayCaution)
-        addText(card,'p',item.pathwayCaution,'sb-card-alert');
+      if(evidence.childElementCount>1)card.append(evidence);
 
       const details = el('details','sb-card-details');
-      addText(details,'summary','What is included, drawbacks & sources');
+      addText(details,'summary','Full verification, trade-offs, equipment and sources');
       addText(details,'p',item.why,'sb-card-why-full');
       if (item.reuseNames?.length) {
         addText(details,'h5','What stays in your system');
@@ -565,30 +880,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       addText(details,'h5','Trade-offs');
       addText(details,'p',item.tradeoff);
-      const checks = [...item.extra];
-      if (item.bassSetup) {
+      const checks=[...new Set([...overview.checks,...overview.technicalChecks,...(item.extra||[])])];
+      if(overview.costAndTradeoffs.length){
+        addText(details,'h5','Complete-cost gaps and trade-offs');
+        list(details,overview.costAndTradeoffs);
+      }
+      if(item.bassSetup){
         addText(details,'h5','Connect and set up the subwoofer');
         addText(details,'p',item.bassSetup.setup);
         link(details,item.bassSetup.source,'Manufacturer bass-routing instructions');
       }
-      if (item.connectionStatus === 'adapter_needed')
-        checks.unshift('No native connection for your chosen input: add and price a suitable adapter, receiver or interface.');
-      if (item.sourceCaution)
-        checks.unshift(item.sourceCaution);
-      if (item.sourceBatteryCaution)
-        checks.unshift('Allow for a compatible battery-powered source with a headphone output.');
-      if (item.levelCaution || item.placementCaution)
-        checks.unshift('Verify clean output at your intended distance and level, especially with compact nearfield designs.');
-      if (item.sceneCaution)
-        checks.unshift('Check whether this product is appropriate for the chosen venue and coverage.');
-      if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first' && !item.bassSetup && !noPurchase)
-        checks.push('Confirm the subwoofer connection and any crossover needed before pricing the full setup.');
+      addText(details,'h5','Full before-you-buy checklist');
       list(details,checks);
       card.append(details);
       return card;
     };
 
     if (shortlist.selected.length) {
+      addText(shop,'p','These are starting options, not guaranteed matches. First see why each was suggested, then check the real connections, speaker load, missing parts and total cost. Keeping equipment you already own is a valid outcome.','sb-results-orientation');
       const visible = shortlist.selected.slice(0,3);
       const grid = el('div','sb-recommendations');
       for (const item of visible) grid.append(renderCard(item));
@@ -711,6 +1020,8 @@ document.addEventListener('DOMContentLoaded', () => {
         route.wantsOwnedSub ? 'Keep your subwoofer if it accepts the right connection. The T5 wiring below is an example.' :
         'Confirm whether your sub can be reused. The T5 wiring below is an example.');
       if (route.needsMainSpeakers) addText(panel,'p','Price the passive stereo pair and speaker wire separately.');
+      const retainedSub= subwooferConnections({ampName:route.retained,subName:'Edifier T5',subOwned:route.wantsOwnedSub?'yes':'no'});
+      renderSubwooferWiring(panel,retainedSub,{heading:'Connection details for this example'});
       addText(panel,'p',route.bassSetup.setup);
       link(panel,route.bassSetup.source,'Manufacturer bass-routing instructions');
       if (route.buying) renderPriceReferences(panel,route,'h4');
@@ -779,8 +1090,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!x.name) continue;
         const line = addText(ownedSection,'p',kind[0].toUpperCase() + kind.slice(1) + ': ' + x.name);
         line.style.marginBottom = '.25rem';
-        if (x.unlisted) addText(ownedSection,'p','Unlisted model: specifications and exact revision not verified. Please check its manufacturer documentation.','sb-help');
-        else {
+        if (x.unlisted){
+          addText(ownedSection,'p',x.userSupplied?
+            'User-entered specifications: '+x.specMessage+' These numbers are provisional, not part of the verified catalogue.':
+            'Unlisted model: no usable specifications were supplied. The tool cannot verify compatibility from the model name.','sb-help');
+          if(x.record?.url)link(ownedSection,x.record.url,'Visitor-provided specification or manual');
+        }else {
           addText(ownedSection,'p','Saved preset, not an endorsement. ' + (x.record.note || 'No additional note recorded.'),'sb-help');
           link(ownedSection,x.record.url,'Preset specification source');
           if (x.record.details?.reference && x.record.details.reference !== x.record.url)
@@ -877,7 +1192,16 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', ev => {
     ev.preventDefault();
     if (!form.reportValidity()) return;
-    report(new FormData(form));
+    const raw=new FormData(form);
+    const check=validateBuilderIntent(intentSelect.value,raw);
+    if(!check.ok){
+      setFeedback(check.message);
+      intentFeedback.scrollIntoView({behavior:'auto',block:'nearest'});
+      return;
+    }
+    const selected=scopedBuilderInputs(raw,intentSelect.value,advanced.open);
+    setFeedback('');
+    report(selected);
     result.hidden = false;
     result.focus({preventScroll:true});
     result.scrollIntoView({behavior:'auto',block:'start'});
