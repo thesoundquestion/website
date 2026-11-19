@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#080d15">
+<title>Musical Reading Breaks | Experimental Desktop Review | The Sound Question</title>
+<link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+<link rel="stylesheet" href="/assets/styles.css">
+<style>
+.mu-shell{max-width:1220px;margin:0 auto;padding:clamp(25px,4vw,62px) 24px 90px}
+.mu-top{margin-bottom:30px}.mu-kicker{letter-spacing:.14em;text-transform:uppercase;color:#8fcbe5;font-size:.78rem;font-weight:800;margin:0 0 12px}
+.mu-top h1{font-size:clamp(2rem,4.2vw,3.5rem);line-height:1.1;letter-spacing:-.035em;max-width:900px;margin:0 0 17px}
+.mu-intro{font-size:1.12rem;line-height:1.7;color:#c4d5e2;max-width:870px}
+.mu-toolbar{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 35px}
+.mu-toolbar a,.mu-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border:1px solid #55788e;border-radius:10px;color:#daefff;text-decoration:none;font-weight:700}
+.mu-toolbar a:focus-visible,.mu-link:focus-visible{outline:3px solid #85d6ff;outline-offset:3px}
+.mu-toolbar a:hover,.mu-link:hover{background:#16314a}
+.mu-note{padding:15px 19px;border-left:3px solid #8bc2df;background:#102334;border-radius:0 12px 12px 0;color:#c6d7e5;line-height:1.6;max-width:940px}
+.mu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:34px}
+.mu-card{background:#0f2132;border:1px solid #345064;border-radius:16px;padding:24px;min-width:0;display:flex;flex-direction:column;gap:11px}
+.mu-card h2{font-size:1.3rem;margin:0;line-height:1.3}
+.mu-loc{font-size:.76rem;color:#9bb6c9;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.mu-quote{font-size:1.05rem;line-height:1.78;color:#e8f3fb;margin:4px 0 12px;flex:1}
+.mu-desc{color:#bed0df;font-size:.94rem;line-height:1.6;margin:0}
+.mu-link{align-self:flex-start}
+.mu-footer{margin-top:42px;padding-top:22px;border-top:1px solid #345064;color:#a8c4d6;line-height:1.6}
+@media(max-width:780px){.mu-grid{grid-template-columns:1fr}.mu-shell{padding-left:17px;padding-right:17px}.mu-card{padding:19px}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="site-shell">
+<header class="site-header"><div class="container header-inner"><a class="brand" href="/"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a><nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/tools/">Tools</a><a href="/">Home</a></nav></div></header>
+<main id="main" class="mu-shell">
+<section class="mu-top">
+<p class="mu-kicker">Private source branch · editorial experiment · not a release candidate</p>
+<h1>Musical reading breaks, in context.</h1>
+<p class="mu-intro">Five small experiments, woven into the existing site without changing its charts, calculations, equipment tools or lesson order. Review the passages here, then open each real page to see how the surrounding explanation reads on a laptop.</p>
+<div class="mu-toolbar"><a href="/decoder/">Browse original lesson directory</a><a href="/tools/find-my-setup/">Open goal guide</a></div>
+<p class="mu-note">Review goal: a recognizable, amusing connection between familiar music and a real audio concept. No passage should require knowing the songs. This is a local/browser review route on an unmerged GitHub draft branch.</p>
+</section>
+<section aria-label="Five proposed placements" class="mu-grid">
+<article class="mu-card"><span class="mu-loc">Lesson 03 · After explaining bass roll-off</span><h2>Friends in Low Places / Rolling in the Deep</h2><p class="mu-quote">Your favourite speakers may have friends in low places, but that doesn't mean they're capable of rolling in the deep. You might still hear the kick-drum attack and follow the bass line even as the very lowest notes fade away. The response curve helps show how much output remains farther down.</p><p class="mu-desc">A cohesive bass-extension example placed after the technical explanation, not in place of it.</p><a class="mu-link" href="/decoder/bass-extension/#understand">Read in the bass lesson</a></article>
+<article class="mu-card"><span class="mu-loc">Lesson 08 · Listening implications of distortion</span><h2>Coming Together / Good Vibrations / Crowded House</h2><p class="mu-quote">The volume goes up, the drums hit harder, and suddenly things aren't quite coming together. The guitar is still there, the vocals are still there, but the space between instruments seems to disappear. You wanted good vibrations, not a wall of sound that turns everything into a crowded house. Is the amplifier actually adding distortion, running out of clean headroom, or is something else happening?</p><p class="mu-desc">Describes a plausible listening symptom without treating a subjective impression as proof of a fault.</p><a class="mu-link" href="/decoder/amplifier-distortion/#listening">Read in the distortion lesson</a></article>
+<article class="mu-card"><span class="mu-loc">Lesson 25 · After introducing floating-point recording</span><h2>I Will Always Love You / Take It to the Limit</h2><p class="mu-quote">Think of the leap from the gentle opening to the powerful later passages of I Will Always Love You. If the recording gain was set only for the quiet part, the big notes might take it to the limit before the take is safely captured. A clean signal can be turned up later; peaks already clipped by the mic preamp or converter cannot be restored just by lowering the file.</p><p class="mu-desc">Uses a familiar musical dynamic to explain why headroom must accommodate the loudest moment.</p><a class="mu-link" href="/decoder/recording-resolution/#float">Read in the recording lesson</a></article>
+<article class="mu-card"><span class="mu-loc">Lesson 22 · Speaker jobs and listening distances</span><h2>Rock and Roll All Nite / We Will Rock You</h2><p class="mu-quote">Maybe you want to rock and roll all night in your living room. Maybe you're setting up a venue where the crowd expects to hear We Will Rock You all the way at the back. Those jobs call for different listening distances, audience coverage and clean output, even when the music is the same.</p><p class="mu-desc">A quick comparison of a living-room stereo versus sound reinforcement.</p><a class="mu-link" href="/decoder/speaker-types/#jobs">Read in the speaker-types lesson</a></article>
+<article class="mu-card"><span class="mu-loc">Tools · Before choosing a goal</span><h2>All About That Bass / I Want It That Way / Should I Stay or Should I Go</h2><p class="mu-quote">Maybe you're all about that bass, maybe you want it that way with a simple two-speaker setup, or maybe your current amplifier has you asking: should I stay or should I go? Those are different questions with different answers. Choose the goal you're actually working toward; you don't need the audio jargon to get started.</p><p class="mu-desc">The music references connect three distinct user goals without changing the form or its logic.</p><a class="mu-link" href="/tools/find-my-setup/#goal-start-heading">Read in the goal guide</a></article>
+</section>
+<p class="mu-footer">Desktop review first: these cards use a two-column layout on wider laptop screens and stack on narrow windows. All lesson links open the actual edited page served from this source branch. Nothing here changes the public Cloudflare site.</p>
+</main>
+<footer class="site-footer tsq-footer-compact"><div class="container tsq-footer-inner"><span>© 2026 The Sound Question · Free to explore</span><nav aria-label="Policies"><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></nav></div></footer>
+</div>
+</body>
+</html>
