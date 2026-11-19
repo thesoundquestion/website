@@ -96,6 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const body = document.getElementById('sb-result-body');
   const goal = form.elements.namedItem('goal');
   const architecture = form.elements.namedItem('architecture');
+  const headphonePreferences = document.getElementById('sb-headphone-preferences');
+  const syncHeadphoneInputs=()=>{if(headphonePreferences)headphonePreferences.hidden=architecture.value!=='headphone_first';};
+  architecture.addEventListener('change',syncHeadphoneInputs);
+  syncHeadphoneInputs();
   const subMode = form.elements.namedItem('subMode');
   const subOwnedField = form.elements.namedItem('subOwned');
   const extras = [...form.querySelectorAll('[name="secondary"]')];
@@ -348,14 +352,15 @@ document.addEventListener('DOMContentLoaded', () => {
       subCount:bassCount, subOwned,
       budget:Number.isFinite(budget) ? budget : null,
       pricePreference:preference,
-      budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used')
+      budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used'),
+       headphoneUse:String(data.get('headphoneUse')||'quiet'),headphoneFit:String(data.get('headphoneFit')||'any')
     };
     const partyPassiveRoute=(primary==='party'||useCase==='party') &&
       arch==='passive_separates' && powered!=='battery';
     const ownership = anyOwned ? ownershipPlan({own,request,inventory}) : null;
     const shortlist = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
-      : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request));
+      : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request,sharedCatalog));
     // Price-position preference may reorder only verified, same-region,
     // comparable catalogue examples. It NEVER removes a recommendation.
     // We do not pretend that an unknown price is budget priced.
@@ -365,12 +370,12 @@ document.addEventListener('DOMContentLoaded', () => {
         'headphone-hd560':'legacy/headphone/sennheiser-hd-560s'
       };
       const candidates=shortlist.selected.map(item=>({...item,
-        id:exampleIds[item.id]||null,originalId:item.id}));
+        id:item.catalogId||exampleIds[item.id]||null,originalId:item.id}));
       const ordered=preferVerifiedPriceTier(candidates,priceSnapshot,{region:request.region,preference});
       shortlist.selected=ordered.map(item=>({...item,id:item.originalId}));
     }
     const tierEvidence=pricingPreferenceCoverage(
-      shortlist.selected.map(item=>({id:({
+      shortlist.selected.map(item=>({id:item.catalogId||({
         'headphone-hd600':'legacy/headphone/sennheiser-hd-600',
         'headphone-hd560':'legacy/headphone/sennheiser-hd-560s'
       })[item.id]||null})),
@@ -440,8 +445,8 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
         addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
       const fit = el('p','sb-card-match');
-      addText(fit,'strong',item.amplifierReason ? 'Why this amplifier: ' : item.speakerRationale ? 'Why these speakers: ' : item.ownershipMessage ? 'Why keep it: ' : 'Why this one: ');
-      fit.append(document.createTextNode(item.amplifierReason || item.speakerRationale || item.ownershipMessage || (item.bassSetup && item.why) || recommendationWhy(item,request,
+      addText(fit,'strong',item.headphoneRationale?'Why these headphones: ':item.amplifierReason ? 'Why this amplifier: ' : item.speakerRationale ? 'Why these speakers: ' : item.ownershipMessage ? 'Why keep it: ' : 'Why this one: ');
+      fit.append(document.createTextNode(item.headphoneRationale || item.amplifierReason || item.speakerRationale || item.ownershipMessage || (item.bassSetup && item.why) || recommendationWhy(item,request,
         Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
       card.append(fit);
       if (item.ownershipMessage && item.preferenceMatchAvailable)
