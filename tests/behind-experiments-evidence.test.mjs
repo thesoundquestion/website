@@ -78,3 +78,40 @@ test('Library links lead to each full experiment breakdown as well as each inter
    assert.match(html,new RegExp('id="'+id+'"'));
  }
 });
+
+test('ABX release matrix matches the actual browser and scored allowlist, without draft-only copy',()=>{
+ const table=section('abx');
+ const cases=[
+  ['mix-narrow-reference-v1',"[\'training\']"],
+  ['mix-reference-creative-v1',"[\'training\']"],
+  ['master-dynamic-moderate-v1',"[\'training\']"],
+  ['master-moderate-brick-v1',"[\'training\']"],
+  ['master-eq-v1',"[\'training\',\'challenge\']"],
+  ['formats-light-128-v1',"[\'training\',\'challenge\']"],
+  ['formats-diva-128-v1',"[\'training\',\'challenge\']"],
+  ['formats-light-320-v1',"[\'training\',\'advanced\']"],
+  ['formats-diva-320-v1',"[\'training\',\'advanced\']"]
+ ];
+ for(const [id,modes] of cases)
+   assert.ok(abx.includes("'"+id+"'") && abx.includes("modes:"+modes),
+     'Missing expected ABX browser test/mode: '+id);
+ const validated=worker.slice(worker.indexOf('const VALIDATED=new Map(['),
+   worker.indexOf('const ORIGIN=',worker.indexOf('const VALIDATED=new Map([')));
+ for(const id of ['formats-light-128-v1','formats-diva-128-v1',
+    'formats-light-320-v1','formats-diva-320-v1'])
+   assert.ok(validated.includes("'"+id+"'"),'Expected scored MP3 version '+id);
+ for(const id of ['mix-narrow-reference-v1','mix-reference-creative-v1',
+   'master-dynamic-moderate-v1','master-moderate-brick-v1','master-eq-v1'])
+   assert.ok(!validated.includes("'"+id+"'"),'Nonvalidated scored source: '+id);
+ for(const phrase of [
+  'Mixing and stereo width','Mastering dynamics','Training only',
+  'Mastering EQ','private practice Challenge; server-scored switching not yet validated',
+  'MP3 at 128 kbps','10-trial scored Challenge',
+  'MP3 at 320 kbps','20-trial scored Advanced',
+  'Public versus preview','local and preview sites run private practice'
+ ]){
+  assert.ok(table.includes(phrase),'ABX visitor evidence needs current wording: '+phrase);
+ }
+ assert.doesNotMatch(table,/On this draft preview|after its separate release checks/);
+ assert.match(abx,/PRACTICE_ONLY = location\.origin !== 'https:\/\/thesoundquestion\.com'/);
+});
