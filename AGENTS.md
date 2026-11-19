@@ -8,6 +8,17 @@ For comparative graphs with multiple visible traces, label each SVG trace with `
 
 When a technical passage relies on a concept covered elsewhere in the Decoder, link the relevant phrase to the most specific verified section. Put the link where readers first need the explanation. Use a small worked example or visual when the distinction is easier to see than to read.
 
+## Permanent brand principle — the music is the point (owner-confirmed 2026-11-19)
+
+**Listen to what you enjoy, and enjoy what you listen to.** The Sound Question exists to help people get more enjoyment, understanding and confidence from music they actually love. The site is not a test of whether visitors can appreciate expensive equipment, collect impeccable measurements, or enjoy a critic-approved list of audiophile demonstration recordings.
+
+- Start from songs and listening experiences people already care about. A reference recording is a useful *optional test tool*, not a listening assignment, badge of taste or prerequisite to hearing what matters.
+- Translate specifications into real limitations, compatibility decisions and plausible audible consequences **only where evidence supports the connection**. A specification is not a ranking of musical enjoyment. Never imply that chasing a larger number or more expensive component automatically improves a beloved recording.
+- Explain when measurements matter, when audible differences may be negligible, and when personal preference reasonably wins. Preserve honest engineering and sound-safety advice; "enjoy the music" must never excuse incorrect technical guidance or unsafe levels.
+- Recommend gear or recordings by the listener's own goal and taste rather than by prestige, cost, format, "audiophile-approved" reputation or technical showcase value. The best system for someone is one that works with their needs and helps them want to play their music.
+- Apply this standard to homepage copy, lessons, tools, recommendation result cards, the Listening Room, about pages, long-form videos, Shorts, scripts and social posts. Finish the editorial pass by asking: **Does this help the person enjoy or understand their music, or did we get lost in the numbers?**
+- Musical Easter eggs should reinforce that we're listeners first, not become another hunt for status or distract from the lessons.
+
 ## Permanent beginner-first editorial standard — ALL future lessons and lesson revisions
 
 This is a standing rule for every new or revised educational lesson on The Sound Question, regardless of subject (speakers, recording, streaming, formats, amplifiers, listening, etc.). Apply it to supporting visuals, glossary additions, labs, handbook material and lesson-derived video scripts where relevant. Do **not** limit it to the current microphone/speaker research projects.
