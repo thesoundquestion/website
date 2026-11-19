@@ -1,5 +1,6 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
+import {builderIntent,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
 import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
@@ -168,6 +169,73 @@ document.addEventListener('DOMContentLoaded', () => {
     form.before(panel);
   }
 
+  // The task picker is the actual first step. Existing, source-backed
+  // equipment selectors are moved, never cloned, so the original Builder
+  // validation and catalog remain authoritative.
+  const intentSelect=form.elements.namedItem('buildIntent');
+  const quick=document.getElementById('sb-quick-setup');
+  const advanced=document.getElementById('sb-advanced-form');
+  const actionButtons=document.getElementById('sb-actions');
+  const sourceHelp=document.getElementById('sb-source-help');
+  const intentNote=document.getElementById('sb-intent-note');
+  const intentFeedback=document.getElementById('sb-intent-feedback');
+  const moved=new Map();
+  const reference=document.querySelector('.sb-listening-reference');
+  const setFeedback=message=>{
+    intentFeedback.textContent=message;
+    intentFeedback.hidden=!message;
+  };
+  function restoreQuickFields(){
+    for(const [node,marker] of moved){
+      if(marker.parentNode)marker.replaceWith(node);
+    }
+    moved.clear();
+    quick.replaceChildren();
+  }
+  function showQuickNode(node){
+    if(!node||moved.has(node))return;
+    const marker=document.createComment('Original Builder field position');
+    node.replaceWith(marker);
+    moved.set(node,marker);
+    quick.append(node);
+  }
+  function setBuilderIntent({preserveGuide=false}={}){
+    const id=intentSelect.value;
+    const route=builderIntent(id);
+    restoreQuickFields();
+    setFeedback('');
+    if(advanced)advanced.open=false;
+    if(!route){
+      quick.hidden=true;
+      advanced.hidden=true;
+      sourceHelp.hidden=true;
+      actionButtons.hidden=true;
+      intentNote.textContent='Pick a task first. You never need to enter specifications for equipment you have not bought.';
+      return;
+    }
+    intentNote.textContent=route.description+' All other information is optional and can be added under More choices.';
+    if(route.architecture)architecture.value=route.architecture;
+    else if(!preserveGuide)architecture.value='open';
+    syncHeadphoneInputs();
+    advanced.hidden=Boolean(route.directRoute);
+    sourceHelp.hidden=!route.directRoute;
+    actionButtons.hidden=Boolean(route.directRoute);
+    quick.hidden=Boolean(route.directRoute);
+    if(route.directRoute)return;
+    for(const key of route.fields){
+      const control=form.elements.namedItem(key);
+      const node=control?.closest('label');
+      if(node)showQuickNode(node);
+      if(key==='level'&&reference)showQuickNode(reference);
+    }
+    // No route asks visitors for unowned product specifications. The advanced
+    // section is still available to people who want technical fine-tuning.
+  }
+  intentSelect.addEventListener('change',()=>setBuilderIntent());
+  const preselectedIntent=handoffBuilderIntent(guideHandoff);
+  if(preselectedIntent)intentSelect.value=preselectedIntent;
+  setBuilderIntent({preserveGuide:Boolean(preselectedIntent)});
+
   function syncSub() {
     const sub = subMode.value !== 'no_sub';
     document.getElementById('sb-sub-count').hidden = !sub;
@@ -193,7 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   form.addEventListener('reset', () => queueMicrotask(() => {
     subOwnershipChosen = false;
-    syncGoals(); syncSub(); result.hidden = true;
+    syncGoals(); syncSub(); syncHeadphoneInputs(); result.hidden = true;
+    intentSelect.value='';
+    setBuilderIntent();
   }));
 
   function asLegacyView(entry,kind){
@@ -365,7 +435,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const speakerFocus = !!own.amp.name && !own.speaker.name &&
       (arch === 'open' || arch === 'passive_separates') && powered !== 'battery' &&
       useCase !== 'party' && primary !== 'party';
-    const shop = section(anyOwned ? 'Build around your owned equipment' : (speakerFocus ? 'Speakers for your ' + own.amp.name : 'A few options worth a look'));
+    const intent=builderIntent(String(data.get('buildIntent')||''));
+    const shop = section(intent?.resultTitle||
+      (anyOwned ? 'Build around your owned equipment' :
+        speakerFocus ? 'Speakers for your '+own.amp.name : 'A few options worth a look'));
     if (own.amp.name && !own.speaker.name && !speakerFocus)
       addText(shop,'p',powered === 'battery' ?
         'Your existing '+own.amp.name+' is not verified for battery operation. A separate passive-stereo route keeping it is shown for wall-powered listening.' :
@@ -910,7 +983,16 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', ev => {
     ev.preventDefault();
     if (!form.reportValidity()) return;
-    report(new FormData(form));
+    const raw=new FormData(form);
+    const check=validateBuilderIntent(intentSelect.value,raw);
+    if(!check.ok){
+      setFeedback(check.message);
+      intentFeedback.scrollIntoView({behavior:'auto',block:'nearest'});
+      return;
+    }
+    const selected=scopedBuilderInputs(raw,intentSelect.value,advanced.open);
+    setFeedback('');
+    report(selected);
     result.hidden = false;
     result.focus({preventScroll:true});
     result.scrollIntoView({behavior:'auto',block:'start'});
