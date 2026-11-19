@@ -281,8 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const control=form.elements.namedItem(key);
       const node=control?.closest('label');
       if(node)showQuickNode(node);
-      if(key==='speakerOther'||key==='ampOther')
-        showQuickNode(document.getElementById('sb-'+(key==='speakerOther'?'speaker':'amp')+'-search'));
+      if(key.endsWith('Other')&&['speaker','amp','source','headphone'].includes(key.slice(0,-5)))
+        showQuickNode(document.getElementById('sb-'+key.slice(0,-5)+'-search'));
       if(key==='level'&&reference)showQuickNode(reference);
     }
     updateFieldRequirements();
