@@ -17,6 +17,8 @@ const EDIFIER_R1280='https://usa-oss.edifier.com/Uploads/images/2021/07/15/20210
 const documented=Object.freeze({
   'wiim amp':{output:'sub_rca',highPass:'documented',label:'Original WiiM Amp',url:WIIM_HELP,
     highPassNote:'Enable the subwoofer and its crossover in WiiM Home. Check the Main Speakers Output Bass setting if you want bass reduced in the main speakers.'},
+  'wiim amp (original)':{output:'sub_rca',highPass:'documented',label:'Original WiiM Amp',url:WIIM_HELP,
+    highPassNote:'Enable the subwoofer and its crossover in WiiM Home. Check the Main Speakers Output Bass setting if you want bass reduced in the main speakers.'},
   'denon avr-s650h':{output:'sub_rca',highPass:'documented',label:'Denon AVR-S650H (North America)',url:DENON_S650H,
     highPassNote:'Use the receiver’s Subwoofer Yes, Front Small and crossover settings. Confirm the correct sound mode.'},
   'denon avr-s650h (north america)':{output:'sub_rca',highPass:'documented',label:'Denon AVR-S650H (North America)',url:DENON_S650H,
