@@ -340,17 +340,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const other = form.elements.namedItem(kind+'Other');
     preset.addEventListener('change', () => {
       if (preset.value)other.value = '';
-      if(kind==='speaker'||kind==='amp'){
-        refreshGearSearch(kind);
-        updateFieldRequirements();
-      }
+      refreshGearSearch(kind);
+      updateFieldRequirements();
     });
     other.addEventListener('input', () => {
       if (other.value.trim()) preset.value = '';
-      if(kind==='speaker'||kind==='amp'){
-        refreshGearSearch(kind);
-        updateFieldRequirements();
-      }
+      refreshGearSearch(kind);
+      updateFieldRequirements();
     });
   }
   // Free, client-side catalogue lookup, with an explicit external manual search
@@ -364,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'Search our catalogue first. If there is no exact match, open the maker’s manual and copy the required numbers. This does not import web search results automatically.':
       'Start by typing the manufacturer and exact model above.';
   }
-  for(const kind of ['speaker','amp']){
+  for(const kind of ['speaker','amp','source','headphone']){
     const panel=document.getElementById('sb-'+kind+'-search');
     if(!panel)continue;
     const button=panel.querySelector('[data-gear-search]');
@@ -515,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function chosenGear(data, kind) {
     const exact = String(data.get(kind) || '');
-    const custom = String(data.get(kind+'Other') || '').trim();
+    const custom = exact ? '' : String(data.get(kind+'Other') || '').trim();
     const shared=availableShared(kind).find(x=>x.model===exact||x.aliases?.includes(exact));
     const record = (inventory?.[kind] || []).find(x => x.model === exact) ||
       (kind==='speaker' ? builderOnlySpeakerFor(exact) || poweredSubPairFor(exact) :
