@@ -40,7 +40,7 @@ export const BUILDER_INTENTS=Object.freeze({
   subwoofer:{
     label:'Add a subwoofer to my system',
     description:'Start with the amplifier or speakers you have, then tell us what connections are available. We will show the wiring, any extra hardware and whether the main speakers lose bass.',
-    fields:['amp','ampOther','speaker','speakerOther','subName','subAmpOutput','subInput','subHighPass','region','budget'],
+    fields:['amp','ampOther','speaker','speakerOther','subOwned','subName','subAmpOutput','subInput','subHighPass','region','budget'],
     architecture:null,
     requiredOwn:null,
     resultTitle:'How a subwoofer would connect to your system',
