@@ -84,3 +84,20 @@ test('error page and both unpublished tool previews follow the same legal and pr
   assert.match(s,/class="mobile-nav"/,file);
  }
 });
+
+
+test('homepage visual treatment preserves the approved navigation counts and decorative-only artwork',()=>{
+ const home=read('index.html');
+ const css=read('assets/styles.css');
+ const quick=home.match(/<nav class="home-quick-links"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const goals=home.match(/<div class="home-goal-grid">([\s\S]*?)<\/div>/)?.[1]||'';
+ const more=home.match(/<nav class="home-more-grid"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ assert.equal((quick.match(/<a href=/g)||[]).length,3,'three large entry points');
+ assert.equal((goals.match(/<a class="home-goal-card"/g)||[]).length,6,'six compact goal routes');
+ assert.equal((more.match(/<a href=/g)||[]).length,8,'eight compact secondary destinations');
+ assert.equal((quick.match(/class="home-quick-art" aria-hidden="true"/g)||[]).length,3,'each main card has nonverbal signal art');
+ assert.equal((goals.match(/class="home-goal-icon" aria-hidden="true"><svg/g)||[]).length,6,'each goal icon is decorative');
+ assert.doesNotMatch(home,/<nav class="main-nav"|class="mobile-nav"|class="page-endnav/,'homepage must not regain redundant menus');
+ assert.match(css,/Homepage visual polish: a calm audio-blueprint identity/);
+ assert.match(css,/prefers-reduced-motion:reduce/,'motion preference remains supported');
+});
