@@ -11,7 +11,7 @@ const source=JSON.parse(read('equipment/source-master.json'));
 const prices=JSON.parse(read('equipment/price-tiers.generated.json'));
 const speaker=name=>catalog.records.find(x=>x.model===name&&x.categories.includes('speaker'));
 test('verified Yamaha HS5 HS7 and HS8 are in the ONE generated registry with safe powered roles',()=>{
- assert.equal(catalog.summary.totalModels,192);
+ assert.equal(catalog.summary.totalModels,197);
  for(const name of ['Yamaha HS5','Yamaha HS7','Yamaha HS8']){
   const model=speaker(name);assert.ok(model,name+' missing');
   assert.equal(model.facts.speakerKind.value,'powered_studio_monitor');
