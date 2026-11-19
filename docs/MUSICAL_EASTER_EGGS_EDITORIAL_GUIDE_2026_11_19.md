@@ -42,6 +42,7 @@ A merely music-themed sentence isn't a song Easter egg. Before logging a placeme
 - The **first explanatory paragraph directly below the H1** must bridge the title to the technical subject. A reader unfamiliar with the song should still understand why the heading fits; the paragraph must immediately teach something useful rather than explain the reference or apologize for the pun.
 - Do not name the artist, identify the lyric, label the joke, or force the reference a second time. Avoid gratuitous rhyme and sacrifice neither factual accuracy nor beginner clarity.
 - Audit the H1/lead pairing whenever a musical title changes; ensure mobile layouts and the lesson overview remain coherent.
+- When a selected lesson title adopts a song already used elsewhere, keep the strongest educational placement and remove the weaker duplicate. Treat a title plus its natural opening explanation as one placement, not two. Keep cross-lesson Previous/Next labels technical, and reconcile the private ledger after every batch of title changes.
 
 **Approved examples**: “Chains Keep It Together” opens by walking the signal through source, conversion and amplification; “Over the Ears and Far Away” opens with fit, cup design and leakage; “Born to Be Loud” contrasts concert PA output with nearfield and living-room uses.
 
@@ -54,7 +55,7 @@ A merely music-themed sentence isn't a song Easter egg. Before logging a placeme
 
 ## Placement tracking without spoiling the Easter eggs
 
-The consolidated draft now proposes **104 recognizable title/artist reference placements across 39 website source pages**. They are still review-branch source, not merged or deployed. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
+The November 19 consolidated draft has **102 tracked musical-reference placements across 39 website source pages** after the title-and-body deduplication audit (14 historical placements retired; 12 uniquely attributable title references added). These are review-branch source, not merged or deployed; this is not a live-site count. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
 
 ## Editorial release checklist
 - Did the technical meaning survive unchanged?
