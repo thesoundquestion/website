@@ -231,3 +231,22 @@ speaker/amp engineering and do not claim verified links from absent facts.
 **Phase 4: goal-first entry.** Connect the simpler homepage / “What am I
 looking to do?” guide to relevant lessons, comparisons and specialized
 checkers after those routes and data have passed owner review.
+
+
+## 2026-11-18: Builder diversity and creator equipment expansion (unreleased)
+
+The draft catalogue is now **192 distinct devices**, including **17 microphones** and **12 USB audio interfaces**. The research source has **48 profiles**. Existing 130 System Check presets and all amplifier/speaker calculations are preserved; earlier historical counts above describe the original migration.
+
+New researched input examples span inexpensive XLR moving-coil dynamics (Behringer XM8500), XLR condensers (Behringer C-1, AKG P120), USB/XLR hybrids (FIFINE AM8/K688, MAONO PD200X, Samson Q2U, Audio-Technica ATR2100x-USB), USB content-creation models (Elgato Wave:3 MK.2), a camera microphone (RØDE VideoMicro II) and a mobile TRRS lavalier (RØDE smartLav+). The interface selection now includes one-, two- and four-preamp devices: PreSonus AudioBox GO, Arturia MiniFuse 1, M-Audio M-Track Duo, Behringer UMC22 and UMC404HD, and Elgato Wave XLR MK.2.
+
+**Retail price category is unknown for these additions**, even where a model is advertised as entry-level. We do not promote a model into the Canadian Budget/Mid-priced/Premium groups without sufficient comparable, recent region-specific retailer evidence. If the user prefers budget and a tier is unknown, the recommendation remains a research candidate, not a verified bargain.
+
+The Listening Builder's headphone route now uses the shared registry (when loaded), asks about quiet/shared/monitoring/portable situations and open/closed/in-ear fit, and deliberately displays different physical approaches instead of the previous Sennheiser-only loop. It does not infer frequency-response fidelity, isolation quantity, clean volume or a compatible headphone amplifier from a type label or ohms.
+
+The Creating Builder can plan a single direct USB microphone without adding an unnecessary recording interface, or leave a **verified input-adapter requirement** for a phone TRRS lavalier and camera TRS mic instead of inventing a connection. For two or more simultaneous microphones it requires documented independent mic preamps and recording channels where separately editable tracks were requested. A mixer with a two-channel stereo USB output is not a multi-microphone multitrack interface.
+
+A model's XLR/USB connector does not establish how host software routes gameplay, guests or camera audio, whether loopback/mix-minus works, or whether the microphone produces good sound in a particular room. Unverified connections and local stock remain visible questions, not assumed answers. The initial catalogue-backed suggestions are not a ranked best-buy list.
+
+Regression: `tests/builder-creator-diversity.test.mjs`, `tests/creating-build-recommendations.test.mjs`, `tests/equipment-catalog-master.test.mjs` and the site's original suite. The generated registry and research mirror must remain byte-for-byte synchronized with the master via the existing build/sync checks.
+
+**Release blocked:** This is staged only in `release-candidate/full-site-preview-20261118`, in draft PR #32. No merge, production deployment or paid API integration. Manual mobile/desktop visual review, full price-source review, representative microphone room examples and accessible hardware routing explanations remain acceptance gates.
