@@ -34,7 +34,7 @@
 </header>
 <p class="sb-bridge"><strong>Need to record or perform instead?</strong> Go to the <a href="/system-builder/creating/">Creating Builder</a> for microphones, interfaces, mixers, recording, streaming and PA systems. <a href="/tools/find-my-setup/">Not sure which builder?</a></p>
 <aside class="tsq-recommend-link" aria-label="Recommend missing equipment"><p><strong>Don't see your model?</strong> Help us grow the verified presets for everyone using these tools.</p><a href="/tools/recommend-gear/">Recommend your gear →</a></aside>
-<div class="sb-preview"><strong>No wall of specifications required.</strong> If you already own speakers and want an amp, enter only your speaker model. If you own an amp and want speakers, start with the amplifier. Other details are optional. Recommendations explain what fits, what is uncertain, and why.</div>
+<div class="sb-preview"><strong>No wall of specifications required.</strong> If your model is in our sourced list, choose it with no extra specifications. If it is missing, use Search for my gear to find the manufacturer manual and add the minimum useful specs. A typed name alone is not enough for model-specific matching. Recommendations explain what fits, what is uncertain, and why.</div>
 <noscript><p class="sb-noscript">JavaScript is required to generate a pathway report. You can still use the <a href="/system-check/">System Check</a> for amplifier headroom and read the <a href="/decoder/">Decoder lessons</a> for the engineering behind the choices.</p></noscript>
 <form id="sb-form" class="sb-form">
 <section class="sb-panel sb-intent-panel" aria-labelledby="sb-intent-heading">
@@ -162,12 +162,45 @@
 <div class="sb-grid">
 <label class="sb-field">My speakers
 <select id="sb-speaker" name="speaker"><option value="">None selected / not owned</option></select></label>
-<label class="sb-field">Different / unlisted speakers
-<input name="speakerOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">Search for my speakers (if not in list)
+<input name="speakerOther" maxlength="120" placeholder="Type the brand and exact speaker model"></label>
+<div class="sb-gear-search" id="sb-speaker-search" data-gear-kind="speaker">
+ <p class="sb-help">Search our sourced catalogue first. If your exact model isn't there, search its maker's manual and enter the relevant specifications below. <strong>A model name alone cannot produce a match.</strong></p>
+ <div class="sb-gear-search-actions"><button type="button" class="button button-secondary" data-gear-search="speaker">Search for my gear</button><a data-gear-web="speaker" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Search manufacturer specs on Google ↗</a></div>
+ <div class="sb-gear-matches" data-gear-matches="speaker" aria-live="polite"></div>
+ <details class="sb-gear-source-detail" data-gear-details="speaker">
+  <summary>Not in the catalogue? Enter the specs from a manual</summary>
+  <p class="sb-help">Only enter figures found for your exact model and revision. These are <strong>user-supplied, provisional</strong> values until independently checked. We never scrape Google results or guess missing figures.</p>
+  <div class="sb-grid">
+  <label class="sb-field">Manufacturer specification/manual HTTPS link <input name="speakerSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
+  <label class="sb-field">Nominal speaker impedance (Ω) <input type="number" name="speakerLoad" min="2" max="16" step="0.1" inputmode="decimal" placeholder="e.g. 8"></label>
+  <label class="sb-field">Published minimum impedance (Ω) <input type="number" name="speakerMinimum" min="1" max="16" step="0.1" inputmode="decimal" placeholder="Optional if unknown"></label>
+  <label class="sb-field">Sensitivity (dB) <input type="number" name="speakerSensitivity" min="60" max="120" step="0.1" inputmode="decimal" placeholder="Optional if unknown"></label>
+  <label class="sb-field">Sensitivity rating basis <select name="speakerBasis"><option value="">Not listed / unknown</option><option value="power">1 watt at 1 metre</option><option value="voltage">2.83 volts at 1 metre</option></select></label>
+  </div>
+ </details>
+ <p class="sb-gear-message" data-gear-message="speaker" role="status"></p>
+</div>
 <label class="sb-field">My amplifier / receiver
 <select id="sb-amp" name="amp"><option value="">None selected / not owned</option></select></label>
-<label class="sb-field">Different / unlisted amplifier
-<input name="ampOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">Search for my amplifier / receiver (if not in list)
+<input name="ampOther" maxlength="120" placeholder="Type the brand and exact amplifier model"></label>
+<div class="sb-gear-search" id="sb-amp-search" data-gear-kind="amp">
+ <p class="sb-help">Search our sourced catalogue first. If your exact model isn't there, search its maker's manual and enter the relevant specifications below. <strong>A model name alone cannot produce a match.</strong></p>
+ <div class="sb-gear-search-actions"><button type="button" class="button button-secondary" data-gear-search="amp">Search for my gear</button><a data-gear-web="amp" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Search manufacturer specs on Google ↗</a></div>
+ <div class="sb-gear-matches" data-gear-matches="amp" aria-live="polite"></div>
+ <details class="sb-gear-source-detail" data-gear-details="amp">
+  <summary>Not in the catalogue? Enter the specs from a manual</summary>
+  <p class="sb-help">Only enter figures found for your exact model and revision. These are <strong>user-supplied, provisional</strong> values until independently checked. We never scrape Google results or guess missing figures.</p>
+  <div class="sb-grid">
+  <label class="sb-field">Manufacturer specification/manual HTTPS link <input name="ampSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
+  <label class="sb-field">Minimum supported speaker impedance (Ω) <input type="number" name="ampMinLoad" min="2" max="16" step="0.1" inputmode="decimal" placeholder="e.g. 6, one pair"></label>
+  <label class="sb-field">Continuous watts per channel <input type="number" name="ampRatedWatts" min="1" max="5000" step="0.1" inputmode="decimal" placeholder="Not peak/music watts"></label>
+  <label class="sb-field">Load used for that power rating (Ω) <input type="number" name="ampRatedLoad" min="2" max="16" step="0.1" inputmode="decimal" placeholder="e.g. 8"></label>
+  </div>
+ </details>
+ <p class="sb-gear-message" data-gear-message="amp" role="status"></p>
+</div>
 <label class="sb-field">My source / DAC
 <select id="sb-source" name="source"><option value="">None selected / not owned</option></select></label>
 <label class="sb-field">Different / unlisted source
