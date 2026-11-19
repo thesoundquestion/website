@@ -98,6 +98,11 @@
 <h2>When the label disappears, can you still tell?</h2>
 <p>Our <a href="/labs/abx/">ABX Lab</a> adds a different question to the sighted Mixing, Mastering and MP3 comparisons. You can hear known references <strong>A</strong> and <strong>B</strong> as many times as you need. A mystery <strong>X</strong> is one of them. You identify whether X matches A or B. The aim is to separate an audible difference you can repeatedly identify from a preference or expectation caused by seeing which version is playing.</p>
 <h3>What is actually tested?</h3>
+<!-- RELEASE GATE: Reverify every status in the five-row ABX comparison table before production.
+     Check assets/abx-lab.js modes, workers/abx/index.mjs VALIDATED,
+     actual Cloudflare Worker flags, fair switching on real devices, and
+     preview-vs-canonical scoring. Update the table and accompanying mode
+     descriptions together. Do not treat preview functionality as live scoring. -->
 <div class="experiment-table-wrap"><table class="experiment-table">
 <caption>Current curated ABX comparison types. “Scored” applies only on the canonical public site after its separate release checks; preview and local URLs run private practice.</caption>
 <thead><tr><th scope="col">Comparison</th><th scope="col">Recording pair</th><th scope="col">Available procedure</th></tr></thead><tbody>
