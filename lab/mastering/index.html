@@ -49,6 +49,12 @@ header{background:#0b1420e8;border-bottom:1px solid #24394b;position:relative;z-
 .arttrack:hover,.arttrack:focus-visible{outline:2px solid #8dddf1;outline-offset:2px}
 .artlabel{grid-template-columns:75px minmax(0,1fr)}
 @media(max-width:650px){.artlabel{grid-template-columns:68px minmax(0,1fr)}}
+
+/* Keep this self-contained listening-lab footer in the shared policy layout. */
+.tsq-experiment-footer .tsq-footer-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.65rem 1.2rem;color:#a9c4d4;font-size:.8rem}
+.tsq-experiment-footer .tsq-footer-inner nav{display:flex;gap:1rem;flex-wrap:wrap}
+.tsq-experiment-footer .tsq-footer-inner nav a{color:#b8e5fb;text-decoration:underline;text-underline-offset:.18em}
+@media(max-width:650px){.tsq-experiment-footer .tsq-footer-inner{align-items:flex-start;flex-direction:column}}
 </style>
 <link rel="stylesheet" href="/assets/lab-readiness.css">
 <script src="/assets/lab-readiness.js"></script>
