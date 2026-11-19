@@ -215,20 +215,26 @@ export function shortlistPartyPassiveConcepts(input={}) {
  * loudspeaker is safe, or define amplifier impedance permissions. */
 export function ampSpeakerScreening(amp) {
   const ratings = amp?.record?.ratings || [];
+  const provisional=amp?.record?.userEntered===true;
   const continuous = ratings.filter(x=>Array.isArray(x) && x[2]==='continuous' &&
     Number.isFinite(x[1]) && x[1]>=2 && x[1]<=16).map(x=>x[1]);
-  const minPublishedTestOhms = continuous.length ? Math.min(...continuous) : null;
+  const minPublishedTestOhms = !provisional&&continuous.length ? Math.min(...continuous) : null;
   const model=String(amp?.name||amp?.record?.model||'');
-  const explicitNominalFloor = model === 'Yamaha R-S202' ? 8 : model === 'Sony STR-DH190' ? 6 :
+  const explicitNominalFloor = provisional ? null : model === 'Yamaha R-S202' ? 8 : model === 'Sony STR-DH190' ? 6 :
     amp?.record?.details?.minNominalOhms ?? null;
-  const discoveryFloor = explicitNominalFloor || (minPublishedTestOhms !== null ?
+  // Visitor-entered specifications can screen preliminary candidates, but
+  // are not manufacturer-verified load permission or published test evidence.
+  const enteredFloor=provisional?Number(amp.record.userNominalFloor):null;
+  const discoveryFloor = provisional&&Number.isFinite(enteredFloor) ? enteredFloor :
+    explicitNominalFloor || (minPublishedTestOhms !== null ?
     Math.min(8,Math.max(4,minPublishedTestOhms)) : 8);
   const exactManufacturerRule = model === 'Yamaha R-S202' ?
     'Yamaha specifies 8 Ω or higher for a single speaker pair A or B (and 16 Ω or higher for A+B where applicable). A nominal label alone does not establish actual impedance minimum or thermal safety.' :
     model === 'Sony STR-DH190' ? 'Sony lists 6–16 Ω speakers; verify the exact regional revision and operating conditions.' :
     explicitNominalFloor ? 'The manual specifies a '+explicitNominalFloor+' Ω minimum nominal speaker load. Follow the speaker impedance setting in the manual.' : '';
   return {ampName:model||'Unlisted amplifier',discoveryFloor,minPublishedTestOhms,
-    explicitNominalFloor,exactManufacturerRule,known:!!amp?.record};
+    explicitNominalFloor,exactManufacturerRule,known:!!amp?.record&&!provisional,
+    userSupplied:provisional};
 }
 
 export function shortlistSpeakersForOwnedAmplifier(input={}) {
@@ -374,7 +380,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       extra:[caution,'Check the exact speaker revision, nominal and minimum impedance, phase angle, and your amplifier manual before connecting.',
         'Speaker cable, source connectivity and any necessary stands are extra. No new amplifier has been included in the price.',
         'Use System Check to evaluate clean level at your actual listening position; manufacturer sensitivity figures may use different conventions.'],
-      loadCaution:loadUnknown ?
+      loadCaution:screen.userSupplied ?
+        'Amplifier figures were entered by the visitor and have not been checked against the manufacturer manual. Check the actual supported load before connecting.' :
+        loadUnknown ?
         'Load unknown: do not connect these speakers to '+screen.ampName+' until the manufacturer’s requirements are checked.' :
         screen.explicitNominalFloor?'Confirm load: '+screen.ampName+' requires suitable speakers; '+nominal+' Ω nominal alone does not prove a safe match.':null,
       pairingEvidence:pairingByModel.get(model),
