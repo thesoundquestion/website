@@ -46,6 +46,7 @@
 <option value="speakers_for_amp">Find speakers for my amplifier</option>
 <option value="complete_system">Build a complete listening system</option>
 <option value="improve_existing">Improve the system I already have</option>
+<option value="subwoofer">Add a subwoofer to my system</option>
 <option value="headphones">Find headphones for how I listen</option>
 <option value="source_connections">Connect vinyl, CD or digital music</option>
 </select></label>
@@ -194,6 +195,34 @@
 <select name="subOwned"><option value="yes">Yes, potentially reusable</option><option value="no">No, would need to buy</option><option value="unknown">Not sure / one of several</option></select></label>
 </div>
 <p class="sb-help">A high-pass filter turns down the lowest notes in the main speakers. Check how each setup routes the bass. <a href="/decoder/bass-extension/#buying">Read about bass extension</a>.</p>
+</section>
+<section class="sb-panel sb-sub-connect-section" aria-labelledby="sb-sub-connections">
+<div class="sb-step"><span>05</span><div><h2 id="sb-sub-connections">How will the subwoofer connect?</h2><p>These are ordinary socket types. Choose “Not sure” when you do not know. We will not assume that having an RCA input means your amplifier has an RCA output.</p></div></div>
+<div class="sb-grid">
+<label class="sb-field">Subwoofer model (optional)
+<input name="subName" maxlength="120" placeholder="e.g. Edifier T5, or leave blank"></label>
+<label class="sb-field">What signal can your amplifier or speakers send?
+<select name="subAmpOutput">
+<option value="unknown">Not sure yet</option>
+<option value="sub_rca">Sub Out / LFE Out (one RCA)</option>
+<option value="preout_rca">Stereo Pre Out (left and right RCA)</option>
+<option value="speaker_only">Speaker wire outputs only</option>
+</select></label>
+<label class="sb-field">What input does the subwoofer accept?
+<select name="subInput">
+<option value="unknown">Not sure / choosing a subwoofer</option>
+<option value="rca_line">RCA Line In / LFE In</option>
+<option value="speaker_high">Speaker Level / High Level In</option>
+<option value="both">Both RCA and Speaker Level</option>
+</select></label>
+<label class="sb-field">Does the system filter bass out of the main speakers?
+<select name="subHighPass">
+<option value="unknown">Not sure</option>
+<option value="documented">Yes, the manual describes a main-speaker high-pass setting</option>
+<option value="none">No, the main speakers play their usual bass</option>
+</select></label>
+</div>
+<p class="sb-help">A Sub Out usually uses an RCA lead; a speaker-level connection requires extra speaker wire and an input designed for it. A subwoofer crossover knob normally filters the subwoofer, not your existing speakers. <a href="/decoder/bass-extension/#buying">Understand subwoofer setup</a>.</p>
 </section>
 <section class="sb-panel" aria-labelledby="sb-money">
 <div class="sb-step"><span>05</span><div><h2 id="sb-money">Set the buying constraints</h2><p>Budget applies to the <em>complete missing signal path</em>, not just the price on a speaker box.</p></div></div>
