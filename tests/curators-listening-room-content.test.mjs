@@ -15,7 +15,7 @@ test('Listening Room selection totals match actual cards', () => {
   const riffs = section('riffs-and-grooves');
   assert.equal(count, 52);
   assert.equal([...riffs.matchAll(/<article class="curator-track"/g)].length, 21);
-  assert.match(html, /51 listening selections/);
+  assert.match(html, /52 listening selections/);
   assert.match(html, /03 \/ 21 SELECTIONS/);
   assert.match(html, /Band Interaction <span aria-hidden="true">\(21\)<\/span>/);
   const ids = [...html.matchAll(/<article class="curator-track" id="([^"]+)"/g)].map(m => m[1]);
