@@ -260,3 +260,18 @@
 .sb-field-requirement[data-requirement="optional_alternative"]{color:#bde1ef;border-color:#507589}
 .sb-required-group-help{padding:.6rem .85rem;border-left:3px solid #83cbe6;background:#152f40;border-radius:5px;color:#d3ebf7;font-size:.86rem;line-height:1.55;margin:.65rem 0 0}
 @media(max-width:650px){.sb-field-requirement{font-size:.72rem}.sb-required-group-help{font-size:.83rem}}
+
+
+/* Source-led search for models not yet in the built-in, vetted catalogue. */
+.sb-gear-search{grid-column:1/-1;min-width:0;margin:.2rem 0 .7rem;padding:clamp(.75rem,2vw,1.1rem);border:1px solid #426781;border-radius:12px;background:#0b2134}
+.sb-gear-search .sb-help{margin:.2rem 0 .7rem}
+.sb-gear-search-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:.65rem 0}
+.sb-gear-search-actions a{font-size:.91rem;text-decoration:underline;text-underline-offset:.2em;overflow-wrap:anywhere}
+.sb-gear-matches{display:flex;flex-wrap:wrap;gap:.4rem;min-width:0}
+.sb-gear-matches .sb-help{flex-basis:100%}
+.sb-gear-matches button{text-align:left;max-width:100%}
+.sb-gear-source-detail{margin:.75rem 0;padding:.7rem;border:1px solid #45687b;border-radius:9px;background:#10283a}
+.sb-gear-source-detail summary{font-weight:700;cursor:pointer}
+.sb-gear-source-detail .sb-grid{margin-top:.6rem}
+.sb-gear-message{font-size:.85rem;color:#c5dcec;line-height:1.5;margin:.65rem 0 0}
+@media(max-width:650px){.sb-gear-search-actions{align-items:stretch;flex-direction:column}.sb-gear-search-actions button{width:100%}}
