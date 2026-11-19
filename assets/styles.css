@@ -479,3 +479,12 @@ main{flex:1}
 @media(max-width:700px){.home-simple .home-quick-links{grid-template-columns:1fr}.home-simple .home-quick-links a{min-height:95px;padding:1rem 1.15rem}.home-simple .home-goal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-share-strip-actions{margin-left:0}}
 @media(max-width:520px){.home-simple .home-goal-grid,.home-more-grid{grid-template-columns:1fr}.home-simple .home-goal-card{min-height:67px;padding:.7rem .8rem}.home-more-grid a{min-height:0;padding:.75rem .9rem}.home-simple .home-quick-links a strong{font-size:1.1rem}}
 @media(prefers-reduced-motion:reduce){.home-simple .home-quick-links a{transition:none}.home-simple .home-quick-links a:hover{transform:none}}
+
+/* Home has its own obvious wayfinding cards. Keep only unobtrusive legal routes. */
+.home-footer-minimal{padding-block:.85rem}
+.home-footer-minimal .footer-inner{display:flex;justify-content:space-between;gap:.65rem 1.5rem;flex-wrap:wrap;align-items:center}
+.home-footer-minimal .home-legal-links{display:flex;flex-wrap:wrap;gap:.45rem 1.1rem}
+.home-footer-minimal .home-legal-links a{color:#a6bdcf;font-size:.8rem;text-decoration:underline;text-underline-offset:3px}
+.home-footer-minimal .footer-inner small{font-size:.79rem;color:#91a5ba;text-align:left}
+.home-share-strip .home-share-feedback:empty{display:none}
+@media(max-width:650px){.home-footer-minimal .footer-inner{justify-content:flex-start;flex-direction:column;align-items:flex-start}}
