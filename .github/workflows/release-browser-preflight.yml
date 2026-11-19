@@ -1,0 +1,38 @@
+name: Release candidate browser preflight (GitHub only)
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+      - 'assets/styles.css'
+      - 'library/**'
+      - 'system-check/compare/**'
+      - 'system-builder/**'
+      - 'equipment/**'
+      - 'tests/release-browser-preflight.mjs'
+      - '.github/workflows/release-browser-preflight.yml'
+permissions:
+  contents: read
+jobs:
+  browser-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install existing browser test runner locally to the job
+        run: npm install --no-save --no-package-lock playwright@1.56.0
+      - name: Build exactly the source-controlled static release package (GitHub runner only)
+        run: node scripts/build-public-site.mjs
+      - name: Check actual packaged pages in Chrome desktop and mobile emulation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8766 --bind 127.0.0.1 --directory site-dist >/tmp/tsq-release-preflight.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid || true' EXIT
+          sleep 1
+          timeout 220s node tests/release-browser-preflight.mjs
