@@ -117,6 +117,12 @@ test('Cloudflare-compatible server bank stays identical to canonical approved-an
   assert.doesNotMatch(handler,/with \{ type: 'json' \}/);
 });
 
+test('every published lesson has a specific beginner FAQ in addition to generic answers', () => {
+  for (const { slug } of curriculum.lessons) {
+    assert.ok(bank[slug].questions?.length > 0, slug + ' needs a reviewed real-world question');
+  }
+});
+
 test('common beginner phrasings reuse authored answers without a model call', () => {
   const interfaceLesson = getContext(bank, { lesson: 'audio-interfaces-mixers' });
   assert.match(matchQuestion(interfaceLesson, 'What is a mixer?').text, /mixer brings several sounds/);
