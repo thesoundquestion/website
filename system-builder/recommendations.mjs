@@ -1,4 +1,5 @@
 import {BUDGET_EXAMPLES} from './budget-examples.mjs';
+import {catalogHeadphoneExamples} from './headphone-options.mjs';
 import {compareExamplePriorities, examplePriceFor, explainExampleInteractions} from './decision-context.mjs';
 import {configureSubExample, requestedSubExamples} from './stereo-subwoofer-examples.mjs';
 
@@ -121,7 +122,7 @@ export const EXAMPLES = Object.freeze([
 ]);
 
 const allowedArch = ['passive_separates','consumer_powered_pair','active_studio','headphone_first','party_pa'];
-export function shortlistExamples(input = {}) {
+export function shortlistExamples(input = {}, catalog = null) {
   const arch = allowedArch.includes(input.architecture) ? input.architecture : 'open';
   const scene = String(input.useCase || 'living_room');
   const aim = String(input.goal || 'all_rounder');
@@ -136,8 +137,10 @@ export function shortlistExamples(input = {}) {
   const targetArchitectures = arch === 'open' ?
     (scene === 'party' || aim === 'party' || neededPower ? ['party_pa'] : ['passive_separates','consumer_powered_pair','active_studio']) :
     [arch];
+  const catalogHeadphones=arch==='headphone_first'?catalogHeadphoneExamples(catalog,input):[];
   let order;
-  if (targetArchitectures.length === 1 && targetArchitectures[0] === 'headphone_first') order = ['headphone-hd560','headphone-hd600'];
+  if (targetArchitectures.length === 1 && targetArchitectures[0] === 'headphone_first')
+    order = catalogHeadphones.length ? catalogHeadphones.map(x=>x.id) : ['headphone-hd560','headphone-hd600'];
   else if (targetArchitectures.length === 1 && targetArchitectures[0] === 'party_pa') order = ['party-soundboks','party-jbl','party-dzr'];
   else if (scene === 'desk') order = ['powered-mr4','powered-ora','studio-jbl','studio-kali','passive-bt20a-xt15','passive-as301-p5'];
   else if (aim === 'imaging') order = ['studio-jbl','powered-ora','passive-as301-p5','studio-kali','passive-bt20a-xt15','powered-mr4'];
@@ -156,7 +159,7 @@ export function shortlistExamples(input = {}) {
     aim==='bass'?['powered-r1700bts','powered-r1280dbs','powered-r1280db','powered-mr3','powered-r1280t','powered-m60'] :
       ['powered-mr3','powered-r1280t','powered-r1280db',
         'powered-r1280dbs','powered-m60','powered-r1700bts'];
-  if(arch==='headphone_first'){
+  if(arch==='headphone_first'&&!catalogHeadphones.length){
     order = budget!==null&&budget<=200 ?
       ['headphone-ksc75','headphone-portapro',...order] :
       [...order,'headphone-ksc75','headphone-portapro'];
@@ -169,7 +172,7 @@ export function shortlistExamples(input = {}) {
   const subExamples = requestedSubExamples(input);
   order=[...new Set([...subExamples.map(item => item.id), ...order])];
   const priorOrder=new Map(order.map((id,index)=>[id,index]));
-  const byId=new Map([...subExamples, ...EXAMPLES].map(example=>[example.id,example]));
+  const byId=new Map([...subExamples, ...EXAMPLES, ...catalogHeadphones].map(example=>[example.id,example]));
   // Prioritize requested 2.1 paths. Architecture and power requirements still
   // apply, even when current prices have to be checked separately.
   order.sort((a,b)=>compareExamplePriorities(byId.get(a),byId.get(b),input,
