@@ -35,7 +35,9 @@ AI-agent development guidance and the free-tier / authorization safeguards are i
 
 ## Updating
 
-Use an isolated review branch, run regression checks and obtain approval before merging or triggering a production deployment. Cloudflare automatic Git deployments are disabled. If the build configuration is edited in Cloudflare, ensure that this plain HTML site continues to publish the repository root.
+**Permanent default for every website edit and prototype:** work on a GitHub review branch/draft PR, run GitHub Actions and/or local regression/browser tests, and review from GitHub or a local checkout. **Do not trigger Cloudflare Pages builds or deployments of any kind (including previews) unless the owner explicitly authorizes that particular deployment.** Automatic Cloudflare Git builds remain disabled, and ordinary development must not consume Pages Free build quotas. A request to edit, continue, finish, prepare for launch or review a prototype is not permission to deploy. Obtain separate approval before merging into production `main`. If a later authorized deployment changes Cloudflare build configuration, preserve the website's static `site-dist/` output and free-only restrictions.
+
+See [AGENTS.md](AGENTS.md#permanent-github-first-cloudflare-on-approval-workflow--all-edits-and-prototypes) for the complete mandatory workflow. Existing Cloudflare preview URLs are historical snapshots; new GitHub commits do not update them.
 
 Use relative-to-root links (`/library/`, `/assets/styles.css`) so page paths work on all devices.
 
