@@ -268,19 +268,15 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       components:[{label:model+' pair',amount:regular.amount,url:regular.url}]} : null;
     return [model,{...retailPriceReference(snapshot,input.referenceDate),marketContext:links.length?{regular:links}:null}];
   }));
-  // Budget is a hard visitor constraint when a *dated known pair price* is
-  // available. Inside that budget class, stronger documented electrical
-  // screening comes ahead of broad goal tags, review impressions or retail
-  // price. Unknown prices never count as zero or within budget.
+  // Keep practical needs and genuine budget limits ahead of a document
+  // count. Among similarly suitable candidates, models with manufacturer
+  // speaker-load guidance and source-linked impedance data come first,
+  // before informal owner impressions. Missing data remains a conditional
+  // candidate, not an invented mismatch.
   const pairingByModel=new Map(ids.map(model=>[
     model,speakerPairingEvidence(ownedAmp,screen,byModel.get(model))
   ]));
   const ordered=[...ids].sort((a,b)=>{
-    const budgetClass=compareBudgetReferences(
-      pricesByModel.get(a).subtotal,pricesByModel.get(b).subtotal,input);
-    if(budgetClass)return budgetClass;
-    const coverage=pairingByModel.get(a).tier-pairingByModel.get(b).tier;
-    if(coverage)return coverage;
     const x=ideas.get(a);
     const y=ideas.get(b);
     const goalA=x?.goals.includes(partyMode?'party':goal)?0:1;
@@ -302,6 +298,8 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     if(secondaryA!==secondaryB)return secondaryB-secondaryA;
     const budgetOrder=compareBudgetReferences(pricesByModel.get(a).subtotal,pricesByModel.get(b).subtotal,input);
     if(budgetOrder)return budgetOrder;
+    const coverage=pairingByModel.get(a).tier-pairingByModel.get(b).tier;
+    if(coverage)return coverage;
     const ownerA=ownerEvidenceTier(a,goal);
     const ownerB=ownerEvidenceTier(b,goal);
     if(ownerA!==ownerB)return ownerA-ownerB;
