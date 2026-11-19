@@ -27,7 +27,7 @@ function walk(dir=''){
 const pages=walk();
 for(const p of pages){
  const s=read(p);
- if(p===path.join(root,'index.html').replaceAll('\\','/')){
+ if(p==='index.html'){
   assert.doesNotMatch(s,/class="main-nav"|class="mobile-nav"/);
   assert.match(s,/class="home-quick-links"/);
   assert.match(s,/class="home-more-grid"/);
