@@ -125,7 +125,7 @@ if (maxBytes > 25 * 1024 * 1024) throw new Error('Cloudflare Pages 25 MiB per-fi
 const required = [
  'index.html', '_routes.json', 'favicon.ico', 'favicon-96x96.png', 'assets/styles.css', 'assets/lesson-tutor/approved-answers.json',
  'decoder/index.html', 'decoder/technical-glossary/index.html', approvedPumpImage, 'labs/index.html', 'lab/index.html',
- 'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html',
+ 'lab/mastering/index.html', 'labs/formats/index.html', 'tools/index.html', 'system-check/index.html', 'system-check/compare/index.html', 'system-check/compare/expanded.mjs',
  'system-builder/index.html', 'system-builder/headphone-options.mjs', 'system-builder/recommendations.mjs', 'system-builder/creating/index.html',
  'system-builder/creating/app.mjs', 'system-builder/creating/build-recommendations.mjs', 'system-builder/goal-chain-engine.mjs',
  'system-builder/goal-chain-builder.css', 'equipment/catalog.generated.json',
