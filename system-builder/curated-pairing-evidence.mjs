@@ -43,7 +43,41 @@ const documented=Object.freeze({
     ]
   })
 });
+/**
+ * The regional WiiM Amp + subwoofer example uses a different known speaker
+ * in the UK. Check the actual speaker on the configured parts list rather
+ * than treating the product-family id alone as matching all regional bundles.
+ */
+function wiimSubPairing(example){
+  const parts=Array.isArray(example?.parts)?example.parts:[];
+  const polk=parts.some(p=>String(p?.name||'').includes('Polk Monitor XT15'));
+  const q=parts.some(p=>String(p?.name||'').includes('Q Acoustics 3010i'));
+  if(!polk&&!q)return null;
+  const speaker=polk?'Polk Monitor XT15':'Q Acoustics 3010i';
+  const impedance=polk?'compatible with 4 Ω and 8 Ω amplifiers (4.1 Ω minimum)':'6 Ω nominal with a 4 Ω minimum';
+  const manufacturerUrl=polk?
+    'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html':
+    'https://www.qacoustics.co.uk/products/q-acoustics-3010i';
+  return {
+    level:'manufacturer_supported',
+    label:'Amplifier and speaker load supported by published specifications',
+    proof:'The original WiiM Amp supports 4 Ω, 6 Ω and 8 Ω passive speaker loads. The '+speaker+' is specified as '+impedance+'. Those published ratings support this one-pair stereo connection.',
+    setup:'Connect one '+speaker+' stereo pair to the original WiiM Amp speaker outputs. The Edifier T5 subwoofer connects separately to the line-level Sub Out, not the speaker terminals; follow the WiiM Home bass-routing instructions shown for this setup.',
+    output:'Manufacturer speaker-load support does not establish the clean peak level at your seat; subwoofer setup and crossover settings are separate considerations.',
+    notes:[
+      'WiiM Amp (original): factory speaker output compatibility includes 4 Ω, 6 Ω and 8 Ω.',
+      speaker+': '+impedance+'.',
+      'The added T5 is a powered subwoofer using a line-level connection. Subwoofer routing must be configured in WiiM Home.'
+    ],
+    sources:[
+      {label:'WiiM Amp: supported speaker impedances',url:'https://www.wiimhome.com/wiimamp/overview'},
+      {label:speaker+': manufacturer specifications',url:manufacturerUrl},
+      {label:'WiiM bass routing and crossover',url:'https://faq.wiimhome.com/en/support/solutions/articles/72000634761-subwoofer-advanced-options-subwoofer-bypass-mode-main-speakers-output-bass'}
+    ]
+  };
+}
 export function curatedPairingFor(example){
   if(example?.architecture!=='passive_separates') return null;
+  if(example.id==='stereo-sub-wiim')return wiimSubPairing(example);
   return documented[example.id] || null;
 }
