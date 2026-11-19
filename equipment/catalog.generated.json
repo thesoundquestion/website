@@ -18607,14 +18607,14 @@
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "unknown"
         },
-        "usbRecordingMode": {
-          "value": "stereo_mix_only",
+        "advertisedMixerChannels": {
+          "value": 5,
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
         },
-        "advertisedMixerChannels": {
-          "value": 5,
+        "usbRecordingMode": {
+          "value": "stereo_mix_only",
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
@@ -18763,14 +18763,14 @@
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
         },
-        "usbRecordingMode": {
-          "value": "independent_mono_channels",
+        "advertisedMixerChannels": {
+          "value": 6,
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
         },
-        "advertisedMixerChannels": {
-          "value": 6,
+        "usbRecordingMode": {
+          "value": "independent_mono_channels",
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
@@ -18918,14 +18918,14 @@
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
         },
-        "usbRecordingMode": {
-          "value": "selectable_dry_or_stereo_mix",
+        "advertisedMixerChannels": {
+          "value": 3,
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
         },
-        "advertisedMixerChannels": {
-          "value": 3,
+        "usbRecordingMode": {
+          "value": "selectable_dry_or_stereo_mix",
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
@@ -19071,14 +19071,14 @@
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
         },
-        "usbRecordingMode": {
-          "value": "selectable_dry_or_stereo_mix",
+        "advertisedMixerChannels": {
+          "value": 6,
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
         },
-        "advertisedMixerChannels": {
-          "value": 6,
+        "usbRecordingMode": {
+          "value": "selectable_dry_or_stereo_mix",
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
@@ -19556,14 +19556,14 @@
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "unknown"
         },
-        "usbRecordingMode": {
-          "value": "stereo_mix_only",
+        "advertisedMixerChannels": {
+          "value": 4,
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
         },
-        "advertisedMixerChannels": {
-          "value": 4,
+        "usbRecordingMode": {
+          "value": "stereo_mix_only",
           "scope": "mixer_recorder",
           "from": "research/recording-input-catalog-v1.json",
           "evidenceStatus": "source_stated"
