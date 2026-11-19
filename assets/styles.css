@@ -488,3 +488,15 @@ main{flex:1}
 .home-footer-minimal .footer-inner small{font-size:.79rem;color:#91a5ba;text-align:left}
 .home-share-strip .home-share-feedback:empty{display:none}
 @media(max-width:650px){.home-footer-minimal .footer-inner{justify-content:flex-start;flex-direction:column;align-items:flex-start}}
+
+/* 2026-11 sitewide navigation consolidation: one legal footer and one
+   contextual next step per page. Lesson progression owns lesson navigation. */
+.tsq-footer-compact{padding-block:.9rem;border-top:1px solid #30485e}
+.tsq-footer-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem 1.25rem;color:#98b0c2;font-size:.79rem;line-height:1.5}
+.tsq-footer-inner nav{display:flex;flex-wrap:wrap;gap:.55rem 1.1rem}
+.tsq-footer-inner nav a{color:#adcadb;font-size:.8rem;text-decoration:underline;text-underline-offset:.18em}
+.tsq-footer-inner nav a:hover{color:#fff}
+.dl-related-action{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1rem;border-top:1px solid #35556b;padding-top:.85rem;margin-top:1rem}
+.dl-related-action span{color:#a8c1d4;font-weight:700;font-size:.76rem;letter-spacing:.055em;text-transform:uppercase}
+.dl-related-action a{font-size:.91rem;color:#aae2fa;text-decoration:underline;text-underline-offset:.17em}
+@media(max-width:650px){.tsq-footer-inner{align-items:flex-start;flex-direction:column}.dl-related-action{align-items:flex-start;flex-direction:column}}
