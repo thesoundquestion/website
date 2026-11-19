@@ -76,7 +76,12 @@ function mentionsTerm(question, term) {
   const target = meaningTokens(term);
   if (!target.size) return false;
   const words = meaningTokens(question);
-  return [...target].every(word => words.has(word));
+  if ([...target].every(word => words.has(word))) return true;
+  // Some multiword equipment names have an unmistakable head noun.
+  // "My interface" should count in the audio-interface lesson.
+  const head = [...target].at(-1);
+  return target.size > 1 && new Set(['interface', 'channel', 'microphone', 'headphone', 'subwoofer'])
+    .has(head) && words.has(head);
 }
 
 function sharedMeaning(left, right) {
