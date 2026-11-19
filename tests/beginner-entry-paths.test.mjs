@@ -320,7 +320,7 @@ test('shopping for speakers requires amplifier only, not speaker specifications'
 test('only the equipment the visitor wants to shop for must be absent from inventory',()=>{
   const missing=new FormData();
   assert.equal(validateBuilderIntent('amp_for_speakers',missing).ok,false);
-  assert.match(validateBuilderIntent('amp_for_speakers',missing).message,/speakers model/i);
+  assert.match(validateBuilderIntent('amp_for_speakers',missing).message,/speakers.*sourced catalogue/i);
   assert.equal(validateBuilderIntent('speakers_for_amp',missing).ok,false);
   assert.equal(validateBuilderIntent('complete_system',missing).ok,true);
   assert.equal(validateBuilderIntent('headphones',missing).ok,true);
