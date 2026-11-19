@@ -62,7 +62,9 @@ export function explainBeginnerOption(item,request={}){
     ?'This is another system type to compare. We do not have proof that it best fits your main listening goal.'
     :'We included this option because it is listed as a possible fit for '+goal+'. That is a starting point, not a listening test or a promise of sound quality.';
   const reason=pairing?
-    'You already have an amplifier. We looked for speakers whose published electrical information gives us a reasonable starting point for checking whether they can work together.':
+    (pairing.manufacturerNominalGuidance&&!pairing.demandingMinimum?
+      'We suggested these speakers because their published ohm rating fits the range your amplifier maker recommends. That makes this a sensible starting match.':
+      'These speakers might work with your amplifier, but we still need to check a specific missing or unusual rating.'):
     reuse?'We started with equipment you already own. If it meets your needs, there is no reason to replace it just to complete a shopping list.':
     item?.ownedAmpName?'This option lets you keep your '+item.ownedAmpName+
       ' and look at speakers without buying another amplifier. We still need to check the exact match.':
@@ -82,7 +84,9 @@ export function explainBeginnerOption(item,request={}){
     item?.ownershipBlocker?'The equipment you selected may not fit this setup. Check the warning in the detailed notes before connecting anything.':'',
     pairing?.demandingMinimum?
       'These speakers may be harder for your amplifier to drive than the main rating suggests. Get the exact model manuals or manufacturer advice before connecting.':'',
-    pairing?.plainNext,
+    pairing?.manufacturerNominalGuidance&&!pairing.demandingMinimum?
+      'Next, make sure the system can play at the level you want in your room. The speaker rating alone does not tell us how loud it will get.':
+      pairing?.plainNext,
     item?.loadCaution&&!pairing?
       'We have not confirmed that this amplifier can safely power these particular speakers. Check their exact model ratings and the amplifier manual first.':'',
     item?.sourceCaution?
@@ -97,13 +101,14 @@ export function explainBeginnerOption(item,request={}){
       'Check that the system can play clearly at your normal listening distance and volume. A watt rating alone cannot tell us that.':'',
     item?.sceneCaution?
       'Check whether this equipment fits the room or outdoor space where you will use it.':'',
-    architecture.check,
+    pairing?.manufacturerNominalGuidance&&!pairing.demandingMinimum?'':architecture.check,
     item?.bassSetup?'If you add a subwoofer for deeper bass, check its connections and include its cost.':''
   ]);
   const fit=item?.amplifierFit;
   let matchingEvidence='';
   if(pairing){
-    matchingEvidence=pairing.plainWhy+' '+pairing.plainMinimum;
+    matchingEvidence=pairing.plainWhy+
+      (pairing.demandingMinimum?' '+pairing.plainMinimum:'');
   }else if(fit?.amp&&fit?.speaker){
     matchingEvidence=fit.amp.exact&&Number.isFinite(fit.amp.watts)&&Number.isFinite(fit.amp.ohms)
       ?'The amplifier is rated at '+fit.amp.watts+' W/channel into '+fit.amp.ohms+' Ω in a published test. In everyday terms, that tells us how much electrical power it supplied under those test conditions. It does not prove how loudly these speakers will play in your room or whether they are a safe load.'
@@ -125,7 +130,9 @@ export function explainBeginnerOption(item,request={}){
     item?.connectionStatus==='adapter_needed'?'A suitable converter/adapter and any required power/control hardware must be priced separately.':'',
     text(item?.tradeoff)
   ]);
-  const technicalEvidence=pairing?pairing.notes.join(' '):rawReason;
+  const technicalEvidence=pairing?
+    pairing.notes.join(' ')+' These details explain the evidence behind the recommendation; they are not required reading for a normal manufacturer-specification match.':
+    rawReason;
   return {status,reason,goalExplanation,rolePath:architecture.path,roles,matchingEvidence,checks,
     firstChecks:checks.slice(0,2),remainingChecks:checks.slice(2),costAndTradeoffs:missing,
     technicalEvidence,technicalChecks,reuse,
