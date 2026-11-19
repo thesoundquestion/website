@@ -1,4 +1,4 @@
-import bank from '../../assets/lesson-tutor/approved-answers.json' with { type: 'json' };
+import bank from './approved-answers.generated.js';
 import { asksAboutGraph, blockedReason, cleanQuestion, getContext, isInScope, matchQuestion, normalizeQuestion } from '../../assets/lesson-tutor/core.js';
 import { answerSection, buildMessages, validatedOutput } from './grounding.js';
 import { digestId, identityKeys, networkPrefix, readFollowUp, sealFollowUp, visitorIdentity } from './identity.js';
