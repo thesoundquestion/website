@@ -16,7 +16,8 @@ Let the reader or viewer occasionally discover a musical reference that belongs 
 ## Source pool
 - **Represent the reader's music tastes, not only the site's owner's personal listening preferences.** Draw naturally from pop, hip-hop, R&B, soul, country, folk, dance, rock, metal, alternative, jazz and music across eras and generations. Neither the owner's collection nor the Curator's Listening Room should determine what genres can appear.
 - The Curator's Listening Room can inspire examples when a specific track fits, but it is **not a gatekeeper** for Easter-egg selection. A well-fitting reference from outside that collection is preferable to a forced reference from inside it.
-- Use songs, album titles, artist names and recognizable cultural touchstones where their words genuinely serve the explanation. Consider widely known recordings alongside less expected choices; avoid clustering everything around The Beatles, Queen, Fleetwood Mac or any single generation.
+- Search broadly across **popular songs, albums, band/performer names, recognizable lyrical themes, and original wordplay or puns**, not just song-title substitutions. A reference may use an artist's name, a familiar title transformed into a technical pun, or an original technical analogy inspired by a song's idea. Do not reproduce or closely paraphrase copyrighted lyrics. The recognizable reference must also serve the audio explanation.
+- **Popular and widely recognizable references come first.** Across all genres, prefer songs, performers, albums and musical ideas that a substantial, varied readership is likely to recognize. Do not search for obscure material merely to fill a genre or justify a clever pun. Lesser-known references are optional only when exceptionally natural; popularity does not excuse a forced or technically misleading insertion.
 - Diversity is a quality check across the full curriculum, **not a genre quota per page**. A country reference should not appear just to tick a box; nor should an obvious hip-hop, pop or soul reference be rejected because the author would not personally play it.
 - Identify the intended artist/title accurately in the **private editorial ledger**, especially where titles or similar phrases are shared by multiple songs. The public copy need not identify the reference. If owner attribution is unclear, record it as unconfirmed instead of guessing.
 
@@ -25,6 +26,16 @@ Let the reader or viewer occasionally discover a musical reference that belongs 
 These references exist to make dry audio lessons fun to explore, not to be invisible. The owner wants readers to recognize familiar music while they learn. Work several approachable, unhighlighted references into a normal-length lesson where the subject naturally permits; strong candidates include the introductory hook, a technical analogy that really helps, the listening example and, in selected lessons, an actual lesson title. Use a wide range of accessible musical touchstones, including pop, hip-hop, soul, country and other styles, rather than repeatedly relying on one era or the owner's preferred artists.
 
 A merely music-themed sentence isn't a song Easter egg. Before logging a placement, identify its real song title/artist internally and check that the phrase is distinctive enough to catch without the hidden ledger. It must still read naturally and technically accurately to someone who doesn't recognize it. Vary eras and styles; quality takes priority over numerical quotas. Never reproduce song lyrics or create hidden links that spoil the game.
+
+## Reference selection: narrative first, recognition second
+
+1. Identify the actual teaching point first: clipping, signal-chain compatibility, amplifier headroom, speaker dispersion, room effects, recording, coding or a listening decision.
+2. Brainstorm **widely known** musical associations from many genres and decades. Explore multiple forms: artist/band names, album names, recognizable song titles, transformed titles, an original line with a meaningful double meaning, or an original analogy suggested by a lyrical concept.
+3. Choose the candidate that fits the **sentence and lesson** most naturally. It should be recognizable *and* useful. A famous reference that distracts from the point is worse than an ordinary clear explanation.
+4. Preserve the approved lesson titles and their short explanatory bridges. Where a different popular reference fits deeper in a lesson, add it without repeating an already-used musical hook.
+5. Check the private editorial ledger for duplication and note the precise song/album/artist inspiration. References not yet written into the actual site are **candidates**, not active placements.
+
+Do not constrain the search to the owner's favorite artists, a prescribed genre distribution or a finite shortlist of songs. The aim is broad musical familiarity across the audience, not obscure-reference hunting.
 
 ## How to write them
 1. Draft the accurate, beginner-friendly explanation or script **without** the Easter egg first.
