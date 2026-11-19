@@ -190,6 +190,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     const rationale=explainAmplifierChoice({idea,record,speaker,request});
     const fit=assessAmplifierCandidate({idea,record,speaker,request});
     const message=rationale.summary+
+      (speaker.record?.userEntered===true?' The owned speaker figures are user-supplied and must be checked against the actual manufacturer documentation.':'')+
       (!fit.amp.exact ?
         ' The compact amp has no verified matching-load continuous power measurement; do NOT substitute its advertised maximum watts or bare THD figure.' : '');
     const used=['speaker'];const parts=[part(speaker,'Already owned; no new speaker purchase'),
@@ -205,7 +206,9 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       ],amplifierSource:rationale.source,
       amplifierFit:fit,amplifierFitRank:fit.sortValue,compactAmp:idea.compact===true,
       tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
-      loadCaution:!Number.isFinite(nominal) ?
+      loadCaution:speaker.record?.userEntered===true ?
+        'Your speaker impedance was entered from a document and has not been independently checked. Confirm the exact manual, minimum impedance and amplifier load approval before connecting.' :
+        !Number.isFinite(nominal) ?
         'Your '+speaker.name+' has no verified nominal impedance. Do not connect to '+idea.model+
         ' until the actual load and amplifier manual permissions are confirmed.' : null,
       parts,...prices,
