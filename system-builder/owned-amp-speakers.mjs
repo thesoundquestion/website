@@ -301,10 +301,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     const ownerA=ownerEvidenceTier(a,goal);
     const ownerB=ownerEvidenceTier(b,goal);
     if(ownerA!==ownerB)return ownerA-ownerB;
-    // Among options with the same useful goal/price/owner context, prefer a
-    // manufacturer-confirmed nominal-load match over a poorly documented one.
-    const coverage=pairingByModel.get(a).tier-pairingByModel.get(b).tier;
-    if(coverage)return coverage;
+    // Manufacturer load restrictions already screen known conflicts. For
+    // eligible speakers, preserve the previously tested listener/room/budget
+    // order; publication of extra measurements is not superior sound quality.
     return ids.indexOf(a)-ids.indexOf(b);
   });
   for(const model of ordered) {
