@@ -203,12 +203,39 @@
 </div>
 <label class="sb-field">My source / DAC
 <select id="sb-source" name="source"><option value="">None selected / not owned</option></select></label>
-<label class="sb-field">Different / unlisted source
-<input name="sourceOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">Search for my source / DAC (if not in list)
+<input name="sourceOther" maxlength="120" placeholder="Type the brand and exact model"></label>
+<div class="sb-gear-search" id="sb-source-search" data-gear-kind="source">
+<p class="sb-help">Search our existing sourced catalogue. If your model is not listed, use the manufacturer's manual. A model name alone does not verify its connections.</p>
+<div class="sb-gear-search-actions"><button type="button" class="button button-secondary" data-gear-search="source">Search for my gear</button><a data-gear-web="source" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Search manufacturer specs on Google ↗</a></div>
+<div class="sb-gear-matches" data-gear-matches="source" aria-live="polite"></div>
+<details class="sb-gear-source-detail" data-gear-details="source">
+<summary>Not in the catalogue? Add specs from the manual</summary>
+<p class="sb-help">This information is entered by you and remains provisional. We cannot automatically import or validate search-engine results.</p>
+<div class="sb-grid"><label class="sb-field">Manufacturer specification/manual HTTPS link <input name="sourceSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label><label class="sb-field">Documented audio output <select name="sourceOutput">
+<option value="">Choose the connection from the manual</option>
+<option value="RCA">Analogue RCA (left/right)</option><option value="3.5 mm">Analogue 3.5 mm</option><option value="optical">Digital optical</option><option value="coaxial">Digital coaxial</option><option value="usb">USB audio</option><option value="hdmi">HDMI</option><option value="bluetooth">Bluetooth</option><option value="other">Other / needs detailed checking</option>
+</select></label></div>
+</details>
+<p class="sb-gear-message" data-gear-message="source" role="status"></p>
+</div>
 <label class="sb-field">My headphones / IEMs
 <select id="sb-headphone" name="headphone"><option value="">None selected / not owned</option></select></label>
-<label class="sb-field">Different / unlisted headphones
-<input name="headphoneOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">Search for my headphones (if not in list)
+<input name="headphoneOther" maxlength="120" placeholder="Type the brand and exact model"></label>
+<div class="sb-gear-search" id="sb-headphone-search" data-gear-kind="headphone">
+<p class="sb-help">Search our existing sourced catalogue. If your model is not listed, use the manufacturer's manual. A model name alone does not verify its headphone drive requirements.</p>
+<div class="sb-gear-search-actions"><button type="button" class="button button-secondary" data-gear-search="headphone">Search for my gear</button><a data-gear-web="headphone" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Search manufacturer specs on Google ↗</a></div>
+<div class="sb-gear-matches" data-gear-matches="headphone" aria-live="polite"></div>
+<details class="sb-gear-source-detail" data-gear-details="headphone">
+<summary>Not in the catalogue? Add specs from the manual</summary>
+<p class="sb-help">This information is entered by you and remains provisional. We cannot automatically import or validate search-engine results.</p>
+<div class="sb-grid"><label class="sb-field">Manufacturer specification/manual HTTPS link <input name="headphoneSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label><label class="sb-field">Headphone nominal impedance (Ω) <input name="headphoneLoad" type="number" min="1" max="1000" step="0.1" inputmode="decimal" placeholder="From manual"></label>
+<label class="sb-field">Headphone sensitivity (dB) <input name="headphoneSensitivity" type="number" min="50" max="140" step="0.1" inputmode="decimal" placeholder="From manual"></label>
+<label class="sb-field">Sensitivity basis <select name="headphoneBasis"><option value="">Choose the manufacturer basis</option><option value="power">dB SPL per mW</option><option value="voltage">dB SPL per V</option></select></label></div>
+</details>
+<p class="sb-gear-message" data-gear-message="headphone" role="status"></p>
+</div>
 </div>
 <label class="sb-inline"><input type="checkbox" name="keepWorking" checked> Check placement, setup and existing performance before spending on upgrades (entered equipment is always considered for reuse)</label>
 </section>
