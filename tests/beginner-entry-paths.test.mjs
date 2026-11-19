@@ -604,3 +604,53 @@ test('subwoofer and complete-system tasks mark connector and specification detai
   assert.equal(builderFieldRequirement('source_connections','subInput'),'optional');
   assert.equal(builderFieldRequirement('','buildIntent'),'required');
 });
+
+
+test('unlisted source and headphone searches produce provisional facts instead of name-only records',()=>{
+  const source=new FormData();
+  source.set('sourceOther','Unlisted network streamer');
+  source.set('sourceSpecUrl','https://example.org/network-streamer-manual');
+  source.set('sourceOutput','RCA');
+  const a=unlistedSpecAssessment('source',source);
+  assert.equal(a.state,'provisional');
+  assert.equal(a.record.values.sourceConnection,'RCA');
+  assert.equal(a.record.userEntered,true);
+  const hp=new FormData();
+  hp.set('headphoneOther','Unlisted studio headphone');
+  hp.set('headphoneSpecUrl','https://example.org/headphone-manual');
+  hp.set('headphoneLoad','80');
+  hp.set('headphoneSensitivity','100');
+  assert.equal(unlistedSpecAssessment('headphone',hp).state,'incomplete');
+  hp.set('headphoneBasis','power');
+  const h=unlistedSpecAssessment('headphone',hp);
+  assert.equal(h.state,'provisional');
+  assert.deepEqual(h.record.values,{load:80,sensitivity:100,basis:'power'});
+  assert.equal(h.record.evidence,'user_entered_unverified');
+  assert.match(decodeURIComponent(googleGearSearchUrl('headphone',h.model)),/sensitivity/);
+});
+test('improving an existing system preserves source and headphone catalogue or manual facts',()=>{
+  const d=new FormData();
+  d.set('sourceOther','Unlisted CD player');
+  d.set('sourceSpecUrl','https://example.org/cd-player-specifications');
+  d.set('sourceOutput','RCA');
+  d.set('headphoneOther','Unlisted headphones');
+  d.set('headphoneSpecUrl','https://example.org/headphone-manual');
+  d.set('headphoneLoad','32');
+  d.set('headphoneSensitivity','100');
+  d.set('headphoneBasis','power');
+  const scoped=scopedBuilderInputs(d,'improve_existing');
+  assert.equal(scoped.get('sourceOutput'),'RCA');
+  assert.equal(scoped.get('headphoneLoad'),'32');
+  assert.equal(validateBuilderIntent('improve_existing',d).ok,true);
+});
+test('search UI covers all owned gear classes without auto-import claims',async()=>{
+  const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
+  const app=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+  for(const kind of ['speaker','amp','source','headphone']){
+    assert.match(page,new RegExp('data-gear-search="'+kind+'"'));
+    assert.match(page,new RegExp('data-gear-matches="'+kind+'"'));
+    assert.match(page,new RegExp('name="'+kind+'SpecUrl"'));
+  }
+  assert.match(app,/for\(const kind of \['speaker','amp','source','headphone'\]\)/);
+  assert.match(page,/not.*automatically import|never scrape|cannot automatically import/i);
+});
