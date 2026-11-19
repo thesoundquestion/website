@@ -208,3 +208,26 @@
  .sb-recommend-compact>.sb-card-head,.sb-recommend-compact>.sb-beginner-status,.sb-recommend-compact>.sb-card-retained,.sb-recommend-compact>.sb-card-minor,.sb-recommend-compact>.sb-beginner-reason,.sb-recommend-compact>.sb-beginner-checks,.sb-recommend-compact>.sb-beginner-cost,.sb-recommend-compact>.sb-beginner-evidence,.sb-recommend-compact>.sb-card-details{grid-column:1/-1}
  .sb-recommend-compact>.sb-beginner-connection,.sb-recommend-compact>.sb-beginner-proof{height:100%}
 }
+
+
+/* Task-first, progressive form. Advanced fields are available without
+ * demanding that newcomers fill in equipment they do not own. */
+.sb-intent-panel{border-color:#46809e}
+.sb-intent-select{max-width:620px}
+.sb-intent-panel .sb-step{margin-bottom:.85rem}
+.sb-quick-setup{margin-top:1.15rem;align-items:start}
+.sb-quick-setup>.sb-listening-reference{grid-column:1/-1}
+.sb-quick-setup .sb-field{min-width:0}
+.sb-intent-feedback{padding:.8rem 1rem;margin:1rem 0 0;border-left:3px solid #e0a864;border-radius:8px;background:#30271e;color:#ffe4c0;line-height:1.5}
+.sb-source-help{padding:.8rem 1rem;margin-top:.9rem;background:#0b2033;border:1px solid #42617a;border-radius:10px}
+.sb-source-help p{font-size:.9rem;line-height:1.6}
+.sb-source-help .button{display:inline-flex;margin:.25rem .6rem .25rem 0}
+.sb-advanced-form{border:1px solid #3a6078;border-radius:13px;background:#0e2031}
+.sb-advanced-form>summary{padding:1rem 1.2rem;cursor:pointer;font-size:.88rem;font-weight:700;color:#aee4ff;line-height:1.45}
+.sb-advanced-form>summary:focus-visible{outline:3px solid #7adfff;outline-offset:3px}
+.sb-advanced-form[open]>summary{border-bottom:1px solid #3a6078}
+.sb-advanced-panels{display:grid;gap:1rem;padding:.85rem}
+.sb-advanced-form .sb-panel{background:#0e1b2b;border-color:#2b4558}
+.sb-intent-panel .sb-listening-reference{margin:0}
+.sb-form>.sb-actions{margin:.4rem 0 1rem}
+@media(max-width:650px){.sb-quick-setup{grid-template-columns:minmax(0,1fr)}.sb-source-help .button{width:100%;justify-content:center}.sb-advanced-panels{padding:.55rem}}
