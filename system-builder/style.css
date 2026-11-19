@@ -189,6 +189,7 @@
 .sb-beginner-critical{border-color:#d69d72;color:#ffe0ba;background:#342a25}
 .sb-beginner-review{border-color:#bca575;color:#f0dfb3;background:#282c2e}
 .sb-beginner-conditional{background:#102c3d}
+.sb-beginner-supported{border-color:#6ba79b;color:#d3f4ec;background:#12302f}
 .sb-beginner-reason,.sb-beginner-connection,.sb-beginner-proof,.sb-beginner-checks{margin:.65rem 0;padding:.65rem .8rem;background:#0b2031;border:1px solid #35536a;border-radius:9px;min-width:0}
 .sb-recommend-compact :is(.sb-beginner-reason,.sb-beginner-connection,.sb-beginner-proof,.sb-beginner-checks) h5{font-size:.96rem;color:#e8f6ff;margin:0 0 .35rem;line-height:1.35}
 .sb-recommend-compact .sb-beginner-plain{font-size:.87rem;line-height:1.58;color:#d5e6f0;margin:.2rem 0}
