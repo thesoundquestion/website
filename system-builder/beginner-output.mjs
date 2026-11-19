@@ -11,18 +11,18 @@ const architectures=Object.freeze({
   },
   consumer_powered_pair:{
     path:'Your music player connects straight to the powered speakers. Their amplifier is already built in, so you do not need to buy a separate amplifier to power them.',
-    check:'Check that the price includes both speakers, that they accept your music player's connection and that you can adjust the volume. Never connect the speaker outputs of another amplifier to their ordinary audio input.'
+    check:'Check that the price includes both speakers, that they accept your music player’s connection and that you can adjust the volume. Never connect the speaker outputs of another amplifier to their ordinary audio input.'
   },
   active_studio:{
     path:'Your music player connects to two powered studio speakers. Each speaker has its own amplifier; you do not need a separate speaker amplifier.',
-    check:'Make sure you are buying TWO speakers. Some studio monitors are sold one at a time. Check that you have the right audio connections, a way to control volume and power for each speaker. Never connect an external amplifier's speaker output to these speakers' audio inputs.'
+    check:'Make sure you are buying TWO speakers. Some studio monitors are sold one at a time. Check that you have the right audio connections, a way to control volume and power for each speaker. Never connect an external amplifier’s speaker output to these speakers’ audio inputs.'
   },
   headphone_first:{
     path:'Your phone, computer or music player needs a suitable headphone output. Choose headphones that fit comfortably and suit where you listen.',
     check:'Check that the device has an actual headphone output, not just an audio output meant for an amplifier. Also check the plug, comfort, sound leakage and safe volume.'
   },
   party_pa:{
-    path:'Your music player or microphone connects to the system's sound controls, which send audio to the powered speakers.',
+    path:'Your music player or microphone connects to the system’s sound controls, which send audio to the powered speakers.',
     check:'One speaker may not cover the whole space or give you stereo sound. Check power, placement, weather protection and whether it can play clearly at the level you need.'
   }
 });
@@ -116,7 +116,7 @@ export function explainBeginnerOption(item,request={}){
   }else if(item?.architecture==='passive_separates'){
     matchingEvidence='The amplifier supplies the power the speakers need, so the types of equipment make sense together. But we have not established that these exact models are an electrical match. Check the amplifier manual and speaker load details first.';
   }else if(item?.architecture==='consumer_powered_pair'||item?.architecture==='active_studio'){
-    matchingEvidence='The speakers have their own amplifier, so there is no separate speaker amplifier to match. We still need to check the music player's connection, volume control and whether the price includes both speakers.';
+    matchingEvidence='The speakers have their own amplifier, so there is no separate speaker amplifier to match. We still need to check the music player’s connection, volume control and whether the price includes both speakers.';
   }else{
     matchingEvidence='This type of system could work for the activity you chose. We still need to check the actual connections and whether the pieces meet your needs.';
   }
