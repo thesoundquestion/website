@@ -238,7 +238,7 @@ function render(plan){
     link(li,href,names[href]||'More about this part of the chain');
   }
   const verification=append(body,'p','sb-build-checker','Already have the gear? ');
-  link(verification,'/tools/chain-check-preview/','Use Chain Check for the technical limitations of a specific pair of devices');
+  link(verification,'/system-check/compare/','Use Compare My Gear to inspect documented ports, recording channels and other specifications');
   append(body,'p','sb-chain-disclaimer',plan.disclaimer);
   result.hidden=false;
 }
