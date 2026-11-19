@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {explainBeginnerOption} from '../system-builder/beginner-output.mjs';
 import {speakerPairingEvidence} from '../system-builder/pairing-evidence.mjs';
+import {subwooferConnections,knownSubExamplePlan} from '../system-builder/subwoofer-connection.mjs';
 import {BUILDER_INTENTS,builderIntent,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from '../system-builder/intent-routing.mjs';
 import {GOALS,buildPath} from '../tools/find-my-setup/engine.mjs';
 
@@ -393,4 +394,106 @@ test('an unusually low measured impedance is a specific exception, not the stand
   assert.equal(p.level,'needs_review');
   assert.equal(p.demandingMinimum,true);
   assert.match(p.plainWhy,/unusually low/);
+});
+
+test('subwoofer task asks only for existing gear and actual signal connections',async()=>{
+  const route=builderIntent('subwoofer');
+  assert.ok(route&&route.dedicatedSubRoute);
+  assert.ok(route.fields.includes('amp')&&route.fields.includes('speaker'));
+  assert.ok(route.fields.includes('subAmpOutput')&&route.fields.includes('subInput'));
+  assert.ok(!route.fields.includes('ampRatings')&&!route.fields.includes('speakerWatts'));
+  const d=new FormData();
+  d.set('amp','Existing integrated amp');
+  d.set('speaker','Existing stereo pair');
+  d.set('subAmpOutput','speaker_only');
+  d.set('subInput','rca_line');
+  assert.equal(validateBuilderIntent('subwoofer',d).ok,true);
+  const x=scopedBuilderInputs(d,'subwoofer');
+  assert.equal(x.get('amp'),'Existing integrated amp');
+  assert.equal(x.get('speaker'),'Existing stereo pair');
+  assert.equal(x.get('subMode'),'plan_sub');
+  const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
+  const app=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+  assert.match(page,/<option value="subwoofer">Add a subwoofer to my system<\/option>/);
+  for(const name of ['subAmpOutput','subInput','subHighPass','subName'])
+    assert.ok(page.includes('name="'+name+'"'));
+  assert.match(app,/dedicatedSubReport\(data\)/);
+  assert.match(app,/renderSubwooferWiring\(card,modelPlan/);
+});
+test('dedicated RCA subwoofer output and compatible RCA input means one simple lead',()=>{
+  const x=subwooferConnections({ampOutput:'sub_rca',subInput:'rca_line'});
+  assert.equal(x.kind,'direct_rca');
+  assert.equal(x.direct,true);
+  assert.match(x.signal,/Sub Out/);
+  assert.match(x.cable,/one RCA/i);
+  assert.match(x.mainBass,/main speakers will normally keep playing bass/i);
+  assert.equal(x.bassStatus,'not_verified');
+});
+test('speaker terminals into an RCA-only subwoofer must not be recommended as a direct wire',()=>{
+  const x=subwooferConnections({ampOutput:'speaker_only',subInput:'rca_line'});
+  assert.equal(x.kind,'converter');
+  assert.equal(x.direct,false);
+  assert.match(x.signal,/Connecting them directly can damage equipment/);
+  assert.match(x.cable,/speaker-to-line-level converter/);
+  assert.match(x.next,/speaker-level inputs/);
+});
+test('high-level subwoofer input requires additional speaker wire and amp topology check',()=>{
+  const x=subwooferConnections({ampOutput:'speaker_only',subInput:'speaker_high'});
+  assert.equal(x.kind,'speaker_level');
+  assert.equal(x.direct,true);
+  assert.match(x.cable,/Extra left\/right speaker wire/);
+  assert.match(x.next,/differential or Class-D/);
+  assert.notEqual(x.bassStatus,'supported_when_configured');
+});
+test('stereo PRE OUT is different from SUB OUT, REC OUT and speaker outputs',()=>{
+  const x=subwooferConnections({ampOutput:'preout_rca',subInput:'rca_line'});
+  assert.equal(x.kind,'stereo_preout');
+  assert.match(x.cable,/two RCA leads/);
+  assert.match(x.next,/not fixed REC OUT/);
+  assert.match(x.warnings.join(' '),/does not automatically filter bass/);
+});
+test('documented WiiM Amp and Edifier T5 give supported mono RCA route and configurable main high pass',()=>{
+  const x=subwooferConnections({ampName:'WiiM Amp',subName:'Edifier T5'});
+  assert.equal(x.kind,'direct_rca');
+  assert.equal(x.verifiedModelPath,true);
+  assert.equal(x.bassStatus,'supported_when_configured');
+  assert.match(x.mainBass,/Main Speakers Output Bass/);
+  assert.ok(x.sourceLinks.length>=2);
+});
+test('Kanto ORA and Edifier R1280DBs have distinct published main-speaker bass information',()=>{
+  const ora=knownSubExamplePlan('stereo-sub-ora');
+  assert.equal(ora.bassStatus,'supported_when_configured');
+  assert.match(ora.mainBass,/100 Hz/);
+  const edifier=knownSubExamplePlan('stereo-sub-edifier');
+  assert.equal(edifier.bassStatus,'not_verified');
+  assert.match(edifier.mainBass,/no verified crossover setting or high-pass curve/);
+  const wiim=knownSubExamplePlan('stereo-sub-wiim');
+  assert.equal(wiim.bassStatus,'supported_when_configured');
+});
+test('Edifier T5 line-level input cannot be treated as a speaker-level input',()=>{
+  const x=subwooferConnections({ampOutput:'speaker_only',subName:'Edifier T5'});
+  assert.equal(x.input,'rca_line');
+  assert.equal(x.kind,'converter');
+  assert.equal(x.direct,false);
+  assert.match(x.warnings.join(' '),/NO documented speaker-level input/);
+});
+test('user saying high-pass exists does not confer manufacturer-verified high pass',()=>{
+  const x=subwooferConnections({ampOutput:'sub_rca',subInput:'rca_line',highPass:'documented'});
+  assert.equal(x.bassStatus,'user_claim_unverified');
+  assert.match(x.mainBass,/Confirm the exact manual/);
+  const y=subwooferConnections({ampOutput:'sub_rca',subInput:'rca_line',highPass:'none'});
+  assert.equal(y.bassStatus,'not_present');
+});
+test('known model conflicts with user signal selection trigger review, not silent certification',()=>{
+  const x=subwooferConnections({ampName:'WiiM Amp',subName:'Edifier T5',ampOutput:'speaker_only'});
+  assert.equal(x.wiringStatus,'review');
+  assert.equal(x.verifiedModelPath,false);
+  assert.ok(x.warnings.some(x=>/do not agree/.test(x)));
+});
+test('no known amp or sub sockets means check first, not a made-up purchase plan',()=>{
+  const x=subwooferConnections({ampName:'Some unlisted amp',subName:'Some unknown sub'});
+  assert.equal(x.kind,'check');
+  assert.equal(x.direct,false);
+  assert.equal(x.sourceLinks.length,0);
+  assert.match(x.next,/back panels/);
 });
