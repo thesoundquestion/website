@@ -15,7 +15,7 @@ Private source plans:
 
 ## Functional changes staged for review
 
-1. Homepage keeps its brand identity and Jump Straight In navigation; the "Choose Your Path" area is now "What brought you here?" with practical beginner routes for learning/refresher, amp/speaker matching, first hi-fi, vinyl, digital sources, improving owned gear, recording/creating and terminology. Direct links to System Check and Decoder remain.
+1. Homepage **preserves the previously approved opening, Jump Straight In section and six-card Choose Your Path layout**. It adds a compact row of direct shortcuts for amp/speaker matching, vinyl, digital sources and improving owned equipment; the Lessons shortcut now explicitly welcomes refreshers. Creators keep their six prominent original goal cards. This is intentionally a smaller experiment than a homepage redesign.
 2. Decoder landing explicitly serves absolute beginners and returning enthusiasts. Lessons do not have to be followed in sequence; short explanations and sources are emphasized. All existing 27 lessons and technical calculations remain unchanged.
 3. Find My Setup preserves the eleven existing educational routes and adds four:
    - `match`: recognize powered vs passive, defer exact electrical/clean SPL checks to System Check.
@@ -49,9 +49,9 @@ Private source plans:
 
 ## Current validation and unresolved gaps
 
-- A code-level function evaluation has tested **all 303 answer combinations** across 15 guide goals, with no thrown error or empty result, on the proposed branch source. This is not yet evidence of physical mobile usability.
+- A code-level function evaluation has tested **all 303 answer combinations** across 15 guide goals, with no thrown error or empty result, on the proposed branch source. This is not yet evidence of physical mobile usability. An initial GitHub regression run flagged six-card/wording constraints from the previous approved homepage; the draft was corrected to preserve them and its existing fixed-count goal test was updated to retain the original eleven while adding four.
 - The new Node test file is `tests/beginner-entry-paths.test.mjs`, integrated into `release-browser-preflight.yml`; GitHub PR run is required for official build/browser status.
 - These routes do **not** yet implement shared typed intent state between Find My Setup and the Builders, complete product-level phono/DAC/adapter verification, or model-specific "safe matching". Those are described and gated in the separate private engineering plan.
-- Homepage card count/ordering are **hypotheses** to check with newcomers, not independently validated conversion optimizations.
+- The new quick-link labels and discoverability are **hypotheses** to test with newcomers, not validated conversion improvements. The homepage card count and original curiosity-led introduction were preserved after existing CI checks flagged their approved constraints.
 
 **Hard release boundary:** no merge to `main` and no Cloudflare build/deployment without explicit owner authorization for that specific action.
