@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {explainBeginnerOption} from '../system-builder/beginner-output.mjs';
 import {speakerPairingEvidence} from '../system-builder/pairing-evidence.mjs';
+import {unlistedSpecAssessment,catalogueGearMatches,googleGearSearchUrl} from '../system-builder/unlisted-gear.mjs';
 import {subwooferConnections,knownSubExamplePlan} from '../system-builder/subwoofer-connection.mjs';
+import {ampSpeakerScreening} from '../system-builder/owned-amp-speakers.mjs';
 import {BUILDER_INTENTS,builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from '../system-builder/intent-routing.mjs';
 import {GOALS,buildPath} from '../tools/find-my-setup/engine.mjs';
 
@@ -324,13 +326,64 @@ test('only the equipment the visitor wants to shop for must be absent from inven
   assert.equal(validateBuilderIntent('headphones',missing).ok,true);
   assert.equal(validateBuilderIntent('improve_existing',missing).ok,true);
 });
-test('unlisted existing model is a permitted starting point without inventing a rating',()=>{
+test('unlisted model name alone cannot drive amplifier suggestions',()=>{
   const d=new FormData();
   d.set('speakerOther','Vintage speaker exact model');
+  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,false);
+  assert.match(validateBuilderIntent('amp_for_speakers',d).message,/manual|specification|source/i);
+  d.set('speakerSpecUrl','https://maker.example/speakers/manual');
+  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,false);
+  d.set('speakerLoad','8');
   assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,true);
-  const s=scopedBuilderInputs(d,'amp_for_speakers');
-  assert.equal(s.get('speakerOther'),'Vintage speaker exact model');
-  assert.equal(s.get('ampOther'),'');
+  const v=unlistedSpecAssessment('speaker',d);
+  assert.equal(v.state,'provisional');
+  assert.equal(v.record.values.load,8);
+  assert.equal(v.record.userEntered,true);
+  assert.equal(v.record.evidence,'user_entered_unverified');
+  const scoped=scopedBuilderInputs(d,'amp_for_speakers');
+  assert.equal(scoped.get('speakerOther'),'Vintage speaker exact model');
+  assert.equal(scoped.get('speakerLoad'),'8');
+  assert.equal(scoped.get('ampOther'),'');
+});
+test('unlisted amplifier requires comparable source-backed electrical figures',()=>{
+  const d=new FormData();
+  d.set('ampOther','Old receiver');
+  d.set('ampSpecUrl','https://maker.example/receivers/manual.pdf');
+  d.set('ampMinLoad','6');
+  assert.equal(validateBuilderIntent('speakers_for_amp',d).ok,false);
+  d.set('ampRatedWatts','80');
+  d.set('ampRatedLoad','8');
+  assert.equal(validateBuilderIntent('speakers_for_amp',d).ok,true);
+  const v=unlistedSpecAssessment('amp',d);
+  assert.equal(v.state,'provisional');
+  assert.equal(v.record.userNominalFloor,6);
+  assert.deepEqual(v.record.ratings,[[80,8,'continuous']]);
+  assert.equal(v.record.details,null);
+  const manualScreen=ampSpeakerScreening({name:v.model,record:v.record});
+  assert.equal(manualScreen.discoveryFloor,6);
+  assert.equal(manualScreen.explicitNominalFloor,null);
+  assert.equal(manualScreen.userSupplied,true);
+  assert.equal(manualScreen.minPublishedTestOhms,null);
+});
+test('gear search finds exact listed models and Google URL is a user-initiated discovery aid',()=>{
+  const matches=catalogueGearMatches([{model:'Yamaha A-720'},{model:'Sony STR-DH190'},{model:'Yamaha R-S202'}],'yamaha a 720');
+  assert.equal(matches[0]?.model,'Yamaha A-720');
+  assert.equal(catalogueGearMatches([{model:'Yamaha A-720'}],'nosuch').length,0);
+  const url=googleGearSearchUrl('speaker','Paradigm Phantom v1');
+  assert.match(url,/google\.com\/search\?q=/);
+  assert.match(decodeURIComponent(url),/Paradigm Phantom v1/);
+});
+test('speaker and amplifier provisional figures never earn manufacturer-confirmed pairing labels',()=>{
+  const d=new FormData();
+  d.set('ampOther','Unlisted amplifier');d.set('ampSpecUrl','https://maker.example/manual');
+  d.set('ampMinLoad','8');d.set('ampRatedWatts','70');d.set('ampRatedLoad','8');
+  const amp=unlistedSpecAssessment('amp',d).record;
+  const p=speakerPairingEvidence({record:amp},
+    ampSpeakerScreening({name:'Unlisted amplifier',record:amp}),
+    {url:'https://speaker.example/specifications',values:{load:8,minimum:6}});
+  assert.equal(p.level,'needs_review');
+  assert.equal(p.provisional,true);
+  assert.doesNotMatch(p.label,/good basic match/i);
 });
 test('new shopping intent cannot inherit irrelevant hidden product values',()=>{
   const d=new FormData();
@@ -507,6 +560,10 @@ test('all visible Builder dropdowns and typed fields receive task-sensitive Requ
   assert.match(app,/status\.textContent=messages\[rule\]/);
   assert.match(app,/field\.required=rule==='required'/);
   assert.match(page,/id="sb-required-group-help"/);
+  assert.match(page,/data-gear-search="speaker"/);
+  assert.match(page,/data-gear-search="amp"/);
+  assert.match(app,/unlistedSpecAssessment\(kind,data\)/);
+  assert.match(app,/showQuickNode\(document\.getElementById\('sb-'/);
   assert.match(styles,/\.sb-field-requirement\[data-requirement="required_either"\]/);
   assert.ok(!/<input[^>]*name="distanceFt"[^>]*\brequired\b/.test(page),
     'Listening distance is defaulted and must not secretly block submission');
@@ -515,24 +572,28 @@ test('finding an amp requires identification of owned speakers, either by dropdo
   assert.equal(builderFieldRequirement('amp_for_speakers','buildIntent'),'required');
   assert.equal(builderFieldRequirement('amp_for_speakers','speaker'),'required_either');
   assert.equal(builderFieldRequirement('amp_for_speakers','speakerOther'),'optional_alternative');
+  assert.equal(builderFieldRequirement('amp_for_speakers','speakerLoad'),'required_if_unlisted');
+  assert.equal(builderFieldRequirement('amp_for_speakers','speakerSpecUrl'),'required_if_unlisted');
   for(const name of ['amp','ampOther','budget','goal','level','distanceFt','region','subInput'])
     assert.equal(builderFieldRequirement('amp_for_speakers',name),'optional',name);
   const d=new FormData();
   assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,false);
   d.set('speakerOther','My unlisted speakers');
-  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,true);
+  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,false);
   d.set('speakerOther','');d.set('speaker','A catalog speaker pair');
   assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,true);
 });
 test('finding speakers makes only the existing amplifier identity necessary',()=>{
   assert.equal(builderFieldRequirement('speakers_for_amp','amp'),'required_either');
   assert.equal(builderFieldRequirement('speakers_for_amp','ampOther'),'optional_alternative');
+  assert.equal(builderFieldRequirement('speakers_for_amp','ampRatedWatts'),'required_if_unlisted');
+  assert.equal(builderFieldRequirement('speakers_for_amp','ampSpecUrl'),'required_if_unlisted');
   for(const name of ['speaker','speakerOther','budget','distanceFt','level'])
     assert.equal(builderFieldRequirement('speakers_for_amp',name),'optional');
   const d=new FormData();
   assert.equal(validateBuilderIntent('speakers_for_amp',d).ok,false);
   d.set('ampOther','An old integrated amplifier');
-  assert.equal(validateBuilderIntent('speakers_for_amp',d).ok,true);
+  assert.equal(validateBuilderIntent('speakers_for_amp',d).ok,false);
 });
 test('subwoofer and complete-system tasks mark connector and specification details optional',()=>{
   for(const intent of ['subwoofer','complete_system','improve_existing','headphones']){
