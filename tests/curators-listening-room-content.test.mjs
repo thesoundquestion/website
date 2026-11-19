@@ -13,7 +13,7 @@ const section = id => {
 test('Listening Room selection totals match actual cards', () => {
   const count = [...html.matchAll(/<article class="curator-track"/g)].length;
   const riffs = section('riffs-and-grooves');
-  assert.equal(count, 51);
+  assert.equal(count, 52);
   assert.equal([...riffs.matchAll(/<article class="curator-track"/g)].length, 21);
   assert.match(html, /51 listening selections/);
   assert.match(html, /03 \/ 21 SELECTIONS/);
@@ -55,4 +55,19 @@ test('New listening selections and platform links are published', () => {
   assert.match(dynamics, /Sister Christian/);
   assert.match(html, /spotify\.com\/playlist\/2oIjBSeLGbg6gqqaeyGrKI/);
   assert.match(html, /sdz\.sh\/2r8wVo/);
+});
+
+test('Blind Melon Soak the Sin highlights an open busy mix and encourages full-album discovery', () => {
+  const mixing=section('mixing');
+  assert.equal([...mixing.matchAll(/<article class="curator-track"/g)].length, 2);
+  assert.match(html, /05 \/ 2 SELECTIONS/);
+  assert.match(html, /Mixing &amp; Production Choices <span aria-hidden="true">\(2\)<\/span>/);
+  assert.match(mixing, /id="track-mixing-2"/);
+  assert.match(mixing, /<p class="curator-artist">Blind Melon<\/p><h3>Soak the Sin<\/h3>/);
+  for(const term of ['busy rock song','remarkably open','drum tone','high-end detail',
+    'No Rain','Full-album recommendation','Don&#39;t stop at the single']){
+    assert.ok(mixing.includes(term), 'Missing listening cue: '+term);
+  }
+  assert.match(mixing, /open\.spotify\.com\/album\/7yz9SLBNG9nOTuP1aP638b/);
+  assert.match(mixing, /open\.spotify\.com\/album\/1oFb2lITfburNYlKeyGnMO/);
 });
