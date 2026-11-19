@@ -71,6 +71,7 @@ Do not constrain the search to the owner's favorite artists, a prescribed genre 
 ## Lesson title and opening paragraph rule
 - The **lesson overview, directory cards and Previous/Next links** use descriptive technical subject names, not musical puns. Search/browser metadata should prioritize the technical topic.
 - The **individual lesson H1** may use an owner-approved musical title, preferably with a clear technical descriptor.
+- **Visual consistency (all 27 lessons):** In each individual lesson H1, keep the musical opening in the normal title colour and wrap the descriptive/technical follow-on words in `<span class="gradient-text">...</span>`, matching Lesson 22. For a title without a colon, split at the natural transition between the musical hook and its explanatory phrase. This is an H1-only rule: the lesson overview and Previous/Next labels stay plain technical text.
 - The **first explanatory paragraph directly below the H1** must bridge the title to the technical subject. A reader unfamiliar with the song should still understand why the heading fits; the paragraph must immediately teach something useful rather than explain the reference or apologize for the pun.
 - Do not name the artist, identify the lyric, label the joke, or force the reference a second time. Avoid gratuitous rhyme and sacrifice neither factual accuracy nor beginner clarity.
 - Audit the H1/lead pairing whenever a musical title changes; ensure mobile layouts and the lesson overview remain coherent.
