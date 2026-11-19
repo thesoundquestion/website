@@ -217,7 +217,12 @@ document.addEventListener('DOMContentLoaded', () => {
     for(const label of form.querySelectorAll('label.sb-field')){
       const field=label.querySelector('select, input:not([type="checkbox"])');
       if(!field)continue;
-      const rule=builderFieldRequirement(id,field.name);
+      let rule=builderFieldRequirement(id,field.name);
+      if(rule==='required_if_unlisted'){
+        const kind=field.name.startsWith('speaker')?'speaker':'amp';
+        const hasCustom=String(form.elements.namedItem(kind+'Other')?.value||'').trim();
+        if(!hasCustom)rule='optional';
+      }
       let status=label.querySelector('.sb-field-requirement');
       if(!status){
         status=el('span','sb-field-requirement');
@@ -333,10 +338,19 @@ document.addEventListener('DOMContentLoaded', () => {
   for (const kind of ['speaker','amp','source','headphone']) {
     const preset = form.elements.namedItem(kind);
     const other = form.elements.namedItem(kind+'Other');
-    preset.addEventListener('change', () => { if (preset.value) other.value = ''; });
+    preset.addEventListener('change', () => {
+      if (preset.value)other.value = '';
+      if(kind==='speaker'||kind==='amp'){
+        refreshGearSearch(kind);
+        updateFieldRequirements();
+      }
+    });
     other.addEventListener('input', () => {
       if (other.value.trim()) preset.value = '';
-      if(kind==='speaker'||kind==='amp')refreshGearSearch(kind);
+      if(kind==='speaker'||kind==='amp'){
+        refreshGearSearch(kind);
+        updateFieldRequirements();
+      }
     });
   }
   // Free, client-side catalogue lookup, with an explicit external manual search
