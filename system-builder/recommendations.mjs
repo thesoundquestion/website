@@ -1,4 +1,5 @@
 import {BUDGET_EXAMPLES} from './budget-examples.mjs';
+import {curatedPairingFor} from './curated-pairing-evidence.mjs';
 import {catalogHeadphoneExamples} from './headphone-options.mjs';
 import {compareExamplePriorities, examplePriceFor, explainExampleInteractions} from './decision-context.mjs';
 import {configureSubExample, requestedSubExamples} from './stereo-subwoofer-examples.mjs';
@@ -20,7 +21,7 @@ export const EXAMPLES = Object.freeze([
       {name:'PSB Alpha P5 passive speakers',count:1,role:'One stereo pair',url:'https://www.psbspeakers.com/collections/alpha'}
     ],
     why:'A conventional separate-amp system with built-in optical conversion and a wider speaker-upgrade path than compact powered boxes.',
-    tradeoff:'Not a verified speaker/amplifier load match until the P5 minimum-impedance curve, amplifier permitted loads and room output needs are checked. Sub Out on the A-S301 is not evidence that its main speakers are high-passed.',
+    tradeoff:'The Yamaha A-S301 supports a single 8 Ω nominal PSB Alpha P5 pair on the documented HIGH impedance-selector setting. The published load match does not predict clean volume in your room. Sub Out is not evidence that the main speakers are high-passed.',
     extra:['Speaker cable is required; stands, streamer and optional subwoofer are separate.',
       'For Bluetooth, USB or HDMI, add and price an appropriate source or converter.'],
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Yamaha A-S301',amount:649.95,url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},{label:'PSB Alpha P5 pair',amount:699,url:'https://audioshop.on.ca/products/psb-p5-bookshelf-speakers'}]}
@@ -204,7 +205,11 @@ export function shortlistExamples(input = {}, catalog = null) {
         new Set(selected.map(x=>x.architecture)).size < 3) continue;
     const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
     const prices = examplePriceFor(product, input);
-    selected.push({ ...configureSubExample(product, input), ...prices,
+    const configured=configureSubExample(product, input);
+    const curatedPairing=curatedPairingFor(configured);
+    // A named, manufacturer-supported pair is different from an unverified
+    // example. Do not re-label it as a dangerous electrical mismatch.
+    selected.push({ ...configured, ...prices, curatedPairing,
       editorialGoalFocus: product.goals.includes(aim),
       decisionReasons:explainExampleInteractions(product,input),
       secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
