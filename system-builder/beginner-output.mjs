@@ -35,16 +35,24 @@ export function explainBeginnerOption(item,request={}){
     check:'Confirm the actual connection, control, electrical requirements and full system cost.'
   };
   const reuse=['owned-complete','owned-headphones','owned-other-route','owned-powered-pair'].includes(item?.id);
-  const blocked=Boolean(item?.loadCaution||item?.ownershipBlocker);
+  const pairing=item?.pairingEvidence||null;
+  // A routine caution on a screened speaker pair is not by itself proof of an
+  // incompatibility. A known blocker, missing nominal data or demanding minimum
+  // still belongs ahead of shopping recommendations.
+  const blocked=Boolean(item?.ownershipBlocker||
+    (item?.loadCaution&&!pairing)||
+    (pairing&&(pairing.nominal===null||pairing.demandingMinimum)));
   const externalInput=item?.connectionStatus==='adapter_needed';
   const condition=Boolean(item?.sourceCaution||item?.pathwayCaution||item?.levelCaution||item?.placementCaution||item?.sourceBatteryCaution);
   const status=blocked?'Important match concern':reuse?'Use what you own · still verify':
-    externalInput?'Extra connection needed':'Candidate system · not fully verified';
+    externalInput?'Extra connection needed':
+    pairing?pairing.label:'Candidate system · not fully verified';
   const reason=first(item?.headphoneRationale,item?.amplifierReason,item?.speakerRationale,
     item?.ownershipMessage,item?.why,
     'This option was included for your selected listening priorities and system approach.');
   const checks=unique([
     item?.ownershipBlocker||item?.loadCaution,
+    pairing?.demandingMinimum?'The published impedance minimum may be demanding; obtain actual amplifier/manual approval before connecting.':'',
     item?.sourceCaution,
     item?.pathwayCaution,
     externalInput?'Your chosen source connection needs a verified converter, adapter or different input. A cable is not always sufficient.':'',
@@ -57,7 +65,10 @@ export function explainBeginnerOption(item,request={}){
   ]);
   const fit=item?.amplifierFit;
   let matchingEvidence='';
-  if(fit?.amp&&fit?.speaker){
+  if(pairing){
+    matchingEvidence=pairing.label+'. '+pairing.notes.join(' ')+
+      ' Higher documentation coverage improves this shortlist’s ordering but does NOT certify a safe, audible or perfect match.';
+  }else if(fit?.amp&&fit?.speaker){
     matchingEvidence=fit.amp.exact&&Number.isFinite(fit.amp.watts)&&Number.isFinite(fit.amp.ohms)
       ?'A published amplifier rating exists at '+fit.amp.ohms+' Ω ('+fit.amp.watts+' W/channel). That is a relevant electrical data point, not proof the actual speaker impedance curve or listening headroom is acceptable.'
       :'No published amplifier output rating at this speaker’s nominal load has been established for this comparison. Electrical suitability remains uncertain.';
