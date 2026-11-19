@@ -2,6 +2,12 @@
 **Established:** 2026-11-19  
 **Status:** Owner-approved creative direction. Editorial convention, not authorization to publish, deploy, use copyrighted recordings, or quote lyrics.
 
+## Why this is part of the brand
+
+The Sound Question is **music first, questions and evidence in service of the listening experience**. Readers should feel encouraged to play the records they already love. A song need not be an audiophile demonstration, impeccably recorded or even technically "good" to be worth listening to. High-quality recordings can be revealing learning examples, but should never be treated as compulsory listening.
+
+The Easter eggs invite people to discover more of the site by rewarding their own knowledge and musical taste. Recognizable popular references make the first discovery accessible; deeper cuts are scattered naturally across relevant lessons. Do not turn this into a scored hunt, publish a spoiler map, or announce or highlight the references. The reader's enjoyment of music remains the reason for exploring the specifications.
+
 ## Intent
 Let the reader or viewer occasionally discover a musical reference that belongs naturally in the explanation. References should be unannounced, unhighlighted, and amusing to those who recognize them without confusing those who do not. They are a quiet sign that the project is written by listeners, not a substitute for useful technical explanations.
 
