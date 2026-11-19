@@ -500,3 +500,8 @@ main{flex:1}
 .dl-related-action span{color:#a8c1d4;font-weight:700;font-size:.76rem;letter-spacing:.055em;text-transform:uppercase}
 .dl-related-action a{font-size:.91rem;color:#aae2fa;text-decoration:underline;text-underline-offset:.17em}
 @media(max-width:650px){.tsq-footer-inner{align-items:flex-start;flex-direction:column}.dl-related-action{align-items:flex-start;flex-direction:column}}
+
+/* Keep a related lesson action aligned with the main reading column. */
+.dl-related-action{width:min(calc(100% - 42px),var(--max,1180px));margin-inline:auto}
+.site-foot nav a{color:#b8e5fb;text-decoration:underline;text-underline-offset:.2em}
+.tsq-experiment-footer nav a{color:#b8e5fb;text-decoration:underline;text-underline-offset:.2em}
