@@ -19,9 +19,9 @@ test('the generated catalogue is current with all three existing data sources',(
   assert.equal(registry.schemaVersion,'1.0.0');
   assert.equal(registry.status,'draft_not_published');
   assert.equal(registry.summary.legacyProfiles,130);
-  assert.equal(registry.summary.researchProfiles,48);
+  assert.equal(registry.summary.researchProfiles,53);
   assert.equal(registry.summary.builderSupplementProfiles,17);
-  assert.equal(registry.summary.totalModels,192);
+  assert.equal(registry.summary.totalModels,197);
   assert.equal(new Set(registry.records.map(r=>r.id)).size,registry.records.length);
   assert.ok(registry.records.every(r=>r.profiles.length>=1&&r.evidence.length>=1));
   assert.ok(registry.records.every(r=>r.evidence.every(e=>e.url.startsWith('https://'))));
