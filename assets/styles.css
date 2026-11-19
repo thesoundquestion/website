@@ -588,3 +588,19 @@ main{flex:1}
  .home-simple .home-more-grid a:hover,.home-simple .home-goal-card:hover .home-goal-arrow,
  .home-simple .home-quick-links a:hover .home-quick-art{transform:none}
 }
+
+/* Restored homepage question, deliberately compact to keep the hero footprint
+   close to the previous single-line introduction. */
+.home-simple .home-goal-intro .home-homepage-question{
+  max-width:920px;
+  font-size:clamp(.93rem,1.18vw,1.06rem);
+  line-height:1.48;
+  letter-spacing:0;
+  margin:0;
+}
+@media(max-width:620px){
+  .home-simple .home-goal-intro .home-homepage-question{
+    font-size:.93rem;
+    line-height:1.46;
+  }
+}
