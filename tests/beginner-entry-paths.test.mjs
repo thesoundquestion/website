@@ -157,3 +157,23 @@ test('guide and Builder reference the same explicit handoff contract without sto
   for(const script of [source,builder])
     assert.doesNotMatch(script,/\b(?:localStorage|sessionStorage|XMLHttpRequest|sendBeacon)\b/);
 });
+
+test('listening level dropdown explains 80, 85 and 110 dB without treating a peak as an average',async()=>{
+  const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
+  const css=await readFile(new URL('../system-builder/style.css',import.meta.url),'utf8');
+  const start=page.indexOf('<select name="level">');
+  const ref=page.indexOf('id="sb-listening-reference-title"');
+  const next=page.indexOf('<select name="connection">');
+  assert.ok(start>=0&&ref>start&&next>ref,'Level explanation should be immediately after its dropdown');
+  for(const term of ['80 dBA','85 dBA','110 dB','LAeq','dBA','dBC','Z-weighting','not</em> an 110 dBA listening average'])
+    assert.ok(page.includes(term),'Missing sound-level explanation: '+term);
+  assert.match(page,/Phone microphones, cases and automatic processing differ/);
+  assert.match(page,/not a reliable way to verify a 110 dB transient/);
+  assert.match(page,/not automatically the same as its unweighted dB SPL target/);
+  assert.match(page,/cdc\.gov\/niosh\/noise\/about\/app\.html/);
+  assert.match(page,/f-droid\.org\/en\/packages\/org\.noise_planet\.noisecapture/);
+  assert.match(page,/www\.who\.int\/news-room\/questions-and-answers\/item\/deafness-and-hearing-loss-safe-listening/);
+  assert.match(css,/\.sb-listening-examples\{display:grid/);
+  assert.match(css,/@media\(max-width:650px\)\{\.sb-listening-examples\{grid-template-columns:minmax\(0,1fr\)\}\}/);
+  assert.match(page,/name="level"[^>]*>/);
+});
