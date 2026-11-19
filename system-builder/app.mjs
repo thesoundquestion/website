@@ -1,5 +1,6 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
+import {catalogueGearMatches,googleGearSearchUrl,unlistedSpecAssessment} from './unlisted-gear.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
 import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
@@ -207,7 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const messages={
       required:'Required',
       required_either:'Required: choose here OR type below',
-      optional_alternative:'Optional: type instead',
+      optional_alternative:'Search for my gear (if not listed)',
+      required_if_unlisted:'Required for an unlisted model',
       optional:'Optional'
     };
     // The label wraps the actual field, so screen-reader users hear the same
@@ -235,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(route?.requiredOwn){
       const name=route.requiredOwn==='speaker'?'speakers':'amplifier or receiver';
       requiredGroupHelp.textContent='Required: identify the '+name+
-        ' you already have. Choose a model from the dropdown OR type the model name in the next box. Only one of the two needs an answer.';
+        ' you already have. Choose a sourced model from the list, OR search for your unlisted model and add the relevant figures from its manufacturer specifications. A name alone is not enough for matching.';
     }else requiredGroupHelp.textContent='';
   }
   function setBuilderIntent({preserveGuide=false}={}){
@@ -274,6 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const control=form.elements.namedItem(key);
       const node=control?.closest('label');
       if(node)showQuickNode(node);
+      if(key==='speakerOther'||key==='ampOther')
+        showQuickNode(document.getElementById('sb-'+(key==='speakerOther'?'speaker':'amp')+'-search'));
       if(key==='level'&&reference)showQuickNode(reference);
     }
     updateFieldRequirements();
@@ -330,7 +334,59 @@ document.addEventListener('DOMContentLoaded', () => {
     const preset = form.elements.namedItem(kind);
     const other = form.elements.namedItem(kind+'Other');
     preset.addEventListener('change', () => { if (preset.value) other.value = ''; });
-    other.addEventListener('input', () => { if (other.value.trim()) preset.value = ''; });
+    other.addEventListener('input', () => {
+      if (other.value.trim()) preset.value = '';
+      if(kind==='speaker'||kind==='amp')refreshGearSearch(kind);
+    });
+  }
+  // Free, client-side catalogue lookup, with an explicit external manual search
+  // only if no exact sourced preset matches. No scraping or fictional autofill.
+  function refreshGearSearch(kind){
+    const typed=String(form.elements.namedItem(kind+'Other')?.value||'').trim();
+    const link=document.querySelector('[data-gear-web="'+kind+'"]');
+    const message=document.querySelector('[data-gear-message="'+kind+'"]');
+    if(link)link.href=googleGearSearchUrl(kind,typed);
+    if(message)message.textContent=typed?
+      'Search our catalogue first. If there is no exact match, open the maker’s manual and copy the required numbers. This does not import web search results automatically.':
+      'Start by typing the manufacturer and exact model above.';
+  }
+  for(const kind of ['speaker','amp']){
+    const panel=document.getElementById('sb-'+kind+'-search');
+    if(!panel)continue;
+    const button=panel.querySelector('[data-gear-search]');
+    const results=panel.querySelector('[data-gear-matches]');
+    const detail=panel.querySelector('[data-gear-details]');
+    button.addEventListener('click',()=>{
+      const query=String(form.elements.namedItem(kind+'Other').value||'').trim();
+      results.replaceChildren();
+      if(query.length<2){
+        addText(results,'p','Type at least two letters of your equipment model to search.','sb-help');
+        return;
+      }
+      const options=[...form.elements.namedItem(kind).options]
+        .filter(x=>x.value).map(x=>({model:x.value}));
+      const matches=catalogueGearMatches(options,query);
+      if(!matches.length){
+        addText(results,'p','No exact model found in the current catalogue. Use the Google manufacturer search link, then enter the specifications from its manual below.','sb-help');
+        detail.open=true;
+        return;
+      }
+      addText(results,'p','Choose the exact model and revision below to use its source-backed catalogue specifications:','sb-help');
+      for(const item of matches){
+        const choose=el('button','button button-secondary',item.model);
+        choose.type='button';
+        choose.addEventListener('click',()=>{
+          form.elements.namedItem(kind).value=item.model;
+          form.elements.namedItem(kind+'Other').value='';
+          results.replaceChildren();
+          detail.open=false;
+          refreshGearSearch(kind);
+          updateFieldRequirements();
+        });
+        results.append(choose);
+      }
+    });
+    refreshGearSearch(kind);
   }
   form.addEventListener('reset', () => queueMicrotask(() => {
     subOwnershipChosen = false;
@@ -452,7 +508,11 @@ document.addEventListener('DOMContentLoaded', () => {
         kind==='headphone' ? builderOnlyHeadphoneFor(exact) :
         kind==='amp' ? builderOnlyAmpFor(exact) : null) ||
       (shared?asLegacyView(shared,kind):null);
-    return {name: custom || record?.model || '', record: custom ? null : record, unlisted: !!custom};
+    const submitted=custom?unlistedSpecAssessment(kind,data):null;
+    const resolved=custom?submitted?.record:record;
+    return {name: custom || resolved?.model || '', record: resolved||null,
+      unlisted: !!custom,userSupplied:submitted?.state==='provisional',
+      specStatus:submitted?.state||'catalogue',specMessage:submitted?.message||''};
   }
   let reportContainer = null;
   function section(title) {
@@ -560,6 +620,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Your chosen '+(options[arch]?.title || 'event/listening')+' route may not use '+own.amp.name+' directly. A separate compatible route retaining it is still shown below.','sb-brief-note');
     if (anyOwned)
       addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
+    if(Object.values(own).some(x=>x.userSupplied))
+      addText(shop,'p','Important: these suggestions use numerical figures you copied from a source. We have not independently verified the model revision or figures. Every equipment match is provisional until the manufacturer documentation and actual load are confirmed.','sb-brief-note');
     const preference=validPricePreference(String(data.get('pricePreference')||'any'));
     const budget = budgetText ? Number(budgetText) : null;
     const request = {
@@ -1018,8 +1080,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!x.name) continue;
         const line = addText(ownedSection,'p',kind[0].toUpperCase() + kind.slice(1) + ': ' + x.name);
         line.style.marginBottom = '.25rem';
-        if (x.unlisted) addText(ownedSection,'p','Unlisted model: specifications and exact revision not verified. Please check its manufacturer documentation.','sb-help');
-        else {
+        if (x.unlisted){
+          addText(ownedSection,'p',x.userSupplied?
+            'User-entered specifications: '+x.specMessage+' These numbers are provisional, not part of the verified catalogue.':
+            'Unlisted model: no usable specifications were supplied. The tool cannot verify compatibility from the model name.','sb-help');
+          if(x.record?.url)link(ownedSection,x.record.url,'Visitor-provided specification or manual');
+        }else {
           addText(ownedSection,'p','Saved preset, not an endorsement. ' + (x.record.note || 'No additional note recorded.'),'sb-help');
           link(ownedSection,x.record.url,'Preset specification source');
           if (x.record.details?.reference && x.record.details.reference !== x.record.url)
