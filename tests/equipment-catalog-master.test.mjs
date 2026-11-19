@@ -17,7 +17,7 @@ const serial=value=>JSON.parse(JSON.stringify(value));
 test('master contains all editable equipment source classes and no public ownership fields',()=>{
  assert.equal(master.schemaVersion,'1.0.0');
  assert.equal(master.status,'authoring_draft');
- assert.equal(master.researchCatalog.records.length,48);
+ assert.equal(master.researchCatalog.records.length,53);
  assert.equal(Object.values(master.legacyGear).flat().length,130);
  assert.equal(master.builderOnly.speakers.length+master.builderOnly.amplifiers.length+
    master.builderOnly.headphones.length,17);
