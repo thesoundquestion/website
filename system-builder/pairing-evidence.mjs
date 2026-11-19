@@ -22,22 +22,20 @@ export function speakerPairingEvidence(ownedAmp={},screen={},speaker={}){
   const hasManufacturerRule=explicit!==null&&nominal!==null&&nominal>=explicit;
   const hasMinimum=minimum!==null;
   const testedMin=number(screen?.minPublishedTestOhms);
-  // Published impedance dips below a manufacturer’s nominal-load figure do not
-  // automatically contradict the *nominal* guidance, but add uncertainty.
-  const demandingMinimum=hasMinimum&&(
-    (explicit!==null&&minimum<explicit)||
-    (explicit===null&&testedMin!==null&&minimum<testedMin)
-  );
-  // Nominal missing cannot outrank documented load data, even if unrelated
-  // catalog information happens to be complete.
+  // Speaker impedance naturally varies with frequency. It would be wrong to
+  // call an 8-ohm nominal speaker incompatible with an 8-ohm-rated amplifier
+  // just because its measured minimum is below 8 ohms.
+  // Reserve extra screening for a genuinely unusual published dip, less than
+  // 75% of nominal, or an explicit contrary manufacturer instruction.
+  const demandingMinimum=hasMinimum&&nominal!==null&&minimum<nominal*0.75;
   const unknownNominal=nominal===null;
-  // Explicit manufacturer guidance is stronger than a resistive test load.
-  let tier=unknownNominal?9:7-
-    (hasManufacturerRule?4:0)-(hasMinimum?2:0)-(exactRated?1:0);
-  // Known demanding dips need review; don't reward them just for being known.
+  // A documented manufacturer-supported nominal load is the strongest normal
+  // beginner match. A power test at that load is useful corroboration but
+  // is not equivalent to a manufacturer's speaker-load permission.
+  let tier=hasManufacturerRule?(exactRated?0:1):
+    exactRated?3:nominal!==null?5:8;
   if(demandingMinimum)tier=Math.max(6,tier);
-  // Unattributed numbers must not outrank sourced model-specific records.
-  if(!confirmedSource)tier=Math.max(8,tier);
+  if(!confirmedSource)tier=Math.max(7,tier);
   const notes=[];
   if(hasManufacturerRule)
     notes.push('The amplifier has documented manufacturer guidance of at least '+explicit+
@@ -58,36 +56,37 @@ export function speakerPairingEvidence(ownedAmp={},screen={},speaker={}){
     notes.push('No directly comparable continuous amplifier rating at this speaker’s nominal load is documented.');
   if(demandingMinimum)
     notes.push('Published minimum impedance dips below the relevant nominal/test reference; the load may demand more current and must not be treated as cleared.');
-  // Coverage is not the same as suitability. A missing minimum or a demanding
-  // impedance dip can never receive the strongest explanatory label.
-  const level=!unknownNominal && confirmedSource && hasManufacturerRule &&
-      hasMinimum && exactRated && !demandingMinimum ? 'better_documented':
-    !unknownNominal && confirmedSource && !demandingMinimum &&
-      (hasManufacturerRule || exactRated || hasMinimum) ?
-      'partially_documented':'limited';
-  const label=level==='better_documented'?'The published numbers give us a stronger starting point':
-    level==='partially_documented'?'This is worth considering, but we still need to check more':
-    'We need more information before recommending this connection';
+  // A speaker minimum need NOT be published for its manufacturer's
+  // nominal-impedance rating to be a useful ordinary buying guide.
+  const level=hasManufacturerRule&&!demandingMinimum&&confirmedSource?'basic_match':
+    exactRated&&!demandingMinimum&&confirmedSource?'rated_load_only':'needs_review';
+  const label=level==='basic_match'?'Good basic match based on published specifications':
+    level==='rated_load_only'?'The published load and power test can be compared':
+    'Check the speaker and amplifier ratings before choosing';
   const ohms=nominal===null?'an unknown load':nominal+'-ohm speakers';
-  const plainWhy=hasManufacturerRule
-    ?'The amplifier maker says it accepts speakers rated '+explicit+
-      ' ohms or higher, and these are listed as '+ohms+
-      '. That meets the first published requirement. It does not prove the amplifier will handle every demanding musical passage.'
+  const plainWhy=hasManufacturerRule&&!demandingMinimum
+    ?'The amplifier maker says it works with speakers rated '+explicit+
+      ' ohms or higher, and these speakers are listed as '+ohms+
+      '. Those published requirements line up for a single speaker pair.'
+    :hasManufacturerRule
+      ?'The advertised ratings line up, but this particular speaker also has an unusually low published impedance point. We should check the amplifier maker’s guidance for that exact speaker.'
     :exactRated
-      ?'These speakers are listed as '+ohms+'. The amplifier has a published power test at that same load. That gives us a useful comparison, but a test rating is not permission to connect every speaker with that number.'
+      ?'These are listed as '+ohms+', and the amplifier has a power rating measured at that same load. That gives us a useful starting point, but we still need its supported speaker-load guidance.'
       :nominal!==null
-        ?'We know these are listed as '+ohms+', but we do not have a clear manufacturer-approved speaker-load rule for this amplifier. We cannot confirm the pairing yet.'
-        :'We do not have a reliable impedance rating for these speakers. We cannot tell whether they are a sensible load for this amplifier yet.';
+        ?'These speakers are listed as '+ohms+', but we have not confirmed which speaker ratings this amplifier maker allows.'
+        :'The speaker’s basic ohm rating is missing. Find that number before choosing an amplifier.';
   const plainMinimum=demandingMinimum
-    ?'The speaker has a published lower impedance point that may demand more current. Ask the manufacturer or a qualified technician before treating this pairing as suitable.'
+    ?'An unusually low measured impedance may make these speakers harder to power. This is a specific reason to check the exact models.'
     :hasMinimum
-      ?'The speaker also has a published '+minimum+'-ohm lowest point. The load changes with the music, so we still need the amplifier maker’s guidance.'
-      :'We have not confirmed how low the speaker’s impedance drops when music plays. That can matter more than its advertised number.';
+      ?'The minimum impedance is also documented. You can see that detail below if you want to investigate further.'
+      :'The detailed impedance curve is not available here, but you do not need to research that curve for an ordinary published nominal-rating match.';
   const plainNext=demandingMinimum
-    ?'Check the exact model manuals and any manufacturer advice about minimum speaker impedance. Do not connect on these numbers alone.'
-    :unknownNominal
-      ?'Find the exact speaker model and impedance specification before connecting.'
-      :'Check the amplifier manual for permitted speaker loads, then use System Check to estimate your normal listening-level needs.';
+    ?'Check the specific speaker and amplifier documentation before connecting this pair.'
+    :hasManufacturerRule
+      ?'Next, consider whether the speakers can play at the volume you want from your listening position.'
+      :unknownNominal
+        ?'Find the speaker’s nominal ohm rating.'
+        :'Check the amplifier maker’s recommended speaker ratings, then consider listening distance and volume.';
   return {tier,level,label,notes,nominal,minimum,manufacturerNominalGuidance:hasManufacturerRule,
     continuousRatingAtNominal:exactRated,minimumDocumented:hasMinimum,
     demandingMinimum,sourceLinked:confirmedSource,plainWhy,plainMinimum,plainNext};
