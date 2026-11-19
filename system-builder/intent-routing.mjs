@@ -4,6 +4,8 @@
  * interface and how the already-present ownership branches are selected.
  * This module does NOT alter amplifier power, impedance or pricing math.
  */
+import {UNLISTED_FIELDS,unlistedSpecAssessment} from './unlisted-gear.mjs';
+
 export const BUILDER_INTENTS=Object.freeze({
   amp_for_speakers:{
     label:'Find an amplifier for my speakers',
@@ -75,6 +77,7 @@ export function builderFieldRequirement(id,fieldName){
   if(!plan)return 'optional';
   if(plan.requiredOwn&&fieldName===plan.requiredOwn)return 'required_either';
   if(plan.requiredOwn&&fieldName===plan.requiredOwn+'Other')return 'optional_alternative';
+  if(plan.requiredOwn&&UNLISTED_FIELDS[plan.requiredOwn]?.includes(fieldName))return 'required_if_unlisted';
   return 'optional';
 }
 const empty=(x)=>!String(x??'').trim();
@@ -98,9 +101,13 @@ export function validateBuilderIntent(id,formData){
   if(plan.directRoute)return {ok:false,message:'Use the source connection guide for this question.'};
   if(plan.requiredOwn){
     const type=plan.requiredOwn;
-    if(empty(formData.get(type))&&empty(formData.get(type+'Other'))){
+    if(empty(formData.get(type))){
       const word=type==='speaker'?'speakers':'amplifier or receiver';
-      return {ok:false,message:'Start by choosing your '+word+' model. If it is not in the list, enter its name in the other-model box. You do not need to enter the product you are shopping for.'};
+      if(empty(formData.get(type+'Other')))
+        return {ok:false,message:'Choose your '+word+' from the sourced catalogue, or use Search for my gear to find its documented specifications.'};
+      const assessment=unlistedSpecAssessment(type,formData,{requireForMatch:true});
+      if(assessment.state!=='provisional')
+        return {ok:false,message:assessment.message};
     }
   }
   return {ok:true,message:''};
@@ -120,7 +127,11 @@ export function scopedBuilderInputs(formData,id,advancedOpen=false){
       id==='complete_system'?[]:
       id==='headphones'?[]:[];
     for(const type of ['speaker','amp','source','headphone']){
-      if(!keep.includes(type)){data.set(type,'');data.set(type+'Other','');}
+      if(!keep.includes(type)){
+        data.set(type,'');data.set(type+'Other','');
+        for(const field of (UNLISTED_FIELDS[type]||[]))data.set(field,'');
+        if(type==='speaker')for(const field of ['speakerMinimum','speakerSensitivity','speakerBasis'])data.set(field,'');
+      }
     }
     for(const key of ['secondary'])data.delete(key);
     data.set('subMode','no_sub');
@@ -129,9 +140,11 @@ export function scopedBuilderInputs(formData,id,advancedOpen=false){
   // because an old choice is still present in a hidden or advanced field.
   if(id==='amp_for_speakers'){
     data.set('amp','');data.set('ampOther','');
+    for(const field of UNLISTED_FIELDS.amp)data.set(field,'');
   }
   if(id==='speakers_for_amp'){
     data.set('speaker','');data.set('speakerOther','');
+    for(const field of [...UNLISTED_FIELDS.speaker,'speakerMinimum','speakerSensitivity','speakerBasis'])data.set(field,'');
   }
   if(id==='headphones'){
     data.set('headphone','');data.set('headphoneOther','');
