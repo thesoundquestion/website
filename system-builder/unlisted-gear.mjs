@@ -7,7 +7,9 @@
  */
 export const UNLISTED_FIELDS=Object.freeze({
   speaker:['speakerSpecUrl','speakerLoad'],
-  amp:['ampSpecUrl','ampMinLoad','ampRatedWatts','ampRatedLoad']
+  amp:['ampSpecUrl','ampMinLoad','ampRatedWatts','ampRatedLoad'],
+  source:['sourceSpecUrl','sourceOutput'],
+  headphone:['headphoneSpecUrl','headphoneLoad','headphoneSensitivity','headphoneBasis']
 });
 const modelText=value=>String(value??'').trim().slice(0,120);
 const numeric=(value,min,max)=>{
@@ -27,6 +29,8 @@ const safeSource=value=>{
 export function googleGearSearchUrl(kind,model){
   const topic=kind==='speaker'?'loudspeaker nominal impedance sensitivity manufacturer specifications manual':
     kind==='amp'?'amplifier receiver supported speaker impedance continuous watts per channel manufacturer manual':
+    kind==='source'?'audio player DAC output connection type manufacturer manual':
+    kind==='headphone'?'headphone impedance sensitivity dB per mW or dB per volt manufacturer manual':
     'audio equipment manufacturer specifications manual';
   const q=[modelText(model),topic].filter(Boolean).join(' ');
   return 'https://www.google.com/search?q='+encodeURIComponent(q);
@@ -90,6 +94,28 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
       evidence:'user_entered_unverified',userEntered:true};
     return {state:'provisional',model,record,
       message:'Provisional amplifier specifications entered. Ratings and permitted speaker loads require checking against the exact manufacturer manual.'};
+  }
+  if(kind==='source'){
+    const output=String(data.get('sourceOutput')||'');
+    if(!['RCA','3.5 mm','optical','coaxial','usb','hdmi','bluetooth','other'].includes(output))
+      return {state:'incomplete',model,record:null,
+        message:'Choose the documented audio output connection for your unlisted source or DAC.'};
+    const record={model,type:kind,url,ratings:[],details:null,
+      values:{sourceConnection:output},note:'Visitor-entered output connection from the linked document; not independently verified.',
+      evidence:'user_entered_unverified',userEntered:true};
+    return {state:'provisional',model,record,message:'Provisional source output captured. Confirm connection level and exact socket before purchase.'};
+  }
+  if(kind==='headphone'){
+    const load=numeric(data.get('headphoneLoad'),1,1000);
+    const sensitivity=numeric(data.get('headphoneSensitivity'),50,140);
+    const basis=String(data.get('headphoneBasis')||'');
+    if(load===null||sensitivity===null||!['power','voltage'].includes(basis))
+      return {state:'incomplete',model,record:null,
+        message:'Enter the headphone impedance, sensitivity and whether the manufacturer states dB/mW or dB/V. One basis cannot be assumed from the other.'};
+    const record={model,type:kind,url,ratings:[],details:null,
+      values:{load,sensitivity,basis},note:'Visitor-entered headphone specifications; output compatibility and achievable volume are unverified.',
+      evidence:'user_entered_unverified',userEntered:true};
+    return {state:'provisional',model,record,message:'Provisional headphone values captured. Actual headphone output power, distortion and fit remain unchecked.'};
   }
   return {state:requireForMatch?'incomplete':'unknown',model,record:null,message:'Not checked'};
 }
