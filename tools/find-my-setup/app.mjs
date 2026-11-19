@@ -76,7 +76,7 @@ function render(plan){
  detail(result,'Check before buying',plan.verify,'goal-detail');
  if(plan.alternative){const box=add(result,'section','goal-alternative');add(box,'h3','','Another valid approach');add(box,'p','',plan.alternative)}
  const learn=add(result,'section','goal-learning');
- add(learn,'h3','','Learn exactly what matters to this goal');
+ add(learn,'h3','','Optional explanations and refreshers for this goal');
  const ul=add(learn,'ul','goal-resource-grid');
  for(const item of plan.learn){
   const li=add(ul,'li','');
@@ -84,7 +84,26 @@ function render(plan){
   const p=add(li,'p','',item.why);
   li.prepend(a);
  }
- if(plan.next==='builder'){
+ if(plan.next==='check'){
+  const row=add(result,'section','goal-builder-handoff');
+  add(row,'h3','','Check the exact amplifier and speakers');
+  add(row,'p','','System Check estimates headroom from documented inputs; it cannot certify a pairing with unknown impedance and amplifier operating limits. This guide has not transferred or guessed your models.');
+  row.append(makeLink('/system-check/','Continue to System Check →','button button-primary'));
+  row.append(makeLink('/system-check/compare/','Or compare published equipment specifications →','goal-secondary-link'));
+ } else if(plan.next==='sources'){
+  const row=add(result,'section','goal-builder-handoff');
+  add(row,'h3','','Understand and verify the connections');
+  add(row,'p','','Check the input and output types of your own equipment before buying any missing part. Nothing has been entered into the Builder automatically.');
+  row.append(makeLink('/decoder/playback-sources/','See how playback sources connect →','button button-primary'));
+  row.append(makeLink('/system-builder/','Or explore complete listening setups →','goal-secondary-link'));
+ } else if(plan.next==='improve'){
+  const row=add(result,'section','goal-builder-handoff');
+  add(row,'h3','','Try a no-cost listening check first');
+  add(row,'p','','Start with the relevant explanation above. Change one setup condition at a time, then decide whether equipment research would be useful.');
+  const first=plan.learn[0];
+  if(first)row.append(makeLink(first.href,'Start with this explanation →','button button-primary'));
+  row.append(makeLink('/system-check/','Check amplifier and speaker headroom if relevant →','goal-secondary-link'));
+ } else if(plan.next==='builder'){
   const row=add(result,'section','goal-builder-handoff');
   add(row,'h3','','Ready to explore a listening setup?');
   add(row,'p','','System Builder handles supported home listening paths. These guide answers are not silently entered into it; review your actual gear and choices there.');
@@ -96,7 +115,7 @@ function render(plan){
   add(row,'p','','The Listening Builder covers speakers, amplifiers, room choices and headphones. Your guide answers are not silently applied; choose the actual equipment and requirements there.');
   row.append(makeLink('/system-builder/','Continue to Listening Builder →','button button-primary'));
   if(plan.goalId==='headphones')row.append(makeLink('/system-check/compare/?type=headphone_amplifier','Compare headphone amplifier output ratings →','goal-secondary-link'));
- } else if(plan.goalId!=='learn'){
+ } else if(['vocal','songwriter','drums','band','stream','podcast','live'].includes(plan.goalId)){
   const row=add(result,'section','goal-builder-handoff');
   add(row,'h3','','Build a system for this project');
   add(row,'p','','The Creating Builder covers recording, podcasting, streaming and live-sound signal chains using documented equipment facts. This guide does not silently assume device compatibility.');
