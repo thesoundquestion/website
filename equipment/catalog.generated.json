@@ -15,7 +15,7 @@
     "system-builder/supplemental-headphones.mjs"
   ],
   "summary": {
-    "totalModels": 192,
+    "totalModels": 197,
     "byCategory": {
       "amp": 46,
       "headphone": 16,
@@ -25,9 +25,9 @@
       "headphone_amplifier": 5,
       "audio_interface": 12,
       "microphone": 17,
-      "mixer_recorder": 3
+      "mixer_recorder": 8
     },
-    "researchProfiles": 48,
+    "researchProfiles": 53,
     "legacyProfiles": 130,
     "builderSupplementProfiles": 17
   },
@@ -18530,6 +18530,620 @@
       }
     },
     {
+      "id": "research/mixer_recorder/behringer-xenyx-302usb",
+      "model": "Behringer XENYX 302USB",
+      "aliases": [],
+      "categories": [
+        "mixer_recorder"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:content_creation",
+        "role:podcasting",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "xlr_microphone_input_channel_1",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "headset_microphone_input",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "stereo_main_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "stereo_phones_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 1,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": null,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "computerRecordingInputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": null,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "loopback": {
+          "value": null,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "usbRecordingMode": {
+          "value": "stereo_mix_only",
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "advertisedMixerChannels": {
+          "value": 5,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "behringer-xenyx-302usb",
+          "roles": [
+            "podcasting",
+            "streaming",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 1,
+            "simultaneousAnalogInputs": null,
+            "computerRecordingInputs": 2,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": null,
+            "loopback": null,
+            "usbRecordingMode": "stereo_mix_only",
+            "advertisedMixerChannels": 5,
+            "physicalInputTypes": [
+              "xlr_microphone_input_channel_1",
+              "headset_microphone_input"
+            ],
+            "physicalOutputTypes": [
+              "stereo_main_out",
+              "stereo_phones_out"
+            ],
+            "inputRoutingConstraints": [
+              "USB capture is a stereo mixer path, not independent per-strip multitrack input."
+            ]
+          },
+          "note": "Five mixer input channels do not mean five separate USB microphone recordings. One XENYX mic preamp plus headset mic input. Exact phantom voltage is unverified and must not be inferred as 48 V."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://behringer.com/en/products/0601-ADN",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.hasPhantom48v",
+          "research.loopback",
+          "research.simultaneousAnalogInputs"
+        ]
+      }
+    },
+    {
+      "id": "research/mixer_recorder/mackie-profx6v3-plus",
+      "model": "Mackie ProFX6v3+",
+      "aliases": [],
+      "categories": [
+        "mixer_recorder"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:content_creation",
+        "role:podcasting",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "two_xlr_trs_combo_mic_line_channels",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "stereo_line_channel_3_4",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "stereo_3_5mm_line_channel_5_6",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "stereo_main_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "stereo_headphone_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": null,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "computerRecordingInputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 4,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "loopback": {
+          "value": true,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "usbRecordingMode": {
+          "value": "independent_mono_channels",
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "advertisedMixerChannels": {
+          "value": 6,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "mackie-profx6v3-plus",
+          "roles": [
+            "podcasting",
+            "streaming",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 2,
+            "simultaneousAnalogInputs": null,
+            "computerRecordingInputs": 2,
+            "computerPlaybackOutputs": 4,
+            "hasPhantom48v": true,
+            "loopback": true,
+            "usbRecordingMode": "independent_mono_channels",
+            "advertisedMixerChannels": 6,
+            "physicalInputTypes": [
+              "two_xlr_trs_combo_mic_line_channels",
+              "stereo_line_channel_3_4",
+              "stereo_3_5mm_line_channel_5_6"
+            ],
+            "physicalOutputTypes": [
+              "stereo_main_out",
+              "stereo_headphone_out"
+            ],
+            "inputRoutingConstraints": [
+              "Two independent mic channels to USB only in the documented Interface recording mode; Standard and Loopback combine sources."
+            ]
+          },
+          "note": "Two Onyx mic preamps, USB-C 2x4. Interface mode records channels 1/2 without effects; Standard records full mix; Loopback adds computer audio. Do not claim six independent USB microphone tracks."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://mackie.com/en/products/mixers/profxv3-series/ProFX6v3plus.html",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.simultaneousAnalogInputs"
+        ]
+      }
+    },
+    {
+      "id": "research/mixer_recorder/yamaha-ag03mk2",
+      "model": "Yamaha AG03MK2",
+      "aliases": [],
+      "categories": [
+        "mixer_recorder"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:content_creation",
+        "role:podcasting",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "channel_1_combo_xlr_mic_or_line",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "channel_2_6_35mm_guitar_or_line",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "4_pole_3_5mm_trrs_smartphone_i_o",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "stereo_monitor_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "stereo_main_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 1,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerRecordingInputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "loopback": {
+          "value": true,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "usbRecordingMode": {
+          "value": "selectable_dry_or_stereo_mix",
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "advertisedMixerChannels": {
+          "value": 3,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "yamaha-ag03mk2",
+          "roles": [
+            "podcasting",
+            "streaming",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 1,
+            "simultaneousAnalogInputs": 2,
+            "computerRecordingInputs": 2,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": true,
+            "loopback": true,
+            "usbRecordingMode": "selectable_dry_or_stereo_mix",
+            "advertisedMixerChannels": 3,
+            "physicalInputTypes": [
+              "channel_1_combo_xlr_mic_or_line",
+              "channel_2_6_35mm_guitar_or_line",
+              "4_pole_3_5mm_trrs_smartphone_i_o"
+            ],
+            "physicalOutputTypes": [
+              "stereo_monitor_out",
+              "stereo_main_out"
+            ],
+            "inputRoutingConstraints": [
+              "Single XLR microphone preamp; TRRS headset/phone connection is not an additional independently recorded USB mic track."
+            ]
+          },
+          "note": "One XLR mic preamp and a second 6.35 mm guitar/line channel. USB streaming modes include dry inputs, combined input mix and loopback. A three-channel mixer is not a three-mic recorder."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag03mk2/specs.html",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/mixer_recorder/yamaha-ag06mk2",
+      "model": "Yamaha AG06MK2",
+      "aliases": [],
+      "categories": [
+        "mixer_recorder"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:content_creation",
+        "role:podcasting",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "channel_1_combo_mic_or_line",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "channel_2_combo_mic_guitar_or_line",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "stereo_line_input",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "stereo_main_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "stereo_monitor_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": null,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "computerRecordingInputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "loopback": {
+          "value": true,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "usbRecordingMode": {
+          "value": "selectable_dry_or_stereo_mix",
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "advertisedMixerChannels": {
+          "value": 6,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "yamaha-ag06mk2",
+          "roles": [
+            "podcasting",
+            "streaming",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 2,
+            "simultaneousAnalogInputs": null,
+            "computerRecordingInputs": 2,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": true,
+            "loopback": true,
+            "usbRecordingMode": "selectable_dry_or_stereo_mix",
+            "advertisedMixerChannels": 6,
+            "physicalInputTypes": [
+              "channel_1_combo_mic_or_line",
+              "channel_2_combo_mic_guitar_or_line",
+              "stereo_line_input"
+            ],
+            "physicalOutputTypes": [
+              "stereo_main_out",
+              "stereo_monitor_out"
+            ],
+            "inputRoutingConstraints": [
+              "Dry channel mode and mixed loopback are different routes. Both XLR channels and 3.5 mm headset microphone cannot all be treated as independently captured inputs."
+            ]
+          },
+          "note": "Two XLR combo mic channels with 48 V phantom, 2-in/2-out USB. Streaming output selector has dry CH1/2G, input-mix and loopback modes; check software and routing before promising two editable channels in a specific streaming configuration."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://usa.yamaha.com/audio/streaming-gaming/products/mixers/ag/ag06mk2/specs.html",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.simultaneousAnalogInputs"
+        ]
+      }
+    },
+    {
       "id": "research/mixer_recorder/yamaha-mg10xu",
       "model": "Yamaha MG10XU",
       "aliases": [],
@@ -18861,6 +19475,156 @@
         "status": "source_specific_not_independently_measured",
         "unknowns": [
           "research.independentMonitorMixes"
+        ]
+      }
+    },
+    {
+      "id": "research/mixer_recorder/zoom-podtrak-p4",
+      "model": "Zoom PodTrak P4",
+      "aliases": [],
+      "categories": [
+        "mixer_recorder"
+      ],
+      "goalTags": [
+        "live_sound",
+        "recording",
+        "role:content_creation",
+        "role:podcasting",
+        "role:streaming"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "four_xlr_microphone_inputs",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "3_5mm_trrs_remote_guest_input",
+            "scope": "mixer_recorder documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "four_individual_headphone_outputs",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "usb_audio_stereo_out",
+            "scope": "mixer_recorder documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "micPreampCount": {
+          "value": 4,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "simultaneousAnalogInputs": {
+          "value": 4,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerRecordingInputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "computerPlaybackOutputs": {
+          "value": 2,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "hasPhantom48v": {
+          "value": true,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "loopback": {
+          "value": null,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "usbRecordingMode": {
+          "value": "stereo_mix_only",
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "advertisedMixerChannels": {
+          "value": 4,
+          "scope": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "mixer_recorder",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "zoom-podtrak-p4",
+          "roles": [
+            "podcasting",
+            "streaming",
+            "content_creation"
+          ],
+          "specifications": {
+            "micPreampCount": 4,
+            "simultaneousAnalogInputs": 4,
+            "computerRecordingInputs": 2,
+            "computerPlaybackOutputs": 2,
+            "hasPhantom48v": true,
+            "loopback": null,
+            "usbRecordingMode": "stereo_mix_only",
+            "advertisedMixerChannels": 4,
+            "physicalInputTypes": [
+              "four_xlr_microphone_inputs",
+              "3_5mm_trrs_remote_guest_input"
+            ],
+            "physicalOutputTypes": [
+              "four_individual_headphone_outputs",
+              "usb_audio_stereo_out"
+            ],
+            "standaloneRecordTracks": 4,
+            "inputRoutingConstraints": [
+              "USB interface is 2-in/2-out. Independent podcast tracks are recorded locally, not four separate computer USB capture channels."
+            ]
+          },
+          "note": "Four XLR mic preamps and separate on-device podcast/SD recording features; as a USB audio interface it presents two inputs and two outputs. Do not confuse stand-alone multitrack storage with four independent computer USB mic channels."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://zoomcorp.com/en/ca/podcast-recorders/podcast-recorders/podtrak-p4/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "manufacturer model reference"
+          ],
+          "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.loopback"
         ]
       }
     },
