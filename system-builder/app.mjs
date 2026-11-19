@@ -480,8 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const whyBox=el('div','sb-beginner-reason');
       addText(whyBox,'h5',overview.reuse?'Why keeping this is a valid option':'Why this option was suggested');
       addText(whyBox,'p',overview.reason,'sb-beginner-plain');
-      addText(whyBox,'p',recommendationWhy(item,request,
-        Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-beginner-basis');
+      addText(whyBox,'p',overview.goalExplanation,'sb-beginner-basis');
       card.append(whyBox);
       const pathBox=el('div','sb-beginner-connection');
       addText(pathBox,'h5','How these components would work together');
@@ -489,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(overview.roles.length)list(pathBox,overview.roles.slice(0,4),'sb-beginner-parts');
       card.append(pathBox);
       const proof=el('div','sb-beginner-proof');
-      addText(proof,'h5','What supports this pairing, and what does not');
+      addText(proof,'h5','Why these pieces make sense together');
       addText(proof,'p',overview.matchingEvidence,'sb-beginner-plain');
       card.append(proof);
       const firstChecks=el('div','sb-beginner-checks');
@@ -499,7 +498,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if(overview.costAndTradeoffs.length)
         addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
       const evidence=el('details','sb-beginner-evidence');
-      addText(evidence,'summary','Published power figures and listening impressions');
+      addText(evidence,'summary','See the technical details and original sources');
+      addText(evidence,'p',overview.technicalEvidence,'sb-beginner-technical');
+      addText(evidence,'p',recommendationWhy(item,request,
+        Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-beginner-technical');
       // The user-specific rationale is now above the system chain on every card.
       if (item.amplifierFit) {
         const fitInfo=item.amplifierFit;
@@ -602,7 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       addText(details,'h5','Trade-offs');
       addText(details,'p',item.tradeoff);
-      const checks=[...new Set([...overview.checks,...(item.extra||[])])];
+      const checks=[...new Set([...overview.checks,...overview.technicalChecks,...(item.extra||[])])];
       if(overview.costAndTradeoffs.length){
         addText(details,'h5','Complete-cost gaps and trade-offs');
         list(details,overview.costAndTradeoffs);
