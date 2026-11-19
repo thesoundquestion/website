@@ -88,7 +88,7 @@ export function explainBeginnerOption(item,request={}){
       'Next, make sure the system can play at the level you want in your room. The speaker rating alone does not tell us how loud it will get.':
       pairing?.plainNext,
     item?.loadCaution&&!pairing?
-      'We have not confirmed that this amplifier can safely power these particular speakers. Check their exact model ratings and the amplifier manual first.':'',
+      'Check this specific problem before connecting: '+item.loadCaution:'',
     item?.sourceCaution?
       'Your music player may not plug straight into this setup. Check the audio output on the player and the input on the amplifier or speakers.':'',
     externalInput?
