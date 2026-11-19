@@ -15,7 +15,14 @@ const FIELDS = Object.freeze({
     ['documentedSetupBitDepth','Documented setup bit depth','bits'],
     ['maxBitDepth','Verified maximum bit depth','bits'],
     ['maxRateKhz','Maximum stated sample rate','kHz'],
-    ['headphoneOutputPowerRating','Headphone output rating']
+    ['headphoneOutputPowerRating','Headphone output rating'],
+    ['instrumentInputCount','Instrument input channels'],
+    ['preampGainRangeDb','Published mic preamp gain range','dB'],
+    ['preampEinDbu','Published mic preamp EIN','dBu'],
+    ['usbRecordingMode','USB recording mode'],
+    ['inputConnections','Documented inputs and connections'],
+    ['outputConnections','Documented outputs and connections'],
+    ['inputRoutingConstraints','Input and recording routing limits']
   ],
   mixer_recorder: [
     ['advertisedMixerChannels','Advertised mixer channels'],
@@ -23,7 +30,15 @@ const FIELDS = Object.freeze({
     ['computerRecordingInputs','Computer recording channels'],
     ['computerPlaybackOutputs','Computer playback channels'],
     ['usbRecordingMode','USB recording mode'],
-    ['hasPhantom48v','48 V phantom power']
+    ['hasPhantom48v','48 V phantom power'],
+    ['standaloneRecording','Standalone recording capability'],
+    ['standaloneRecordTracks','Standalone recorded tracks'],
+    ['standaloneRecorderMaxTracks44And48Khz','Standalone tracks at 44.1/48 kHz'],
+    ['standaloneRecorderMaxTracks96Khz','Standalone tracks at 96 kHz'],
+    ['usbRecordingRateLimitKhz','USB recording sample-rate limit','kHz'],
+    ['inputConnections','Documented inputs and connections'],
+    ['outputConnections','Documented outputs and connections'],
+    ['inputRoutingConstraints','Input and recording routing limits']
   ],
   headphone: [
     ['nominalImpedanceOhms','Nominal impedance','Ω'],
@@ -33,10 +48,26 @@ const FIELDS = Object.freeze({
   headphone_amplifier: [
     ['outputImpedanceOhms','Output impedance','Ω'],
     ['outputImpedanceCeilingOhms','Output impedance ceiling','Ω'],
-    ['ratedOutputMilliwatts','Published output ratings']
+    ['ratedOutputMilliwatts','Published output ratings'],
+    ['amplifierKind','Amplifier type or function'],
+    ['hasBuiltInDac','Built-in digital-to-analogue converter'],
+    ['headphoneOutputCount','Headphone output count'],
+    ['gainSettingsDb','Published gain settings','dB'],
+    ['outputImpedanceConditions','Output impedance conditions'],
+    ['inputConnections','Documented source inputs'],
+    ['outputConnections','Documented headphone and line outputs']
   ],
   microphone: [
-    ['requires48v','Requires 48 V phantom power']
+    ['capsule','Microphone capsule / type'],
+    ['pattern','Pickup pattern'],
+    ['requires48v','Requires 48 V phantom power'],
+    ['powerMethod','Other documented power method'],
+    ['sensitivityDbvPa','Published microphone sensitivity','dBV/Pa'],
+    ['selfNoiseDba','Published self-noise','dBA'],
+    ['maxSplDb','Published maximum SPL','dB'],
+    ['maxSplConditions','Maximum SPL test conditions'],
+    ['inputConnections','Documented inputs or digital connections'],
+    ['outputConnections','Documented microphone outputs']
   ],
   amp: [['speakerPowerRatings','Speaker output ratings']],
   speaker: [
@@ -52,8 +83,16 @@ const FIELDS = Object.freeze({
     ['lineOutputImpedanceOhms','Line output impedance','Ω']
   ],
   computer_sound_card: [
+    ['playbackDac','Playback DAC'],
+    ['recordingAdc','Recording ADC'],
+    ['hasDedicatedXlrMicPreamps','Dedicated XLR microphone preamps'],
+    ['simultaneousAnalogInputs','Simultaneous analogue inputs'],
+    ['computerRecordingInputs','Computer recording channels'],
+    ['maxLineInputResolution','Documented line-input capture resolution'],
     ['lineOutputVoltageVrms','Analogue line output voltage','V RMS'],
-    ['lineOutputImpedanceOhms','Line output impedance','Ω']
+    ['lineOutputImpedanceOhms','Line output impedance','Ω'],
+    ['inputConnections','Documented sound-card inputs'],
+    ['outputConnections','Documented sound-card outputs']
   ]
 });
 const keys = Object.freeze(Object.keys(FIELDS));
@@ -91,8 +130,43 @@ function renderValue(value,unit) {
     return String(value)+(unit?' '+unit:'');
   return renderStructured(value);
 }
-const getFact = (item,key) => {
-  const fact=item?.facts?.[key];
+// Recording and headphone-amp details are source-specific. Preserve evidence
+// from the generated catalogue rather than inventing missing measurements.
+const PROFILE_CATEGORIES=new Set(['audio_interface','mixer_recorder','microphone',
+  'headphone_amplifier','computer_sound_card']);
+function connectorLabel(value) {
+  return String(value).replace(/_/g,' ')
+    .replace(/\b6 35mm\b/gi,'6.35 mm')
+    .replace(/\b3 5mm\b/gi,'3.5 mm')
+    .replace(/\b4 4mm\b/gi,'4.4 mm')
+    .replace(/\b48v\b/gi,'48 V')
+    .replace(/\bxlr\b/gi,'XLR').replace(/\btrs\b/gi,'TRS')
+    .replace(/\brca\b/gi,'RCA').replace(/\busb\b/gi,'USB')
+    .replace(/\bmidi\b/gi,'MIDI').replace(/\bhiz\b/gi,'Hi-Z')
+    .replace(/\bspdif\b/gi,'S/PDIF')
+    .replace(/\s+/g,' ').trim();
+}
+function connectionFact(item,key) {
+  const direction=key==='inputConnections'?'inputs':'outputs';
+  const ports=item?.connections?.[direction]||[];
+  const values=[...new Set(ports.map(port=>typeof port?.type==='string'?
+    connectorLabel(port.type):'').filter(Boolean))];
+  return {value:values.length?values:null,reference:null,
+    from:ports.map(port=>port.from).find(Boolean)||null,
+    evidenceStatus:values.length?'source_stated':'unverified'};
+}
+const getFact = (item,key,category) => {
+  let fact=item?.facts?.[key];
+  if((key==='inputConnections'||key==='outputConnections')&&PROFILE_CATEGORIES.has(category))
+    fact=connectionFact(item,key);
+  else if(!fact && PROFILE_CATEGORIES.has(category)){
+    const profile=item?.profiles?.find(p=>p.category===category && p.specifications &&
+      Object.hasOwn(p.specifications,key));
+    if(profile){
+      const value=profile.specifications[key];
+      fact={value,from:profile.from,evidenceStatus:isKnown(value)?'source_stated':'unknown'};
+    }
+  }
   const value=fact?.value;
   return Object.freeze({
     value:isKnown(value)?value:null,
@@ -144,7 +218,7 @@ export function buildEquipmentComparison(left,right,{category}={}) {
     rows:[],notes:['These models do not have a shared documented equipment function.']
   };
   const rows=FIELDS[selected].map(([key,label,unit])=>{
-    const a=getFact(left,key),b=getFact(right,key);
+    const a=getFact(left,key,selected),b=getFact(right,key,selected);
     const formatted=x=>({...x,display:x.known?renderValue(x.value,unit):'Not verified'});
     const leftBasis=getFact(left,'sensitivityBasis').value;
     const rightBasis=getFact(right,'sensitivityBasis').value;
