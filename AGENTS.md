@@ -19,6 +19,15 @@ When a technical passage relies on a concept covered elsewhere in the Decoder, l
 - Apply this standard to homepage copy, lessons, tools, recommendation result cards, the Listening Room, about pages, long-form videos, Shorts, scripts and social posts. Finish the editorial pass by asking: **Does this help the person enjoy or understand their music, or did we get lost in the numbers?**
 - Musical Easter eggs should reinforce that we're listeners first, not become another hunt for status or distract from the lessons.
 
+### Two distinct ideas for future scripts and lessons
+
+Do not collapse the music-first principle into a blanket anti-upgrade message:
+
+1. **Enjoy your own music rather than chase approved demonstration recordings.** Audiophile showpieces and technically excellent recordings can be useful reference tools, but listeners should not feel obliged to enjoy or collect them. Buying equipment to appreciate music you don't even like misses the point.
+2. **Good equipment choices may open new musical doors.** A system that changes clarity, tonal balance, spatial cues, clean output or room interaction may help a listener notice previously overlooked parts of a song, and that new appreciation may encourage exploration of unfamiliar artists, genres or albums. Draw on the site's **Sound Journey** thinking to distinguish performance and production from playback. Describe this as a possible listening experience, not as proof that cost itself creates musicality or that any gear upgrade is universally necessary.
+
+For videos, Shorts, the Listening Room, articles and system recommendations, use either perspective where it genuinely adds insight. They are complementary, **not** two mandatory talking points to recite together. No promises of a specific audible effect without evidence; preserve listening-level safety and model-specific caveats. Phrase in the owner's ordinary, spontaneous speaking voice. The fuller script/content framing lives in the private `CONTENT_IDEAS_MASTER_HANDOFF.md`, `SITE_FIRST_REFERENCE_AND_VIDEO_READINESS_PLAN_2026_11_11.md` and `WEBSITE_BUILD_MASTER_HANDOFF.md`.
+
 ## Permanent beginner-first editorial standard — ALL future lessons and lesson revisions
 
 This is a standing rule for every new or revised educational lesson on The Sound Question, regardless of subject (speakers, recording, streaming, formats, amplifiers, listening, etc.). Apply it to supporting visuals, glossary additions, labs, handbook material and lesson-derived video scripts where relevant. Do **not** limit it to the current microphone/speaker research projects.
