@@ -44,7 +44,7 @@ A merely music-themed sentence isn't a song Easter egg. Before logging a placeme
 
 ## Placement tracking without spoiling the Easter eggs
 
-The consolidated draft now proposes **103 recognizable title/artist reference placements across 39 website source pages**. They are still review-branch source, not merged or deployed. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
+The consolidated draft now proposes **104 recognizable title/artist reference placements across 39 website source pages**. They are still review-branch source, not merged or deployed. A **private placement ledger in `thesoundquestion/research`** tracks individual source songs, draft lines, and page locations; do not expose that inventory in site pages or public materials, since it would reveal the Easter eggs. Continue to reject lines that weaken technical explanations or sound contrived; the count is not a quota.
 
 ## Editorial release checklist
 - Did the technical meaning survive unchanged?
