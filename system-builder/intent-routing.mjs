@@ -34,7 +34,7 @@ export const BUILDER_INTENTS=Object.freeze({
   improve_existing:{
     label:'Improve the system I already have',
     description:'Start with what you own and what you would like to change. Reusing your existing equipment is a successful answer.',
-    fields:['speaker','speakerOther','amp','ampOther','goal','useCase','level','region','budget'],
+    fields:['speaker','speakerOther','amp','ampOther','source','sourceOther','headphone','headphoneOther','goal','useCase','level','region','budget'],
     architecture:null,
     requiredOwn:null,
     resultTitle:'What to keep, check or improve'
@@ -123,7 +123,8 @@ export function scopedBuilderInputs(formData,id,advancedOpen=false){
   if(!advancedOpen){
     const keep=id==='amp_for_speakers'?['speaker']:
       id==='speakers_for_amp'?['amp']:
-      id==='improve_existing'||id==='subwoofer'?['speaker','amp']:
+      id==='improve_existing'?['speaker','amp','source','headphone']:
+      id==='subwoofer'?['speaker','amp']:
       id==='complete_system'?[]:
       id==='headphones'?[]:[];
     for(const type of ['speaker','amp','source','headphone']){
