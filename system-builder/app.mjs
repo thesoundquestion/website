@@ -480,6 +480,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const whyBox=el('div','sb-beginner-reason');
       addText(whyBox,'h5',overview.reuse?'Why keeping this is a valid option':'Why this option was suggested');
       addText(whyBox,'p',overview.reason,'sb-beginner-plain');
+      addText(whyBox,'p',recommendationWhy(item,request,
+        Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-beginner-basis');
       card.append(whyBox);
       const pathBox=el('div','sb-beginner-connection');
       addText(pathBox,'h5','How these components would work together');
@@ -498,9 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
       const evidence=el('details','sb-beginner-evidence');
       addText(evidence,'summary','Published power figures and listening impressions');
-      if (item.ownershipMessage && item.preferenceMatchAvailable)
-        addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
-          Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
+      // The user-specific rationale is now above the system chain on every card.
       if (item.amplifierFit) {
         const fitInfo=item.amplifierFit;
         const p=el('p','sb-card-power');
