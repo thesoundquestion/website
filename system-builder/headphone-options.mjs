@@ -33,7 +33,8 @@ export function catalogHeadphoneExamples(catalog,request={}){
  const fit=fitRequested(request.headphoneFit);
  const context=String(request.headphoneUse||'quiet');
  const list=catalog.records.filter(r=>r.categories?.includes('headphone')&&known(r)
-   &&(fit==='any'||known(r).fit===fit))
+   &&(fit==='any'||known(r).fit===fit)
+   && !(fit==='any'&&['tracking','shared','portable'].includes(context)&&known(r).fit==='open'))
    .map(r=>{
     const info=known(r);
     const suitableUse=context==='tracking'?info.fit==='closed':
@@ -49,7 +50,7 @@ export function catalogHeadphoneExamples(catalog,request={}){
  // Diversity applies only when fit is flexible. Exact fit requests stay strict.
  while(list.length&&selected.length<5){
   const next=list.map((x,i)=>({x,i,weight:x.score+
-    (fit==='any'&&!selected.some(y=>y.info.fit===x.info.fit)?10:0)+
+    (fit==='any'&&!selected.some(y=>y.info.fit===x.info.fit)?30:0)+
     (!selected.some(y=>y.info.maker===x.info.maker)?3:0)}))
     .sort((a,b)=>b.weight-a.weight||a.i-b.i)[0];
   selected.push(next.x);list.splice(next.i,1);
