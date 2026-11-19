@@ -81,3 +81,19 @@ Private source plans:
 **Review / test still required:** physical Android layout and guide→Builder transfer verification, especially mobile, phono warning placement, back/edit behavior and unexpected URL parameters; no suggestion that phone readings confirm an 110 dB peak. GitHub-only CI status must be checked at last draft commit, not inferred from older pass.
 
 **Still deferred:** complete shared typed inventory/model transfer, source-chain/cable/adapter certification, actual phono or source pricing and the deep Builder requirements engine. No public deploy or Cloudflare build.
+
+
+## Follow-up: required vs optional fields now match the user's goal (2026-11-19)
+
+Owner feedback: "All dropdowns and input boxes should also be labelled required and optional, as needed depending on the match." This is implemented in the same private website PR.
+
+- The first **What are you looking for?** choice is explicitly **Required**.
+- **Find an amplifier for my speakers** requires *identifying the owned speaker model*; use the speaker dropdown OR type an unlisted model. Both fields display their role and a one-of-two explanation; neither is individually marked required in native HTML, because that would falsely prevent the other valid route.
+- **Find speakers for my amplifier** mirrors that behavior for the owned amplifier or receiver.
+- **Complete system, improve owned gear, headphones and subwoofer wiring** have optional model/connection/budget entries, because useful conditional results can be produced without pretending unknown answers are known.
+- Every labelled select/text/number field shows an inline **Required** or **Optional** role. An explicit alternative-field status says **Optional: type instead**. Labels update when the visitor changes tasks and stay associated with their actual controls for assistive technology.
+- The old HTML `required` constraint on defaulted `distanceFt` was removed because it could block otherwise valid submissions when that field is tucked into advanced options.
+- `builderFieldRequirement()` provides a single policy used by UI labelling; `validateBuilderIntent()` remains the separate final OR-group check, with a plain-language correction.
+- Added focused regression fixtures for required vs optional mapping, select-or-type equivalence, missing model errors and no hidden mandatory distance.
+
+**Important:** The task-specific field labels are integrated without touching amplifier power, electrical compatibility, speaker ranking, subwoofer signal checking or pricing calculations. The release stays **draft only**, not merged to main or deployed. At this checkpoint, GitHub's focused beginner guide checks and static build passed; wider site regression still includes failures from earlier output-card redesign and needs separate reconciliation before merge.
