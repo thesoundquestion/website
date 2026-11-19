@@ -55,6 +55,8 @@ const ignoreWords = new Set([
 const equivalentWords = {
   amplifiers: 'amplifier', speakers: 'speaker', microphones: 'microphone',
   mixers: 'mixer', interfaces: 'interface', headphones: 'headphone',
+  inputs: 'input', outputs: 'output', channels: 'channel', levels: 'level',
+  signals: 'signal', frequencies: 'frequency', patterns: 'pattern',
   watts: 'watt', volts: 'volt', decibels: 'decibel', ratings: 'rating',
   graphs: 'graph', curves: 'curve', examples: 'example',
   drawing: 'draw', draws: 'draw', pulled: 'draw', pulls: 'draw',
@@ -67,6 +69,14 @@ function meaningTokens(question) {
   return new Set(normalizeQuestion(question).split(' ')
     .filter(word => word && !ignoreWords.has(word))
     .map(word => equivalentWords[word] ?? word));
+}
+
+function mentionsTerm(question, term) {
+  if (containsPhrase(question, term)) return true;
+  const target = meaningTokens(term);
+  if (!target.size) return false;
+  const words = meaningTokens(question);
+  return [...target].every(word => words.has(word));
 }
 
 function sharedMeaning(left, right) {
@@ -215,7 +225,7 @@ export function matchQuestion(context, rawQuestion) {
   if (authored) return asAnswer(context, authored);
 
   // A few clear intents can safely reuse reviewed summary answers.
-  const topicTerms = lesson.terms.slice(0, 4).filter(term => containsPhrase(q, term));
+  const topicTerms = lesson.terms.slice(0, 4).filter(term => mentionsTerm(q, term));
   if (/^(?:whats|what is|what are) the difference between |^compare /.test(q) && topicTerms.length >= 2) {
     return preparedAnswer(context, 'simple');
   }
@@ -264,5 +274,5 @@ export function isInScope(bank, context, rawQuestion, clarification = false) {
   });
   const exampleTerms = context.example ? [context.example.label] : [];
   const terms = [...context.lesson.terms, context.lesson.topic, ...exampleTerms, ...linkedTerms];
-  return terms.some(term => containsPhrase(q, term));
+  return terms.some(term => mentionsTerm(q, term));
 }
