@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import {explainBeginnerOption} from '../system-builder/beginner-output.mjs';
 import {GOALS,buildPath} from '../tools/find-my-setup/engine.mjs';
 
 const find=(goal,answers)=>buildPath(goal,answers);
@@ -176,4 +177,95 @@ test('listening level dropdown explains 80, 85 and 110 dB without treating a pea
   assert.match(css,/\.sb-listening-examples\{display:grid/);
   assert.match(css,/@media\(max-width:650px\)\{\.sb-listening-examples\{grid-template-columns:minmax\(0,1fr\)\}\}/);
   assert.match(page,/name="level"[^>]*>/);
+});
+
+
+test('beginner system results explain why, roles, uncertain pairing and first risks',()=>{
+  const candidate={
+    id:'example-passive',architecture:'passive_separates',
+    why:'A speaker pair plus integrated amplifier for a small listening room.',
+    kind:'New system example',connectionStatus:'verified',editorialGoalFocus:true,secondaryFocus:[],
+    parts:[{name:'Passive speaker stereo pair',count:1,role:'Two speakers'},{name:'Integrated amplifier',count:1,role:'Power, inputs and volume'}],
+    extra:['Confirm speaker cable is available.'],tradeoff:'Speaker impedance curve not fully verified.'
+  };
+  const x=explainBeginnerOption(candidate,{goal:'imaging',subMode:'no_sub'});
+  assert.match(x.status,/not fully verified/);
+  assert.match(x.reason,/small listening room/);
+  assert.match(x.rolePath,/passive left\/right speaker pair/);
+  assert.equal(x.roles.length,2);
+  assert.match(x.matchingEvidence,/NOT a manufacturer-verified electrical match/);
+  assert.match(x.firstChecks.join(' '),/speaker|amplifier|impedance/i);
+  assert.ok(x.costAndTradeoffs.some(x=>/complete, current regional price/i.test(x)));
+  assert.ok(!/guaranteed compatible|perfect sound|100% match/i.test(JSON.stringify(x)));
+});
+
+test('owned gear keeps the reuse option but elevates known load concerns first',()=>{
+  const x=explainBeginnerOption({
+    id:'owned-complete',architecture:'passive_separates',
+    ownershipMessage:'Keep your speakers and amplifier for inspection.',
+    loadCaution:'The amp requires 8 ohm speakers and this pair has a verified 4 ohm nominal rating.',
+    parts:[{name:'Your speakers',role:'Existing stereo speakers',count:1},{name:'Your amp',role:'Existing integrated amp',count:1}],
+    tradeoff:'Check documentation and do not connect without approval.',extra:[]
+  },{subMode:'no_sub'});
+  assert.equal(x.priority,'critical');
+  assert.equal(x.status,'Important match concern');
+  assert.equal(x.reuse,true);
+  assert.match(x.firstChecks[0],/8 ohm speakers/);
+});
+
+test('powered and studio paths prevent costly or unsafe beginner assumptions',()=>{
+  const powered=explainBeginnerOption({
+    id:'powered-example',architecture:'consumer_powered_pair',why:'Simple wired stereo pair',
+    parts:[{name:'Powered stereo pair',role:'Built-in amplification',count:1}],extra:[],tradeoff:'No Bluetooth'
+  },{});
+  assert.match(powered.rolePath,/no separate speaker power amplifier/i);
+  assert.match(powered.checks.join(' '),/Never connect amplifier speaker terminals/i);
+  const monitors=explainBeginnerOption({
+    id:'studio',architecture:'active_studio',why:'A pair for nearfield listening',
+    parts:[{name:'Studio monitor',role:'Sold per cabinet',count:2}],extra:[]
+  },{});
+  assert.match(monitors.checks.join(' '),/Confirm TWO monitors/);
+  assert.ok(monitors.roles[0].startsWith('2 ×'));
+  assert.ok(monitors.costAndTradeoffs.some(x=>/per cabinet/i.test(x)));
+});
+
+test('exact-load power figure is qualified, never treated as real-speaker safety',()=>{
+  const x=explainBeginnerOption({
+    architecture:'passive_separates',id:'amp-speaker',parts:[],extra:[],
+    amplifierFit:{amp:{exact:true,watts:80,ohms:8},speaker:{}}
+  },{});
+  assert.match(x.matchingEvidence,/80 W\/channel/);
+  assert.match(x.matchingEvidence,/not proof/);
+});
+
+test('extra adapters and unverified source inputs take priority over shopping',()=>{
+  const x=explainBeginnerOption({
+    architecture:'consumer_powered_pair',connectionStatus:'adapter_needed',
+    sourceCaution:'Your streamer has a digital-only output.',
+    id:'powered',parts:[],extra:[],tradeoff:'Verify the input types.'
+  },{});
+  assert.equal(x.status,'Extra connection needed');
+  assert.equal(x.firstChecks[0],'Your streamer has a digital-only output.');
+  assert.ok(x.firstChecks.join(' ').includes('converter'));
+  assert.ok(x.costAndTradeoffs.some(x=>/priced separately/.test(x)));
+});
+
+test('builder markup shows rationale and compatibility checks before technical opinions',async()=>{
+  const app=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+  const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
+  const css=await readFile(new URL('../system-builder/style.css',import.meta.url),'utf8');
+  const first=app.indexOf("Why this option was suggested");
+  const chain=app.indexOf("How these components would work together");
+  const proof=app.indexOf("What supports this pairing, and what does not");
+  const checks=app.indexOf("What to check before connecting or buying");
+  const evidence=app.indexOf("Published power figures and listening impressions");
+  assert.ok(first>0&&first<chain&&chain<proof&&proof<checks&&checks<evidence,
+    'Reason, system roles, evidence limits and warnings must precede sound reviews');
+  assert.match(app,/explainBeginnerOption\(item,request\)/);
+  assert.match(app,/What is included|Full verification, trade-offs, equipment and sources/);
+  assert.match(app,/Keeping equipment you already own is a valid outcome/);
+  assert.match(page,/Your system options, explained/);
+  assert.match(page,/Show system options and why they fit/);
+  assert.match(css,/\.sb-recommendations\{grid-template-columns:minmax\(0,1fr\)/);
+  assert.match(css,/\.sb-beginner-checks\{border-left/);
 });
