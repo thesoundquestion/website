@@ -14,7 +14,7 @@ This is a **fun, informal, voluntary community listening experiment**, not an ac
 
 ## Mandatory ABX evidence-status review before public release
 
-**Release blocker.** The five-row “What is actually tested?” matrix in `library/behind-the-experiments/index.html#` (the `#abx` section) reflects the current **draft implementation**, not a promise of what will be available after final validation. Its “Available procedure” column must be reconciled with actual release conditions **immediately before merging or publishing**, because those statuses may change as comparisons complete fairness testing.
+**Release blocker.** The five-row “What is actually tested?” matrix in `library/behind-the-experiments/index.html` (the `#abx` section) reflects the current **draft implementation**, not a promise of what will be available after final validation. Its “Available procedure” column must be reconciled with actual release conditions **immediately before merging or publishing**, because those statuses may change as comparisons complete fairness testing.
 
 - Verify both **Mixing/stereo-width** comparisons: are they still Training only, or have any additional modes and scored paths been implemented and verified?
 - Verify both **Mastering dynamics** comparisons: keep the intentionally unequal-volume mastering demonstrations excluded from scored ABX; inspect any new loudness-matched eligible tests.
