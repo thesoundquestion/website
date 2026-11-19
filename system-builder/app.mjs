@@ -16,6 +16,7 @@ import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-h
 import {BUILDER_ONLY_AMPS, builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {usedWatchlistFor} from './used-amp-watchlist.mjs';
 import {homeSubwooferRequest, ownedSubwooferPath, POWERED_SUB_PAIRS, poweredSubPairFor, USED_SUB_MODELS} from './stereo-subwoofer-examples.mjs';
+import {subwooferConnections,knownSubExamplePlan} from './subwoofer-connection.mjs';
 
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
@@ -216,7 +217,12 @@ document.addEventListener('DOMContentLoaded', () => {
     intentNote.textContent=route.description+' All other information is optional and can be added under More choices.';
     if(route.architecture)architecture.value=route.architecture;
     else if(!preserveGuide)architecture.value='open';
+    if(id==='subwoofer'){
+      subMode.value='plan_sub';
+      subOwnedField.value='no';
+    }
     syncHeadphoneInputs();
+    syncSub();
     advanced.hidden=Boolean(route.directRoute);
     sourceHelp.hidden=!route.directRoute;
     actionButtons.hidden=Boolean(route.directRoute);
@@ -232,6 +238,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // section is still available to people who want technical fine-tuning.
   }
   intentSelect.addEventListener('change',()=>setBuilderIntent());
+  function renderSubwooferWiring(parent,plan,{heading='How the subwoofer connects',showSources=true}={}){
+    const box=el('div','sb-sub-route');
+    addText(box,'h4',heading);
+    addText(box,'p',plan.title,'sb-sub-connection-kind');
+    addText(box,'p',plan.signal);
+    addText(box,'p','Wiring: '+plan.cable,'sb-sub-cable');
+    addText(box,'h5','Will this take bass away from the main speakers?');
+    addText(box,'p',plan.mainBass,'sb-sub-main-filter');
+    addText(box,'p','Before connecting: '+plan.next,'sb-sub-next');
+    if(plan.warnings.length){
+      const d=el('details','sb-sub-routing-detail');
+      addText(d,'summary','Important connection notes');
+      list(d,plan.warnings);
+      box.append(d);
+    }
+    if(showSources&&plan.sourceLinks.length){
+      const d=el('details','sb-sub-routing-detail');
+      addText(d,'summary','Manufacturer instructions and connection evidence');
+      for(const source of plan.sourceLinks)link(d,source.url,source.title);
+      box.append(d);
+    }
+    parent.append(box);
+    return box;
+  }
   const preselectedIntent=handoffBuilderIntent(guideHandoff);
   if(preselectedIntent)intentSelect.value=preselectedIntent;
   setBuilderIntent({preserveGuide:Boolean(preselectedIntent)});
@@ -391,6 +421,44 @@ document.addEventListener('DOMContentLoaded', () => {
     (reportContainer || body).append(node);
     return node;
   }
+  function dedicatedSubReport(data){
+    const amp=chosenGear(data,'amp');
+    const speakers=chosenGear(data,'speaker');
+    const model=String(data.get('subName')||'').trim();
+    const subOwned=String(data.get('subOwned')||'no');
+    const plan=subwooferConnections({
+      ampName:amp.name,subName:model,
+      ampOutput:String(data.get('subAmpOutput')||'unknown'),
+      subInput:String(data.get('subInput')||'unknown'),
+      highPass:String(data.get('subHighPass')||'unknown'),
+      subOwned
+    });
+    const box=el('section','sb-sub-intent-report');
+    addText(box,'h3','Your subwoofer connection plan');
+    const owned=[amp.name?speakers.name?amp.name+' and '+speakers.name:amp.name:speakers.name];
+    if(owned[0])addText(box,'p','Building around: '+owned[0]+(model?' · Subwoofer: '+model:''));
+    if(!amp.name&&!speakers.name)
+      addText(box,'p','You can explore the wiring without entering a model. We will need your equipment’s exact connections before calling a particular hookup ready.');
+    const kind=plan.direct?'A connection route to check':'Further information or hardware needed';
+    addText(box,'p',kind,'sb-sub-connection-kind');
+    renderSubwooferWiring(box,plan,{heading:'How the system would be wired'});
+    if(!model&&!['speaker_high','both'].includes(plan.input)&&plan.output==='speaker_only'){
+      addText(box,'p','Shopping tip: a powered subwoofer with compatible high-level inputs may be easier to add to an amplifier that only has speaker terminals. Otherwise include the cost of a manufacturer-approved converter.');
+    }
+    if(!model&&!['speaker_only','unknown'].includes(plan.output)){
+      addText(box,'p','Shopping tip: look for a powered subwoofer with a compatible RCA line input and documented controls. The Edifier T5 is one example of an RCA-input subwoofer, not a fit guarantee.');
+      link(box,'https://www.edifier.com/int/ca/p/subwoofers/t5','Edifier T5 input information');
+    }
+    addText(box,'p','A subwoofer purchase may also need a longer signal cable, speaker wire or a converter, a nearby power outlet, room for placement and time to adjust volume and crossover. Those extras are not included in a generic subwoofer price.','sb-sub-cost');
+    addText(box,'p','No amplifier watts or speaker impedance rating is needed to identify the basic subwoofer signal path. This connection plan does not promise how much bass the system will produce.','sb-help');
+    body.append(box);
+    const note=el('details','sb-audit');
+    addText(note,'summary','What is high-pass filtering, and why does it matter?');
+    addText(note,'p','A low-pass filter limits the high frequencies going to the sub. A high-pass filter limits low frequencies going to the main speakers. Some receivers or powered speaker systems do both; a normal RCA sub output alone does not prove the main speakers are filtered.');
+    addText(note,'p','When bass is deliberately reduced in the main speakers, they may have less low-frequency work to do. That benefit depends on the actual crossover and settings. Do not credit it if the wiring is unknown.');
+    body.append(note);
+  }
+
   function report(data) {
     body.replaceChildren();
     reportContainer = null;
@@ -402,6 +470,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if(guideHandoff.intent==='vinyl')
         addText(bridge,'p','Important: turntable, cartridge and phono-preamp prices are NOT included in the Builder’s displayed system subtotals. An eligible amplifier/speaker suggestion alone is not a complete vinyl system cost.','sb-brief-note');
       body.append(bridge);
+    }
+    if(String(data.get('buildIntent'))==='subwoofer'){
+      dedicatedSubReport(data);
+      return;
     }
     const primary = String(data.get('goal') || 'all_rounder');
     const mainGoal = GOALS[primary] || GOALS.all_rounder;
@@ -494,6 +566,19 @@ document.addEventListener('DOMContentLoaded', () => {
       list(decision,combinedFactors);
       shop.append(decision);
     }
+    if(bassMode!=='no_sub'&&arch!=='headphone_first'){
+      const genericPlan=subwooferConnections({
+        ampName:own.amp.name,
+        subName:String(data.get('subName')||'').trim(),
+        ampOutput:String(data.get('subAmpOutput')||'unknown'),
+        subInput:String(data.get('subInput')||'unknown'),
+        highPass:String(data.get('subHighPass')||'unknown'),
+        subOwned
+      });
+      const connectionBlock=el('section','sb-sub-route-section');
+      renderSubwooferWiring(connectionBlock,genericPlan,{heading:'Your subwoofer wiring and filtering'});
+      shop.append(connectionBlock);
+    }
     const hasSubExample = shortlist.selected.some(item => item.bassSetup);
     const retainedSubPath = ownedSubwooferPath(own, request);
     if (bassMode === 'plan_sub' && !retainedSubPath && homeSubwooferRequest(request)) {
@@ -546,8 +631,11 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(card,'p',overview.status,'sb-beginner-status sb-beginner-'+overview.priority);
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
-      if (item.bassSetup)
+      if (item.bassSetup){
         addText(card,'p',item.bassSetup.label,'sb-card-minor');
+        const modelPlan=knownSubExamplePlan(item.id);
+        if(modelPlan)renderSubwooferWiring(card,modelPlan,{heading:'What connecting this subwoofer involves'});
+      }
       else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
         addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
       const whyBox=el('div','sb-beginner-reason');
@@ -817,6 +905,8 @@ document.addEventListener('DOMContentLoaded', () => {
         route.wantsOwnedSub ? 'Keep your subwoofer if it accepts the right connection. The T5 wiring below is an example.' :
         'Confirm whether your sub can be reused. The T5 wiring below is an example.');
       if (route.needsMainSpeakers) addText(panel,'p','Price the passive stereo pair and speaker wire separately.');
+      const retainedSub= subwooferConnections({ampName:route.retained,subName:'Edifier T5',subOwned:route.wantsOwnedSub?'yes':'no'});
+      renderSubwooferWiring(panel,retainedSub,{heading:'Connection details for this example'});
       addText(panel,'p',route.bassSetup.setup);
       link(panel,route.bassSetup.source,'Manufacturer bass-routing instructions');
       if (route.buying) renderPriceReferences(panel,route,'h4');
