@@ -2,7 +2,7 @@
 
 ## Current release
 
-The 27 approved Spec Sheet Decoder lessons use the prepared-answer bank and local text matching. Each lesson has five prepared explanations and a graph question that follows the selected example. An inline disclosure keeps the panel small until a reader opens it. The shortcut below each interactive plot opens the tutor with that plot selected. Section links, illustrations and navigation belong to the original lesson pages.
+The 27 approved Spec Sheet Decoder lessons use the prepared-answer bank and local text matching. Every lesson has five prepared explanations and at least one specific beginner question; graph lessons also explain the selected example. The amplifier-headroom tutor follows the selected 4 Ω or 8 Ω test load. When wording does not match, clickable related prepared questions help visitors find an explanation. An inline disclosure keeps the panel small until a reader opens it. The shortcut below each interactive plot opens the tutor with that plot selected. Section links, illustrations and navigation belong to the original lesson pages.
 
 The [frontend flag](../../assets/lesson-tutor/config.js) is off and the public site has no tutor API route. The current incremental inference and database cost is **$0**. The answer bank loads on demand from the website. The visitor’s typed question stays in the browser.
 
