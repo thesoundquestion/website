@@ -105,12 +105,24 @@ try {
   outcomes.push(device.name+' Creating Builder example chain');
 
   await visit(page,'/system-builder/');
+  // The new task-first Builder intentionally keeps its submit controls hidden
+  // until someone selects a goal. Test the unlisted-gear search and provisional
+  // specification path on the actual packaged desktop/mobile page.
+  await page.locator('#sb-build-intent').selectOption('amp_for_speakers');
+  await page.locator('[name="speakerOther"]').fill('Test Only Passive Speaker');
+  await page.locator('[data-gear-search="speaker"]').click();
+  assert.match(await page.locator('[data-gear-matches="speaker"]').innerText(),/No exact model found/);
+  await page.locator('[name="speakerSpecUrl"]').fill('https://example.org/test-speaker-manual');
+  await page.locator('[name="speakerLoad"]').fill('8');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
-  assert.ok((await page.locator('#sb-results').innerText()).length>220);
+  const summary=await page.locator('#sb-results').innerText();
+  assert.ok(summary.length>220);
+  assert.match(summary,/user-supplied|user-entered|provisional/i,
+    device.name+' unlisted gear must stay visibly provisional');
   await checkNoErrors(page,errors,device.name+' Listening Builder');
   assert.equal(workerRequests,0,device.name+' smoke attempted live Worker API');
-  outcomes.push(device.name+' Listening Builder equipment results');
+  outcomes.push(device.name+' Listening Builder unlisted specification pathway');
   await context.close();
  }
  console.log('RELEASE_BROWSER_PREFLIGHT_OK '+outcomes.join(' | '));
