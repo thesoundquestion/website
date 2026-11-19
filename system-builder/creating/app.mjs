@@ -207,7 +207,13 @@ function render(plan){
     const ul=append(shopping,'ul');
     for(const item of missing){
       const label=item.pick?.model||item.title;
-      append(ul,'li','',((item.quantity||1)>1?(item.quantity+' × '):'')+label+
+      // A drum-kit plan cannot infer that every microphone is the same model.
+      // Show one sourced model as an example, not an instruction to buy N copies.
+      const multipleSources=item.key==='mic'&&item.quantity>1&&['drums','band'].includes(plan.mode);
+      const description=multipleSources
+        ?item.quantity+' microphones selected for the individual sound sources (example to investigate: '+label+')'
+        :((item.quantity||1)>1?(item.quantity+' × '):'')+label;
+      append(ul,'li','',description+
         (item.need==='verify'?' (requirements still to research)':' (compare local options)'));
     }
   }else append(shopping,'p','','All listed stages are already owned or included. Double-check connections and accessories before assuming there is nothing to buy.');
