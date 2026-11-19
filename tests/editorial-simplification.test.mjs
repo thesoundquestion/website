@@ -7,8 +7,8 @@ const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 
 test('Library entry matches actual Listening Room selection and track count',()=>{
  const index=read('library/index.html'),room=read('library/curators-listening-room/index.html');
- assert.match(index,/51 listening selections covering 53 tracks/);
- assert.match(room,/51 selections cover 53 tracks/);
+ assert.match(index,/52 listening selections covering 54 tracks/);
+ assert.match(room,/52 selections cover 54 tracks/);
  assert.doesNotMatch(index,/38 personally selected/);
 });
 
