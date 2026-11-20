@@ -41,7 +41,8 @@ const SHORT=Object.freeze({
 });
 const omitType=type=>/manufacturer description only|manufacturer specification only|not independently characterized|application and specifications only|independent measurement interpretation/i.test(type);
 const trim=x=>String(x||'').replace(/\s+/g,' ').trim();
-const normalize=x=>trim(x).replace(/\s*\((?:RCA line out|RCA)\)$/i,'');
+const normalize=x=>trim(x).replace(/^[^:]{3,55}:\s*/,'')
+  .replace(/\s*\((?:RCA line out|RCA)\)$/i,'');
 const nameOf=i=>normalize(i?.soundTarget||i?.speakerModel||i?.curatedPairing?.speakerModel||
   i?.headphoneModel||i?.title||'');
 function profileFor(i){

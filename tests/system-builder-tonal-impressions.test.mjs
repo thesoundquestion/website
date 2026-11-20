@@ -65,7 +65,7 @@ test('sourced headphone profiles have independent review URLs and preserve mixed
   assert.match(p.type,/independent/i);
   assert.ok(p.url.startsWith('https://'));
  }
- assert.match(soundProfileFor({title:'FiiO FT1'}).text,/some.*obscures/);
+ assert.match(soundProfileFor({title:'FiiO FT1'}).text,/Listeners differ.*obscures/);
  assert.match(soundProfileFor({title:'Grado SR80x'}).text,/Other reviewers/);
 });
 test('subjective tonal notes are on the main comparison cards, not behind dropdowns',()=>{
@@ -79,4 +79,13 @@ test('subjective tonal notes are on the main comparison cards, not behind dropdo
  assert.match(render,/link\(links,source.url,source.label\)/);
  assert.match(app,/tonalComparison\(shortlist.selected\[0\],item\)/);
  assert.match(css,/\.sb-tonal-comparison/);
+});
+
+test('builder-specific headphone category title prefixes still resolve exact model sound impressions',()=>{
+  const a={architecture:'headphone_first',title:'Open-backed / open-air: Koss KSC75'};
+  const b={architecture:'headphone_first',title:'Closed-back: FiiO FT1'};
+  const c=tonalComparison(a,b);
+  assert.ok(c);
+  assert.match(c.text,/Koss KSC75.*open, clear/);
+  assert.match(c.text,/FiiO FT1.*warm, bass-rich/);
 });
