@@ -149,16 +149,35 @@ try {
    outcomes.push(device.name+' exact-model headroom calculated directly from transferred listening inputs');
 
    // A loud preset may exceed published burst output without making the
-   // speaker/amp electrically incompatible. Show a practical adjustment.
+   // speaker/amp electrically incompatible. Keep corrective advice COLLAPSED.
    await visit(page,'/system-check/?embedded=1&autocheck=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9&average=85&gap=20');
    const loudResult=await page.locator('#result-body').innerText();
-   assert.match(loudResult,/Why the peak target failed/);
-   assert.match(loudResult,/Sit closer: from 9 ft to about/);
-   assert.match(loudResult,/Lower the peak target/);
-   assert.match(loudResult,/It does NOT mean the amplifier and speakers are electrically incompatible/);
-   assert.ok(await page.locator('.sc-headroom-adjustments').count()>=1);
-   await checkNoErrors(page,errors,device.name+' occasionally-loud actionable headroom guidance');
-   outcomes.push(device.name+' loud headroom shortfall gives distance and level adjustments without incompatibility claim');
+   assert.match(loudResult,/not proof of an electrically incompatible speaker\/amplifier pair/);
+   const fixDropdown=page.locator('#result-body .sc-headroom-adjustments');
+   assert.equal(await fixDropdown.count(),1);
+   assert.equal(await fixDropdown.locator('summary').innerText(),'What could you do?');
+   assert.equal(await fixDropdown.evaluate(node=>node.open),false);
+   assert.doesNotMatch(loudResult,/Sit closer/,'the beginner result should not show the full advice wall');
+   await fixDropdown.locator('summary').click();
+   const fixText=await fixDropdown.innerText();
+   assert.match(fixText,/Why the peak target failed/);
+   assert.match(fixText,/Sit closer: from 9 ft to about/);
+   assert.match(fixText,/Lower the peak target/);
+   assert.match(fixText,/Keep amplifier, change speakers:/);
+   assert.match(fixText,/Klipsch R-51M/);
+   assert.ok(await fixDropdown.locator('a[href^="https://"]').count()>=1);
+   await checkNoErrors(page,errors,device.name+' occasional-loud fixes and speaker shortlist');
+   outcomes.push(device.name+' one collapsed loudness fix menu with comparable speaker alternative');
+
+   // A more modest, sourced deficit can have a genuine amplifier candidate.
+   await visit(page,'/system-check/?embedded=1&autocheck=1&speaker=Paradigm%20Phantom%20v1&amp=NAD%203020%20(original)&distanceFt=9&average=80&gap=18');
+   const ampFix=page.locator('#result-body .sc-headroom-adjustments');
+   assert.equal(await ampFix.count(),1);
+   await ampFix.locator('summary').click();
+   assert.match(await ampFix.innerText(),/Keep speakers, change amplifier:/);
+   assert.match(await ampFix.innerText(),/Yamaha A-S301/);
+   await checkNoErrors(page,errors,device.name+' alternative amplifier shortlisted from documented burst power');
+   outcomes.push(device.name+' source-backed amplifier replacement appears only for a solvable shortfall');
 
 
    // The example button on the full calculator may change the listening
