@@ -10,12 +10,12 @@
   <meta property="og:url" content="https://thesoundquestion.com/system-builder/">
 <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
-<link rel="stylesheet" href="/system-builder/style.css?v=primary-option-20261120">
+<link rel="stylesheet" href="/system-builder/style.css?v=unlisted-spec-paste-20261120">
 <link rel="stylesheet" href="/tools/recommend-gear/style.css">
 <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
 <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
 <script defer src="/system-builder/catalog-adapter.js"></script>
-<script type="module" src="/system-builder/app.mjs?v=primary-option-20261120"></script>
+<script type="module" src="/system-builder/app.mjs?v=unlisted-spec-paste-20261120"></script>
 
 <title>Listening Builder | The Sound Question</title>
 </head>
@@ -170,7 +170,15 @@
  <div class="sb-gear-matches" data-gear-matches="speaker" aria-live="polite"></div>
  <details class="sb-gear-source-detail" data-gear-details="speaker">
   <summary>Not in the catalogue? Enter the specs from a manual</summary>
-  <p class="sb-help">Only enter figures found for your exact model and revision. These are <strong>user-supplied, provisional</strong> values until independently checked. We never scrape Google results or guess missing figures.</p>
+  <p class="sb-help">Found a manual or spec page? Copy its relevant text below, then fill the recognised values into the editable boxes. Paste the <strong>original source URL</strong> too. These figures remain user-supplied and provisional; nothing is imported from Google automatically.</p>
+  <label class="sb-field sb-spec-paste-label">Paste speaker specifications here (optional)
+    <textarea id="sb-speaker-spec-paste" rows="4" maxlength="4000" spellcheck="false" placeholder="Example:
+Nominal impedance: 8 ohms
+Minimum impedance: 4.2 ohms
+Sensitivity: 89 dB (2.83 V / 1 m)"></textarea>
+  </label>
+  <button type="button" class="button button-secondary sb-spec-paste-button" id="sb-speaker-spec-fill">Fill recognised fields from pasted text</button>
+  <p id="sb-speaker-spec-feedback" class="sb-help" role="status" aria-live="polite">Prefer typing values? The editable fields are directly below. Only clearly labelled ratings are extracted; review them before building a match.</p>
   <div class="sb-grid">
   <label class="sb-field">Are these passive or powered speakers? <select name="speakerPowerType"><option value="">Choose from the manual / not sure</option><option value="passive">Passive: needs an external amplifier</option><option value="powered">Powered / active: amplifier is built in</option></select></label>
    <label class="sb-field">Manufacturer specification/manual HTTPS link <input name="speakerSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
