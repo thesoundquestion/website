@@ -1003,7 +1003,11 @@ form.addEventListener('submit', event => {
     status.textContent = error.message;
     body.replaceChildren();
   }
-  output.focus();
+  // Auto-calculated results in the Listening Builder must never move focus
+  // from the selected build card to the embedded headroom iframe. The iframe
+  // may finish loading well after the parent has scrolled to its first card.
+  // Standalone System Check still focuses the result for keyboard users.
+  if (builderParams.get('embedded') !== '1') output.focus();
 });
 
 function runModelHandoff(){
