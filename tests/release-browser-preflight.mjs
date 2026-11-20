@@ -148,6 +148,25 @@ try {
    await checkNoErrors(page,errors,device.name+' automatic model-backed headroom results');
    outcomes.push(device.name+' exact-model headroom calculated directly from transferred listening inputs');
 
+   // Manufacturer-backed Q Acoustics models must produce an actual numerical
+   // headroom result with the already-published Yamaha A-720 ratings.
+   // 2020i, 3020i and 3030i must remain separate exact model identities.
+   for(const speaker of ['Q Acoustics 2020i','Q Acoustics 3030i']){
+     const params=new URLSearchParams({embedded:'1',autocheck:'1',
+       speaker,amp:'Yamaha A-720',distanceFt:'8',average:'85',gap:'20',profile:'high',preferRoom:'1'});
+     await visit(page,'/system-check/?'+params.toString());
+     assert.equal(await page.locator('[name="speakerModel"]').inputValue(),speaker);
+     assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-720');
+     assert.equal(await page.locator('[name="load"]').inputValue(),'6');
+     assert.equal(await page.locator('[name="sensitivity"]').inputValue(),'88');
+     assert.ok(await page.locator('#ratings [data-watts]').count()>=2);
+     assert.match(await page.locator('#result-body').innerText(),/125 W|180 W|6 Ω|Musical/);
+     assert.doesNotMatch(await page.locator('#result-status').innerText(),/has not been calculated/);
+     assert.equal(await page.locator('body.sc-embedded.sc-auto-result').count(),1);
+     await checkNoErrors(page,errors,device.name+' Yamaha A-720 with '+speaker+' headroom');
+   }
+   outcomes.push(device.name+' Yamaha A-720 headroom calculated with exact 2020i and 3030i manufacturer data');
+
    // A loud preset may exceed published burst output without making the
    // speaker/amp electrically incompatible. Keep corrective advice COLLAPSED.
    await visit(page,'/system-check/?embedded=1&autocheck=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9&average=85&gap=20');

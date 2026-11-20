@@ -6,6 +6,9 @@ import vm from 'node:vm';
 const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
 const calculator=readFileSync(new URL('../system-check/calculator.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../system-check/style.css',import.meta.url),'utf8');
+const supplement=readFileSync(new URL('../system-check/verified-speaker-supplements.js',import.meta.url),'utf8');
+const checkerPage=readFileSync(new URL('../system-check/index.html',import.meta.url),'utf8');
+const classic=readFileSync(new URL('../equipment/legacy-presets.generated.js',import.meta.url),'utf8');
 const from=app.indexOf('const BUILDER_HEADROOM_PROFILES');
 const to=app.indexOf('\nconst el = ',from);
 assert.ok(from>=0&&to>from,'Headroom handoff logic missing');
@@ -74,4 +77,40 @@ test('ordinary curated passive recommendations carry exact model identities into
   assert.match(app,/item\.curatedPairing\?\.amplifierModel/);
   assert.match(app,/item\.curatedPairing\?\.speakerModel/);
   assert.match(app,/if\(headroomModels\.amplifierModel&&headroomModels\.speakerModel\)/);
+});
+
+test('exact Q Acoustics 2020i and 3030i source-backed presets enable A-720 embedded headroom',()=>{
+  assert.match(checkerPage,/verified-speaker-supplements\\.js/);
+  const ctx={};
+  vm.runInNewContext(classic+'\n'+supplement+
+    '\nglobalThis.models=systemCheckGear;',ctx);
+  const a=ctx.models.speaker.find(x=>x.model==='Q Acoustics 2020i');
+  const b=ctx.models.speaker.find(x=>x.model==='Q Acoustics 3030i');
+  const amp=ctx.models.amp.find(x=>x.model==='Yamaha A-720');
+  assert.ok(a&&b&&amp,'Exact manufacturer-backed models must be available');
+  for(const item of [a,b]){
+    assert.equal(item.values.load,6);
+    assert.equal(item.values.minimum,4);
+    assert.equal(item.values.sensitivity,88);
+    assert.equal(item.values.basis,'voltage');
+    assert.equal(item.values.speakerRecommendedAmpMax,75);
+    assert.equal(item.values.speakerPowerPeak,undefined);
+    assert.equal(item.values.speakerPowerContinuous,undefined);
+    assert.match(item.url,/^https:\\/\\//);
+    const params=handoff({speakerModel:item.model,amplifierModel:amp.model},8,'high').params;
+    assert.equal(params.get('speaker'),item.model);
+    assert.equal(params.get('amp'),amp.model);
+  }
+  assert.notEqual(a.note,b.note);
+  assert.ok(amp.ratings.some(([w,ohms,type])=>w===125&&ohms===6&&type==='continuous'));
+  assert.ok(amp.ratings.some(([w,ohms,type])=>w===180&&ohms===6&&type==='burst'));
+});
+test('adding Q Acoustics handoff supplements does not replace existing verified presets',()=>{
+  const ctx={};
+  const original=classic+'\n'+supplement;
+  vm.runInNewContext(original+'\n'+supplement+
+    '\nglobalThis.models=systemCheckGear;',ctx);
+  assert.equal(ctx.models.speaker.filter(x=>x.model==='Q Acoustics 2020i').length,1);
+  assert.equal(ctx.models.speaker.filter(x=>x.model==='Q Acoustics 3030i').length,1);
+  assert.ok(ctx.models.speaker.some(x=>x.model==='Q Acoustics 3020i'));
 });
