@@ -150,6 +150,30 @@ body.sc-embedded.sc-auto-result .sc-layout{display:block;margin-top:0}
 body.sc-embedded.sc-auto-result .sc-results{width:100%;max-width:100%;box-sizing:border-box}
 body.sc-embedded.sc-auto-result .sc{padding:0}
 
+/* Compact the Builder preview only. Standalone System Check keeps its full
+   explanation and sizing; all verdicts, ratings, adjustments and links remain. */
+body.sc-embedded.sc-auto-result .sc-results{padding:.65rem .75rem}
+body.sc-embedded.sc-auto-result #result-title{font-size:1.02rem;margin:0 0 .2rem}
+body.sc-embedded.sc-auto-result #result-status{font-size:.86rem;line-height:1.4;margin:.2rem 0 .5rem}
+body.sc-embedded.sc-auto-result .sc-results h3{font-size:.98rem;margin:.6rem 0 .25rem}
+body.sc-embedded.sc-auto-result .sc-results p{margin:.3rem 0 .5rem;line-height:1.45}
+body.sc-embedded.sc-auto-result .sc-overall-verdict{padding:.6rem .7rem;margin:.35rem 0 .55rem;line-height:1.42}
+body.sc-embedded.sc-auto-result .sc-overall-verdict strong{font-size:.96rem}
+body.sc-embedded.sc-auto-result .sc-overall-verdict p{font-size:.82rem}
+body.sc-embedded.sc-auto-result .sc-load-results{margin:.4rem 0 .65rem}
+body.sc-embedded.sc-auto-result .sc-load-intro{font-size:.82rem;line-height:1.45}
+body.sc-embedded.sc-auto-result .sc-load-stack{gap:.5rem;margin-top:.55rem}
+body.sc-embedded.sc-auto-result .sc-load-card{padding:.62rem .7rem}
+body.sc-embedded.sc-auto-result .sc-load-card--yours .sc-load-heading{font-size:1rem}
+body.sc-embedded.sc-auto-result .sc-load-subheading{margin:.15rem 0 .5rem!important;font-size:.8rem;line-height:1.4}
+body.sc-embedded.sc-auto-result .sc-load-metrics{gap:.5rem}
+body.sc-embedded.sc-auto-result .sc-load-metric{padding:.5rem .6rem}
+body.sc-embedded.sc-auto-result .sc-load-metric>p{margin:.16rem 0;line-height:1.4}
+body.sc-embedded.sc-auto-result .sc-headroom-adjustments{margin:.45rem 0;padding:.55rem .7rem}
+@media(min-width:640px){
+ body.sc-embedded.sc-auto-result .sc-load-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 /* Overall rating must be more prominent than individual average and load notes. */
 .sc-overall-verdict{margin:.6rem 0 1rem;padding:.9rem 1rem;border:1px solid #56748a;border-left:5px solid #98c9e2;border-radius:7px;background:#14293b;line-height:1.55}
 .sc-overall-verdict strong{display:block;font-size:1.05rem;line-height:1.35}
