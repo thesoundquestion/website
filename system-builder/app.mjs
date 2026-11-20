@@ -1,7 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
-import {parseSpeakerSpecText} from './spec-paste.mjs?v=recognition-flexible-20261120';
+import {parseSpeakerSpecText} from './spec-paste.mjs?v=in-room-primary-20261120';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -463,12 +463,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const label={
         speakerLoad:'nominal impedance',speakerMinimum:'minimum impedance',
-        speakerSensitivity:'sensitivity',speakerBasis:'sensitivity basis',
+        speakerSensitivity:'listening sensitivity',speakerBasis:'sensitivity basis',
+        speakerSensitivityEnvironment:'measurement setting',speakerAnechoic:'anechoic reference',
         speakerRecommendedAmpMin:'recommended amplifier minimum',
         speakerRecommendedAmpMax:'recommended amplifier maximum',
         speakerMaxInput:'listed maximum speaker input'
       };
       const unit={speakerLoad:' Ω',speakerMinimum:' Ω',speakerSensitivity:' dB',speakerBasis:'',
+        speakerAnechoic:' dB',speakerSensitivityEnvironment:'',
         speakerRecommendedAmpMin:' W',speakerRecommendedAmpMax:' W',speakerMaxInput:' W'};
       const recognised=Object.entries(parsed.fields).map(([name,value])=>
         label[name]+': '+value+(unit[name]||''));
@@ -743,6 +745,18 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
     if(Object.values(own).some(x=>x.userSupplied))
       addText(shop,'p','Important: these suggestions use numerical figures you copied from a source. We have not independently verified the model revision or figures. Every equipment match is provisional until the manufacturer documentation and actual load are confirmed.','sb-brief-note');
+    const speakerValues=own.speaker.record?.values;
+    if(own.speaker.userSupplied&&Number.isFinite(speakerValues?.reportedSensitivity)){
+      const inRoom=speakerValues.sensitivityEnvironment==='in_room';
+      addText(shop,'p','Speaker sensitivity used for planning: '+
+        speakerValues.reportedSensitivity+' dB'+
+        (inRoom?' in-room':'')+
+        (Number.isFinite(speakerValues.anechoicReferenceDb)&&inRoom?
+          ' (anechoic reference: '+speakerValues.anechoicReferenceDb+' dB)':'')+
+        (speakerValues.basisAssumed?' · approximately 1 W / 2.83 V at 1 m for 8 Ω nominal-class':'')+
+        '. '+(inRoom?'The in-room value already includes the manufacturer’s assumed room contribution; do not add it again. ':'')+
+        'Actual seat level still depends on your room and placement.','sb-brief-note');
+    }
     if(own.speaker.record?.values?.recommendedAmpMinW!=null &&
        own.speaker.record?.values?.recommendedAmpMaxW!=null){
       const guidance=own.speaker.record.values;
