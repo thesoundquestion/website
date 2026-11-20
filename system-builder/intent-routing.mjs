@@ -136,7 +136,7 @@ export function scopedBuilderInputs(formData,id,advancedOpen=false){
       if(!keep.includes(type)){
         data.set(type,'');data.set(type+'Other','');
         for(const field of (UNLISTED_FIELDS[type]||[]))data.set(field,'');
-        if(type==='speaker')for(const field of ['speakerMinimum','speakerSensitivity','speakerBasis','speakerRecommendedAmpMin','speakerRecommendedAmpMax','speakerMaxInput'])data.set(field,'');
+        if(type==='speaker')for(const field of ['speakerMinimum','speakerSensitivity','speakerBasis','speakerSensitivityEnvironment','speakerAnechoic','speakerRecommendedAmpMin','speakerRecommendedAmpMax','speakerMaxInput'])data.set(field,'');
       }
     }
     for(const key of ['secondary'])data.delete(key);
