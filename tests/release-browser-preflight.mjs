@@ -289,14 +289,19 @@ try {
   await page.locator('[name="speakerLoad"]').fill('8');
   assert.equal(await page.locator('[name="speakerSpecUrl"]').inputValue(),'',
     device.name+' pasted text cannot be substituted for a source URL');
-  await page.locator('[name="speakerSpecUrl"]').fill('https://example.org/test-speaker-manual');
-   await page.locator('[name="speakerPowerType"]').selectOption('passive');
+  // A manufacturer URL is optional when usable numerical specifications
+  // were copied into the provisional form. A model name alone stays invalid.
+  assert.equal(await page.locator('[name="speakerSpecUrl"]').inputValue(),'');
+  assert.match(await page.locator('[name="speakerSpecUrl"]').locator('xpath=ancestor::label').innerText(),/Optional/i);
+  await page.locator('[name="speakerPowerType"]').selectOption('passive');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
   const summary=await page.locator('#sb-results').innerText();
   assert.ok(summary.length>220);
   assert.match(summary,/user-supplied|user-entered|provisional/i,
     device.name+' unlisted gear must stay visibly provisional');
+  assert.match(summary,/No source URL provided/i,
+    device.name+' unlinked specifications should produce a provisional match and clearly note absent evidence');
   await checkNoErrors(page,errors,device.name+' Listening Builder');
   // Normal, not-owned passive pairs also show the headroom handoff;
   // missing published ratings must never turn into fictional wattage.
