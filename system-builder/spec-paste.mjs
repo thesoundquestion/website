@@ -48,6 +48,44 @@ function readSensitivity(segment){
   if(voltage===power)return {level:levels[0],basis:null};
   return {level:levels[0],basis:voltage?'voltage':'power'};
 }
+// A sentence such as "compatible with 8 ohms (measured around 4.2 ohms
+// minimum)" contains TWO distinct facts. Compatibility is not a nominal
+// impedance specification, and the approximate measured minimum isn't exact.
+function contextualImpedance(segment){
+  const compatible=[];
+  const minimum=[];
+  for(const m of segment.matchAll(/\bcompatible\s+(?:with|at|for)\s+(\d{1,3}(?:[.,]\d+)?)\s*(?:Ω|ohms?)\b/gi)){
+    const n=numberValue(m[1]);
+    if(valid(n,2,16))compatible.push(n);
+  }
+  for(const m of segment.matchAll(/\b(\d{1,3}(?:[.,]\d+)?)\s*(?:Ω|ohms?)\s+compatible\b/gi)){
+    const n=numberValue(m[1]);
+    if(valid(n,2,16))compatible.push(n);
+  }
+  // Suffix-style measured minimum; the prefix style "Minimum impedance"
+  // is handled by the existing label parser.
+  for(const m of segment.matchAll(/(\d{1,3}(?:[.,]\d+)?)\s*(?:Ω|ohms?)\s*(?:\)?\s*)\bmin(?:imum)?\b/gi)){
+    const n=numberValue(m[1]);
+    if(valid(n,1,16)){
+      const before=segment.slice(Math.max(0,m.index-38),m.index);
+      minimum.push({value:n,approx:/\b(?:about|around|approx(?:imately)?|roughly|~)\s*$/i.test(before)});
+    }
+  }
+  return {compatible:distinct(compatible),minimum};
+}
+function sensitivityCandidates(segment){
+  const values=[];
+  for(const m of segment.matchAll(/(\d{2,3}(?:[.,]\d+)?)\s*dB(?:\s*SPL)?\b/gi)){
+    const n=numberValue(m[1]);
+    if(!valid(n,60,120))continue;
+    const after=segment.slice(m.index+m[0].length,m.index+m[0].length+38);
+    const environment=/\b(?:in[\s-]?room|room)\b/i.test(after)?'in-room':
+      /\banechoic\b/i.test(after)?'anechoic':'unspecified environment';
+    values.push({value:n,environment});
+  }
+  return [...new Map(values.map(x=>[x.value+'|'+x.environment,x])).values()];
+}
+
 const allMarkers=line=>[...line.matchAll(LABEL)];
 function preparedLines(text){
   const raw=String(text||'').slice(0,5000).normalize('NFKC')
@@ -87,6 +125,7 @@ export function parseSpeakerSpecText(text){
   const lines=preparedLines(text);
   const fields={};
   const notes=[];
+  const observations=[];
   const nominal=[],minimum=[],sensitivities=[];
   let unlabeledNominal=false, sawSensitivity=false, sawImpedance=false, ambiguousImpedance=false;
   for(const line of lines){
@@ -99,16 +138,36 @@ export function parseSpeakerSpecText(text){
         sawSensitivity=true;
         const result=readSensitivity(segment);
         if(result?.basis)sensitivities.push(result);
+        else {
+          const candidates=sensitivityCandidates(segment);
+          if(candidates.length>0){
+            observations.push('Sensitivity readings: '+candidates.map(x=>
+              x.value+' dB ('+x.environment+')').join(', ')+
+              '. Not filled: the 1 W or 2.83 V measurement basis is not established for a single comparable rating.');
+          }
+        }
         continue;
       }
       sawImpedance=true;
+      const context=contextualImpedance(segment);
+      if(context.compatible.length){
+        observations.push(context.compatible.join(' / ')+' Ω described as compatible, NOT explicitly nominal. Confirm nominal impedance before entering an amplifier match.');
+      }
+      for(const candidate of context.minimum){
+        minimum.push(candidate.value);
+        if(candidate.approx)
+          observations.push('Minimum impedance around '+candidate.value+' Ω is approximate, based on the pasted description. Verify the measurement before relying on it.');
+      }
       // "Impedance (nominal): 8 ohms" and "Impedance: 8 ohms nominal".
       const min=/\bmin(?:imum)?\b/.test(label)||/\bmin(?:imum)?\b/i.test(segment);
       const explicit=/\bnominal\b|\brated\b/.test(label)||
         /\bnominal\b|\brated\b/i.test(segment);
-      const value=readImpedance(segment);
+      const value=context.compatible.length?null:readImpedance(segment);
       if(value===null){
-        if(/\d/.test(segment))ambiguousImpedance=true;
+        // A second, explicitly identified minimum is not a conflicting
+        // nominal impedance; keep it even when compatibility isn't nominal.
+        if(/\d/.test(segment)&&!context.minimum.length&&!context.compatible.length)
+          ambiguousImpedance=true;
         continue;
       }
       if(min)minimum.push(value);
@@ -147,5 +206,5 @@ export function parseSpeakerSpecText(text){
     notes.unshift('No unambiguous usable ratings found. Copy the specification table, or type the figures into the boxes below.');
   if(!sawImpedance&&Object.keys(fields).length)
     notes.push('No speaker impedance rating was recognised. Enter the nominal impedance if you need an amplifier match.');
-  return {fields,notes};
+  return {fields,notes,observations:distinct(observations)};
 }
