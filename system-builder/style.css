@@ -304,10 +304,13 @@
 
 /* Full model-backed results are visible immediately; the calculator's input
    form is hidden only after successful documented preset matching. */
-.sb-inline-system-check{border:1px solid #476b80;border-radius:10px;margin:.7rem 0;padding:.65rem .85rem;background:#102739}
-.sb-inline-system-check>h5{margin:0 0 .35rem;color:#c5eafb}
-.sb-inline-system-check-frame{display:block;box-sizing:border-box;width:100%;height:580px;border:1px solid #35586e;border-radius:8px;margin:.6rem 0;background:#091625}
-.sb-inline-system-check .sb-source-link{display:inline-block;margin:.2rem 0 .3rem;font-size:.86rem}
+.sb-inline-system-check{border:1px solid #476b80;border-radius:10px;margin:.5rem 0;padding:.5rem .65rem;background:#102739;min-width:0}
+.sb-inline-system-check>h5{margin:0 0 .2rem;color:#c5eafb;font-size:.94rem}
+.sb-inline-system-check .sb-headroom-brief{margin:.2rem 0 .4rem;font-size:.81rem;line-height:1.45;color:#b7d9e9}
+.sb-inline-system-check-frame{display:block;box-sizing:border-box;width:100%;height:450px;border:1px solid #35586e;border-radius:8px;margin:.4rem 0;background:#091625}
+.sb-inline-system-check .sb-source-link{display:inline-block;margin:.2rem 0;font-size:.8rem}
+/* On desktop the embedded result needs room for numbers, not a squeezed half-column. */
+@media(min-width:880px){.sb-recommend-compact>.sb-inline-system-check{grid-column:1/-1}}
 
 
 /* Live equipment search; hide manual panels until a missing model is entered. */
