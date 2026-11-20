@@ -17,7 +17,10 @@ test('only one primary recommendation is open and the rest are alternative setup
   assert.match(app,/shortlist\.selected\.slice\(1\)/);
   assert.match(app,/const alternativeSetups=el\('details','sb-more sb-alternative-setups'\)/);
   assert.match(app,/Alternative setups/);
-  assert.match(app,/scrollTarget\.scrollIntoView/);
+  assert.match(app,/result\.focus\(\{preventScroll:true\}\)/);
+  assert.match(app,/result\.scrollIntoView\(\{behavior:'instant',block:'start'\}\)/);
+  assert.doesNotMatch(app,/firstRecommendation\|\|result/,
+    'Do not skip the options explanation in favor of the first product');
   assert.doesNotMatch(app,/shortlist\.selected\.slice\(0,3\)/);
 });
 
