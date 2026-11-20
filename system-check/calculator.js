@@ -650,9 +650,14 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
     const peakItem = document.createElement('div');
     peakItem.className = 'sc-load-metric';
     let peakRating;
+    // Prefer verified short-burst data for musical peaks. When the precise
+    // load was not bench-tested, same-duration burst tests on either side of
+    // the nominal load can provide an explicitly labelled interpolation.
+    // Do not discard that evidence just because continuous watts happen to
+    // be published at the exact speaker impedance.
     if (burst) peakRating = directRating(burst);
-    else if (cont) peakRating = directRating(cont);
-    else peakRating = projectedBurst || projectedCont;
+    else if (projectedBurst) peakRating = projectedBurst;
+    else peakRating = directRating(cont) || projectedCont;
 
     const peakAssessment = metricLine(peakItem, 'Short peaks', peakDemand, peak, peakRating,
       'short-burst or continuous', 'peak', testLoad);

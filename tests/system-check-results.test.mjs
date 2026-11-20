@@ -352,3 +352,53 @@ test('speaker power-handling concern still overrides interpolation-based amplifi
   assert.match(r.summary.label,/check speaker handling/);
   assert.match(r.cards[0].allText,/Speaker stress warning: peak demand/);
 });
+
+
+test('Yamaha A-720 at 6 Ω uses its published 180 W IHF burst rating for musical peaks, not 125 W continuous',()=>{
+  const load=6;
+  const r=run({...base,load,
+    averageV:Math.sqrt(100*load),averageW:100,
+    peakV:Math.sqrt(160*load),peakW:160,
+    entries:[
+      {watts:105,load:8,type:'continuous',conditions:'20 Hz–20 kHz'},
+      {watts:125,load:6,type:'continuous',conditions:'20 Hz–20 kHz'},
+      {watts:145,load:8,type:'burst',conditions:'IHF dynamic power'},
+      {watts:180,load:6,type:'burst',conditions:'IHF dynamic power'},
+      {watts:240,load:4,type:'burst',conditions:'IHF dynamic power'}
+    ]});
+  assert.match(r.cards[0].allText,/Average.*Published \/ entered: 125 W\/ch/s);
+  assert.match(r.cards[0].allText,/Short peaks.*Published \/ entered: 180 W\/ch/s);
+  assert.match(r.cards[0].allText,/IHF dynamic power/);
+  assert.equal(r.summary.code,'pass');
+});
+
+test('burst data bracketed around exact continuous load must take priority for musical peaks',()=>{
+  const load=6;
+  const r=run({...base,load,
+    averageV:Math.sqrt(100*load),averageW:100,
+    peakV:Math.sqrt(160*load),peakW:160,
+    entries:[
+      {watts:125,load:6,type:'continuous'},
+      {watts:220,load:4,type:'burst',conditions:'IHF dynamic'},
+      {watts:140,load:8,type:'burst',conditions:'IHF dynamic'}
+    ]});
+  assert.match(r.cards[0].allText,/Average.*Published \/ entered: 125 W\/ch/s);
+  assert.match(r.cards[0].allText,/Short peaks.*Interpolated: 180 W\/ch/s);
+  assert.match(r.cards[0].allText,/Pass · interpolated power covers target/);
+  assert.equal(r.summary.code,'pass');
+});
+
+test('interpolated burst shortfall does not become a definite failure or a continuous-power substitution',()=>{
+  const load=6;
+  const r=run({...base,load,
+    averageV:Math.sqrt(100*load),averageW:100,
+    peakV:Math.sqrt(200*load),peakW:200,
+    entries:[
+      {watts:125,load:6,type:'continuous'},
+      {watts:200,load:4,type:'burst'},
+      {watts:100,load:8,type:'burst'}
+    ]});
+  assert.match(r.cards[0].allText,/Short peaks.*Interpolated: 150 W\/ch/s);
+  assert.equal(r.summary.code,'estimate');
+  assert.doesNotMatch(r.cards[0].allText,/Short peaks.*Published \/ entered: 125 W\/ch/s);
+});
