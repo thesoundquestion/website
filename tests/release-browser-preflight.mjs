@@ -187,6 +187,19 @@ try {
   assert.match(summary,/user-supplied|user-entered|provisional/i,
     device.name+' unlisted gear must stay visibly provisional');
   await checkNoErrors(page,errors,device.name+' Listening Builder');
+  // Normal, not-owned passive pairs also show the headroom handoff;
+  // missing published ratings must never turn into fictional wattage.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('complete_system');
+  await page.locator('[name="architecture"]').selectOption('passive_separates');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  const availablePanels=page.locator('#sb-results .sb-inline-system-check');
+  assert.ok(await availablePanels.count()>=1,device.name+' source-backed passive examples must have a headroom handoff');
+  assert.match(await availablePanels.first().innerText(),/Headroom for these exact models/);
+  await checkNoErrors(page,errors,device.name+' normal passive recommendation headroom');
+  outcomes.push(device.name+' non-owned passive recommendations now expose the exact-model headroom link');
+
   assert.equal(workerRequests,0,device.name+' smoke attempted live Worker API');
   outcomes.push(device.name+' Listening Builder unlisted specification pathway');
   await context.close();
