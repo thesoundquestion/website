@@ -26,50 +26,12 @@ class E {
   get descendants(){return [this,...this.children.flatMap(x=>typeof x==='string'?[]:x.descendants)];}
 }
 
-function makeContext() {
- const body=new E('body');
- const context={document:{createElement:t=>new E(t)},body,show:n=>String(n)};
- const code=js.slice(js.indexOf('function describeRatedDistortion('),js.indexOf('function renderConnections('));
- assert.ok(code.startsWith('function describeRatedDistortion(') && code.includes('function renderDistortionRatingContext'));
- vm.runInNewContext(code+'\nglobalThis.describe=describeRatedDistortion;\nglobalThis.render=renderDistortionRatingContext;',context);
- return {ctx:context,body};
-}
-
-test('distortion parser separates test band, single frequency, THD and THD+N',()=>{
- const {ctx}=makeContext();
- const band=ctx.describe('40 Hz–20 kHz, 0.9% THD, both channels driven');
- assert.equal(band.percent,0.9);assert.equal(band.metric,'THD');assert.equal(band.scope,'stated frequency band');
- const single=ctx.describe('1 kHz, 0.05% THD, both channels driven');
- assert.equal(single.percent,.05);assert.equal(single.scope,'single 1 kHz test');
- const noReading=ctx.describe('IHF dynamic power');
- assert.equal(noReading.percent,null);assert.equal(noReading.metric,null);
- const upper=ctx.describe('20 Hz–20 kHz, ≤0.08% THD+N, both channels driven');
- assert.equal(upper.metric,'THD+N');assert.equal(upper.ceiling,true);
- const another=ctx.describe('20 Hz-20 kHz, <0.03% THD, both channels driven');
- assert.equal(another.ceiling,true);assert.equal(another.scope,'stated frequency band');
-});
-
-test('Panasonic same-load published ratings disclose different distortion and frequency conditions',()=>{
- const {ctx,body}=makeContext();
- ctx.render([
-  {watts:100,load:6,type:'continuous',conditions:'40 Hz–20 kHz, 0.9% THD, both channels driven',sourceUrl:'https://example.org/panasonic'},
-  {watts:105,load:6,type:'continuous',conditions:'1 kHz, 0.05% THD, both channels driven',sourceUrl:'https://example.org/panasonic'}
- ],6);
- assert.match(body.allText,/100 W\/ch, 6 Ω/);
- assert.match(body.allText,/105 W\/ch, 6 Ω/);
- assert.match(body.allText,/0\.9% THD/);
- assert.match(body.allText,/0\.05% THD/);
- assert.match(body.allText,/single 1 kHz test/);
- assert.match(body.allText,/highest wattage is not automatically the cleanest/);
- assert.match(body.allText,/remains unverified/);
- assert.equal(body.descendants.filter(x=>x.tagName==='a').length,2);
-});
-
-test('mismatched load does not claim distortion is verified at the speaker impedance',()=>{
- const {ctx,body}=makeContext();
- ctx.render([{watts:80,load:8,type:'continuous',conditions:'0.08% THD'}],4);
- assert.match(body.allText,/No rating was entered at your speaker’s nominal 4 Ω/);
- assert.match(body.allText,/cannot verify either distortion or clean power at this load/);
+test('no standalone speculative distortion panel or invented distortion estimate in System Check',()=>{
+ assert.doesNotMatch(js,/function renderDistortionRatingContext\(/);
+ assert.doesNotMatch(js,/function describeDemandDistortionRegion\(/);
+ assert.doesNotMatch(js,/renderDistortionRatingContext\(enteredRatings/);
+ assert.match(js,/function curveReading\(/);
+ assert.match(js,/if \(mode === 'check'\) \{\s*curveReading\(/);
 });
 
 test('every existing amp numeric distortion curve input remains empty without a verified series',()=>{

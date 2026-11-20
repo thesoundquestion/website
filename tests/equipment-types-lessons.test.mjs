@@ -77,10 +77,11 @@ test('approved equipment-type lessons are numbered and joined to the complete 27
  const order=curriculum.lessons.map(x=>x.slug);
  assert.equal(order.length,27);
  assert.equal(new Set(order).size,27);
- assert.deepEqual(order.slice(20,27),['speaker-dispersion','speaker-types','recording-sources','microphone-types','recording-resolution','mixing-soundstage','mastering-dynamic-range']);
- for(const [slug,num] of [['speaker-types',22],['microphone-types',24]]){
+ assert.deepEqual(order.slice(1,8),['speaker-frequency-response','bass-extension','speaker-sensitivity','speaker-impedance','speaker-drivers','speaker-dispersion','speaker-types']);
+ assert.deepEqual(order.slice(22,27),['recording-sources','microphone-types','recording-resolution','mixing-soundstage','mastering-dynamic-range']);
+ for(const [slug,num] of [['speaker-types',8],['microphone-types',24]]){
   const page=read('decoder/'+slug+'/index.html');
-  assert.match(page,new RegExp('LESSON '+num));
+  assert.match(page,new RegExp('LESSON '+String(num).padStart(2,'0')));
   assert.ok(index.includes('href="/decoder/'+slug+'/">'),'lesson card: '+slug);
   assert.ok(sitemap.includes('https://thesoundquestion.com/decoder/'+slug+'/'),'sitemap: '+slug);
   assert.ok(page.includes('Lesson '+String(num).padStart(2,'0')+' of 27'),'course progress: '+slug);

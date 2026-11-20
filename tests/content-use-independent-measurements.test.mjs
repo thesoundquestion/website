@@ -34,7 +34,7 @@ test('Builder references its own policy, not another review site policy', () => 
 
 test('only contextual individual reviews are linked in lessons', () => {
   assert.match(response, /erinsaudiocorner\.com\/loudspeakers\/kef_r3_meta/);
-  assert.match(response, /compare the on-axis curve, listening-window average and off-axis response/);
+  assert.match(response, /measured on- and off-axis response/);
   assert.match(dispersion, /erinsaudiocorner\.com\/loudspeakers\/mkiw150/);
   assert.match(dispersion, /horizontal and vertical off-axis curves/);
   assert.match(bass, /erinsaudiocorner\.com\/loudspeakers\/yamaha_ns800a/);

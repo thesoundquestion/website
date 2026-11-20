@@ -8,9 +8,9 @@
 <div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Bit depth and dynamic range</span></nav>
 </div>
 
-<p class="section-kicker">LESSON 19 · SOURCES &amp; DACS</p>
-<h1>What does 16-bit or 24-bit audio actually change?</h1>
-<p class="lead">Imagine taking little snapshots of a moving sound wave. Each snapshot needs a number to describe how high or low the wave is at that moment. <strong>Bit depth tells us how many different numbers we can choose from.</strong> More choices mean less rounding, not extra instruments, new notes or an automatically better song.</p>
+<p class="section-kicker">LESSON 21 · SOURCES &amp; DACS</p>
+<h1>How Deep Is Your Bit? <span class="gradient-text">Bit Depth and Dynamic Range</span></h1>
+<p class="lead">Each digital audio sample needs a number to describe the wave's amplitude at that instant. Bit depth determines how finely that number can be represented, which matters for quantization noise and available dynamic range, not for adding more notes or instruments.</p>
 <dl class="dl-term-grid">
 <div><dt>Sample</dt><dd>One snapshot of the sound wave’s level.</dd></div>
 <div><dt>Bit depth</dt><dd>How precise the number stored for each snapshot can be.</dd></div>
@@ -28,7 +28,7 @@
 </div>
 <div class="bd-foundation-copy"><p>Picture a measuring ruler. A ruler marked only at whole inches forces you to round. A ruler with smaller marks lets you record a more precise length. <strong>Bit depth works similarly, but for the height of an audio signal.</strong></p>
 <p>With <strong>16 bits</strong>, a digital audio sample can use <strong>65,536</strong> different values. With <strong>24 bits</strong>, it can use <strong>16,777,216</strong>. That's 256 times as many possible values, giving 256 times finer level spacing on a comparable scale.</p>
-<p>It doesn't mean 24-bit music has 256 times more detail you can hear. The original microphone, recording noise, mastering choices and your playback system still matter.</p>
+<p>More, more, more possible values still don't mean 24-bit music has 256 times more detail you can hear. The original microphone, recording noise, mastering choices and your playback system still matter.</p>
 <details class="dl-advanced"><summary>What do “PCM,” “signed” and “quantization” mean? <small>Optional vocabulary</small></summary>
 <p><strong>PCM</strong> is the name for saving a sound wave as a long list of numbered readings. <strong>Linear</strong> means the ruler has evenly spaced marks; <strong>signed</strong> means each reading can sit above or below the wave's centre line. <strong>Quantization</strong> is the unavoidable rounding to the nearest mark. These are recording terms, not four separate sound-enhancing features.</p>
 <p>In signed 16-bit PCM, the stored codes run from −32,768 to +32,767. Their binary representation uses sixteen 0-or-1 positions. This is how the 65,536 possible patterns arise, not 65,536 musical notes.</p>
@@ -83,7 +83,7 @@
 </div></section>
 
 <section class="dl-section-soft" id="dynamics"><div class="container dl-reading"><p class="section-kicker">THE BIG MISUNDERSTANDING</p>
-<h2>More available levels don't make the band more dramatic.</h2>
+<h2>More than a feeling: extra bits don't add musical dynamics</h2>
 <p><strong>Bit depth</strong> describes the recording format's capacity. <strong>Musical dynamics</strong> describe how much the song changes between quiet and loud. A drummer leaving space before a heavy crash creates musical impact. A file marked “24-bit” does not create that impact if the recording or mastering already flattened it.</p>
 <div class="bd-song-example" data-music-bitdepth>
 <div class="bd-song-heading"><h3>The same song at normal audio-editor zoom</h3>
@@ -126,7 +126,7 @@
 
 <section class="dl-section-soft dl-listening" id="listening"><div class="container dl-reading"><h2>Can you actually hear 16-bit versus 24-bit music?</h2>
 <p>Often, the bigger audible difference comes from the <strong>recording and mastering</strong>, not the number on the file. A well-made, properly dithered 16-bit version can already reproduce music extremely well under typical listening conditions.</p>
-<p>A 24-bit recording is valuable while you work: it gives you far more space for low-level information when leaving extra headroom for unexpected peaks. But a released 24-bit file does not automatically have wider soundstage, clearer instruments or more powerful drums than its 16-bit counterpart.</p>
+<p>A 24-bit recording is valuable while you work, but it cannot add a missing voice to Bohemian Rhapsody or restore a transient already flattened by mastering. Here's where those extra bits really help: it gives you far more space for low-level information when leaving extra headroom for unexpected peaks. But a released 24-bit file does not automatically have wider soundstage, clearer instruments or more powerful drums than its 16-bit counterpart.</p>
 <div class="dl-claims-grid"><div class="dl-audiophile"><p class="dl-box-label">COMMON CLAIM</p><p>“24-bit always means more detail, deeper soundstage and bigger dynamics.”</p></div><div class="dl-evidence"><p class="dl-box-label">WHAT THE SPEC ACTUALLY SUPPORTS</p><p>More possible numerical levels for each snapshot. The <em>mix</em>, mastering, source noise and playback chain determine whether that extra precision makes an audible difference.</p></div></div>
 </div></section>
 
@@ -138,22 +138,24 @@
 <li><strong>Making a finished 16-bit file?</strong> Use suitable dither when reducing the integer bit depth, normally at the final export stage.</li>
 <li><strong>Buying a DAC?</strong> Support for 24-bit files isn't the same as achieving 24 bits of noise-free analogue performance. Look at actual measurements and practical listening conditions.</li>
 </ol>
-<details class="dl-advanced"><summary>Does 24-bit take more storage space? <small>Optional detail</small></summary><p>At the same sample rate and channel count, <strong>24-bit uncompressed PCM uses 50% more audio data than 16-bit</strong>. For stereo 44.1 kHz audio, the raw rates are 1,411.2 kilobits/s and 2,116.8 kilobits/s. Formats such as FLAC compress losslessly, so their actual file sizes vary.</p></details>
+<details class="dl-advanced"><summary>Does 24-bit take more storage space? <small>Optional detail</small></summary><p>At the same sample rate and channel count, <strong>24-bit uncompressed PCM uses 50% more audio data than 16-bit</strong>. For stereo 44.1 kHz audio, the raw rates are 1,411.2 kilobits/s and 2,116.8 kilobits/s. Formats such as FLAC compress losslessly, so their actual file sizes vary.</p></details></section>
+<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
+ <div class="dl-course-progress"><span>Lesson 21 of 27 · Sources &amp; DACs</span><span>Your next lesson is below</span></div>
+ <div class="dl-progress-track" role="progressbar" aria-label="Lessons completed" aria-valuemin="0" aria-valuemax="27" aria-valuenow="21"><span style="width:77.78%"></span></div>
+ <p class="dl-lesson-bridge">With sample rate and bit depth understood, see how lossless and lossy formats handle that digital audio information.</p>
+ <a class="dl-next-card" href="/decoder/lossy-lossless/">
+  <span class="dl-next-copy"><span class="dl-next-kicker">NEXT LESSON 22 OF 27 · SOURCES & DACS</span>
+  <strong>Lossless vs lossy audio and bitrates</strong><span>Understand MP3, AAC, FLAC, PCM, bitrate and the artifacts a codec might create.</span><span class="dl-next-action">Continue to lesson 22</span></span>
+  <span class="dl-next-arrow" aria-hidden="true">→</span>
+ </a>
+ <div class="dl-nav-utilities"><a href="/decoder/sample-rate/">← Previous: Sample rates and audio bandwidth</a><a href="/decoder/">All lessons ↗</a></div>
+ </nav><!-- LESSON_NAV_END -->
+
+<section class="container dl-reading dl-sources-after-nav" aria-label="Optional reading and links"><details class="dl-supplemental"><summary>Additional reading, sources and optional activities</summary><div class="dl-supplemental-content">
 <div class="dl-references"><h2>Sources and further reading</h2><ul>
 <li><a href="https://www.analog.com/en/resources/technical-articles/relationship-data-word-size-dynamic-range.html" rel="noopener noreferrer">Analog Devices · How bit depth relates to precision and possible dynamic range ↗</a></li>
 <li><a href="https://www.izotope.com/community/blog/what-is-dithering-in-audio" rel="noopener noreferrer">iZotope · Why dither is used for final exports ↗</a></li>
 <li><a href="https://downloads.izotope.com/docs/rx6/39-dither/index.html" rel="noopener noreferrer">iZotope · More technical dither and noise-shaping details ↗</a></li>
 </ul><p><strong>About the visuals:</strong> These diagrams use original, invented signals and mathematically rounded sample values. They are not recordings, product measurements or listening-test results. The demonstrations intentionally leave dither out so rounding is easy to inspect.</p></div>
-</div></section>
-<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
- <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 19 of 27 · Sources & DACs</span></div>
- <a class="dl-next-card" href="/decoder/lossy-lossless/">
-  <span class="dl-next-copy"><span class="dl-next-kicker">UP NEXT · SOURCES & DACS</span>
-  <strong>Lossless vs lossy audio and bitrates</strong><span>Understand MP3, AAC, FLAC, PCM, bitrate and the artifacts a codec might create.</span></span>
-  <span class="dl-next-arrow" aria-hidden="true">→</span>
- </a>
- <div class="dl-nav-utilities"><a href="/decoder/sample-rate/">← Previous: Sample rates and audio bandwidth</a><a href="/decoder/">All lessons ↗</a></div>
- </nav><div class="dl-related-action"><span>Related next step</span><a href="/decoder/recording-resolution/">Explore recording levels</a></div>
-<!-- LESSON_NAV_END -->
-
+</div><div class="dl-related-action"><span>Related next step</span><a href="/decoder/recording-resolution/">Explore recording levels</a></div></div></details></section>
 </main><footer class="site-footer tsq-footer-compact"><div class="container tsq-footer-inner"><span>© 2026 The Sound Question · Free to explore</span><nav aria-label="Policies"><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></nav></div></footer></div><script defer src="/assets/decoder-lessons.js"></script><script type="module" src="/assets/bit-depth.mjs?v=beginner-lesson17-20261112b"></script></body></html>

@@ -197,7 +197,84 @@ export const SOUND_PROFILES = Object.freeze({
   'Paradigm Titan v3': {
     text:'A dependable sonic profile for the exact vintage revision has not been verified. Surrounds, crossover parts and previous repairs can make two used pairs sound different.',
     type:'Not independently characterized',url:null
-  }
+  },
+  // Independent listening impressions for popular headphones. The descriptions
+  // capture review tendencies, not a universal frequency-response preference.
+  'FiiO FT1':{
+    text:'Independent reviews commonly report a warm, bass-forward closed-back sound with substantial low-end weight. Listeners differ on whether that richness is appealing or obscures some midrange detail.',
+    type:'Multiple independent listening reviews, varying judgments',
+    url:'https://www.rtings.com/headphones/reviews/fiio/ft1',
+    reviewSources:[
+      {url:'https://www.rtings.com/headphones/reviews/fiio/ft1',context:'RTINGS measured response and listening discussion'},
+      {url:'https://www.techradar.com/audio/headphones/fiio-ft1-review',context:'Independent review finds sound-dependent trade-offs'}
+    ]
+  },
+  'AKG K371':{
+    text:'Independent testing describes a bass-weighty but generally smooth, even midrange and clear-treble presentation. An exact fit and earcup seal are important to the perceived low end.',
+    type:'Independent listening reviews and measured response',
+    url:'https://www.rtings.com/headphones/reviews/akg/k371',
+    reviewSources:[
+      {url:'https://www.rtings.com/headphones/reviews/akg/k371',context:'RTINGS tonal assessment'},
+      {url:'https://headphones.com/blogs/reviews/akg-k371-review-closed-back-benchmark-headphone',context:'Independent listening assessment'}
+    ]
+  },
+  'Grado SR80x':{
+    text:'Some reviewers describe a particularly clear, energetic upper-frequency presentation with comparatively modest bass. Other reviewers hear more bass body, so expectations about warmth versus brightness are not unanimous.',
+    type:'Independent reviews with differing impressions',
+    url:'https://www.soundguys.com/grado-labs-sr80x-review-71743/',
+    reviewSources:[
+      {url:'https://www.soundguys.com/grado-labs-sr80x-review-71743/',context:'SoundGuys SR80x frequency-response discussion'},
+      {url:'https://www.headfonia.com/grado-sr80x-sr325x-review/3/',context:'Headfonia listening review'}
+    ]
+  },
+  'Grado SR60x':{
+    text:'Independent comparisons describe a similarly open-air Grado presentation but less emphasised treble than the SR80x. Fit and pad position affect the bass and treble that reach your ears.',
+    type:'Independent listening and comparative review',
+    url:'https://www.soundguys.com/grado-labs-sr60x-review-70100/',
+    reviewSources:[
+      {url:'https://www.soundguys.com/grado-labs-sr60x-review-70100/',context:'SoundGuys SR60x response and SR80x comparison'}
+    ]
+  },
+  'Koss KSC75':{
+    text:'Independent headphone measurements and listener comparisons describe an open, clear presentation for its size with limited low-bass weight. Ear-clip positioning changes the perceived bass.',
+    type:'Independent headphone measurements and listening comparison',
+    url:'https://www.rtings.com/headphones/reviews/koss/ksc75',
+    reviewSources:[
+      {url:'https://www.rtings.com/headphones/reviews/koss/ksc75',context:'RTINGS KSC75 comparison'}
+    ]
+  },
+  'Koss Porta Pro (wired)':{
+    text:'Independent comparisons often describe the Porta Pro as fuller and bassier than the KSC75, with a softer upper-frequency balance. The on-ear fit and pad condition can change what you hear.',
+    type:'Independent comparative listening and measurements',
+    url:'https://www.audiodiscourse.com/2020/12/koss-yaxi-measurements-and-impressions.html',
+    reviewSources:[
+      {url:'https://www.audiodiscourse.com/2020/12/koss-yaxi-measurements-and-impressions.html',context:'Measurements and comparison of Koss models'},
+      {url:'https://www.rtings.com/headphones/reviews/koss/ksc75',context:'Koss Porta Pro comparison'}
+    ]
+  },
+  'Audio-Technica ATH-M50x':{
+    text:'Comparative independent tests find a more uneven low-frequency and treble balance than the smoother AKG K371. Bass and treble emphasis can make recordings feel more forceful or less even.',
+    type:'Independent headphone comparison and measurements',
+    url:'https://www.rtings.com/headphones/tools/compare/audio-technica-ath-m50x-akg-k371/295/1671'
+  },
+  'Sennheiser HD 560S':{
+    text:'Headphone comparisons often describe a relatively leaner, analytical balance through mids and treble, with a little more low-bass presence than the HD 600. Higher-frequency peaks may stand out on bright recordings.',
+    type:'Independent measured and listening comparison',
+    url:'https://headphones.com/blogs/reviews/sennheiser-hd560s-vs-hd600-comparative-review',
+    reviewSources:[
+      {url:'https://headphones.com/blogs/reviews/sennheiser-hd560s-vs-hd600-comparative-review',context:'Direct HD 560S versus HD 600 listening review'},
+      {url:'https://www.rtings.com/headphones/reviews/sennheiser/hd-560s',context:'RTINGS HD 560S response review'}
+    ]
+  },
+  'Sennheiser HD 600':{
+    text:'Reviews often emphasise its smooth, natural midrange and intimate vocal presentation, with limited deep bass and a relatively understated sense of physical bass impact.',
+    type:'Independent comparative listening and measurements',
+    url:'https://headphones.com/blogs/reviews/sennheiser-hd560s-vs-hd600-comparative-review',
+    reviewSources:[
+      {url:'https://headphones.com/blogs/reviews/sennheiser-hd560s-vs-hd600-comparative-review',context:'Direct HD 600 versus HD 560S listening review'},
+      {url:'https://www.rtings.com/headphones/tools/compare/sennheiser-hd-600-vs-sennheiser-hd-560s/325/18492',context:'RTINGS independent HD 600 comparison'}
+    ]
+  },
 });
 const UNKNOWN = Object.freeze({text:'No reliable model-specific sound profile has been reviewed yet. Tonal balance, bass and imaging are not inferred from driver materials or brand.',type:'Not independently characterized',url:null});
 export function soundProfileFor(item) {

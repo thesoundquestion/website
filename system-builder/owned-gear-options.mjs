@@ -4,9 +4,11 @@
  */
 import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartyPassiveConcepts,ampSpeakerScreening} from './owned-amp-speakers.mjs';
-import {assessAmplifierCandidate} from './amplifier-fit.mjs';
+import {assessAmplifierCandidate,manufacturerNominalPairing} from './amplifier-fit.mjs';
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {poweredSubPairFor} from './stereo-subwoofer-examples.mjs';
+import {isPoweredSpeakerRecord,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
+import {sourceSignalMatch} from './source-signal-match.mjs';
 import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
 
 const kinds=['speaker','amp','source','headphone'];
@@ -28,10 +30,7 @@ function sourceNote(own,inputs=[],headphones=false) {
   const out=String(own.source.record?.values?.sourceConnection||'');
   if(headphones)return 'Your '+own.source.name+' uses a '+(out||'currently unverified')+
     ' output. A line output is not automatically a headphone amplifier; verify a suitable headphone socket, drive capability and volume control.';
-  if((out==='RCA'||out==='3.5 mm')&&inputs.includes('analog'))
-    return 'Your '+own.source.name+' lists '+out+' analogue output and this route accepts analogue input. Verify voltage, cables and volume control before calling it compatible.';
-  return 'The '+(out||'unknown')+' output on your '+own.source.name+
-    ' has not been confirmed against this path’s inputs. An adapter or another connection may be necessary.';
+  return 'Your '+own.source.name+': '+sourceSignalMatch(out,inputs).note;
 }
 function existingPair(own,request) {
   const speaker=own.speaker, amp=own.amp, screen=ampSpeakerScreening(amp);
@@ -41,15 +40,24 @@ function existingPair(own,request) {
     blocker=amp.name+' specifies at least '+screen.explicitNominalFloor+' Ω nominal speakers, while '+speaker.name+' is published as '+nominal+' Ω. Do not connect this combination without manufacturer approval.';
   else if(screen.explicitNominalFloor>=8&&Number.isFinite(minimum)&&minimum<6)
     blocker=speaker.name+' has a published '+minimum+' Ω minimum. Its nominal label alone does not establish compatibility with an 8 Ω-only amplifier.';
+  const improvement=request.buildIntent==='improve_existing';
+  const dynamicDemand=request.level==='high'||request.goal==='dynamic'||
+    request.secondary?.includes('dynamic');
   const message=blocker
     ? 'Both parts are already yours, but the published load information raises a specific compatibility concern. Retain them for assessment, not as a confirmed safe pairing.'
-    : 'Keep your '+speaker.name+' and '+amp.name+'. No demonstrated sound-quality deficit justifies replacing either one on the information entered.';
+    : improvement&&dynamicDemand?
+      'Your '+amp.name+' and '+speaker.name+' are the baseline for an occasionally loud / dynamic-music comparison. Check their estimated clean headroom and compare other speakers before deciding whether a change is worthwhile.':
+      improvement?
+      'Start by checking your '+speaker.name+' and '+amp.name+'. Keeping them is an option, but compare documented alternatives against your specific listening goal.':
+      'Keep your '+speaker.name+' and '+amp.name+'. No demonstrated sound-quality deficit justifies replacing either one on the information entered.';
   const use=['speaker','amp'];
   const parts=[part(speaker,'Already owned passive stereo pair'),part(amp,'Already owned amplifier')];
   if(has(own.source)){use.push('source');parts.push(part(own.source,'Already owned source; verify its amplifier connection'));}
   const item={...common,id:'owned-complete',title:speaker.name+' + '+amp.name,
     kind:blocker?'Owned pairing · compatibility alert':'Keep your existing speaker/amplifier pairing',
     architecture:'passive_separates',soundTarget:speaker.name,
+    amplifierModel:amp.record&&!amp.userSupplied?amp.name:null,
+    speakerModel:speaker.record&&!speaker.userSupplied?speaker.name:null,
     why:message,tradeoff:blocker||'Full speaker impedance, amplifier manual, clean output at your seat and source connections remain unverified.',
     parts,loadCaution:blocker,ownershipBlocker:blocker,levelCaution:request.level==='high',
     extra:['Speaker nominal: '+(Number.isFinite(nominal)?nominal+' Ω':'unverified')+
@@ -162,9 +170,11 @@ export function explainAmplifierChoice({idea,record,speaker,request={}}) {
 /** Speaker ownership requires shopping for an amp, not replacing the speakers. */
 export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={}) {
   const speaker=own.speaker||{};
+  if(isPoweredSpeakerRecord(speaker.record)||poweredSubPairFor(speaker.name))
+    return {selected:[],excluded:[{title:speaker.name,reason:POWERED_AMP_MESSAGE}],mode:'powered_speaker_not_passive'};
   const nominal=speaker.record?.values?.load;
   const minimum=speaker.record?.values?.minimum;
-  const selected=[],excluded=[];
+  const selected=[],conditional=[],excluded=[];
   for(const idea of amps) {
     const record=(inventory.amp||[]).find(x=>x.model===idea.model)||
       builderOnlyAmpFor(idea.model);
@@ -177,11 +187,18 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
         screen.explicitNominalFloor+' Ω nominal load. The owned speaker has no verified numeric nominal impedance, so this combination must not be recommended.'});
       continue;
     }
-    if(Number.isFinite(nominal)&&nominal<screen.discoveryFloor){
-      excluded.push({title:idea.model,reason:'Speaker nominal '+nominal+' Ω is below the conservative '+screen.discoveryFloor+' Ω discovery threshold.'});continue;
+    // A low test impedance is not a maker-approved nominal speaker limit.
+    // Missing impedance phase curves alone cannot disqualify a candidate.
+    const manualPairing=manufacturerNominalPairing(idea.model,nominal);
+    if(manualPairing&&!manualPairing.supported){
+      excluded.push({title:idea.model,reason:manualPairing.statement});
+      continue;
     }
-    if(screen.discoveryFloor>=8&&Number.isFinite(minimum)&&minimum<6){
-      excluded.push({title:idea.model,reason:'Published '+minimum+' Ω minimum needs additional review for an 8 Ω-only amplifier.'});continue;
+    if(!manualPairing&&Number.isFinite(screen.explicitNominalFloor)&&
+       Number.isFinite(nominal)&&nominal<screen.explicitNominalFloor){
+      excluded.push({title:idea.model,reason:'The published amplifier minimum is '+
+        screen.explicitNominalFloor+' Ω nominal, while these speakers are '+nominal+' Ω nominal.'});
+      continue;
     }
     const snapshot = request.region==='CA'&&request.currency==='CAD'&&Number.isFinite(idea.price) ? {
       date:idea.priceDate,components:[{label:idea.model,amount:idea.price,url:idea.url}]
@@ -189,38 +206,73 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     const prices=retailPriceReference(snapshot,request.referenceDate);
     const rationale=explainAmplifierChoice({idea,record,speaker,request});
     const fit=assessAmplifierCandidate({idea,record,speaker,request});
-    const message=rationale.summary+
-      (!fit.amp.exact ?
-        ' The compact amp has no verified matching-load continuous power measurement; do NOT substitute its advertised maximum watts or bare THD figure.' : '');
+    // An exact-load continuous rating earns priority, but missing one must
+    // not discard a candidate with acceptable nominal impedance permission.
+    // Another-load watt figure is NEVER converted into a made-up output.
+    if(!Number.isFinite(nominal)){
+      excluded.push({title:idea.model,reason:'No usable nominal speaker impedance was supplied.'});
+      continue;
+    }
+    if(!fit.amp.exact&&fit.amp.displayWatts===null){
+      excluded.push({title:idea.model,reason:'No documented continuous rating for this amplifier at any speaker test load.'});
+      continue;
+    }
+    const requestedInput=String(request.connection||'undecided');
+    const sourcePath=has(own.source)?sourceSignalMatch(own.source.record?.values?.sourceConnection,idea.inputs):null;
+    if(requestedInput!=='undecided'&&!idea.inputs.includes(requestedInput)){
+      excluded.push({title:idea.model,reason:'Requested '+requestedInput+' connection is not documented as a native input.'});
+      continue;
+    }
+    const exactPower=fit.amp.exact;
+    const ratingSummary=exactPower?
+      idea.model+' is published at '+fit.amp.watts+' W/channel continuously into '+
+        nominal+' Ω, matching the published nominal impedance of '+speaker.name+'. ':
+      idea.model+' has no directly documented continuous output rating at '+nominal+
+        ' Ω for '+speaker.name+'. '+(fit.amp.displayWatts!==null?
+        'The published '+fit.amp.displayWatts+' W / '+fit.amp.displayOhms+
+        ' Ω test must not be converted into a power estimate at '+nominal+' Ω. ':'');
+    const message=ratingSummary+
+      (manualPairing?manualPairing.statement:
+        'Check the manufacturer’s supported nominal speaker impedance.')+
+      (exactPower&&fit.documentedBurst!==null?' Its separate '+fit.documentedBurst+
+        ' W/channel short-burst figure at '+nominal+' Ω provides additional test information.':'');
     const used=['speaker'];const parts=[part(speaker,'Already owned; no new speaker purchase'),
       {name:idea.model,count:1,role:'Only new amplifier candidate, subject to verification',url:record.url}];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned source, connection check required'));}
-    selected.push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
+    (fit.amp.exact&&(!sourcePath||sourcePath.direct||sourcePath.status==='unknown')?selected:conditional).push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       title:speaker.name+' + '+idea.model,kind:'Keep your speakers · add an amplifier',
       architecture:'passive_separates',soundTarget:speaker.name,why:message,
+      amplifierModel:idea.model,speakerModel:speaker.name,manualPairing,
       amplifierReason:message,amplifierEvidence:[
-        ...rationale.evidence,fit.powerNote,fit.headroomNote,fit.distortionNote,
-        ...[fit.ownerNote,fit.peakNote].filter(Boolean),
-        'Ordering considers load and test-condition evidence plus practical power fit, not an audible-quality score. Use System Check for required listening level.'
+        exactPower?'Rated continuously: '+fit.amp.watts+' W/channel at '+nominal+' Ω.':
+          'No published continuous output at '+nominal+' Ω: do not predict output from another load.',
+        ...(manualPairing?[manualPairing.statement+' Speaker impedance setting: '+manualPairing.setting+'.']:[]),
+        ...(fit.documentedBurst!==null?['IHF short-burst rating: '+fit.documentedBurst+' W/channel at '+nominal+' Ω.']:[]),
+        'The listening-level headroom result depends on the chosen dB SPL target and distance.'
       ],amplifierSource:rationale.source,
-      amplifierFit:fit,amplifierFitRank:fit.sortValue,compactAmp:idea.compact===true,
-      tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
-      loadCaution:!Number.isFinite(nominal) ?
-        'Your '+speaker.name+' has no verified nominal impedance. Do not connect to '+idea.model+
-        ' until the actual load and amplifier manual permissions are confirmed.' : null,
+      amplifierFit:fit,amplifierFitRank:fit.sortValue+(sourcePath?.direct?2:0),compactAmp:idea.compact===true,
+      matchEvidence:exactPower?'exact_load_rating':'nominal_load_only',
+      sourceConnectionStatus:sourcePath?.status||'not_selected',
+      tradeoff:'Compare current local cost and actual available inputs; different wattage is not proof of different sound quality.',
+      loadCaution:exactPower?null:
+        'No comparable amplifier power test at '+nominal+' Ω. This is a conditional impedance and connection candidate, not a proven headroom match.',
       parts,...prices,
       pricingStatus:prices.subtotal===null?'regional_price_missing':'partial_subtotal',
       priceEvidence:idea.model==='Fosi Audio BT20A Pro'?
         'corroborated_ordinary_CAD_asking_32V_PSU_variant_check':null,
-      sceneCaution:request.useCase==='party'||request.useCase==='outdoors',levelCaution:request.level==='high',
-      extra:[sourceNote(own,idea.inputs),
-        'Published amplifier continuous-test loads: '+record.ratings.filter(x=>x[2]==='continuous').map(x=>x[1]+' Ω').join(', ')+'. Test loads are not blanket permission for every speaker.',
-        'Check the speaker’s impedance minimum/phase, amplifier manual, clean output at the seat and connections.']},
+      sceneCaution:false,levelCaution:false,
+      extra:sourcePath?[sourcePath.note]:[]},
       own,used,message));
   }
   selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
     compareBudgetReferences(a.subtotal,b.subtotal,request) || a.title.localeCompare(b.title));
-  const shortlist=selected.slice(0,3);
+  // Return fully comparable candidates first. Fill remaining slots with
+  // qualified alternatives only when fewer than three exact-load matches exist.
+  // A conditional option must never masquerade as a calculated wattage match.
+  conditional.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank||
+    compareBudgetReferences(a.subtotal,b.subtotal,request)||a.title.localeCompare(b.title));
+  const shortlist=[...selected.slice(0,3),
+    ...conditional.slice(0,Math.max(0,3-selected.length))];
   if (shortlist.length===3 && !shortlist.some(item=>item.compactAmp) && request.level!=='high' &&
       request.goal!=='party' && request.useCase!=='party' && request.useCase!=='outdoors') {
     // Leave room to compare a simpler amplifier at ordinary listening levels.
@@ -243,8 +295,12 @@ function keepAmp(own,request,inventory){
   const selected=r.selected.map(item=>{
     const used=['amp'];const parts=[part(own.amp,'Already owned; no new amplifier purchase'),...item.parts];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned; verify matching amp input'));}
-    const msg='Keep your '+own.amp.name+' and investigate '+item.title+' for the missing stereo speakers. The amplifier’s load suitability is still conditional.';
-    return attach({...item,why:msg,speakerRationale:item.why,parts,preferenceMatchAvailable:true,
+    const changingSpeakers=Boolean(request.upgradeReference?.name);
+    const msg=changingSpeakers
+      ? 'Keep your '+own.amp.name+' and compare '+item.title+' with your existing '+
+        request.upgradeReference.name+'. These are alternatives to investigate, not verified improvements.'
+      : 'Keep your '+own.amp.name+' and investigate '+item.title+' for the missing stereo speakers. The amplifier’s load suitability is still conditional.';
+    return attach({...item,why:changingSpeakers?item.why:msg,speakerRationale:item.why,parts,preferenceMatchAvailable:true,
       extra:[...(item.extra||[]),...(has(own.source)?[sourceNote(own,['analog'])]:[])]},own,used,msg);
   });
   return {selected,excluded:r.excluded,mode:'keep_amp'};
@@ -275,17 +331,46 @@ function keepSeparate(own,request){
     extra:['Different format, connection or off-grid requirements may need separate equipment.']},
     own,owned(own),msg);
 }
+/**
+ * Only an explicit "improve existing" request permits comparing replacements
+ * for working powered speakers or headphones. Treat documented system examples
+ * as alternatives, NOT proof of more output or better sound. The owned source
+ * follows the comparison only with the same output/drive checks as elsewhere.
+ */
+function compareOwnedListeningOptions(own,request,architecture,kind,catalog=null){
+  if(request.buildIntent!=='improve_existing'||!has(own[kind]))return [];
+  const current=own[kind].name;
+  const options=shortlistExamples({...request,architecture},catalog).selected;
+  return options.filter(item=>!(item.parts||[]).some(p=>
+    String(p.name||'').toLowerCase().includes(current.toLowerCase()))).slice(0,3).map(item=>{
+    const reuse=has(own.source)?['source']:[];
+    const sourceParts=has(own.source)?[part(own.source,
+      'Already owned source; output, volume and input compatibility require verification')]:[];
+    const note=has(own.source)?sourceNote(own,item.connections||[],architecture==='headphone_first'):null;
+    const type=kind==='headphone'?'headphones':'powered speakers';
+    const reason='You asked to improve your existing setup. Compare '+item.title+
+      ' with your '+current+' for your listening priorities. This is a different '+
+      type+' option to audition or investigate, not evidence that your current equipment performs worse.';
+    return attach({...item,why:reason,compareAgainst:{kind,model:current},
+      parts:[...sourceParts,...(item.parts||[])],
+      extra:[...(item.extra||[]),...(note?[note]:[]),
+        'Check the exact connection, level capability and real local total before replacing owned equipment.']},
+      own,reuse,reason);
+  });
+}
 function comparisonReasons(own,request){
   const out=[];
   if(request.power==='battery')out.push('Battery operation may justify a separate portable system. Your mains equipment remains useful where wall power exists.');
   if(request.architecture==='party_pa'||request.useCase==='party')out.push('A home setup is not automatically a suitable event PA. Verify coverage, sustained output, transport and power before replacing anything.');
-  if(has(own.speaker))out.push('Replacing your speakers requires a demonstrated limitation in bass, headroom, condition, placement or compatibility; none was measured by this form.');
+  if(has(own.speaker))out.push(request.buildIntent==='improve_existing' ?
+    'A higher-sensitivity or larger speaker can be worth investigating for your level, bass or dynamic goals. Compare published figures using compatible measurement methods, then verify actual clean output; the Builder has not measured a deficiency in your present speakers.' :
+    'Replacing your speakers requires a demonstrated limitation in bass, headroom, condition, placement or compatibility; none was measured by this form.');
   if(has(own.amp))out.push('Replacing your amplifier requires an actual load restriction, inadequate clean power, missing input or defect; a newer receiver is not inherently better.');
   if(has(own.source))out.push('Replace your source/DAC only if its output, input format or demonstrated performance cannot meet this path.');
   if(has(own.headphone))out.push('Replace your headphones only for a real fit, isolation, sound or output mismatch.');
   return out;
 }
-export function ownershipPlan({own={},request={},inventory={}}={}){
+export function ownershipPlan({own={},request={},inventory={},catalog=null}={}){
   if(!owned(own).length)return null;
   const arch=request.architecture||'open';
   // A loud/party listening GOAL is not a request to discard a working
@@ -297,15 +382,22 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
   const poweredStudio=own.speaker?.record?.speakerKind==='powered_studio_monitor';
   const poweredPa=own.speaker?.record?.speakerKind==='powered_pa_speaker';
   let plan;
-  if(headphonePath&&has(own.headphone))plan={selected:[keepHeadphone(own,request)],excluded:[],mode:'keep_headphones'};
+  if(headphonePath&&has(own.headphone))plan={selected:[
+    keepHeadphone(own,request),
+    ...compareOwnedListeningOptions(own,request,'headphone_first','headphone',catalog)
+  ],excluded:[],mode:'keep_headphones'};
   else if(poweredStudio||poweredPa) {
     // No amplifier matching can ever run on these powered line-input units.
-    if(poweredStudio&&!event)plan=keepPoweredStudioMonitor(own,request);
-    else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_powered_separate'};
+    if(poweredStudio&&!event){
+      plan=keepPoweredStudioMonitor(own,request);
+      plan.selected.push(...compareOwnedListeningOptions(own,request,'active_studio','speaker',catalog));
+    }else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_powered_separate'};
   }
   else if(poweredPair) {
-    if(!event&&(arch==='open'||arch==='consumer_powered_pair')) plan=keepPoweredPair(own,request,poweredPair);
-    else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
+    if(!event&&(arch==='open'||arch==='consumer_powered_pair')){
+      plan=keepPoweredPair(own,request,poweredPair);
+      plan.selected.push(...compareOwnedListeningOptions(own,request,'consumer_powered_pair','speaker',catalog));
+    }else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
   }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&has(own.amp)){
     const first=existingPair(own,request);
@@ -313,10 +405,19 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
     if(first.ownershipBlocker){
       const partial=shortlistAmpsForOwnedSpeakers({own,request,inventory});
       if(partial.selected.length)selected.push(partial.selected[0]);
+    }
+    if(request.buildIntent==='improve_existing'){
+      const byAmp=keepAmp(own,{...request,upgradeReference:own.speaker},inventory);
+      // Real, catalog-backed speaker alternatives are research candidates, not
+      // declared upgrades. Always show them when the user explicitly asks to
+      // improve a system, even if the current pair has no diagnosed defect.
+      selected.push(...byAmp.selected.filter(item=>item.speakerModel!==own.speaker.name).slice(0,4));
+    }else if(first.ownershipBlocker){
       const byAmp=keepAmp(own,request,inventory);
       if(byAmp.selected.length)selected.push(byAmp.selected[0]);
     }
-    plan={selected,excluded:[],mode:'keep_both'};
+    plan={selected,excluded:[],mode:request.buildIntent==='improve_existing'?
+      'improve_existing_pair':'keep_both'};
   }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&!has(own.amp))
     plan=shortlistAmpsForOwnedSpeakers({own,request,inventory});

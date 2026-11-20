@@ -11,9 +11,9 @@
 <div class="dl-lesson-top container">
 <div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Sample rates and audio bandwidth</span></nav>
 </div>
-<p class="section-kicker">LESSON 18 · SOURCES &amp; DACS</p>
-<h1>Does 192 kHz audio sound better than 44.1 kHz?</h1>
-<p class="lead">A music file might say 44.1, 48, 96 or 192 kHz. That's how often sound is sampled each second, not how bright the music is or how much better it must sound.</p>
+<p class="section-kicker">LESSON 20 · SOURCES &amp; DACS</p>
+<h1>Time After Time: <span class="gradient-text">Understanding Sample Rates</span></h1>
+<p class="lead">Digital recording measures a sound wave at evenly spaced instants, time after time. The sample rate tells you how many measurements are taken each second and sets the highest frequency that can be represented correctly. It isn't a promise that a higher number will sound better.</p>
 <dl class="dl-term-grid"><div><dt>Sample</dt><dd>One numerical reading of a sound signal at a particular instant.</dd></div><div><dt>Sample rate</dt><dd>How many readings happen every second, <strong>per audio channel</strong>.</dd></div><div><dt>Bandwidth</dt><dd>The range of low to high frequencies a signal or system can handle.</dd></div></dl>
 <div class="dl-example-spec" role="note"><span class="dl-spec-tag">EXAMPLE DIGITAL AUDIO SPECIFICATION</span><strong>48 kHz PCM · 48,000 samples/second per channel</strong><p>We will use a one-millisecond, 1 kHz teaching signal to make this number visible. <a href="#decode-the-spec">See the exact specification illustrated ↓</a></p></div>
 <nav class="dl-lesson-jumps" aria-label="On this page"><a href="#decode-the-spec">Decode 48 kHz ↓</a><a href="#compare">Compare four rates ↓</a><a href="#understand">Understand the why ↓</a><a href="#listening">What might change? ↓</a><a href="#buying">What to choose ↓</a></nav>
@@ -88,8 +88,8 @@
 </div>
 <p class="sr-fineprint">These are calculated sampling limits, not the measured frequency response of four DACs, and not a ranking of sound quality. All four share the same 0–100 kHz frequency axis.</p>
 </section>
-<section class="dl-section-soft" id="understand"><div class="container dl-reading"><p class="section-kicker">EXPLAINED WITHOUT THE MATH DEGREE</p><h2>Why doesn't 192 kHz mean four times the detail?</h2>
-<p>Imagine recording the height of a gently moving wave at equally spaced times. The measurements tell you when the wave was where. But digital audio does not play back by connecting sample dots with straight lines or by holding each dot until the next one. With proper filtering and reconstruction, a band-limited waveform can be recovered from the samples.</p>
+<section class="dl-section-soft" id="understand"><div class="container dl-reading"><p class="section-kicker">EXPLAINED WITHOUT THE MATH DEGREE</p><h2>Higher and higher? Why 192 kHz isn't four times the detail</h2>
+<p>Imagine measuring the height of a gently moving wave at equally spaced moments. The measurements tell you when the wave was where. But digital audio does not play back by connecting sample dots with straight lines or by holding each dot until the next one. With proper filtering and reconstruction, a band-limited waveform can be recovered from the samples.</p>
 <p>Here's the practical rule: <strong>the recording needs more than two samples for every cycle of the highest frequency you want to preserve</strong>, along with proper filtering. Since human hearing is commonly described as reaching roughly 20 kHz under ideal young-hearing conditions, 44.1 and 48 kHz formats can already cover that range when the recording and playback system are designed correctly.</p>
 <div class="sr-explainer-grid">
 <div><h3>44.1 kHz</h3><p>Common for CDs and many music releases. Theoretical frequency boundary: 22.05 kHz.</p></div>
@@ -118,25 +118,27 @@
 <li><strong>Recording or processing audio?</strong> 96 kHz can be useful for certain effects, filter designs and sound manipulation. Consider the actual workflow rather than buying a bigger specification.</li>
 <li><strong>Changing formats?</strong> Resample properly if needed. Simply converting a 44.1 kHz file to 192 kHz cannot restore information it never contained or repair a bad master.</li>
 </ol>
-<p>Confused about format badges versus converter performance? Read <a href="/decoder/audio-interfaces-mixers/">the DAC specification lesson</a>. For the next part of digital audio, we'll tackle how <strong>bit depth</strong> relates to recorded level and noise.</p>
+<p>Confused about format badges versus converter performance? Read <a href="/decoder/audio-interfaces-mixers/">the DAC specification lesson</a>. For the next part of digital audio, we'll tackle how <strong>bit depth</strong> relates to recorded level and noise.</p></section>
+<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
+ <div class="dl-course-progress"><span>Lesson 20 of 27 · Sources &amp; DACs</span><span>Your next lesson is below</span></div>
+ <div class="dl-progress-track" role="progressbar" aria-label="Lessons completed" aria-valuemin="0" aria-valuemax="27" aria-valuenow="20"><span style="width:74.07%"></span></div>
+ <p class="dl-lesson-bridge">Sample rate describes how often the signal is represented. Bit depth describes the resolution of each stored sample.</p>
+ <a class="dl-next-card" href="/decoder/bit-depth/">
+  <span class="dl-next-copy"><span class="dl-next-kicker">NEXT LESSON 21 OF 27 · SOURCES & DACS</span>
+  <strong>Bit depth and dynamic range</strong><span>Understand 16-bit versus 24-bit PCM, quantization, noise and dither without confusing bits with musical dynamics.</span><span class="dl-next-action">Continue to lesson 21</span></span>
+  <span class="dl-next-arrow" aria-hidden="true">→</span>
+ </a>
+ <div class="dl-nav-utilities"><a href="/decoder/audio-interfaces-mixers/">← Previous: Audio interfaces, mixers and recording channels</a><a href="/decoder/">All lessons ↗</a></div>
+ </nav><!-- LESSON_NAV_END -->
+
+<section class="container dl-reading dl-sources-after-nav" aria-label="Optional reading and links"><details class="dl-supplemental"><summary>Additional reading, sources and optional activities</summary><div class="dl-supplemental-content">
 <div class="dl-references"><h2>Sources and further reading</h2>
 <ul><li><a href="https://www.analog.com/en/resources/glossary/sampling-rate.html" rel="noopener noreferrer">Analog Devices · Sampling rate definition and Nyquist frequency ↗</a></li>
 <li><a href="https://www.analog.com/en/resources/technical-articles/guide-to-antialiasing-filter-basics.html" rel="noopener noreferrer">Analog Devices · Why anti-alias filters matter ↗</a></li>
 <li><a href="https://www.izotope.com/community/blog/digital-audio-basics-sample-rate-and-bit-depth" rel="noopener noreferrer">iZotope · Sample rates in practical music production ↗</a></li>
 <li><a href="https://helpx.adobe.com/uk/audition/desktop/digital-audio-fundamentals/digitizing-audio.html" rel="noopener noreferrer">Adobe Audition · Common audio sample rates ↗</a></li></ul>
 <p>All numerical figures on this page are mathematical examples or standard sample-rate definitions. No real DAC, recording or listener was measured for this lesson.</p>
-</div></div></section>
-<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
- <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 18 of 27 · Sources & DACs</span></div>
- <a class="dl-next-card" href="/decoder/bit-depth/">
-  <span class="dl-next-copy"><span class="dl-next-kicker">UP NEXT · SOURCES & DACS</span>
-  <strong>Bit depth and dynamic range</strong><span>Understand 16-bit versus 24-bit PCM, quantization, noise and dither without confusing bits with musical dynamics.</span></span>
-  <span class="dl-next-arrow" aria-hidden="true">→</span>
- </a>
- <div class="dl-nav-utilities"><a href="/decoder/audio-interfaces-mixers/">← Previous: Audio interfaces and mixers</a><a href="/decoder/">All lessons ↗</a></div>
- </nav><div class="dl-related-action"><span>Related next step</span><a href="/decoder/lossy-lossless/">Compare audio file formats</a></div>
-<!-- LESSON_NAV_END -->
-
+</div></div><div class="dl-related-action"><span>Related next step</span><a href="/decoder/lossy-lossless/">Compare audio file formats</a></div></div></details></section>
 </main><footer class="site-footer tsq-footer-compact"><div class="container tsq-footer-inner"><span>© 2026 The Sound Question · Free to explore</span><nav aria-label="Policies"><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></nav></div></footer></div>
 <script defer src="/assets/decoder-lessons.js"></script>
 </body></html>

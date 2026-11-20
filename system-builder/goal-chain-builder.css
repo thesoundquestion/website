@@ -69,3 +69,12 @@
 .sb-verified-link{color:#9bdcff;text-decoration:underline;text-underline-offset:.15em}
 .sb-build-checker{margin-top:1.2rem}
 @media(max-width:750px){.sb-beginner-questions,.sb-build-summary{grid-template-columns:1fr}.sb-build-step-top{align-items:flex-start}}
+
+/* Explain the actual microphone-to-PC route before the shopping list. */
+.sb-build-workflow{margin:1rem 0;padding:1rem;border:1px solid #476b80;border-radius:10px;background:#102739}
+.sb-build-workflow h4{margin:0 0 .6rem}
+.sb-build-workflow h5{margin:.9rem 0 .35rem}
+.sb-build-workflow .sb-builder-notes{margin:.3rem 0;padding-left:1.35rem}
+.sb-build-workflow .sb-builder-notes li{margin:.4rem 0}
+.sb-build-workflow-sources ul{margin:.35rem 0;padding-left:1.35rem}
+.sb-build-workflow-sources li{margin:.35rem 0;overflow-wrap:anywhere}

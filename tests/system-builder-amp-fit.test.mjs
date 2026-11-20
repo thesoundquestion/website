@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createContext,runInContext} from 'node:vm';
-import {speakerPowerReference,ampRatingAtSpeakerLoad,assessAmplifierCandidate,
+import {manufacturerNominalPairing,speakerPowerReference,ampRatingAtSpeakerLoad,assessAmplifierCandidate,
   AMP_LISTENING_REPORTS} from '../system-builder/amplifier-fit.mjs';
 import {shortlistAmpsForOwnedSpeakers} from '../system-builder/owned-gear-options.mjs';
 const read=x=>readFileSync(new URL(x,import.meta.url),'utf8');
@@ -72,14 +72,15 @@ test('only documented full-band low THD ratings earn clean-output evidence',()=>
   assert.equal(c.thd,null);
   assert.equal(c.distortionEvidence,'unknown');
 });
-test('comparable stronger published distortion ceiling ranks above weak or absent data, without audibility claim',()=>{
+test('THD limits do not become inferred sound-quality rank',()=>{
   const sp={name:'Toy 8 Ω',record:{values:{load:8,speakerPowerNominal:80}}};
   const make=(thd)=>({ratings:[[80,8,'continuous',thd]]});
   const base={model:'Synthetic',inputs:['analog']};
   const good=assessAmplifierCandidate({idea:base,record:make('20 Hz–20 kHz, 0.019% THD'),speaker:sp,request});
   const decent=assessAmplifierCandidate({idea:base,record:make('20 Hz–20 kHz, 0.09% THD'),speaker:sp,request});
   const unknown=assessAmplifierCandidate({idea:base,record:make('Factory RMS output'),speaker:sp,request});
-  assert.ok(good.sortValue>decent.sortValue && decent.sortValue>unknown.sortValue);
+  assert.equal(good.sortValue,decent.sortValue);
+  assert.ok(decent.sortValue>=unknown.sortValue);
   assert.match(good.distortionNote,/not proof of an audible difference/);
 });
 test('higher-wattage mismatch does not automatically earn a higher rank',()=>{
@@ -88,17 +89,17 @@ test('higher-wattage mismatch does not automatically earn a higher rank',()=>{
   const huge={ratings:[[500,8,'continuous','20 Hz–20 kHz, 0.019% THD']]};
   const a=assessAmplifierCandidate({idea:idea('Generic'),record:good,speaker:sp,request});
   const b=assessAmplifierCandidate({idea:idea('Generic'),record:huge,speaker:sp,request});
-  assert.ok(a.sortValue>b.sortValue);
+  assert.equal(a.sortValue,b.sortValue);
   assert.match(b.headroomNote,/overdrive/);
 });
 test('curated shortlist ordering changes sensibly with actual handling figures',()=>{
   const first=shortlistAmpsForOwnedSpeakers({own:{speaker:phantom},request,inventory:catalog}).selected;
   const second=shortlistAmpsForOwnedSpeakers({own:{speaker:elac},request,inventory:catalog}).selected;
-  assert.equal(first[0].title,'Paradigm Phantom v1 + Yamaha A-S501');
+  assert.ok(first.some(x=>x.title==='Paradigm Phantom v1 + Yamaha A-S501'));
   assert.equal(second[0].title,'ELAC Debut 3.0 DB63 + Yamaha A-S301');
   assert.ok(first.every(x=>x.reuseNames.includes(phantom.name)));
   assert.ok(second.every(x=>x.reuseNames.includes(elac.name)));
-  assert.ok(first.every(x=>x.amplifierFit&&x.amplifierEvidence.length>=7));
+  assert.ok(first.every(x=>x.amplifierFit?.amp.exact&&x.amplifierEvidence.length>=2));
 });
 test('real model review impressions are sourced and do not silently become brand scoring',()=>{
   for(const [name,r] of Object.entries(AMP_LISTENING_REPORTS)) {
@@ -118,9 +119,49 @@ test('visible card shows clean power, distortion evidence and attributed review 
   const app=read('../system-builder/app.mjs');
   assert.match(app,/if \(item\.amplifierFit\)/);
   assert.match(app,/Power & headroom: /);
-  assert.match(app,/Distortion evidence: /);
+  assert.doesNotMatch(app,/Distortion evidence: /,'Do not recreate unsupported generic distortion claims');
+  assert.match(app,/overview.matchingEvidence/);
   assert.match(app,/Reviewer\/lab context: /);
   assert.match(app,/Model-specific listening reports, not a brand sound signature/);
   assert.match(app,/Published speaker power specification/);
   assert.doesNotMatch(app,/item\.amplifierFitRank\s*\+/);
+});
+
+test('8-ohm speaker stays eligible when the measured impedance minimum is unavailable',()=>{
+  assert.equal(manufacturerNominalPairing('Yamaha A-S501',8).supported,true);
+  assert.equal(manufacturerNominalPairing('Sony STR-DH190',8).supported,true);
+  assert.equal(manufacturerNominalPairing('Sony STR-DH190',4).supported,false);
+  const r=shortlistAmpsForOwnedSpeakers({own:{speaker:phantom},request,inventory:catalog});
+  assert.ok(r.selected.some(x=>x.amplifierModel==='Yamaha A-S501'));
+  assert.ok(r.selected.every(x=>x.amplifierFit?.amp.exact));
+});
+
+
+test('owner-entered speaker amplifier guidance survives evidence mapping but is not continuous handling',()=>{
+  const speaker={name:'User bookshelf pair',record:{values:{
+    load:8,minimum:4.2,recommendedAmpMinW:15,recommendedAmpMaxW:100,listedMaxInputW:60
+  },userEntered:true}};
+  const guidance=speakerPowerReference(speaker);
+  assert.equal(guidance.recommendedMin,15);
+  assert.equal(guidance.recommendedMax,100);
+  assert.equal(guidance.listedMaxInput,60);
+  assert.equal(guidance.watts,null);
+  const fit=assessAmplifierCandidate({idea:idea('Yamaha A-S301'),record:yamaha.record,speaker,request});
+  assert.equal(fit.ratio,null);
+  assert.match(fit.ownerNote,/15–100 W/);
+  assert.match(fit.ownerNote,/60 W/);
+  assert.match(fit.ownerNote,/NOT a speaker power-handling limit/);
+});
+test('a valid 4-ohm nominal-class speaker can receive explicitly conditional amp suggestions without fictional watts',()=>{
+  const speaker={name:'Owner 4 Ohm Pair',record:{model:'Owner 4 Ohm Pair',
+    values:{load:4,minimum:3.2},userEntered:true}};
+  const found=shortlistAmpsForOwnedSpeakers({own:{speaker},request,inventory:catalog});
+  assert.ok(found.selected.length>0);
+  assert.ok(found.selected.some(x=>x.matchEvidence==='nominal_load_only'));
+  for(const x of found.selected.filter(x=>x.matchEvidence==='nominal_load_only')){
+    assert.equal(x.amplifierFit.amp.exact,false);
+    assert.equal(x.amplifierFit.amp.watts,null);
+    assert.match(x.loadCaution,/not a proven headroom match/);
+    assert.match(x.amplifierEvidence.join(' '),/do not predict output/);
+  }
 });

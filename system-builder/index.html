@@ -10,12 +10,12 @@
   <meta property="og:url" content="https://thesoundquestion.com/system-builder/">
 <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
-<link rel="stylesheet" href="/system-builder/style.css">
+<link rel="stylesheet" href="/system-builder/style.css?v=recognition-context-20261120">
 <link rel="stylesheet" href="/tools/recommend-gear/style.css">
 <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
 <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
 <script defer src="/system-builder/catalog-adapter.js"></script>
-<script type="module" src="/system-builder/app.mjs"></script>
+<script type="module" src="/system-builder/app.mjs?v=match-logic-20261120"></script>
 
 <title>Listening Builder | The Sound Question</title>
 </head>
@@ -29,16 +29,75 @@
 <header class="sb-hero">
 <p class="section-kicker">LISTENING BUILDER · SPEAKERS, AMPS & HEADPHONES</p>
 <h1>Listening Builder</h1>
-<p class="lead">Build a system for music, movies or headphone listening. Start with what you already own, then check the speaker, amplifier, room and source choices that make a useful difference.</p>
+<p class="lead">Looking for an amplifier, speakers, headphones or a whole setup? Start with what you need. We only ask for the details that can change the answer, and explain the reasons behind the suggestions.</p>
 <div class="sb-hero-meta"><span>7 listening priorities</span><span>Passive · powered · studio · headphones · party</span><span>No paid search or account</span></div>
 </header>
 <p class="sb-bridge"><strong>Need to record or perform instead?</strong> Go to the <a href="/system-builder/creating/">Creating Builder</a> for microphones, interfaces, mixers, recording, streaming and PA systems. <a href="/tools/find-my-setup/">Not sure which builder?</a></p>
 <aside class="tsq-recommend-link" aria-label="Recommend missing equipment"><p><strong>Don't see your model?</strong> Help us grow the verified presets for everyone using these tools.</p><a href="/tools/recommend-gear/">Recommend your gear →</a></aside>
-<div class="sb-preview"><strong>Start with a few systems to explore.</strong> Open a card for the parts, connection checks and links. Recent price references appear with the date they were checked. Your selections are processed in this page and are not sent to a paid equipment service.</div>
+<div class="sb-preview"><strong>No wall of specifications required.</strong> If your model is in our sourced list, choose it with no extra specifications. If it is missing, type its model to find the same targeted manufacturer searches as System Check. Add only the relevant documented specifications. Recommendations explain what fits, what is uncertain, and why.</div>
 <noscript><p class="sb-noscript">JavaScript is required to generate a pathway report. You can still use the <a href="/system-check/">System Check</a> for amplifier headroom and read the <a href="/decoder/">Decoder lessons</a> for the engineering behind the choices.</p></noscript>
 <form id="sb-form" class="sb-form">
+<section class="sb-panel sb-intent-panel" aria-labelledby="sb-intent-heading">
+<div class="sb-step"><span>01</span><div><h2 id="sb-intent-heading">What are you looking for?</h2><p>Choose one thing you want help with. We will ask about the equipment you <em>already have</em>, not the equipment you're trying to buy.</p></div></div>
+<label class="sb-field sb-intent-select">I want to…
+<select name="buildIntent" id="sb-build-intent" required>
+<option value="" selected disabled>Choose what you want help with</option>
+<option value="amp_for_speakers">Find an amplifier for my speakers</option>
+<option value="speakers_for_amp">Find speakers for my amplifier</option>
+<option value="complete_system">Build a complete listening system</option>
+<option value="improve_existing">Improve the system I already have</option>
+<option value="subwoofer">Add a subwoofer to my system</option>
+<option value="headphones">Find headphones for how I listen</option>
+<option value="source_connections">Connect vinyl, CD or digital music</option>
+</select></label>
+<p class="sb-help" id="sb-intent-note" aria-live="polite">You do not need to own every piece of equipment or know specifications for something you haven't bought.</p>
+<div id="sb-quick-setup" class="sb-quick-setup sb-grid" hidden></div>
+<div id="sb-headphone-amp-setup" class="sb-headphone-amp-setup" hidden>
+<h3>Would you also like a headphone amplifier?</h3>
+<p class="sb-help">A separate amplifier is optional. We can include one, keep the simplest headphone setup, or help you decide based on the device you listen from.</p>
+<div class="sb-grid">
+<label class="sb-field">Include a headphone amplifier?
+<select name="headphoneAmpChoice" id="sb-headphone-amp-choice">
+<option value="">Choose one</option>
+<option value="yes">Yes, include an amplifier in my setup</option>
+<option value="no">No, use my existing headphone output</option>
+<option value="unsure">Not sure, help me decide</option>
+</select></label>
+<label class="sb-field">Would you also like a DAC?
+<select name="headphoneDacChoice" id="sb-headphone-dac-choice">
+<option value="">Choose whether you need a DAC</option>
+<option value="none">No additional DAC</option>
+<option value="separate">Yes, a separate standalone DAC</option>
+<option value="combo">Yes, one combined DAC + headphone amplifier</option>
+<option value="unsure">Not sure, help me decide</option>
+</select></label>
+<label class="sb-field">What will play your music?
+<select name="headphoneSource" id="sb-headphone-source">
+<option value="unknown">Not sure yet</option>
+<option value="phone_usb">Phone or tablet with USB audio / USB-C</option>
+<option value="computer_usb">Computer using USB audio</option>
+<option value="analog_line">Player or DAC with analogue RCA line output</option>
+<option value="headphone_jack">Phone or computer with a headphone jack</option>
+<option value="receiver_headphones">Receiver or amplifier headphone socket</option>
+</select></label>
+</div>
+<p class="sb-help">A DAC changes digital audio into an analogue signal. A standalone DAC's RCA line output does <strong>not</strong> power wired headphones. A combined DAC/amp supplies the headphone output too. Choosing a combined unit also means choosing an amplifier.</p>
+<p class="sb-help" id="sb-headphone-amp-guidance" aria-live="polite">We will show which additional components connect your source to your headphones.</p>
+</div>
+<p id="sb-required-group-help" class="sb-required-group-help" aria-live="polite" hidden></p>
+<p id="sb-intent-feedback" class="sb-intent-feedback" role="status" aria-live="polite" hidden></p>
+<div id="sb-source-help" class="sb-source-help" hidden>
+ <p>For sources, the first question is what you already have and which input it needs. Use the dedicated connection guides instead of a speaker shopping list.</p>
+ <p><a class="button button-primary" href="/tools/find-my-setup/?goal=vinyl">Connect a turntable</a>
+ <a class="button button-secondary" href="/tools/find-my-setup/?goal=digital">Connect a computer, CD player or streamer</a>
+ <a href="/decoder/playback-sources/">Understand playback connections</a></p>
+</div>
+</section>
+<details class="sb-advanced-form" id="sb-advanced-form">
+<summary>More choices (optional): connections, bass, technical details and preferences</summary>
+<div class="sb-advanced-panels">
 <section class="sb-panel" aria-labelledby="sb-aim">
-<div class="sb-step"><span>01</span><div><h2 id="sb-aim">What do you want to hear?</h2><p>Pick your top priority, then optionally add up to two supporting goals. Music genres don't secretly decide your equipment.</p></div></div>
+<div class="sb-step"><span>01</span><div><h2 id="sb-aim">What do you want to hear?</h2><p>Who are you building this system for? Your own listening habits matter more than somebody else's ranking. Pick your top priority, then optionally add up to two supporting goals. Music genres don't secretly decide your equipment.</p></div></div>
 <label class="sb-field">Main listening priority
 <select name="goal" id="sb-goal">
 <option value="all_rounder">Balanced and versatile</option>
@@ -94,9 +153,34 @@
 <label class="sb-field">Where will you listen?
 <select name="useCase"><option value="living_room">Living room / shared room</option><option value="desk">Desk / nearfield</option><option value="bedroom">Bedroom / small room</option><option value="outdoors">Backyard / outdoors</option><option value="party">Gathering / event / party</option></select></label>
 <label class="sb-field">Distance to listening position (ft)
-<input type="number" name="distanceFt" min="0.5" max="300" step="0.5" value="8" required></label>
+<input type="number" name="distanceFt" min="0.5" max="300" step="0.5" value="8"></label>
 <label class="sb-field">Usual listening level
 <select name="level"><option value="quiet">Quiet / background</option><option value="moderate" selected>Comfortable / normal</option><option value="high">Occasionally loud, clean peaks important</option></select></label>
+
+<details class="sb-listening-reference" aria-labelledby="sb-listening-reference-title">
+  <summary id="sb-listening-reference-title">What do these listening levels feel like?</summary>
+  <p class="sb-help"><strong>Think of the music at your listening chair, not the volume knob position.</strong> These approximate references describe <em>average</em> sound level (dBA), not a precise setting for every stereo or recording:</p>
+  <ul class="sb-listening-examples">
+    <li><strong>60–70 dBA: easy conversation.</strong> Music is present, but you can generally talk to somebody beside you without competing with it. Ordinary conversation is often around 60 dBA.</li>
+    <li><strong>Around 80 dBA: quite loud at home.</strong> Think of the sound level of a nearby vacuum cleaner or a busy kitchen appliance. Normal speech becomes harder to follow over the music.</li>
+    <li><strong>Around 85 dBA: loud for sustained listening.</strong> Some hair dryers or blenders reach this region nearby. You will probably raise your voice to talk. Duration matters to hearing risk.</li>
+    <li><strong>110 dB <em>brief peak</em>: a very different number.</strong> This describes a potentially extremely loud, short musical hit, <em>not</em> an 110 dBA listening average. Do not turn up your stereo to try to reproduce it.</li>
+  </ul>
+  <p class="sb-help">Appliance examples vary substantially by model and distance. A-rated average levels, instantaneous peak SPL and electrical amplifier headroom are different quantities; the Builder's three choices do <strong>not</strong> calculate or certify a particular dB value.</p>
+  <details class="sb-listening-measure">
+    <summary>Try a rough sound-level check with your phone</summary>
+    <ol>
+      <li>Use an SPL / sound-level app that shows <strong>dBA</strong> and preferably <strong>LAeq</strong> (the average sound energy over a period). The <a href="https://www.cdc.gov/niosh/noise/about/app.html" target="_blank" rel="noopener noreferrer">free NIOSH Sound Level Meter</a> is an iPhone/iPad example. On Android, <a href="https://f-droid.org/en/packages/org.noise_planet.noisecapture/" target="_blank" rel="noopener noreferrer">NoiseCapture</a> is an available option, but device accuracy varies.</li>
+      <li>In your actual listening room, put the phone at about seated ear height where you listen, with its microphone unobstructed. If testing elsewhere, note that distance and room change the result.</li>
+      <li>Play familiar music and choose a comfortable listening level. Read the <strong>LAeq over 30–60 seconds or longer</strong>, not just a flickering instantaneous number. Do not increase volume simply to reach a target dB.</li>
+      <li>If the app shows maximum or peak, note it separately; it is <em>not</em> the same as the average, and an ordinary phone microphone can clip or miss fast, loud transients.</li>
+    </ol>
+    <p><strong>Weighting made simple:</strong> A-weighting (dBA) reduces the influence of very low and high frequencies and is commonly used to describe hearing exposure. C-weighting (dBC) reduces bass much less, while Z-weighting is nominally flat. A <strong>LAeq</strong> average is more useful than a single jumping number for getting a rough feel for your usual music level.</p>
+    <p><strong>Know the limit:</strong> Phone microphones, cases and automatic processing differ, especially on Android. Without calibration this is a rough guide, not a certified SPL or safe-exposure measurement. It is also not a reliable way to verify a 110 dB transient, headphone/earbud output at your eardrum, or a speaker's maximum clean output.</p>
+    <p>For an actual amplifier power/headroom estimate, use <a href="/system-check/">System Check</a> with documented speaker and amplifier specifications. An app's dBA average is not automatically the same as its unweighted dB SPL target, and the assumed peak gap still needs separate consideration.</p>
+  </details>
+  <p class="sb-reference-sources">Reference examples and measurement guidance: <a href="https://www.cdc.gov/niosh/noise/about/app.html" target="_blank" rel="noopener noreferrer">CDC/NIOSH measurement guidance</a> · <a href="https://www.who.int/news-room/questions-and-answers/item/deafness-and-hearing-loss-safe-listening" target="_blank" rel="noopener noreferrer">WHO listening duration</a> · <a href="https://www.cdc.gov/niosh/noise/prevent/understand.html" target="_blank" rel="noopener noreferrer">NIOSH measuring sound</a></p>
+</details>
 <label class="sb-field">Source connection you need
 <select name="connection"><option value="undecided">Not sure yet</option><option value="analog">Analogue RCA / 3.5 mm</option><option value="usb">USB audio from a computer</option><option value="optical">Optical / digital input</option><option value="bluetooth">Bluetooth / wireless</option><option value="hdmi">HDMI / TV integration</option></select></label>
 <label class="sb-field">Power available
@@ -105,25 +189,121 @@
 <p class="sb-help">This tool helps compare system options; it does <strong>not</strong> calculate your actual volume at the seat or tell you a listening level is safe. Use <a href="/system-check/">System Check</a> for an estimate of amplifier power and musical peak reserve with passive speakers. Some Builder products aren't in its preset list yet, so enter verified specifications manually if needed. That passive-speaker calculation isn't suitable for powered PA systems or headphones.</p>
 </section>
 <section class="sb-panel" aria-labelledby="sb-own">
-<div class="sb-step"><span>03</span><div><h2 id="sb-own">What can you keep?</h2><p>Enter anything you already own or want to keep. The results build around those components first, or explain why your chosen system type cannot reuse them directly. A model name never proves compatibility.</p></div></div>
+<div class="sb-step"><span>03</span><div><h2 id="sb-own">What can you keep?</h2><p>Enter anything you already own or want to keep. The results build around those components first, or explain why your chosen system type cannot reuse them directly. A model name never proves compatibility. An adapter isn't always a substitute for the right kind of input or output.</p></div></div>
 <div id="sb-inventory-state" class="sb-help" role="status">Loading the existing System Check catalog…</div>
 <div class="sb-grid">
 <label class="sb-field">My speakers
 <select id="sb-speaker" name="speaker"><option value="">None selected / not owned</option></select></label>
-<label class="sb-field">Different / unlisted speakers
-<input name="speakerOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">Search for my speakers (if not in list)
+<input name="speakerOther" maxlength="120" placeholder="Type the brand and exact speaker model"></label>
+<div class="sb-gear-search" id="sb-speaker-search" data-gear-kind="speaker">
+ <p class="sb-help">Type the exact model above, then open a specification search in a <strong>new browser tab</strong>. Copy the relevant specifications, switch back to this Builder tab, and paste them below. Your form stays here.</p>
+ <div class="sb-gear-search-actions" data-gear-searches="speaker" role="group" aria-label="Targeted specification searches"></div>
+ <div class="sb-gear-matches" data-gear-matches="speaker" aria-live="polite"></div>
+ <details class="sb-gear-source-detail" data-gear-details="speaker">
+  <summary>Not in the catalogue? Enter the specs from a manual</summary>
+  <p class="sb-help">Found a manual or spec page? Copy its relevant text below, then fill the recognised values into the editable boxes. <strong>A source URL is optional</strong>: useful specifications can produce a provisional recommendation without one. Add a link when available to help verify the details. We never scrape or automatically import search results.</p>
+  <label class="sb-field sb-spec-paste-label">Paste speaker specifications here (optional)
+    <textarea id="sb-speaker-spec-paste" rows="4" maxlength="4000" spellcheck="false" placeholder="Example:
+Nominal impedance: 8 ohms
+Minimum impedance: 4.2 ohms
+Sensitivity: 89 dB (2.83 V / 1 m)"></textarea>
+  </label>
+  <button type="button" class="button button-secondary sb-spec-paste-button" id="sb-speaker-spec-fill">Fill recognised fields from pasted text</button>
+  <p id="sb-speaker-spec-feedback" class="sb-help" role="status" aria-live="polite">Paste the speaker description, then choose Fill recognised fields. Confirm the numbers below before matching.</p>
+  <ul id="sb-speaker-spec-observations" class="sb-spec-review-list" aria-label="Specification figures needing review" hidden></ul>
+  <div class="sb-grid">
+  <label class="sb-field">Are these passive or powered speakers? <select name="speakerPowerType"><option value="">Choose from the manual / not sure</option><option value="passive">Passive: needs an external amplifier</option><option value="powered">Powered / active: amplifier is built in</option></select></label>
+   <label class="sb-field">Source / specification URL (optional, HTTPS when available) <input name="speakerSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
+  <label class="sb-field">Nominal speaker impedance (Ω) <input type="number" name="speakerLoad" min="2" max="16" step="any" inputmode="decimal" placeholder="e.g. 8"></label>
+  <label class="sb-field">Published minimum impedance (Ω) <input type="number" name="speakerMinimum" min="1" max="16" step="any" inputmode="decimal" placeholder="Optional if unknown"></label>
+  <label class="sb-field">Listening sensitivity (dB) <input type="number" name="speakerSensitivity" min="60" max="120" step="any" inputmode="decimal" placeholder="In-room figure when supplied"></label>
+  <label class="sb-field">Sensitivity was measured <select name="speakerSensitivityEnvironment"><option value="">Not specified</option><option value="in_room">In-room (preferred for listening estimates)</option><option value="anechoic">Anechoic (room-free)</option></select></label>
+  <label class="sb-field">Anechoic sensitivity reference (dB) <input type="number" name="speakerAnechoic" min="60" max="120" step="any" inputmode="decimal" placeholder="Optional reference, e.g. 87"></label>
+  <label class="sb-field">Sensitivity electrical reference <select name="speakerBasis"><option value="">Not listed (8 Ω defaults to approximate 1 W / 2.83 V)</option><option value="power">1 watt at 1 metre</option><option value="voltage">2.83 volts at 1 metre</option></select></label>
+  <label class="sb-field">Recommended amplifier power, from (W) <input type="number" name="speakerRecommendedAmpMin" min="1" max="1000" step="any" inputmode="decimal" placeholder="Optional e.g. 15"></label>
+  <label class="sb-field">Recommended amplifier power, to (W) <input type="number" name="speakerRecommendedAmpMax" min="1" max="2000" step="any" inputmode="decimal" placeholder="Optional e.g. 100"></label>
+  <label class="sb-field">Listed maximum speaker input (W, rating type unknown) <input type="number" name="speakerMaxInput" min="1" max="2000" step="any" inputmode="decimal" placeholder="Optional e.g. 60"></label>
+  </div>
+ </details>
+ <p class="sb-gear-message" data-gear-message="speaker" role="status"></p>
+</div>
 <label class="sb-field">My amplifier / receiver
 <select id="sb-amp" name="amp"><option value="">None selected / not owned</option></select></label>
-<label class="sb-field">Different / unlisted amplifier
-<input name="ampOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">Search for my amplifier / receiver (if not in list)
+<input name="ampOther" maxlength="120" placeholder="Type the brand and exact amplifier model"></label>
+<div class="sb-gear-search" id="sb-amp-search" data-gear-kind="amp">
+ <p class="sb-help">Type the exact model above to see saved matches and the same targeted manufacturer searches as System Check.</p>
+ <div class="sb-gear-search-actions" data-gear-searches="amp" role="group" aria-label="Targeted specification searches"></div>
+ <div class="sb-gear-matches" data-gear-matches="amp" aria-live="polite"></div>
+ <details class="sb-gear-source-detail" data-gear-details="amp">
+  <summary>Not in the catalogue? Enter the specs from a manual</summary>
+  <p class="sb-help">Enter the ratings for the exact model where available. A manufacturer URL is helpful but optional. User-supplied numbers remain provisional until checked.</p>
+  <label class="sb-field sb-spec-paste-label">Paste amplifier / receiver specifications (optional)
+<textarea id="sb-amp-spec-paste" rows="4" maxlength="4000" spellcheck="false" placeholder="Example: Speaker impedance: 4–16 ohms
+Rated power output: 85 W per channel at 8 ohms"></textarea>
+</label>
+<button type="button" class="button button-secondary sb-spec-paste-button" id="sb-amp-spec-fill">Fill recognised fields from pasted text</button>
+<p id="sb-amp-spec-feedback" class="sb-help" role="status" aria-live="polite">Pasted specifications will fill matching editable fields below. Review the results before using them.</p>
+<ul id="sb-amp-spec-observations" class="sb-spec-review-list" aria-label="Specification figures needing review" hidden></ul>
+<div class="sb-grid">
+  <label class="sb-field">Source / specification URL (optional, HTTPS when available) <input name="ampSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
+  <label class="sb-field">Minimum supported speaker impedance (Ω, optional when not published) <input type="number" name="ampMinLoad" min="2" max="16" step="0.1" inputmode="decimal" placeholder="e.g. 6, one pair"></label>
+  <label class="sb-field">Rated/continuous watts per channel <input type="number" name="ampRatedWatts" min="1" max="5000" step="0.1" inputmode="decimal" placeholder="Not peak/music watts"></label>
+  <label class="sb-field">Load used for that power rating (Ω) <input type="number" name="ampRatedLoad" min="2" max="16" step="0.1" inputmode="decimal" placeholder="e.g. 8"></label>
+  </div>
+ </details>
+ <p class="sb-gear-message" data-gear-message="amp" role="status"></p>
+</div>
 <label class="sb-field">My source / DAC
 <select id="sb-source" name="source"><option value="">None selected / not owned</option></select></label>
-<label class="sb-field">Different / unlisted source
-<input name="sourceOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">Search for my source / DAC (if not in list)
+<input name="sourceOther" maxlength="120" placeholder="Type the brand and exact model"></label>
+<div class="sb-gear-search" id="sb-source-search" data-gear-kind="source">
+<p class="sb-help">Search our existing sourced catalogue. If your model is not listed, use the manufacturer's manual. A model name alone does not verify its connections.</p>
+<div class="sb-gear-search-actions" data-gear-searches="source" role="group" aria-label="Targeted specification searches"></div>
+<div class="sb-gear-matches" data-gear-matches="source" aria-live="polite"></div>
+<details class="sb-gear-source-detail" data-gear-details="source">
+<summary>Not in the catalogue? Add specs from the manual</summary>
+<p class="sb-help">Enter the connection or specification values you found. The source URL is optional; anything entered without one remains provisional.</p>
+<label class="sb-field sb-spec-paste-label">Paste source / DAC connections (optional)
+<textarea id="sb-source-spec-paste" rows="4" maxlength="4000" spellcheck="false" placeholder="Example: Audio outputs: RCA stereo line out
+Digital inputs: USB and optical"></textarea>
+</label>
+<button type="button" class="button button-secondary sb-spec-paste-button" id="sb-source-spec-fill">Fill recognised fields from pasted text</button>
+<p id="sb-source-spec-feedback" class="sb-help" role="status" aria-live="polite">Pasted specifications will fill matching editable fields below. Review the results before using them.</p>
+<ul id="sb-source-spec-observations" class="sb-spec-review-list" aria-label="Specification figures needing review" hidden></ul>
+<div class="sb-grid"><label class="sb-field">Source / specification URL (optional, HTTPS when available) <input name="sourceSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label><label class="sb-field">Documented audio output <select name="sourceOutput">
+<option value="">Choose the connection from the manual</option>
+<option value="RCA">Analogue RCA (left/right)</option><option value="3.5 mm">Analogue 3.5 mm</option><option value="optical">Digital optical</option><option value="coaxial">Digital coaxial</option><option value="usb">USB audio</option><option value="hdmi">HDMI</option><option value="bluetooth">Bluetooth</option><option value="other">Other / needs detailed checking</option>
+</select></label></div>
+</details>
+<p class="sb-gear-message" data-gear-message="source" role="status"></p>
+</div>
 <label class="sb-field">My headphones / IEMs
 <select id="sb-headphone" name="headphone"><option value="">None selected / not owned</option></select></label>
-<label class="sb-field">Different / unlisted headphones
-<input name="headphoneOther" maxlength="120" placeholder="Exact brand and model"></label>
+<label class="sb-field">Search for my headphones (if not in list)
+<input name="headphoneOther" maxlength="120" placeholder="Type the brand and exact model"></label>
+<div class="sb-gear-search" id="sb-headphone-search" data-gear-kind="headphone">
+<p class="sb-help">Search our existing sourced catalogue. If your model is not listed, use the manufacturer's manual. A model name alone does not verify its headphone drive requirements.</p>
+<div class="sb-gear-search-actions" data-gear-searches="headphone" role="group" aria-label="Targeted specification searches"></div>
+<div class="sb-gear-matches" data-gear-matches="headphone" aria-live="polite"></div>
+<details class="sb-gear-source-detail" data-gear-details="headphone">
+<summary>Not in the catalogue? Add specs from the manual</summary>
+<p class="sb-help">Enter the connection or specification values you found. The source URL is optional; anything entered without one remains provisional.</p>
+<label class="sb-field sb-spec-paste-label">Paste headphone / IEM specifications (optional)
+<textarea id="sb-headphone-spec-paste" rows="4" maxlength="4000" spellcheck="false" placeholder="Example: Nominal impedance: 32 ohms
+Sensitivity: 100 dB SPL / mW"></textarea>
+</label>
+<button type="button" class="button button-secondary sb-spec-paste-button" id="sb-headphone-spec-fill">Fill recognised fields from pasted text</button>
+<p id="sb-headphone-spec-feedback" class="sb-help" role="status" aria-live="polite">Pasted specifications will fill matching editable fields below. Review the results before using them.</p>
+<ul id="sb-headphone-spec-observations" class="sb-spec-review-list" aria-label="Specification figures needing review" hidden></ul>
+<div class="sb-grid"><label class="sb-field">Source / specification URL (optional, HTTPS when available) <input name="headphoneSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label><label class="sb-field">Headphone nominal impedance (Ω) <input name="headphoneLoad" type="number" min="1" max="1000" step="0.1" inputmode="decimal" placeholder="From manual"></label>
+<label class="sb-field">Headphone sensitivity (dB) <input name="headphoneSensitivity" type="number" min="50" max="140" step="0.1" inputmode="decimal" placeholder="From manual"></label>
+<label class="sb-field">Sensitivity basis (optional, required only for drive estimates) <select name="headphoneBasis"><option value="">Choose the manufacturer basis</option><option value="power">dB SPL per mW</option><option value="voltage">dB SPL per V</option></select></label></div>
+</details>
+<p class="sb-gear-message" data-gear-message="headphone" role="status"></p>
+</div>
 </div>
 <label class="sb-inline"><input type="checkbox" name="keepWorking" checked> Check placement, setup and existing performance before spending on upgrades (entered equipment is always considered for reuse)</label>
 </section>
@@ -145,14 +325,50 @@
 </div>
 <p class="sb-help">A high-pass filter turns down the lowest notes in the main speakers. Check how each setup routes the bass. <a href="/decoder/bass-extension/#buying">Read about bass extension</a>.</p>
 </section>
+<section class="sb-panel sb-sub-connect-section" aria-labelledby="sb-sub-connections">
+<div class="sb-step"><span>05</span><div><h2 id="sb-sub-connections">How will the subwoofer connect?</h2><p>These are ordinary socket types. Choose “Not sure” when you do not know. We will not assume that having an RCA input means your amplifier has an RCA output.</p></div></div>
+<label class="sb-field sb-spec-paste-label">Paste amplifier and subwoofer connection descriptions (optional)
+<textarea id="sb-sub-spec-paste" rows="4" maxlength="4000" spellcheck="false" placeholder="Receiver: Subwoofer Out (RCA)
+Subwoofer: RCA Line In and High Level Speaker In
+Main speakers: no high-pass mentioned"></textarea>
+</label>
+<button type="button" class="button button-secondary sb-spec-paste-button" id="sb-sub-spec-fill">Fill recognised connections from pasted text</button>
+<p id="sb-sub-spec-feedback" class="sb-help" role="status" aria-live="polite">The recognised connections will fill the choices below. Check the actual sockets before wiring.</p>
+<ul id="sb-sub-spec-observations" class="sb-spec-review-list" aria-label="Subwoofer connection details requiring review" hidden></ul>
+<div class="sb-grid">
+<label class="sb-field">Subwoofer model
+<input name="subName" maxlength="120" placeholder="e.g. Edifier T5, or leave blank"></label>
+<label class="sb-field">What signal can your amplifier or speakers send?
+<select name="subAmpOutput">
+<option value="unknown">Not sure yet</option>
+<option value="sub_rca">Sub Out / LFE Out (one RCA)</option>
+<option value="preout_rca">Stereo Pre Out (left and right RCA)</option>
+<option value="speaker_only">Speaker wire outputs only</option>
+</select></label>
+<label class="sb-field">What input does the subwoofer accept?
+<select name="subInput">
+<option value="unknown">Not sure / choosing a subwoofer</option>
+<option value="rca_line">RCA Line In / LFE In</option>
+<option value="speaker_high">Speaker Level / High Level In</option>
+<option value="both">Both RCA and Speaker Level</option>
+</select></label>
+<label class="sb-field">Does the system filter bass out of the main speakers?
+<select name="subHighPass">
+<option value="unknown">Not sure</option>
+<option value="documented">Yes, the manual describes a main-speaker high-pass setting</option>
+<option value="none">No, the main speakers play their usual bass</option>
+</select></label>
+</div>
+<p class="sb-help">A Sub Out usually uses an RCA lead; a speaker-level connection requires extra speaker wire and an input designed for it. A subwoofer crossover knob normally filters the subwoofer, not your existing speakers. <a href="/decoder/bass-extension/#buying">Understand subwoofer setup</a>.</p>
+</section>
 <section class="sb-panel" aria-labelledby="sb-money">
-<div class="sb-step"><span>05</span><div><h2 id="sb-money">Set the buying constraints</h2><p>Budget applies to the <em>complete missing signal path</em>, not just the price on a speaker box.</p></div></div>
+<div class="sb-step"><span>05</span><div><h2 id="sb-money">Set the buying constraints</h2><p>A bargain on one component isn't much of a bargain if the rest of the system can't use it. Budget applies to the <em>complete missing signal path</em>, not just the price on a speaker box.</p></div></div>
 <div class="sb-grid">
 <label class="sb-field">Region
 <select name="region"><option value="CA">Canada</option><option value="US">United States</option><option value="GB">United Kingdom</option><option value="EU">European Union</option><option value="AU">Australia</option><option value="other">Other / not specified</option></select></label>
 <label class="sb-field">Currency
 <select name="currency"><option value="CAD">CAD</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="EUR">EUR</option><option value="AUD">AUD</option><option value="other">Other / unknown</option></select></label>
-<label class="sb-field">Maximum new spending (optional)
+<label class="sb-field">Maximum new spending
 <input name="budget" type="number" min="0" max="10000000" step="1" placeholder="No limit supplied"></label>
 <label class="sb-field">Budget preference
 <select name="budgetStrict"><option value="strict">Firm ceiling</option><option value="flex">Flexible if supported by evidence</option></select></label>
@@ -163,12 +379,16 @@
 <label class="sb-inline"><input name="service" type="checkbox"> Comfortable repairing or servicing vintage gear</label>
 <p class="sb-help">Use your budget to plan what you need. Add up current prices for the missing parts, delivery and taxes before deciding what fits. Budget, mid-priced and premium are retail cost positions, not audio-quality grades.</p>
 <p class="sb-help" id="sb-price-evidence" role="status">Retail-price weighting uses only verified, current evidence for the selected region. Unpriced models remain visible.</p>
-<div class="sb-actions"><button class="button button-primary" type="submit">Show equipment examples</button><button class="button button-secondary" type="reset">Start again</button></div>
+
 </section>
+</div>
+</details>
+<div class="sb-actions" id="sb-actions" hidden><button class="button button-primary" type="submit">Show me options for my goal</button><button class="button button-secondary" type="reset">Start again</button></div>
 </form>
 <section class="sb-results" id="sb-results" aria-live="polite" aria-labelledby="sb-result-title" tabindex="-1" hidden>
 <p class="section-kicker">A FEW IDEAS FOR YOUR SYSTEM</p>
-<h2 id="sb-result-title">Systems worth exploring</h2>
+<h2 id="sb-result-title">Your system options, explained</h2>
+<p class="sb-help">Why each option was suggested, what makes the equipment work as a system in principle, what the available evidence actually supports, and what you still need to verify before spending.</p>
 <div id="sb-result-body"></div>
 </section>
 <details class="sb-method">

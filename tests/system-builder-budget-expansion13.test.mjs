@@ -76,7 +76,7 @@ test('budget passive new stereo has two component prices, load caveat and no pea
   assert.equal(pair.subtotal,438.99);
   assert.equal(pair.parts.length,2);
   assert.match(pair.tradeoff,/300 W/i);
-  assert.match(pair.loadCaution,/4.1 Ω/);
+  assert.match(pair.curatedPairing.proof,/4\.1 Ω/,'Documented minimum stays in the sourced compatibility proof, not a generic warning');
   assert.ok(!x.selected.some(x=>x.title.includes('R-S202 + PSB Alpha P3')));
   assert.ok(!EXAMPLES.some(x=>x.usedOnly));
 });
@@ -90,15 +90,12 @@ test('compact BT20A Pro and AIYIMA ratings do not fabricate continuous wattage o
   assert.equal(builderOnlyAmpFor('Fosi Audio BT20A Pro').details.caOrdinaryAsking,189.99);
   assert.equal(builderOnlyAmpFor('Fosi Audio BT20A MAX'),null);
 });
-test('owned speakers can compare a compact amp alongside better-documented models',()=>{
+test('compact amp without a published continuous rating stays out of recommended pairings',()=>{
   const speaker={name:'Paradigm Phantom v1',record:inventory.speaker.find(x=>x.model==='Paradigm Phantom v1')};
   const x=shortlistAmpsForOwnedSpeakers({own:{speaker},inventory,
     request:{...opts,goal:'natural',useCase:'living_room',budget:250}});
-  const fosi=x.selected.find(x=>x.title==='Paradigm Phantom v1 + Fosi Audio BT20A Pro');
-  assert.equal(fosi.subtotal,189.99);
-  assert.ok(fosi.reuseNames.includes(speaker.name));
-  assert.match(fosi.amplifierReason,/no verified matching-load continuous power/i);
-  assert.equal(fosi.amplifierFit.amp.watts,null);
+  assert.ok(!x.selected.some(x=>x.title.includes('Fosi Audio BT20A Pro')));
+  assert.ok(x.excluded.some(x=>x.title==='Fosi Audio BT20A Pro'&&/continuous rating/.test(x.reason)));
 });
 test('budget supplemental amp entered as owned is retained; not quietly replaced',()=>{
   const amp={name:'Fosi Audio BT20A Pro',record:builderOnlyAmpFor('Fosi Audio BT20A Pro')};

@@ -2,6 +2,23 @@
 // Do not store answers, infer compatibility, invent prices or conflate stereo mixes with independent tracks.
 const question=(id,prompt,pairs)=>({id,prompt,options:pairs.map(([value,label])=>({value,label}))});
 export const GOALS=[
+// Optional, task-first paths. Existing goals and all engineering tools remain unchanged.
+ {id:'match',group:'Listening',title:'Match my amplifier and speakers',short:'Check electrical requirements before assuming two products work together.',questions:[
+  question('owned','What do you have already?', [['both','An amplifier and speakers'],['amp','An amplifier and need speakers'],['speakers','Speakers and need an amplifier'],['unsure','I am not sure what I have']]),
+  question('speakerType','What type of speakers are they?', [['passive','Passive speakers (require an amplifier)'],['powered','Powered speakers (amplifier built in)'],['unsure','Not sure yet']])
+ ]},
+ {id:'vinyl',group:'Listening',title:'Start listening to vinyl',short:'Understand the turntable, phono stage and speaker connections.',questions:[
+  question('phono','Does your turntable have a built-in phono preamp or PHONO/LINE switch?', [['yes','Yes, it has a LINE output'],['no','No, it only has a phono output'],['unsure','I am not sure yet']]),
+  question('speakers','What will play the records?', [['powered','Powered speakers'],['passive','Passive speakers, and no amplifier yet'],['receiver','An amplifier or receiver with passive speakers'],['unsure','I do not know yet']])
+ ]},
+ {id:'digital',group:'Listening',title:'Connect digital music',short:'Music from a computer, CD player, phone or network streamer.',questions:[
+  question('player','What will play the music?', [['computer','A computer'],['streamer','A network streamer'],['cd','A CD player'],['phone','A phone or tablet']]),
+  question('listen','What will produce the sound?', [['receiver','An amplifier or receiver with speakers'],['powered','Powered speakers'],['passive','Passive speakers but no amplifier'],['unsure','I do not know yet']])
+ ]},
+ {id:'improve',group:'Listening',title:'Improve what I already own',short:'Start with a useful check before replacing equipment.',questions:[
+  question('problem','What would you most like to improve?', [['bass','Bass sounds weak or boomy'],['space','Stereo sounds narrow or unfocused'],['harsh','Sound gets harsh or crowded'],['general','Not sure what is wrong']]),
+  question('gear','What are you listening through?', [['passive','An amplifier and passive speakers'],['powered','Powered speakers'],['headphones','Headphones'],['unsure','I am not sure yet']])
+ ]},
  {id:'hifi',group:'Listening',title:'Improve my hi-fi sound',short:'Better soundstage, clarity, bass and listening at home.',questions:[
   question('focus','What would you most like to improve?', [['imaging','A wider, more convincing sense of space'],['vocals','Natural voices and instruments'],['bass','Better-controlled bass'],['overall','Everything working together'],['unsure','I am not sure yet']]),
   question('gear','What equipment do you already have?', [['full','Amplifier and speakers'],['amp','An amplifier, but need speakers'],['speakers','Speakers, but unsure about the amplifier'],['none','Starting from scratch'],['unsure','Not sure what I have']]),
@@ -88,6 +105,83 @@ export function buildPath(goalId,answers={}){
  if(!goal)throw new Error('Choose a supported goal.');
  for(const q of goal.questions) if(!select(goal,q.id,answers))throw new Error('Choose an answer for '+q.prompt);
  const a=answers;
+
+ // The guide explains equipment roles and uncertainty. System Check remains
+ // responsible for actual amplifier/speaker headroom estimates.
+ if(goalId==='match'){
+   const powered=a.speakerType==='powered',passive=a.speakerType==='passive';
+   return make(goal,a,{
+     description:powered?'Powered speakers already contain amplification. Check the source-level input; do not connect them to an external amplifier speaker output.':'Check the actual model information before treating any speaker and amplifier pairing as electrically suitable.',
+     steps:powered?[
+       role('A compatible music source','Find an appropriate line-level or documented digital output.'),
+       role('Your powered speakers','Use their own amplification and volume controls, with the correct input.'),
+       role('Keep any separate amplifier apart','Never connect speaker terminals to a powered speaker line-level input.')
+     ]:[
+       role('Identify both models','Find the amplifier manual and the exact speaker model or version.'),
+       role('Check the speaker load','The nominal ohm label is only a starting point; actual impedance can vary with frequency.'),
+       role('Check the amplifier and listening position','Compare permitted speaker load, specified clean output, speaker sensitivity and distance using System Check.')
+     ],
+     optional:powered?[]:['A suitable amplifier, only if you have passive speakers and no amplifier yet'],
+     skip:powered?['No separate speaker amplifier is needed for an ordinary powered stereo pair.']:['Do not replace working equipment solely because a watt rating looks too small.'],
+     verify:powered?['Powered speakers must have the right source input, level and volume control.']:passive?['Exact amplifier permitted load and real speaker impedance minimum/phase are not verified by the guide.','A published watt rating at the nominal load does not certify a safe or sufficiently loud pairing.']:['First identify whether your speakers are powered or passive.','Unknown speaker or amplifier specifications cannot be treated as safe matches.'],
+     alternative:'If you already have a functioning system, keep it while checking placement and source connections before shopping.',
+     learn:['amp','speakers','sources','dispersion'],
+     next:powered?'sources':'check'
+   });
+ }
+ if(goalId==='vinyl'){
+   const phono=a.phono,output=a.speakers;
+   const stage=phono==='yes'
+     ?role('Phono stage inside the turntable','Use the turntable LINE setting/output when connecting to a line-level input. Avoid feeding it into another PHONO input.')
+     :phono==='no'
+       ?role('A suitable phono stage','A matching PHONO input on an amplifier/receiver can provide this, otherwise an external phono preamp is normally required.')
+       :role('Check whether a phono stage is included','Look up the exact model or PHONO/LINE switch before buying a separate preamp.');
+   const end=output==='powered'?role('Powered speakers with a compatible line input','Amplification is inside the speakers; do not connect another amplifier’s speaker terminals.')
+     :output==='passive'?role('Appropriate amplifier and passive speakers','Passive speakers cannot be driven directly by a turntable or standalone phono preamp.')
+     :output==='receiver'?role('Your receiver or amplifier and passive speakers','Check whether its PHONO input provides the needed stage, or use a separate stage into a line input.')
+     :role('Choose a complete playback route','Either powered speakers with the proper input, or passive speakers with a suitable amplifier.');
+   return make(goal,a,{
+     description:'Work out which components are actually needed before shopping. Vinyl needs the correct phono equalization and a compatible path to the speakers.',
+     steps:[role('Turntable and cartridge','The record player produces the audio signal.'),stage,end],
+     skip:[phono==='yes'?'A second phono preamp is usually unnecessary when a suitable LINE output is available.':'A separate phono preamp may be unnecessary if a compatible PHONO input already provides that stage.',output==='powered'?'A separate speaker amplifier is unnecessary with a powered pair.':'A new DAC is not necessary just to play an analogue record.'],
+     verify:[phono==='unsure'?'Whether the turntable has a built-in phono preamp.':'Set the phono/line switch to the correct output mode if applicable.','Whether the amplifier or powered speakers accept the resulting signal and provide volume control.','Cartridge and phono-input compatibility, particularly if moving-coil equipment is involved.'],
+     alternative:'A turntable with built-in phono amplification and powered speakers with line inputs may provide a simple complete route.',
+     learn:['sources','speakers','builder'],next:'sources'
+   });
+ }
+ if(goalId==='digital'){
+   const source={computer:'computer',streamer:'network streamer',cd:'CD player',phone:'phone or tablet'}[a.player];
+   const output=a.listen;
+   return make(goal,a,{
+     description:'A separate DAC or new amplifier is not automatically necessary. First identify the output of your player and the input your existing system can accept.',
+     steps:[role('Your '+source,'Identify its available analogue or digital audio outputs.'),
+       role('Match the output to an input','A compatible analogue output can feed a suitable line input; a digital output requires digital conversion by an appropriate DAC/input.'),
+       output==='powered'?role('Your powered speakers','Verify their input type and reliable volume control; do not use external amplifier speaker terminals.')
+         :output==='passive'?role('A suitable amplifier and passive speakers','Passive speakers need a power amplifier, even if a separate DAC is already present.')
+         :output==='receiver'?role('Your amplifier or receiver','Check whether it accepts the chosen analogue or digital signal, and drives your speakers appropriately.')
+         :role('Choose a listening device','Headphones, powered speakers, or passive speakers with an amplifier all require different output paths.')
+     ],
+     skip:['A separate DAC may be unnecessary if your source already has a suitable analogue output or your receiving device has the compatible DAC/input.','An adapter cable alone cannot turn a digital signal into an analogue signal.'],
+     verify:['Exact output and input connectors, signal direction and supported audio formats.','Volume control, output levels and any necessary active conversion.','Model and cable requirements; the guide has not verified your individual devices.'],
+     alternative:'If your existing player has a suitable analogue output, you may be able to connect it directly to an amplifier or powered speakers with a line input. A compatible digital input can offer another route.',
+     learn:['sources','digital','soundbasics'],next:'sources'
+   });
+ }
+ if(goalId==='improve'){
+   const focus=a.problem,headphones=a.gear==='headphones';
+   const focusLink=focus==='bass'?'bass':focus==='space'?'soundstage':focus==='harsh'?'mastering':'soundbasics';
+   return make(goal,a,{
+     description:'Start by isolating one change in your existing playback chain. A questionnaire cannot diagnose the cause of a listening impression.',
+     steps:[role('Use a familiar recording and a safe listening level','Try to compare the same version of the music rather than two different masters.'),
+       role(headphones?'Check fit, seal and source settings':'Check speaker position, listening seat and source settings','Small free changes may alter the result; note what you changed.'),
+       role('Investigate one likely limitation','Compare your observation with the relevant explanation and any available measurement or System Check estimate.')
+     ],
+     skip:['Do not assume a new DAC, amplifier, cable or pair of speakers is the first or only solution.','Do not infer an amplifier defect from the words harsh or congested without further evidence.'],
+     verify:['Whether the problem happens on multiple recordings and at the same level.',headphones?'Headphone fit, earpad seal and available headphone output.':'Connections, placement, listening distance and manufacturer operating limits.'],
+     alternative:'If a simple adjustment fixes the complaint, keeping your existing system is a successful outcome.',
+     learn:[focusLink,headphones?'headphone':'dispersion','mastering','labs','check'],next:'improve'
+   });
+ }
  if(goalId==='hifi'){
    const owned=a.gear,focus=a.focus;
    const steps=owned==='full'?[role('Your music source','Keep the source you already use, as long as its connection works.'),role('Your amplifier and speakers','Start by checking setup and placement, not by assuming they need replacing.'),role('Your listening seat','Compare what changes at your actual listening position.')]:
