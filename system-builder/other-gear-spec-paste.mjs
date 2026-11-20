@@ -12,7 +12,7 @@ const linesOf=text=>String(text||'').slice(0,5000).normalize('NFKC')
   .replace(/[\u00a0\u202f]/g,' ').replace(/[•▪]/g,'\n')
   .replace(/\r\n?/g,'\n').replace(/[–—−]/g,'-')
   .split(/[\n;]+/).map(v=>v.trim().replace(/\s+/g,' ')).filter(Boolean);
-const ohms=s=>[...s.matchAll(/(\d{1,3}(?:[.,]\d+)?)\s*(?:Ω|ohms?)\b/gi)].map(x=>num(x[1]));
+const ohms=s=>[...s.matchAll(/(\d{1,3}(?:[.,]\d+)?)\s*(?:Ω(?!\w)|ohms?\b)/gi)].map(x=>num(x[1]));
 const watts=s=>[...s.matchAll(/(\d{1,4}(?:[.,]\d+)?)\s*(?:W|watts?)\b/gi)].map(x=>num(x[1]));
 const db=s=>[...s.matchAll(/(\d{2,3}(?:[.,]\d+)?)\s*dB(?:\s*SPL)?\b/gi)].map(x=>num(x[1]));
 export function parseAmpSpecText(text){
@@ -21,7 +21,7 @@ export function parseAmpSpecText(text){
     const support=/\b(?:speaker|loudspeaker|load|speaker terminals)\b/i.test(line)&&
       !/\b(?:input impedance|output impedance|headphone impedance|preamp)\b/i.test(line);
     if(support&&/\b(?:impedance|ohms?|Ω|minimum|compatible|supported|permitted)\b/i.test(line)){
-      const range=line.match(/(\d{1,2}(?:[.,]\d+)?)\s*(?:-|to)\s*(\d{1,2}(?:[.,]\d+)?)\s*(?:Ω|ohms?)\b/i);
+      const range=line.match(/(\d{1,2}(?:[.,]\d+)?)\s*(?:-|to)\s*(\d{1,2}(?:[.,]\d+)?)\s*(?:Ω(?!\w)|ohms?\b)/i);
       if(range){
         if(good(num(range[1]),2,16)&&num(range[2])>=num(range[1]))floor.push(num(range[1]));
       }else if(/\b(?:minimum|at least|or higher|or greater|compatible|supported|permitted|impedance)\b/i.test(line)){
