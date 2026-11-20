@@ -1113,6 +1113,24 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(whyBox,'h5',overview.reuse?'Why keeping this is a valid option':'Why this option was suggested');
       addText(whyBox,'p',overview.reason,'sb-beginner-plain');
       card.append(whyBox);
+      // Source-linked firsthand owner accounts are the listening section.
+      // Technical cautions belong in the separately available verification UI.
+      if(!alternativeComparison&&!detailOnly){
+        const ownerSound=soundProfileFor(item);
+        const ownerSources=ownerSound?.ownerSources||[];
+        const profile=el('section','sb-primary-sound');
+        addText(profile,'strong','What owners say');
+        addText(profile,'p',ownerSources.length
+          ?ownerSound.text.replace(/\\.$/,'')+'.'
+          :'No exact-model owner listening impressions have been reviewed yet.');
+        if(ownerSources.length){
+          const links=el('div','sb-tonal-sources');
+          for(const source of ownerSources.slice(0,2))
+            link(links,source.url,source.context||'Firsthand owner report');
+          profile.append(links);
+        }
+        card.append(profile);
+      }
       // Keep the exact signal path one tap away on the main result; an opened
       // alternative already lives inside a disclosure and needs no second one.
       renderSetupWorkflow(card,overview.setupWorkflow,{collapsed:!detailOnly});
@@ -1134,6 +1152,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(inline,'p',profile.label+' · '+distanceFt+' ft · illustrative '+profile.average+' dB average / '+(profile.average+profile.gap)+' dB peak. Not a measured listening level.','sb-headroom-brief');
         const frame=el('iframe','sb-inline-system-check-frame');
         frame.title='Headroom results for '+headroomModels.speakerModel+' with '+headroomModels.amplifierModel;
+        frame.setAttribute('aria-hidden','true');
+        frame.tabIndex=-1;
         // Load the true result even while collapsed so the summary can show
         // its verdict; do not compute or invent an independent estimate.
         frame.loading=detailOnly?'lazy':'eager';
@@ -1160,7 +1180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inline.append(frame);
         const full=new URLSearchParams(params);
         full.delete('embedded');
-        link(inline,'/system-check/?'+full.toString(),'Open the full calculator to adjust listening levels');
+        link(inline,'/system-check/?'+full.toString(),'Open prefilled System Check');
         card.append(inline);
       }
       const proof=el('details','sb-beginner-proof');
@@ -1174,22 +1194,6 @@ document.addEventListener('DOMContentLoaded', () => {
           overview.checkHeading||'What to check before connecting or buying');
         list(firstChecks,overview.firstChecks,'sb-beginner-checklist');
         card.append(firstChecks);
-      }
-      // Present the practical fit and important checks before tonal impressions.
-      if(!alternativeComparison&&!detailOnly){
-        const primarySound=soundImpressionFor(item);
-        const profile=el('section','sb-primary-sound');
-        addText(profile,'strong','What might it sound like?');
-        addText(profile,'p',primarySound
-          ?primarySound.text+'.'
-          :'No model-specific listening profile has been verified for this choice yet.');
-        if(primarySound?.sources?.length){
-          const links=el('div','sb-tonal-sources');
-          for(const source of primarySound.sources.slice(0,2))
-            link(links,source.url,source.label||'Listening review');
-          profile.append(links);
-        }
-        card.append(profile);
       }
       if(overview.costAndTradeoffs.length&&!item.amplifierModel)
         addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
@@ -1323,15 +1327,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!comparison)continue;
         const note=el('article','sb-comparison-preview-card');
         addText(note,'h5',comparison.alternative);
-        addText(note,'p','Compared with '+comparison.baseline+': '+comparison.text,'sb-compact-compare');
-        const sound=briefTonalContrast(baseline,item);
-        if(sound){
-          addText(note,'p','Sound: '+sound.text,'sb-tonal-one-line');
+        const ownerA=soundProfileFor(baseline);
+        const ownerB=soundProfileFor(item);
+        const hasA=Boolean(ownerA?.ownerSources?.length);
+        const hasB=Boolean(ownerB?.ownerSources?.length);
+        const sound=hasA&&hasB?briefTonalContrast(baseline,item):null;
+        addText(note,'p',hasB
+          ?(sound?'How it may sound different: '+sound.text:'Owners say: '+ownerB.text)
+          :'No exact-model firsthand listening account reviewed yet.','sb-tonal-one-line');
+        if(hasB){
           const links=el('div','sb-tonal-sources');
-          for(const source of sound.sources)
-            link(links,source.url,source.label);
+          for(const source of ownerB.ownerSources.slice(0,2))
+            link(links,source.url,source.context||'Firsthand owner report');
           if(links.children.length)note.append(links);
         }
+        const fit=el('details','sb-comparison-fit');
+        addText(fit,'summary','How the practical fit differs');
+        addText(fit,'p',comparison.text,'sb-compact-compare');
+        note.append(fit);
         // The short comparison is the only visible product listing.
         // Keep the full wiring, cost, headroom and original sources beside
         // the relevant option, not repeated in a separate full-card menu.
@@ -1345,6 +1358,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     if(headphoneElectronicsPlan)renderHeadphoneElectronics(headphoneElectronicsPlan);
     if (shortlist.selected.length) {
+      shop.classList.add('sb-compact-matches');
       addText(shop,'p',intent?.requiredOwn==='speaker'
         ?'These amplifiers have published continuous-power tests at your speakers’ nominal load. Use the inline System Check to calculate the listening level you actually want.'
         :'Start with the recommended fit below. Open the short explanations when you want the details.','sb-results-orientation');
