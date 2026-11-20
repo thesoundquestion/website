@@ -205,6 +205,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       continue;
     }
     const requestedInput=String(request.connection||'undecided');
+    const sourcePath=has(own.source)?sourceSignalMatch(own.source.record?.values?.sourceConnection,idea.inputs):null;
     if(requestedInput!=='undecided'&&!idea.inputs.includes(requestedInput)){
       excluded.push({title:idea.model,reason:'Requested '+requestedInput+' connection is not documented as a native input.'});
       continue;
@@ -225,7 +226,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     const used=['speaker'];const parts=[part(speaker,'Already owned; no new speaker purchase'),
       {name:idea.model,count:1,role:'Only new amplifier candidate, subject to verification',url:record.url}];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned source, connection check required'));}
-    (fit.amp.exact?selected:conditional).push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
+    (fit.amp.exact&&(!sourcePath||sourcePath.direct||sourcePath.status==='unknown')?selected:conditional).push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       title:speaker.name+' + '+idea.model,kind:'Keep your speakers · add an amplifier',
       architecture:'passive_separates',soundTarget:speaker.name,why:message,
       amplifierModel:idea.model,speakerModel:speaker.name,manualPairing,
@@ -236,8 +237,9 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
         ...(fit.documentedBurst!==null?['IHF short-burst rating: '+fit.documentedBurst+' W/channel at '+nominal+' Ω.']:[]),
         'The listening-level headroom result depends on the chosen dB SPL target and distance.'
       ],amplifierSource:rationale.source,
-      amplifierFit:fit,amplifierFitRank:fit.sortValue,compactAmp:idea.compact===true,
+      amplifierFit:fit,amplifierFitRank:fit.sortValue+(sourcePath?.direct?2:0),compactAmp:idea.compact===true,
       matchEvidence:exactPower?'exact_load_rating':'nominal_load_only',
+      sourceConnectionStatus:sourcePath?.status||'not_selected',
       tradeoff:'Compare current local cost and actual available inputs; different wattage is not proof of different sound quality.',
       loadCaution:exactPower?null:
         'No comparable amplifier power test at '+nominal+' Ω. This is a conditional impedance and connection candidate, not a proven headroom match.',
@@ -246,7 +248,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       priceEvidence:idea.model==='Fosi Audio BT20A Pro'?
         'corroborated_ordinary_CAD_asking_32V_PSU_variant_check':null,
       sceneCaution:false,levelCaution:false,
-      extra:[]},
+      extra:sourcePath?[sourcePath.note]:[]},
       own,used,message));
   }
   selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
