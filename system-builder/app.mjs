@@ -870,6 +870,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const budget = budgetText ? Number(budgetText) : null;
     const request = {
       architecture:arch, useCase, goal:primary, level:String(data.get('level')), subMode:bassMode,
+      buildIntent:String(data.get('buildIntent')||''),
       distanceFt, power:powered, connection:String(data.get('connection')),
       secondary:extras.filter(x=>x.checked&&x.value!==primary).map(x=>x.value),
       character:String(data.get('character')),
