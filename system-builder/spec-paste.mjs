@@ -156,19 +156,26 @@ export function parseSpeakerSpecText(text){
         else {
           const candidates=sensitivityCandidates(segment);
           if(candidates.length>0){
-            // A clearly labelled anechoic figure is the better starting
-            // reference when both anechoic and room-enhanced figures appear.
-            // Store its number, but NOT a fabricated 1W/2.83V test basis.
+            // Prefer the actual in-room number for this consumer listening
+            // workflow; anechoic figures remain separately visible as a
+            // comparison reference, never substituted for room output.
+            const inRoom=candidates.filter(x=>x.environment==='in-room');
             const anechoic=candidates.filter(x=>x.environment==='anechoic');
-            const best=anechoic.length===1?anechoic[0]:
-              candidates.length===1&&candidates[0].environment==='in-room'?candidates[0]:null;
+            const best=inRoom.length===1?inRoom[0]:
+              candidates.length===1?candidates[0]:null;
             if(best&&!Object.hasOwn(fields,'speakerSensitivity')){
               fields.speakerSensitivity=best.value;
-              observations.push('Entered '+best.value+' dB ('+best.environment+') as a provisional reported sensitivity. Test basis unknown; it will not be used for headroom until 1 W or 2.83 V is confirmed.');
+              if(best.environment==='in-room')fields.speakerSensitivityEnvironment='in_room';
+              else if(best.environment==='anechoic')fields.speakerSensitivityEnvironment='anechoic';
+              observations.push('Using '+best.value+' dB ('+best.environment+') as the main speaker sensitivity for listening estimates.');
+            }
+            if(anechoic.length===1){
+              fields.speakerAnechoic=anechoic[0].value;
+              if(best?.environment==='in-room')
+                observations.push('Anechoic reference: '+anechoic[0].value+' dB. Kept for comparison, not used instead of the in-room value.');
             }
             observations.push('Sensitivity readings: '+candidates.map(x=>
-              x.value+' dB ('+x.environment+')').join(', ')+
-              '. The published 1 W / 2.83 V measurement reference is not provided.');
+              x.value+' dB ('+x.environment+')').join(', ')+'.');
           }
         }
         continue;
@@ -233,8 +240,8 @@ export function parseSpeakerSpecText(text){
     fields.speakerBasis=uniqueSensitivity[0].basis;
   }else if(uniqueSensitivity.length>1)
     notes.push('More than one sensitivity rating or test basis was found; check the applicable one manually.');
-  else if(sawSensitivity)
-    notes.push('Sensitivity was not filled: the dB figure must state a 1 W or 2.83 V measurement basis.');
+  else if(sawSensitivity&&!Object.hasOwn(fields,'speakerSensitivity'))
+    notes.push('No single usable sensitivity figure was found. Choose an in-room figure when one is provided.');
   const uniquePower=[...new Map(powerGuidance.map(x=>[x.low+'|'+x.high+'|'+x.maximum,x])).values()];
   if(uniquePower.length===1){
     const p=uniquePower[0];
