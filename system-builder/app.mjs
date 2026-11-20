@@ -1,7 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
-import {parseSpeakerSpecText} from './spec-paste.mjs?v=in-room-primary-20261120';
+import {parseSpeakerSpecText} from './spec-paste.mjs?v=passive-inference-20261120';
 import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=20261120';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
@@ -463,14 +463,14 @@ document.addEventListener('DOMContentLoaded', () => {
         copied.push(name);
       }
       const label={
-        speakerLoad:'nominal impedance',speakerMinimum:'minimum impedance',
+        speakerPowerType:'speaker type',speakerLoad:'nominal impedance',speakerMinimum:'minimum impedance',
         speakerSensitivity:'listening sensitivity',speakerBasis:'sensitivity basis',
         speakerSensitivityEnvironment:'measurement setting',speakerAnechoic:'anechoic reference',
         speakerRecommendedAmpMin:'recommended amplifier minimum',
         speakerRecommendedAmpMax:'recommended amplifier maximum',
         speakerMaxInput:'listed maximum speaker input'
       };
-      const unit={speakerLoad:' Ω',speakerMinimum:' Ω',speakerSensitivity:' dB',speakerBasis:'',
+      const unit={speakerPowerType:'',speakerLoad:' Ω',speakerMinimum:' Ω',speakerSensitivity:' dB',speakerBasis:'',
         speakerAnechoic:' dB',speakerSensitivityEnvironment:'',
         speakerRecommendedAmpMin:' W',speakerRecommendedAmpMax:' W',speakerMaxInput:' W'};
       const recognised=Object.entries(parsed.fields).map(([name,value])=>
