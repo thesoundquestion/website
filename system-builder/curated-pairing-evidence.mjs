@@ -20,7 +20,7 @@ const documented=Object.freeze({
       'The exact load specification establishes basic stated compatibility, not a promise of undistorted output at any requested volume.'
     ],
     sources:[
-      {label:'Fosi BT20A Pro: rated speaker loads and power-supply options',url:'https://fosiaudio.com/products/bt20a-pro-2-channel-bluetooth-power-amplifier'},
+      {label:'Fosi BT20A Pro: rated speaker loads and power-supply options',url:'https://fosiaudio.com/pages/user-instruction-bt20a-pro'},
       {label:'Polk Monitor XT15: amplifier compatibility',url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html'},
       {label:'Polk Monitor XT series: minimum impedance in owner manual',url:'https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw9cd07cce/downloads/monitor-xt-series-owners-manual-global.pdf'}
     ]
