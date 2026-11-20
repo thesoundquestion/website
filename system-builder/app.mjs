@@ -421,8 +421,10 @@ document.addEventListener('DOMContentLoaded', () => {
       matches.append(choose);
     }
     for(const [index,query] of buildSearches(kind,typed).entries()){
-      const link=el('a','sb-search-link'+(index===0?' sb-search-link-primary':''),query.label+' ↗');
+      const link=el('a','sb-search-link'+(index===0?' sb-search-link-primary':''),query.label+' (opens new tab) ↗');
       link.href=googleSearchUrl(query.query);
+      // Keep the in-progress Builder form in its original browser tab.
+      // Browsers may use a second tab rather than a separate window on mobile.
       link.target='_blank';link.rel='noopener noreferrer';
       // When returning from the manufacturer/spec search, the paste box and
       // individual verified-value fields should already be in view.
