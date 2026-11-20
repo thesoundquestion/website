@@ -801,13 +801,6 @@ document.addEventListener('DOMContentLoaded', () => {
           'No handling-based power target can be justified from the current data.';
         p.append(document.createTextNode(load+compared+'. '+headroom));
         evidence.append(p);
-        const thd=el('p','sb-card-thd');
-        addText(thd,'strong','Distortion evidence: ');
-        thd.append(document.createTextNode(fitInfo.amp.distortionEvidence==='strong' ||
-          fitInfo.amp.distortionEvidence==='documented'
-          ? fitInfo.amp.thd+'% THD at rated power across 20 Hz–20 kHz; not an audible-quality score.'
-          : 'A comparable full-band low-distortion rating is not documented for this load.'));
-        evidence.append(thd);
         if (fitInfo.context) {
           const impression=el('p','sb-card-review');
           addText(impression,'strong','Reviewer/lab context: ');

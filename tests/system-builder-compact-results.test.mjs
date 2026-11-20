@@ -26,6 +26,7 @@ test('cards show genuine unresolved checks before optional price details', () =>
   assert.match(app,/overview\.priority==='critical'/);
   assert.match(app,/sb-beginner-checklist/);
   assert.match(app,/item\.curatedPairing\?\.sources/);
+  assert.doesNotMatch(app,/sb-card-thd|Distortion evidence:/);
   assert.doesNotMatch(app,/item\.id === 'passive-rs202-p3'/);
   assert.match(app,/item.connectionStatus === 'adapter_needed'/);
 });

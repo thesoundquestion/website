@@ -461,42 +461,6 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     return { code: verdict, projected: chosen.projected };
   }
 
-  function musicalPeakContext(row, testLoad, demand, continuous, burst, interpolatedContinuous, interpolatedBurst) {
-    // Give beginners a short, meaningful comparison to the available power.
-    // Neither these ratings nor the calculated target predicts actual THD.
-    const ongoing=continuous ? directRating(continuous) : interpolatedContinuous;
-    const transient=burst ? directRating(burst) : interpolatedBurst;
-    if(!ongoing&&!transient)return;
-    const messages=[];
-    if(ongoing&&ongoing.watts>0){
-      const fraction=demand/ongoing.watts;
-      const fractionText=powerPercent(fraction);
-      const basis=ongoing.interpolated?'estimated continuous power':'continuous power rating';
-      if(fraction<=0.5)
-        messages.push('Your amplifier has plenty of power in reserve for these peaks. Your target uses about '
-          +fractionText+' of its '+basis+'.');
-      else if(fraction<1)
-        messages.push('Your amplifier has some headroom left for the loud moments. Your target uses about '
-          +fractionText+' of its '+basis+'.');
-      else if(fraction<=1+1e-12)
-        messages.push('Your target reaches the amplifier’s '+basis+', leaving no rated-power reserve.');
-      else
-        messages.push('Your requested peaks are above the amplifier’s '+basis+' (about '
-          +fractionText+' of that rating).');
-    }
-    if(transient&&transient.watts>0){
-      const basis=transient.interpolated?'estimated short-burst power':
-        'published short-burst rating';
-      messages.push(demand<=transient.watts?
-        (ongoing?'Its ':'The amplifier’s ')+basis+' also covers those peaks.':
-        'Your requested peaks exceed its '+basis+'.');
-    }
-    if(!messages.length)return;
-    const line=document.createElement('p');
-    line.className='sc-load-headroom sc-load-peak-explanation';
-    line.textContent='Musical peaks: '+messages.join(' ');
-    row.append(line);
-  }
 
   let hasDefinitiveFailure = false;
 
@@ -546,14 +510,12 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     const peakItem = document.createElement('div');
     peakItem.className = 'sc-load-metric';
     let peakRating;
-    if (burst && (!cont || burst.watts >= cont.watts)) peakRating = directRating(burst);
+    if (burst) peakRating = directRating(burst);
     else if (cont) peakRating = directRating(cont);
     else peakRating = projectedBurst || projectedCont;
 
     const peakAssessment = metricLine(peakItem, 'Short peaks', peakDemand, peak, peakRating,
       'short-burst or continuous', 'peak', testLoad);
-    if(mode === 'check')
-      musicalPeakContext(peakItem,testLoad,peakDemand,cont,burst,projectedCont,projectedBurst);
     items.append(peakItem);
     if (peakAssessment.code === 'fail') hasDefinitiveFailure = true;
 
