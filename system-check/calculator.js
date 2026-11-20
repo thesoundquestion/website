@@ -1012,6 +1012,27 @@ form.addEventListener('submit', event => {
 
 function runModelHandoff(){
   if(builderParams.get('autocheck')!=='1')return;
+  // The Builder's consumer workflow prefers a published *single-speaker*
+  // in-room sensitivity over anechoic reference when the SAME exact preset
+  // supplies both. Never apply a second generic room gain on top of that.
+  if(builderParams.get('preferRoom')==='1'){
+    const selectedModel=builderParams.get('speaker');
+    const speaker=(typeof systemCheckGear!=='undefined'?
+      systemCheckGear?.speaker:[])?.find(x=>x.model===selectedModel);
+    const roomDb=speaker?.values?.sensitivityInRoom;
+    if(Number.isFinite(roomDb)&&roomDb>=40&&roomDb<=130){
+      field('sensitivity').value=String(roomDb);
+      field('room').value='0';
+      const note=document.getElementById('gear-speaker-note');
+      if(note){
+        const anechoic=speaker.values.sensitivityAnechoic;
+        note.append(document.createTextNode(' Builder listening estimate uses the published '+
+          roomDb+' dB in-room sensitivity'+
+          (Number.isFinite(anechoic)?' ('+anechoic+' dB anechoic reference)':'')+
+          '; room adjustment remains 0 dB to prevent double counting. This is not a measurement of your actual room.'));
+      }
+    }
+  }
   const avg=Number(builderParams.get('average')),gap=Number(builderParams.get('gap'));
   if(builderParams.has('average')&&Number.isFinite(avg)&&avg>=20&&avg<=110&&
      builderParams.has('gap')&&Number.isFinite(gap)&&gap>=0&&gap<=30&&avg+gap<=135){
