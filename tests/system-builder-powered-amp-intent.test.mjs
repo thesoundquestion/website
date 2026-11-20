@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createContext,runInContext} from 'node:vm';
 import {isPoweredSpeakerRecord,isPoweredSpeakerModel,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from '../system-builder/speaker-route.mjs';
 import {shortlistAmpsForOwnedSpeakers} from '../system-builder/owned-gear-options.mjs';
+import {builderFieldRequirement,validateBuilderIntent} from '../system-builder/intent-routing.mjs';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const catalog=JSON.parse(read('equipment/catalog.generated.json'));
 const speakers=catalog.records.filter(r=>r.categories.includes('speaker'));
@@ -45,6 +46,17 @@ test('even a direct amp-shortlist call refuses a powered speaker as an external 
   const pair=shortlistAmpsForOwnedSpeakers({own:{speaker:{name:'Kanto ORA',record:{}}},inventory});
   assert.equal(pair.selected.length,0);
   assert.match(POWERED_AMP_MESSAGE,/line-level source/);
+});
+
+test('unlisted speaker type is required for amp shopping and powered ownership stops the wrong route early',()=>{
+  assert.equal(builderFieldRequirement('amp_for_speakers','speakerPowerType'),'required_if_unlisted');
+  assert.equal(builderFieldRequirement('improve_existing','speakerPowerType'),'optional');
+  const form=new FormData();
+  form.set('speakerOther','Unlisted active speaker');
+  form.set('speakerPowerType','powered');
+  const check=validateBuilderIntent('amp_for_speakers',form);
+  assert.equal(check.ok,false);
+  assert.match(check.message,/already have amplification built in/);
 });
 
 test('dropdown is filtered by task and checked again on submission, rather than only describing groups',()=>{

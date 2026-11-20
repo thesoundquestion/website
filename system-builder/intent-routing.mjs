@@ -73,6 +73,7 @@ export const BUILDER_INTENTS=Object.freeze({
  */
 export function builderFieldRequirement(id,fieldName){
   if(fieldName==='buildIntent')return 'required';
+  if(fieldName==='speakerPowerType' && id==='amp_for_speakers')return 'required_if_unlisted';
   const plan=BUILDER_INTENTS[id];
   if(!plan)return 'optional';
   if(plan.requiredOwn&&fieldName===plan.requiredOwn)return 'required_either';
@@ -105,6 +106,8 @@ export function validateBuilderIntent(id,formData){
       const word=type==='speaker'?'speakers':'amplifier or receiver';
       if(empty(formData.get(type+'Other')))
         return {ok:false,message:'Choose your '+word+' from the sourced catalogue, or use Search for my gear to find its documented specifications.'};
+      if(id==='amp_for_speakers' && formData.get('speakerPowerType')==='powered')
+        return {ok:false,message:'These speakers already have amplification built in. You do not need a separate power amplifier. Use Improve the system I already have for source and connection advice.'};
       const assessment=unlistedSpecAssessment(type,formData,{requireForMatch:true});
       if(assessment.state!=='provisional')
         return {ok:false,message:assessment.message};
