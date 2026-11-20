@@ -4,7 +4,7 @@
  */
 import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartyPassiveConcepts,ampSpeakerScreening} from './owned-amp-speakers.mjs';
-import {assessAmplifierCandidate} from './amplifier-fit.mjs';
+import {assessAmplifierCandidate,manufacturerNominalPairing} from './amplifier-fit.mjs';
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {poweredSubPairFor} from './stereo-subwoofer-examples.mjs';
 import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
@@ -177,11 +177,18 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
         screen.explicitNominalFloor+' Ω nominal load. The owned speaker has no verified numeric nominal impedance, so this combination must not be recommended.'});
       continue;
     }
-    if(Number.isFinite(nominal)&&nominal<screen.discoveryFloor){
-      excluded.push({title:idea.model,reason:'Speaker nominal '+nominal+' Ω is below the conservative '+screen.discoveryFloor+' Ω discovery threshold.'});continue;
+    // A low test impedance is not a maker-approved nominal speaker limit.
+    // Missing impedance phase curves alone cannot disqualify a candidate.
+    const manualPairing=manufacturerNominalPairing(idea.model,nominal);
+    if(manualPairing&&!manualPairing.supported){
+      excluded.push({title:idea.model,reason:manualPairing.statement});
+      continue;
     }
-    if(screen.discoveryFloor>=8&&Number.isFinite(minimum)&&minimum<6){
-      excluded.push({title:idea.model,reason:'Published '+minimum+' Ω minimum needs additional review for an 8 Ω-only amplifier.'});continue;
+    if(!manualPairing&&Number.isFinite(screen.explicitNominalFloor)&&
+       Number.isFinite(nominal)&&nominal<screen.explicitNominalFloor){
+      excluded.push({title:idea.model,reason:'The published amplifier minimum is '+
+        screen.explicitNominalFloor+' Ω nominal, while these speakers are '+nominal+' Ω nominal.'});
+      continue;
     }
     const snapshot = request.region==='CA'&&request.currency==='CAD'&&Number.isFinite(idea.price) ? {
       date:idea.priceDate,components:[{label:idea.model,amount:idea.price,url:idea.url}]
@@ -189,36 +196,46 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     const prices=retailPriceReference(snapshot,request.referenceDate);
     const rationale=explainAmplifierChoice({idea,record,speaker,request});
     const fit=assessAmplifierCandidate({idea,record,speaker,request});
-    const message=rationale.summary+
-      (speaker.record?.userEntered===true?' The owned speaker figures are user-supplied and must be checked against the actual manufacturer documentation.':'')+
-      (!fit.amp.exact ?
-        ' The compact amp has no verified matching-load continuous power measurement; do NOT substitute its advertised maximum watts or bare THD figure.' : '');
+    // Essential: a numeric nominal speaker load and an actual continuous
+    // amplifier measurement at that SAME load. No interpolation or max-watt
+    // marketing substitution; other incomplete measurements are not gates.
+    if(!Number.isFinite(nominal)||!fit.amp.exact){
+      excluded.push({title:idea.model,reason:'No documented continuous rating at this speaker’s actual nominal load.'});
+      continue;
+    }
+    const requestedInput=String(request.connection||'undecided');
+    if(requestedInput!=='undecided'&&!idea.inputs.includes(requestedInput)){
+      excluded.push({title:idea.model,reason:'Requested '+requestedInput+' connection is not documented as a native input.'});
+      continue;
+    }
+    const message=idea.model+' is published at '+fit.amp.watts+' W/channel continuously into '+
+      nominal+' Ω, matching the published nominal impedance of '+speaker.name+'. '+
+      (manualPairing?manualPairing.statement:
+        'Its published output test uses that exact nominal speaker load.')+
+      (fit.documentedBurst!==null?' Its separate '+fit.documentedBurst+
+        ' W/channel short-burst figure at '+nominal+' Ω provides additional test information.':'');
     const used=['speaker'];const parts=[part(speaker,'Already owned; no new speaker purchase'),
       {name:idea.model,count:1,role:'Only new amplifier candidate, subject to verification',url:record.url}];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned source, connection check required'));}
     selected.push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       title:speaker.name+' + '+idea.model,kind:'Keep your speakers · add an amplifier',
       architecture:'passive_separates',soundTarget:speaker.name,why:message,
+      amplifierModel:idea.model,speakerModel:speaker.name,manualPairing,
       amplifierReason:message,amplifierEvidence:[
-        ...rationale.evidence,fit.powerNote,fit.headroomNote,fit.distortionNote,
-        ...[fit.ownerNote,fit.peakNote].filter(Boolean),
-        'Ordering considers load and test-condition evidence plus practical power fit, not an audible-quality score. Use System Check for required listening level.'
+        'Rated continuously: '+fit.amp.watts+' W/channel at '+nominal+' Ω.',
+        ...(manualPairing?[manualPairing.statement+' Speaker impedance setting: '+manualPairing.setting+'.']:[]),
+        ...(fit.documentedBurst!==null?['IHF short-burst rating: '+fit.documentedBurst+' W/channel at '+nominal+' Ω.']:[]),
+        'The listening-level headroom result depends on the chosen dB SPL target and distance.'
       ],amplifierSource:rationale.source,
       amplifierFit:fit,amplifierFitRank:fit.sortValue,compactAmp:idea.compact===true,
-      tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
-      loadCaution:speaker.record?.userEntered===true ?
-        'Your speaker impedance was entered from a document and has not been independently checked. Confirm the exact manual, minimum impedance and amplifier load approval before connecting.' :
-        !Number.isFinite(nominal) ?
-        'Your '+speaker.name+' has no verified nominal impedance. Do not connect to '+idea.model+
-        ' until the actual load and amplifier manual permissions are confirmed.' : null,
+      tradeoff:'Compare current local cost and actual available inputs; different wattage is not proof of different sound quality.',
+      loadCaution:null,
       parts,...prices,
       pricingStatus:prices.subtotal===null?'regional_price_missing':'partial_subtotal',
       priceEvidence:idea.model==='Fosi Audio BT20A Pro'?
         'corroborated_ordinary_CAD_asking_32V_PSU_variant_check':null,
-      sceneCaution:request.useCase==='party'||request.useCase==='outdoors',levelCaution:request.level==='high',
-      extra:[sourceNote(own,idea.inputs),
-        'Published amplifier continuous-test loads: '+record.ratings.filter(x=>x[2]==='continuous').map(x=>x[1]+' Ω').join(', ')+'. Test loads are not blanket permission for every speaker.',
-        'Check the speaker’s impedance minimum/phase, amplifier manual, clean output at the seat and connections.']},
+      sceneCaution:false,levelCaution:false,
+      extra:manualPairing?['Manufacturer speaker-load documentation: '+manualPairing.source]:[]},
       own,used,message));
   }
   selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
