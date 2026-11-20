@@ -103,12 +103,37 @@ test('main alternate listening summary is brief and retains independently source
   {title:'Polk Signature Elite ES15',speakerModel:'Polk Signature Elite ES15'},
   {title:'Q Acoustics 3030i',speakerModel:'Q Acoustics 3030i'});
  assert.ok(brief);
- assert.match(brief.text,/fuller.*easy-going/);
+ assert.match(brief.text,/fuller bass.*softer highs/);
  assert.ok(brief.sources.some(x=>/reddit/.test(x.url)));
- assert.ok(brief.text.length<230);
+ assert.doesNotMatch(brief.text,/Polk Signature Elite ES15|lively, clear vocals|versus|vs\./i);
+ assert.equal(brief.sources.length,1,'Primary review is linked only on the main recommendation');
+ assert.ok(brief.text.length<105);
 });
 test('unchanged speakers with a different amplifier do not grow a fake sonic profile',()=>{
  const speaker={title:'Polk Signature Elite ES15',speakerModel:'Polk Signature Elite ES15'};
  assert.equal(briefTonalContrast({...speaker,amplifierModel:'Yamaha A-720'},
   {...speaker,amplifierModel:'Yamaha A-S301'}),null);
+});
+
+test('every secondary option compares directionally without repeating the first-choice biography',()=>{
+ const primary={speakerModel:'Polk Signature Elite ES15',title:'Polk Signature Elite ES15'};
+ const alternatives=['Q Acoustics 3030i','PSB Alpha P5','Triangle Borea BR03 (passive)'];
+ for(const speakerModel of alternatives){
+  const d=briefTonalContrast(primary,{speakerModel,title:speakerModel});
+  assert.ok(d);
+  assert.ok(d.text.length<105,d.text);
+  assert.doesNotMatch(d.text,/lively, clear vocals|Polk Signature Elite ES15|versus|vs\./i);
+  assert.equal(d.sources.length,1);
+ }
+ const p5=briefTonalContrast(primary,{speakerModel:'PSB Alpha P5'});
+ assert.match(p5.text,/softer highs/);
+ const tri=briefTonalContrast(primary,{speakerModel:'Triangle Borea BR03 (passive)'});
+ assert.match(tri.text,/No clear tonal direction/);
+});
+test('headphone contrasts describe only relative change, not the first headphone twice',()=>{
+ const a={title:'Koss KSC75',architecture:'headphone_first'};
+ const b={title:'Koss Porta Pro (wired)',architecture:'headphone_first'};
+ const c=briefTonalContrast(a,b);
+ assert.match(c.text,/fuller bass and softer highs/);
+ assert.doesNotMatch(c.text,/Koss KSC75|open, clear sound/);
 });

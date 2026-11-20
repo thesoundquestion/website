@@ -247,6 +247,11 @@ try {
    assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-one-line').count()>=1,
      device.name+' headphone alternatives should offer a short tonal comparison');
    assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-sources a[href^="https://"]').count()>=1);
+   const soundLines=await page.locator('.sb-comparison-overview .sb-tonal-one-line').allInnerTexts();
+   for(const line of soundLines){
+     assert.ok(line.length<115,device.name+' alternate sound notes must remain brief');
+     assert.doesNotMatch(line,/versus.*:|the first speaker is|the first headphone is/i);
+   }
    const firstCompare=await page.locator('.sb-comparison-overview .sb-comparison-preview-card').first().innerText();
    assert.ok(firstCompare.length<520,device.name+' individual alternate preview should not be a wall of text');
    assert.ok(await page.locator('.sb-headphone-electronics-card a[href^="https://"]').count()>=1);

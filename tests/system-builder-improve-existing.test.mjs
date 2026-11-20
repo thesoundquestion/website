@@ -75,7 +75,7 @@ test('the improvement route is not reduced to a silent retain-only card',()=>{
   const app=read('system-builder/app.mjs');
   assert.match(app,/upgradeIdeas=shortlist\.selected\.filter/);
   assert.match(app,/Speaker changes worth comparing/);
-  assert.match(app,/Open Alternative setups to see each complete connection plan/);
+  assert.match(app,/renderComparisonPreview\(shortlist\.selected\[0\],shortlist\.selected\.slice\(1\)/);
 });
 
 // Improvement comparisons must work beyond a passive amplifier/speaker pair.

@@ -92,16 +92,60 @@ export function soundImpressionFor(item){
     ?{model:profile.name,text:profile.report,sources:profile.sources,type:profile.type}
     :null;
 }
-/** Keep the audible expectation in one sentence rather than two biographies. */
+/**
+ * Manually curated relative listening tendencies from the exact-model reviews
+ * used above. Ordinal labels are NOT objective response or SPL measurements;
+ * they only support short, tentative comparisons where BOTH reviewed models
+ * actually mention an audible aspect. Never assign an amplifier/DAC tone.
+ *
+ * Bass: 0 limited/lean, 1 moderate, 2 full/bass-forward.
+ * Treble: 0 smooth/relaxed, 1 fairly even, 2 lively/forward.
+ */
+const TENDENCIES=Object.freeze({
+  'PSB Alpha P3':{bass:0,treble:2},
+  'PSB Alpha P5':{bass:1,treble:0},
+  'Triangle Borea BR03 (passive)':{bass:1,treble:2},
+  'Q Acoustics 3010i':{bass:0,treble:2},
+  'Q Acoustics 3020i':{bass:2,treble:0},
+  'Q Acoustics 3030i':{bass:2,treble:0},
+  'Polk Monitor XT15':{bass:0,treble:2},
+  'Polk Monitor XT20':{bass:2,treble:0},
+  'Polk Signature Elite ES15':{bass:1,treble:2},
+  'ELAC Debut 2.0 B6.2':{bass:2,treble:1},
+  'Wharfedale Diamond 12.2':{bass:2,treble:0},
+  'Kanto ORA':{bass:1,treble:0},
+  'FiiO FT1':{bass:2,treble:0},
+  'AKG K371':{bass:2,treble:1},
+  'Grado SR80x':{bass:0,treble:2},
+  'Grado SR60x':{bass:0,treble:1},
+  'Koss KSC75':{bass:0,treble:2},
+  'Koss Porta Pro (wired)':{bass:2,treble:0},
+  'Sennheiser HD 560S':{bass:0,treble:2},
+  'Sennheiser HD 600':{bass:0,treble:0}
+});
+const relativeDescriptions=(first,second)=>{
+  const a=TENDENCIES[first],b=TENDENCIES[second];
+  if(!a||!b)return [];
+  const changes=[];
+  if(Number.isFinite(a.bass)&&Number.isFinite(b.bass)&&a.bass!==b.bass)
+    changes.push(b.bass>a.bass?'fuller bass':'leaner bass');
+  if(Number.isFinite(a.treble)&&Number.isFinite(b.treble)&&a.treble!==b.treble)
+    changes.push(b.treble>a.treble?'more prominent highs':'softer highs');
+  return changes.slice(0,2);
+};
+/** One short alternative-only difference. The primary profile lives on its card. */
 export function briefTonalContrast(primary,alternative){
   const a=profileFor(primary),b=profileFor(alternative);
   if(!b||a?.name===b.name)return null;
-  const brief=s=>s.replace(/\.$/,'').trim();
+  const changes=a?relativeDescriptions(a.name,b.name):[];
+  const text=changes.length
+    ?'Reviews suggest '+changes.join(' and ')+'.'
+    :a
+      ?'No clear tonal direction is established by the available model reviews.'
+      :'Reviews describe '+b.report.replace(/\.$/,'')+'.';
   return {
-    text:b.report+(a?' (versus '+a.name+': '+brief(a.report)+')':'')+'.',
-    sources:[
-      ...b.sources.slice(0,1).map(v=>({...v,label:b.name+' review'})),
-      ...(a?a.sources.slice(0,1).map(v=>({...v,label:a.name+' review'})):[])
-    ]
+    text,
+    // The first model's review is already linked on its own visible card.
+    sources:b.sources.slice(0,1).map(v=>({...v,label:b.name+' review'}))
   };
 }
