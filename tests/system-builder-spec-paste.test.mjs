@@ -23,10 +23,10 @@ test('1 W sensitivity basis is preserved, never converted silently',()=>{
   assert.equal(result.fields.speakerSensitivity,90);
   assert.equal(result.fields.speakerBasis,'power');
 });
-test('unqualified sensitivity and peak watts stay unknown; a generic impedance gets a review warning',()=>{
+test('an unlabeled sensitivity basis remains provisional while its dB number is available',()=>{
   const result=parseSpeakerSpecText('Impedance: 8 Ω\nSensitivity: 91 dB\n500 W peak/music power');
-  assert.deepEqual(result.fields,{speakerLoad:8});
-  assert.match(result.notes.join(' '),/Sensitivity was not filled/);
+  assert.deepEqual(result.fields,{speakerLoad:8,speakerSensitivity:91});
+  assert.equal(result.fields.speakerBasis,undefined);
   assert.match(result.notes.join(' '),/without confirming "nominal"/);
 });
 test('conflicting ratings or a minimum above nominal cannot be accepted',()=>{
@@ -88,7 +88,8 @@ test('dB per watt per metre is kept as the published watt-based scale',()=>{
 test('ranges, multiple ohmic values, and mixed sensitivity bases are not silently selected',()=>{
   const range=parseSpeakerSpecText('Nominal impedance: 4–8 Ω\nSensitivity 91 dB');
   assert.equal(range.fields.speakerLoad,undefined);
-  assert.equal(range.fields.speakerSensitivity,undefined);
+  assert.equal(range.fields.speakerSensitivity,91);
+  assert.equal(range.fields.speakerBasis,undefined);
   const multiple=parseSpeakerSpecText('Nominal impedance: 8Ω / 4Ω');
   assert.equal(multiple.fields.speakerLoad,undefined);
   const mixed=parseSpeakerSpecText('Nominal impedance: 8Ω\nSensitivity 91 dB @ 1 W / 2.83 V / 1m');
