@@ -785,7 +785,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (anyOwned)
       addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
     if(Object.values(own).some(x=>x.userSupplied))
-      addText(shop,'p','Important: these suggestions use numerical figures you copied from a source. We have not independently verified the model revision or figures. Every equipment match is provisional until the manufacturer documentation and actual load are confirmed.','sb-brief-note');
+      addText(shop,'p','These suggestions use specifications entered by you. The model revision and figures have not been independently checked, so equipment matches remain provisional.','sb-brief-note');
+    const noSource=Object.values(own).filter(x=>x.userSupplied&&x.record?.sourceStatus==='missing');
+    if(noSource.length)
+      addText(shop,'p','No source URL provided for '+noSource.map(x=>x.name).join(', ')+'. The Builder can still suggest options using your entered specifications; confirm compatibility before connecting equipment.','sb-brief-note');
     const speakerValues=own.speaker.record?.values;
     if(own.speaker.userSupplied&&Number.isFinite(speakerValues?.reportedSensitivity)){
       const inRoom=speakerValues.sensitivityEnvironment==='in_room';
