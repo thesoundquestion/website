@@ -21,6 +21,24 @@ import {usedWatchlistFor} from './used-amp-watchlist.mjs';
 import {homeSubwooferRequest, ownedSubwooferPath, POWERED_SUB_PAIRS, poweredSubPairFor, USED_SUB_MODELS} from './stereo-subwoofer-examples.mjs';
 import {subwooferConnections,knownSubExamplePlan} from './subwoofer-connection.mjs';
 
+
+// These are illustrative, unweighted seat-level inputs, NOT a measured
+// translation of the Builder's broad listening categories or a safety target.
+const BUILDER_HEADROOM_PROFILES=Object.freeze({
+  quiet:{average:65,gap:15,label:'Quiet / background'},
+  moderate:{average:80,gap:15,label:'Comfortable / normal'},
+  high:{average:85,gap:20,label:'Occasionally loud'}
+});
+function headroomHandoff(item,distanceFt,level){
+  const profile=BUILDER_HEADROOM_PROFILES[level]||BUILDER_HEADROOM_PROFILES.moderate;
+  const params=new URLSearchParams({
+    embedded:'1',autocheck:'1',speaker:item.speakerModel,amp:item.amplifierModel,
+    distanceFt:String(distanceFt),average:String(profile.average),
+    gap:String(profile.gap),profile:String(level||'moderate')
+  });
+  return {profile,params};
+}
+
 const el = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -799,22 +817,31 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(pathBox,'p',overview.rolePath,'sb-beginner-plain');
       if(overview.roles.length)list(pathBox,overview.roles.slice(0,4),'sb-beginner-parts');
       card.append(pathBox);
-      // Reuse the existing System Check page and its validated calculations.
-      // The exact selected models and seat distance carry through on-page.
+      // Show the unchanged System Check calculation automatically, without
+      // another preset selector, when BOTH exact saved models are available.
       if(item.amplifierModel&&item.speakerModel){
-        const inline=el('details','sb-inline-system-check');
-        addText(inline,'summary','Check headroom with these exact models');
-        addText(inline,'p','The calculator carries over the selected model names and listening distance. Saved System Check presets fill documented figures; if a model is not saved there, enter its published ratings. Choose your own average and brief-peak listening targets.','sb-help');
-        inline.addEventListener('toggle',()=>{
-          if(!inline.open||inline.querySelector('iframe'))return;
-          const params=new URLSearchParams({embedded:'1',
-            speaker:item.speakerModel,amp:item.amplifierModel,distanceFt:String(distanceFt)});
-          const frame=el('iframe','sb-inline-system-check-frame');
-          frame.title='System Check for '+item.speakerModel+' with '+item.amplifierModel;
-          frame.loading='lazy';
-          frame.src='/system-check/?'+params.toString();
-          inline.append(frame);
+        const inline=el('section','sb-inline-system-check');
+        const {profile,params}=headroomHandoff(item,distanceFt,request.level);
+        addText(inline,'h5','Headroom for these exact models');
+        addText(inline,'p',profile.label+' profile · '+distanceFt+' ft · illustrative '+profile.average+' dB SPL average / '+(profile.average+profile.gap)+' dB SPL peak. These are example targets, not measurements of your listening level.','sb-help');
+        const frame=el('iframe','sb-inline-system-check-frame');
+        frame.title='Headroom results for '+item.speakerModel+' with '+item.amplifierModel;
+        frame.loading='lazy';
+        frame.src='/system-check/?'+params.toString();
+        frame.addEventListener('load',()=>{
+          // Same-origin calculator. Match iframe height to result content so
+          // phone visitors do not need to scroll inside another scroll area.
+          try{
+            const doc=frame.contentDocument;
+            const resize=()=>{frame.style.height=Math.max(380,Math.ceil(doc.documentElement.scrollHeight)+16)+'px';};
+            resize();
+            if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(doc.body);
+          }catch{/* A normal scrollable iframe remains available if blocked. */}
         });
+        inline.append(frame);
+        const full=new URLSearchParams(params);
+        full.delete('embedded');
+        link(inline,'/system-check/?'+full.toString(),'Open the full calculator to change the targets or inspect the ratings');
         card.append(inline);
       }
       const proof=el('div','sb-beginner-proof');
