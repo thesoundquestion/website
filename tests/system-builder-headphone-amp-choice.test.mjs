@@ -140,6 +140,7 @@ test('headphone DAC and amplifier product cards are visible outside collapsed de
  assert.match(html,/value="combo">Yes, one combined DAC/);
  assert.match(app,/headphoneDacChoice:String\(data.get\('headphoneDacChoice'\)/);
  assert.match(app,/applyHeadphoneAmpChoice\(initialShortlist,request,sharedCatalog\)/);
+ assert.match(app,/const headphoneElectronicsPlan=arch==='headphone_first'/);
  assert.match(app,/renderHeadphoneElectronics\(headphoneElectronicsPlan\)/);
  assert.match(app,/sb-headphone-electronics-card/);
  assert.match(app,/sb-headphone-card-electronics/);

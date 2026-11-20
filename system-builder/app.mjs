@@ -930,10 +930,10 @@ document.addEventListener('DOMContentLoaded', () => {
       : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request,sharedCatalog));
     const shortlist=arch==='headphone_first'
       ?applyHeadphoneAmpChoice(initialShortlist,request,sharedCatalog):initialShortlist;
-    if(arch==='headphone_first'){
-      const ampPath=headphoneAmplifierPlan(request,sharedCatalog);
-      if(ampPath)addText(shop,'p',ampPath.summary,'sb-headphone-amp-result');
-    }
+    const headphoneElectronicsPlan=arch==='headphone_first'
+      ?headphoneAmplifierPlan(request,sharedCatalog):null;
+    if(headphoneElectronicsPlan)
+      addText(shop,'p',headphoneElectronicsPlan.summary,'sb-headphone-amp-result');
     // Price-position preference may reorder only verified, same-region,
     // comparable catalogue examples. It NEVER removes a recommendation.
     // We do not pretend that an unknown price is budget priced.
