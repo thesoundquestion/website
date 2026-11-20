@@ -14,7 +14,8 @@ const OHM='(?:Ω|ohms?)';
 const readImpedance=segment=>{
   let value=segment.trim()
     .replace(/^[\s:=|–—-]+/,'')
-    .replace(/^\(\s*(?:Ω|ohms?)\s*\)\s*[:=]?\s*/i,'')
+    .replace(/^\(\s*(?:nominal|rated|min(?:imum)?)\s*\)\s*[:=|]?\s*/i,'')
+    .replace(/^\(\s*(?:Ω|ohms?)\s*\)\s*[:=|]?\s*/i,'')
     .replace(/^(?:nominal|rated|min(?:imum)?)\s*[:=]?\s*/i,'')
     .replace(/^(?:approx(?:imately)?\.?|about|~)\s*/i,'');
   // Do not choose one end of a manufacturer's 4–8 Ω range, or of 4/8 Ω.
@@ -102,7 +103,7 @@ export function parseSpeakerSpecText(text){
       }
       sawImpedance=true;
       // "Impedance (nominal): 8 ohms" and "Impedance: 8 ohms nominal".
-      const min=/min(?:imum)?/.test(label)||/\bmin(?:imum)?\b/i.test(segment);
+      const min=/\bmin(?:imum)?\b/.test(label)||/\bmin(?:imum)?\b/i.test(segment);
       const explicit=/\bnominal\b|\brated\b/.test(label)||
         /\bnominal\b|\brated\b/i.test(segment);
       const value=readImpedance(segment);
@@ -132,7 +133,7 @@ export function parseSpeakerSpecText(text){
   else if(possibleMinimum.length>1||
           possibleMinimum.length===1&&
           (possibleNominal.length>1||possibleMinimum[0]>possibleNominal[0]))
-    notes.push('Minimum impedance needs manual review; no contradictory figure was copied.');
+    notes.push('Minimum impedance was contradictory or unclear. Check it manually.');
   if(ambiguousImpedance)notes.push('An impedance value was unclear or given as a range; check that figure manually.');
   const uniqueSensitivity=[...new Map(sensitivities.map(x=>[x.level+'|'+x.basis,x])).values()];
   if(uniqueSensitivity.length===1){
