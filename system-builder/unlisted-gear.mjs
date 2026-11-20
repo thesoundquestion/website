@@ -126,18 +126,24 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     const floor=numeric(data.get('ampMinLoad'),2,16);
     const watts=numeric(data.get('ampRatedWatts'),1,5000);
     const load=numeric(data.get('ampRatedLoad'),2,16);
-    if(floor===null||watts===null||load===null)
+    if(watts===null||load===null)
       return {state:'incomplete',model,record:null,
-        message:'Copy the amplifier minimum permitted speaker ohms, continuous watts per channel, and the ohm load used for that power rating. Do not substitute peak or music power.'};
+        message:'Enter the amplifier’s published watts per channel and the speaker impedance used for that rating. Peak/music watts do not substitute for rated stereo power.'};
+    const inferredFloor=floor===null;
     const record={model,type:kind,url,sourceStatus:url?'provided':'missing',
-      // This is visitor-entered data, not a verified manufacturer load rule.
-      // Screening treats it as preliminary and will not claim a certified match.
-      details:null,userNominalFloor:floor,
+      // Testing 85 W/ch at 8 Ω supports an 8-ohm provisional search route,
+      // but says NOTHING about permission for 6- or 4-ohm speakers. Use the
+      // test load as a conservative discovery floor only when no explicit
+      // minimum permitted speaker load was supplied.
+      details:null,userNominalFloor:floor??load,
       ratings:[[watts,load,'continuous']],
-      values:{},note:'Visitor-entered power and impedance figures. '+sourceNote,
+      values:{speakerLoadFloor:floor??load,permittedFloorUnknown:inferredFloor},
+      note:'Visitor-entered power and impedance figures. '+sourceNote,
       evidence:'user_entered_unverified',userEntered:true};
     return {state:'provisional',model,record,
-      message:'Provisional amplifier specifications entered. '+sourceNote+' Ratings and permitted speaker loads require checking against the exact manufacturer manual.'};
+      message:'Provisional amplifier specifications entered. '+
+        (inferredFloor?'No minimum speaker impedance was stated; the '+load+' Ω power test load is used only as a conservative starting point. ':'')+
+        sourceNote+' Ratings and permitted speaker loads require checking before connecting equipment.'};
   }
   if(kind==='source'){
     const output=String(data.get('sourceOutput')||'');
@@ -153,13 +159,23 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     const load=numeric(data.get('headphoneLoad'),1,1000);
     const sensitivity=numeric(data.get('headphoneSensitivity'),50,140);
     const basis=String(data.get('headphoneBasis')||'');
-    if(load===null||sensitivity===null||!['power','voltage'].includes(basis))
-      return {state:'incomplete',model,record:null,
-        message:'Enter the headphone impedance, sensitivity and whether the manufacturer states dB/mW or dB/V. One basis cannot be assumed from the other.'};
+    if(load===null)return {state:'incomplete',model,record:null,
+      message:'Enter the headphone impedance in ohms to start the comparison.'};
+    const hasSens=String(data.get('headphoneSensitivity')||'').trim().length>0;
+    if(hasSens&&sensitivity===null)return {state:'incomplete',model,record:null,
+      message:'The headphone sensitivity number is outside the supported dB range.'};
+    if(basis&&!['power','voltage'].includes(basis))return {state:'incomplete',model,record:null,
+      message:'Choose a valid headphone sensitivity basis or leave it unknown.'};
+    const comparable=sensitivity!==null&&Boolean(basis);
     const record={model,type:kind,url,sourceStatus:url?'provided':'missing',ratings:[],details:null,
-      values:{load,sensitivity,basis},note:'Visitor-entered headphone specifications. '+sourceNote+' Output compatibility and achievable volume are unverified.',
+      values:{load,sensitivity:comparable?sensitivity:null,basis:comparable?basis:null,
+        reportedSensitivity:sensitivity},
+      note:'Visitor-entered headphone specifications. '+sourceNote+' Output compatibility and achievable volume are unverified.',
       evidence:'user_entered_unverified',userEntered:true};
-    return {state:'provisional',model,record,message:'Provisional headphone values captured. '+sourceNote+' Actual headphone output power, distortion and fit remain unchecked.'};
+    return {state:'provisional',model,record,
+      message:'Provisional headphone values captured. '+
+        (sensitivity!==null&&!comparable?'Reported sensitivity retained without a dB/mW or dB/V basis; no drive-level estimate is made. ':'')+
+        sourceNote+' Actual headphone output power, distortion and fit remain unchecked.'};
   }
   return {state:requireForMatch?'incomplete':'unknown',model,record:null,message:'Not checked'};
 }
