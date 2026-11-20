@@ -298,6 +298,15 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     const goalA=x?.goals.includes(partyMode?'party':goal)?0:1;
     const goalB=y?.goals.includes(partyMode?'party':goal)?0:1;
     if(goalA!==goalB)return goalA-goalB;
+    if(upgradeDynamic&&!(Number.isFinite(input.budget)&&input.budget>=0&&input.budgetStrict)){
+      // First research high-efficiency and larger-cabinet examples, not just
+      // the budget bookshelf order for a first-system recommendation.
+      const priorities=['Cerwin-Vega XLS-15','Cerwin-Vega XLS-12',
+        'Klipsch R-51M','Cerwin-Vega XLS-215','Klipsch R-50M',
+        'Polk Signature Elite ES20','Polk Monitor XT20'];
+      const rank=name=>{const n=priorities.indexOf(name);return n<0?100:n;};
+      if(rank(a)!==rank(b))return rank(a)-rank(b);
+    }
     if(partyMode){
       const aEvidence=partySpeakerEvidence(byModel.get(a));
       const bEvidence=partySpeakerEvidence(byModel.get(b));
