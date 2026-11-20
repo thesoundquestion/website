@@ -799,7 +799,9 @@ function mountGearPresets(catalog) {
       });
     }
 
-    const selected = options.findIndex(gear => gear.model === selections.get(kind));
+    const selected = (kind === 'speaker' || kind === 'amp')
+      ? findExactSpeakerPresetIndex(selections.get(kind), options)
+      : options.findIndex(gear => gear.model === selections.get(kind));
     if (selected >= 0) {
       select.value = String(selected);
       select.dispatchEvent(new Event('change'));
@@ -835,8 +837,8 @@ for (const name of speakerPowerFields) {
     }
   });
 }
-// Listening Builder can embed the exact unchanged calculator. Only identity
-// and distance arrive through a same-origin URL; no assumed listening target.
+// Listening Builder can embed the existing calculator with exact model identities,
+// seat distance and clearly illustrative listening targets. Never invent gear specs.
 const builderParams=new URLSearchParams(location.search);
 if(builderParams.get('embedded')==='1')document.body.classList.add('sc-embedded');
 const builderDistance=Number(builderParams.get('distanceFt'));
@@ -860,6 +862,19 @@ field('gap').addEventListener('input', syncLevels);
 for (const option of field('mode')) option.addEventListener('change', sync);
 document.querySelector('#add-rating').addEventListener('click', () => addRating().querySelector('input').focus());
 document.querySelector('#example').addEventListener('click', () => {
+  // When the visitor already chose models, the lesson example changes ONLY
+  // listening targets. It must not replace actual model specs with fictional
+  // speaker sensitivity or fictional amplifier power figures.
+  const modelSelected=['speaker','amp'].some(kind=>field(kind+'Model').value.trim());
+  if(modelSelected){
+    levelAnchor='average';
+    field('targetMode').value='both';
+    field('average').value=87;
+    field('gap').value=15;
+    sync();
+    form.requestSubmit();
+    return;
+  }
   form.reset();
   for (const note of document.querySelectorAll('[data-gear] p')) note.replaceChildren();
   levelAnchor = 'average';
@@ -895,3 +910,47 @@ form.addEventListener('submit', event => {
   }
   output.focus();
 });
+
+function runModelHandoff(){
+  if(builderParams.get('autocheck')!=='1')return;
+  const avg=Number(builderParams.get('average')),gap=Number(builderParams.get('gap'));
+  if(builderParams.has('average')&&Number.isFinite(avg)&&avg>=20&&avg<=110&&
+     builderParams.has('gap')&&Number.isFinite(gap)&&gap>=0&&gap<=30&&avg+gap<=135){
+    field('targetMode').value='both';
+    field('average').value=String(avg);
+    field('gap').value=String(gap);
+    levelAnchor='average';
+    sync();
+  }
+  const selected=kind=>{
+    const picker=document.querySelector('[data-gear="'+kind+'"]');
+    return picker?.querySelector('select')?.value!=='';
+  };
+  const complete=selected('speaker')&&selected('amp')&&
+    Number.isFinite(num('sensitivity'))&&Number.isFinite(num('load'))&&
+    Number.isFinite(num('distance'))&&readRatings().some(r=>r.type!=='unknown')&&
+    form.checkValidity();
+  if(complete){
+    form.requestSubmit();
+    if(body.children.length){
+      if(builderParams.get('embedded')==='1')document.body.classList.add('sc-auto-result');
+      return;
+    }
+  }
+  // In the Builder, never show a made-up headroom result or an empty
+  // preset picker. The full System Check remains available for manual specs.
+  if(builderParams.get('embedded')==='1'){
+    document.body.classList.add('sc-auto-result');
+    status.textContent='Model-specific headroom has not been calculated.';
+    body.replaceChildren();
+    addText('p','The saved specifications do not establish the inputs required for this exact amplifier/speaker pairing. No example rating has been substituted.');
+    const full=new URLSearchParams(builderParams);
+    full.delete('embedded');
+    full.delete('autocheck');
+    const a=document.createElement('a');
+    a.href='/system-check/?'+full.toString();
+    a.textContent='Open System Check to inspect the models and enter published figures';
+    body.append(a);
+  }
+}
+runModelHandoff();
