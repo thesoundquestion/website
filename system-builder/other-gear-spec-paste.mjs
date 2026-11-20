@@ -103,9 +103,45 @@ export function parseSourceSpecText(text){
   else notes.push('No clearly labelled audio outputs found. Inputs are not treated as outputs.');
   return {fields,notes,observations};
 }
+/**
+ * Parse the connection SIGNAL, never a subwoofer driver wattage claim.
+ * A subwoofer's own low-pass/crossover knob is not a main-speaker high-pass.
+ */
+export function parseSubConnectionText(text){
+  const fields={},notes=[],observations=[];
+  const ampOut=[],subInputs=[];
+  let hasHighPass=false;
+  for(const line of linesOf(text)){
+    const subOut=/\b(?:sub(?:woofer)?[\s/-]*out(?:put)?|lfe[\s/-]*out)\b/i.test(line);
+    const preOut=/\b(?:stereo[\s-]*)?(?:pre[\s-]*out|preamp[\s-]*out)\b/i.test(line);
+    const speakerOnly=/\b(?:speaker|loudspeaker)[\s-]*outputs?\s+only\b|\bonly\s+(?:speaker|loudspeaker)\s+outputs?\b/i.test(line);
+    const highInput=/\b(?:high[\s-]*level|speaker[\s-]*level|speaker[\s-]*wire)\s*(?:inputs?|in|terminals?)\b/i.test(line);
+    const rcaInput=/\b(?:lfe[\s/-]*in|rca[\s-]*(?:line[\s-]*)?(?:in|inputs?)|line[\s-]*(?:in|inputs?)\s*(?:rca)?)\b/i.test(line);
+    if(subOut)ampOut.push('sub_rca');
+    if(preOut)ampOut.push('preout_rca');
+    if(speakerOnly)ampOut.push('speaker_only');
+    if(highInput)subInputs.push('speaker_high');
+    if(rcaInput)subInputs.push('rca_line');
+    // Only a described filter on the MAINS is evidence for that field.
+    if(/\b(?:main|front|satellite)\s*(?:speakers?|channels?|outputs?)\b/i.test(line)&&
+       /\b(?:high[\s-]*pass|hpf|bass[\s-]*management)\b/i.test(line))
+      hasHighPass=true;
+    if(/\b(?:subwoofer|sub|lfe)\s+(?:low[\s-]*pass|crossover)\b/i.test(line))
+      observations.push('Subwoofer crossover/low-pass control does not prove high-pass filtering of main speakers.');
+  }
+  const outputs=unique(ampOut),inputs=unique(subInputs);
+  if(outputs.length===1)fields.subAmpOutput=outputs[0];
+  else if(outputs.length>1)notes.push('Multiple amplifier output routes found. Select which one you intend to use.');
+  if(inputs.length===2)fields.subInput='both';
+  else if(inputs.length===1)fields.subInput=inputs[0]==='speaker_high'?'speaker_high':'rca_line';
+  if(hasHighPass)fields.subHighPass='documented';
+  if(!Object.keys(fields).length)notes.push('No clearly labelled signal outputs, subwoofer inputs or main-speaker high-pass were found.');
+  return {fields,notes,observations:unique(observations)};
+}
 export function parseUnlistedSpecText(kind,text){
   if(kind==='amp')return parseAmpSpecText(text);
   if(kind==='source')return parseSourceSpecText(text);
   if(kind==='headphone')return parseHeadphoneSpecText(text);
+  if(kind==='sub')return parseSubConnectionText(text);
   return {fields:{},notes:['No paste parser for this category.'],observations:[]};
 }
