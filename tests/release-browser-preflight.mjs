@@ -236,13 +236,14 @@ try {
   await page.waitForFunction(()=>document.querySelector('[data-gear-searches="speaker"] a')?.href.includes('google.com/search'));
   assert.match(await page.locator('[data-gear-message="speaker"]').innerText(),/No saved model matched/);
   assert.equal(await specs.evaluate(node=>node.open),true);
-  await page.locator('#sb-speaker-spec-paste').fill('Nominal impedance: 8 ohms\\nMinimum impedance: 4.2 Ω\\nSensitivity: 89 dB (2.83 V / 1 m)'.replaceAll('\\n','\n'));
+  await page.locator('#sb-speaker-spec-paste').fill('Impedance (nominal) | 8 ohms\\nMinimum impedance (Ω)\\n4.2\\nSensitivity (dB/2.83 V/1m) | 89'.replaceAll('\\n','\n'));
   await page.locator('#sb-speaker-spec-fill').click();
   assert.equal(await page.locator('[name="speakerLoad"]').inputValue(),'8');
   assert.equal(await page.locator('[name="speakerMinimum"]').inputValue(),'4.2');
   assert.equal(await page.locator('[name="speakerSensitivity"]').inputValue(),'89');
   assert.equal(await page.locator('[name="speakerBasis"]').inputValue(),'voltage');
   assert.match(await page.locator('#sb-speaker-spec-feedback').innerText(),/Filled: nominal impedance/);
+  assert.match(await page.locator('#sb-speaker-spec-feedback').innerText(),/Recognised from paste: nominal impedance: 8 Ω/);
   // Manual edits must win over a later paste; there is no silent overwrite.
   await page.locator('[name="speakerLoad"]').fill('6');
   await page.locator('#sb-speaker-spec-fill').click();
