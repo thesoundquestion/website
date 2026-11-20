@@ -91,7 +91,7 @@ test('6 Ω between published 4 Ω and 8 Ω continuous outputs gives a load-range
   assert.equal(r.cards.length,1);
   assert.match(r.cards[0].allText,/Pass · 6 Ω is between rated 4 Ω and 8 Ω/);
   assert.match(r.cards[0].allText,/Interpolated: 150 W\/ch/);
-  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses/);
+  assert.match(r.cards[0].allText,/Musical peaks: Your amplifier has some headroom left/);
   assert.doesNotMatch(r.text,/Amplifier load-stress warning/);
 });
 
