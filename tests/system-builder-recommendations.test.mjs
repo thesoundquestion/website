@@ -76,7 +76,7 @@ test('legacy R-S202/P3 example retired; Fosi/Polk has documented 4-ohm load perm
   const x=EXAMPLES.find(x=>x.id==='passive-bt20a-xt15');
   assert.ok(x);
   assert.equal(x.loadCaution,undefined);
-  assert.match(x.tradeoff,/Fosi supports 2–8 Ω/);
+  assert.match(x.tradeoff,/32 V \/ 5 A power adapter/);
   assert.match(x.tradeoff,/300 W/);
   const option=shortlistExamples({...defaults,architecture:'passive_separates'})
     .selected.find(x=>x.id==='passive-bt20a-xt15');
