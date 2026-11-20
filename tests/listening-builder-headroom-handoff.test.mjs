@@ -52,3 +52,26 @@ test('when published specifications cannot support an exact estimate, only a sou
   assert.match(calculator,/No example rating has been substituted/);
   assert.match(calculator,/readRatings\(\)\.some\(r=>r.type!=='unknown'\)/);
 });
+
+
+test('ordinary curated passive recommendations carry exact model identities into headroom',async()=>{
+  const {curatedPairingFor}=await import('../system-builder/curated-pairing-evidence.mjs');
+  const {EXAMPLES}=await import('../system-builder/recommendations.mjs');
+  for(const [id,amp,speaker] of [
+    ['passive-as301-p5','Yamaha A-S301','PSB Alpha P5'],
+    ['passive-bt20a-xt15','Fosi Audio BT20A Pro','Polk Monitor XT15']
+  ]){
+    const option=EXAMPLES.find(item=>item.id===id);
+    assert.ok(option,'recommendation not found: '+id);
+    const pairing=curatedPairingFor(option);
+    assert.equal(pairing?.amplifierModel,amp);
+    assert.equal(pairing?.speakerModel,speaker);
+    const selection={amplifierModel:pairing.amplifierModel,speakerModel:pairing.speakerModel};
+    const {params}=handoff(selection,10,'moderate');
+    assert.equal(params.get('amp'),amp);
+    assert.equal(params.get('speaker'),speaker);
+  }
+  assert.match(app,/item\.curatedPairing\?\.amplifierModel/);
+  assert.match(app,/item\.curatedPairing\?\.speakerModel/);
+  assert.match(app,/if\(headroomModels\.amplifierModel&&headroomModels\.speakerModel\)/);
+});
