@@ -214,14 +214,20 @@ const texts={
  matched:['Hear the mix shift at equal loudness','All three masters are matched to −23 LUFS. Listen for changes in instrument balance and the loud-versus-quiet synth pattern rather than which file is louder.',['<b>Triangle decay:</b> does the ringing tail remain distinct against the band?','<b>Guitar solo:</b> is its apparent prominence different when overall playback loudness is matched?','<b>Ping-pong synth:</b> do strong and soft bounces retain their difference, or approach the same level?','<b>Dynamic expression:</b> is the synth easier to notice overall but less varied from note to note?'],'No instrument faders or pan positions were deliberately changed between these masters. Compare perceived prominence against retained dynamic contrast, then visit the separate ABX Lab if you want to test identification.'],
  eq:['Boom versus punch, and the space around the synth','Neither EQ version uses compression, saturation or limiting. Both are gain-matched to −23 LUFS, so compare tone and perceived space rather than loudness.',['<b>Bass, boom versus punch:</b> the +1.25 dB low shelf at 88 Hz adds bass weight. Does the low end sound boomier rather than tighter or punchier?','<b>Low-mid cut and guitar clarity:</b> the −1.85 dB bell at 320 Hz removes some body. Does the guitar cut through the mix a little more clearly with EQ on, even as other sounds lose some fullness?','<b>Ping-pong synth:</b> near the end, does the bouncing synth seem to lose some apparent depth and width with EQ on? Listen for a change in its sense of space, even though the left-right panning itself is unchanged.','<b>Air and triangle:</b> the +0.95 dB high shelf at 8 kHz may make the triangle ping or other high details seem brighter, without changing their dynamic processing.'],'EQ can change the sense of punch, fullness, separation and space without changing compression or the synth pan settings. These are listening cues, not automatic outcomes of the EQ settings.']};
 function setNotes(){const custom=MODES[state.mode].items.some(([id])=>Boolean(state.files[state.mode+':'+id]));const [title,intro,items,last]=custom?['Listen for what changed','Compare the same part of the song at a similar volume. Is one version brighter, heavier or easier to follow?',['<b>Vocals and instruments:</b> does anything stand out more in one version?','<b>Drums:</b> do the loud hits keep their impact?','<b>Quiet details:</b> can you still hear softer parts clearly?'],'Your files may be from different releases or your own mixes. Our displayed measurements apply only to our original examples.']:texts[state.mode];byId('noteTitle').textContent=title;byId('noteIntro').textContent=intro;const list=byId('noteList');list.innerHTML='';for(const t of items){const li=document.createElement('li');li.innerHTML=t;list.append(li)}byId('noteTakeaway').textContent=last}
-function switchMode(mode){if(!MODES[mode])return;cache.clear();state.mode=mode;state.choice=MODES[mode].items[0][0];for(const t of el.tabs){const active=t.dataset.tab===mode;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1}el.panel.setAttribute('aria-labelledby','tab-'+mode);el.title.textContent=MODES[mode].name;el.badge.textContent=MODES[mode].badge;el.intro.textContent=MODES[mode].intro;setNotes();renderCards();updateOwnFileSlots();selectAudio(false)}
-function assign(key,file){if(!(key in audioPaths))return;cache.drop(key);failedSources.delete(key);if(state.urls[key]&&state.urls[key].startsWith('blob:'))URL.revokeObjectURL(state.urls[key]);const url=URL.createObjectURL(file);state.urls[key]=url;state.files[key]=file;state.owned.push(url)}
+function switchMode(mode){if(!MODES[mode])return;
+ if(instant.prepared||instant.preparing)clearInstant();
+ cache.clear();state.mode=mode;state.choice=MODES[mode].items[0][0];for(const t of el.tabs){const active=t.dataset.tab===mode;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1}el.panel.setAttribute('aria-labelledby','tab-'+mode);el.title.textContent=MODES[mode].name;el.badge.textContent=MODES[mode].badge;el.intro.textContent=MODES[mode].intro;setNotes();renderCards();updateOwnFileSlots();selectAudio(false)}
+function assign(key,file){if(!(key in audioPaths))return;
+ if(instant.prepared||instant.preparing){
+   clearInstant();status('Recording changed. Instant switching is off. Press Play to continue.');
+ }
+ cache.drop(key);failedSources.delete(key);if(state.urls[key]&&state.urls[key].startsWith('blob:'))URL.revokeObjectURL(state.urls[key]);const url=URL.createObjectURL(file);state.urls[key]=url;state.files[key]=file;state.owned.push(url)}
 function assignFiles(files){let count=0;const choices=MODES[state.mode].items.map(v=>v[0]);for(const file of files){if(!/\.wav$/i.test(file.name))continue;const text=((file.webkitRelativePath||'')+'/'+file.name).replace(/\\/g,'/').toLowerCase();let key=null;
  const named=Object.entries(audioPaths).find(([k,path])=>text.endsWith('/'+path.toLowerCase()));if(named)key=named[0];
  if(!key){if(text.includes('abx_final_eq_off'))key='eq:off';else if(text.includes('abx_final_a_'))key='matched:dynamic';else if(text.includes('abx_final_b_'))key='matched:moderate';else if(text.includes('abx_final_c_'))key='matched:brickwall';else if(text.includes('a_dynamic_150'))key='loud:dynamic';else if(text.includes('b_moderate_final_150'))key='loud:moderate';else if(text.includes('c_brickwall_final_150'))key='loud:brickwall';else if(text.includes('d_eq_true_bypass'))key='eq:off'}
  if(!key){const m=file.name.match(/^[1-3] - (Dynamic|Moderate|Brickwalled|EQ Off|EQ On)\.wav$/i);if(m){const value=m[1].toLowerCase();const id=value==='brickwalled'?'brickwall':value==='eq off'?'off':value==='eq on'?'on':value;key=(value==='off'||value==='on'?'eq':state.mode)+':'+id;if(!choices.includes(id)&&state.mode!=='eq')key=null}}
  if(key){assign(key,file);count++}}
- el.load.textContent=count?`${count} demo WAV file(s) selected. Switching may pause briefly.`:'No matching demo WAVs found. To compare ordinary album masters, use the A and B file buttons above.';renderCards();setNotes();selectAudio(false)}
+ el.load.textContent=count?`${count} demo WAV file(s) selected. Regular switching may pause briefly; Prepare instant switching can load this set.`:'No matching demo WAVs found. To compare ordinary album masters, use the A and B file buttons above.';renderCards();setNotes();selectAudio(false)}
 
 function updateOwnFileSlots(){
  for(const input of document.querySelectorAll('[data-master-slot]')){
@@ -246,14 +252,68 @@ for(const input of document.querySelectorAll('[data-master-slot]'))input.addEven
  el.load.textContent=file.name+' is now your '+String.fromCharCode(65+slot)+' recording in this test. It stays on your device.';
 });
 for(const tab of el.tabs){tab.addEventListener('click',()=>switchMode(tab.dataset.tab));tab.addEventListener('keydown',ev=>{if(ev.key==='ArrowRight'||ev.key==='ArrowLeft'){ev.preventDefault();const i=el.tabs.indexOf(tab);const next=el.tabs[(i+(ev.key==='ArrowRight'?1:-1)+el.tabs.length)%el.tabs.length];next.focus();switchMode(next.dataset.tab)}})}
-el.play.addEventListener('click',()=>{if(!state.urls[getKey()])return;if(el.audio.paused){const firstPlay=!userStarted;userStarted=true;el.audio.preload='auto';if(firstPlay)selectAudio(true,false);el.audio.play().catch(()=>status('Playback blocked. Tap Play again.'))}else el.audio.pause()});el.restart.addEventListener('click',()=>{el.audio.currentTime=0;updateClock()});el.seek.addEventListener('input',()=>{if(!el.seek.disabled)el.audio.currentTime=Number(el.seek.value)});document.querySelectorAll('[data-cue]').forEach(b=>b.addEventListener('click',()=>{if(!state.urls[getKey()])return;el.audio.currentTime=Math.min(Number(b.dataset.cue),el.audio.duration||40);updateClock()}));el.audio.addEventListener('progress',()=>{refreshCardStates();maybePrepareNext()});
+el.play.addEventListener('click',()=>{if(!state.urls[getKey()])return;
+ if(instant.prepared){
+   if(engine.isPlaying()){engine.pause();stopClock()}
+   else{engine.play();dispatchFocus();startClock()}
+   setButtons();updateClock();return;
+ }
+ if(el.audio.paused){const firstPlay=!userStarted;userStarted=true;el.audio.preload='auto';if(firstPlay)selectAudio(true,false);el.audio.play().catch(()=>status('Playback blocked. Tap Play again.'))}else el.audio.pause()});el.restart.addEventListener('click',()=>{
+ if(instant.prepared){engine.seek(0);updateClock();return}
+ el.audio.currentTime=0;updateClock()
+});el.seek.addEventListener('input',()=>{
+ if(el.seek.disabled)return;
+ if(instant.prepared){engine.seek(Number(el.seek.value));updateClock();return}
+ el.audio.currentTime=Number(el.seek.value)
+});document.querySelectorAll('[data-cue]').forEach(b=>b.addEventListener('click',()=>{if(!state.urls[getKey()])return;if(instant.prepared)engine.seek(Math.min(Number(b.dataset.cue),engine.duration));
+ else el.audio.currentTime=Math.min(Number(b.dataset.cue),el.audio.duration||40);
+ updateClock()}));el.audio.addEventListener('progress',()=>{refreshCardStates();maybePrepareNext()});
 el.audio.addEventListener('canplay',()=>{waitingForBuffer=false;refreshCardStates();maybePrepareNext()});
 el.audio.addEventListener('playing',()=>{waitingForBuffer=false;refreshCardStates();maybePrepareNext()});
 el.audio.addEventListener('waiting',()=>{waitingForBuffer=true;refreshCardStates();status('Please wait while audio buffers.')});
 el.audio.addEventListener('stalled',()=>{waitingForBuffer=true;refreshCardStates();status('Please wait while audio buffers.')});
 el.audio.addEventListener('seeked',()=>{waitingForBuffer=false;refreshCardStates()});
-el.audio.addEventListener('timeupdate',()=>{updateClock();refreshCardStates()});el.audio.addEventListener('play',setButtons);el.audio.addEventListener('pause',setButtons);el.audio.addEventListener('ended',setButtons);el.audio.addEventListener('error',()=>{if(state.urls[getKey()]&&!el.audio.error)return;failedSources.add(state.currentKey);refreshCardStates();status('Online playback failed. Check your connection or choose a local WAV below.');setButtons()});el.files.addEventListener('change',()=>{assignFiles([...el.files.files]);el.files.value=''});el.folder.addEventListener('change',()=>{assignFiles([...el.folder.files]);el.folder.value=''});window.addEventListener('beforeunload',()=>{cache.close();for(const u of state.owned)URL.revokeObjectURL(u)});
-setNotes();renderCards();updateOwnFileSlots();setButtons();selectAudio(false);
+el.audio.addEventListener('timeupdate',()=>{updateClock();refreshCardStates()});el.audio.addEventListener('play',setButtons);el.audio.addEventListener('pause',setButtons);el.audio.addEventListener('ended',setButtons);el.audio.addEventListener('error',()=>{if(state.urls[getKey()]&&!el.audio.error)return;failedSources.add(state.currentKey);refreshCardStates();status('Online playback failed. Check your connection or choose a local WAV below.');setButtons()});el.files.addEventListener('change',()=>{assignFiles([...el.files.files]);el.files.value=''});el.folder.addEventListener('change',()=>{assignFiles([...el.folder.files]);el.folder.value=''});byId('prepareInstant').addEventListener('click',async()=>{
+ if(!engine||instant.preparing)return;
+ if(instant.prepared){
+   const prior=clearInstant();
+   selectAudio(true,prior.playing,prior.at);
+   status('Regular playback restored. Switching may briefly pause.');
+   return;
+ }
+ const mode=state.mode,token=++instant.token;
+ instant.preparing=true;instant.failed=false;
+ const trackList=MODES[mode].items.map(([id])=>({
+   key:mode+':'+id,url:state.urls[mode+':'+id],gain:1
+ }));
+ byId('instantProgress').textContent='Preparing recordings: 0 of '+trackList.length+' downloaded';
+ paintInstant();
+ try{
+   const ok=await engine.prepare({id:mode,duration:40,sources:trackList});
+   if(token!==instant.token||mode!==state.mode)return;
+   if(!ok)throw Error('Cancelled');
+   const wasPlaying=!el.audio.paused&&!el.audio.ended;
+   const at=Math.min(39.95,Number.isFinite(el.audio.currentTime)?el.audio.currentTime:0);
+   engine.select(getKey());engine.seek(at);
+   el.audio.pause();cache.clear();
+   instant.preparing=false;instant.prepared=true;userStarted=true;
+   if(wasPlaying){engine.play();dispatchFocus();startClock()}
+   byId('instantProgress').textContent='All '+trackList.length+
+     ' recordings ready. Switch between versions instantly.';
+   paintInstant();refreshCardStates();setButtons();updateClock();
+   status(wasPlaying?'Instant switching is on. Try another master.':'Ready. Press Play to compare.');
+ }catch(_){
+   if(token!==instant.token)return;
+   engine.clear();instant.preparing=false;instant.prepared=false;instant.failed=true;
+   byId('instantProgress').textContent='Instant switching could not prepare these recordings. Regular playback still works.';
+   paintInstant();refreshCardStates();setButtons();
+ }
+});
+window.addEventListener('beforeunload',()=>{
+ stopClock();engine?.dispose();cache.close();
+ for(const u of state.owned)URL.revokeObjectURL(u)
+});
+setNotes();renderCards();updateOwnFileSlots();setButtons();paintInstant();selectAudio(false);
 const requestedExperiment=new URLSearchParams(location.search).get('experiment');if(requestedExperiment&&MODES[requestedExperiment])switchMode(requestedExperiment);
 })();
 </script>
