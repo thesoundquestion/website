@@ -99,8 +99,14 @@ test('ordinary headphone ownership does not create replacement suggestions',()=>
   assert.equal(plan.selected.length,1);
 });
 test('active studio improvement retains owned amplification architecture, without passive amp recommendations',()=>{
-  const monitor=inventory.speaker.find(x=>x.speakerKind==='powered_studio_monitor');
-  assert.ok(monitor,'Expected sourced powered studio monitor');
+  // Legacy passive speaker presets don't include studio monitor roles.
+  // Use the canonical source-linked shared catalogue for a powered monitor.
+  const sourceCatalog=JSON.parse(read('equipment/catalog.generated.json'));
+  const entry=sourceCatalog.records.find(x=>x.categories.includes('speaker')&&
+    x.facts?.speakerKind?.value==='powered_studio_monitor');
+  assert.ok(entry,'Expected sourced powered studio monitor');
+  const monitor={model:entry.model,speakerKind:entry.facts.speakerKind.value,
+    url:entry.evidence?.find(e=>/^https:\/\//.test(e.url))?.url||null};
   const plan=ownershipPlan({own:{speaker:{name:monitor.model,record:monitor}},
     request:{...request,architecture:'open'},inventory});
   assert.equal(plan.mode,'keep_powered_studio');
