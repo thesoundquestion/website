@@ -200,6 +200,24 @@ function render(plan){
   append(body,'h4','sb-build-list-title','Your system, from microphone to finished sound');
   const list=append(body,'ol','sb-build-flow');
   plan.stages.forEach((item,i)=>list.append(renderStage(item,i)));
+  if(plan.setupGuide){
+    const guide=append(body,'section','sb-build-workflow');
+    append(guide,'h4','','How will this setup work?');
+    factsList(guide,plan.setupGuide.steps);
+    if(plan.setupGuide.monitoring.length){
+      append(guide,'h5','','What will people hear in their headphones?');
+      factsList(guide,plan.setupGuide.monitoring);
+    }
+    if(plan.setupGuide.links.length){
+      const sources=append(guide,'div','sb-build-workflow-sources');
+      append(sources,'h5','','Helpful setup guides');
+      const list=append(sources,'ul');
+      for(const entry of plan.setupGuide.links){
+        const row=append(list,'li');
+        link(row,entry.url,entry.label);
+      }
+    }
+  }
   const shopping=append(body,'section','sb-shopping-summary');
   append(shopping,'h4','','What you might need to get');
   const missing=plan.stages.filter(x=>x.need==='research'||x.need==='verify');
