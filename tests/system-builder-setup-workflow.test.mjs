@@ -86,11 +86,12 @@ test('equipment retained for another route does not claim a complete connected s
  assert.match(text,/may be retained for separate use/);
  assert.match(text,/does not establish a complete connected audio path/);
 });
-test('all cards and both subwoofer output paths render the visible setup section',()=>{
+test('all cards retain a complete setup guide and primary card collapses it',()=>{
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
  const css=readFileSync(new URL('../system-builder/style.css',import.meta.url),'utf8');
  assert.match(app,/addText\(panel,'h5','How will this setup work\?'\)/);
- assert.match(app,/renderSetupWorkflow\(card,overview\.setupWorkflow\)/);
+ assert.match(app,/renderSetupWorkflow\(card,overview\.setupWorkflow,\{collapsed:!detailOnly\}\)/);
+ assert.match(app,/addText\(disclosure,'summary','How to connect this setup'\)/);
  assert.match(app,/renderSetupWorkflow\(box,/);
  assert.match(app,/renderSetupWorkflow\(panel,/);
  assert.match(css,/\.sb-setup-steps li/);
