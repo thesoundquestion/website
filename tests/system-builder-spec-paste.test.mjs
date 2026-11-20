@@ -100,3 +100,39 @@ test('conflicting repeated nominal ratings block matching, not merely the second
   assert.equal(parsed.fields.speakerMinimum,undefined);
   assert.match(parsed.notes.join(' '),/Conflicting impedance/);
 });
+
+
+test('user-reported full speaker description recognises approximate minimum and keeps compatibility distinct from nominal',()=>{
+  const paste=[
+    '• Design: 2-driver, 2-way bass reflex bookshelf/stand-mounted speaker',
+    '• Tweeter: 19 mm (3/4 in) polyamide dome with ferro-fluid cooling (often Vifa-sourced on v1 models)',
+    '• Mid/Bass Driver: 165 mm (6.5 in) polypropylene cone with Apical voice coil former and diecast chassis',
+    '• Crossover: 2nd-order electro-acoustic at 3.0 kHz',
+    '• Frequency Response (On-Axis): ±2 dB from 75 Hz – 20 kHz',
+    '• Frequency Response (30° Off-Axis): ±2 dB from 75 Hz – 15 kHz',
+    '• Low-Frequency Extension: 55 Hz (DIN)',
+    '• Sensitivity: 90 dB (in-room) / 87 dB (anechoic)',
+    '• Impedance: Compatible with 8 ohms (measured around 4.2 ohms minimum)',
+    '• Recommended Amplifier Power: 15 – 100 watts (maximum input power listed at 60 watts on spec sheets)'
+  ].join('\n');
+  const parsed=parseSpeakerSpecText(paste);
+  assert.deepEqual(parsed.fields,{speakerMinimum:4.2},
+    'only the explicitly described minimum qualifies; 8-ohm compatible is not confirmed nominal and neither sensitivity has a test basis');
+  assert.match(parsed.observations.join(' '),/8 Ω described as compatible, NOT explicitly nominal/);
+  assert.match(parsed.observations.join(' '),/90 dB \(in-room\).*87 dB \(anechoic\)/);
+  assert.match(parsed.observations.join(' '),/around 4.2 Ω is approximate/);
+  assert.doesNotMatch(parsed.observations.join(' '),/15.*100.*watts/);
+});
+
+test('other compatible-with wording is reported, never silently promoted to nominal',()=>{
+  const parsed=parseSpeakerSpecText('Impedance: 8Ω compatible, measured around 3.6Ω minimum\nSensitivity 89 dB in room');
+  assert.deepEqual(parsed.fields,{speakerMinimum:3.6});
+  assert.match(parsed.observations.join(' '),/8 Ω described as compatible/);
+  assert.equal(parsed.fields.speakerSensitivity,undefined);
+});
+
+test('explicit nominal in a separate manufacturer row remains available alongside compatible context',()=>{
+  const parsed=parseSpeakerSpecText('Nominal impedance: 8Ω\nImpedance: compatible with 8 ohms (minimum: 4Ω)');
+  assert.equal(parsed.fields.speakerLoad,8);
+  assert.match(parsed.observations.join(' '),/8 Ω described as compatible/);
+});
