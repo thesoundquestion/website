@@ -77,7 +77,7 @@ export function compareAlternative(base,alt,request={},catalog=null){
   const basisA=ba?.facts?.sensitivityBasis?.value,basisB=bb?.facts?.sensitivityBasis?.value;
   if(isNum(sa)&&isNum(sb)&&basisA===basisB&&basisA&&sa!==sb){
    const units=basisA==='dB_SPL_per_V'?'dB SPL per volt':
-     basisA==='dB_SPL_per_mW'?'dB SPL per milliwatt':'dB at the manufacturer's reference';
+     basisA==='dB_SPL_per_mW'?'dB SPL per milliwatt':'dB at the manufacturer reference';
    add(changes,'published sensitivity changes from '+sa+' to '+sb+' '+units);
    add(tradeoffs,'Sensitivity standards and measurement conditions may differ. Verify required output for your target level.');
   }
