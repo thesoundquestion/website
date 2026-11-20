@@ -1131,7 +1131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const inline=el('section','sb-inline-system-check');
         const {profile,params}=headroomHandoff(headroomModels,distanceFt,request.level);
         addText(inline,'h5','Headroom for these exact models');
-        addText(inline,'p',profile.label+' profile · '+distanceFt+' ft · illustrative '+profile.average+' dB SPL average / '+(profile.average+profile.gap)+' dB SPL peak. These are example targets, not measurements of your listening level. Published in-room sensitivity is used where it is separately documented; no second room-gain estimate is added.','sb-help');
+        addText(inline,'p',profile.label+' · '+distanceFt+' ft · example '+profile.average+' dB average / '+(profile.average+profile.gap)+' dB peaks. Not a measured listening level.','sb-headroom-brief');
         const frame=el('iframe','sb-inline-system-check-frame');
         frame.title='Headroom results for '+headroomModels.speakerModel+' with '+headroomModels.amplifierModel;
         frame.loading='lazy';
@@ -1141,7 +1141,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // phone visitors do not need to scroll inside another scroll area.
           try{
             const doc=frame.contentDocument;
-            const resize=()=>{frame.style.height=Math.max(380,Math.ceil(doc.documentElement.scrollHeight)+16)+'px';};
+            const resize=()=>{frame.style.height=Math.max(300,Math.ceil(doc.documentElement.scrollHeight)+16)+'px';};
             resize();
             if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(doc.body);
           }catch{/* A normal scrollable iframe remains available if blocked. */}
