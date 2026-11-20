@@ -516,7 +516,7 @@ try {
     device.name+' each alternative retains its complete model-specific setup');
   assert.equal(await alternatives.locator('.sb-setup-workflow').count(),await alternatives.count(),
     device.name+' each alternative retains its wiring explanation');
-  await alternatives.first().locator('summary').click();
+  await alternatives.first().locator(':scope > summary').click();
   assert.ok(await alternatives.first().locator('.sb-setup-workflow').isVisible());
   assert.ok(await page.locator('#sb-results .sb-recommend:visible').count()>1,
     device.name+' individual details must open without a second product list');
