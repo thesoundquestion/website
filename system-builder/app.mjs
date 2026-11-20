@@ -37,7 +37,8 @@ function headroomHandoff(item,distanceFt,level){
   const params=new URLSearchParams({
     embedded:'1',autocheck:'1',speaker:item.speakerModel,amp:item.amplifierModel,
     distanceFt:String(distanceFt),average:String(profile.average),
-    gap:String(profile.gap),profile:String(level||'moderate')
+    gap:String(profile.gap),profile:String(level||'moderate'),
+    preferRoom:'1'
   });
   return {profile,params};
 }
@@ -1006,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const inline=el('section','sb-inline-system-check');
         const {profile,params}=headroomHandoff(headroomModels,distanceFt,request.level);
         addText(inline,'h5','Headroom for these exact models');
-        addText(inline,'p',profile.label+' profile · '+distanceFt+' ft · illustrative '+profile.average+' dB SPL average / '+(profile.average+profile.gap)+' dB SPL peak. These are example targets, not measurements of your listening level.','sb-help');
+        addText(inline,'p',profile.label+' profile · '+distanceFt+' ft · illustrative '+profile.average+' dB SPL average / '+(profile.average+profile.gap)+' dB SPL peak. These are example targets, not measurements of your listening level. Published in-room sensitivity is used where it is separately documented; no second room-gain estimate is added.','sb-help');
         const frame=el('iframe','sb-inline-system-check-frame');
         frame.title='Headroom results for '+headroomModels.speakerModel+' with '+headroomModels.amplifierModel;
         frame.loading='lazy';
