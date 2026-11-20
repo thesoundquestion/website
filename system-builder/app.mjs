@@ -817,15 +817,19 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(pathBox,'p',overview.rolePath,'sb-beginner-plain');
       if(overview.roles.length)list(pathBox,overview.roles.slice(0,4),'sb-beginner-parts');
       card.append(pathBox);
-      // Show the unchanged System Check calculation automatically, without
-      // another preset selector, when BOTH exact saved models are available.
-      if(item.amplifierModel&&item.speakerModel){
+      // Identify the exact models from owned pairings OR documented prebuilt
+      // passive recommendations. Missing measured specs stay missing.
+      const headroomModels = {
+        amplifierModel:item.amplifierModel||item.curatedPairing?.amplifierModel,
+        speakerModel:item.speakerModel||item.curatedPairing?.speakerModel
+      };
+      if(headroomModels.amplifierModel&&headroomModels.speakerModel){
         const inline=el('section','sb-inline-system-check');
-        const {profile,params}=headroomHandoff(item,distanceFt,request.level);
+        const {profile,params}=headroomHandoff(headroomModels,distanceFt,request.level);
         addText(inline,'h5','Headroom for these exact models');
         addText(inline,'p',profile.label+' profile · '+distanceFt+' ft · illustrative '+profile.average+' dB SPL average / '+(profile.average+profile.gap)+' dB SPL peak. These are example targets, not measurements of your listening level.','sb-help');
         const frame=el('iframe','sb-inline-system-check-frame');
-        frame.title='Headroom results for '+item.speakerModel+' with '+item.amplifierModel;
+        frame.title='Headroom results for '+headroomModels.speakerModel+' with '+headroomModels.amplifierModel;
         frame.loading='lazy';
         frame.src='/system-check/?'+params.toString();
         frame.addEventListener('load',()=>{
