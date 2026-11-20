@@ -71,12 +71,17 @@ test('an open-system comparison includes different architectures, not four conse
   const x=shortlistExamples({...defaults});
   assert.ok(new Set(x.selected.map(x=>x.architecture)).size>=3);
 });
-test('legacy R-S202/P3 example has been retired; affordable Fosi/Polk pair includes load caution',()=>{
+test('legacy R-S202/P3 example retired; Fosi/Polk has documented 4-ohm load permission',()=>{
   assert.ok(!EXAMPLES.some(x=>x.title.includes('R-S202 + PSB Alpha P3')));
   const x=EXAMPLES.find(x=>x.id==='passive-bt20a-xt15');
   assert.ok(x);
-  assert.match(x.loadCaution,/4.1 Ω/);
-  assert.match(x.tradeoff,/not a certified|NOT a certified/i);
+  assert.equal(x.loadCaution,undefined);
+  assert.match(x.tradeoff,/Fosi supports 2–8 Ω/);
+  assert.match(x.tradeoff,/300 W/);
+  const option=shortlistExamples({...defaults,architecture:'passive_separates'})
+    .selected.find(x=>x.id==='passive-bt20a-xt15');
+  assert.equal(option.curatedPairing.level,'manufacturer_supported');
+  assert.match(option.curatedPairing.proof,/Polk.*4.1 Ω/);
   assert.equal(x.priceCA.components.reduce((n,p)=>n+p.amount,0),438.99);
 });
 test('no example certifies a full price or real-world compatibility',()=>{
