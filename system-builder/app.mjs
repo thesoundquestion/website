@@ -350,6 +350,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // section is still available to people who want technical fine-tuning.
   }
   intentSelect.addEventListener('change',()=>setBuilderIntent());
+  function renderSetupWorkflow(parent,{steps=[],equipment=''}={}){
+    const panel=el('section','sb-setup-workflow');
+    addText(panel,'h5','How will this setup work?');
+    const ordered=el('ol','sb-setup-steps');
+    for(const step of steps)if(typeof step==='string'&&step.trim())
+      addText(ordered,'li',step);
+    if(!ordered.children.length)
+      addText(ordered,'li','Confirm the source, amplification, output and speakers or headphones in the selected system.');
+    panel.append(ordered);
+    if(equipment)addText(panel,'p',equipment,'sb-setup-equipment');
+    parent.append(panel);
+    return panel;
+  }
   function renderSubwooferWiring(parent,plan,{heading='How the subwoofer connects',showSources=true}={}){
     const box=el('div','sb-sub-route');
     addText(box,'h4',heading);
@@ -744,7 +757,15 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(box,'p','You can explore the wiring without entering a model. We will need your equipment’s exact connections before calling a particular hookup ready.');
     const kind=plan.direct?'A connection route to check':'Further information or hardware needed';
     addText(box,'p',kind,'sb-sub-connection-kind');
-    renderSubwooferWiring(box,plan,{heading:'How the system would be wired'});
+    renderSetupWorkflow(box,{
+      steps:[
+        'Keep '+(speakers.name||'your main speakers')+' connected through their intended amplification; the subwoofer supplements their bass.',
+        plan.signal,
+        plan.mainBass
+      ],
+      equipment:'Wiring: '+plan.cable
+    });
+    renderSubwooferWiring(box,plan,{heading:'Connection details for this setup'});
     if(!model&&!['speaker_high','both'].includes(plan.input)&&plan.output==='speaker_only'){
       addText(box,'p','Shopping tip: a powered subwoofer with compatible high-level inputs may be easier to add to an amplifier that only has speaker terminals. Otherwise include the cost of a manufacturer-approved converter.');
     }
@@ -971,11 +992,9 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(whyBox,'p',overview.reason,'sb-beginner-plain');
       if(overview.goalExplanation)addText(whyBox,'p',overview.goalExplanation,'sb-beginner-basis');
       card.append(whyBox);
-      const pathBox=el('div','sb-beginner-connection');
-      addText(pathBox,'h5','How these components would work together');
-      addText(pathBox,'p',overview.rolePath,'sb-beginner-plain');
-      if(overview.roles.length)list(pathBox,overview.roles.slice(0,4),'sb-beginner-parts');
-      card.append(pathBox);
+      // Give every recommendation, including alternatives and retained
+      // systems, a distinct beginner-visible, model-aware signal-flow guide.
+      renderSetupWorkflow(card,overview.setupWorkflow);
       // Identify the exact models from owned pairings OR documented prebuilt
       // passive recommendations. Missing measured specs stay missing.
       const headroomModels = {
@@ -1274,6 +1293,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'Confirm whether your sub can be reused. The T5 wiring below is an example.');
       if (route.needsMainSpeakers) addText(panel,'p','Price the passive stereo pair and speaker wire separately.');
       const retainedSub= subwooferConnections({ampName:route.retained,subName:'Edifier T5',subOwned:route.wantsOwnedSub?'yes':'no'});
+      renderSetupWorkflow(panel,{
+        steps:[
+          'Keep '+route.retained+' as the main amplification or powered-speaker system.',
+          retainedSub.signal,
+          retainedSub.mainBass
+        ],
+        equipment:'Connection hardware: '+retainedSub.cable
+      });
       renderSubwooferWiring(panel,retainedSub,{heading:'Connection details for this example'});
       addText(panel,'p',route.bassSetup.setup);
       link(panel,route.bassSetup.source,'Manufacturer bass-routing instructions');
