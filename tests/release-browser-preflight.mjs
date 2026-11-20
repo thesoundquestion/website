@@ -148,6 +148,19 @@ try {
    await checkNoErrors(page,errors,device.name+' automatic model-backed headroom results');
    outcomes.push(device.name+' exact-model headroom calculated directly from transferred listening inputs');
 
+   // A loud preset may exceed published burst output without making the
+   // speaker/amp electrically incompatible. Show a practical adjustment.
+   await visit(page,'/system-check/?embedded=1&autocheck=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9&average=85&gap=20');
+   const loudResult=await page.locator('#result-body').innerText();
+   assert.match(loudResult,/Why the peak target failed/);
+   assert.match(loudResult,/Sit closer: from 9 ft to about/);
+   assert.match(loudResult,/Lower the peak target/);
+   assert.match(loudResult,/It does NOT mean the amplifier and speakers are electrically incompatible/);
+   assert.ok(await page.locator('.sc-headroom-adjustments').count()>=1);
+   await checkNoErrors(page,errors,device.name+' occasionally-loud actionable headroom guidance');
+   outcomes.push(device.name+' loud headroom shortfall gives distance and level adjustments without incompatibility claim');
+
+
    // The example button on the full calculator may change the listening
    // numbers but never replace the actual selected gear or its specifications.
    await visit(page,'/system-check/?speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9');
