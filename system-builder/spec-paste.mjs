@@ -86,6 +86,18 @@ function sensitivityCandidates(segment){
   return [...new Map(values.map(x=>[x.value+'|'+x.environment,x])).values()];
 }
 
+function amplifierPowerGuidance(line){
+  const recommended=line.match(/\b(?:recommended|suggested)\s+(?:(?:amplifier|amp)\s+)?(?:power|amplifier\s+power|amp\s+power)\b[^:\n]{0,30}[:=\s]+\s*(\d{1,4}(?:[.,]\d+)?)\s*(?:[-–—]|to)\s*(\d{1,4}(?:[.,]\d+)?)\s*(?:w|watts?)\b/i);
+  if(!recommended)return null;
+  const low=numberValue(recommended[1]),high=numberValue(recommended[2]);
+  if(!valid(low,1,1000)||!valid(high,1,2000)||low>=high)return null;
+  // A stated maximum INPUT power is not necessarily a thermal/continuous
+  // handling rating. Preserve it separately and never treat it as RMS power.
+  const maxInput=line.match(/\b(?:maximum|max(?:imum)?\.?)\s+(?:speaker\s+)?input\s+power\b(?:\s+(?:listed|rated|specified)\s+at)?\s*[:=\s]+\s*(\d{1,4}(?:[.,]\d+)?)\s*(?:w|watts?)\b/i);
+  const maximum=maxInput?numberValue(maxInput[1]):null;
+  return {low,high,maximum:valid(maximum,1,2000)?maximum:null};
+}
+
 const allMarkers=line=>[...line.matchAll(LABEL)];
 function preparedLines(text){
   const raw=String(text||'').slice(0,5000).normalize('NFKC')
@@ -126,9 +138,12 @@ export function parseSpeakerSpecText(text){
   const fields={};
   const notes=[];
   const observations=[];
-  const nominal=[],minimum=[],sensitivities=[];
+  const nominal=[],minimum=[],sensitivities=[],compatibleNominal=[];
+  const powerGuidance=[];
   let unlabeledNominal=false, sawSensitivity=false, sawImpedance=false, ambiguousImpedance=false;
   for(const line of lines){
+    const power=amplifierPowerGuidance(line);
+    if(power)powerGuidance.push(power);
     const markers=allMarkers(line);
     for(let i=0;i<markers.length;i++){
       const marker=markers[i];
@@ -141,9 +156,19 @@ export function parseSpeakerSpecText(text){
         else {
           const candidates=sensitivityCandidates(segment);
           if(candidates.length>0){
+            // A clearly labelled anechoic figure is the better starting
+            // reference when both anechoic and room-enhanced figures appear.
+            // Store its number, but NOT a fabricated 1W/2.83V test basis.
+            const anechoic=candidates.filter(x=>x.environment==='anechoic');
+            const best=anechoic.length===1?anechoic[0]:
+              candidates.length===1&&candidates[0].environment==='in-room'?candidates[0]:null;
+            if(best&&!Object.hasOwn(fields,'speakerSensitivity')){
+              fields.speakerSensitivity=best.value;
+              observations.push('Entered '+best.value+' dB ('+best.environment+') as a provisional reported sensitivity. Test basis unknown; it will not be used for headroom until 1 W or 2.83 V is confirmed.');
+            }
             observations.push('Sensitivity readings: '+candidates.map(x=>
               x.value+' dB ('+x.environment+')').join(', ')+
-              '. Not filled: the 1 W or 2.83 V measurement basis is not established for a single comparable rating.');
+              '. The published 1 W / 2.83 V measurement reference is not provided.');
           }
         }
         continue;
@@ -151,7 +176,8 @@ export function parseSpeakerSpecText(text){
       sawImpedance=true;
       const context=contextualImpedance(segment);
       if(context.compatible.length){
-        observations.push(context.compatible.join(' / ')+' Ω described as compatible, NOT explicitly nominal. Confirm nominal impedance before entering an amplifier match.');
+        compatibleNominal.push(...context.compatible);
+        observations.push(context.compatible.join(' / ')+' Ω described as compatible. Use as a provisional nominal-class speaker rating for an initial amplifier shortlist; confirm the exact model.');
       }
       for(const candidate of context.minimum){
         minimum.push(candidate.value);
@@ -178,11 +204,18 @@ export function parseSpeakerSpecText(text){
     }
   }
   const possibleNominal=distinct(nominal);
+  const compatibleChoices=distinct(compatibleNominal);
   const possibleMinimum=distinct(minimum);
   if(possibleNominal.length===1){
     if(valid(possibleNominal[0],2,16))fields.speakerLoad=possibleNominal[0];
   }else if(possibleNominal.length>1)
     notes.push('Conflicting impedance values were found; check the nominal rating for the exact model.');
+  else if(compatibleChoices.length===1&&
+    (possibleMinimum.length===0||possibleMinimum.length===1&&possibleMinimum[0]<=compatibleChoices[0])){
+    fields.speakerLoad=compatibleChoices[0];
+    observations.push('The '+compatibleChoices[0]+' Ω nominal-class value is inferred from "compatible with", not an independently verified nominal specification.');
+  }else if(compatibleChoices.length>1)
+    notes.push('Several compatible load values appeared. Check the exact speaker nominal impedance manually.');
   if(unlabeledNominal&&possibleNominal.length===1)
     notes.push('The document says "impedance" without confirming "nominal". Check that this is the nominal rating before using the match.');
   if(possibleMinimum.length===1&&!ambiguousImpedance&&
@@ -202,6 +235,18 @@ export function parseSpeakerSpecText(text){
     notes.push('More than one sensitivity rating or test basis was found; check the applicable one manually.');
   else if(sawSensitivity)
     notes.push('Sensitivity was not filled: the dB figure must state a 1 W or 2.83 V measurement basis.');
+  const uniquePower=[...new Map(powerGuidance.map(x=>[x.low+'|'+x.high+'|'+x.maximum,x])).values()];
+  if(uniquePower.length===1){
+    const p=uniquePower[0];
+    fields.speakerRecommendedAmpMin=p.low;
+    fields.speakerRecommendedAmpMax=p.high;
+    observations.push('Recommended amplifier power: '+p.low+'–'+p.high+' W. This is manufacturer-style shopping guidance, not a continuous speaker-power or safe-output limit.');
+    if(p.maximum!==null){
+      fields.speakerMaxInput=p.maximum;
+      observations.push('Listed maximum input power: '+p.maximum+' W. Its continuous/peak measurement basis is not established from the pasted text.');
+    }
+  }else if(uniquePower.length>1)
+    notes.push('Conflicting recommended amplifier power ranges were found; check the exact model.');
   if(!Object.keys(fields).length)
     notes.unshift('No unambiguous usable ratings found. Copy the specification table, or type the figures into the boxes below.');
   if(!sawImpedance&&Object.keys(fields).length)
