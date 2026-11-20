@@ -56,6 +56,7 @@ test('published burst below required peak fails with rated-power boundary',()=>{
   assert.match(r.cards[0].allText,/Headroom relative to rating: -2\.0 dB · -60%/);
   assert.match(r.cards[0].allText,/estimated level boundary: about 100\.0 dB SPL/);
   assert.match(r.cards[0].allText,/not an independently measured clipping point/);
+  assert.match(r.text,/It does NOT mean the amplifier and speakers are electrically incompatible/);
 });
 
 test('continuous-only output shows rated headroom without an invented musical-peak story',()=>{
