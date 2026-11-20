@@ -417,21 +417,27 @@ try {
   await page.locator('[name="architecture"]').selectOption('passive_separates');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
-  // The button lands on the FIRST recommendation, not just the section heading.
-  // Keep every other editorial setup behind one closed disclosure.
+  // Submit lands at "Your system options, explained" rather than skipping
+  // introductory guidance to a product card. Alternatives remain collapsed.
   const firstRecommendation=page.locator('#sb-first-recommendation');
   assert.equal(await firstRecommendation.count(),1,device.name+' must render one primary card');
   const firstWorkflow=firstRecommendation.locator('.sb-setup-workflow');
   assert.equal(await firstWorkflow.count(),1,device.name+' primary recommendation must explain its connections');
   assert.match(await firstWorkflow.locator('h5').innerText(),/How will this setup work\?/);
   assert.ok(await firstWorkflow.locator('ol li').count()>=2,device.name+' setup guide needs actionable steps');
-  assert.equal(await firstRecommendation.evaluate(node=>document.activeElement===node),true,
-    device.name+' submit should focus first recommendation');
+  const results=page.locator('#sb-results');
+  assert.match(await page.locator('#sb-result-title').innerText(),/Your system options, explained/);
+  assert.equal(await results.evaluate(node=>document.activeElement===node),true,
+    device.name+' submit should focus the options explanation section');
+  const resultsTop=await results.evaluate(node=>node.getBoundingClientRect().top);
+  assert.ok(resultsTop>=-3&&resultsTop<125,
+    device.name+' options explanation must be at viewport top, saw '+resultsTop);
   const firstTop=await firstRecommendation.evaluate(node=>node.getBoundingClientRect().top);
-  assert.ok(firstTop>=-3&&firstTop<125,device.name+' first recommendation must be at viewport top, saw '+firstTop);
+  assert.ok(firstTop>resultsTop+60,
+    device.name+' should not skip the options heading and introduction');
 
   // Regression for a delayed scroll jump: the auto-result inside the iframe
-  // loads AFTER the Builder positions the primary recommendation. It must not
+  // loads AFTER the Builder positions the results introduction. It must not
   // focus its own output and drag the parent viewport down to headroom.
   await page.waitForFunction(()=>{
     const frame=document.querySelector('#sb-first-recommendation iframe.sb-inline-system-check-frame');
@@ -439,16 +445,15 @@ try {
       frame.contentDocument.body.classList.contains('sc-auto-result');
   },null,{timeout:20000});
   await page.waitForTimeout(180);
-  const afterHeadroomLoad=await firstRecommendation.evaluate(node=>({
+  const afterHeadroomLoad=await results.evaluate(node=>({
     top:node.getBoundingClientRect().top,
     focused:document.activeElement===node,
-    childFocused:!!node.querySelector('iframe')&&
-      document.activeElement===node.querySelector('iframe')
+    childFocused:document.activeElement?.matches?.('iframe')===true
   }));
   assert.ok(afterHeadroomLoad.top>=-3&&afterHeadroomLoad.top<125,
-    device.name+' iframe must NOT jump to headroom after it loads, top '+afterHeadroomLoad.top);
+    device.name+' iframe must NOT skip the results introduction after loading, top '+afterHeadroomLoad.top);
   assert.equal(afterHeadroomLoad.focused,true,
-    device.name+' iframe must not take focus away from the primary recommendation');
+    device.name+' iframe must not take focus away from the options explanation');
   assert.equal(afterHeadroomLoad.childFocused,false);
 
   assert.equal(await page.locator('#sb-results .sb-recommend:visible').count(),1,
@@ -466,7 +471,7 @@ try {
   await alternatives.locator('summary').first().click();
   assert.ok(await page.locator('#sb-results .sb-recommend:visible').count()>1,
     device.name+' alternatives should expand when requested');
-  outcomes.push(device.name+' jumps to primary card, hides all other setups under one dropdown');
+  outcomes.push(device.name+' jumps to the results explanation, not the first product, with alternatives collapsed');
   const availablePanels=page.locator('#sb-results .sb-inline-system-check');
   assert.ok(await availablePanels.count()>=1,device.name+' source-backed passive examples must have a headroom handoff');
   assert.match(await availablePanels.first().innerText(),/Headroom for these exact models/);

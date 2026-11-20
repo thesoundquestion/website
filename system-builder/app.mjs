@@ -1616,9 +1616,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setFeedback('');
     report(selected);
     result.hidden = false;
-    const firstRecommendation=result.querySelector('.sb-recommend--primary');
-    const scrollTarget=firstRecommendation||result;
-    scrollTarget.focus({preventScroll:true});
-    scrollTarget.scrollIntoView({behavior:'instant',block:'start'});
+    // Start with the explanation and any overall system guidance, not the
+    // first product. This container is already keyboard-focusable (tabindex -1).
+    result.focus({preventScroll:true});
+    result.scrollIntoView({behavior:'instant',block:'start'});
   });
 });
