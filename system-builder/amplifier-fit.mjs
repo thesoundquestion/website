@@ -155,7 +155,7 @@ export function assessAmplifierCandidate({idea,record,speaker,request={}}) {
   const ownerNote=sp.recommendedMax!==null ?
     'Speaker maker’s amplifier recommendation: '+
       (sp.recommendedMin!==null?sp.recommendedMin+'–':'up to ')+sp.recommendedMax+
-      ' W (guidance, NOT a continuous speaker power-handling limit).'+
+      ' W (guidance, NOT a speaker power-handling limit or a continuous-use limit).'+
       (sp.listedMaxInput!==null?' Separately listed maximum input: '+sp.listedMaxInput+
         ' W, with rating conditions unspecified.':'') : null;
   const peakNote=sp.peak!==null ?
