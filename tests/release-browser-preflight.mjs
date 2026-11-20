@@ -13,7 +13,7 @@ const categories={
   headphone_amplifier:['Published output ratings','Documented source inputs','Documented headphone and line outputs'],
   computer_sound_card:['Recording ADC','Documented sound-card inputs','Documented sound-card outputs']
 };
-const expectedPitch="Ever wonder why one recording moves you, why two speakers sound different, or whether expensive equipment is worth it?";
+const expectedPitch="You don't need to know a thing about audio equipment to love music.";
 const devices=[
  {name:'desktop',options:{viewport:{width:1365,height:900}}},
  {name:'mobile',options:{viewport:{width:390,height:844},isMobile:true,hasTouch:true}}

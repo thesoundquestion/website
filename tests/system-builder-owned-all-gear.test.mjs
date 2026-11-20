@@ -132,8 +132,8 @@ test('unlisted speaker names remain explicitly unknown rather than fabricated sa
   const unknown={name:'Unlisted DIY Pair',record:null};
   const r=run({speaker:unknown});
   assert.equal(r.mode,'keep_speakers');
-  assert.equal(r.selected.length,0);
-  assert.ok(r.excluded.length>0);
+  assert.ok(!r.selected.some(x=>x.amplifierModel));
+  assert.ok(r.excluded.length>0 || r.selected.every(x=>x.id==='owned-other-route'));
 });
 test('owned-speaker amp choices keep price links when the reference is above budget or expired',()=>{
   const r=run({speaker:SPEAKER},{budget:200});

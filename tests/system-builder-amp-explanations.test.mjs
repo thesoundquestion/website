@@ -30,7 +30,7 @@ test('amp models have genuinely different source-backed reasons and power figure
 test('connection mismatch and unknown data remain explicit, never promised',()=>{
   const h=results({...request,connection:'hdmi'});
   assert.equal(h.selected.length,0);
-  assert.ok(h.excluded.some(x=>/Requested hdmi input/.test(x.reason)));
+  assert.ok(h.excluded.some(x=>/Requested hdmi connection/.test(x.reason)));
   const unknown=results(request,{name:'Unlisted hand-built speaker',record:null});
   assert.equal(unknown.selected.length,0);
   assert.ok(unknown.excluded.length>0);

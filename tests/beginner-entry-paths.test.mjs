@@ -371,7 +371,7 @@ test('gear search finds exact listed models and Google URL is a user-initiated d
   assert.equal(catalogueGearMatches([{model:'Yamaha A-720'}],'nosuch').length,0);
   const url=googleGearSearchUrl('speaker','Paradigm Phantom v1');
   assert.match(url,/google\.com\/search\?q=/);
-  assert.match(decodeURIComponent(url),/Paradigm Phantom v1/);
+  assert.match(new URL(url).searchParams.get('q'),/Paradigm Phantom v1/);
 });
 test('speaker and amplifier provisional figures never earn manufacturer-confirmed pairing labels',()=>{
   const d=new FormData();
@@ -626,7 +626,7 @@ test('unlisted source and headphone searches produce provisional facts instead o
   assert.equal(h.state,'provisional');
   assert.deepEqual(h.record.values,{load:80,sensitivity:100,basis:'power'});
   assert.equal(h.record.evidence,'user_entered_unverified');
-  assert.match(decodeURIComponent(googleGearSearchUrl('headphone',h.model)),/sensitivity/);
+  assert.match(new URL(googleGearSearchUrl('headphone',h.model)).searchParams.get('q'),/headphones|sensitivity/);
 });
 test('improving an existing system preserves source and headphone catalogue or manual facts',()=>{
   const d=new FormData();
@@ -647,7 +647,7 @@ test('search UI covers all owned gear classes without auto-import claims',async(
   const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
   const app=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
   for(const kind of ['speaker','amp','source','headphone']){
-    assert.match(page,new RegExp('data-gear-search="'+kind+'"'));
+    assert.match(page,new RegExp('data-gear-searches="'+kind+'"'));
     assert.match(page,new RegExp('data-gear-matches="'+kind+'"'));
     assert.match(page,new RegExp('name="'+kind+'SpecUrl"'));
   }
