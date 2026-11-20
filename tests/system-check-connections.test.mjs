@@ -54,7 +54,7 @@ test('an actual source shortfall gets a concise explanation',()=>{
 });
 
 test('significant, calculated input attenuation is reported only with both impedances',()=>{
- const message=render({sourceVoltage:2,inputSensitivity:1,sourceZ:10000,inputZ:10},
+ const message=render({sourceVoltage:0.2,inputSensitivity:1,sourceZ:10000,inputZ:10},
    [{type:'continuous',load:8,watts:105}]);
  assert.match(message,/signal loss at the input/);
  assert.match(message,/Your source’s specified output level may be too low/);
