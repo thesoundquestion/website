@@ -399,17 +399,15 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     const reserve = (1 - demand / available) * 100;
     const sourceType = chosen.source.type === 'burst' ? 'short-burst' : 'continuous';
     const sourceBasis = chosen.interpolated
-      ? 'interpolated between ' + show(chosen.lower.watts) + ' W at ' + show(chosen.lower.load)
-        + ' Ω and ' + show(chosen.upper.watts) + ' W at ' + show(chosen.upper.load)
-        + ' Ω (' + sourceType + '; NOT a published ' + show(testLoadForMetric) + ' Ω rating)'
+      ? 'calculated between ' + show(chosen.lower.watts) + ' W at ' + show(chosen.lower.load)
+        + ' Ω and ' + show(chosen.upper.watts) + ' W at ' + show(chosen.upper.load) + ' Ω'
       : 'entered ' + sourceType + ' rating at ' + show(chosen.source.load) + ' Ω';
 
     let statusText;
     let verdict;
     if (chosen.interpolated) {
       verdict = 'estimate';
-      statusText = covers ? 'Power estimate meets target (not manufacturer-tested at this load)'
-        : 'Power estimate falls below target (not manufacturer-tested at this load)';
+      statusText = covers ? 'Estimated power covers target' : 'Estimated power below target';
     } else if (!covers && classification === 'peak' && chosen.source.type !== 'burst') {
       verdict = 'unverified';
       statusText = 'Unverified · peak exceeds continuous rating';
@@ -425,20 +423,11 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
 
     const supplied = document.createElement('p');
     supplied.className = 'sc-load-capacity';
-    supplied.textContent = (chosen.interpolated ? 'Assumed by interpolation: ' : 'Published / entered: ')
+    supplied.textContent = (chosen.interpolated ? 'Interpolated: ' : 'Published / entered: ')
       + show(available) + ' W/ch · ' + sourceBasis;
     row.append(supplied);
     const conditions = chosen.source.conditions?.trim();
-    if (chosen.interpolated) {
-      const qualification = document.createElement('p');
-      qualification.className = 'sc-load-test-conditions';
-      qualification.textContent = 'Linear interpolation between the two '
-        + (sourceType==='short-burst'?'short-burst':'continuous') + ' ratings is an assumption, not a manufacturer measurement at '
-        + show(testLoadForMetric) + ' Ω. '
-        + (chosen.conditionsDiffer?'The two published/entered test conditions differ, so their watt figures may not be directly comparable. ':'')
-        + 'Actual continuous output, clipping point and distortion at this load remain unknown.';
-      row.append(qualification);
-    } else if (conditions) {
+    if (!chosen.interpolated && conditions) {
       const qualification = document.createElement('p');
       qualification.className = 'sc-load-test-conditions';
       qualification.textContent = 'Power-rating test conditions: ' + conditions
@@ -452,7 +441,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     const decibels = Math.abs(dbMargin) < .05 ? 0 : dbMargin;
     const signedDb = (decibels > 0 ? '+' : '') + db(decibels);
     const signedPct = (pct > 0 ? '+' : '') + powerPercent(pct / 100);
-    headroom.textContent = (chosen.interpolated ? 'Assumed headroom (not tested): ' : 'Headroom relative to rating: ')
+    headroom.textContent = (chosen.interpolated ? 'Estimated headroom: ' : 'Headroom relative to rating: ')
       + signedDb + ' dB · ' + signedPct
       + (pct >= 0 ? ' of available power in reserve' : ' (needs ' + powerPercent(-pct / 100) + ' more power)');
     row.append(headroom);
@@ -513,7 +502,6 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
   }
 
   let hasDefinitiveFailure = false;
-  let anyProjection = false;
 
   for (const testLoad of testLoads) {
     const actual = testLoad === load;
@@ -541,7 +529,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
       notice.textContent = 'Pass · ' + show(testLoad) + ' Ω is between rated '
         + show(loadRange.lower.load) + ' Ω and ' + show(loadRange.upper.load)
         + ' Ω amplifier loads (continuous specifications). '
-        + 'This is a load-range check, not a manufacturer-measured ' + show(testLoad) + ' Ω watt rating.';
+        + 'The ' + show(testLoad) + ' Ω wattage shown below is an interpolation, not a published rating.';
       card.append(notice);
     }
 
@@ -556,7 +544,6 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
         directRating(cont) || projectedCont, 'continuous', 'average', testLoad);
       items.append(avgItem);
       if (assessment.code === 'fail') hasDefinitiveFailure = true;
-      if (assessment.projected) anyProjection = true;
     }
 
     const peakItem = document.createElement('div');
@@ -572,7 +559,6 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
       musicalPeakContext(peakItem,testLoad,peakDemand,cont,burst,projectedCont,projectedBurst);
     items.append(peakItem);
     if (peakAssessment.code === 'fail') hasDefinitiveFailure = true;
-    if (peakAssessment.projected) anyProjection = true;
 
     if (actual) appendSpeakerPowerSafety(card, { peakW, averageW });
     stack.append(card);
@@ -580,9 +566,6 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
 
   body.append(section);
   if (!entries.length || mode === 'upgrade') return;
-
-  if (anyProjection) addText('p',
-    'The wattage at your speaker’s impedance is assumed from two bracketing continuous or short-burst ratings. It is not a manufacturer measurement at this load, and no distortion values are interpolated.');
 
   if (hasDefinitiveFailure) addText('p',
     'A Fail marks an entered continuous or burst rating below the required power for that duration. The stated dB SPL boundary is a model estimate, not a measured clipping onset.');
