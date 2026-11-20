@@ -34,7 +34,7 @@ test('builder carries exact model names, distance and broad volume profile to Sy
 });
 
 test('model-aware auto result does not show a second model dropdown or blank input form',()=>{
-  assert.match(app,/const inline=el\('section','sb-inline-system-check'\)/);
+  assert.match(app,/const inline=el\('details','sb-inline-system-check'\)/);
   assert.doesNotMatch(app,/addText\(inline,'summary','Check headroom with these exact models'\)/);
   assert.match(calculator,/runModelHandoff\(\)/);
   assert.match(calculator,/findExactSpeakerPresetIndex\(selections.get\(kind\), options\)/);
