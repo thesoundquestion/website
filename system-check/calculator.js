@@ -325,7 +325,7 @@ function appendSpeakerPowerSafety(card, { peakW, averageW }) {
   if (flagged) card.append(box);
 }
 
-function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average }) {
+function summarizePower({ mode, entries, load, minimum, distance, peakV, averageV, peakW, averageW, peak, average }) {
   // Compare the ACTUAL speaker load only. Hypothetical 4/6/8 ohm cards
   // used to look like additional manufacturer performance measurements.
   const testLoads = [load];
@@ -374,6 +374,51 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
 
   function directRating(rating) {
     return rating ? { watts: rating.watts, source: rating, projected: false } : null;
+  }
+
+
+  function explainMissedTarget(row, {classification, verdict, demand, available, enteredSPL, sourceType}) {
+    if (!['fail','unverified'].includes(verdict) || !(demand > available && available > 0)) return;
+    const isPeak=classification==='peak';
+    const shortfallDb=10*Math.log10(demand/available);
+    const boundarySPL=enteredSPL-shortfallDb;
+    const guide=document.createElement('section');
+    guide.className='sc-headroom-adjustments';
+    const heading=document.createElement('h5');
+    heading.textContent=verdict==='fail'
+      ? 'Why the '+(isPeak?'peak':'average')+' target failed'
+      : 'Why peak capacity is not verified';
+    guide.append(heading);
+    const reason=document.createElement('p');
+    reason.textContent=verdict==='fail'
+      ? 'The '+db(enteredSPL)+' dB '+(isPeak?'peak':'average')+' target calls for about '+show(demand)+' W/ch, but the entered '+sourceType+' rating at this speaker load is '+show(available)+' W/ch, a shortfall of '+db(shortfallDb)+' dB.'
+      : 'The '+db(enteredSPL)+' dB peak target calls for about '+show(demand)+' W/ch, above the '+show(available)+' W/ch continuous rating. A continuous power figure does not establish the amplifier’s short-burst limit.';
+    guide.append(reason);
+    const actions=document.createElement('ul');
+    const addAction=description=>{
+      const li=document.createElement('li');
+      li.textContent=description;
+      actions.append(li);
+    };
+    if(Number.isFinite(distance)&&distance>0){
+      const closer=distance*Math.sqrt(available/demand);
+      if(closer>=3){
+        // Round down, not up, so display rounding cannot understate demand.
+        const targetFeet=Math.floor(closer*10)/10;
+        addAction('Sit closer: from '+show(distance)+' ft to about '+show(targetFeet)+' ft. The simplified distance model predicts roughly '+show(available)+' W/ch would then be needed for the same level.');
+      }else addAction('Sit closer to reduce the estimated demand. Reaching this particular target by distance alone could require an impractically near seat.');
+    }
+    addAction('Lower the '+(isPeak?'peak':'average')+' target by about '+db(shortfallDb)+' dB, to roughly '+db(boundarySPL)+' dB SPL. If average and peak are linked, adjust both to match how loudly you really listen.');
+    if(verdict==='fail')
+      addAction('Alternatively, compare speakers with at least '+db(shortfallDb)+' dB higher sensitivity on a matching measurement basis, or an amplifier with a verified '+sourceType+' rating of at least '+show(demand)+' W/ch at this load.');
+    guide.append(actions);
+    const caution=document.createElement('p');
+    caution.className='sc-headroom-adjustments-note';
+    caution.textContent=verdict==='unverified'
+      ? 'These changes reduce modeled demand relative to the continuous rating; they cannot establish actual short-burst capability.'
+      : 'These changes bring demand toward the published rating, not a guaranteed distortion-free level. Room response, speaker power handling and the actual amplifier test conditions still matter.';
+    guide.append(caution);
+    row.append(guide);
   }
 
   function metricLine(row, label, demand, enteredSPL, chosen, duration, classification, testLoadForMetric) {
@@ -458,6 +503,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
             : 'Actual short-burst clipping level is unknown without a burst test.');
       row.append(boundary);
     }
+    explainMissedTarget(row,{classification,verdict,demand,available,enteredSPL,sourceType});
     return { code: verdict, projected: chosen.projected };
   }
 
@@ -560,7 +606,7 @@ function calculate() {
   const rows = [[db(peak) + ' dB peak', show(peakW) + ' W', show(peakV) + ' V', show(peakV / load) + ' A']];
   if (averageV !== null) rows.unshift([db(average) + ' dB average', show(averageW) + ' W', show(averageV) + ' V', show(averageV / load) + ' A']);
   status.textContent = mode === 'upgrade' ? 'Here’s the output to look for at your seat.' : 'Here’s what your speakers ask for at your seat.';
-  summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average });
+  summarizePower({ mode, entries, load, minimum, distance, peakV, averageV, peakW, averageW, peak, average });
   if (minimum > 0) {
     const hz = num('minimumHz');
     const phase = num('phase');
