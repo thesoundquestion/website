@@ -115,7 +115,7 @@ export function parseSubConnectionText(text){
     const subOut=/\b(?:sub(?:woofer)?[\s/-]*out(?:put)?|lfe[\s/-]*out)\b/i.test(line);
     const preOut=/\b(?:stereo[\s-]*)?(?:pre[\s-]*out|preamp[\s-]*out)\b/i.test(line);
     const speakerOnly=/\b(?:speaker|loudspeaker)[\s-]*outputs?\s+only\b|\bonly\s+(?:speaker|loudspeaker)\s+outputs?\b/i.test(line);
-    const highInput=/\b(?:high[\s-]*level|speaker[\s-]*level|speaker[\s-]*wire)\s*(?:inputs?|in|terminals?)\b/i.test(line);
+    const highInput=/\b(?:high[\s-]*level(?:[\s-]*speaker)?|speaker[\s-]*level|speaker[\s-]*wire)\s*(?:inputs?|in|terminals?)\b/i.test(line);
     const rcaInput=/\b(?:lfe[\s/-]*in|rca[\s-]*(?:line[\s-]*)?(?:in|inputs?)|line[\s-]*(?:in|inputs?)\s*(?:rca)?)\b/i.test(line);
     if(subOut)ampOut.push('sub_rca');
     if(preOut)ampOut.push('preout_rca');
