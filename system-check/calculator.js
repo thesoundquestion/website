@@ -178,88 +178,6 @@ function curveReading(peakV, averageV, speakerLoad) {
   addText('p', 'These figures describe the bench test. Audibility depends on the signal, speaker and listening conditions.');
 }
 
-// A power rating's THD figure qualifies that RATING. It is not a full
-// distortion-vs-power measurement and cannot determine listening-level THD.
-function describeRatedDistortion(conditions) {
-  const text = String(conditions || '');
-  const match = text.match(/(≤|<=|<|up to\s*)?\s*(\d+(?:\.\d+)?)\s*%\s*(THD(?:\s*\+\s*N)?)/i);
-  const percent = match ? Number(match[2]) : null;
-  const metric = match ? match[3].replace(/\s+/g, '').toUpperCase() : null;
-  const ceiling = match ? /≤|<=|<|up to/i.test(match[1] || '') : false;
-  const hasFullBand = /(?:\d+(?:\.\d+)?\s*(?:Hz|kHz)\s*[–—-]\s*\d+(?:\.\d+)?\s*(?:Hz|kHz))/i.test(text);
-  const hasOneK = /\b1\s*kHz\b/i.test(text);
-  const qualified = /\b(?:listed at|applies at|at 80%|measured at 80%)\b/i.test(text);
-  return {
-    percent, metric, ceiling, qualified,
-    scope: hasFullBand ? 'stated frequency band' : hasOneK ? 'single 1 kHz test' : 'test frequency not fully specified',
-    text
-  };
-}
-
-function renderDistortionRatingContext(entries, speakerLoad) {
-  const panel = document.createElement('section');
-  panel.className = 'sc-distortion-context';
-  panel.setAttribute('aria-label', 'Amplifier distortion and rating conditions');
-  const heading = document.createElement('h3');
-  heading.textContent = 'How clean is the published power?';
-  panel.append(heading);
-  const lead = document.createElement('p');
-  lead.textContent = 'The power estimate uses the watts and speaker load you entered. THD means added harmonic distortion; THD+N also includes background noise. A manufacturer’s rating may state a limit for these under particular test conditions. That does not tell you the distortion at your actual listening volume.';
-  panel.append(lead);
-  const sameLoad = entries.filter(r => r.load === speakerLoad);
-  if (!sameLoad.length) {
-    const p = document.createElement('p');
-    p.className = 'sc-distortion-caution';
-    p.textContent = 'No rating was entered at your speaker’s nominal ' + show(speakerLoad) + ' Ω. A projected wattage figure from another load cannot verify either distortion or clean power at this load.';
-    panel.append(p);
-  } else {
-    const list = document.createElement('ul');
-    list.className = 'sc-distortion-ratings';
-    for (const rating of sameLoad) {
-      const li = document.createElement('li');
-      const spec = describeRatedDistortion(rating.conditions);
-      const primary = document.createElement('strong');
-      primary.textContent = show(rating.watts) + ' W/ch, ' + show(rating.load) + ' Ω (' +
-        (rating.type === 'burst' ? 'short burst' : rating.type === 'continuous' ? 'continuous rating' : 'duration unspecified') + ')';
-      li.append(primary);
-      const detail = document.createElement('p');
-      const statement = spec.metric
-        ? (spec.ceiling ? 'Claimed maximum ' : 'Stated ') + show(spec.percent) + '% ' + spec.metric
-          + ' · ' + spec.scope + (spec.qualified ? ' · separate or qualified test statement' : '')
-        : 'No numerical THD or THD+N condition is attached to this rating';
-      detail.textContent = statement + '. ' + (rating.conditions ? 'Source wording: ' + rating.conditions + '.' : '');
-      li.append(detail);
-      if (spec.metric && spec.scope === 'single 1 kHz test') {
-        const note = document.createElement('p');
-        note.className = 'sc-distortion-caution';
-        note.textContent = 'A distortion figure measured at one 1 kHz test note does not tell us what happens across the full bass-to-treble range.';
-        li.append(note);
-      }
-      if (rating.sourceUrl) {
-        const source = document.createElement('a');
-        source.href = rating.sourceUrl;
-        source.target = '_blank';
-        source.rel = 'noopener noreferrer';
-        source.textContent = 'Check the source conditions ↗';
-        li.append(source);
-      }
-      list.append(li);
-    }
-    panel.append(list);
-    if (sameLoad.length > 1) {
-      const warning = document.createElement('p');
-      warning.className = 'sc-distortion-caution';
-      warning.textContent = 'Multiple power ratings at the same impedance may use different frequencies, distortion limits or test durations. The highest wattage is not automatically the cleanest or most broadly documented rating.';
-      panel.append(warning);
-    }
-  }
-  const conclusion = document.createElement('p');
-  conclusion.className = 'sc-distortion-conclusion';
-  conclusion.textContent = 'Distortion at your chosen average and peak listening power remains unverified without measured distortion-versus-power results for a comparable load. A single published THD or THD+N limit is NOT a full measured curve, a test of what you can hear, or proof of exactly where the amplifier clips.';
-  panel.append(conclusion);
-  body.append(panel);
-}
-
 function renderConnections(volts, entries, speakerLoad) {
   const source = num('sourceVoltage');
   const sourceZ = num('sourceZ');
@@ -320,41 +238,6 @@ function powerPercent(ratio) {
 
 function coversDemand(demand, watts) {
   return demand <= watts * (1 + 1e-12);
-}
-
-// Plain-language operating-region inference, not calculated THD.
-// Thresholds are display heuristics (10%, 50%, ~80%), never distortion limits.
-function describeDemandDistortionRegion({ classification, demand, chosen, continuous }) {
-  if (!chosen) return { level: 'unknown', text: 'No applicable amplifier power rating: the distortion risk from output level cannot be assessed.' };
-  if (chosen.projected) return { level: 'unknown', text: 'Power was projected from a different impedance. This does not establish the amplifier’s clean operating range at this speaker load.' };
-  if (!Number.isFinite(demand) || demand < 0 || !(chosen.watts > 0)) return { level: 'unknown', text: 'Not enough information to assess the operating region.' };
-  const percent = (watts) => powerPercent(demand / watts);
-  if (classification === 'average') {
-    if (chosen.source.type !== 'continuous') return { level: 'unknown', text: 'Average-level cleanliness cannot be inferred from a burst or unspecified-duration power rating.' };
-    if (demand > chosen.watts) return { level: 'risk', text: 'Average demand exceeds the stated continuous rating. Sustained strain, rising distortion or protection behavior is possible; an actual clipping threshold is not known.' };
-    if (demand <= chosen.watts * 0.1) return { level: 'favorable', text: 'Light average demand (' + percent(chosen.watts) + ' of the continuous rating): a properly working amplifier would generally be expected to operate comfortably here, so output-limit distortion is unlikely. Actual THD/THD+N is not known; low-level noise or crossover distortion can still occur.' };
-    if (demand <= chosen.watts * 0.5) return { level: 'favorable', text: 'Moderate average demand (' + percent(chosen.watts) + ' of the continuous rating): comfortably below the published output limit, generally favorable for clean operation. This is not a measured distortion result.' };
-    return { level: 'caution', text: 'Elevated sustained demand (' + percent(chosen.watts) + ' of the continuous rating): less power-supply and thermal reserve. Distortion or protection may become more relevant, but its onset is unmeasured.' };
-  }
-  // Peak interpretation uses the continuous specification when available, even
-  // if a higher short-burst rating was selected for the main headroom comparison.
-  const ref = continuous && continuous.watts > 0 ? continuous : chosen.source;
-  if (!ref || !(ref.watts > 0)) return { level: 'unknown', text: 'No valid output-power reference for the musical peak.' };
-  if (ref.type !== 'continuous') {
-    const within = demand <= chosen.watts * (1 + 1e-12);
-    return { level: within ? 'unknown' : 'risk', text: within
-      ? 'The estimated peak is ' + percent(chosen.watts) + ' of the entered burst rating. A short-duration capacity is stated, but its cleanliness and continuous-power margin are not established.'
-      : 'The estimated peak exceeds the entered burst rating. Distortion, clipping or protection is possible; the actual limit is unmeasured.' };
-  }
-  if (demand > ref.watts * (1 + 1e-12)) {
-    const hasSupportingBurst = chosen.source.type === 'burst' && demand <= chosen.watts * (1 + 1e-12);
-    return { level: 'caution', text: hasSupportingBurst
-      ? 'Peak demand exceeds the continuous rating (' + percent(ref.watts) + ' of that rating), but falls within an entered short-burst rating. The transient may be supported; actual distortion and peak duration capability are not established.'
-      : 'Peak demand exceeds the published continuous rating (' + percent(ref.watts) + '). Additional brief output may exist, but clean reproduction is not established; rising distortion, clipping or protection is possible.' };
-  }
-  if (demand >= ref.watts * 0.8) return { level: 'caution', text: 'Peak demand is very close to rated continuous output (' + percent(ref.watts) + ', less than about 1 dB margin). Rising distortion is possible near an amplifier’s limits, but this rating does not prove it is already occurring.' };
-  if (demand > ref.watts * 0.5) return { level: 'caution', text: 'Peak demand is using ' + percent(ref.watts) + ' of the continuous rating, with less than 3 dB of reserve. Clean reproduction may still be possible, but there is limited margin for higher peaks or load uncertainty.' };
-  return { level: 'favorable', text: 'Peak demand is ' + percent(ref.watts) + ' of the continuous rating, leaving at least 3 dB of rated-power reserve. Output-limit distortion is less concerning at this level, although actual distortion remains unmeasured.' };
 }
 
 function sameVoltageWatts(rating, load) {
@@ -624,20 +507,6 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
       + (pct >= 0 ? ' of available power in reserve' : ' (needs ' + powerPercent(-pct / 100) + ' more power)');
     row.append(headroom);
 
-    // Show average and transient operating-region implications separately,
-    // without pretending a rated THD number describes the listening level.
-    if (classification === 'average' || classification === 'peak') {
-      const guidance = describeDemandDistortionRegion({
-        classification, demand, chosen,
-        continuous: classification === 'peak' ? chooseRating(chosen.source.load, 'continuous') : null
-      });
-      const line = document.createElement('p');
-      line.className = 'sc-demand-distortion sc-demand-distortion--' + guidance.level;
-      const lead = classification === 'average' ? 'Typical listening: ' : 'Musical peaks: ';
-      line.textContent = lead + guidance.text;
-      row.append(line);
-    }
-
     if (!covers && !chosen.interpolated) {
       const boundary = document.createElement('p');
       boundary.className = 'sc-load-boundary';
@@ -681,13 +550,13 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     const burst = chooseRating(testLoad, 'burst');
     const projectedCont = cont ? null : interpolateRating(testLoad, 'continuous');
     const projectedBurst = burst ? null : interpolateRating(testLoad, 'burst');
-    const loadRange = projectedCont || projectedBurst;
+    const loadRange = projectedCont;
     if (loadRange && mode === 'check') {
       const notice = document.createElement('p');
       notice.className = 'sc-load-verdict sc-load-verdict--pass';
       notice.textContent = 'Pass · ' + show(testLoad) + ' Ω is between rated '
         + show(loadRange.lower.load) + ' Ω and ' + show(loadRange.upper.load)
-        + ' Ω amplifier loads (' + loadRange.lower.type + ' specifications). '
+        + ' Ω amplifier loads (continuous specifications). '
         + 'This is a load-range check, not a manufacturer-measured ' + show(testLoad) + ' Ω watt rating.';
       card.append(notice);
     }
@@ -748,7 +617,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
   }
 
   if (anyProjection) addText('p',
-    'The wattage at your speaker’s impedance is linearly interpolated between two entered amplifier ratings with the same duration. This is an assumed figure, not a manufacturer-measured power rating at this load; headroom remains an estimate.');
+    'The wattage at your speaker’s impedance is assumed from two bracketing continuous or short-burst ratings. It is not a manufacturer measurement at this load, and no distortion values are interpolated.');
 
   if (hasDefinitiveFailure) addText('p',
     'A Fail marks an entered continuous or burst rating below the required power for that duration. The stated dB SPL boundary is a model estimate, not a measured clipping onset.');
@@ -795,7 +664,6 @@ function calculate() {
   if (averageV !== null) rows.unshift([db(average) + ' dB average', show(averageW) + ' W', show(averageV) + ' V', show(averageV / load) + ' A']);
   status.textContent = mode === 'upgrade' ? 'Here’s the output to look for at your seat.' : 'Here’s what your speakers ask for at your seat.';
   summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average });
-  if (mode === 'check') renderDistortionRatingContext(enteredRatings, load);
   if (minimum > 0) {
     const hz = num('minimumHz');
     const phase = num('phase');
