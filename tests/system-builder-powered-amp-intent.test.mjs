@@ -71,5 +71,5 @@ test('dropdown is filtered by task and checked again on submission, rather than 
   assert.match(route,/formData\.get\('speakerPowerType'\)!=='passive'/);
   assert.match(html,/name="speakerPowerType"/);
   assert.match(app,/manual\.hidden=false/);
-  assert.match(app,/manual\.open=!hasSuggestions/);
+  assert.match(app,/if\(!hasSuggestions\)manual\.open=true/);
 });
