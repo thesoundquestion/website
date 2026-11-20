@@ -241,10 +241,10 @@ try {
   assert.equal(await alternatives.count(),1);
   assert.equal(await alternatives.evaluate(node=>node.open),false,
     device.name+' alternate setups must start closed');
-  assert.match(await alternatives.locator('summary').innerText(),/Alternative setups/);
+  assert.match(await alternatives.locator('summary').first().innerText(),/Alternative setups/);
   assert.ok(await alternatives.locator('.sb-recommend').count()>=1,
     device.name+' collapsed setup must retain another recommendation');
-  await alternatives.locator('summary').click();
+  await alternatives.locator('summary').first().click();
   assert.ok(await page.locator('#sb-results .sb-recommend:visible').count()>1,
     device.name+' alternatives should expand when requested');
   outcomes.push(device.name+' jumps to primary card, hides all other setups under one dropdown');
