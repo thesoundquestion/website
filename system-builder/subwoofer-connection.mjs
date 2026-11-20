@@ -116,6 +116,17 @@ export function subwooferConnections({
     cable='Cable choice depends on the amplifier’s actual output.';
     next='Find the amplifier’s output sockets or manual first.';
   }
+  // A visitor-selected connector that conflicts with saved model evidence
+  // must NEVER produce an "easy RCA" or "direct" wiring instruction. Request
+  // clarification rather than preferring either incompatible description.
+  if(mismatch){
+    kind='conflicting_connector_evidence';
+    direct=false;
+    title='Conflicting connection information: verify the sockets';
+    signal='Your selected output or input disagrees with the documented model connection. Check the labels on both devices before any wiring.';
+    cable='Do not select a cable from these conflicting details yet.';
+    next='Confirm the exact model/revision and back-panel input and output labels, then update the connection choices.';
+  }
   if(assumedSub)warnings.push('You have not chosen a particular subwoofer yet. The connection route may change with the model you buy.');
   let mainBass='The main speakers will normally keep playing bass. A subwoofer’s low-pass control only changes what the sub plays; it does not automatically take bass away from the main speakers.';
   let bassStatus='not_verified';
