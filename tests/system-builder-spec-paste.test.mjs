@@ -29,7 +29,7 @@ test('unqualified sensitivity, generic impedance, and peak wattage cannot turn i
 test('conflicting ratings or a minimum above nominal cannot be accepted',()=>{
   const result=parseSpeakerSpecText('Nominal impedance: 8 Ω\nNominal impedance: 4 Ω\nMinimum impedance: 12 Ω\nSensitivity: 86 dB (2.83 V / 1 m)');
   assert.equal(result.fields.speakerLoad,undefined);
-  assert.equal(result.fields.speakerMinimum,12,'without a unique nominal the minimum is provisional and must be reviewed');
+  assert.equal(result.fields.speakerMinimum,undefined,'a minimum above an ambiguous nominal must be entered manually');
   assert.equal(result.fields.speakerSensitivity,86);
   assert.match(result.notes.join(' '),/Conflicting nominal/);
   const invalid=parseSpeakerSpecText('Nominal impedance: 4 Ω\nMinimum impedance: 8 Ω');
