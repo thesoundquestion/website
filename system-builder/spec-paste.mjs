@@ -20,7 +20,7 @@ const readImpedance=segment=>{
     .replace(/^(?:approx(?:imately)?\.?|about|~)\s*/i,'');
   // Do not choose one end of a manufacturer's 4–8 Ω range, or of 4/8 Ω.
   if(/^\d+(?:[.,]\d+)?\s*(?:[-–—/]|to\b)\s*\d/i.test(value))return null;
-  const first=value.match(/^(\d{1,2}(?:[.,]\d+)?)\s*(?:Ω|ohms?)?/i);
+  const first=value.match(/^(\d{1,3}(?:[.,]\d+)?)(?![\d.,])\s*(?:Ω|ohms?)?/i);
   if(!first)return null;
   const amount=numberValue(first[1]);
   if(!valid(amount,1,16))return null;
