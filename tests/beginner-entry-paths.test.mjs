@@ -654,3 +654,16 @@ test('search UI covers all owned gear classes without auto-import claims',async(
   assert.match(app,/for\(const kind of \['speaker','amp','source','headphone'\]\)/);
   assert.match(page,/not.*automatically import|never scrape|cannot automatically import/i);
 });
+
+test('a source-backed amp card does not repeat empty warnings',()=>{
+  const option={id:'owned-speaker-amp-yamaha-a-s501',architecture:'passive_separates',
+    amplifierModel:'Yamaha A-S501',speakerModel:'Paradigm Phantom v1',
+    amplifierReason:'85 W/channel at 8 Ω',
+    manualPairing:{supported:true,statement:'8 Ω within published one-pair range'},
+    amplifierFit:{amp:{exact:true,watts:85,ohms:8},speaker:{watts:90}},
+    parts:[],extra:[],levelCaution:false};
+  const view=explainBeginnerOption(option,{goal:'dynamic',level:'high'});
+  assert.equal(view.status,'Published nominal-load match');
+  assert.deepEqual(view.firstChecks,[]);
+  assert.equal(view.priority,'supported');
+});

@@ -122,3 +122,12 @@
 .sc-level-quicklinks{margin:.45rem 0 1rem;color:#c7dce8;line-height:1.6;font-size:.92rem}
 .sc-level-quicklinks a{color:#9ce2fa;font-weight:700;text-underline-offset:3px}
 .sc-level-quicklinks a:focus-visible{outline:2px solid #94dcff;outline-offset:3px;border-radius:3px}
+
+/* Same full calculator shown inside the Builder: hide only duplicate site chrome. */
+body.sc-embedded .site-header,body.sc-embedded .site-footer,
+body.sc-embedded .sc-tool-tabs,body.sc-embedded .tsq-recommend-link,
+body.sc-embedded .page-endnav,body.sc-embedded .sc>h1,
+body.sc-embedded .sc>.lead,body.sc-embedded .sc>noscript,
+body.sc-embedded .sc-notes{display:none!important}
+body.sc-embedded .sc{padding:.7rem;max-width:100%}
+body.sc-embedded .sc-layout{grid-template-columns:minmax(0,1fr)}

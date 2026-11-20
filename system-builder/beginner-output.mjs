@@ -45,8 +45,10 @@ export function explainBeginnerOption(item,request={}){
     (pairing&&(pairing.nominal===null||pairing.demandingMinimum)));
   const externalInput=item?.connectionStatus==='adapter_needed';
   const condition=Boolean(item?.sourceCaution||item?.pathwayCaution||item?.levelCaution||item?.placementCaution||item?.sourceBatteryCaution);
+  const documentedAmp=Boolean(item?.amplifierModel&&item?.amplifierFit?.amp?.exact);
   const status=blocked?'Check this pairing before connecting':reuse?'Keep your gear if it meets your needs':
     externalInput?'You may need another connection':
+    documentedAmp?'Published nominal-load match':
     curated?curated.label:pairing?pairing.label:'A possible setup, with details to check';
   const rawReason=first(item?.headphoneRationale,item?.amplifierReason,item?.speakerRationale,
     item?.ownershipMessage,item?.why,
@@ -63,7 +65,7 @@ export function explainBeginnerOption(item,request={}){
     ?'This is another system type to compare. We do not have proof that it best fits your main listening goal.'
     :'We included this option because it is listed as a possible fit for '+goal+'. That is a starting point, not a listening test or a promise of sound quality.';
   // Describe the actual evidence instead of implying every pair hides a problem.
-  const reason=curated?(text(item?.why)||'A documented passive stereo system with compatible published speaker-load specifications.'):pairing?pairing.plainWhy:
+  const reason=documentedAmp?text(item.amplifierReason):curated?(text(item?.why)||'A documented passive stereo system with compatible published speaker-load specifications.'):pairing?pairing.plainWhy:
     reuse?'We started with equipment you already own. If it meets your needs, there is no reason to replace it just to complete a shopping list.':
     item?.ownedAmpName?'This option lets you keep your '+item.ownedAmpName+
       ' and look at speakers without buying another amplifier. We still need to check the exact match.':
@@ -79,7 +81,7 @@ export function explainBeginnerOption(item,request={}){
     item?.ownershipBlocker,item?.loadCaution,item?.sourceCaution,item?.pathwayCaution,
     ...((Array.isArray(item?.extra)?item.extra:[]))
   ]);
-  const checks=curated?unique([
+  const checks=documentedAmp?[]:curated?unique([
     curated.setup,
     item?.sourceCaution?'This source requires an input or converter not included with the basic pair. Confirm the selected source connection.':'',
     externalInput?'A compatible audio converter may be needed for the selected source.':'',
@@ -112,7 +114,11 @@ export function explainBeginnerOption(item,request={}){
   ]);
   const fit=item?.amplifierFit;
   let matchingEvidence='';
-  if(curated){
+  if(documentedAmp){
+    matchingEvidence='Published continuous output: '+item.amplifierFit.amp.watts+
+      ' W/channel at '+item.amplifierFit.amp.ohms+' Ω. '+
+      (item.manualPairing?.statement||'The manufacturer lists output at this exact nominal load.');
+  }else if(curated){
     matchingEvidence=curated.proof;
   }else if(pairing){
     matchingEvidence=pairing.plainWhy+
@@ -147,5 +153,5 @@ export function explainBeginnerOption(item,request={}){
     checkHeading:curated?'How to connect this pairing':null,
     firstChecks:checks.slice(0,2),remainingChecks:checks.slice(2),costAndTradeoffs:missing,
     technicalEvidence,technicalChecks,reuse,
-    priority:blocked?'critical':externalInput||condition?'review':curated?'supported':'conditional'};
+    priority:blocked?'critical':externalInput||condition?'review':documentedAmp?'supported':curated?'supported':'conditional'};
 }

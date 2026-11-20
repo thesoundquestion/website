@@ -821,6 +821,13 @@ for (const name of speakerPowerFields) {
     }
   });
 }
+// Listening Builder can embed the exact unchanged calculator. Only identity
+// and distance arrive through a same-origin URL; no assumed listening target.
+const builderParams=new URLSearchParams(location.search);
+if(builderParams.get('embedded')==='1')document.body.classList.add('sc-embedded');
+const builderDistance=Number(builderParams.get('distanceFt'));
+if(builderParams.has('distanceFt')&&Number.isFinite(builderDistance)&&builderDistance>=0.5&&builderDistance<=300)
+  field('distance').value=String(builderDistance);
 if (typeof systemCheckGear !== 'undefined') mountGearPresets(systemCheckGear);
 
 if (!ratings.children.length) addRating();

@@ -763,6 +763,24 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(pathBox,'p',overview.rolePath,'sb-beginner-plain');
       if(overview.roles.length)list(pathBox,overview.roles.slice(0,4),'sb-beginner-parts');
       card.append(pathBox);
+      // Reuse the existing System Check page and its validated calculations.
+      // The exact selected models and seat distance carry through on-page.
+      if(item.amplifierModel&&item.speakerModel){
+        const inline=el('details','sb-inline-system-check');
+        addText(inline,'summary','Check headroom with these exact models');
+        addText(inline,'p','The calculator uses your selected models and listening distance. Adjust the average and brief peak dB SPL targets yourself; “occasionally loud” is not a measured level.','sb-help');
+        inline.addEventListener('toggle',()=>{
+          if(!inline.open||inline.querySelector('iframe'))return;
+          const params=new URLSearchParams({embedded:'1',
+            speaker:item.speakerModel,amp:item.amplifierModel,distanceFt:String(distanceFt)});
+          const frame=el('iframe','sb-inline-system-check-frame');
+          frame.title='System Check for '+item.speakerModel+' with '+item.amplifierModel;
+          frame.loading='lazy';
+          frame.src='/system-check/?'+params.toString();
+          inline.append(frame);
+        });
+        card.append(inline);
+      }
       const proof=el('div','sb-beginner-proof');
       addText(proof,'h5','Why these pieces make sense together');
       addText(proof,'p',overview.matchingEvidence,'sb-beginner-plain');
@@ -774,7 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
         list(firstChecks,overview.firstChecks,'sb-beginner-checklist');
         card.append(firstChecks);
       }
-      if(overview.costAndTradeoffs.length)
+      if(overview.costAndTradeoffs.length&&!item.amplifierModel)
         addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
       const evidence=el('details','sb-beginner-evidence');
       addText(evidence,'summary','See the technical details and original sources');
@@ -891,14 +909,18 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(details,'p',item.bassSetup.setup);
         link(details,item.bassSetup.source,'Manufacturer bass-routing instructions');
       }
-      addText(details,'h5','Full before-you-buy checklist');
-      list(details,checks);
+      if(checks.length){
+        addText(details,'h5','Specific remaining checks');
+        list(details,checks);
+      }
       card.append(details);
       return card;
     };
 
     if (shortlist.selected.length) {
-      addText(shop,'p','These are starting options, not guaranteed matches. First see why each was suggested, then check the real connections, speaker load, missing parts and total cost. Keeping equipment you already own is a valid outcome.','sb-results-orientation');
+      addText(shop,'p',intent?.requiredOwn==='speaker'
+        ?'These amplifiers have published continuous-power tests at your speakers’ nominal load. Use the inline System Check to calculate the listening level you actually want.'
+        :'These options show why they were selected, with documented matching evidence and specific issues only when a genuine problem was identified.','sb-results-orientation');
       const visible = shortlist.selected.slice(0,3);
       const grid = el('div','sb-recommendations');
       for (const item of visible) grid.append(renderCard(item));
