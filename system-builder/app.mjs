@@ -1271,7 +1271,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(!baseline||!choices?.length)return;
       const preview=el('section',klass);
       addText(preview,'h4',heading);
-      addText(preview,'p','Each choice below is compared with the first recommendation. These are practical differences to investigate, not measured sound-quality winners. Full connection plans and source checks remain in Alternative setups.','sb-brief-note');
+      addText(preview,'p','Each choice below is compared with the first recommendation. These are practical differences to investigate, not measured sound-quality winners. Open Alternative setups to see each complete connection plan and its source checks.','sb-brief-note');
       const grid=el('div','sb-comparison-preview-list');
       for(const item of choices){
         const comparison=compareAlternative(baseline,item,request,sharedCatalog);

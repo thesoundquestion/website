@@ -9,7 +9,11 @@ const readable=x=>String(x||'').replaceAll('_',' ');
 const clamp=(s,max=205)=>s.length>max?s.slice(0,max).replace(/\s+\S*$/,'')+'…':s;
 const uniq=items=>[...new Set(items.filter(Boolean))];
 const isNum=v=>typeof v==='number'&&Number.isFinite(v);
-const itemId=i=>i?.catalogId||(String(i?.id||'').startsWith('catalog-')?i.id.slice(8):null);
+const itemId=i=>{
+  const id=String(i?.id||'');
+  return i?.catalogId||(id.startsWith('catalog-')?id.slice(8):
+    /^(?:builder|legacy|research)\//.test(id)?id:null);
+};
 const dataFor=(catalog,item)=>catalog?.records?.find(r=>r.id===itemId(item))||null;
 const hpStyle=i=>{
  const text=(String(i?.kind||'')+' '+String(i?.title||'')).toLowerCase();
