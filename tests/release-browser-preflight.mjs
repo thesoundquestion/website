@@ -112,10 +112,11 @@ try {
   await page.waitForFunction(()=>!document.querySelector('#sb-purpose-result')?.hidden,null,{timeout:15000});
   const podcastExplanation=await page.locator('#sb-purpose-result-body .sb-build-workflow').innerText();
   assert.match(podcastExplanation,/How will this setup work\?/);
-  assert.match(podcastExplanation,/XLR output/);
-  assert.match(podcastExplanation,/USB connection is NOT used/);
+  assert.match(podcastExplanation,/by XLR cable/);
+  assert.match(podcastExplanation,/this setup uses their XLR outputs/);
   assert.match(podcastExplanation,/M-Track Duo/);
   assert.match(podcastExplanation,/headphone output/);
+  assert.doesNotMatch(podcastExplanation,/extra software routing|multiple USB microphones on Windows/);
   assert.ok(await page.locator('#sb-purpose-result-body .sb-build-workflow-sources a').count()>=2);
   await checkNoErrors(page,errors,device.name+' podcast monitoring instructions');
   outcomes.push(device.name+' two-mic podcast: XLR capture, separate tracks and monitoring explanation');
