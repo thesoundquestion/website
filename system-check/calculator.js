@@ -179,6 +179,8 @@ function curveReading(peakV, averageV, speakerLoad) {
 }
 
 function renderConnections(volts, entries, speakerLoad) {
+  // The results explain whether the specified source and amplifier can work
+  // together, not every intermediate calculation or every missing input.
   const source = num('sourceVoltage');
   const sourceZ = num('sourceZ');
   const inputZ = num('inputZ') * 1000;
@@ -187,45 +189,38 @@ function renderConnections(volts, entries, speakerLoad) {
   const outputZ = num('outputZ');
   const minimum = num('minimum');
   const maximum = num('maximum');
-  if ([source, sourceZ, inputZ, gain, sensitivity, outputZ].every(Number.isNaN)) return;
-  addText('h3', 'Source and amplifier connection');
-  const hasDivider = Number.isFinite(sourceZ) && Number.isFinite(inputZ);
-  const divider = hasDivider ? inputZ / (sourceZ + inputZ) : 1;
-  if (hasDivider) addText('p', 'About ' + powerPercent(divider) + ' of the source signal voltage reaches the amplifier input (' + db(-20 * Math.log10(divider)) + ' dB loss).');
-  else if (Number.isFinite(sourceZ) || Number.isFinite(inputZ)) addText('p', 'Enter both the source output impedance and the amp input impedance to check how much signal reaches the amp.');
-  const first = entries[0];
-  const voltageGain = Number.isFinite(gain) ? 10 ** (gain / 20) : first && sensitivity ? Math.sqrt(first.watts * first.load) / sensitivity : NaN;
-  if (Number.isFinite(voltageGain)) {
-    const needed = volts / voltageGain;
-    const gainBasis = Number.isFinite(gain)
-      ? 'the entered gain'
-      : 'the entered input sensitivity for ' + show(first.watts) + ' W into ' + show(first.load) + ' Ω';
-    addText('p', 'Look for a source that can deliver about ' + show(needed) + ' V RMS into the amp input for this peak, based on ' + gainBasis + '.');
-    if (source && hasDivider) {
-      const available = source * divider;
-      const result = available >= needed ? 'That covers the input signal needed for this peak.' : 'That falls short of the input signal needed for this peak.';
-      addText('p', 'Your source can supply an estimated ' + show(available) + ' V RMS after input loading. ' + result);
-    } else if (source) {
-      const result = source >= needed
-        ? 'That would cover the peak if loading loss is small. The voltage at the amp input is unverified.'
-        : 'That falls short even before accounting for input loading.';
-      addText('p', 'Your source is rated for ' + show(source) + ' V RMS. ' + result);
-      if (!Number.isFinite(sourceZ) && !Number.isFinite(inputZ)) {
-        addText('p', 'Enter both impedances to estimate the voltage at the amp input.');
-      }
-    }
-  } else if (source || sensitivity) {
-    addText('p', 'Enter amplifier voltage gain, or rated input sensitivity and its matching first power rating, to estimate the required input signal.');
+
+  const reference = entries.find(item=>item.type==='continuous' &&
+    Number.isFinite(item.watts)&&item.watts>0&&item.load>0);
+  const voltageGain = Number.isFinite(gain) && gain>0 ? 10 ** (gain/20) :
+    reference&&sensitivity>0 ? Math.sqrt(reference.watts*reference.load)/sensitivity : NaN;
+  const required = voltageGain>0&&volts>0 ? volts/voltageGain : NaN;
+  const hasImpedances=Number.isFinite(sourceZ)&&sourceZ>=0 &&
+    Number.isFinite(inputZ)&&inputZ>0;
+  const attenuation=hasImpedances?inputZ/(inputZ+sourceZ):1;
+  const available=source>0?source*attenuation:NaN;
+
+  if(source>0&&required>0){
+    addText('h3','Source and amplifier connection');
+    addText('p',available>=required?
+      'Your source has enough specified output level for this listening target.':
+      'Your source’s specified output level may be too low for this listening target.');
+    // A clear, nontrivial, modelled loss is worth showing. Tiny losses are not.
+    const inputLoss=hasImpedances?-20*Math.log10(attenuation):0;
+    if(inputLoss>=1)
+      addText('p','The entered source and amplifier impedances suggest about '+
+        db(inputLoss)+' dB of signal loss at the input.');
   }
-  if (Number.isFinite(outputZ)) {
-    if (minimum > 0 && maximum >= minimum) {
-      const low = minimum / (minimum + outputZ);
-      const high = maximum / (maximum + outputZ);
-      addText('p', 'The amplifier’s output impedance could contribute about ' + db(20 * Math.log10(high / low)) + ' dB of level variation between the entered impedance extremes in a resistive model. The frequencies and electrical phase determine how that translates to tonal balance.');
-    } else {
-      const testLoad = minimum > 0 ? minimum : maximum > 0 ? maximum : speakerLoad;
-      const attenuation = 20 * Math.log10(1 + outputZ / testLoad);
-      addText('p', 'Treating ' + show(testLoad) + ' Ω as a fixed load, the entered output impedance would reduce the level by about ' + db(attenuation) + ' dB compared with the amp’s unloaded output. Enter both measured speaker impedance extremes to estimate how that loss might vary across frequencies.');
+
+  // Speaker-load interaction belongs in the results only when the user has
+  // actual minimum AND maximum impedance and a material predicted variation.
+  if(outputZ>=0&&minimum>0&&maximum>minimum){
+    const low=minimum/(minimum+outputZ),high=maximum/(maximum+outputZ);
+    const variation=20*Math.log10(high/low);
+    if(variation>=1){
+      addText('h3','Amplifier and speaker interaction');
+      addText('p','The entered amplifier output impedance and speaker impedance range suggest about '+
+        db(variation)+' dB of level variation. The actual frequency response depends on the speaker.');
     }
   }
 }
