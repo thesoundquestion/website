@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const headphonePreferences = document.getElementById('sb-headphone-preferences');
   const headphoneAmpSetup=document.getElementById('sb-headphone-amp-setup');
   const headphoneAmpChoice=form.elements.namedItem('headphoneAmpChoice');
+  const headphoneDacChoice=form.elements.namedItem('headphoneDacChoice');
   const headphoneSource=form.elements.namedItem('headphoneSource');
   const headphoneAmpGuidance=document.getElementById('sb-headphone-amp-guidance');
   const syncHeadphoneInputs=()=>{
@@ -160,18 +161,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if(headphonePreferences)headphonePreferences.hidden=!active;
     if(headphoneAmpSetup)headphoneAmpSetup.hidden=!active;
     if(headphoneAmpChoice){headphoneAmpChoice.disabled=!active;headphoneAmpChoice.required=active;}
+    if(headphoneDacChoice){headphoneDacChoice.disabled=!active;headphoneDacChoice.required=active;}
     if(headphoneSource)headphoneSource.disabled=!active;
     if(headphoneAmpGuidance&&active){
       const choice=headphoneAmpChoice.value;
-      headphoneAmpGuidance.textContent=choice==='yes'
-        ?'We will include an amplifier when your source connection matches a documented example. Its cost and headphone drive suitability still need checking.'
-        :choice==='no'?'No separate headphone amplifier will be added. We will explain what your existing output must provide.'
-        :choice==='unsure'?'We will help you check the source output and headphone requirements before spending on an amplifier.'
-        :'Choose Yes, No, or Not sure to guide the signal chain.';
+      const dac=headphoneDacChoice.value;
+      headphoneAmpGuidance.textContent=dac==='combo'
+        ?'A combined DAC/amp includes both functions. We will show a compatible-source example and its headphone output.'
+        :dac==='separate'
+          ?'A standalone DAC provides line-level output. If no headphone amplifier is included, you need an existing suitable headphone output downstream.'
+          :choice==='yes'
+            ?'We will show documented headphone amplifiers when your source can connect to them. Exact headphone drive and price still need checking.'
+            :choice==='no'?'No new headphone amplifier will be added. We will check what your existing headphone output must provide.'
+              :'We will help you decide whether any additional headphone electronics are useful.';
     }
   };
   architecture.addEventListener('change',()=>{syncHeadphoneInputs();updateFieldRequirements();});
-  headphoneAmpChoice.addEventListener('change',syncHeadphoneInputs);
+  headphoneAmpChoice.addEventListener('change',()=>{
+    if(headphoneAmpChoice.value==='no'&&headphoneDacChoice.value==='combo')
+      headphoneDacChoice.value='';
+    syncHeadphoneInputs();
+  });
+  headphoneDacChoice.addEventListener('change',()=>{
+    if(headphoneDacChoice.value==='combo')headphoneAmpChoice.value='yes';
+    syncHeadphoneInputs();
+  });
   headphoneSource.addEventListener('change',syncHeadphoneInputs);
   syncHeadphoneInputs();
   const subMode = form.elements.namedItem('subMode');
@@ -286,7 +300,8 @@ document.addEventListener('DOMContentLoaded', () => {
     for(const label of form.querySelectorAll('label.sb-field')){
       const field=label.querySelector('select, input:not([type="checkbox"])');
       if(!field)continue;
-      let rule=field.name==='headphoneAmpChoice'&&architecture.value==='headphone_first'
+      let rule=['headphoneAmpChoice','headphoneDacChoice'].includes(field.name)&&
+        architecture.value==='headphone_first'
         ?'required':builderFieldRequirement(id,field.name);
       if(rule==='required_if_unlisted'){
         const kind=field.name.startsWith('speaker')?'speaker':'amp';
@@ -904,6 +919,7 @@ document.addEventListener('DOMContentLoaded', () => {
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used'),
       headphoneUse:String(data.get('headphoneUse')||'quiet'),headphoneFit:String(data.get('headphoneFit')||'any'),
       headphoneAmpChoice:String(data.get('headphoneAmpChoice')||''),
+      headphoneDacChoice:String(data.get('headphoneDacChoice')||''),
       headphoneSource:String(data.get('headphoneSource')||'unknown')
     };
     const partyPassiveRoute=(primary==='party'||useCase==='party') &&
