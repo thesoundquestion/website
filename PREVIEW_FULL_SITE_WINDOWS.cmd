@@ -26,6 +26,6 @@ timeout /t 2 /nobreak >nul
 start "" "%URL%"
 echo.
 echo Full preview: %URL%
-echo Site branch: draft/consolidated-prelaunch-20261119
+echo Site branch: draft/magicpath-compact-full-site-20261120
 echo Close the newly opened server console to stop the preview.
 pause
