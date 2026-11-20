@@ -15,7 +15,7 @@
 <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
 <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
 <script defer src="/system-builder/catalog-adapter.js"></script>
-<script type="module" src="/system-builder/app.mjs?v=unsourced-specs-and-passive-20261120"></script>
+<script type="module" src="/system-builder/app.mjs?v=match-logic-20261120"></script>
 
 <title>Listening Builder | The Sound Question</title>
 </head>
@@ -295,6 +295,14 @@ Sensitivity: 100 dB SPL / mW"></textarea>
 </section>
 <section class="sb-panel sb-sub-connect-section" aria-labelledby="sb-sub-connections">
 <div class="sb-step"><span>05</span><div><h2 id="sb-sub-connections">How will the subwoofer connect?</h2><p>These are ordinary socket types. Choose “Not sure” when you do not know. We will not assume that having an RCA input means your amplifier has an RCA output.</p></div></div>
+<label class="sb-field sb-spec-paste-label">Paste amplifier and subwoofer connection descriptions (optional)
+<textarea id="sb-sub-spec-paste" rows="4" maxlength="4000" spellcheck="false" placeholder="Receiver: Subwoofer Out (RCA)
+Subwoofer: RCA Line In and High Level Speaker In
+Main speakers: no high-pass mentioned"></textarea>
+</label>
+<button type="button" class="button button-secondary sb-spec-paste-button" id="sb-sub-spec-fill">Fill recognised connections from pasted text</button>
+<p id="sb-sub-spec-feedback" class="sb-help" role="status" aria-live="polite">The recognised connections will fill the choices below. Check the actual sockets before wiring.</p>
+<ul id="sb-sub-spec-observations" class="sb-spec-review-list" aria-label="Subwoofer connection details requiring review" hidden></ul>
 <div class="sb-grid">
 <label class="sb-field">Subwoofer model
 <input name="subName" maxlength="120" placeholder="e.g. Edifier T5, or leave blank"></label>
