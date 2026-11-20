@@ -73,6 +73,9 @@ export const BUILDER_INTENTS=Object.freeze({
  */
 export function builderFieldRequirement(id,fieldName){
   if(fieldName==='buildIntent')return 'required';
+  // A source link improves provenance but is not a prerequisite for
+  // discovery based on meaningful user-entered numerical specifications.
+  if(/^(?:speaker|amp|source|headphone)SpecUrl$/.test(fieldName))return 'optional';
   if(fieldName==='speakerPowerType' && id==='amp_for_speakers')return 'required_if_unlisted';
   const plan=BUILDER_INTENTS[id];
   if(!plan)return 'optional';
