@@ -56,5 +56,6 @@ test('Listening Room counts, playback discovery and editorial tone remain intact
  assert.match(html,/sdz.sh\/2r8wVo/);
  assert.match(html,/id="community-listening-room"/);
  assert.match(proclaimers,/Find on Spotify/);
- assert.match(blindMelon,/Find on Spotify/);
+ assert.match(blindMelon,/Find song on Spotify/);
+ assert.match(blindMelon,/Listen to the full album on Spotify/);
 });
