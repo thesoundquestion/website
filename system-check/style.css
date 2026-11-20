@@ -58,7 +58,12 @@
 .sc-load-headroom{color:#ecf9ff;font-weight:700;font-variant-numeric:tabular-nums;font-size:.87rem}
 .sc-load-boundary{color:#e2d8b9;font-size:.84rem;line-height:1.65!important;padding-top:.4rem;border-top:1px solid #416077}
 .sc-headroom-adjustments{margin-top:.65rem;padding:.75rem .85rem;border:1px solid #5f7687;border-radius:7px;background:#142c3c;color:#e0ecf6}
-.sc-headroom-adjustments h5{font-size:.92rem;margin:0 0 .35rem;color:#f4faff}
+.sc-headroom-adjustments summary{font-size:.92rem;margin:0;color:#c9f4ff;font-weight:750;cursor:pointer}
+.sc-headroom-adjustments[open] summary{margin-bottom:.55rem}
+.sc-headroom-model-options{margin-top:.7rem;border-top:1px solid #426175;padding-top:.55rem}
+.sc-headroom-model-options h6{font-size:.85rem;line-height:1.5;color:#e5f5ff;margin:0 0 .35rem}
+.sc-headroom-model-options ul{margin:.35rem 0;padding-left:1.15rem}
+.sc-headroom-model-options a{text-decoration:underline;text-underline-offset:2px}
 .sc-headroom-adjustments p{margin:.35rem 0;font-size:.85rem;line-height:1.6}
 .sc-headroom-adjustments ul{margin:.35rem 0;padding-left:1.2rem;font-size:.84rem;line-height:1.55}
 .sc-headroom-adjustments li{margin:.45rem 0}
