@@ -335,9 +335,11 @@ try {
 
   await visit(page,'/system-builder/');
   await page.locator('#sb-build-intent').selectOption('subwoofer');
-  await page.locator('#sb-sub-spec-paste').fill(
-    'Receiver: Subwoofer Out (RCA)\\nSubwoofer: RCA Line In and High Level Speaker In\\n'+
-    'Main speakers: no high-pass mentioned'.replaceAll('\\n','\n'));
+  await page.locator('#sb-sub-spec-paste').fill([
+    'Receiver: Subwoofer Out (RCA)',
+    'Subwoofer: RCA Line In and High Level Speaker In',
+    'Main speakers: no high-pass mentioned'
+  ].join('\n'));
   await page.locator('#sb-sub-spec-fill').click();
   assert.equal(await page.locator('[name="subAmpOutput"]').inputValue(),'sub_rca');
   assert.equal(await page.locator('[name="subInput"]').inputValue(),'both');
