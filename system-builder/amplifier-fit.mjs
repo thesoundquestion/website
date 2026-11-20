@@ -71,9 +71,15 @@ export function speakerPowerReference(speaker) {
     basis==='max_input' ? v.speakerPowerMaxInput : null;
   const label=basis==='nominal' ? 'published nominal handling' :
     basis==='max_input' ? 'published maximum input (rating method unclear)' : 'no verified continuous/nominal power-handling figure';
-  const recommendedMax=atLeast(v.speakerRecommendedAmpMax)?v.speakerRecommendedAmpMax:null;
+  // Owned-speaker forms use a different field schema from the compiled catalog.
+  // Carry user-entered guidance through the exact same evidence policy.
+  const recommendedMin=atLeast(v.recommendedAmpMinW)?v.recommendedAmpMinW:
+    atLeast(v.speakerRecommendedAmpMin)?v.speakerRecommendedAmpMin:null;
+  const recommendedMax=atLeast(v.recommendedAmpMaxW)?v.recommendedAmpMaxW:
+    atLeast(v.speakerRecommendedAmpMax)?v.speakerRecommendedAmpMax:null;
+  const listedMaxInput=atLeast(v.listedMaxInputW)?v.listedMaxInputW:null;
   const peak=atLeast(v.speakerPowerPeak)?v.speakerPowerPeak:null;
-  return {watts,basis,label,peak,recommendedMax,
+  return {watts,basis,label,peak,recommendedMin,recommendedMax,listedMaxInput,
     source:typeof v.speakerPowerSource==='string'?v.speakerPowerSource:null,
     note:typeof v.speakerPowerNote==='string'?v.speakerPowerNote:null};
 }
@@ -147,7 +153,11 @@ export function assessAmplifierCandidate({idea,record,speaker,request={}}) {
     'Published THD is '+amp.thd+'% but the rating does not document a comparable full 20 Hz–20 kHz test.' :
     'No directly comparable full-band THD ceiling is documented for this rating; unknown is not poor sound.';
   const ownerNote=sp.recommendedMax!==null ?
-    'Speaker maker’s suggested amplifier maximum: '+sp.recommendedMax+' W (a recommendation, NOT a speaker power-handling limit).' : null;
+    'Speaker maker’s amplifier recommendation: '+
+      (sp.recommendedMin!==null?sp.recommendedMin+'–':'up to ')+sp.recommendedMax+
+      ' W (guidance, NOT a continuous speaker power-handling limit).'+
+      (sp.listedMaxInput!==null?' Separately listed maximum input: '+sp.listedMaxInput+
+        ' W, with rating conditions unspecified.':'') : null;
   const peakNote=sp.peak!==null ?
     'Speaker published peak figure: '+sp.peak+' W. It is not compared against continuous amplifier output.' : null;
   const context=AMP_LISTENING_REPORTS[idea.model]||null;
