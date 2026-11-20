@@ -360,6 +360,10 @@ try {
   // Keep every other editorial setup behind one closed disclosure.
   const firstRecommendation=page.locator('#sb-first-recommendation');
   assert.equal(await firstRecommendation.count(),1,device.name+' must render one primary card');
+  const firstWorkflow=firstRecommendation.locator('.sb-setup-workflow');
+  assert.equal(await firstWorkflow.count(),1,device.name+' primary recommendation must explain its connections');
+  assert.match(await firstWorkflow.locator('h5').innerText(),/How will this setup work\?/);
+  assert.ok(await firstWorkflow.locator('ol li').count()>=2,device.name+' setup guide needs actionable steps');
   assert.equal(await firstRecommendation.evaluate(node=>document.activeElement===node),true,
     device.name+' submit should focus first recommendation');
   const firstTop=await firstRecommendation.evaluate(node=>node.getBoundingClientRect().top);
@@ -395,6 +399,9 @@ try {
   assert.match(await alternatives.locator('summary').first().innerText(),/Alternative setups/);
   assert.ok(await alternatives.locator('.sb-recommend').count()>=1,
     device.name+' collapsed setup must retain another recommendation');
+  assert.equal(await alternatives.locator('.sb-recommend').count(),
+    await alternatives.locator('.sb-setup-workflow').count(),
+    device.name+' every alternative card also needs a setup explanation');
   await alternatives.locator('summary').first().click();
   assert.ok(await page.locator('#sb-results .sb-recommend:visible').count()>1,
     device.name+' alternatives should expand when requested');
@@ -404,6 +411,47 @@ try {
   assert.match(await availablePanels.first().innerText(),/Headroom for these exact models/);
   await checkNoErrors(page,errors,device.name+' normal passive recommendation headroom');
   outcomes.push(device.name+' non-owned passive recommendations now expose the exact-model headroom link');
+
+
+  // Regression: the real owned A-720 + Titan v3 route used to return ONLY a
+  // "keep your gear" card and omit System Check, despite a high/dynamic target.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('improve_existing');
+  await page.locator('[name="speaker"]').selectOption('Paradigm Titan v3');
+  await page.locator('[name="amp"]').selectOption('Yamaha A-720');
+  await page.locator('[name="goal"]').selectOption('dynamic');
+  await page.locator('[name="level"]').selectOption('high');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  const baseline=page.locator('#sb-first-recommendation');
+  assert.match(await baseline.innerText(),/Paradigm Titan v3/);
+  assert.match(await baseline.innerText(),/Yamaha A-720/);
+  assert.match(await baseline.innerText(),/Headroom for these exact models/);
+  assert.equal(await baseline.locator('.sb-setup-workflow').count(),1);
+  const preview=page.locator('.sb-upgrade-comparison-preview');
+  assert.equal(await preview.count(),1,device.name+' improve-existing must actually propose speaker alternatives');
+  const previewText=await preview.innerText();
+  assert.match(previewText,/Speaker changes worth comparing/);
+  assert.match(previewText,/Cerwin-Vega|Klipsch/);
+  const options=page.locator('#sb-results .sb-alternative-setups .sb-recommend');
+  assert.ok(await options.count()>=2,device.name+' high dynamic use must offer a few alternatives');
+  assert.equal(await options.count(),await options.locator('.sb-setup-workflow').count());
+  await page.waitForFunction(()=>{
+    const frame=document.querySelector('#sb-first-recommendation iframe.sb-inline-system-check-frame');
+    return frame?.contentDocument?.body.classList.contains('sc-auto-result');
+  },null,{timeout:20000});
+  const computed=await baseline.locator('iframe.sb-inline-system-check-frame').evaluate(frame=>{
+    const doc=frame.contentDocument;
+    return {sensitivity:doc.querySelector('[name="sensitivity"]').value,
+      room:doc.querySelector('[name="room"]').value,
+      result:doc.querySelector('#result-body')?.innerText||'',
+      status:doc.querySelector('#result-status')?.innerText||''};
+  });
+  assert.equal(computed.sensitivity,'89',device.name+' in-room Titan sensitivity must be primary');
+  assert.equal(computed.room,'0',device.name+' room credit must not be applied twice');
+  assert.doesNotMatch(computed.result+computed.status,/has not been calculated|No example rating has been substituted/);
+  await checkNoErrors(page,errors,device.name+' A-720 Titan v3 improve-existing headroom and speaker-upgrade comparisons');
+  outcomes.push(device.name+' improved-owned-stereo route calculates in-room headroom and compares higher-output speakers');
 
   assert.equal(workerRequests,0,device.name+' smoke attempted live Worker API');
   outcomes.push(device.name+' Listening Builder unlisted specification pathway');
