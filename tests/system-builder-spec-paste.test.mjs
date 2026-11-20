@@ -122,7 +122,8 @@ test('user-reported full speaker description feeds provisional nominal, minimum,
   assert.deepEqual(parsed.fields,{
     speakerLoad:8,speakerMinimum:4.2,speakerSensitivity:90,
     speakerSensitivityEnvironment:'in_room',speakerAnechoic:87,
-    speakerRecommendedAmpMin:15,speakerRecommendedAmpMax:100,speakerMaxInput:60
+    speakerRecommendedAmpMin:15,speakerRecommendedAmpMax:100,speakerMaxInput:60,
+    speakerPowerType:'passive'
   });
   assert.match(parsed.observations.join(' '),/8 Ω described as compatible/);
   assert.match(parsed.observations.join(' '),/90 dB \(in-room\).*87 dB \(anechoic\)/);
@@ -287,4 +288,11 @@ test('providing an optional valid source restores the provenance flag, not indep
   assert.equal(a.record.url,'https://example.org/manual');
   assert.equal(a.record.sourceStatus,'provided');
   assert.match(a.message,/not independently verified/);
+});
+
+test('passive inferred only from external amp recommendation, not when powered/active is explicit',()=>{
+  const passive=parseSpeakerSpecText('Recommended Amplifier Power: 15-100 watts');
+  assert.equal(passive.fields.speakerPowerType,'passive');
+  const active=parseSpeakerSpecText('Powered active speaker with built-in amplifier\nRecommended Amplifier Power: 15-100 watts');
+  assert.equal(active.fields.speakerPowerType,undefined);
 });
