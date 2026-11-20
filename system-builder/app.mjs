@@ -408,10 +408,12 @@ document.addEventListener('DOMContentLoaded', () => {
       searches.append(link);
     }
     const hasSuggestions=saved.length>0;
-    manual.hidden=hasSuggestions;
-    if(hasSuggestions)manual.open=false;
+    // A similar catalogue model does not mean this exact model is saved.
+    // Keep manual source-backed entry available even when suggestions appear.
+    manual.hidden=false;
+    manual.open=!hasSuggestions;
     message.textContent=hasSuggestions
-      ?'Choose an exact saved model above to use the already-stored specifications.'
+      ?'Choose an exact saved model above, or open Not in the catalogue to enter the documented specifications for your different model.'
       :'No saved model matched. Use the searches above, then enter only the documented facts this match requires.';
   }
   for(const kind of ['speaker','amp','source','headphone']){

@@ -114,6 +114,7 @@ try {
   assert.match(await page.locator('[data-gear-message="speaker"]').innerText(),/No saved model matched/);
   await page.locator('[name="speakerSpecUrl"]').fill('https://example.org/test-speaker-manual');
   await page.locator('[name="speakerLoad"]').fill('8');
+   await page.locator('[name="speakerPowerType"]').selectOption('passive');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
   const summary=await page.locator('#sb-results').innerText();
