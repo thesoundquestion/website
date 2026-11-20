@@ -28,9 +28,9 @@ function run(config){
     URLSearchParams,Intl,Math,Set,Number
   };
   const summarize=vm.runInNewContext(searchHelper+'\n'+src+'\nsummarizePower',context);
-  summarize(config);
+  const summary=summarize(config);
   const cards=body.subtrees.filter(x=>x.tagName==='article'&&x.className.includes('sc-load-card'));
-  return {cards,body,text:body.allText};
+  return {cards,body,text:body.allText,summary};
 }
 const base={mode:'check',load:8,minimum:NaN,peakV:Math.sqrt(80*8),averageV:Math.sqrt(8*8),peakW:80,averageW:8,peak:102,average:92,distance:8};
 
@@ -140,10 +140,12 @@ test('nominal speaker impedance is kept exactly as entered',()=>{
   assert.doesNotMatch(r.text,/Musical peaks:|Amplifier load-stress warning|no usable/);
 });
 
-test('6 Ω between published 4 Ω and 8 Ω continuous outputs gives a load-range pass and stated interpolation',()=>{
+test('6 Ω between published 4 Ω and 8 Ω permits interpolation without a fake compatibility pass',()=>{
   const r=run({...base,load:6,entries:[{watts:120,load:8,type:'continuous'},{watts:180,load:4,type:'continuous'}]});
   assert.equal(r.cards.length,1);
-  assert.match(r.cards[0].allText,/Pass · 6 Ω is between rated 4 Ω and 8 Ω/);
+  assert.match(r.cards[0].allText,/6 Ω lies between published 4 Ω and 8 Ω continuous test loads/);
+  assert.doesNotMatch(r.cards[0].allText,/Pass · 6 Ω/);
+  assert.equal(r.summary.code,'estimate');
   assert.match(r.cards[0].allText,/Interpolated: 150 W\/ch/);
   assert.doesNotMatch(r.cards[0].allText,/Musical peaks:/);
   assert.doesNotMatch(r.text,/Amplifier load-stress warning/);
@@ -252,3 +254,49 @@ test('speaker catalogue carries power-source provenance and preserves unknown vi
 });
 
 
+
+
+test('average pass and verified burst fail produces a failed overall result, never a complete pass',()=>{
+ const r=run({...base,entries:[{watts:100,load:8,type:'continuous'},{watts:50,load:8,type:'burst'}]});
+ assert.equal(r.summary.code,'fail');
+ assert.equal(r.summary.label,'Peak target not met');
+ assert.match(r.summary.detail,/average demand fits.*musical peaks exceed/);
+ const verdict=r.cards[0].subtrees.filter(x=>x.className.startsWith('sc-overall-verdict'));
+ assert.equal(verdict.length,1);
+ assert.match(verdict[0].allText,/Peak target not met/);
+ assert.doesNotMatch(verdict[0].allText,/Average and peak power targets met/);
+ assert.match(r.cards[0].allText,/Average.*Pass.*Short peaks.*Fail/s);
+});
+test('average pass and missing burst power becomes unverified, not full pass or proven clipping',()=>{
+ const r=run({...base,entries:[{watts:50,load:8,type:'continuous'}]});
+ assert.equal(r.summary.code,'unverified');
+ assert.match(r.summary.label,/Peak headroom not verified/);
+ assert.doesNotMatch(r.summary.label,/Pass|Fail/);
+ assert.match(r.cards[0].allText,/Unverified · peak exceeds continuous rating/);
+});
+test('both targets within directly entered ratings may receive a qualified amplifier power pass',()=>{
+ const r=run({...base,entries:[{watts:100,load:8,type:'continuous'},{watts:140,load:8,type:'burst'}]});
+ assert.equal(r.summary.code,'pass');
+ assert.equal(r.summary.label,'Average and peak power targets met');
+ assert.match(r.summary.detail,/not measured distortion/);
+});
+test('average failure dominates peak power passing in the overall verdict',()=>{
+ const r=run({...base,averageV:Math.sqrt(90*8),averageW:90,entries:[{watts:50,load:8,type:'continuous'},{watts:100,load:8,type:'burst'}]});
+ assert.equal(r.summary.code,'fail');
+ assert.equal(r.summary.label,'Average target not met');
+});
+test('passing amplifier power cannot hide a documented speaker peak-handling caution',()=>{
+ const r=run({...base,power:{speakerPowerPeak:40},entries:[{watts:100,load:8,type:'continuous'},{watts:140,load:8,type:'burst'}]});
+ assert.equal(r.summary.code,'caution');
+ assert.match(r.summary.label,/check speaker handling/);
+ assert.match(r.cards[0].allText,/Speaker stress warning: peak demand 80 W/);
+});
+test('no amplifier rating leaves the result a power requirement rather than a made-up pass',()=>{
+ const r=run({...base,entries:[]});
+ assert.equal(r.summary,null);
+ assert.doesNotMatch(r.cards[0].allText,/sc-overall-verdict|Average and peak power targets met/);
+});
+test('visible result-status reflects the combined comparison, not generic calculation success',()=>{
+ assert.match(js,/const overall = summarizePower\(/);
+ assert.match(js,/if \(overall\) status.textContent = overall.label \+ '\\. ' \+ overall.detail/);
+});

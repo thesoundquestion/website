@@ -149,3 +149,15 @@ body.sc-embedded.sc-auto-result .sc-inputs{display:none!important}
 body.sc-embedded.sc-auto-result .sc-layout{display:block;margin-top:0}
 body.sc-embedded.sc-auto-result .sc-results{width:100%;max-width:100%;box-sizing:border-box}
 body.sc-embedded.sc-auto-result .sc{padding:0}
+
+/* Overall rating must be more prominent than individual average and load notes. */
+.sc-overall-verdict{margin:.6rem 0 1rem;padding:.9rem 1rem;border:1px solid #56748a;border-left:5px solid #98c9e2;border-radius:7px;background:#14293b;line-height:1.55}
+.sc-overall-verdict strong{display:block;font-size:1.05rem;line-height:1.35}
+.sc-overall-verdict p{margin:.3rem 0 0!important;font-size:.87rem;color:#d8eaf4}
+.sc-overall-verdict--fail{border-left-color:#f0a495;background:#332630}
+.sc-overall-verdict--fail strong{color:#ffe1d9}
+.sc-overall-verdict--unverified,.sc-overall-verdict--estimate,.sc-overall-verdict--not_assessed,.sc-overall-verdict--caution{border-left-color:#e6c58d;background:#302c2f}
+.sc-overall-verdict--unverified strong,.sc-overall-verdict--estimate strong,.sc-overall-verdict--not_assessed strong,.sc-overall-verdict--caution strong{color:#ffe8ba}
+.sc-overall-verdict--pass{border-left-color:#a4edcb}
+.sc-overall-verdict--pass strong{color:#c8f6df}
+.sc-load-range-info{font-size:.85rem;line-height:1.55;color:#c1d5e5;margin:.3rem 0 1rem}

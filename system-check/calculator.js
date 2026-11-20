@@ -323,6 +323,7 @@ function appendSpeakerPowerSafety(card, { peakW, averageW }) {
     box.append(source);
   }
   if (flagged) card.append(box);
+  return flagged;
 }
 
 function summarizePower({ mode, entries, load, minimum, distance, peakV, averageV, peakW, averageW, peak, average }) {
@@ -546,11 +547,50 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
             : 'Actual short-burst clipping level is unknown without a burst test.');
       row.append(boundary);
     }
-    return { code: verdict, projected: chosen.projected, classification, verdict, demand, available, enteredSPL, sourceType };
+    return { code: verdict, projected: chosen.projected, classification, verdict, demand, available, enteredSPL, sourceType, covers };
   }
 
+  // A pass for the average is never a pass for the whole listening goal.
+  // Direct short-burst shortfalls are failures; missing burst evidence is
+  // unverified, not a proven clip or a green light.
+  function combinedVerdict(averageResult, peakResult, speakerConcern) {
+    const averageCode = averageResult?.code;
+    const peakCode = peakResult?.code;
+    const averageFailed = averageCode === 'fail';
+    const peakFailed = peakCode === 'fail';
+    const footer = speakerConcern ? ' Speaker power-handling concerns are shown below.' : '';
+    if (averageFailed || peakFailed) {
+      const label = averageFailed && peakFailed ? 'Average and peak targets not met'
+        : peakFailed ? 'Peak target not met' : 'Average target not met';
+      const detail = peakFailed && !averageFailed
+        ? 'The average demand fits the entered rating, but the requested musical peaks exceed the documented short-burst capacity. This setup does not meet the full listening target.'
+        : averageFailed && !peakFailed
+          ? 'The average demand exceeds the entered continuous rating. Passing a short-burst comparison cannot make sustained demand pass.'
+          : 'Both average and musical-peak demands exceed the corresponding entered ratings.';
+      return { code: 'fail', label, detail: detail + footer };
+    }
+    if (averageCode === 'unverified' || peakCode === 'unverified') {
+      return { code: 'unverified', label: 'Peak headroom not verified',
+        detail: 'The requested musical peak exceeds the continuous rating, and no comparable short-burst rating establishes the needed capacity. An average-level pass does not verify musical peaks.' + footer };
+    }
+    if (averageCode === 'estimate' || peakCode === 'estimate') {
+      const projectedMiss = [averageResult, peakResult].some(result=>result?.code==='estimate' && result.covers===false);
+      return { code: 'estimate',
+        label: projectedMiss ? 'Estimated power shortfall at this load' : 'Power capacity estimated at this load',
+        detail: 'The available wattage was interpolated between different published test loads. This is not a direct measurement or a verified full-target pass.' + footer };
+    }
+    if (averageCode === 'not_assessed' || peakCode === 'not_assessed') {
+      return { code: 'not_assessed', label: 'Full listening target not assessed',
+        detail: 'The entered ratings do not establish both required power comparisons.' + footer };
+    }
+    if (speakerConcern) return { code: 'caution', label: 'Amplifier power meets targets · check speaker handling',
+      detail: 'The entered amplifier ratings cover the modeled average and peak demands, but a documented speaker power-handling concern remains.' };
+    return { code: 'pass', label: 'Average and peak power targets met',
+      detail: 'Both demands fit the corresponding entered amplifier ratings at this speaker load. This compares rated watts, not measured distortion or real-room maximum sound level.' };
+  }
 
   let hasDefinitiveFailure = false;
+  let overallResult = null;
 
   for (const testLoad of testLoads) {
     const actual = testLoad === load;
@@ -564,6 +604,9 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
     subtitle.className = 'sc-load-subheading';
     subtitle.textContent = show(testLoad) + ' Ω nominal speaker load you entered';
     card.append(subtitle);
+    const overall = document.createElement('div');
+    overall.className = 'sc-overall-verdict';
+    if (mode === 'check' && entries.length) card.append(overall);
 
     const avgDemand = averageV === null ? null : averageV ** 2 / testLoad;
     const peakDemand = peakV ** 2 / testLoad;
@@ -574,11 +617,11 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
     const loadRange = projectedCont;
     if (loadRange && mode === 'check') {
       const notice = document.createElement('p');
-      notice.className = 'sc-load-verdict sc-load-verdict--pass';
-      notice.textContent = 'Pass · ' + show(testLoad) + ' Ω is between rated '
+      notice.className = 'sc-load-range-info';
+      notice.textContent = show(testLoad) + ' Ω lies between published '
         + show(loadRange.lower.load) + ' Ω and ' + show(loadRange.upper.load)
-        + ' Ω amplifier loads (continuous specifications). '
-        + 'The ' + show(testLoad) + ' Ω wattage shown below is an interpolation, not a published rating.';
+        + ' Ω continuous test loads. '
+        + 'The wattage shown below is interpolated, not an amplifier pass or a direct published rating.';
       card.append(notice);
     }
 
@@ -614,18 +657,24 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
     const selectedAdvice=needsAdvice(peakAssessment)?peakAssessment:
       needsAdvice(avgAssessment)?avgAssessment:null;
     if(selectedAdvice)explainMissedTarget(card,selectedAdvice);
-    if (actual) appendSpeakerPowerSafety(card, { peakW, averageW });
+    const speakerConcern = actual ? appendSpeakerPowerSafety(card, { peakW, averageW }) : false;
+    if (mode === 'check' && entries.length) {
+      const combined = combinedVerdict(avgAssessment, peakAssessment, speakerConcern);
+      overall.className = 'sc-overall-verdict sc-overall-verdict--' + combined.code;
+      const heading = document.createElement('strong');
+      heading.textContent = combined.label;
+      const explanation = document.createElement('p');
+      explanation.textContent = combined.detail;
+      overall.append(heading, explanation);
+      overallResult = combined;
+    }
     stack.append(card);
   }
 
   body.append(section);
-  if (!entries.length || mode === 'upgrade') return;
-
   if (hasDefinitiveFailure) addText('p',
     'A listening-level shortfall is not proof of an electrically incompatible speaker/amplifier pair.');
-
-
-
+  return overallResult;
 }
 
 function calculate() {
@@ -655,7 +704,8 @@ function calculate() {
   const rows = [[db(peak) + ' dB peak', show(peakW) + ' W', show(peakV) + ' V', show(peakV / load) + ' A']];
   if (averageV !== null) rows.unshift([db(average) + ' dB average', show(averageW) + ' W', show(averageV) + ' V', show(averageV / load) + ' A']);
   status.textContent = mode === 'upgrade' ? 'Here’s the output to look for at your seat.' : 'Here’s what your speakers ask for at your seat.';
-  summarizePower({ mode, entries, load, minimum, distance, peakV, averageV, peakW, averageW, peak, average });
+  const overall = summarizePower({ mode, entries, load, minimum, distance, peakV, averageV, peakW, average, peak });
+  if (overall) status.textContent = overall.label + '. ' + overall.detail;
   if (minimum > 0) {
     const hz = num('minimumHz');
     const phase = num('phase');
