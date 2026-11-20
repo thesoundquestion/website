@@ -124,8 +124,11 @@ export function parseSubConnectionText(text){
     if(rcaInput)subInputs.push('rca_line');
     // Only a described filter on the MAINS is evidence for that field.
     if(/\b(?:main|front|satellite)\s*(?:speakers?|channels?|outputs?)\b/i.test(line)&&
-       /\b(?:high[\s-]*pass|hpf|bass[\s-]*management)\b/i.test(line))
-      hasHighPass=true;
+       /\b(?:high[\s-]*pass|hpf|bass[\s-]*management)\b/i.test(line)){
+      if(/\b(?:no|not|without|unknown|unspecified|unavailable)\b/i.test(line))
+        observations.push('Main-speaker high-pass is not established by this text. No bass-relief credit is assumed.');
+      else hasHighPass=true;
+    }
     if(/\b(?:subwoofer|sub|lfe)\s+(?:low[\s-]*pass|crossover)\b/i.test(line))
       observations.push('Subwoofer crossover/low-pass control does not prove high-pass filtering of main speakers.');
   }
