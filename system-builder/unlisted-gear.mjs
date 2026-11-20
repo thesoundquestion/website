@@ -8,8 +8,7 @@
 import {buildSearches,googleSearchUrl} from '../system-check/spec-search.mjs';
 
 export const UNLISTED_FIELDS=Object.freeze({
-  speaker:['speakerSpecUrl','speakerLoad','speakerMinimum','speakerSensitivity','speakerBasis',
-    'speakerRecommendedAmpMin','speakerRecommendedAmpMax','speakerMaxInput'],
+  speaker:['speakerSpecUrl','speakerLoad'],
   amp:['ampSpecUrl','ampMinLoad','ampRatedWatts','ampRatedLoad'],
   source:['sourceSpecUrl','sourceOutput'],
   headphone:['headphoneSpecUrl','headphoneLoad','headphoneSensitivity','headphoneBasis']
