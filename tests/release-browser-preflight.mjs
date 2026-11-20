@@ -333,6 +333,20 @@ try {
   assert.equal(await page.locator('[name="headphoneBasis"]').inputValue(),'power');
   await checkNoErrors(page,errors,device.name+' unlisted amplifier/source/headphone pasted spec flows');
 
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('subwoofer');
+  await page.locator('#sb-sub-spec-paste').fill(
+    'Receiver: Subwoofer Out (RCA)\\nSubwoofer: RCA Line In and High Level Speaker In\\n'+
+    'Main speakers: no high-pass mentioned'.replaceAll('\\n','\n'));
+  await page.locator('#sb-sub-spec-fill').click();
+  assert.equal(await page.locator('[name="subAmpOutput"]').inputValue(),'sub_rca');
+  assert.equal(await page.locator('[name="subInput"]').inputValue(),'both');
+  assert.equal(await page.locator('[name="subHighPass"]').inputValue(),'unknown');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  assert.match(await page.locator('#sb-results').innerText(),/Easy RCA subwoofer connection/);
+  await checkNoErrors(page,errors,device.name+' subwoofer parsed connection route');
+
   // Normal, not-owned passive pairs also show the headroom handoff;
   // missing published ratings must never turn into fictional wattage.
   await visit(page,'/system-builder/');
