@@ -805,6 +805,16 @@ function mountGearPresets(catalog) {
       select.dispatchEvent(new Event('change'));
       const details = picker.closest('details');
       if (details) details.open = true;
+    } else if ((kind === 'speaker' || kind === 'amp') && selections.get(kind)?.trim()) {
+      // Carry identity through without inventing another model's watts,
+      // impedance, sensitivity or test conditions.
+      const modelName = selections.get(kind).trim().slice(0, 120);
+      const input = field(kind + 'Model');
+      input.value = modelName;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      note.textContent = 'Model carried over: ' + modelName + '. No exact saved preset is available. Enter this model’s published figures before calculating.';
+      const details = picker.closest('details');
+      if (details) details.open = true;
     }
   }
 }

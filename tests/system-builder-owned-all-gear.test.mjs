@@ -159,5 +159,6 @@ test('UI places ownership plan ahead of example-only shortlist and hides compari
   assert.match(app,/if \(ownership\) \{/);
   assert.match(app,/Compare new equipment: when would replacing yours make sense\?/);
   assert.match(app,/ownership\.comparisonReasons/);
-  assert.match(app,/preferenceMatchAvailable/);
+  assert.match(beginner,/editorialGoalFocus===false/,'Unproven goal preference must be identified rather than scored');
+  assert.match(app,/overview\.goalExplanation/,'Task-specific preference explanation stays visible');
 });

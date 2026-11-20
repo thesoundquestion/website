@@ -104,7 +104,29 @@ try {
   await checkNoErrors(page,errors,device.name+' Creating Builder');
   outcomes.push(device.name+' Creating Builder example chain');
 
-  await visit(page,'/system-builder/');
+  // Builder-to-System-Check deep links carry exact identity and seat distance.
+   // Existing saved presets autofill only their documented numeric ratings.
+   await visit(page,'/system-check/?embedded=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9');
+   assert.equal(await page.locator('[name="distance"]').inputValue(),'9');
+   assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Paradigm Phantom v1');
+   assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-S301');
+   assert.ok(Number(await page.locator('[name="sensitivity"]').inputValue())>0);
+   assert.ok(Number(await page.locator('[name="load"]').inputValue())>0);
+   assert.ok(await page.locator('body.sc-embedded').count()===1);
+   await checkNoErrors(page,errors,device.name+' embedded System Check known models');
+   outcomes.push(device.name+' embedded System Check exact saved preset handoff');
+
+   await visit(page,'/system-check/?embedded=1&speaker=Unlisted%20Speaker%20Model&amp=Unlisted%20Amplifier%20Model&distanceFt=11');
+   assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Unlisted Speaker Model');
+   assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Unlisted Amplifier Model');
+   assert.equal(await page.locator('[name="distance"]').inputValue(),'11');
+   assert.equal(await page.locator('[name="sensitivity"]').inputValue(),'');
+   assert.equal(await page.locator('[name="load"]').inputValue(),'');
+   assert.match(await page.locator('[data-gear="amp"] p').innerText(),/No exact saved preset/);
+   await checkNoErrors(page,errors,device.name+' embedded System Check unlisted models');
+   outcomes.push(device.name+' embedded System Check unlisted identity without guessed ratings');
+
+   await visit(page,'/system-builder/');
   // The new task-first Builder intentionally keeps its submit controls hidden
   // until someone selects a goal. Test the unlisted-gear search and provisional
   // specification path on the actual packaged desktop/mobile page.

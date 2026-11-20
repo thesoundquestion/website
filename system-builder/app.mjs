@@ -804,7 +804,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(item.amplifierModel&&item.speakerModel){
         const inline=el('details','sb-inline-system-check');
         addText(inline,'summary','Check headroom with these exact models');
-        addText(inline,'p','The calculator uses your selected models and listening distance. Adjust the average and brief peak dB SPL targets yourself; “occasionally loud” is not a measured level.','sb-help');
+        addText(inline,'p','The calculator carries over the selected model names and listening distance. Saved System Check presets fill documented figures; if a model is not saved there, enter its published ratings. Choose your own average and brief-peak listening targets.','sb-help');
         inline.addEventListener('toggle',()=>{
           if(!inline.open||inline.querySelector('iframe'))return;
           const params=new URLSearchParams({embedded:'1',
