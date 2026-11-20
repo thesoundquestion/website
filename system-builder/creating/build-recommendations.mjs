@@ -181,40 +181,37 @@ function recordingSetupGuide({mode,count,requestedRoute,route,mic,capture,indepe
   if(mode==='live')return null;
   const steps=[],monitoring=[],links=[];
   const micName=mic?.model||'the selected microphone';
-  const captureName=capture?.model||'a compatible recording interface';
+  const captureName=capture?.model||'the selected recording interface';
+  const xlr=route==='xlr'&&routeSupports(mic,'xlr');
   const dualOutput=routeSupports(mic,'usb')&&routeSupports(mic,'xlr');
+  const duo=capture?.model==='M-Audio M-Track Duo';
   if(requestedRoute==='usb'&&count>1&&route==='xlr')
-    steps.push('For two or more microphones, this example switches to the XLR recording route. It is NOT a plug-two-USB-mics-into-an-interface setup.');
+    steps.push('This suggested two-microphone setup uses XLR connections instead of two separate USB microphone devices.');
   if(route==='xlr'){
-    if(mic&&routeSupports(mic,'xlr')){
-      steps.push('Connect each '+micName+' by its XLR output and an XLR cable to a separate microphone input on '+captureName+'. Connect the interface to the computer by USB. The interface captures the microphones and sets their input levels.');
-      if(dualOutput)steps.push(micName+' also offers USB, but that USB connection is NOT used in this XLR example. Using its USB socket directly into the PC would bypass '+captureName+' for that microphone.');
-    }else steps.push('No verified XLR output is documented for the chosen microphone. It cannot be assumed to connect to '+captureName+'; choose a compatible XLR mic or investigate a separate USB recording route.');
-    if(independent)steps.push('In your recording software, assign interface input 1 and input 2 to separate mono tracks (and more inputs if your setup has them). Record a short test and verify you can edit each voice without changing the other.');
-    else steps.push('Confirm whether the recording app saves a combined mix or independent tracks. An interface with multiple sockets does not automatically create separately editable files.');
-    monitoring.push('Direct monitoring on an interface hears microphones plugged into its physical inputs. It cannot directly monitor separate USB microphones plugged into the computer.');
-    if(capture?.model==='M-Audio M-Track Duo'){
-      monitoring.push('The M-Track Duo has one stereo headphone output. To let two people hear the same low-latency mic mix, plan a suitable headphone distribution amplifier or verified sharing arrangement; it does not offer two independently controlled headphone mixes.');
-      links.push({label:'M-Audio M-Track Duo: connections and direct monitoring',url:'https://www.m-audio.com/audio-midi-interfaces/m-track-duo.html'});
-      links.push({label:'M-Audio: M-Track Duo Windows and recording-software setup',url:'https://support.m-audio.com/en/support/solutions/articles/69000856587-m-audio-m-track-duo-solo-registration-set-up-guide'});
-    }else monitoring.push('If multiple people need headphones, check the actual number of headphone outputs and whether a separate headphone distributor is needed. One output does not guarantee separate mixes.');
+    if(xlr){
+      steps.push('Connect '+count+' × '+micName+' by XLR cable to '+count+' separate microphone inputs on '+captureName+'. Connect the interface to the computer by USB.');
+      if(dualOutput)steps.push('The microphones also have USB sockets, but this setup uses their XLR outputs.');
+    }else steps.push('The selected microphone does not have a verified XLR output. Confirm a compatible XLR model before connecting it to the interface.');
+    if(independent)steps.push('In the recording program, assign each interface input to its own mono track so you can edit the voices separately afterward.');
+    if(duo&&count===2){
+      monitoring.push('Set the M-Track Duo to Direct Mono to hear both microphones together with low latency. Direct Stereo sends input 1 to the left and input 2 to the right instead.');
+      monitoring.push('The Duo has one headphone output. If both people need headphones, a suitable splitter or headphone distribution amplifier can share the mix; they will not have independently controlled mixes from the Duo alone.');
+      links.push({label:'M-Audio M-Track Duo inputs and monitoring',url:'https://www.m-audio.com/audio-midi-interfaces/m-track-duo.html'});
+    }else if(count>1)monitoring.push('Confirm the interface can monitor all selected inputs. If both people need headphones, check its number of headphone outputs.');
   }else if(route==='usb'){
-    steps.push('Plug '+micName+' into the computer by USB. Its built-in conversion is the recording device; no separate XLR audio interface is used to capture that microphone.');
-    steps.push('Choose the microphone as an input in Windows and your recording software. Verify the separate audio tracks before recording.');
-    monitoring.push('A headphone socket on a USB microphone may monitor that microphone locally. Hearing other microphones or computer/guest sound in the same headphones requires supported software output routing and may introduce delay.');
+    steps.push('Connect '+micName+' directly to the computer by USB. No separate microphone interface is needed for this mic.');
+    monitoring.push('Check the microphone’s headphone monitoring features and select its input in the recording software.');
   }else{
-    steps.push('Connect the microphone to the documented '+(route==='camera_trs'?'camera microphone input':'phone microphone input or adapter')+'. A typical desktop XLR interface is not in this signal path.');
-    monitoring.push('Confirm the camera or phone monitoring path before planning two-person headphone listening.');
+    steps.push('Connect the microphone through the compatible '+(route==='camera_trs'?'camera mic input':'phone mic input / adapter')+'. A desktop XLR interface is not used for this route.');
   }
-  if(mode==='podcast'&&count>1){
-    monitoring.push('Two separate USB microphones on Windows are separate audio devices, not the two inputs of an M-Track Duo. Simultaneous capture and hearing both voices in both headphones may require multi-device recording software, audio routing or aggregation, and careful sample-rate/latency testing. Do not assume it works automatically.');
-    links.push({label:'Audacity manual: using two USB microphones or separate sound devices',url:'https://manual.audacityteam.org/man/faq_recording_how_to_s.html'});
-    links.push({label:'Audacity manual: monitoring latency and separate audio devices',url:'https://manual.audacityteam.org/man/faq_recording_troubleshooting.html'});
+  // Additional Windows device-routing warnings belong ONLY to genuinely
+  // independent USB microphone setups, not to a normal two-XLR Duo.
+  if(requestedRoute==='usb'&&count>1){
+    monitoring.push('If you instead plug both microphones separately into Windows by USB, they appear as separate audio devices. Recording both and monitoring a shared mix can require extra software routing. That is not how this recommended XLR setup is wired.');
+    links.push({label:'Audacity: recording from multiple devices',url:'https://manual.audacityteam.org/man/faq_recording_how_to_s.html'});
   }
   if(dualOutput&&mic?.model==='Audio-Technica ATR2100x-USB')
-    links.push({label:'Audio-Technica ATR2100x-USB: USB, XLR and headphones',url:'https://docs.audio-technica.com/us/P52830_01_ATR2100x_USB_UM.pdf'});
-  if(mode==='podcast'||mode==='stream')
-    links.push({label:'Microsoft: configure and test Windows microphone inputs',url:'https://support.microsoft.com/en-us/windows/hardware/drivers/how-to-set-up-and-test-microphones-in-windows'});
+    links.push({label:'Audio-Technica ATR2100x-USB output connections',url:'https://docs.audio-technica.com/us/P52830_01_ATR2100x_USB_UM.pdf'});
   return {steps,monitoring,links};
 }
 
@@ -337,9 +334,6 @@ export function buildCreatingSystem(catalog,{
       reason:'Catalogued headphone model to investigate for tracking comfort and isolation.',
       checks:['Confirm the headphone plug, output level, volume control and comfortable fit.',
         count>1?'More than one performer may need extra headphone outputs or a distribution amplifier.':'A separate headphone amplifier is not automatically needed.']}));
-    if(mode==='podcast'&&count>1)stages.push(generic('headphone_distribution','Headphone distribution for the people recording',
-      'Let both participants hear the same monitoring mix when using one output.',
-      'Check how many headphone outputs the chosen device actually has. A suitable headphone distribution amplifier may be necessary; a simple splitter does not create separately adjustable mixes.',{need:'verify'}));
     stages.push(generic('software',mode==='stream'?'Streaming or video software':'Recording and editing software',
       mode==='stream'?'Combine microphone and computer/video sound for a broadcast or recording.':
         'Record, name, listen to and edit the tracks on a computer.',
