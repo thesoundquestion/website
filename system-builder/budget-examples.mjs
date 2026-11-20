@@ -68,7 +68,7 @@ export const BUDGET_EXAMPLES=Object.freeze([
         url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html'}
     ],
     why:'A compact amp and passive stereo pair for listeners who want to be able to change speakers later.',
-    tradeoff:'Fosi supports 2–8 Ω loads and Polk lists the XT15 for 4 Ω and 8 Ω amplifiers. The 32 V / 5 A supply limits available power. Do not treat the advertised maximum 300 W per channel as continuous clean output with this adapter.',
+    tradeoff:'The supplied 32 V / 5 A power adapter limits available output; the advertised 300 W/channel maximum is not its continuous clean rating. Allow for speaker cable and stands if needed.',
     extra:['Connect only a suitable RCA line/headphone source or Bluetooth. No optical, USB DAC or TV HDMI without another component.',
       'Speaker cable and stands may be needed; allow for delivery and taxes. Clean headroom still depends on room, listening distance, speakers and the 32 V / 5 A supply.',
       'Fosi manufacturer THD percentage is not identified here at rated continuous both-channel power across the full band.'],
