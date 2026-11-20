@@ -207,11 +207,35 @@ try {
   // until someone selects a goal. Test the unlisted-gear search and provisional
   // specification path on the actual packaged desktop/mobile page.
   await page.locator('#sb-build-intent').selectOption('amp_for_speakers');
+  // A similar saved model must not hide the source-spec fields after a visitor
+  // chooses the external search link. The link opens a new browser tab normally.
+  await page.locator('[name="speakerOther"]').fill('Paradigm Phant');
+  const specs=page.locator('#sb-speaker-search [data-gear-details="speaker"]');
+  assert.equal(await specs.evaluate(node=>node.open),false);
+  const specSearch=page.locator('#sb-speaker-search [data-gear-searches="speaker"] a').first();
+  await specSearch.evaluate(node=>node.addEventListener('click',event=>event.preventDefault(),{once:true}));
+  await specSearch.click();
+  assert.equal(await specs.evaluate(node=>node.open),true,
+    device.name+' returning from speaker search must reveal specification inputs');
   await page.locator('[name="speakerOther"]').fill('Test Only Passive Speaker');
   await page.waitForFunction(()=>document.querySelector('[data-gear-searches="speaker"] a')?.href.includes('google.com/search'));
   assert.match(await page.locator('[data-gear-message="speaker"]').innerText(),/No saved model matched/);
-  await page.locator('[name="speakerSpecUrl"]').fill('https://example.org/test-speaker-manual');
+  assert.equal(await specs.evaluate(node=>node.open),true);
+  await page.locator('#sb-speaker-spec-paste').fill('Nominal impedance: 8 ohms\\nMinimum impedance: 4.2 Ω\\nSensitivity: 89 dB (2.83 V / 1 m)'.replaceAll('\\n','\n'));
+  await page.locator('#sb-speaker-spec-fill').click();
+  assert.equal(await page.locator('[name="speakerLoad"]').inputValue(),'8');
+  assert.equal(await page.locator('[name="speakerMinimum"]').inputValue(),'4.2');
+  assert.equal(await page.locator('[name="speakerSensitivity"]').inputValue(),'89');
+  assert.equal(await page.locator('[name="speakerBasis"]').inputValue(),'voltage');
+  assert.match(await page.locator('#sb-speaker-spec-feedback').innerText(),/Filled: nominal impedance/);
+  // Manual edits must win over a later paste; there is no silent overwrite.
+  await page.locator('[name="speakerLoad"]').fill('6');
+  await page.locator('#sb-speaker-spec-fill').click();
+  assert.equal(await page.locator('[name="speakerLoad"]').inputValue(),'6');
   await page.locator('[name="speakerLoad"]').fill('8');
+  assert.equal(await page.locator('[name="speakerSpecUrl"]').inputValue(),'',
+    device.name+' pasted text cannot be substituted for a source URL');
+  await page.locator('[name="speakerSpecUrl"]').fill('https://example.org/test-speaker-manual');
    await page.locator('[name="speakerPowerType"]').selectOption('passive');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
