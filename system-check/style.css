@@ -131,3 +131,10 @@ body.sc-embedded .sc>.lead,body.sc-embedded .sc>noscript,
 body.sc-embedded .sc-notes{display:none!important}
 body.sc-embedded .sc{padding:.7rem;max-width:100%}
 body.sc-embedded .sc-layout{grid-template-columns:minmax(0,1fr)}
+
+/* Builder handoff: show actual computed output alone after validated model
+   autofill. If a model lacks ratings, a concise result links to the editor. */
+body.sc-embedded.sc-auto-result .sc-inputs{display:none!important}
+body.sc-embedded.sc-auto-result .sc-layout{display:block;margin-top:0}
+body.sc-embedded.sc-auto-result .sc-results{width:100%;max-width:100%;box-sizing:border-box}
+body.sc-embedded.sc-auto-result .sc{padding:0}
