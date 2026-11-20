@@ -527,7 +527,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
   if (!entries.length || mode === 'upgrade') return;
 
   if (hasDefinitiveFailure) addText('p',
-    'A Fail marks an entered continuous or burst rating below the required power for that duration. The stated dB SPL boundary is a model estimate, not a measured clipping onset.');
+    'Fail means the chosen listening-level target exceeds the published amplifier power rating used for that comparison. It does NOT mean the amplifier and speakers are electrically incompatible. The estimated SPL boundary is not a measured clipping point.');
 
 
 
