@@ -102,15 +102,59 @@ const audioPaths={
 const byId=id=>document.getElementById(id);
 const el={audio:byId('playerAudio'),tabs:[...document.querySelectorAll('[data-tab]')],grid:byId('variantGrid'),title:byId('modeTitle'),badge:byId('modeBadge'),intro:byId('modeIntro'),panel:byId('testpanel'),now:byId('nowPlaying'),play:byId('playPause'),restart:byId('restart'),seek:byId('seekBar'),clock:byId('clock'),status:byId('playerStatus'),load:byId('loadStatus'),files:byId('chooseFiles'),folder:byId('chooseFolder'),};
 const state={mode:'loud',choice:'dynamic',urls:{...audioPaths},files:{},owned:[],currentKey:null,loadSeq:0};
-el.audio.addEventListener('play',()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'mastering'}})));
-document.addEventListener('tsq-lab-audio-focus',event=>{if(event.detail?.owner!=='mastering')el.audio.pause()});
+const instant={preparing:false,prepared:false,failed:false,token:0};
+let instantTimer=null;
+const dispatchFocus=()=>document.dispatchEvent(new CustomEvent('tsq-lab-audio-focus',{detail:{owner:'mastering'}}));
+const engine=window.TSQLabInstantSwitch?.supported()?
+ new window.TSQLabInstantSwitch({
+   onProgress:(count,total)=>{
+     if(instant.preparing)byId('instantProgress').textContent=
+       'Preparing recordings: '+count+' of '+total+' downloaded';
+   },
+   onEnded:()=>{
+     if(!instant.prepared)return;
+     stopClock();updateClock();setButtons();
+     status('The passage ended. Choose another master or restart.');
+   }
+ }):null;
+const isPlaying=()=>instant.prepared?engine.isPlaying():!el.audio.paused&&!el.audio.ended;
+const position=()=>instant.prepared?engine.position():(Number.isFinite(el.audio.currentTime)?el.audio.currentTime:0);
+function stopClock(){if(instantTimer!==null){clearInterval(instantTimer);instantTimer=null}}
+function startClock(){stopClock();instantTimer=setInterval(()=>{updateClock();setButtons()},180)}
+function paintInstant(){
+ const button=byId('prepareInstant'),indicator=byId('instantReadiness');
+ button.disabled=instant.preparing||!engine;
+ button.textContent=instant.prepared?'Return to regular playback':
+   engine?'Prepare instant switching (optional)':'Instant switching unavailable here';
+ indicator.hidden=!instant.preparing&&!instant.prepared&&!instant.failed;
+ if(!indicator.hidden)window.TSQLabReadiness.set(indicator,
+   instant.preparing?'wait':instant.prepared?'ready':'offline');
+}
+function clearInstant(){
+ const prior={playing:instant.prepared?engine.isPlaying():false,at:position()};
+ instant.token++;
+ engine?.clear();instant.preparing=false;instant.prepared=false;instant.failed=false;
+ stopClock();byId('instantProgress').textContent='';paintInstant();
+ return prior;
+}
+el.audio.addEventListener('play',dispatchFocus);
+document.addEventListener('tsq-lab-audio-focus',event=>{
+ if(event.detail?.owner==='mastering')return;
+ el.audio.pause();
+ if(instant.prepared){engine.pause();stopClock();setButtons();updateClock()}
+});
 const readiness=window.TSQLabReadiness;
 let userStarted=false,waitingForBuffer=false;
 const failedSources=new Set();
 const cache=readiness.createCache({maxFiles:2,maxBytes:23*1024*1024,onChange:()=>refreshCardStates()});
 function trackStatus(key){return readiness.status({url:state.urls[key],failed:failedSources.has(key),prepared:state.urls[key]?.startsWith('blob:')||cache.has(key),active:key===state.currentKey,media:el.audio,waiting:waitingForBuffer});}
-function refreshCardStates(){document.querySelectorAll('.variant .status[data-track-key]').forEach(node=>{node.hidden=!userStarted && !state.urls[node.dataset.trackKey]?.startsWith('blob:');readiness.set(node,trackStatus(node.dataset.trackKey))})}
+function refreshCardStates(){document.querySelectorAll('.variant .status[data-track-key]').forEach(node=>{
+ node.hidden=!userStarted && !state.urls[node.dataset.trackKey]?.startsWith('blob:') &&
+   !instant.prepared && !instant.preparing;
+ readiness.set(node,instant.prepared?'ready':instant.preparing?'wait':trackStatus(node.dataset.trackKey))
+})}
 function maybePrepareNext(){
+ if(instant.prepared||instant.preparing)return;
  if(!userStarted||el.audio.paused||waitingForBuffer||!readiness.mediaReady(el.audio)||!readiness.networkPermitsPreload())return;
  if(cache.keys().some(key=>key!==state.currentKey))return;
  const keys=MODES[state.mode].items.map(x=>state.mode+':'+x[0]);
@@ -121,11 +165,23 @@ const labelMap={dynamic:'Dynamic',moderate:'Moderate',brickwall:'Brickwalled',of
 function prettyTime(t){if(!Number.isFinite(t))return '0:00';return `${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;}
 function getKey(){return state.mode+':'+state.choice;}
 function activeLabel(){const local=state.files[getKey()];return local?'Your WAV: '+local.name:(MODES[state.mode].items.find(v=>v[0]===state.choice)?.[1]||'Recording');}
-function updateClock(){const time=Number.isFinite(el.audio.currentTime)?el.audio.currentTime:0;const dur=Number.isFinite(el.audio.duration)?el.audio.duration:40;el.clock.textContent=prettyTime(time)+' / '+prettyTime(dur);el.seek.max=String(dur);el.seek.value=String(Math.min(time,dur));}
+function updateClock(){const time=position(),dur=instant.prepared?engine.duration:
+ (Number.isFinite(el.audio.duration)&&el.audio.duration>0?el.audio.duration:40);
+ el.clock.textContent=prettyTime(time)+' / '+prettyTime(dur);
+ el.seek.max=String(dur);el.seek.value=String(Math.min(time,dur));}
 function status(text){el.status.textContent=text;}
-function setButtons(){const ok=Boolean(state.urls[getKey()]);el.play.disabled=!ok;el.restart.disabled=!ok;el.seek.disabled=!ok;el.play.textContent=el.audio.paused?'▶ Play':'Ⅱ Pause';el.now.textContent=ok?activeLabel():'Audio needed · '+activeLabel();}
-function selectAudio(keepTime=true,autoResume=false){
- const key=getKey(),src=state.urls[key],oldTime=keepTime?(el.audio.currentTime||0):0;
+function setButtons(){const ok=Boolean(state.urls[getKey()]);el.play.disabled=!ok;el.restart.disabled=!ok;el.seek.disabled=!ok;
+ el.play.textContent=isPlaying()?'Ⅱ Pause':'▶ Play';
+ el.now.textContent=ok?activeLabel():'Audio needed · '+activeLabel();}
+function selectAudio(keepTime=true,autoResume=false,previousPosition=null){
+ const key=getKey(),src=state.urls[key];
+ if(instant.prepared){
+   state.currentKey=key;
+   engine.select(key);refreshCardStates();setButtons();updateClock();
+   status('Instant switch to '+activeLabel()+'.');return;
+ }
+ const oldTime=Number.isFinite(previousPosition)?previousPosition:
+   keepTime?(el.audio.currentTime||0):0;
  const wasPlaying=autoResume||(!el.audio.paused&&Boolean(el.audio.src));
  const order=++state.loadSeq;
  state.currentKey=key;waitingForBuffer=false;
