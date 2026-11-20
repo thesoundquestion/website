@@ -454,8 +454,8 @@ try {
   await page.locator('[name="architecture"]').selectOption('passive_separates');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
-  // Submit lands at "Your system options, explained" rather than skipping
-  // introductory guidance to a product card. Alternatives remain collapsed.
+  // Submit lands at "Your system options, explained". Alternative products
+  // appear once; only their detailed setup sections are collapsed.
   const firstRecommendation=page.locator('#sb-first-recommendation');
   assert.equal(await firstRecommendation.count(),1,device.name+' must render one primary card');
   const firstWorkflow=firstRecommendation.locator('.sb-setup-workflow');
@@ -502,21 +502,25 @@ try {
   assert.equal(afterHeadroomLoad.childFocused,false);
 
   assert.equal(await page.locator('#sb-results .sb-recommend:visible').count(),1,
-    device.name+' must not show multiple setups by default');
-  const alternatives=page.locator('#sb-results .sb-alternative-setups');
-  assert.equal(await alternatives.count(),1);
-  assert.equal(await alternatives.evaluate(node=>node.open),false,
-    device.name+' alternate setups must start closed');
-  assert.match(await alternatives.locator('summary').first().innerText(),/Alternative setups/);
-  assert.ok(await alternatives.locator('.sb-recommend').count()>=1,
-    device.name+' collapsed setup must retain another recommendation');
-  assert.equal(await alternatives.locator('.sb-recommend').count(),
-    await alternatives.locator('.sb-setup-workflow').count(),
-    device.name+' every alternative card also needs a setup explanation');
-  await alternatives.locator('summary').first().click();
+    device.name+' primary is the only visible complete setup by default');
+  assert.equal(await page.locator('#sb-results .sb-alternative-setups').count(),0,
+    device.name+' redundant Alternative setups list must be absent');
+  const alternatives=page.locator('#sb-results .sb-comparison-overview .sb-alternative-details');
+  assert.ok(await alternatives.count()>=1,
+    device.name+' each alternative must have optional detail within its own preview');
+  const comparisons=page.locator('#sb-results .sb-comparison-overview .sb-comparison-preview-card');
+  assert.equal(await alternatives.count(),await comparisons.count(),
+    device.name+' no duplicate product listing or missing alternative details');
+  assert.equal(await alternatives.first().evaluate(node=>node.open),false);
+  assert.equal(await alternatives.locator('.sb-recommend-supplement').count(),await alternatives.count(),
+    device.name+' each alternative retains its complete model-specific setup');
+  assert.equal(await alternatives.locator('.sb-setup-workflow').count(),await alternatives.count(),
+    device.name+' each alternative retains its wiring explanation');
+  await alternatives.first().locator('summary').click();
+  assert.ok(await alternatives.first().locator('.sb-setup-workflow').isVisible());
   assert.ok(await page.locator('#sb-results .sb-recommend:visible').count()>1,
-    device.name+' alternatives should expand when requested');
-  outcomes.push(device.name+' jumps to the results explanation, not the first product, with alternatives collapsed');
+    device.name+' individual details must open without a second product list');
+  outcomes.push(device.name+' lands at results, alternatives listed once with their own details');
   const availablePanels=page.locator('#sb-results .sb-inline-system-check');
   assert.ok(await availablePanels.count()>=1,device.name+' source-backed passive examples must have a headroom handoff');
   assert.match(await availablePanels.first().innerText(),/Headroom for these exact models/);

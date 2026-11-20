@@ -1056,8 +1056,8 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(section,'p','Current local prices for these electronics have not been verified and are NOT included in headphone-only subtotals. Check USB/RCA inputs, actual headphone jack, gain, power and noise before buying.','sb-headphone-electronics-footnote');
       shop.append(section);
     };
-    const renderCard = (item,alternativeComparison=null) => {
-      const card = el('article','sb-recommend sb-recommend-compact');
+    const renderCard = (item,alternativeComparison=null,detailOnly=false) => {
+      const card = el('article','sb-recommend sb-recommend-compact'+(detailOnly?' sb-recommend-supplement':''));
       const head = el('div','sb-card-head');
       const heading = el('div','sb-card-heading');
       addText(heading,'span',item.kind,'sb-kind');
@@ -1069,8 +1069,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(badge,'strong','Reuse first');
         head.append(badge);
       }
-      card.append(head);
-      if(!alternativeComparison){
+      if(!detailOnly)card.append(head);
+      if(!alternativeComparison&&!detailOnly){
         const primarySound=soundImpressionFor(item);
         const profile=el('section','sb-primary-sound');
         addText(profile,'strong','Sound character · listener impressions');
@@ -1304,19 +1304,24 @@ document.addEventListener('DOMContentLoaded', () => {
             link(links,source.url,source.label);
           if(links.children.length)note.append(links);
         }
+        // The short comparison is the only visible product listing.
+        // Keep the full wiring, cost, headroom and original sources beside
+        // the relevant option, not repeated in a separate full-card menu.
+        const detail=el('details','sb-alternative-details');
+        addText(detail,'summary','Connections, headroom & full specifications');
+        detail.append(renderCard(item,null,true));
+        note.append(detail);
         grid.append(note);
       }
       if(grid.children.length){preview.append(grid);shop.append(preview);}
     };
-    const alternativeSetups=el('details','sb-more sb-alternative-setups');
-    addText(alternativeSetups,'summary','Alternative setups');
     if(headphoneElectronicsPlan)renderHeadphoneElectronics(headphoneElectronicsPlan);
     if (shortlist.selected.length) {
       addText(shop,'p',intent?.requiredOwn==='speaker'
         ?'These amplifiers have published continuous-power tests at your speakers’ nominal load. Use the inline System Check to calculate the listening level you actually want.'
         :'These options show why they were selected, with documented matching evidence and specific issues only when a genuine problem was identified.','sb-results-orientation');
-      // The first recommendation is the one result presented immediately.
-      // Every other fully rendered card belongs behind a single closed menu.
+      // The primary is the only full card on the main page. Other product
+      // summaries are visible below, each with its own optional setup detail.
       const grid = el('div','sb-recommendations sb-primary-recommendation');
       const firstCard=renderCard(shortlist.selected[0]);
       firstCard.classList.add('sb-recommend--primary');
@@ -1329,12 +1334,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderComparisonPreview(shortlist.selected[0],shortlist.selected.slice(1),
           upgradeIdeas.length?'Speaker changes worth comparing':'What changes with the alternative recommendations?',
           'sb-upgrade-comparison-preview sb-comparison-overview');
-      if(shortlist.selected.length>1){
-        const moreGrid=el('div','sb-recommendations');
-        for(const item of shortlist.selected.slice(1))
-          moreGrid.append(renderCard(item,compareAlternative(shortlist.selected[0],item,request,sharedCatalog)));
-        alternativeSetups.append(moreGrid);
-      }
       if(request.character !== 'faithful')
         addText(shop,'p','Your tonal preference informs which differences are worth hearing. The model-specific listener and reviewer impressions above can guide an audition, but are not a numerical sound-quality ranking.','sb-brief-note');
       addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
@@ -1364,7 +1363,7 @@ document.addEventListener('DOMContentLoaded', () => {
           entries.append(li);
         }
         subsection.append(entries);
-        alternativeSetups.append(subsection);
+        shop.append(subsection);
       }
     }
     // Catalog-backed alternatives are deliberately separate from the editorial
@@ -1408,15 +1407,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         explorer.append(cards);
         addText(explorer,'p','The preference for budget, mid-priced or premium equipment changes only the order of models with current, comparable local price evidence. Missing price categories do not hide the Yamaha models.','sb-brief-note');
-        alternativeSetups.append(explorer);
+        shop.append(explorer);
       }
     }
-    if(alternativeSetups.children.length>1){
-      const count=shortlist.selected.length>1?shortlist.selected.length-1:0;
-      alternativeSetups.querySelector('summary').textContent='Alternative setups'+(count?' ('+count+' more recommendations)':'');
-      shop.append(alternativeSetups);
-    }
-
     if (shortlist.excluded.length && budget !== null) {
       const excluded = el('details','sb-more');
       addText(excluded,'summary','Why some options were left out');
@@ -1476,30 +1469,25 @@ document.addEventListener('DOMContentLoaded', () => {
       shop.append(panel);
     }
 
-    // Complete replacements are comparison-only when any component is owned.
-    // The user must see why one might be justified before product alternatives.
+    // Replacements use the same concise inline comparison cards; the only
+    // optional disclosure here is the independent keep-versus-replace criteria.
+    // Do not duplicate every replacement product a second time.
     if (ownership) {
-      const alternatives = el('details','sb-more sb-new-comparison');
-      addText(alternatives,'summary','Compare new equipment: when would replacing yours make sense?');
-      addText(alternatives,'p','A different product is not automatically a sound-quality upgrade. These are examples to investigate only if your retained setup cannot satisfy a documented requirement.');
-      if (ownership.comparisonReasons.length)
-        list(alternatives,ownership.comparisonReasons);
       if (ownership.mode !== 'keep_source') {
-        const alternativesList = shortlistExamples(request).selected.slice(0,3);
-        if (alternativesList.length) {
+        const alternativesList=shortlistExamples(request).selected.slice(0,3);
+        if(alternativesList.length)
           renderComparisonPreview(shortlist.selected[0],alternativesList,
             'Compared with keeping your current setup',
             'sb-replacement-comparison-preview sb-comparison-overview');
-          const moreGrid = el('div','sb-recommendations');
-          for (const item of alternativesList)
-            moreGrid.append(renderCard(item,compareAlternative(shortlist.selected[0],item,request,sharedCatalog)));
-          alternatives.append(moreGrid);
-        } else
-          addText(alternatives,'p','No complete example passes the selected architecture, power and known-price filters. Your existing gear has not been ruled out.','sb-brief-note');
-      } else {
-        addText(alternatives,'p','The suggestions above already reuse your source. Buying a replacement source would need an actual missing connection or demonstrated limitation.','sb-brief-note');
+        else
+          addText(shop,'p','No additional complete system is supported by the selected architecture and known prices.','sb-brief-note');
       }
-      shop.append(alternatives);
+      if(ownership.comparisonReasons?.length){
+        const criteria=el('details','sb-more sb-replacement-criteria');
+        addText(criteria,'summary','When is replacing your current gear worthwhile?');
+        list(criteria,ownership.comparisonReasons);
+        shop.append(criteria);
+      }
     }
     if (((bassMode !== 'no_sub' && subOwned !== 'yes') || (primary === 'bass' && bassMode === 'no_sub')) &&
         arch !== 'headphone_first' && arch !== 'party_pa' && powered !== 'battery' &&

@@ -371,3 +371,11 @@
 .sb-tonal-one-line{color:#cce2ec}
 .sb-comparison-preview-card .sb-tonal-sources a{font-size:.76rem}
 .sb-alternative-card-contrast{padding:.65rem .8rem}
+
+/* Alternative product appears once: one readable summary and a local
+   optional section for unique wiring, headroom, price and evidence. */
+.sb-alternative-details{margin:.65rem 0 0;border-top:1px solid #385e72;padding:.55rem 0 0}
+.sb-alternative-details>summary{font-size:.87rem;font-weight:650;color:#a9e2f0;cursor:pointer}
+.sb-alternative-details>summary:focus-visible{outline:3px solid #8ad8e8;outline-offset:3px}
+.sb-alternative-details>.sb-recommend-supplement{margin:.8rem 0 0;padding:.5rem .1rem;border:0;box-shadow:none;background:transparent}
+.sb-recommend-supplement>.sb-primary-sound{display:none}

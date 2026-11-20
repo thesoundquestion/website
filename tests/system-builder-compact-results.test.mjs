@@ -11,12 +11,13 @@ test('summary is one compact profile rather than large multi-column tiles', () =
   assert.doesNotMatch(app,/const summary = el\('div','sb-summary'\)/);
 });
 
-test('only one primary recommendation is open and the rest are alternative setups', () => {
+test('only the primary full card is visible; each alternative has one inline expandable detail', () => {
   assert.match(app,/renderCard\(shortlist\.selected\[0\]\)/);
   assert.match(app,/firstCard\.id='sb-first-recommendation'/);
   assert.match(app,/shortlist\.selected\.slice\(1\)/);
-  assert.match(app,/const alternativeSetups=el\('details','sb-more sb-alternative-setups'\)/);
-  assert.match(app,/Alternative setups/);
+  assert.match(app,/el\('details','sb-alternative-details'\)/);
+  assert.match(app,/detail\.append\(renderCard\(item,null,true\)\)/);
+  assert.doesNotMatch(app,/sb-alternative-setups|const alternativeSetups/);
   assert.match(app,/result\.focus\(\{preventScroll:true\}\)/);
   assert.match(app,/result\.scrollIntoView\(\{behavior:'instant',block:'start'\}\)/);
   assert.doesNotMatch(app,/firstRecommendation\|\|result/,

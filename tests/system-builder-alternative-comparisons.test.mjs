@@ -105,8 +105,11 @@ test('every alternative and full replacement receives comparison on main results
  assert.match(app,/sb-sub-comparison-preview/);
  assert.match(css,/\.sb-comparison-overview/);
  assert.match(css,/\.sb-comparison-preview-card/);
- assert.ok(app.indexOf("renderComparisonPreview(shortlist.selected[0],shortlist.selected.slice(1)") <
-   app.indexOf("alternativeSetups.append(moreGrid)"),'Comparison must be BEFORE collapsed alternatives');
+ assert.match(app,/detail\.append\(renderCard\(item,null,true\)\)/);
+ assert.doesNotMatch(app,/alternativeSetups\.append|sb-alternative-setups/);
+ assert.ok(app.indexOf("const renderComparisonPreview=") <
+   app.indexOf("renderComparisonPreview(shortlist.selected[0],shortlist.selected.slice(1)"),
+   'One visible card must own the corresponding optional setup details');
 });
 
 test('compact alternatives keep one useful line and preserve full technical comparison separately',()=>{
