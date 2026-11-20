@@ -11,6 +11,8 @@ const documented=Object.freeze({
   'passive-bt20a-xt15': Object.freeze({
     level:'manufacturer_supported',
     label:'Speaker load supported by both manufacturers',
+    amplifierModel:'Fosi Audio BT20A Pro',
+    speakerModel:'Polk Monitor XT15',
     proof:'Fosi lists the BT20A Pro for 2–8 Ω speaker loads. Polk lists the Monitor XT15 as compatible with 4 Ω and 8 Ω amplifiers, with a 4.1 Ω minimum. This is a supported one-pair connection on the manufacturers’ published load specifications.',
     setup:'Use the BT20A Pro speaker terminals for one Polk XT15 stereo pair and its supplied 32 V / 5 A adapter. Connect a source through RCA or Bluetooth. This power supply limits available output; it does not turn a manufacturer-supported 4 Ω connection into an unsupported one.',
     output:'The headline 300 W/channel figure is not evidence of continuous clean output with the included 32 V / 5 A adapter. Actual headroom depends on listening distance, level, speaker sensitivity, the supply and load.',
@@ -28,6 +30,8 @@ const documented=Object.freeze({
   'passive-as301-p5': Object.freeze({
     level:'manufacturer_supported',
     label:'Speaker load supported by published specifications',
+    amplifierModel:'Yamaha A-S301',
+    speakerModel:'PSB Alpha P5',
     proof:'Yamaha supports a single stereo pair rated 6 Ω or higher in the A-S301 HIGH setting (and 4 Ω or higher in LOW). PSB rates the Alpha P5 at 8 Ω nominal, with a 4 Ω minimum. The pair fits Yamaha’s published single-pair speaker-load guidance.',
     setup:'Connect one PSB Alpha P5 pair to SPEAKERS A or B. For one pair with an 8 Ω nominal rating, Yamaha’s chart specifies the HIGH impedance-selector setting. If you ever change the selector, turn off and unplug the amplifier first; its manual warns not to move the switch while powered.',
     output:'Yamaha specifies 60 W + 60 W into 8 Ω from 20 Hz to 20 kHz at 0.019% THD. PSB recommends 10–90 W amplification. Neither figure alone predicts maximum clean sound level in a particular room.',
@@ -61,6 +65,8 @@ function wiimSubPairing(example){
   return {
     level:'manufacturer_supported',
     label:'Amplifier and speaker load supported by published specifications',
+    amplifierModel:'WiiM Amp',
+    speakerModel:speaker,
     proof:'The original WiiM Amp supports 4 Ω, 6 Ω and 8 Ω passive speaker loads. The '+speaker+' is specified as '+impedance+'. Those published ratings support this one-pair stereo connection.',
     setup:'Connect one '+speaker+' stereo pair to the original WiiM Amp speaker outputs. The Edifier T5 subwoofer connects separately to the line-level Sub Out, not the speaker terminals; follow the WiiM Home bass-routing instructions shown for this setup.',
     output:'Manufacturer speaker-load support does not establish the clean peak level at your seat; subwoofer setup and crossover settings are separate considerations.',
