@@ -42,6 +42,17 @@ test('model-aware auto result does not show a second model dropdown or blank inp
   assert.match(css,/body\.sc-embedded\.sc-auto-result \.sc-inputs\{display:none!important\}/);
 });
 
+test('Builder headroom preview is compact without clipping or changing the full calculator',()=>{
+  const builderCss=readFileSync(new URL('../system-builder/style.css',import.meta.url),'utf8');
+  assert.match(app,/sb-headroom-brief/);
+  assert.match(app,/Math\.max\(300,Math\.ceil\(doc\.documentElement\.scrollHeight\)\+16\)/);
+  assert.match(builderCss,/\.sb-recommend-compact>\.sb-inline-system-check\{grid-column:1\/-1\}/);
+  assert.match(builderCss,/\.sb-inline-system-check-frame\{[^}]*width:100%/);
+  assert.match(css,/body\.sc-embedded\.sc-auto-result \.sc-results\{padding:/);
+  assert.match(css,/@media\(min-width:640px\)/);
+  assert.doesNotMatch(css,/sc-embedded\.sc-auto-result[^\n]*\.sc-load-metric\{[^\n]*display:none/);
+});
+
 test('lesson example keeps selected models and their actual rated wattage',()=>{
   const example=calculator.slice(calculator.indexOf("document.querySelector('#example').addEventListener"),calculator.indexOf("form.addEventListener('submit'"));
   assert.match(example,/modelSelected/);
