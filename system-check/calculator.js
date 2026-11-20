@@ -495,13 +495,9 @@ function appendAmplifierLoadSafety(card, { testLoad, actual, minimum, peakV, ent
 }
 
 function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average }) {
-  // Use the actual speaker load first and exactly two familiar alternative loads.
-  // Different speakers have different sensitivities: alternatives share only the
-  // current speaker's requested voltage, not an assumed measured acoustic output.
-  const standardLoads = [4, 6, 8].filter(candidate => candidate !== load)
-    .sort((a, b) => Math.abs(a - load) - Math.abs(b - load) || a - b).slice(0, 2)
-    .sort((a, b) => a - b);
-  const testLoads = [load, ...standardLoads];
+  // Compare the ACTUAL speaker load only. Hypothetical 4/6/8 ohm cards
+  // used to look like additional manufacturer performance measurements.
+  const testLoads = [load];
   const noBurstInput = !entries.some(entry => entry.type === 'burst');
 
   const section = document.createElement('section');
@@ -509,13 +505,13 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
   section.setAttribute('aria-label', 'Amplifier headroom results by speaker impedance');
   const heading = document.createElement('h3');
   heading.textContent = mode === 'upgrade' || !entries.length
-    ? 'Power needed at each speaker load'
-    : 'Does your amplifier meet the goal?';
+    ? 'Power required for your speakers'
+    : 'Amplifier specifications at your speaker load';
   section.append(heading);
 
   const explanation = document.createElement('p');
   explanation.className = 'sc-load-intro';
-  explanation.textContent = 'Each example uses the same target electrical voltage at the speaker terminals. A lower-ohm load asks for more current and watts at that voltage, but real speakers also differ in how loudly they play and how their electrical load changes with notes. Only “Your Speakers” uses the speaker load you entered.';
+  explanation.textContent = 'This comparison uses only the speaker impedance you entered. The listening-level power requirement is a model estimate. Manufacturer wattage at another impedance is not silently treated as a measured rating for your speakers.';
   section.append(explanation);
 
   const stack = document.createElement('div');
@@ -527,19 +523,30 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
       .sort((a, b) => b.watts - a.watts)[0] || null;
   }
 
-  function projectRating(testLoad, type) {
-    const options = entries.filter(rating => rating.type === type && rating.load !== testLoad)
-      .sort((a, b) => Math.abs(a.load - testLoad) - Math.abs(b.load - testLoad)
-        || a.load - b.load);
-    const source = options[0];
-    return source ? { watts: sameVoltageWatts(source, testLoad), source, projected: true } : null;
+  function interpolateRating(testLoad, type) {
+    // Interpolate only BETWEEN two specified ratings of the SAME duration.
+    // Never extrapolate from one load, mix bursts with continuous output, or
+    // call the calculated result a measured manufacturer power specification.
+    const candidates = entries.filter(rating =>
+      rating.type === type && Number.isFinite(rating.watts) && rating.watts > 0);
+    const lower = candidates.filter(r => r.load < testLoad)
+      .sort((a,b) => b.load - a.load || a.watts - b.watts)[0];
+    const upper = candidates.filter(r => r.load > testLoad)
+      .sort((a,b) => a.load - b.load || a.watts - b.watts)[0];
+    if (!lower || !upper) return null;
+    const fraction = (testLoad - lower.load) / (upper.load - lower.load);
+    const watts = lower.watts + fraction * (upper.watts - lower.watts);
+    return {
+      watts, source: upper, projected: true, interpolated: true, lower, upper,
+      conditionsDiffer: String(lower.conditions||'').trim() !== String(upper.conditions||'').trim()
+    };
   }
 
   function directRating(rating) {
     return rating ? { watts: rating.watts, source: rating, projected: false } : null;
   }
 
-  function metricLine(row, label, demand, enteredSPL, chosen, duration, classification) {
+  function metricLine(row, label, demand, enteredSPL, chosen, duration, classification, testLoadForMetric) {
     const title = document.createElement('p');
     title.className = 'sc-load-metric-title';
     title.textContent = label + ' · Required ' + show(demand) + ' W/ch';
@@ -558,15 +565,18 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     const dbMargin = 10 * Math.log10(available / demand);
     const reserve = (1 - demand / available) * 100;
     const sourceType = chosen.source.type === 'burst' ? 'short-burst' : 'continuous';
-    const sourceBasis = chosen.projected
-      ? 'projected from ' + show(chosen.source.watts) + ' W at ' + show(chosen.source.load) + ' Ω (' + sourceType + ', constant-voltage assumption)'
+    const sourceBasis = chosen.interpolated
+      ? 'interpolated between ' + show(chosen.lower.watts) + ' W at ' + show(chosen.lower.load)
+        + ' Ω and ' + show(chosen.upper.watts) + ' W at ' + show(chosen.upper.load)
+        + ' Ω (' + sourceType + '; NOT a published ' + show(testLoadForMetric) + ' Ω rating)'
       : 'entered ' + sourceType + ' rating at ' + show(chosen.source.load) + ' Ω';
 
     let statusText;
     let verdict;
-    if (chosen.projected) {
-      verdict = 'unverified';
-      statusText = covers ? 'Unverified · projected to cover target' : 'Unverified · projected shortfall';
+    if (chosen.interpolated) {
+      verdict = 'estimate';
+      statusText = covers ? 'Power estimate meets target (not manufacturer-tested at this load)'
+        : 'Power estimate falls below target (not manufacturer-tested at this load)';
     } else if (!covers && classification === 'peak' && chosen.source.type !== 'burst') {
       verdict = 'unverified';
       statusText = 'Unverified · peak exceeds continuous rating';
@@ -582,14 +592,24 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
 
     const supplied = document.createElement('p');
     supplied.className = 'sc-load-capacity';
-    supplied.textContent = 'Available / assumed: ' + show(available) + ' W/ch · ' + sourceBasis;
+    supplied.textContent = (chosen.interpolated ? 'Assumed by interpolation: ' : 'Published / entered: ')
+      + show(available) + ' W/ch · ' + sourceBasis;
     row.append(supplied);
     const conditions = chosen.source.conditions?.trim();
-    if (conditions) {
+    if (chosen.interpolated) {
       const qualification = document.createElement('p');
       qualification.className = 'sc-load-test-conditions';
-      qualification.textContent = (chosen.projected ? 'Source-rating conditions only (not verified at this load): ' : 'Power-rating test conditions: ') + conditions
-        + '. These qualify the published watts; they do not predict distortion at your listening level.';
+      qualification.textContent = 'Linear interpolation between the two '
+        + (sourceType==='short-burst'?'short-burst':'continuous') + ' ratings is an assumption, not a manufacturer measurement at '
+        + show(testLoadForMetric) + ' Ω. '
+        + (chosen.conditionsDiffer?'The two published/entered test conditions differ, so their watt figures may not be directly comparable. ':'')
+        + 'Actual continuous output, clipping point and distortion at this load remain unknown.';
+      row.append(qualification);
+    } else if (conditions) {
+      const qualification = document.createElement('p');
+      qualification.className = 'sc-load-test-conditions';
+      qualification.textContent = 'Power-rating test conditions: ' + conditions
+        + '. These qualify the rated watts; they do not predict distortion at your listening level.';
       row.append(qualification);
     }
 
@@ -599,7 +619,8 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     const decibels = Math.abs(dbMargin) < .05 ? 0 : dbMargin;
     const signedDb = (decibels > 0 ? '+' : '') + db(decibels);
     const signedPct = (pct > 0 ? '+' : '') + powerPercent(pct / 100);
-    headroom.textContent = 'Headroom: ' + signedDb + ' dB · ' + signedPct
+    headroom.textContent = (chosen.interpolated ? 'Assumed headroom (not tested): ' : 'Headroom relative to rating: ')
+      + signedDb + ' dB · ' + signedPct
       + (pct >= 0 ? ' of available power in reserve' : ' (needs ' + powerPercent(-pct / 100) + ' more power)');
     row.append(headroom);
 
@@ -617,7 +638,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
       row.append(line);
     }
 
-    if (!covers) {
+    if (!covers && !chosen.interpolated) {
       const boundary = document.createElement('p');
       boundary.className = 'sc-load-boundary';
       const estimatedSPL = enteredSPL + dbMargin;
@@ -647,22 +668,29 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     card.className = 'sc-load-card' + (actual ? ' sc-load-card--yours' : ' sc-load-card--estimate');
     const name = document.createElement('h4');
     name.className = 'sc-load-heading';
-    name.textContent = actual
-      ? 'Your Speakers'
-      : 'Estimated Performance with ' + show(testLoad) + ' Ω Speakers';
+    name.textContent = 'Your Speakers';
     card.append(name);
     const subtitle = document.createElement('p');
     subtitle.className = 'sc-load-subheading';
-    subtitle.textContent = show(testLoad) + ' Ω '
-      + (actual ? 'nominal speaker load you entered' : 'hypothetical test load; same voltage as Your Speakers');
+    subtitle.textContent = show(testLoad) + ' Ω nominal speaker load you entered';
     card.append(subtitle);
 
     const avgDemand = averageV === null ? null : averageV ** 2 / testLoad;
     const peakDemand = peakV ** 2 / testLoad;
     const cont = chooseRating(testLoad, 'continuous');
     const burst = chooseRating(testLoad, 'burst');
-    const projectedCont = cont ? null : projectRating(testLoad, 'continuous');
-    const projectedBurst = burst ? null : projectRating(testLoad, 'burst');
+    const projectedCont = cont ? null : interpolateRating(testLoad, 'continuous');
+    const projectedBurst = burst ? null : interpolateRating(testLoad, 'burst');
+    const loadRange = projectedCont || projectedBurst;
+    if (loadRange && mode === 'check') {
+      const notice = document.createElement('p');
+      notice.className = 'sc-load-verdict sc-load-verdict--pass';
+      notice.textContent = 'Pass · ' + show(testLoad) + ' Ω is between rated '
+        + show(loadRange.lower.load) + ' Ω and ' + show(loadRange.upper.load)
+        + ' Ω amplifier loads (' + loadRange.lower.type + ' specifications). '
+        + 'This is a load-range check, not a manufacturer-measured ' + show(testLoad) + ' Ω watt rating.';
+      card.append(notice);
+    }
 
     const items = document.createElement('div');
     items.className = 'sc-load-metrics';
@@ -672,7 +700,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
       const avgItem = document.createElement('div');
       avgItem.className = 'sc-load-metric';
       const assessment = metricLine(avgItem, 'Average', avgDemand, average,
-        directRating(cont) || projectedCont, 'continuous', 'average');
+        directRating(cont) || projectedCont, 'continuous', 'average', testLoad);
       items.append(avgItem);
       if (assessment.code === 'fail') hasDefinitiveFailure = true;
       if (assessment.code === 'unverified') hasUnknown = true;
@@ -687,13 +715,13 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     else peakRating = projectedBurst || projectedCont;
 
     const peakAssessment = metricLine(peakItem, 'Short peaks', peakDemand, peak, peakRating,
-      'short-burst or continuous', 'peak');
+      'short-burst or continuous', 'peak', testLoad);
     items.append(peakItem);
     if (peakAssessment.code === 'fail') hasDefinitiveFailure = true;
     if (peakAssessment.code === 'unverified') hasUnknown = true;
     if (peakAssessment.projected) anyProjection = true;
 
-    if (!burst && mode === 'check' && entries.length) {
+    if (!burst && !projectedBurst && mode === 'check' && entries.length) {
       const note = document.createElement('p');
       note.className = 'sc-load-burst-note';
       note.textContent = 'No short-burst power rating entered at ' + show(testLoad)
@@ -720,12 +748,12 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
   }
 
   if (anyProjection) addText('p',
-    'Estimated Performance uses the nearest entered load rating projected at unchanged output voltage (P = V² / R). This is not a verified amplifier test at that impedance; a lower impedance may demand more current than the amplifier can supply.');
+    'The wattage at your speaker’s impedance is linearly interpolated between two entered amplifier ratings with the same duration. This is an assumed figure, not a manufacturer-measured power rating at this load; headroom remains an estimate.');
 
   if (hasDefinitiveFailure) addText('p',
     'A Fail marks an entered continuous or burst rating below the required power for that duration. The stated dB SPL boundary is a model estimate, not a measured clipping onset.');
   else if (hasUnknown) addText('p',
-    'Unverified is not the same as Fail. More measured output-power and short-burst data are needed to establish the true limit.');
+    'A missing or incomparable amplifier rating does not establish a failure. Find a factory rating at this load, or compatible published ratings on both sides to estimate its wattage.');
 
   if (entries.some(entry => entry.type === 'unknown')) {
     addText('p', 'Power ratings with an unspecified duration are not used in the verdict until labelled continuous or short-burst.');
@@ -736,7 +764,7 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     if (ampModel) note.append(' ', searchLink('Find a lower-load amp test', ampModel,
       show(minimum) + ' ohm amplifier power bench measurements'));
   }
-  addText('p', 'Headroom is 10 log₁₀(available watts ÷ required watts) in dB. The percentage is the fraction of available power unused: 100 × (1 − required ÷ available). A negative percentage means more power is needed, not negative physical power.');
+  addText('p', 'Headroom is calculated from the entered or interpolated amplifier watts and the estimated required watts. Neither is a measured listening-room SPL or clipping threshold.');
 }
 
 function calculate() {
