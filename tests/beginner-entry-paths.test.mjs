@@ -324,6 +324,8 @@ test('only the equipment the visitor wants to shop for must be absent from inven
   assert.match(validateBuilderIntent('amp_for_speakers',missing).message,/speakers.*sourced catalogue/i);
   assert.equal(validateBuilderIntent('speakers_for_amp',missing).ok,false);
   assert.equal(validateBuilderIntent('complete_system',missing).ok,true);
+  assert.equal(validateBuilderIntent('headphones',missing).ok,false);
+  missing.set('headphoneAmpChoice','unsure');
   assert.equal(validateBuilderIntent('headphones',missing).ok,true);
   assert.equal(validateBuilderIntent('improve_existing',missing).ok,true);
 });
