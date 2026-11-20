@@ -552,9 +552,12 @@ try {
   assert.ok(await preview.locator('.sb-compact-compare').count()>=1);
   assert.ok(await page.locator('#sb-first-recommendation .sb-primary-sound').isVisible());
   assert.ok(await preview.isVisible(),device.name+' upgrade reasons must appear without opening alternatives');
-  const options=page.locator('#sb-results .sb-alternative-setups .sb-recommend');
+  const options=preview.locator('.sb-alternative-details .sb-recommend-supplement');
   assert.ok(await options.count()>=2,device.name+' high dynamic use must offer a few alternatives');
   assert.equal(await options.count(),await options.locator('.sb-setup-workflow').count());
+  assert.equal(await page.locator('#sb-results .sb-alternative-setups').count(),0);
+  assert.equal(await preview.locator('.sb-comparison-preview-card').count(),
+    await options.count(),device.name+' upgrade alternatives must appear once, with details attached');
   await page.waitForFunction(()=>{
     const frame=document.querySelector('#sb-first-recommendation iframe.sb-inline-system-check-frame');
     return frame?.contentDocument?.body.classList.contains('sc-auto-result');
