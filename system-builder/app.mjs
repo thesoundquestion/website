@@ -2,6 +2,7 @@ import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './en
 import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
 import {parseSpeakerSpecText} from './spec-paste.mjs?v=in-room-primary-20261120';
+import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=20261120';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -490,6 +491,46 @@ document.addEventListener('DOMContentLoaded', () => {
           addText(speakerReview,'li',note);
         speakerReview.hidden=!speakerReview.children.length;
       }
+      updateFieldRequirements();
+    });
+  }
+  const specFieldLabels={
+    ampMinLoad:'supported speaker impedance',
+    ampRatedWatts:'watts per channel',
+    ampRatedLoad:'amplifier power test load',
+    sourceOutput:'audio output',
+    headphoneLoad:'headphone impedance',
+    headphoneSensitivity:'headphone sensitivity',
+    headphoneBasis:'sensitivity reference'
+  };
+  for(const kind of ['amp','source','headphone']){
+    const textarea=document.getElementById('sb-'+kind+'-spec-paste');
+    const fill=document.getElementById('sb-'+kind+'-spec-fill');
+    const feedback=document.getElementById('sb-'+kind+'-spec-feedback');
+    const review=document.getElementById('sb-'+kind+'-spec-observations');
+    if(!textarea||!fill||!feedback||!review)continue;
+    fill.addEventListener('click',()=>{
+      const found=parseUnlistedSpecText(kind,textarea.value);
+      const copied=[],preserved=[];
+      for(const [name,value] of Object.entries(found.fields)){
+        const input=form.elements.namedItem(name);
+        if(!input)continue;
+        if(String(input.value).trim()){
+          preserved.push(specFieldLabels[name]||name);
+          continue;
+        }
+        input.value=String(value);
+        input.dispatchEvent(new Event('input',{bubbles:true}));
+        copied.push((specFieldLabels[name]||name)+': '+value);
+      }
+      feedback.textContent=copied.length
+        ?'Filled: '+copied.join('; ')+'. Review or correct below.'
+        :'No new fields filled. Use the editable boxes below for any missing specification.';
+      if(preserved.length)feedback.textContent+=' Existing values retained: '+preserved.join(', ')+'.';
+      review.replaceChildren();
+      for(const note of [...(found.observations||[]),...(found.notes||[])])
+        addText(review,'li',note);
+      review.hidden=!review.children.length;
       updateFieldRequirements();
     });
   }
