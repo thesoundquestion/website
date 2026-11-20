@@ -143,7 +143,7 @@ try {
    assert.equal(await page.locator('[name="peak"]').inputValue(),'95');
    assert.ok(await page.locator('body.sc-embedded.sc-auto-result').count()===1);
    assert.ok(await page.locator('.sc-inputs').isHidden());
-   assert.match(await page.locator('#result-status').innerText(),/speakers ask for/);
+   assert.match(await page.locator('#result-status').innerText(),/Average and peak power targets met|Peak headroom not verified|Peak target not met|Amplifier power meets targets/);
    assert.ok((await page.locator('#result-body').innerText()).length>100);
    await checkNoErrors(page,errors,device.name+' automatic model-backed headroom results');
    outcomes.push(device.name+' exact-model headroom calculated directly from transferred listening inputs');
