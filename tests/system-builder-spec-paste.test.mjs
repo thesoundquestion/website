@@ -119,7 +119,8 @@ test('user-reported full speaker description feeds provisional nominal, minimum,
   ].join('\n');
   const parsed=parseSpeakerSpecText(paste);
   assert.deepEqual(parsed.fields,{
-    speakerLoad:8,speakerMinimum:4.2,speakerSensitivity:87,
+    speakerLoad:8,speakerMinimum:4.2,speakerSensitivity:90,
+    speakerSensitivityEnvironment:'in_room',speakerAnechoic:87,
     speakerRecommendedAmpMin:15,speakerRecommendedAmpMax:100,speakerMaxInput:60
   });
   assert.match(parsed.observations.join(' '),/8 Ω described as compatible/);
@@ -131,7 +132,8 @@ test('user-reported full speaker description feeds provisional nominal, minimum,
 
 test('other compatible-with wording provisionally supplies nominal load with notes',()=>{
   const parsed=parseSpeakerSpecText('Impedance: 8Ω compatible, measured around 3.6Ω minimum\nSensitivity 89 dB in room');
-  assert.deepEqual(parsed.fields,{speakerLoad:8,speakerMinimum:3.6,speakerSensitivity:89});
+  assert.deepEqual(parsed.fields,{speakerLoad:8,speakerMinimum:3.6,
+    speakerSensitivity:89,speakerSensitivityEnvironment:'in_room'});
   assert.match(parsed.observations.join(' '),/8 Ω described as compatible/);
   assert.equal(parsed.fields.speakerBasis,undefined);
 });
@@ -149,7 +151,9 @@ test('a partially documented speaker can be shortlisted with unknown sensitivity
   data.set('speakerSpecUrl','https://example.com/manual');
   data.set('speakerLoad','8');
   data.set('speakerMinimum','4.2');
-  data.set('speakerSensitivity','87');
+  data.set('speakerSensitivity','90');
+  data.set('speakerSensitivityEnvironment','in_room');
+  data.set('speakerAnechoic','87');
   data.set('speakerBasis','');
   data.set('speakerRecommendedAmpMin','15');
   data.set('speakerRecommendedAmpMax','100');
@@ -158,8 +162,13 @@ test('a partially documented speaker can be shortlisted with unknown sensitivity
   assert.equal(result.state,'provisional');
   assert.equal(result.record.values.load,8);
   assert.equal(result.record.values.minimum,4.2);
-  assert.equal(result.record.values.sensitivity,null);
-  assert.equal(result.record.values.reportedSensitivity,87);
+  assert.equal(result.record.values.sensitivity,90);
+  assert.equal(result.record.values.reportedSensitivity,90);
+  assert.equal(result.record.values.anechoicReferenceDb,87);
+  assert.equal(result.record.values.basis,'voltage');
+  assert.equal(result.record.values.basisAssumed,true);
+  assert.equal(result.record.values.sensitivityEnvironment,'in_room');
+  assert.equal(result.record.values.roomAdjustmentAlreadyIncluded,true);
   assert.equal(result.record.values.recommendedAmpMinW,15);
   assert.equal(result.record.values.recommendedAmpMaxW,100);
   assert.equal(result.record.values.listedMaxInputW,60);
@@ -178,4 +187,41 @@ test('compatibility alone is not a guarantee when two opposing nominal claims co
   const result=parseSpeakerSpecText('Nominal impedance 4Ω\nNominal impedance 8Ω\nImpedance compatible with 8 ohms');
   assert.equal(result.fields.speakerLoad,undefined);
   assert.match(result.notes.join(' '),/Conflicting impedance/);
+});
+
+test('8-ohm in-room rating is used as primary with no duplicate room gain while anechoic remains a reference',()=>{
+  const data=new FormData();
+  data.set('speakerOther','Room Example');
+  data.set('speakerSpecUrl','https://example.com/speaker');
+  data.set('speakerLoad','8');
+  data.set('speakerSensitivity','90');
+  data.set('speakerSensitivityEnvironment','in_room');
+  data.set('speakerAnechoic','87');
+  const result=unlistedSpecAssessment('speaker',data);
+  assert.equal(result.state,'provisional');
+  assert.equal(result.record.values.sensitivity,90);
+  assert.equal(result.record.values.anechoicReferenceDb,87);
+  assert.equal(result.record.values.roomAdjustmentAlreadyIncluded,true);
+  assert.equal(result.record.values.basis,'voltage');
+  assert.equal(result.record.values.basisAssumed,true);
+  assert.match(result.message,/8 Ω/);
+});
+test('missing electrical reference on non-8-ohm speaker does not silently assume the same wattage',()=>{
+  const data=new FormData();
+  data.set('speakerOther','Four-ohm Example');
+  data.set('speakerSpecUrl','https://example.com/speaker');
+  data.set('speakerLoad','4');
+  data.set('speakerSensitivity','90');
+  data.set('speakerSensitivityEnvironment','in_room');
+  const result=unlistedSpecAssessment('speaker',data);
+  assert.equal(result.state,'provisional');
+  assert.equal(result.record.values.sensitivity,null);
+  assert.equal(result.record.values.reportedSensitivity,90);
+  assert.equal(result.record.values.roomAdjustmentAlreadyIncluded,true);
+});
+test('standalone anechoic sensitivity stays available when no in-room figure was provided',()=>{
+  const parsed=parseSpeakerSpecText('Nominal impedance: 8 ohms\nSensitivity: 87 dB (anechoic)');
+  assert.deepEqual(parsed.fields,{
+    speakerLoad:8,speakerSensitivity:87,speakerSensitivityEnvironment:'anechoic',speakerAnechoic:87
+  });
 });
