@@ -32,7 +32,7 @@ function run(config){
   const cards=body.subtrees.filter(x=>x.tagName==='article'&&x.className.includes('sc-load-card'));
   return {cards,body,text:body.allText};
 }
-const base={mode:'check',load:8,minimum:NaN,peakV:Math.sqrt(80*8),averageV:Math.sqrt(8*8),peakW:80,averageW:8,peak:102,average:92};
+const base={mode:'check',load:8,minimum:NaN,peakV:Math.sqrt(80*8),averageV:Math.sqrt(8*8),peakW:80,averageW:8,peak:102,average:92,distance:8};
 
 test('one actual-speaker card shows ratings and headroom at the entered short-burst load',()=>{
   const r=run({...base,entries:[
@@ -57,6 +57,50 @@ test('published burst below required peak fails with rated-power boundary',()=>{
   assert.match(r.cards[0].allText,/estimated level boundary: about 100\.0 dB SPL/);
   assert.match(r.cards[0].allText,/not an independently measured clipping point/);
   assert.match(r.text,/It does NOT mean the amplifier and speakers are electrically incompatible/);
+});
+
+test('failing burst headroom explains the shortfall and actionable listening-distance tradeoff',()=>{
+  const r=run({...base,entries:[{watts:50,load:8,type:'continuous'},{watts:50,load:8,type:'burst'}]});
+  const card=r.cards[0].allText;
+  assert.match(card,/Why the peak target failed/);
+  assert.match(card,/80 W\/ch, but the entered short-burst rating at this speaker load is 50 W\/ch/);
+  assert.match(card,/shortfall of 2\.0 dB/);
+  assert.match(card,/Sit closer: from 8 ft to about 6\.3 ft/);
+  assert.match(card,/Lower the peak target by about 2\.0 dB, to roughly 100\.0 dB SPL/);
+  assert.match(card,/speakers with at least 2\.0 dB higher sensitivity/);
+  assert.match(card,/verified short-burst rating of at least 80 W\/ch at this load/);
+  assert.match(card,/not a guaranteed distortion-free level/);
+});
+
+test('no peak-failure advice is shown for a passing burst or an unavailable comparison',()=>{
+  const good=run({...base,entries:[{watts:100,load:8,type:'continuous'},{watts:100,load:8,type:'burst'}]});
+  assert.doesNotMatch(good.cards[0].allText,/Why the peak target failed|Sit closer|Lower the peak target/);
+  const absent=run({...base,entries:[]});
+  assert.doesNotMatch(absent.cards[0].allText,/Why the peak target failed|Sit closer|Lower the peak target/);
+});
+
+test('peak beyond continuous-only rating explains unknown burst rather than calling it failed',()=>{
+  const r=run({...base,entries:[{watts:50,load:8,type:'continuous'}]});
+  assert.match(r.cards[0].allText,/Why peak capacity is not verified/);
+  assert.match(r.cards[0].allText,/continuous power figure does not establish the amplifier’s short-burst limit/);
+  assert.match(r.cards[0].allText,/Sit closer: from 8 ft to about 6\.3 ft/);
+  assert.match(r.cards[0].allText,/cannot establish actual short-burst capability/);
+  assert.doesNotMatch(r.cards[0].allText,/Why the peak target failed/);
+});
+
+test('unrealistic distance fixes are not given as numeric recommendations',()=>{
+  const r=run({...base,distance:10,peakW:1600,peakV:Math.sqrt(1600*8),
+    entries:[{watts:80,load:8,type:'continuous'},{watts:80,load:8,type:'burst'}]});
+  assert.match(r.cards[0].allText,/distance alone could require an impractically near seat/);
+  assert.doesNotMatch(r.cards[0].allText,/Sit closer: from 10 ft to about/);
+});
+
+test('average failure is explained without mistaking it for electrical incompatibility',()=>{
+  const r=run({...base,averageW:90,averageV:Math.sqrt(90*8),
+    entries:[{watts:50,load:8,type:'continuous'},{watts:100,load:8,type:'burst'}]});
+  assert.match(r.cards[0].allText,/Why the average target failed/);
+  assert.match(r.cards[0].allText,/Lower the average target/);
+  assert.doesNotMatch(r.cards[0].allText,/Why the peak target failed/);
 });
 
 test('continuous-only output shows rated headroom without an invented musical-peak story',()=>{
