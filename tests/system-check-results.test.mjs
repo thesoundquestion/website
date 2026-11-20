@@ -63,7 +63,7 @@ test('failing burst headroom explains the shortfall and actionable listening-dis
   const r=run({...base,entries:[{watts:50,load:8,type:'continuous'},{watts:50,load:8,type:'burst'}]});
   const card=r.cards[0].allText;
   assert.match(card,/Why the peak target failed/);
-  assert.match(card,/80 W\/ch, but the entered short-burst rating at this speaker load is 50 W\/ch/);
+  assert.match(card,/102\.0 dB needs 80 W\/ch, versus 50 W\/ch documented short-burst output/);
   assert.match(card,/2\.0 dB short/);
   assert.match(card,/Sit closer: from 8 ft to about 6\.3 ft/);
   assert.match(card,/Lower the peak target by about 2\.0 dB, to roughly 100\.0 dB SPL/);
