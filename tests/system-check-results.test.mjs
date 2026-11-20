@@ -1,132 +1,156 @@
-// Regression checks for System Check: wattage, headroom dB/% and burst-rating honesty.
+// System Check regressions: one relevant load, documented headroom, no invented missing-data warnings.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
-const js = readFileSync(new URL('../system-check/calculator.js', import.meta.url), 'utf8');
-const src = js.slice(js.indexOf('function powerPercent('), js.indexOf('\nfunction calculate()'));
-assert.ok(src.startsWith('function powerPercent(') && src.includes('function summarizePower('));
-const searchHelper = js.slice(js.indexOf('function searchLink('), js.indexOf('\nfunction readRatings()'));
-assert.ok(searchHelper.startsWith('function searchLink('), 'Output searchLink helper must exist');
-class Node {
-  constructor(tag) { this.tagName = tag; this.className = ''; this.textContent = ''; this.children = []; this.attributes = {}; }
-  append(...children) { this.children.push(...children); }
-  setAttribute(name,value) { this.attributes[name] = value; }
-  get allText() { return [this.textContent,...this.children.map(c=>typeof c==='string'?c:c.allText??'')].join(' '); }
-  get subtrees() { return [this,...this.children.flatMap(c=>c?.subtrees??[])]; }
-}
-function run(config) {
-  const body = new Node('body');
-  const context = {
-    document: { createElement(tag) { return new Node(tag); } },
-    body,
-    field(name) { return { value: config.model?.[name] ?? '', valueAsNumber: config.power?.[name] ?? NaN, dataset: config.sourceUrl && config.power?.[name] ? { powerSourceUrl: config.sourceUrl } : {} }; },
-    show(value) { return new Intl.NumberFormat('en-CA', { maximumSignificantDigits: 3 }).format(value); },
-    db(value) { return value.toFixed(1); },
-    addText(tag,value) { const n = new Node(tag); n.textContent = value; body.append(n); return n; },
-    URLSearchParams,
-    Intl, Math, Set, Number,
-  };
-  const calculate = vm.runInNewContext(searchHelper + '\n' + src + '\nsummarizePower', context);
-  calculate(config);
-  const cards = body.subtrees.filter(n=>n.tagName==='article' && n.className.includes('sc-load-card'));
-  return { cards, body, text:body.allText };
-}
-const base = {mode:'check',load:8,minimum:NaN,peakV:Math.sqrt(80*8),averageV:Math.sqrt(8*8),peakW:80,averageW:8,peak:102,average:92};
+const js=readFileSync(new URL('../system-check/calculator.js',import.meta.url),'utf8');
+const src=js.slice(js.indexOf('function powerPercent('),js.indexOf('\nfunction calculate()'));
+assert.ok(src.startsWith('function powerPercent(')&&src.includes('function summarizePower('));
+const searchHelper=js.slice(js.indexOf('function searchLink('),js.indexOf('\nfunction readRatings()'));
 
-test('Your Speakers is highlighted and all three load cards include required watts and headroom dB and percent',()=>{
-  const result = run({...base, entries:[
+class Node {
+  constructor(tag) {this.tagName=tag;this.className='';this.textContent='';this.children=[];this.attributes={};}
+  append(...items){this.children.push(...items);}
+  setAttribute(name,value){this.attributes[name]=value;}
+  get allText(){return [this.textContent,...this.children.map(c=>typeof c==='string'?c:c.allText??'')].join(' ');}
+  get subtrees(){return [this,...this.children.flatMap(c=>c?.subtrees??[])];}
+}
+
+function run(config){
+  const body=new Node('body');
+  const context={
+    document:{createElement:tag=>new Node(tag)},body,
+    field(name){return {value:config.model?.[name]??'',valueAsNumber:config.power?.[name]??NaN,dataset:config.sourceUrl&&config.power?.[name]?{powerSourceUrl:config.sourceUrl}:{}};},
+    show:value=>new Intl.NumberFormat('en-CA',{maximumSignificantDigits:3}).format(value),
+    db:value=>value.toFixed(1),
+    addText(tag,value){const element=new Node(tag);element.textContent=value;body.append(element);return element;},
+    URLSearchParams,Intl,Math,Set,Number
+  };
+  const summarize=vm.runInNewContext(searchHelper+'\n'+src+'\nsummarizePower',context);
+  summarize(config);
+  const cards=body.subtrees.filter(x=>x.tagName==='article'&&x.className.includes('sc-load-card'));
+  return {cards,body,text:body.allText};
+}
+const base={mode:'check',load:8,minimum:NaN,peakV:Math.sqrt(80*8),averageV:Math.sqrt(8*8),peakW:80,averageW:8,peak:102,average:92};
+
+test('one actual-speaker card shows ratings, headroom and useful musical peaks',()=>{
+  const r=run({...base,entries:[
     {watts:100,load:8,type:'continuous'},
     {watts:140,load:8,type:'burst'},
-    {watts:230,load:4,type:'burst'},
     {watts:180,load:4,type:'continuous'}
   ]});
-  assert.equal(result.cards.length,3);
-  assert.equal(result.cards[0].children[0].textContent,'Your Speakers');
-  assert.ok(result.cards[0].className.includes('sc-load-card--yours'));
-  assert.equal(result.cards[1].children[0].textContent,'Estimated Performance with 4 Ω Speakers');
-  assert.equal(result.cards[2].children[0].textContent,'Estimated Performance with 6 Ω Speakers');
-  assert.match(result.cards[0].allText,/Short peaks · Required 80 W\/ch/);
-  assert.match(result.cards[0].allText,/Average · Required 8 W\/ch/);
-  assert.match(result.cards[0].allText,/Headroom: \+2\.4 dB · \+42\.9%/);
-  assert.match(result.cards[0].allText,/Pass/);
-  assert.match(result.cards[2].allText,/Unverified · projected to cover target/);
-});
-test('a known burst rating below the peak requirement fails and shows the rated-power SPL boundary',()=>{
-  const result=run({...base,entries:[
-    {watts:50,load:8,type:'continuous'},{watts:50,load:8,type:'burst'},
-    {watts:100,load:4,type:'continuous'},{watts:100,load:4,type:'burst'}
-  ]});
-  const actual=result.cards[0].allText;
-  assert.match(actual,/Fail/);
-  assert.match(actual,/Headroom: -2\.0 dB · -60%/);
-  assert.match(actual,/estimated level boundary: about 100\.0 dB SPL/);
-  assert.match(actual,/not an independently measured clipping point/);
-});
-test('missing burst ratings do NOT assert clipping at continuous power',()=>{
-  const result=run({...base,entries:[{watts:50,load:8,type:'continuous'},{watts:100,load:4,type:'continuous'}]});
-  const actual=result.cards[0].allText;
-  assert.match(actual,/Unverified · peak exceeds continuous rating/);
-  assert.doesNotMatch(actual,/Fail/);
-  assert.match(actual,/100\.0 dB SPL/);
-  assert.match(actual,/Actual short-burst clipping level is unknown/);
-  assert.match(result.text,/Burst-rating disclaimer: no short-burst wattage was entered/);
-  assert.match(result.cards[0].allText,/No short-burst power rating entered at 8 Ω/);
-});
-test('upgrade mode still shows three load wattage targets but does not invent a verdict',()=>{
-  const result=run({...base,mode:'upgrade',entries:[]});
-  assert.equal(result.cards.length,3);
-  assert.match(result.cards[0].allText,/Required 80 W\/ch/);
-  assert.match(result.cards[1].allText,/Required 160 W\/ch/);
-  assert.match(result.cards[2].allText,/Required 107 W\/ch/);
-  assert.match(result.text,/Pass\/fail and headroom against an amplifier cannot be determined/);
-});
-test('nonstandard entered speaker nominal load remains selected and is not renamed to a test load',()=>{
-  const result=run({...base,load:5,entries:[{watts:100,load:8,type:'continuous'}]});
-  assert.equal(result.cards[0].children[0].textContent,'Your Speakers');
-  assert.match(result.cards[0].allText,/5 Ω nominal speaker load you entered/);
-  assert.equal(result.cards[1].children[0].textContent,'Estimated Performance with 4 Ω Speakers');
-  assert.equal(result.cards[2].children[0].textContent,'Estimated Performance with 6 Ω Speakers');
+  assert.equal(r.cards.length,1);
+  assert.equal(r.cards[0].children[0].textContent,'Your Speakers');
+  assert.match(r.cards[0].allText,/Short peaks · Required 80 W\/ch/);
+  assert.match(r.cards[0].allText,/Average · Required 8 W\/ch/);
+  assert.match(r.cards[0].allText,/Headroom relative to rating: \+2\.4 dB · \+42\.9%/);
+  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 80%/);
+  assert.match(r.cards[0].allText,/short-burst rating \(140 W\/ch\)/);
+  assert.doesNotMatch(r.text,/Estimated Performance with 4 Ω/);
 });
 
-test('lower unverified loads warn about amplifier current and protection risk',()=>{
+test('published burst below required peak fails with rated-power boundary',()=>{
+  const r=run({...base,entries:[{watts:50,load:8,type:'continuous'},{watts:50,load:8,type:'burst'}]});
+  assert.match(r.cards[0].allText,/Fail/);
+  assert.match(r.cards[0].allText,/Headroom relative to rating: -2\.0 dB · -60%/);
+  assert.match(r.cards[0].allText,/estimated level boundary: about 100\.0 dB SPL/);
+  assert.match(r.cards[0].allText,/not an independently measured clipping point/);
+});
+
+test('continuous-only output gives meaningful headroom without warning about absent burst data',()=>{
   const r=run({...base,entries:[{watts:100,load:8,type:'continuous'}]});
-  assert.match(r.cards[1].allText,/Amplifier load-stress warning/);
-  assert.match(r.cards[1].allText,/4 Ω load is below your lowest entered amplifier test rating \(8 Ω\)/);
-  assert.match(r.cards[1].allText,/A RMS per channel/);
-  assert.match(r.cards[1].allText,/overheat, trip protection or clip early/);
-  assert.doesNotMatch(r.cards[0].allText,/Amplifier load-stress warning/);
+  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 80%/);
+  assert.doesNotMatch(r.text,/Burst-rating disclaimer|No short-burst power rating entered|No comparable short-burst/);
 });
 
-test('an actual speaker minimum below the lowest tested amp load triggers separate stress warning',()=>{
-  const r=run({...base,minimum:3.5,entries:[{watts:120,load:4,type:'continuous'},{watts:80,load:8,type:'continuous'}]});
-  assert.match(r.cards[0].allText,/Your measured speaker minimum of 3.5 Ω is also below the lowest tested amplifier load of 4 Ω/);
-  assert.doesNotMatch(r.cards[2].allText,/Amplifier load-stress warning/);
+test('peak above continuous rating does not become a claimed clipping failure',()=>{
+  const r=run({...base,entries:[{watts:50,load:8,type:'continuous'}]});
+  assert.match(r.cards[0].allText,/Unverified · peak exceeds continuous rating/);
+  assert.doesNotMatch(r.cards[0].allText,/Fail/);
+  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 160%/);
+  assert.doesNotMatch(r.text,/Burst-rating disclaimer/);
 });
 
-test('speaker handling source warns only for excess average continuous or peak demand',()=>{
-  const r=run({...base,power:{speakerPowerContinuous:5,speakerPowerPeak:40},sourceUrl:'https://example.org/speaker-manual',entries:[{watts:100,load:8,type:'continuous'},{watts:100,load:8,type:'burst'}]});
-  assert.match(r.cards[0].allText,/Speaker stress warning: the estimated average demand 8 W per speaker exceeds the published continuous-handling rating of 5 W/);
-  assert.match(r.cards[0].allText,/Speaker stress warning: peak demand 80 W per speaker exceeds the manufacturer/);
-  const sourceLinks=r.cards[0].subtrees.filter(x=>x.tagName==='a' && x.href==='https://example.org/speaker-manual');
-  assert.equal(sourceLinks.length,1);
-  assert.match(sourceLinks[0].textContent,/Published speaker-power source/);
+test('upgrade mode does not add hypothetical impedances or missing-data warnings',()=>{
+  const r=run({...base,mode:'upgrade',entries:[]});
+  assert.equal(r.cards.length,1);
+  assert.match(r.cards[0].allText,/Required 80 W\/ch/);
+  assert.doesNotMatch(r.text,/Unverified|Musical peaks:|Pass\/fail and headroom/);
 });
 
-test('recommended amplifier power is never mislabelled as speaker handling threshold',()=>{
-  const r=run({...base,power:{speakerRecommendedAmpMax:50},entries:[{watts:200,load:8,type:'continuous'}]});
-  assert.match(r.cards[0].allText,/Speaker handling unverified/);
-  assert.match(r.cards[0].allText,/Recommended amplifier range ends at 50 W/);
-  assert.match(r.cards[0].allText,/NOT the speaker’s maximum safe input/);
-  assert.doesNotMatch(r.cards[0].allText,/Speaker stress warning:/);
+test('nominal speaker impedance is kept exactly as entered',()=>{
+  const r=run({...base,load:5,entries:[{watts:100,load:8,type:'continuous'}]});
+  assert.equal(r.cards.length,1);
+  assert.match(r.cards[0].allText,/5 Ω nominal speaker load you entered/);
+  assert.doesNotMatch(r.text,/Musical peaks:|Amplifier load-stress warning|no usable/);
 });
 
-test('unknown-duration maximum input and nominal input emit qualified cautions',()=>{
+test('6 Ω between published 4 Ω and 8 Ω continuous outputs gives a load-range pass and stated interpolation',()=>{
+  const r=run({...base,load:6,entries:[{watts:120,load:8,type:'continuous'},{watts:180,load:4,type:'continuous'}]});
+  assert.equal(r.cards.length,1);
+  assert.match(r.cards[0].allText,/Pass · 6 Ω is between rated 4 Ω and 8 Ω/);
+  assert.match(r.cards[0].allText,/Assumed by interpolation: 150 W\/ch/);
+  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses/);
+  assert.doesNotMatch(r.text,/Amplifier load-stress warning/);
+});
+
+test('missing lower-load amplifier rating is NOT proof of unsafe 6 Ω operation',()=>{
+  const r=run({...base,load:6,entries:[{watts:100,load:8,type:'continuous'}]});
+  assert.equal(r.cards.length,1);
+  assert.doesNotMatch(r.text,/Amplifier load-stress warning|overheat|trip protection|Musical peaks:|Burst-rating disclaimer/);
+});
+
+test('no available amplifier ratings shows required watts only',()=>{
+  const r=run({...base,load:6,entries:[]});
+  assert.equal(r.cards.length,1);
+  assert.match(r.cards[0].allText,/Required/);
+  assert.doesNotMatch(r.cards[0].allText,/Unverified|Musical peaks:|no usable|speaker safety cannot be established/i);
+});
+
+test('real published speaker continuous/peak limits still trigger genuine warnings',()=>{
+  const r=run({...base,power:{speakerPowerContinuous:5,speakerPowerPeak:40},
+    sourceUrl:'https://example.org/speaker-manual',
+    entries:[{watts:100,load:8,type:'continuous'},{watts:100,load:8,type:'burst'}]});
+  assert.match(r.cards[0].allText,/Speaker stress warning: the estimated average demand 8 W per speaker exceeds/);
+  assert.match(r.cards[0].allText,/Speaker stress warning: peak demand 80 W per speaker exceeds/);
+  const links=r.cards[0].subtrees.filter(x=>x.tagName==='a'&&x.href==='https://example.org/speaker-manual');
+  assert.equal(links.length,1);
+});
+
+test('missing speaker-handling information does not create a blanket disclaimer',()=>{
+  const r=run({...base,power:{speakerRecommendedAmpMax:50},entries:[{watts:100,load:8,type:'continuous'}]});
+  assert.doesNotMatch(r.cards[0].allText,/Speaker handling unverified|Requested power is within|Recommended amplifier range ends/);
+});
+
+test('nominal and unspecified-maximum handling preserve real exceedance cautions',()=>{
   const r=run({...base,power:{speakerPowerMaxInput:40,speakerPowerNominal:5},entries:[{watts:100,load:8,type:'continuous'}]});
   assert.match(r.cards[0].allText,/average demand 8 W exceeds the published nominal input rating of 5 W/);
   assert.match(r.cards[0].allText,/peak demand 80 W exceeds the published maximum input of 40 W/);
-  assert.match(r.cards[0].allText,/test duration for this maximum is unspecified/);
+});
+
+test('measured impedance dip without manufacturer load-permission evidence does not invent a warning',()=>{
+  const r=run({...base,minimum:3.5,entries:[{watts:80,load:8,type:'continuous'}]});
+  assert.doesNotMatch(r.text,/Amplifier load-stress warning|find a lower-load amp test/);
+});
+
+test('only genuine rating comparisons produce peak explanation',()=>{
+  const r=run({...base,load:6,entries:[{watts:80,load:8,type:'continuous'}]});
+  assert.doesNotMatch(r.cards[0].allText,/Musical peaks:/);
+});
+
+test('published burst data enriches peaks without invented THD conclusions',()=>{
+  const r=run({...base,peakV:Math.sqrt(110*8),peakW:110,
+    entries:[{watts:80,load:8,type:'continuous'},{watts:140,load:8,type:'burst'}]});
+  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 138%/);
+  assert.match(r.cards[0].allText,/burst figure is 2.4 dB above its continuous rating/);
+  assert.doesNotMatch(r.cards[0].allText,/distortion is unlikely|already clipping/);
+});
+
+test('no average target omits average metric without losing peak comparison',()=>{
+  const r=run({...base,averageV:null,averageW:null,average:null,entries:[{watts:80,load:8,type:'continuous'}]});
+  assert.doesNotMatch(r.cards[0].allText,/Average · Required/);
+  assert.match(r.cards[0].allText,/Musical peaks:/);
 });
 
 test('speaker catalogue carries power-source provenance and preserves unknown vintage models',()=>{
@@ -161,61 +185,3 @@ test('speaker catalogue carries power-source provenance and preserves unknown vi
 });
 
 
-test('output search links use the restored external Google helper with encoded exact models', () => {
-  const result = run({...base, minimum:3.5, model: {ampModel:'Yamaha A-720'}, entries:[
-    {watts:80,load:8,type:'continuous'}, {watts:100,load:4,type:'continuous'}
-  ]});
-  const links = result.body.subtrees.filter(x => x.tagName === 'a' && x.textContent.includes('Find a lower-load amp test'));
-  assert.equal(links.length,1);
-  const url = new URL(links[0].href);
-  assert.equal(url.origin,'https://www.google.com');
-  assert.equal(url.pathname,'/search');
-  assert.match(url.searchParams.get('q'),/Yamaha A-720/);
-  assert.match(url.searchParams.get('q'),/3\.5 ohm amplifier power bench measurements/);
-  assert.equal(links[0].target,'_blank');
-  assert.equal(links[0].rel,'noopener noreferrer');
-});
-
-
-test('ordinary listening low wattage is described as favorable while near-rated peaks get a caution', () => {
-  const result = run({...base, averageV: Math.sqrt(2*8), averageW: 2,
-    peakV: Math.sqrt(65*8), peakW:65,
-    entries:[{watts:80,load:8,type:'continuous',conditions:'20 Hz–20 kHz, 0.08% THD'}]});
-  const yours = result.cards[0].allText;
-  assert.match(yours,/Typical listening: Light average demand/);
-  assert.match(yours,/2.5% of the continuous rating/);
-  assert.match(yours,/Musical peaks: Peak demand is very close to rated continuous output/);
-  assert.match(yours,/less than about 1 dB margin/);
-  assert.match(yours,/Actual THD\/THD\+N is not known/);
-  assert.doesNotMatch(yours,/distortion is definitely audible|already clipping/);
-});
-test('low peak demand has substantial rated reserve', () => {
-  const result = run({...base,peakV:Math.sqrt(20*8),peakW:20,
-    entries:[{watts:80,load:8,type:'continuous'}]});
-  assert.match(result.cards[0].allText,/Musical peaks: Peak demand is 25% of the continuous rating, leaving at least 3 dB/);
-});
-test('short bursts above continuous power are qualified rather than assumed clean', () => {
-  const result = run({...base,peakV:Math.sqrt(110*8),peakW:110,
-    entries:[{watts:80,load:8,type:'continuous'},{watts:140,load:8,type:'burst'}]});
-  assert.match(result.cards[0].allText,/Musical peaks: Peak demand exceeds the continuous rating/);
-  assert.match(result.cards[0].allText,/falls within an entered short-burst rating/);
-  assert.doesNotMatch(result.cards[0].allText,/Peak demand is using 78/);
-});
-test('projected other-impedance power never implies clean operation', () => {
-  const result = run({...base, load:6,
-    entries:[{watts:80,load:8,type:'continuous'}]});
-  assert.match(result.cards[0].allText,/Typical listening: Power was projected from a different impedance/);
-  assert.match(result.cards[0].allText,/Musical peaks: Power was projected from a different impedance/);
-});
-test('elevated average power warns about sustained operation without claiming measured distortion', () => {
-  const result = run({...base,averageV:Math.sqrt(60*8),averageW:60,
-    entries:[{watts:80,load:8,type:'continuous'}]});
-  assert.match(result.cards[0].allText,/Typical listening: Elevated sustained demand/);
-  assert.match(result.cards[0].allText,/onset is unmeasured/);
-});
-test('without average listening target, no ordinary-listening inference is shown', () => {
-  const result = run({...base,averageV:null,averageW:null,average:null,
-    entries:[{watts:80,load:8,type:'continuous'}]});
-  assert.doesNotMatch(result.cards[0].allText,/Typical listening:/);
-  assert.match(result.cards[0].allText,/Musical peaks:/);
-});
