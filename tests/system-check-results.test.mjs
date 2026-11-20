@@ -45,8 +45,8 @@ test('one actual-speaker card shows ratings, headroom and useful musical peaks',
   assert.match(r.cards[0].allText,/Short peaks · Required 80 W\/ch/);
   assert.match(r.cards[0].allText,/Average · Required 8 W\/ch/);
   assert.match(r.cards[0].allText,/Headroom relative to rating: \+2\.4 dB · \+42\.9%/);
-  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 80%/);
-  assert.match(r.cards[0].allText,/short-burst rating \(140 W\/ch\)/);
+  assert.match(r.cards[0].allText,/Musical peaks: Your amplifier has some headroom left.*80%/);
+  assert.match(r.cards[0].allText,/short-burst rating also covers those peaks/);
   assert.doesNotMatch(r.text,/Estimated Performance with 4 Ω/);
 });
 
@@ -60,7 +60,7 @@ test('published burst below required peak fails with rated-power boundary',()=>{
 
 test('continuous-only output gives meaningful headroom without warning about absent burst data',()=>{
   const r=run({...base,entries:[{watts:100,load:8,type:'continuous'}]});
-  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 80%/);
+  assert.match(r.cards[0].allText,/Musical peaks: Your amplifier has some headroom left.*80%/);
   assert.doesNotMatch(r.text,/Burst-rating disclaimer|No short-burst power rating entered|No comparable short-burst/);
 });
 
@@ -68,7 +68,7 @@ test('peak above continuous rating does not become a claimed clipping failure',(
   const r=run({...base,entries:[{watts:50,load:8,type:'continuous'}]});
   assert.match(r.cards[0].allText,/Unverified · peak exceeds continuous rating/);
   assert.doesNotMatch(r.cards[0].allText,/Fail/);
-  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 160%/);
+  assert.match(r.cards[0].allText,/Musical peaks: Your requested peaks are above.*160%/);
   assert.doesNotMatch(r.text,/Burst-rating disclaimer/);
 });
 
@@ -142,8 +142,8 @@ test('only genuine rating comparisons produce peak explanation',()=>{
 test('published burst data enriches peaks without invented THD conclusions',()=>{
   const r=run({...base,peakV:Math.sqrt(110*8),peakW:110,
     entries:[{watts:80,load:8,type:'continuous'},{watts:140,load:8,type:'burst'}]});
-  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 137.5%/);
-  assert.match(r.cards[0].allText,/burst figure is 2.4 dB above its continuous rating/);
+  assert.match(r.cards[0].allText,/Musical peaks: Your requested peaks are above.*137.5%/);
+  assert.match(r.cards[0].allText,/short-burst rating also covers those peaks/);
   assert.doesNotMatch(r.cards[0].allText,/distortion is unlikely|already clipping/);
 });
 
