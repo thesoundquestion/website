@@ -172,7 +172,8 @@
   <summary>Not in the catalogue? Enter the specs from a manual</summary>
   <p class="sb-help">Only enter figures found for your exact model and revision. These are <strong>user-supplied, provisional</strong> values until independently checked. We never scrape Google results or guess missing figures.</p>
   <div class="sb-grid">
-  <label class="sb-field">Manufacturer specification/manual HTTPS link <input name="speakerSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
+  <label class="sb-field">Are these passive or powered speakers? <select name="speakerPowerType"><option value="">Choose from the manual / not sure</option><option value="passive">Passive: needs an external amplifier</option><option value="powered">Powered / active: amplifier is built in</option></select></label>
+   <label class="sb-field">Manufacturer specification/manual HTTPS link <input name="speakerSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
   <label class="sb-field">Nominal speaker impedance (Ω) <input type="number" name="speakerLoad" min="2" max="16" step="0.1" inputmode="decimal" placeholder="e.g. 8"></label>
   <label class="sb-field">Published minimum impedance (Ω) <input type="number" name="speakerMinimum" min="1" max="16" step="0.1" inputmode="decimal" placeholder="Optional if unknown"></label>
   <label class="sb-field">Sensitivity (dB) <input type="number" name="speakerSensitivity" min="60" max="120" step="0.1" inputmode="decimal" placeholder="Optional if unknown"></label>

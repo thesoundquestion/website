@@ -7,6 +7,7 @@ import {shortlistSpeakersForOwnedAmplifier,shortlistPartyPassiveConcepts,ampSpea
 import {assessAmplifierCandidate,manufacturerNominalPairing} from './amplifier-fit.mjs';
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {poweredSubPairFor} from './stereo-subwoofer-examples.mjs';
+import {isPoweredSpeakerRecord,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
 import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
 
 const kinds=['speaker','amp','source','headphone'];
@@ -162,6 +163,8 @@ export function explainAmplifierChoice({idea,record,speaker,request={}}) {
 /** Speaker ownership requires shopping for an amp, not replacing the speakers. */
 export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={}) {
   const speaker=own.speaker||{};
+  if(isPoweredSpeakerRecord(speaker.record)||poweredSubPairFor(speaker.name))
+    return {selected:[],excluded:[{title:speaker.name,reason:POWERED_AMP_MESSAGE}],mode:'powered_speaker_not_passive'};
   const nominal=speaker.record?.values?.load;
   const minimum=speaker.record?.values?.minimum;
   const selected=[],excluded=[];

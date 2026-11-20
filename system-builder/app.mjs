@@ -3,6 +3,7 @@ import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
+import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
 import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
 import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
@@ -98,6 +99,29 @@ document.addEventListener('DOMContentLoaded', () => {
   let priceSnapshot=null;
   const catalogueByCategory=new Map();
   const originalOptions=new Map();
+  let completeSpeakerChoices=[];
+  function rememberSpeakerChoices(){
+    const select=document.getElementById('sb-speaker');
+    completeSpeakerChoices=[...select.children].map(node=>node.cloneNode(true));
+  }
+  function filterSpeakerChoicesForIntent(){
+    const select=document.getElementById('sb-speaker');
+    if(!select||!completeSpeakerChoices.length)return;
+    const previous=select.value;
+    select.replaceChildren(...completeSpeakerChoices.map(node=>node.cloneNode(true)));
+    if(intentSelect.value==='amp_for_speakers'){
+      const metadata={legacy:[...(inventory?.speaker||[]),...BUILDER_ONLY_SPEAKERS],
+        shared:sharedCatalog?.records?.filter(x=>x.categories?.includes('speaker'))||[],pairs:POWERED_SUB_PAIRS};
+      for(const option of [...select.querySelectorAll('option')]){
+        if(option.value && isPoweredSpeakerModel(option.value,metadata))option.remove();
+      }
+      for(const group of select.querySelectorAll('optgroup')){
+        if(!group.querySelector('option'))group.remove();
+      }
+    }
+    select.value=[...select.options].some(option=>option.value===previous)?previous:'';
+    if(previous && previous!==select.value)refreshGearSearch('speaker');
+  }
   const state = document.getElementById('sb-inventory-state');
   const result = document.getElementById('sb-results');
   const body = document.getElementById('sb-result-body');
@@ -139,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     state.textContent = 'The saved preset catalog did not load. Unlisted model inputs remain available; no specs will be assumed.';
   }
+  rememberSpeakerChoices();
 
   function syncGoals() {
     const chosen = extras.filter(x => x.checked && x.value !== goal.value);
@@ -255,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!route){
       quick.hidden=true;
       advanced.hidden=true;
+      filterSpeakerChoicesForIntent();
       sourceHelp.hidden=true;
       actionButtons.hidden=true;
       intentNote.textContent='Pick a task first. You never need to enter specifications for equipment you have not bought.';
@@ -275,6 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     actionButtons.hidden=Boolean(route.directRoute);
     quick.hidden=Boolean(route.directRoute);
     if(route.directRoute){
+      filterSpeakerChoicesForIntent();
       updateFieldRequirements();
       return;
     }
@@ -286,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showQuickNode(document.getElementById('sb-'+key.slice(0,-5)+'-search'));
       if(key==='level'&&reference)showQuickNode(reference);
     }
+    filterSpeakerChoicesForIntent();
     updateFieldRequirements();
     // No route asks visitors for unowned product specifications. The advanced
     // section is still available to people who want technical fine-tuning.
@@ -493,6 +521,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if([...select.options].some(item=>item.value===previous))select.value=previous;
       else select.value='';
     }
+    rememberSpeakerChoices();
+    filterSpeakerChoicesForIntent();
     const message=preference==='any'?'No retail category weighted.':
       matching>0?matching+' current '+region+' product(s) match the preferred price tier and appear earlier within their equipment type.':
         'No current '+region+' price-tier matches in these categories; catalogue order is unchanged.';
@@ -1222,6 +1252,16 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     const selected=scopedBuilderInputs(raw,intentSelect.value,advanced.open);
+    if(intentSelect.value==='amp_for_speakers'){
+      const speaker=chosenGear(selected,'speaker');
+      const knownPowered=isPoweredSpeakerModel(speaker.name,{legacy:[...(inventory?.speaker||[]),...BUILDER_ONLY_SPEAKERS],
+        shared:sharedCatalog?.records?.filter(x=>x.categories?.includes('speaker'))||[],pairs:POWERED_SUB_PAIRS});
+      if(knownPowered||isPoweredSpeakerRecord(speaker.record)){
+        setFeedback(POWERED_AMP_MESSAGE);
+        intentFeedback.scrollIntoView({behavior:'auto',block:'nearest'});
+        return;
+      }
+    }
     setFeedback('');
     report(selected);
     result.hidden = false;
