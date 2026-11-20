@@ -206,19 +206,52 @@ try {
    await page.locator('#sb-build-intent').selectOption('headphones');
    assert.ok(await page.locator('#sb-headphone-amp-setup').isVisible());
    assert.ok(await page.locator('#sb-headphone-amp-choice').evaluate(node=>node.required));
+   assert.ok(await page.locator('#sb-headphone-dac-choice').evaluate(node=>node.required));
+
+   // Combined digital input plus headphone output must be a visible model
+   // recommendation, not only a paragraph or hidden technical disclosure.
    await page.locator('#sb-headphone-amp-choice').selectOption('yes');
+   await page.locator('#sb-headphone-dac-choice').selectOption('combo');
    await page.locator('#sb-headphone-source').selectOption('computer_usb');
    await page.locator('#sb-actions button[type="submit"]').click();
    assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/FiiO K11/);
+   assert.match(await page.locator('.sb-headphone-electronics-card').first().innerText(),/FiiO K11/);
+   assert.ok(await page.locator('.sb-headphone-electronics-card').first().isVisible());
+   assert.ok(await page.locator('.sb-headphone-electronics-card a[href^="https://"]').count()>=1);
+   assert.match(await page.locator('.sb-headphone-card-electronics').first().innerText(),/FiiO K11/);
    assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/USB digital audio/);
-   await checkNoErrors(page,errors,device.name+' headphone DAC/amp route');
+
+   // Standalone DAC + analogue amp must be two independently linked products.
+   await page.locator('#sb-headphone-dac-choice').selectOption('separate');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   const stack=await page.locator('.sb-headphone-electronics-recs').innerText();
+   assert.match(stack,/Schiit Modi\+/);
+   assert.match(stack,/JDS Labs Atom Amp 2/);
+   assert.ok(await page.locator('.sb-headphone-electronics-card').count()>=2);
+   assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/RCA outputs of Schiit Modi/);
+
+   // When a user wants only a DAC, don't claim it can power headphones.
    await page.locator('#sb-headphone-amp-choice').selectOption('no');
    await page.locator('#sb-actions button[type="submit"]').click();
-   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/No separate headphone amplifier requested/);
-   assert.doesNotMatch(await page.locator('.sb-setup-workflow').first().innerText(),/FiiO K11/);
-   await page.locator('#sb-headphone-amp-choice').selectOption('unsure');
+   assert.match(await page.locator('.sb-headphone-electronics-card').first().innerText(),/Schiit Modi\+/);
+   assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/NOT a working wired-headphone setup/);
+   assert.doesNotMatch(await page.locator('.sb-headphone-card-electronics').first().innerText(),/JDS Labs Atom Amp 2/);
+
+   // No purchase and help-me-decide do not inherit stale named equipment.
+   await page.locator('#sb-headphone-dac-choice').selectOption('none');
    await page.locator('#sb-actions button[type="submit"]').click();
-   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/USB-only source needs/);
+   assert.equal(await page.locator('.sb-headphone-electronics-card').count(),0);
+   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/No separate headphone amplifier requested/);
+   await page.locator('#sb-headphone-amp-choice').selectOption('unsure');
+   await page.locator('#sb-headphone-dac-choice').selectOption('unsure');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   assert.equal(await page.locator('.sb-headphone-electronics-card').count(),0);
+   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/help you decide/);
+
+   // Selecting a combined product explicitly turns the amplifier back on;
+   // switching to speaker building disables the irrelevant questions.
+   await page.locator('#sb-headphone-dac-choice').selectOption('combo');
+   assert.equal(await page.locator('#sb-headphone-amp-choice').inputValue(),'yes');
    await page.locator('#sb-build-intent').selectOption('complete_system');
    assert.ok(await page.locator('#sb-headphone-amp-setup').isHidden());
    await page.locator('#sb-advanced-form > summary').click();
@@ -227,8 +260,9 @@ try {
    await page.locator('[name="architecture"]').selectOption('passive_separates');
    assert.ok(await page.locator('#sb-headphone-amp-setup').isHidden());
    assert.ok(await page.locator('#sb-headphone-amp-choice').evaluate(node=>node.disabled));
-   await checkNoErrors(page,errors,device.name+' headphone choice yes/no/unsure, route switching');
-   outcomes.push(device.name+' headphone amplifier opt-in with source-specific workflow and no-stale-state switch');
+   assert.ok(await page.locator('#sb-headphone-dac-choice').evaluate(node=>node.disabled));
+   await checkNoErrors(page,errors,device.name+' headphone amp and DAC route choices');
+   outcomes.push(device.name+' visible headphone amplifier/DAC recommendations and all supported source paths');
    await visit(page,'/system-builder/');
   // The new task-first Builder intentionally keeps its submit controls hidden
   // until someone selects a goal. Test the unlisted-gear search and provisional

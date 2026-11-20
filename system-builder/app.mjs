@@ -994,6 +994,38 @@ document.addEventListener('DOMContentLoaded', () => {
         seen.add(url);
       }
     };
+    const renderHeadphoneElectronics=(plan)=>{
+      if(!plan)return;
+      const section=el('section','sb-headphone-electronics-recs');
+      section.setAttribute('aria-label','Headphone amplifier and DAC recommendations');
+      addText(section,'h4','DAC and headphone amplifier recommendations');
+      if(!plan.components.length){
+        addText(section,'p',plan.issue||'No additional electronics have been selected.','sb-help');
+        shop.append(section);
+        return;
+      }
+      addText(section,'p','These are separate equipment recommendations for your chosen source path. Manufacturer documentation supports the listed connection roles; it does not prove a need for an upgrade or an exact headphone-drive match.','sb-help');
+      const draw=(device,alternative=false)=>{
+        const card=el('article','sb-headphone-electronics-card'+(alternative?' sb-headphone-electronics-alt':''));
+        addText(card,'span',alternative?'Other documented option':'Included in this setup','sb-headphone-electronics-kicker');
+        addText(card,'h5',device.model);
+        addText(card,'p',device.label+' · '+device.note);
+        addText(card,'p','Price not included · check current local price and headphone-output specifications','sb-headphone-electronics-cost');
+        link(card,device.sourceUrl,'Manufacturer specifications for '+device.model);
+        return card;
+      };
+      const chosen=el('div','sb-headphone-electronics-list');
+      for(const device of plan.components)chosen.append(draw(device));
+      section.append(chosen);
+      if(plan.alternatives.length){
+        addText(section,'h5','Other source-compatible electronics to compare','sb-headphone-electronics-other-heading');
+        const others=el('div','sb-headphone-electronics-list');
+        for(const device of plan.alternatives)others.append(draw(device,true));
+        section.append(others);
+      }
+      addText(section,'p','Current local prices for these electronics have not been verified and are NOT included in headphone-only subtotals. Check USB/RCA inputs, actual headphone jack, gain, power and noise before buying.','sb-headphone-electronics-footnote');
+      shop.append(section);
+    };
     const renderCard = item => {
       const card = el('article','sb-recommend sb-recommend-compact');
       const head = el('div','sb-card-head');
@@ -1008,6 +1040,13 @@ document.addEventListener('DOMContentLoaded', () => {
         head.append(badge);
       }
       card.append(head);
+      if(item.architecture==='headphone_first'&&item.headphoneAmpPlan?.components?.length){
+        const selectedElectronics=el('div','sb-headphone-card-electronics');
+        addText(selectedElectronics,'strong','Electronics in this setup');
+        addText(selectedElectronics,'p',item.headphoneAmpPlan.components.map(c=>c.label+': '+c.model).join(' · '));
+        addText(selectedElectronics,'p','Manufacturer sources and alternative models are shown in the DAC and amplifier recommendations above.');
+        card.append(selectedElectronics);
+      }
       const overview=explainBeginnerOption(item,request);
       addText(card,'p',overview.status,'sb-beginner-status sb-beginner-'+overview.priority);
       if (item.reuseNames?.length)
@@ -1191,6 +1230,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const alternativeSetups=el('details','sb-more sb-alternative-setups');
     addText(alternativeSetups,'summary','Alternative setups');
+    if(headphoneElectronicsPlan)renderHeadphoneElectronics(headphoneElectronicsPlan);
     if (shortlist.selected.length) {
       addText(shop,'p',intent?.requiredOwn==='speaker'
         ?'These amplifiers have published continuous-power tests at your speakers’ nominal load. Use the inline System Check to calculate the listening level you actually want.'

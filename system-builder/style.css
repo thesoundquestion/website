@@ -323,3 +323,19 @@
 .sb-headphone-amp-setup h3{font-size:1.05rem;margin:0 0 .3rem;color:#d5f5fc}
 .sb-headphone-amp-setup .sb-grid{margin-top:.65rem}
 .sb-headphone-amp-result{margin:.75rem 0 1rem;padding:.8rem 1rem;border-left:4px solid #8cc8dd;background:#112d40;border-radius:6px;line-height:1.65}
+
+/* Directly visible headphone electronics recommendations, not buried in the
+   headphone card's collapsed technical verification section. */
+.sb-headphone-electronics-recs{margin:1rem 0 1.3rem;padding:clamp(.85rem,2vw,1.2rem);border:1px solid #4a8299;border-radius:12px;background:#10283a}
+.sb-headphone-electronics-recs>h4{color:#def8ff;margin:.1rem 0 .55rem;font-size:1.08rem}
+.sb-headphone-electronics-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:.75rem;margin:.8rem 0}
+.sb-headphone-electronics-card{padding:.85rem;background:#0b1d2d;border:1px solid #4d7286;border-radius:9px;min-width:0}
+.sb-headphone-electronics-card h5{font-size:1.02rem;margin:.3rem 0 .5rem;color:#edf9ff}
+.sb-headphone-electronics-card p{margin:.4rem 0;line-height:1.55;font-size:.87rem}
+.sb-headphone-electronics-kicker{font-size:.78rem;letter-spacing:.03em;text-transform:uppercase;color:#abdde8;font-weight:700}
+.sb-headphone-electronics-alt{border-color:#405a70}
+.sb-headphone-electronics-cost,.sb-headphone-electronics-footnote{font-size:.82rem;color:#c3dbe8;line-height:1.55}
+.sb-headphone-electronics-other-heading{margin:.9rem 0 .3rem;font-size:.94rem;color:#d4ebf6}
+.sb-headphone-card-electronics{margin:.7rem 0;padding:.75rem;border-left:3px solid #8ad5e4;background:#173448;border-radius:5px}
+.sb-headphone-card-electronics p{font-size:.85rem;line-height:1.55;margin:.3rem 0}
+.sb-headphone-electronics-card a:focus-visible{outline:3px solid #91e3ee;outline-offset:3px}

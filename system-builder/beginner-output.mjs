@@ -136,10 +136,14 @@ export function explainBeginnerOption(item,request={}){
     matchingEvidence='The amplifier supplies the power the speakers need, so the types of equipment make sense together. But we have not established that these exact models are an electrical match. Check the amplifier manual and speaker load details first.';
   }else if(item?.architecture==='consumer_powered_pair'||item?.architecture==='active_studio'){
     matchingEvidence='The speakers have their own amplifier, so there is no separate speaker amplifier to match. We still need to check the music player’s connection, volume control and whether the price includes both speakers.';
+  }else if(item?.architecture==='headphone_first'&&item?.headphoneAmpPlan?.components?.length){
+    const devices=item.headphoneAmpPlan.components;
+    matchingEvidence=devices.map(x=>x.model+' ('+x.label+')').join(' + ')+
+      ' has manufacturer-linked connection documentation for this source route. This establishes example signal-flow roles, not a verified headphone voltage/current, noise, listening level or full purchase price.'+
+      (devices.length===1&&devices[0].type==='dac'
+        ?' A standalone DAC does not drive headphones: an existing suitable headphone amplifier is required.':'');
   }else if(item?.architecture==='headphone_first'&&item?.headphoneAmpPlan?.choice==='yes'){
-    matchingEvidence=item.headphoneAmpPlan.model
-      ?item.headphoneAmpPlan.model+' has manufacturer-linked input/output information for this source route. That supports a connection example, not proof of the required voltage, current, low-noise performance or safe volume with these exact headphones.'
-      :'A separate headphone amplifier was requested, but the source signal has not been confirmed. No amplifier model or compatibility claim is being invented.';
+    matchingEvidence='Additional electronics were requested, but no complete source-compatible amplifier/DAC chain was established. No device compatibility has been invented.';
   }else if(item?.architecture==='headphone_first'){
     matchingEvidence='No separate amplifier is assumed. Check whether the source has a suitable headphone output and whether it can play these headphones cleanly and quietly at the listening level you use.';
   }else{
@@ -153,7 +157,7 @@ export function explainBeginnerOption(item,request={}){
     item?.architecture==='active_studio'?'Verify whether monitor prices are per cabinet and include both plus needed control/cables.':'',
     request?.subMode&&request.subMode!=='no_sub'&&!item?.bassSetup?'Any required subwoofer, crossover and connections must be budgeted separately.':'',
     item?.connectionStatus==='adapter_needed'?'A suitable converter/adapter and any required power/control hardware must be priced separately.':'',
-    item?.headphoneAmpPlan?.model?'The separate headphone amplifier has no verified current regional price in this total. The displayed headphone subtotal excludes it.':'',
+    item?.headphoneAmpPlan?.components?.length?'Added amplifier/DAC electronics have no verified current regional price in this total. The displayed headphone subtotal excludes them.':'',
     text(item?.tradeoff)
   ]);
   const technicalEvidence=curated?

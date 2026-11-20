@@ -326,6 +326,8 @@ test('only the equipment the visitor wants to shop for must be absent from inven
   assert.equal(validateBuilderIntent('complete_system',missing).ok,true);
   assert.equal(validateBuilderIntent('headphones',missing).ok,false);
   missing.set('headphoneAmpChoice','unsure');
+  assert.equal(validateBuilderIntent('headphones',missing).ok,false);
+  missing.set('headphoneDacChoice','unsure');
   assert.equal(validateBuilderIntent('headphones',missing).ok,true);
   assert.equal(validateBuilderIntent('improve_existing',missing).ok,true);
 });

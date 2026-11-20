@@ -63,6 +63,14 @@
 <option value="no">No, use my existing headphone output</option>
 <option value="unsure">Not sure, help me decide</option>
 </select></label>
+<label class="sb-field">Would you also like a DAC?
+<select name="headphoneDacChoice" id="sb-headphone-dac-choice">
+<option value="">Choose whether you need a DAC</option>
+<option value="none">No additional DAC</option>
+<option value="separate">Yes, a separate standalone DAC</option>
+<option value="combo">Yes, one combined DAC + headphone amplifier</option>
+<option value="unsure">Not sure, help me decide</option>
+</select></label>
 <label class="sb-field">What will play your music?
 <select name="headphoneSource" id="sb-headphone-source">
 <option value="unknown">Not sure yet</option>
@@ -73,7 +81,8 @@
 <option value="receiver_headphones">Receiver or amplifier headphone socket</option>
 </select></label>
 </div>
-<p class="sb-help" id="sb-headphone-amp-guidance" aria-live="polite">We'll include the amplifier choice in the recommendations and explain the actual signal path.</p>
+<p class="sb-help">A DAC changes digital audio into an analogue signal. A standalone DAC's RCA line output does <strong>not</strong> power wired headphones. A combined DAC/amp supplies the headphone output too. Choosing a combined unit also means choosing an amplifier.</p>
+<p class="sb-help" id="sb-headphone-amp-guidance" aria-live="polite">We will show which additional components connect your source to your headphones.</p>
 </div>
 <p id="sb-required-group-help" class="sb-required-group-help" aria-live="polite" hidden></p>
 <p id="sb-intent-feedback" class="sb-intent-feedback" role="status" aria-live="polite" hidden></p>
