@@ -1,7 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
-import {parseSpeakerSpecText} from './spec-paste.mjs?v=recognition-20261120';
+import {parseSpeakerSpecText} from './spec-paste.mjs?v=recognition-context-20261120';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -445,6 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const speakerPaste=document.getElementById('sb-speaker-spec-paste');
   const speakerFill=document.getElementById('sb-speaker-spec-fill');
   const speakerPasteFeedback=document.getElementById('sb-speaker-spec-feedback');
+  const speakerReview=document.getElementById('sb-speaker-spec-observations');
   if(speakerPaste&&speakerFill&&speakerPasteFeedback){
     speakerFill.addEventListener('click',()=>{
       const parsed=parseSpeakerSpecText(speakerPaste.value);
@@ -476,8 +477,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ?'Recognised from paste: '+recognised.join('; ')+'. '
         :'No usable labelled values recognised. Try including the field name, number and unit together, for example "Nominal impedance: 8 Ω". ';
       speakerPasteFeedback.textContent=description+readout+existing+
-        parsed.notes.join(' ')+
-        ' Review the fields, choose passive or powered, and paste the original manufacturer specification URL below.';
+        ' Review the fields below, identify passive or powered, and paste the original manufacturer URL.';
+      if(speakerReview){
+        speakerReview.replaceChildren();
+        for(const note of [...(parsed.observations||[]),...parsed.notes])
+          addText(speakerReview,'li',note);
+        speakerReview.hidden=!speakerReview.children.length;
+      }
       updateFieldRequirements();
     });
   }
