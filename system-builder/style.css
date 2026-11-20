@@ -382,3 +382,90 @@
 .sb-alternative-details>summary:focus-visible{outline:3px solid #8ad8e8;outline-offset:3px}
 .sb-alternative-details>.sb-recommend-supplement{margin:.8rem 0 0;padding:.5rem .1rem;border:0;box-shadow:none;background:transparent}
 .sb-recommend-supplement>.sb-primary-sound{display:none}
+
+
+/* Beginner-first density pass (draft): the answer is the product, not the boxes.
+   Keep 44px-ish form targets and text legible; hide no safety warnings or source
+   details, but move longer explanations behind native keyboard disclosures. */
+.sb-hero{padding:clamp(1.3rem,3vw,2.6rem) 0 1rem}
+.sb-hero h1{font-size:clamp(2rem,4.1vw,3.4rem);margin:.25rem 0 .65rem}
+.sb-hero-meta{margin-top:.75rem}
+.sb-form{gap:.7rem}
+.sb-form .sb-panel{padding:clamp(.8rem,1.8vw,1.3rem);border-radius:12px}
+.sb-step{gap:.75rem;margin-bottom:.85rem}
+.sb-step h2{font-size:clamp(1.2rem,2.1vw,1.55rem);margin:0 0 .3rem}
+.sb-step p{font-size:.88rem;line-height:1.47}
+.sb-field{gap:.3rem}
+.sb-field input,.sb-field select{min-height:44px}
+.sb-advanced-form>summary{padding:.7rem 1rem}
+.sb-quick-setup{margin-top:.7rem;gap:.75rem}
+.sb-quick-setup .sb-listening-reference{margin:.1rem 0}
+.sb-listening-reference{padding:.6rem .8rem;border-radius:8px;background:transparent}
+.sb-listening-reference>summary{color:#bae9f9;font-size:.87rem;font-weight:700;cursor:pointer;line-height:1.55}
+.sb-listening-reference>summary:focus-visible{outline:2px solid #8bdeef;outline-offset:3px}
+.sb-listening-reference[open]>summary{margin-bottom:.5rem}
+.sb-listening-examples{gap:.4rem}
+.sb-listening-examples li{padding:.55rem .65rem}
+
+.sb-results{padding:clamp(.75rem,2vw,1.1rem);border-radius:10px;background:#0e2232}
+.sb-results>h2{font-size:clamp(1.3rem,2.4vw,1.7rem);margin:0 0 .25rem}
+.sb-results section{padding:.35rem 0}
+.sb-results section>h3{font-size:1rem}
+.sb-results-orientation{font-size:.85rem;line-height:1.45;margin:.4rem 0;padding:.3rem 0;border:0;background:transparent}
+.sb-results .sb-recommend-compact{padding:clamp(.7rem,1.7vw,1rem);border-radius:9px;background:#10283a}
+.sb-results .sb-recommend-compact>.sb-card-head{margin:0 0 .3rem}
+.sb-results .sb-recommend-compact .sb-card-heading h4{font-size:1.13rem;margin:.12rem 0 .25rem}
+.sb-results .sb-beginner-status{margin:.25rem 0 .45rem;padding:.2rem .5rem;font-size:.76rem}
+.sb-results .sb-card-retained,.sb-results .sb-card-minor{margin:.25rem 0}
+.sb-results .sb-primary-sound{margin:.35rem 0 .5rem;padding:.35rem 0;border:0;border-bottom:1px solid #2d4d60;border-radius:0;background:transparent}
+.sb-results .sb-primary-sound strong{font-size:.84rem}
+.sb-results .sb-primary-sound p{font-size:.88rem;line-height:1.48;margin:.2rem 0}
+.sb-results .sb-tonal-sources{margin-top:.18rem;gap:.2rem .8rem}
+.sb-results .sb-beginner-reason{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:.3rem .7rem;align-items:baseline;margin:.35rem 0;padding:.3rem 0;border:0;border-radius:0;background:transparent}
+.sb-results .sb-beginner-reason h5{font-size:.84rem;margin:0;color:#bfe6f5}
+.sb-results .sb-beginner-reason .sb-beginner-plain{font-size:.87rem;line-height:1.5;margin:0}
+.sb-results .sb-beginner-checks{padding:.45rem .65rem;margin:.45rem 0;border-radius:5px}
+.sb-results .sb-beginner-checks h5{font-size:.87rem;margin:0 0 .22rem}
+.sb-results .sb-beginner-checklist li{margin:.22rem 0;line-height:1.46}
+.sb-results .sb-beginner-cost{margin:.3rem 0;font-size:.8rem}
+
+/* One-line actions. Every supporting detail stays reachable by keyboard. */
+.sb-results :is(.sb-setup-disclosure,.sb-beginner-proof,.sb-inline-system-check,.sb-beginner-evidence,.sb-card-details,.sb-sub-wiring-disclosure){
+  display:block;min-width:0;margin:.25rem 0;padding:.42rem 0;border:0;border-top:1px solid #33576b;border-radius:0;background:transparent;
+}
+.sb-results :is(.sb-setup-disclosure,.sb-beginner-proof,.sb-inline-system-check,.sb-beginner-evidence,.sb-card-details,.sb-sub-wiring-disclosure)>summary{
+  cursor:pointer;color:#b1e4f4;font-size:.85rem;font-weight:650;line-height:1.5;
+}
+.sb-results :is(.sb-setup-disclosure,.sb-beginner-proof,.sb-inline-system-check,.sb-beginner-evidence,.sb-card-details,.sb-sub-wiring-disclosure)>summary:focus-visible{
+  outline:2px solid #8bdeef;outline-offset:3px;
+}
+.sb-results .sb-setup-disclosure[open],.sb-results .sb-beginner-proof[open],
+.sb-results .sb-inline-system-check[open]{padding-bottom:.3rem}
+.sb-results .sb-setup-workflow{margin:.35rem 0 .1rem;padding:.35rem 0 0}
+.sb-results .sb-beginner-proof>p{font-size:.85rem;line-height:1.52;margin:.5rem 0}
+.sb-results .sb-inline-system-check .sb-headroom-summary strong{font-size:.86rem;margin-right:.65rem}
+.sb-results .sb-inline-system-check .sb-headroom-verdict{font-size:.83rem;color:#c7deeb;font-weight:450;overflow-wrap:anywhere}
+.sb-results .sb-inline-system-check .sb-headroom-brief{font-size:.81rem;line-height:1.45;margin:.45rem 0}
+.sb-results .sb-inline-system-check-frame{height:360px;margin:.3rem 0}
+.sb-results .sb-inline-system-check .sb-source-link{font-size:.81rem;margin:.3rem 0}
+.sb-results .sb-sub-wiring-disclosure .sb-sub-route{margin:.5rem 0;padding:.6rem}
+.sb-results .sb-sub-route-section{padding:.45rem .2rem;margin:.5rem 0;background:transparent}
+.sb-results .sb-sub-route-section>summary{font-size:.88rem;color:#b9e6f6;font-weight:700}
+.sb-results .sb-sub-route-section[open]>.sb-sub-route{margin:.5rem 0}
+@media(min-width:880px){.sb-recommend-compact{display:block}}
+@media(max-width:640px){
+ .sb-results{padding:.65rem}
+ .sb-results .sb-recommend-compact{padding:.7rem}
+ .sb-results .sb-beginner-reason{display:block}
+ .sb-results .sb-beginner-reason h5{margin:0 0 .15rem}
+ .sb-results .sb-headroom-verdict{display:block;margin:.12rem 0 0 1.2rem}
+}
+
+/* Alternatives are comparisons, not another chapter of the manual. */
+.sb-results .sb-comparison-overview{margin:.65rem 0;padding:.4rem 0;border:0;border-top:1px solid #416378;border-radius:0;background:transparent}
+.sb-results .sb-comparison-overview>h4{font-size:1rem;margin:.25rem 0}
+.sb-results .sb-comparison-preview-list{margin:.45rem 0;gap:.55rem}
+.sb-results .sb-comparison-preview-card{padding:.6rem .7rem;border-radius:7px;background:#0d2132}
+.sb-results .sb-comparison-preview-card h5{font-size:.93rem;margin:0 0 .3rem}
+.sb-results .sb-comparison-preview-card p{font-size:.84rem;line-height:1.48;margin:.23rem 0}
+.sb-results .sb-alternative-details{margin:.5rem 0 0;padding:.4rem 0 0}
