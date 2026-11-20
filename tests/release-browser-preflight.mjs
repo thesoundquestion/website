@@ -104,6 +104,22 @@ try {
   await checkNoErrors(page,errors,device.name+' Creating Builder');
   outcomes.push(device.name+' Creating Builder example chain');
 
+  // Two local podcast speakers need an actual signal path and independently
+  // editable tracks. Explain USB vs XLR and how shared headphones work.
+  await page.locator('#sb-purpose-select').selectOption('podcast');
+  await page.locator('#sb-purpose-tracks').check();
+  await page.locator('#sb-purpose-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-purpose-result')?.hidden,null,{timeout:15000});
+  const podcastExplanation=await page.locator('#sb-purpose-result-body .sb-build-workflow').innerText();
+  assert.match(podcastExplanation,/How will this setup work\?/);
+  assert.match(podcastExplanation,/XLR output/);
+  assert.match(podcastExplanation,/USB connection is NOT used/);
+  assert.match(podcastExplanation,/M-Track Duo/);
+  assert.match(podcastExplanation,/headphone output/);
+  assert.ok(await page.locator('#sb-purpose-result-body .sb-build-workflow-sources a').count()>=2);
+  await checkNoErrors(page,errors,device.name+' podcast monitoring instructions');
+  outcomes.push(device.name+' two-mic podcast: XLR capture, separate tracks and monitoring explanation');
+
   // Builder-to-System-Check deep links carry exact identity and seat distance.
    // Existing saved presets autofill only their documented numeric ratings.
    await visit(page,'/system-check/?embedded=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9');
@@ -115,6 +131,33 @@ try {
    assert.ok(await page.locator('body.sc-embedded').count()===1);
    await checkNoErrors(page,errors,device.name+' embedded System Check known models');
    outcomes.push(device.name+' embedded System Check exact saved preset handoff');
+
+   // A Builder handoff requires no secondary gear picker or submit click:
+   // the existing documented model presets must populate the real calculator.
+   await visit(page,'/system-check/?embedded=1&autocheck=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9&average=80&gap=15');
+   assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Paradigm Phantom v1');
+   assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-S301');
+   assert.equal(await page.locator('[name="distance"]').inputValue(),'9');
+   assert.equal(await page.locator('[name="average"]').inputValue(),'80');
+   assert.equal(await page.locator('[name="peak"]').inputValue(),'95');
+   assert.ok(await page.locator('body.sc-embedded.sc-auto-result').count()===1);
+   assert.ok(await page.locator('.sc-inputs').isHidden());
+   assert.match(await page.locator('#result-status').innerText(),/speakers ask for/);
+   assert.ok((await page.locator('#result-body').innerText()).length>100);
+   await checkNoErrors(page,errors,device.name+' automatic model-backed headroom results');
+   outcomes.push(device.name+' exact-model headroom calculated directly from transferred listening inputs');
+
+   // The example button on the full calculator may change the listening
+   // numbers but never replace the actual selected gear or its specifications.
+   await visit(page,'/system-check/?speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9');
+   const beforePower=await page.locator('#ratings [data-watts]').first().inputValue();
+   await page.locator('#example').click();
+   assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Paradigm Phantom v1');
+   assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-S301');
+   assert.equal(await page.locator('#ratings [data-watts]').first().inputValue(),beforePower);
+   assert.equal(await page.locator('[name="average"]').inputValue(),'87');
+   await checkNoErrors(page,errors,device.name+' lesson example retains selected models');
+   outcomes.push(device.name+' lesson example preserves exact model pair and published ratings');
 
    await visit(page,'/system-check/?embedded=1&speaker=Unlisted%20Speaker%20Model&amp=Unlisted%20Amplifier%20Model&distanceFt=11');
    assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Unlisted Speaker Model');
