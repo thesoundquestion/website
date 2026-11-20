@@ -979,21 +979,25 @@ document.addEventListener('DOMContentLoaded', () => {
       return card;
     };
 
+    const alternativeSetups=el('details','sb-more sb-alternative-setups');
+    addText(alternativeSetups,'summary','Alternative setups');
     if (shortlist.selected.length) {
       addText(shop,'p',intent?.requiredOwn==='speaker'
         ?'These amplifiers have published continuous-power tests at your speakers’ nominal load. Use the inline System Check to calculate the listening level you actually want.'
         :'These options show why they were selected, with documented matching evidence and specific issues only when a genuine problem was identified.','sb-results-orientation');
-      const visible = shortlist.selected.slice(0,3);
-      const grid = el('div','sb-recommendations');
-      for (const item of visible) grid.append(renderCard(item));
+      // The first recommendation is the one result presented immediately.
+      // Every other fully rendered card belongs behind a single closed menu.
+      const grid = el('div','sb-recommendations sb-primary-recommendation');
+      const firstCard=renderCard(shortlist.selected[0]);
+      firstCard.classList.add('sb-recommend--primary');
+      firstCard.tabIndex=-1;
+      firstCard.id='sb-first-recommendation';
+      grid.append(firstCard);
       shop.append(grid);
-      if (shortlist.selected.length > visible.length) {
-        const more = el('details','sb-more');
-        addText(more,'summary','Show '+(shortlist.selected.length-visible.length)+' more option'+(shortlist.selected.length-visible.length===1?'':'s'));
-        const moreGrid = el('div','sb-recommendations');
-        for (const item of shortlist.selected.slice(visible.length)) moreGrid.append(renderCard(item));
-        more.append(moreGrid);
-        shop.append(more);
+      if(shortlist.selected.length>1){
+        const moreGrid=el('div','sb-recommendations');
+        for(const item of shortlist.selected.slice(1))moreGrid.append(renderCard(item));
+        alternativeSetups.append(moreGrid);
       }
       if (request.character !== 'faithful')
         addText(shop,'p','Your sound-character preference is recorded, but this tool cannot reliably verify or rank models by your preferred tonal flavour.','sb-brief-note');
@@ -1024,7 +1028,7 @@ document.addEventListener('DOMContentLoaded', () => {
           entries.append(li);
         }
         subsection.append(entries);
-        shop.append(subsection);
+        alternativeSetups.append(subsection);
       }
     }
     // Catalog-backed alternatives are deliberately separate from the editorial
@@ -1058,8 +1062,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         explorer.append(cards);
         addText(explorer,'p','The preference for budget, mid-priced or premium equipment changes only the order of models with current, comparable local price evidence. Missing price categories do not hide the Yamaha models.','sb-brief-note');
-        shop.append(explorer);
+        alternativeSetups.append(explorer);
       }
+    }
+    if(alternativeSetups.children.length>1){
+      const count=shortlist.selected.length>1?shortlist.selected.length-1:0;
+      alternativeSetups.querySelector('summary').textContent='Alternative setups'+(count?' ('+count+' more recommendations)':'');
+      shop.append(alternativeSetups);
     }
 
     if (shortlist.excluded.length && budget !== null) {
@@ -1298,7 +1307,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setFeedback('');
     report(selected);
     result.hidden = false;
-    result.focus({preventScroll:true});
-    result.scrollIntoView({behavior:'auto',block:'start'});
+    const firstRecommendation=result.querySelector('.sb-recommend--primary');
+    const scrollTarget=firstRecommendation||result;
+    scrollTarget.focus({preventScroll:true});
+    scrollTarget.scrollIntoView({behavior:'auto',block:'start'});
   });
 });
