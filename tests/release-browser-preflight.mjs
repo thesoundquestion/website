@@ -256,7 +256,8 @@ try {
    assert.ok(firstCompare.length<520,device.name+' individual alternate preview should not be a wall of text');
    assert.ok(await page.locator('.sb-headphone-electronics-card a[href^="https://"]').count()>=1);
    assert.match(await page.locator('.sb-headphone-card-electronics').first().innerText(),/FiiO K11/);
-   assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/USB digital audio/);
+   await page.locator('#sb-first-recommendation .sb-setup-disclosure > summary').click();
+   assert.match(await page.locator('#sb-first-recommendation .sb-setup-workflow').innerText(),/USB digital audio/);
 
    // Standalone DAC + analogue amp must be two independently linked products.
    await page.locator('#sb-headphone-dac-choice').selectOption('separate');
@@ -265,13 +266,15 @@ try {
    assert.match(stack,/Schiit Modi\+/);
    assert.match(stack,/JDS Labs Atom Amp 2/);
    assert.ok(await page.locator('.sb-headphone-electronics-card').count()>=2);
-   assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/RCA outputs of Schiit Modi/);
+   await page.locator('#sb-first-recommendation .sb-setup-disclosure > summary').click();
+   assert.match(await page.locator('#sb-first-recommendation .sb-setup-workflow').innerText(),/RCA outputs of Schiit Modi/);
 
    // When a user wants only a DAC, don't claim it can power headphones.
    await page.locator('#sb-headphone-amp-choice').selectOption('no');
    await page.locator('#sb-actions button[type="submit"]').click();
    assert.match(await page.locator('.sb-headphone-electronics-card').first().innerText(),/Schiit Modi\+/);
-   assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/NOT a working wired-headphone setup/);
+   await page.locator('#sb-first-recommendation .sb-setup-disclosure > summary').click();
+   assert.match(await page.locator('#sb-first-recommendation .sb-setup-workflow').innerText(),/NOT a working wired-headphone setup/);
    assert.doesNotMatch(await page.locator('.sb-headphone-card-electronics').first().innerText(),/JDS Labs Atom Amp 2/);
 
    // No purchase and help-me-decide do not inherit stale named equipment.
@@ -460,8 +463,9 @@ try {
   assert.equal(await firstRecommendation.count(),1,device.name+' must render one primary card');
   const firstWorkflow=firstRecommendation.locator('.sb-setup-workflow');
   assert.equal(await firstWorkflow.count(),1,device.name+' primary recommendation must explain its connections');
-  assert.match(await firstWorkflow.locator('h5').innerText(),/How will this setup work\?/);
-  assert.ok(await firstWorkflow.locator('ol li').count()>=2,device.name+' setup guide needs actionable steps');
+  assert.equal(await firstRecommendation.locator('.sb-setup-disclosure').evaluate(node=>node.open),false,
+    device.name+' first recommendation should not open a wiring manual by default');
+  assert.ok(await firstWorkflow.locator('ol li').count()>=2,device.name+' setup guide still contains actionable steps');
   const comparisonOverview=page.locator('#sb-results .sb-comparison-overview').first();
   assert.ok(await comparisonOverview.isVisible(),device.name+' alternatives need visible comparison on the main result screen');
   assert.ok(await comparisonOverview.locator('.sb-comparison-preview-card').count()>=1);
@@ -500,6 +504,21 @@ try {
   assert.equal(afterHeadroomLoad.focused,true,
     device.name+' iframe must not take focus away from the options explanation');
   assert.equal(afterHeadroomLoad.childFocused,false);
+  const primarySetup=firstRecommendation.locator('.sb-setup-disclosure');
+  await primarySetup.locator('summary').click();
+  assert.ok(await firstWorkflow.isVisible(),device.name+' setup steps must be available on demand');
+  assert.match(await firstWorkflow.locator('h5').innerText(),/How will this setup work\?/);
+  await primarySetup.locator('summary').click();
+  const headroomDisclosure=firstRecommendation.locator('.sb-inline-system-check');
+  assert.equal(await headroomDisclosure.evaluate(node=>node.open),false,
+    device.name+' long headroom calculation must start collapsed');
+  const headroomVerdict=await headroomDisclosure.locator('.sb-headroom-verdict').innerText();
+  assert.doesNotMatch(headroomVerdict,/Checking the saved ratings/);
+  assert.match(headroomVerdict,/Average|Peak|Amplifier|Model-specific|Power/i);
+  await headroomDisclosure.locator('summary').click();
+  assert.ok(await headroomDisclosure.locator('iframe').isVisible(),
+    device.name+' expanding must reveal the original full calculator');
+  await headroomDisclosure.locator('summary').click();
 
   assert.equal(await page.locator('#sb-results .sb-recommend:visible').count(),1,
     device.name+' primary is the only visible complete setup by default');
