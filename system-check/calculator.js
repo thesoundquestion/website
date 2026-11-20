@@ -192,7 +192,7 @@ function renderConnections(volts, entries, speakerLoad) {
 
   const reference = entries.find(item=>item.type==='continuous' &&
     Number.isFinite(item.watts)&&item.watts>0&&item.load>0);
-  const voltageGain = Number.isFinite(gain) && gain>0 ? 10 ** (gain/20) :
+  const voltageGain = Number.isFinite(gain) ? 10 ** (gain/20) :
     reference&&sensitivity>0 ? Math.sqrt(reference.watts*reference.load)/sensitivity : NaN;
   const required = voltageGain>0&&volts>0 ? volts/voltageGain : NaN;
   const hasImpedances=Number.isFinite(sourceZ)&&sourceZ>=0 &&
@@ -203,8 +203,8 @@ function renderConnections(volts, entries, speakerLoad) {
   if(source>0&&required>0){
     addText('h3','Source and amplifier connection');
     addText('p',available>=required?
-      'Your source has enough specified output level for this listening target.':
-      'Your source’s specified output level may be too low for this listening target.');
+      'Your source should provide enough signal for the listening level you selected.':
+      'Your source may not provide enough signal for the listening level you selected.');
     // A clear, nontrivial, modelled loss is worth showing. Tiny losses are not.
     const inputLoss=hasImpedances?-20*Math.log10(attenuation):0;
     if(inputLoss>=1)
