@@ -247,15 +247,24 @@ try {
   ].join('\n');
   await page.locator('#sb-speaker-spec-paste').fill(reportedSpeakerText);
   await page.locator('#sb-speaker-spec-fill').click();
-  assert.equal(await page.locator('[name="speakerLoad"]').inputValue(),'',
-    device.name+' 8-ohm compatible must NOT be assumed nominal');
+  assert.equal(await page.locator('[name="speakerLoad"]').inputValue(),'8',
+    device.name+' 8-ohm compatible should be usable as a provisional nominal-class match');
   assert.equal(await page.locator('[name="speakerMinimum"]').inputValue(),'4.2');
-  assert.equal(await page.locator('[name="speakerSensitivity"]').inputValue(),'',
-    device.name+' in-room and anechoic values without an electrical basis are not comparable');
+  assert.equal(await page.locator('[name="speakerSensitivity"]').inputValue(),'87',
+    device.name+' anechoic sensitivity is retained provisionally');
+  assert.equal(await page.locator('[name="speakerBasis"]').inputValue(),'',
+    device.name+' test basis is not silently fabricated');
+  assert.equal(await page.locator('[name="speakerRecommendedAmpMin"]').inputValue(),'15');
+  assert.equal(await page.locator('[name="speakerRecommendedAmpMax"]').inputValue(),'100');
   assert.match(await page.locator('#sb-speaker-spec-observations').innerText(),/8 Ω described as compatible/);
   assert.match(await page.locator('#sb-speaker-spec-observations').innerText(),/90 dB \(in-room\).*87 dB \(anechoic\)/);
   // Clear that exploratory entry before the existing exact-value handoff.
   await page.locator('[name="speakerMinimum"]').fill('');
+  await page.locator('[name="speakerLoad"]').fill('');
+  await page.locator('[name="speakerSensitivity"]').fill('');
+  await page.locator('[name="speakerRecommendedAmpMin"]').fill('');
+  await page.locator('[name="speakerRecommendedAmpMax"]').fill('');
+  await page.locator('[name="speakerMaxInput"]').fill('');
   await page.locator('[name="speakerOther"]').fill('Test Only Passive Speaker');
   await page.waitForFunction(()=>document.querySelector('[data-gear-searches="speaker"] a')?.href.includes('google.com/search'));
   assert.match(await page.locator('[data-gear-message="speaker"]').innerText(),/No saved model matched/);
