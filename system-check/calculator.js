@@ -1019,13 +1019,17 @@ function runModelHandoff(){
     const selectedModel=builderParams.get('speaker');
     const speaker=(typeof systemCheckGear!=='undefined'?
       systemCheckGear?.speaker:[])?.find(x=>x.model===selectedModel);
-    const roomDb=speaker?.values?.sensitivityInRoom;
+    // The saved Titan v3 specification note contains BOTH published figures:
+    // "86 dB anechoic (89 dB in room)". Parse only that explicit pairing.
+    // Do not infer room gain from a lone anechoic figure or a speaker brand.
+    const levels=String(speaker?.note||'').match(/(\d{2,3}(?:[.,]\d+)?)\s*dB\s*anechoic\s*\(\s*(\d{2,3}(?:[.,]\d+)?)\s*dB\s*in[\s-]?room\s*\)/i);
+    const roomDb=levels?Number(levels[2].replace(',','.')):null;
     if(Number.isFinite(roomDb)&&roomDb>=40&&roomDb<=130){
       field('sensitivity').value=String(roomDb);
       field('room').value='0';
       const note=document.getElementById('gear-speaker-note');
       if(note){
-        const anechoic=speaker.values.sensitivityAnechoic;
+        const anechoic=levels?Number(levels[1].replace(',','.')):null;
         note.append(document.createTextNode(' Builder listening estimate uses the published '+
           roomDb+' dB in-room sensitivity'+
           (Number.isFinite(anechoic)?' ('+anechoic+' dB anechoic reference)':'')+
