@@ -1310,6 +1310,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstRecommendation=result.querySelector('.sb-recommend--primary');
     const scrollTarget=firstRecommendation||result;
     scrollTarget.focus({preventScroll:true});
-    scrollTarget.scrollIntoView({behavior:'auto',block:'start'});
+    scrollTarget.scrollIntoView({behavior:'instant',block:'start'});
   });
 });
