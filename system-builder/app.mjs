@@ -1433,7 +1433,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (own.speaker.name && !poweredSubPairFor(own.speaker.name) && (arch === 'consumer_powered_pair' || arch === 'active_studio'))
         addText(ownedSection,'p','Speakers you own may be passive, which means they still need a separate amplifier. Do not assume they work as powered speakers just because you selected a different system layout.');
     }
-    if (data.get('keepWorking')) addText(ownedSection,'p','Keep/placement-first is a valid outcome. An upgrade is not justified until a real limitation or missing feature is identified.','sb-report-note');
+    if (data.get('keepWorking')) addText(ownedSection,'p',
+      request.buildIntent==='improve_existing'?
+        'Use placement and the current system’s headroom as your baseline, then compare the specific speaker alternatives above. A speaker change may address clean peaks, bass output or placement, but the Builder has not measured a fault in your present pair.':
+        'Keep/placement-first is a valid outcome. An upgrade is not justified until a real limitation or missing feature is identified.','sb-report-note');
 
     if (arch !== 'headphone_first') {
       const subSection = section('Bass routing: ' + bass.heading);
