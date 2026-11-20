@@ -575,7 +575,7 @@ test('finding an amp requires identification of owned speakers, either by dropdo
   assert.equal(builderFieldRequirement('amp_for_speakers','speaker'),'required_either');
   assert.equal(builderFieldRequirement('amp_for_speakers','speakerOther'),'optional_alternative');
   assert.equal(builderFieldRequirement('amp_for_speakers','speakerLoad'),'required_if_unlisted');
-  assert.equal(builderFieldRequirement('amp_for_speakers','speakerSpecUrl'),'required_if_unlisted');
+  assert.equal(builderFieldRequirement('amp_for_speakers','speakerSpecUrl'),'optional');
   for(const name of ['amp','ampOther','budget','goal','level','distanceFt','region','subInput'])
     assert.equal(builderFieldRequirement('amp_for_speakers',name),'optional',name);
   const d=new FormData();
@@ -589,7 +589,7 @@ test('finding speakers makes only the existing amplifier identity necessary',()=
   assert.equal(builderFieldRequirement('speakers_for_amp','amp'),'required_either');
   assert.equal(builderFieldRequirement('speakers_for_amp','ampOther'),'optional_alternative');
   assert.equal(builderFieldRequirement('speakers_for_amp','ampRatedWatts'),'required_if_unlisted');
-  assert.equal(builderFieldRequirement('speakers_for_amp','ampSpecUrl'),'required_if_unlisted');
+  assert.equal(builderFieldRequirement('speakers_for_amp','ampSpecUrl'),'optional');
   for(const name of ['speaker','speakerOther','budget','distanceFt','level'])
     assert.equal(builderFieldRequirement('speakers_for_amp',name),'optional');
   const d=new FormData();
