@@ -1,0 +1,80 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createContext,runInContext} from 'node:vm';
+import {ownershipPlan} from '../system-builder/owned-gear-options.mjs';
+import {shortlistSpeakersForOwnedAmplifier} from '../system-builder/owned-amp-speakers.mjs';
+
+const context={window:{}};createContext(context);
+const read=x=>readFileSync(new URL('../'+x,import.meta.url),'utf8');
+for(const path of ['system-check/gear.js','system-check/compare/specs.js','system-builder/catalog-adapter.js'])
+  runInContext(read(path),context);
+const inventory=context.window.systemBuilderInventory;
+const get=(kind,name)=>({name,record:inventory[kind].find(x=>x.model===name)});
+const own={speaker:get('speaker','Paradigm Titan v3'),amp:get('amp','Yamaha A-720')};
+const request={
+ buildIntent:'improve_existing',architecture:'open',goal:'dynamic',
+ level:'high',useCase:'living_room',connection:'undecided',
+ distanceFt:10,region:'CA',currency:'CAD',budget:null,used:true,
+ subMode:'no_sub',secondary:[]
+};
+
+test('A-720 and Titan v3 have saved rated power and sensitivity for a headroom baseline',()=>{
+  assert.equal(own.amp.record.ratings.some(r=>r[0]===105&&r[1]===8&&r[2]==='continuous'),true);
+  assert.equal(own.speaker.record.values.load,8);
+  assert.equal(own.speaker.record.values.sensitivity,86);
+  assert.equal(own.speaker.record.values.sensitivityInRoom,89);
+  assert.equal(own.speaker.record.values.sensitivityAnechoic,86);
+});
+test('improve existing gives a saved-pair baseline plus relevant, different speaker alternatives',()=>{
+  const plan=ownershipPlan({own,request,inventory});
+  assert.equal(plan.mode,'improve_existing_pair');
+  assert.ok(plan.selected.length>=3);
+  assert.equal(plan.selected[0].id,'owned-complete');
+  assert.equal(plan.selected[0].amplifierModel,'Yamaha A-720');
+  assert.equal(plan.selected[0].speakerModel,'Paradigm Titan v3');
+  assert.match(plan.selected[0].why,/dynamic-music comparison|dynamic recordings|occasionally loud/);
+  const speakers=plan.selected.slice(1);
+  assert.ok(speakers.every(x=>x.speakerModel&&x.speakerModel!=='Paradigm Titan v3'));
+  assert.ok(speakers.every(x=>x.ownedAmpName==='Yamaha A-720'));
+  assert.ok(speakers.every(x=>x.upgradeComparedTo==='Paradigm Titan v3'));
+  assert.ok(speakers.every(x=>x.parts.some(p=>p.role.includes('Only new major component'))));
+  assert.ok(speakers.every(x=>x.parts.some(p=>p.name==='Yamaha A-720')));
+  assert.ok(speakers.some(x=>/Cerwin-Vega XLS|Klipsch/.test(x.speakerModel)));
+});
+test('speaker alternatives retain the source-linked 6-ohm load evidence for A-720',()=>{
+  const plan=ownershipPlan({own,request,inventory});
+  const towers=plan.selected.slice(1).filter(x=>x.speakerModel.startsWith('Cerwin-Vega XLS'));
+  assert.ok(towers.length>=1);
+  assert.ok(towers.every(x=>x.speakerValues.load===6));
+  assert.ok(towers.every(x=>/methods|measurement/.test(x.why)));
+  assert.equal(plan.selected.slice(1).some(x=>x.speakerModel==='Paradigm Titan v3'),false);
+});
+test('ordinary reuse route still preserves both owned components without implying a purchase',()=>{
+  const plan=ownershipPlan({own,request:{...request,buildIntent:'complete_system'},inventory});
+  assert.equal(plan.mode,'keep_both');
+  assert.equal(plan.selected.length,1);
+  assert.equal(plan.selected[0].id,'owned-complete');
+});
+test('speaker upgrade research never invents a compatibility clearance for unknown or lower nominal impedance',()=>{
+  const missing={speaker:own.speaker,amp:{name:'Unlisted Amp',record:null}};
+  const r=shortlistSpeakersForOwnedAmplifier({...request,amp:missing.amp,
+    speakers:inventory.speaker,upgradeReference:own.speaker});
+  assert.ok(r.selected.every(x=>x.speakerModel!==own.speaker.name));
+  assert.ok(r.selected.every(x=>x.extra.some(note=>/amplifier|minimum|load/i.test(note))));
+});
+test('Builder handoff and calculator use published in-room Titan sensitivity without double counting',()=>{
+  const app=read('system-builder/app.mjs');
+  const calculator=read('system-check/calculator.js');
+  assert.match(app,/preferRoom:'1'/);
+  assert.match(app,/amplifierModel:item\.amplifierModel/);
+  assert.match(calculator,/speaker\?\.values\?\.sensitivityInRoom/);
+  assert.match(calculator,/field\('room'\)\.value='0'/);
+  assert.match(calculator,/runModelHandoff\(\)/);
+});
+test('the improvement route is not reduced to a silent retain-only card',()=>{
+  const app=read('system-builder/app.mjs');
+  assert.match(app,/upgradeIdeas=shortlist\.selected\.filter/);
+  assert.match(app,/Speaker changes worth comparing/);
+  assert.match(app,/Open Alternative setups to see each complete connection plan/);
+});
