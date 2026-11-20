@@ -331,7 +331,9 @@ function comparisonReasons(own,request){
   const out=[];
   if(request.power==='battery')out.push('Battery operation may justify a separate portable system. Your mains equipment remains useful where wall power exists.');
   if(request.architecture==='party_pa'||request.useCase==='party')out.push('A home setup is not automatically a suitable event PA. Verify coverage, sustained output, transport and power before replacing anything.');
-  if(has(own.speaker))out.push('Replacing your speakers requires a demonstrated limitation in bass, headroom, condition, placement or compatibility; none was measured by this form.');
+  if(has(own.speaker))out.push(request.buildIntent==='improve_existing' ?
+    'A higher-sensitivity or larger speaker can be worth investigating for your level, bass or dynamic goals. Compare published figures using compatible measurement methods, then verify actual clean output; the Builder has not measured a deficiency in your present speakers.' :
+    'Replacing your speakers requires a demonstrated limitation in bass, headroom, condition, placement or compatibility; none was measured by this form.');
   if(has(own.amp))out.push('Replacing your amplifier requires an actual load restriction, inadequate clean power, missing input or defect; a newer receiver is not inherently better.');
   if(has(own.source))out.push('Replace your source/DAC only if its output, input format or demonstrated performance cannot meet this path.');
   if(has(own.headphone))out.push('Replace your headphones only for a real fit, isolation, sound or output mismatch.');
