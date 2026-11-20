@@ -1076,21 +1076,6 @@ document.addEventListener('DOMContentLoaded', () => {
         head.append(badge);
       }
       if(!detailOnly)card.append(head);
-      if(!alternativeComparison&&!detailOnly){
-        const primarySound=soundImpressionFor(item);
-        const profile=el('section','sb-primary-sound');
-        addText(profile,'strong','What might it sound like?');
-        addText(profile,'p',primarySound
-          ?primarySound.text+'.'
-          :'No model-specific listening profile has been verified for this choice yet.');
-        if(primarySound?.sources?.length){
-          const links=el('div','sb-tonal-sources');
-          for(const source of primarySound.sources.slice(0,2))
-            link(links,source.url,source.label||'Listening review');
-          profile.append(links);
-        }
-        card.append(profile);
-      }
       if(alternativeComparison){
         const brief=compactAlternativeComparison(shortlist.selected[0],item,request,sharedCatalog);
         if(brief){
@@ -1189,6 +1174,22 @@ document.addEventListener('DOMContentLoaded', () => {
           overview.checkHeading||'What to check before connecting or buying');
         list(firstChecks,overview.firstChecks,'sb-beginner-checklist');
         card.append(firstChecks);
+      }
+      // Present the practical fit and important checks before tonal impressions.
+      if(!alternativeComparison&&!detailOnly){
+        const primarySound=soundImpressionFor(item);
+        const profile=el('section','sb-primary-sound');
+        addText(profile,'strong','What might it sound like?');
+        addText(profile,'p',primarySound
+          ?primarySound.text+'.'
+          :'No model-specific listening profile has been verified for this choice yet.');
+        if(primarySound?.sources?.length){
+          const links=el('div','sb-tonal-sources');
+          for(const source of primarySound.sources.slice(0,2))
+            link(links,source.url,source.label||'Listening review');
+          profile.append(links);
+        }
+        card.append(profile);
       }
       if(overview.costAndTradeoffs.length&&!item.amplifierModel)
         addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
