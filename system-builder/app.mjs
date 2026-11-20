@@ -6,6 +6,7 @@ import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=sub-20261120'
 import {headphoneDriveRequirement} from './headphone-drive.mjs';
 import {headphoneAmplifierPlan,applyHeadphoneAmpChoice} from './headphone-amp-choice.mjs';
 import {compareAlternative,compareElectronic} from './alternative-comparisons.mjs';
+import {tonalComparison} from './tonal-impressions.mjs';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -1075,6 +1076,16 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(contrast,'p',alternativeComparison.change+'.');
         addText(contrast,'p','You may prefer this if '+alternativeComparison.preference+'.');
         addText(contrast,'p','Trade-off or check: '+alternativeComparison.tradeoff);
+        const tonal=tonalComparison(shortlist.selected[0],item);
+        if(tonal){
+          const sound=el('div','sb-tonal-comparison');
+          addText(sound,'strong',tonal.heading);
+          addText(sound,'p',tonal.text);
+          const links=el('div','sb-tonal-sources');
+          for(const source of tonal.sources)link(links,source.url,source.label);
+          if(links.children.length)sound.append(links);
+          contrast.append(sound);
+        }
         card.append(contrast);
       }
       if(item.architecture==='headphone_first'&&item.headphoneAmpPlan?.components?.length){
@@ -1281,6 +1292,16 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(note,'p','Compared with '+comparison.baseline+': '+comparison.change+'.');
         addText(note,'p','You may prefer this if '+comparison.preference+'.');
         addText(note,'p','Trade-off or check: '+comparison.tradeoff);
+        const tonal=tonalComparison(baseline,item);
+        if(tonal){
+          const sound=el('div','sb-tonal-comparison');
+          addText(sound,'strong',tonal.heading);
+          addText(sound,'p',tonal.text);
+          const links=el('div','sb-tonal-sources');
+          for(const source of tonal.sources)link(links,source.url,source.label);
+          if(links.children.length)sound.append(links);
+          note.append(sound);
+        }
         grid.append(note);
       }
       if(grid.children.length){preview.append(grid);shop.append(preview);}
@@ -1312,8 +1333,8 @@ document.addEventListener('DOMContentLoaded', () => {
           moreGrid.append(renderCard(item,compareAlternative(shortlist.selected[0],item,request,sharedCatalog)));
         alternativeSetups.append(moreGrid);
       }
-      if (request.character !== 'faithful')
-        addText(shop,'p','Your sound-character preference is recorded, but this tool cannot reliably verify or rank models by your preferred tonal flavour.','sb-brief-note');
+      if(request.character !== 'faithful')
+        addText(shop,'p','Your tonal preference informs which differences are worth hearing. The model-specific listener and reviewer impressions above can guide an audition, but are not a numerical sound-quality ranking.','sb-brief-note');
       addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
     } else {
       addText(shop,'p',speakerFocus ?

@@ -351,3 +351,11 @@
 .sb-alternative-card-contrast,.sb-comparison-copy{margin:.7rem 0;padding:.7rem .8rem;border-left:3px solid #77cbdf;background:#112e40;border-radius:5px}
 .sb-recommend-compact>.sb-alternative-card-contrast{grid-column:1/-1}
 .sb-sub-comparison-preview{margin:.75rem 0;padding:.65rem .8rem;border-left:3px solid #7fcddd;background:#123045;border-radius:5px;line-height:1.55}
+
+/* Substantive source-backed listening descriptions belong on the ordinary
+   result comparisons, not solely in technical/source disclosures. */
+.sb-tonal-comparison{margin:.75rem 0 0;padding:.7rem .8rem;background:#193648;border-left:3px solid #81cad9;border-radius:7px}
+.sb-tonal-comparison strong{display:block;margin-bottom:.35rem;color:#d9f6ff}
+.sb-tonal-comparison p{line-height:1.58;font-size:.86rem;margin:.4rem 0}
+.sb-tonal-sources{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.45rem}
+.sb-tonal-sources a{font-size:.78rem;text-decoration:underline;text-underline-offset:2px}
