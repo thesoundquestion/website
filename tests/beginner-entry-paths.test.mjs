@@ -260,12 +260,13 @@ test('builder markup shows rationale and compatibility checks before technical o
   const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
   const css=await readFile(new URL('../system-builder/style.css',import.meta.url),'utf8');
   const first=app.indexOf("Why this option was suggested");
-  const chain=app.indexOf("How these components would work together");
+  const chain=app.indexOf("renderSetupWorkflow(card,overview.setupWorkflow)");
   const proof=app.indexOf("Why these pieces make sense together");
   const checks=app.indexOf("What to check before connecting or buying");
   const evidence=app.indexOf("See the technical details and original sources");
   assert.ok(first>0&&first<chain&&chain<proof&&proof<checks&&checks<evidence,
-    'Reason, system roles, evidence limits and warnings must precede sound reviews');
+    'Reason, practical setup steps, matching evidence and checks must precede sound reviews');
+  assert.match(app,/How will this setup work\?/);
   assert.match(app,/explainBeginnerOption\(item,request\)/);
   assert.match(app,/What is included|Full verification, trade-offs, equipment and sources/);
   assert.match(app,/These options show why they were selected/);
