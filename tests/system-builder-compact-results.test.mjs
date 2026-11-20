@@ -17,14 +17,15 @@ test('first three product options appear before extra options are expandable', (
   assert.match(app,/Show '/);
 });
 
-test('card structure keeps urgent warnings visible and price references inside optional details', () => {
+test('cards show genuine unresolved checks before optional price details', () => {
   const start = app.indexOf("const renderCard = item =>");
   const more = app.indexOf("const details = el('details','sb-card-details');",start);
-  const warning = app.indexOf("if (item.loadCaution)",start);
+  const warning = app.indexOf('if(overview.firstChecks.length)',start);
   const price = app.indexOf("renderPriceReferences(details,item,'h5');",start);
   assert.ok(start>=0&&warning>start&&more>warning&&price>more);
-  assert.match(app,/item\.loadCaution/);
-  assert.match(app,/sb-card-alert/);
+  assert.match(app,/overview\.priority==='critical'/);
+  assert.match(app,/sb-beginner-checklist/);
+  assert.match(app,/item\.curatedPairing\?\.sources/);
   assert.doesNotMatch(app,/item\.id === 'passive-rs202-p3'/);
   assert.match(app,/item.connectionStatus === 'adapter_needed'/);
 });
