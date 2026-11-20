@@ -167,7 +167,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     return {selected:[],excluded:[{title:speaker.name,reason:POWERED_AMP_MESSAGE}],mode:'powered_speaker_not_passive'};
   const nominal=speaker.record?.values?.load;
   const minimum=speaker.record?.values?.minimum;
-  const selected=[],excluded=[];
+  const selected=[],conditional=[],excluded=[];
   for(const idea of amps) {
     const record=(inventory.amp||[]).find(x=>x.model===idea.model)||
       builderOnlyAmpFor(idea.model);
@@ -199,11 +199,11 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     const prices=retailPriceReference(snapshot,request.referenceDate);
     const rationale=explainAmplifierChoice({idea,record,speaker,request});
     const fit=assessAmplifierCandidate({idea,record,speaker,request});
-    // Essential: a numeric nominal speaker load and an actual continuous
-    // amplifier measurement at that SAME load. No interpolation or max-watt
-    // marketing substitution; other incomplete measurements are not gates.
-    if(!Number.isFinite(nominal)||!fit.amp.exact){
-      excluded.push({title:idea.model,reason:'No documented continuous rating at this speaker’s actual nominal load.'});
+    // An exact-load continuous rating earns priority, but missing one must
+    // not discard a candidate with acceptable nominal impedance permission.
+    // Another-load watt figure is NEVER converted into a made-up output.
+    if(!Number.isFinite(nominal)){
+      excluded.push({title:idea.model,reason:'No usable nominal speaker impedance was supplied.'});
       continue;
     }
     const requestedInput=String(request.connection||'undecided');
@@ -211,28 +211,38 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       excluded.push({title:idea.model,reason:'Requested '+requestedInput+' connection is not documented as a native input.'});
       continue;
     }
-    const message=idea.model+' is published at '+fit.amp.watts+' W/channel continuously into '+
-      nominal+' Ω, matching the published nominal impedance of '+speaker.name+'. '+
+    const exactPower=fit.amp.exact;
+    const ratingSummary=exactPower?
+      idea.model+' is published at '+fit.amp.watts+' W/channel continuously into '+
+        nominal+' Ω, matching the nominal-class impedance of '+speaker.name+'. ':
+      idea.model+' has no directly documented continuous output rating at '+nominal+
+        ' Ω for '+speaker.name+'. '+(fit.amp.displayWatts!==null?
+        'The published '+fit.amp.displayWatts+' W / '+fit.amp.displayOhms+
+        ' Ω test must not be converted into a power estimate at '+nominal+' Ω. ':'');
+    const message=ratingSummary+
       (manualPairing?manualPairing.statement:
-        'Its published output test uses that exact nominal speaker load.')+
-      (fit.documentedBurst!==null?' Its separate '+fit.documentedBurst+
+        'Check the manufacturer’s supported nominal speaker impedance.')+
+      (exactPower&&fit.documentedBurst!==null?' Its separate '+fit.documentedBurst+
         ' W/channel short-burst figure at '+nominal+' Ω provides additional test information.':'');
     const used=['speaker'];const parts=[part(speaker,'Already owned; no new speaker purchase'),
       {name:idea.model,count:1,role:'Only new amplifier candidate, subject to verification',url:record.url}];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned source, connection check required'));}
-    selected.push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
+    (fit.amp.exact?selected:conditional).push(attach({...common,id:'owned-speaker-amp-'+idea.model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       title:speaker.name+' + '+idea.model,kind:'Keep your speakers · add an amplifier',
       architecture:'passive_separates',soundTarget:speaker.name,why:message,
       amplifierModel:idea.model,speakerModel:speaker.name,manualPairing,
       amplifierReason:message,amplifierEvidence:[
-        'Rated continuously: '+fit.amp.watts+' W/channel at '+nominal+' Ω.',
+        exactPower?'Rated continuously: '+fit.amp.watts+' W/channel at '+nominal+' Ω.':
+          'No published continuous output at '+nominal+' Ω: do not predict output from another load.',
         ...(manualPairing?[manualPairing.statement+' Speaker impedance setting: '+manualPairing.setting+'.']:[]),
         ...(fit.documentedBurst!==null?['IHF short-burst rating: '+fit.documentedBurst+' W/channel at '+nominal+' Ω.']:[]),
         'The listening-level headroom result depends on the chosen dB SPL target and distance.'
       ],amplifierSource:rationale.source,
       amplifierFit:fit,amplifierFitRank:fit.sortValue,compactAmp:idea.compact===true,
+      matchEvidence:exactPower?'exact_load_rating':'nominal_load_only',
       tradeoff:'Compare current local cost and actual available inputs; different wattage is not proof of different sound quality.',
-      loadCaution:null,
+      loadCaution:exactPower?null:
+        'No comparable amplifier power test at '+nominal+' Ω. This is a conditional impedance and connection candidate, not a proven headroom match.',
       parts,...prices,
       pricingStatus:prices.subtotal===null?'regional_price_missing':'partial_subtotal',
       priceEvidence:idea.model==='Fosi Audio BT20A Pro'?
@@ -243,7 +253,13 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
   }
   selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
     compareBudgetReferences(a.subtotal,b.subtotal,request) || a.title.localeCompare(b.title));
-  const shortlist=selected.slice(0,3);
+  // Return fully comparable candidates first. Fill remaining slots with
+  // qualified alternatives only when fewer than three exact-load matches exist.
+  // A conditional option must never masquerade as a calculated wattage match.
+  conditional.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank||
+    compareBudgetReferences(a.subtotal,b.subtotal,request)||a.title.localeCompare(b.title));
+  const shortlist=[...selected.slice(0,3),
+    ...conditional.slice(0,Math.max(0,3-selected.length))];
   if (shortlist.length===3 && !shortlist.some(item=>item.compactAmp) && request.level!=='high' &&
       request.goal!=='party' && request.useCase!=='party' && request.useCase!=='outdoors') {
     // Leave room to compare a simpler amplifier at ordinary listening levels.
