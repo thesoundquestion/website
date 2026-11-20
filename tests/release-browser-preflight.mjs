@@ -148,6 +148,22 @@ try {
   outcomes.push(device.name+' Listening Builder unlisted specification pathway');
   await context.close();
  }
+ // Check both narrow-phone and tablet widths, including reading and lab pages.
+ for (const width of [320,768]) {
+   const context=await browser.newContext({viewport:{width,height:840},isMobile:width===320,hasTouch:width===320});
+   await context.route('**/*.workers.dev/**',route=>route.abort('blockedbyclient'));
+   const page=await context.newPage();
+   const errors=[];
+   page.on('pageerror',error=>errors.push(error.message));
+   for (const path of ['/','/decoder/','/decoder/sound-basics/','/decoder/speaker-frequency-response/',
+     '/decoder/speaker-dispersion/','/decoder/amplifier-power/','/system-builder/','/system-check/',
+     '/labs/','/lab/','/lab/mastering/','/labs/formats/']) {
+     await visit(page,path);
+     await checkNoErrors(page,errors,width+'px '+path);
+   }
+   outcomes.push(width+'px lesson, tool and lab horizontal-overflow audit');
+   await context.close();
+ }
  console.log('RELEASE_BROWSER_PREFLIGHT_OK '+outcomes.join(' | '));
 }finally{
  await browser.close();
