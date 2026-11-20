@@ -1,7 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
-import {parseSpeakerSpecText} from './spec-paste.mjs?v=recognition-context-20261120';
+import {parseSpeakerSpecText} from './spec-paste.mjs?v=recognition-flexible-20261120';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -463,9 +463,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const label={
         speakerLoad:'nominal impedance',speakerMinimum:'minimum impedance',
-        speakerSensitivity:'sensitivity',speakerBasis:'sensitivity basis'
+        speakerSensitivity:'sensitivity',speakerBasis:'sensitivity basis',
+        speakerRecommendedAmpMin:'recommended amplifier minimum',
+        speakerRecommendedAmpMax:'recommended amplifier maximum',
+        speakerMaxInput:'listed maximum speaker input'
       };
-      const unit={speakerLoad:' Ω',speakerMinimum:' Ω',speakerSensitivity:' dB',speakerBasis:''};
+      const unit={speakerLoad:' Ω',speakerMinimum:' Ω',speakerSensitivity:' dB',speakerBasis:'',
+        speakerRecommendedAmpMin:' W',speakerRecommendedAmpMax:' W',speakerMaxInput:' W'};
       const recognised=Object.entries(parsed.fields).map(([name,value])=>
         label[name]+': '+value+(unit[name]||''));
       const description=copied.length
@@ -739,6 +743,14 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(shop,'p','Your entered equipment is the starting point, even when a different system is selected. Items that do not belong in this listening path are still acknowledged and kept for separate use.','sb-brief-note');
     if(Object.values(own).some(x=>x.userSupplied))
       addText(shop,'p','Important: these suggestions use numerical figures you copied from a source. We have not independently verified the model revision or figures. Every equipment match is provisional until the manufacturer documentation and actual load are confirmed.','sb-brief-note');
+    if(own.speaker.record?.values?.recommendedAmpMinW!=null &&
+       own.speaker.record?.values?.recommendedAmpMaxW!=null){
+      const guidance=own.speaker.record.values;
+      addText(shop,'p','Speaker power guidance entered: '+guidance.recommendedAmpMinW+
+        '–'+guidance.recommendedAmpMaxW+' W recommended amplifier power'+
+        (guidance.listedMaxInputW!=null?'; '+guidance.listedMaxInputW+' W listed maximum input':'')+
+        '. These are approximate manufacturer-style shopping guidelines, not a published continuous handling limit or a guarantee of safe operation.','sb-brief-note');
+    }
     const preference=validPricePreference(String(data.get('pricePreference')||'any'));
     const budget = budgetText ? Number(budgetText) : null;
     const request = {
