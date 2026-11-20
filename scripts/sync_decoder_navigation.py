@@ -25,45 +25,44 @@ def lesson_url(entry):
 
 def build_nav(index):
     lesson = LESSONS[index]
-    nxt = LESSONS[(index + 1) % len(LESSONS)]
+    final = index == len(LESSONS) - 1
+    nxt = None if final else LESSONS[index + 1]
     previous = LESSONS[index - 1] if index else None
-    end_of_category = lesson["category"] != nxt["category"]
     category_info = CATEGORIES[lesson["category"]]
-    next_info = CATEGORIES[nxt["category"]]
-    switch_info = CATEGORIES[category_info.get("switch_to", nxt["category"])]
-    target = switch_info["label"].lower()
-    title = html.escape(nxt["title"])
-    desc = html.escape(nxt["description"])
-    current_category = category_info["label"]
-    next_category = next_info["label"].upper()
-    top = ""  # One navigation panel at the bottom; no duplicate top Next button.
+    new_topic = bool(nxt and lesson["category"] != nxt["category"])
+    title = html.escape(nxt["title"]) if nxt else "Choose what to explore next"
+    desc = html.escape(nxt["description"]) if nxt else "Browse the lessons again, or put what you have learned to use in the listening tools and labs."
+    bridge = html.escape(lesson["next_bridge"])
+    category = html.escape(category_info["label"])
+    if nxt:
+        prefix = "NEW TOPIC: " if new_topic else ""
+        kicker = f'NEXT LESSON {index + 2:02d} OF {len(LESSONS)} · {prefix}{CATEGORIES[nxt["category"]]["label"].upper()}'
+        action = f'Continue to lesson {index + 2:02d}'
+        destination = lesson_url(nxt)
+    else:
+        kicker = f'COURSE COMPLETE · ALL {len(LESSONS)} LESSONS'
+        action = 'Browse all lessons'
+        destination = '/decoder/'
+    progress = f'{(index + 1) / len(LESSONS) * 100:.2f}%'
     if previous:
         previous_link = f'<a href="{lesson_url(previous)}">← Previous: {html.escape(previous["title"])}</a>'
     else:
-        previous_link = f'<a href="/decoder/#{category_info["anchor"]}">← See all {category_info["label"].lower()} lessons</a>'
-    switch = ""
-    if end_of_category:
-        switch = (
-            '<aside class="dl-topic-switch"><div>'
-            f'<p class="dl-switch-label">FINISHED THIS {category_info["adjective"].upper()} SERIES?</p>'
-            f'<h3>Want to learn about {target}?</h3>'
-            f'<p>{html.escape(switch_info["description"])}</p>'
-            '</div>'
-            f'<a class="dl-switch-link" href="/decoder/#{switch_info["anchor"]}">'
-            f'Explore {switch_info["adjective"].lower()} lessons ↗</a></aside>'
-        )
+        previous_link = '<a href="/decoder/#start-here">← Back to the course overview</a>'
+    secondary = '<a href="/decoder/">All lessons ↗</a>' if nxt else '<a href="/labs/">Try the listening labs ↗</a>'
+    top = ""  # One static navigation panel at the bottom; no duplicate top Next button.
     bottom = (
         '<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">\n'
-        ' <div class="dl-course-progress"><span>KEEP LEARNING</span>'
-        f'<span>Lesson {index + 1:02d} of {len(LESSONS):02d} · {current_category}</span></div>\n'
-        f' <a class="dl-next-card" href="{lesson_url(nxt)}">\n'
-        f'  <span class="dl-next-copy"><span class="dl-next-kicker">{"NEXT TOPIC" if end_of_category else "UP NEXT"} · {next_category}</span>\n'
-        f'  <strong>{title}</strong><span>{desc}</span></span>\n'
+        f' <div class="dl-course-progress"><span>Lesson {index + 1:02d} of {len(LESSONS)} · {category}</span>'
+        f'<span>{"Course finished" if final else "Your next lesson is below"}</span></div>\n'
+        f' <div class="dl-progress-track" role="progressbar" aria-label="Lessons completed" aria-valuemin="0" aria-valuemax="{len(LESSONS)}" aria-valuenow="{index + 1}"><span style="width:{progress}"></span></div>\n'
+        f' <p class="dl-lesson-bridge">{bridge}</p>\n'
+        f' <a class="dl-next-card" href="{destination}">\n'
+        f'  <span class="dl-next-copy"><span class="dl-next-kicker">{kicker}</span>\n'
+        f'  <strong>{title}</strong><span>{desc}</span><span class="dl-next-action">{action}</span></span>\n'
         '  <span class="dl-next-arrow" aria-hidden="true">→</span>\n'
         ' </a>\n'
-        f' <div class="dl-nav-utilities">{previous_link}<a href="/decoder/">All lessons ↗</a></div>\n'
-        + (f' {switch}\n' if switch else "")
-        + ' </nav><!-- LESSON_NAV_END -->'
+        f' <div class="dl-nav-utilities">{previous_link}{secondary}</div>\n'
+        ' </nav><!-- LESSON_NAV_END -->'
     )
     return top, bottom
 
@@ -99,7 +98,7 @@ for i, lesson in enumerate(LESSONS):
     if count != 1:
         raise SystemExit(f"Expected one numbered lesson heading in {path}")
     path.write_text(page, encoding="utf-8")
-    print(f"Updated {lesson['slug']}: next → {LESSONS[(i + 1) % len(LESSONS)]['slug']}")
+    print(f"Updated {lesson['slug']}: next → {LESSONS[i + 1]['slug'] if i + 1 < len(LESSONS) else 'course overview'}")
 
 # Make the curriculum the single authority for homepage card numbers, too.
 HUB = ROOT / "decoder" / "index.html"

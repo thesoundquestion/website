@@ -6,25 +6,29 @@
       "slug": "sound-basics",
       "category": "fundamentals",
       "title": "Frequency, dB and distortion",
-      "description": "Start here: musical frequencies, decibels, clean sound, and how to read a speaker-response curve."
+      "description": "Start here: musical frequencies, decibels, clean sound, and how to read a speaker-response curve.",
+      "next_bridge": "Now that frequency, loudness and distortion make sense, see how a speaker's response curve helps explain the sound of familiar music."
     },
     {
       "slug": "speaker-frequency-response",
       "category": "speakers",
       "title": "Speaker frequency response",
-      "description": "Understand why speakers sound balanced, bright, warm or forward."
+      "description": "Understand why speakers sound balanced, bright, warm or forward.",
+      "next_bridge": "Once you can read a frequency-response graph, follow the curve into the lowest notes to understand what bass extension actually describes."
     },
     {
       "slug": "bass-extension",
       "category": "speakers",
       "title": "Bass extension",
-      "description": "See how the deepest bass notes fade and why the shape matters."
+      "description": "See how the deepest bass notes fade and why the shape matters.",
+      "next_bridge": "Deep bass alone doesn't tell you how loudly a speaker can play. Sensitivity connects its output to the power going in."
     },
     {
       "slug": "speaker-sensitivity",
       "category": "speakers",
       "title": "Speaker sensitivity",
-      "description": "Learn why some speakers play louder from the same amplifier input."
+      "description": "Learn why some speakers play louder from the same amplifier input.",
+      "next_bridge": "Sensitivity tells you how much sound you get for a given input. Impedance tells you what electrical load the amplifier has to drive."
     },
     {
       "slug": "speaker-impedance",
@@ -81,37 +85,43 @@
           "Loudspeaker impedance and IEC standard examples",
           "https://docs.jmrp.io/phonometry/devices/electroacoustics/loudspeakers/"
         ]
-      ]
+      ],
+      "next_bridge": "With the electrical load understood, look inside the cabinet at the drivers and crossover that turn the signal into sound."
     },
     {
       "slug": "speaker-drivers",
       "category": "speakers",
       "title": "Speaker drivers, materials and crossovers",
-      "description": "Understand woofers, tweeters, cone materials, surrounds and the crossover between them."
+      "description": "Understand woofers, tweeters, cone materials, surrounds and the crossover between them.",
+      "next_bridge": "Driver design matters, but so does where that sound travels. Next, explore what changes when you move away from the centre seat."
     },
     {
       "slug": "speaker-dispersion",
       "category": "speakers",
       "title": "Speaker dispersion and off-axis response",
-      "description": "Why sound changes away from the centre seat, how to read horizontal/vertical response and speaker directivity."
+      "description": "Why sound changes away from the centre seat, how to read horizontal/vertical response and speaker directivity.",
+      "next_bridge": "Now that coverage and listening position make sense, compare the speaker designs used at desks, in living rooms, in studios and for audiences."
     },
     {
       "slug": "speaker-types",
       "category": "speakers",
       "title": "Speaker types: hi-fi, studio, nearfield and PA",
-      "description": "Understand which loudspeaker designs suit a desk, living room, stage or audience, and where their uses overlap."
+      "description": "Understand which loudspeaker designs suit a desk, living room, stage or audience, and where their uses overlap.",
+      "next_bridge": "You've followed the speaker side of the system. Next, see how much clean amplifier power it takes to play music at the level you want."
     },
     {
       "slug": "amplifier-power",
       "category": "amplifiers",
       "title": "Amplifier power",
-      "description": "Understand clean output, headroom and meaningful wattage ratings."
+      "description": "Understand clean output, headroom and meaningful wattage ratings.",
+      "next_bridge": "Watts describe rated output, but not everything that happens as an amplifier works harder. Next, learn what distortion measurements reveal."
     },
     {
       "slug": "amplifier-distortion",
       "category": "amplifiers",
       "title": "Amplifier distortion and harmonics",
-      "description": "Compare distortion curves and understand the added tones."
+      "description": "Compare distortion curves and understand the added tones.",
+      "next_bridge": "Now that distortion graphs have meaning, look at amplifier designs without mistaking a circuit-class label for a sound-quality ranking."
     },
     {
       "slug": "amplifier-classes",
@@ -168,103 +178,120 @@
           "Analog Devices: Class D amplifier design and efficiency",
           "https://www.analog.com/en/resources/analog-dialogue/articles/class-d-audio-amplifiers.html"
         ]
-      ]
+      ],
+      "next_bridge": "Speakers and amplifiers are one way to listen. Headphones bring the sound closer to your ears, making their construction and fit especially important."
     },
     {
       "slug": "headphone-types",
       "category": "headphones",
       "title": "Headphones and IEM types",
-      "description": "Compare three earcup enclosures and see how over-ear, on-ear, earbud and IEM fits differ."
+      "description": "Compare three earcup enclosures and see how over-ear, on-ear, earbud and IEM fits differ.",
+      "next_bridge": "Knowing how headphones are built makes their frequency-response curves easier to understand, especially when pads or ear tips change the seal."
     },
     {
       "slug": "headphone-frequency-response",
       "category": "headphones",
       "title": "Headphone frequency response and fit",
-      "description": "Read a 20 Hz–20 kHz rating and see how tuning and a pad leak change the bass."
+      "description": "Read a 20 Hz–20 kHz rating and see how tuning and a pad leak change the bass.",
+      "next_bridge": "A tonal-balance curve does not tell you how demanding headphones are to drive. Next, connect sensitivity and impedance to volts and power."
     },
     {
       "slug": "headphone-sensitivity",
       "category": "headphones",
       "title": "Headphone sensitivity and impedance",
-      "description": "Compare dB SPL per volt and per milliwatt, then work out the voltage and current needed."
+      "description": "Compare dB SPL per volt and per milliwatt, then work out the voltage and current needed.",
+      "next_bridge": "You can now estimate what the headphones need. Next, see how the headphone output itself can change the sound or available level."
     },
     {
       "slug": "headphone-output-impedance",
       "category": "headphones",
       "title": "Headphone output impedance and source matching",
-      "description": "See how a headphone jack and a changing load divide voltage and can alter tonal balance."
+      "description": "See how a headphone jack and a changing load divide voltage and can alter tonal balance.",
+      "next_bridge": "You've followed the headphone connection. Now trace the sources that send music to headphones, amplifiers and speakers."
     },
     {
       "slug": "playback-sources",
       "category": "sources",
       "title": "Playback sources: vinyl, CD, DACs and sound cards",
-      "description": "Follow music from vinyl, CDs, computers and streamers to the amplifier, with RIAA and connection examples."
+      "description": "Follow music from vinyl, CDs, computers and streamers to the amplifier, with RIAA and connection examples.",
+      "next_bridge": "Once the source connections are clear, look at signal levels to understand what happens when a player or DAC connects to an amplifier."
     },
     {
       "slug": "source-levels",
       "category": "sources",
       "title": "Source levels and amplifier input sensitivity",
-      "description": "Why a 2 V source does not automatically overload an input rated at 200 mV sensitivity."
+      "description": "Why a 2 V source does not automatically overload an input rated at 200 mV sensitivity.",
+      "next_bridge": "With source levels explained, noise, distortion and output specifications for a DAC become much easier to interpret."
     },
     {
       "slug": "dac-specifications",
       "category": "sources",
       "title": "DAC noise, output level and distortion",
-      "description": "Learn to read SNR, THD+N, voltage levels and the limits of DAC specifications."
+      "description": "Learn to read SNR, THD+N, voltage levels and the limits of DAC specifications.",
+      "next_bridge": "A DAC is one part of the signal path. Next, discover how microphones, mixers and computer interfaces bring sounds into a recording."
     },
     {
       "slug": "audio-interfaces-mixers",
       "category": "sources",
       "title": "Audio interfaces, mixers and recording channels",
-      "description": "See what a microphone preamp, computer audio interface and mixer each do, and why mixer channels are not necessarily separate recorded tracks."
+      "description": "See what a microphone preamp, computer audio interface and mixer each do, and why mixer channels are not necessarily separate recorded tracks.",
+      "next_bridge": "Now that inputs, mixer channels and recorded tracks are clear, look at how digital audio stores the changing signal over time."
     },
     {
       "slug": "sample-rate",
       "category": "sources",
       "title": "Sample rates and audio bandwidth",
-      "description": "Decode 48,000 samples per second, Nyquist bandwidth, aliasing and sample-rate choices."
+      "description": "Decode 48,000 samples per second, Nyquist bandwidth, aliasing and sample-rate choices.",
+      "next_bridge": "Sample rate describes how often the signal is represented. Bit depth describes the resolution of each stored sample."
     },
     {
       "slug": "bit-depth",
       "category": "sources",
       "title": "Bit depth and dynamic range",
-      "description": "Understand 16-bit versus 24-bit PCM, quantization, noise and dither without confusing bits with musical dynamics."
+      "description": "Understand 16-bit versus 24-bit PCM, quantization, noise and dither without confusing bits with musical dynamics.",
+      "next_bridge": "With sample rate and bit depth understood, see how lossless and lossy formats handle that digital audio information."
     },
     {
       "slug": "lossy-lossless",
       "category": "sources",
       "title": "Lossless vs lossy audio and bitrates",
-      "description": "Understand MP3, AAC, FLAC, PCM, bitrate and the artifacts a codec might create."
+      "description": "Understand MP3, AAC, FLAC, PCM, bitrate and the artifacts a codec might create.",
+      "next_bridge": "You've followed the music file to the listener. Now follow the signal back to the performances, microphones and instruments that created the recording."
     },
     {
       "slug": "recording-sources",
       "category": "recording",
       "title": "Microphones, DI and virtual instruments",
-      "description": "Trace microphones, direct instrument inputs, hardware synths and software instruments into a recording; see how mic placement and a room change the captured sound."
+      "description": "Trace microphones, direct instrument inputs, hardware synths and software instruments into a recording; see how mic placement and a room change the captured sound.",
+      "next_bridge": "Once you've decided what to record, microphone design and placement help determine what actually gets captured."
     },
     {
       "slug": "microphone-types",
       "category": "recording",
       "title": "Microphone types and practical uses",
-      "description": "Compare dynamic, condenser, ribbon, shotgun and other microphones by how they work and the jobs they suit."
+      "description": "Compare dynamic, condenser, ribbon, shotgun and other microphones by how they work and the jobs they suit.",
+      "next_bridge": "After the sound reaches an input, learn to set recording gain and preserve the signal cleanly before mixing."
     },
     {
       "slug": "recording-resolution",
       "category": "recording",
       "title": "Recording resolution, gain and oversampling",
-      "description": "Explore 24-bit recording headroom, real clipping limits, 32-bit float and how oversampling prevents a particular digital alias."
+      "description": "Explore 24-bit recording headroom, real clipping limits, 32-bit float and how oversampling prevents a particular digital alias.",
+      "next_bridge": "With the tracks captured, see how mixing balances instruments and creates the impression of space, distance and separation."
     },
     {
       "slug": "mixing-soundstage",
       "category": "recording",
       "title": "Mixing, soundstage and spatial audio",
-      "description": "Watch pan, EQ, ambience and mic timing alter a fictional mix; understand binaural recording, QSound, 5.1, Atmos and the listener's soundstage."
+      "description": "Watch pan, EQ, ambience and mic timing alter a fictional mix; understand binaural recording, QSound, 5.1, Atmos and the listener's soundstage.",
+      "next_bridge": "Once the mix takes shape, mastering prepares it for release. Next, compare how different masters change loudness, tone and dynamics."
     },
     {
       "slug": "mastering-dynamic-range",
       "category": "recording",
       "title": "Mastering, remastering and dynamic range",
-      "description": "Compare three masters of the same performance, learn why editions sound different, and see how matching peaks or average level changes what the amp has to deliver."
+      "description": "Compare three masters of the same performance, learn why editions sound different, and see how matching peaks or average level changes what the amp has to deliver.",
+      "next_bridge": "You've followed the signal from sound waves and equipment through recording, mixing and mastering. Use the lessons as a reference whenever you need them."
     }
   ],
   "categories": {

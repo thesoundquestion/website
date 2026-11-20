@@ -44,8 +44,9 @@ test('lesson cards, headings and previous/next links follow exactly the same 27-
    const number=String(i+1).padStart(2,'0');
    assert.match(page,new RegExp('<p class="section-kicker">LESSON '+number+'\\b'),'header numbering: '+slugs[i]);
    assert.ok(page.includes('Lesson '+number+' of '+slugs.length),'footer numbering: '+slugs[i]);
-   const next=slugs[(i+1)%slugs.length];
-   assert.ok(page.includes('<a class="dl-next-card" href="/decoder/'+next+'/">'),'next link: '+slugs[i]);
+   const next=slugs[i+1];
+   const target=next?'/decoder/'+next+'/':'/decoder/';
+   assert.ok(page.includes('<a class="dl-next-card" href="'+target+'">'),'guided destination: '+slugs[i]);
    if(i>0)assert.ok(page.includes('<a href="/decoder/'+slugs[i-1]+'/">← Previous:'),'previous link: '+slugs[i]);
  }
  assert.doesNotMatch(hub,/\b0[1-5] \/ (?:LOUDSPEAKERS|AMPLIFIERS|HEADPHONES|SOURCES|RECORDING)/,'sections must not have misleading parallel numbering');
