@@ -140,15 +140,18 @@ test('nominal speaker impedance is kept exactly as entered',()=>{
   assert.doesNotMatch(r.text,/Musical peaks:|Amplifier load-stress warning|no usable/);
 });
 
-test('6 Ω between published 4 Ω and 8 Ω permits interpolation without a fake compatibility pass',()=>{
+test('6 Ω between published 4 Ω and 8 Ω passes both targets when interpolated power covers them',()=>{
   const r=run({...base,load:6,entries:[{watts:120,load:8,type:'continuous'},{watts:180,load:4,type:'continuous'}]});
   assert.equal(r.cards.length,1);
   assert.match(r.cards[0].allText,/6 Ω lies between published 4 Ω and 8 Ω continuous test loads/);
   assert.doesNotMatch(r.cards[0].allText,/Pass · 6 Ω/);
-  assert.equal(r.summary.code,'estimate');
+  assert.equal(r.summary.code,'pass');
+  assert.equal(r.summary.label,'Pass · average and peak power targets met');
+  assert.match(r.summary.detail,/interpolated amplifier wattage/);
   assert.match(r.cards[0].allText,/Interpolated: 150 W\/ch/);
-  assert.doesNotMatch(r.cards[0].allText,/Musical peaks:/);
-  assert.doesNotMatch(r.text,/Amplifier load-stress warning/);
+  assert.match(r.cards[0].allText,/Pass · interpolated power covers target/);
+  assert.doesNotMatch(r.cards[0].allText,/Power capacity estimated at this load/);
+  assert.doesNotMatch(r.text,/Amplifier load-stress warning|Musical peaks:/);
 });
 
 test('missing lower-load amplifier rating is NOT proof of unsafe 6 Ω operation',()=>{
@@ -303,4 +306,49 @@ test('visible result-status reflects the combined comparison, not generic calcul
 
 test('calculator preserves average watts when handing results to the speaker safety comparison',()=>{
  assert.match(js,/const overall = summarizePower\(\{ mode, entries, load, minimum, distance, peakV, averageV, peakW, averageW, average, peak \}\)/);
+});
+
+
+test('interpolated continuous power below peak demand does not pass without burst evidence',()=>{
+  const r=run({...base,load:6,entries:[{watts:90,load:4,type:'continuous'},{watts:40,load:8,type:'continuous'}]});
+  assert.match(r.cards[0].allText,/Interpolated: 65 W\/ch/);
+  assert.equal(r.summary.code,'unverified');
+  assert.equal(r.summary.label,'Peak headroom not verified');
+  assert.doesNotMatch(r.cards[0].allText,/Pass · average and peak power targets met/);
+});
+test('interpolated continuous pass cannot override a documented peak burst failure',()=>{
+  const r=run({...base,load:6,entries:[
+    {watts:180,load:4,type:'continuous'},{watts:120,load:8,type:'continuous'},
+    {watts:75,load:6,type:'burst'}
+  ]});
+  assert.equal(r.summary.code,'fail');
+  assert.equal(r.summary.label,'Peak target not met');
+  assert.match(r.cards[0].allText,/Average.*Pass.*Short peaks.*Fail/s);
+});
+test('published 4 Ω and 8 Ω burst as well as continuous limits may both interpolate to a pass',()=>{
+  const r=run({...base,load:6,entries:[
+    {watts:200,load:4,type:'continuous'},{watts:120,load:8,type:'continuous'},
+    {watts:160,load:4,type:'burst'},{watts:100,load:8,type:'burst'}
+  ]});
+  assert.equal(r.summary.code,'pass');
+  assert.equal(r.summary.label,'Pass · average and peak power targets met');
+  assert.match(r.cards[0].allText,/Interpolated: 160 W\/ch/);
+  assert.match(r.cards[0].allText,/Interpolated: 130 W\/ch/);
+});
+test('interpolated short-burst output below peak is not claimed to pass or a proven clipping failure',()=>{
+  const r=run({...base,load:6,entries:[
+    {watts:180,load:4,type:'continuous'},{watts:120,load:8,type:'continuous'},
+    {watts:60,load:4,type:'burst'},{watts:40,load:8,type:'burst'}
+  ]});
+  assert.equal(r.summary.code,'estimate');
+  assert.equal(r.summary.label,'Estimated power below target at this load');
+  assert.doesNotMatch(r.cards[0].allText,/Pass · average and peak power targets met/);
+});
+test('speaker power-handling concern still overrides interpolation-based amplifier pass',()=>{
+  const r=run({...base,load:6,power:{speakerPowerPeak:40},entries:[
+    {watts:180,load:4,type:'continuous'},{watts:120,load:8,type:'continuous'}
+  ]});
+  assert.equal(r.summary.code,'caution');
+  assert.match(r.summary.label,/check speaker handling/);
+  assert.match(r.cards[0].allText,/Speaker stress warning: peak demand/);
 });

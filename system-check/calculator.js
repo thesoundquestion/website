@@ -489,12 +489,15 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
 
     let statusText;
     let verdict;
-    if (chosen.interpolated) {
-      verdict = 'estimate';
-      statusText = covers ? 'Estimated power covers target' : 'Estimated power below target';
-    } else if (!covers && classification === 'peak' && chosen.source.type !== 'burst') {
+    if (!covers && classification === 'peak' && chosen.source.type !== 'burst') {
       verdict = 'unverified';
       statusText = 'Unverified · peak exceeds continuous rating';
+    } else if (chosen.interpolated) {
+      // Interpolated power that covers the demand earns a pass. The value
+      // remains labelled as calculated, not a published rating at this load.
+      // An interpolated shortfall remains an estimate, not a proven clip.
+      verdict = covers ? 'pass' : 'estimate';
+      statusText = covers ? 'Pass · interpolated power covers target' : 'Estimated power below target';
     } else {
       verdict = covers ? 'pass' : 'fail';
       statusText = covers ? 'Pass' : 'Fail';
@@ -575,18 +578,21 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
       return { code: 'unverified', label: 'Peak headroom not verified',
         detail: 'The requested musical peak exceeds the continuous rating, and no comparable short-burst rating establishes the needed capacity. An average-level pass does not verify musical peaks.' + footer };
     }
-    if (averageCode === 'estimate' || peakCode === 'estimate') {
-      const projectedMiss = [averageResult, peakResult].some(result=>result?.code==='estimate' && result.covers===false);
-      return { code: 'estimate',
-        label: projectedMiss ? 'Estimated power shortfall at this load' : 'Power capacity estimated at this load',
-        detail: 'The available wattage was interpolated between different published test loads. This is not a direct measurement or a verified full-target pass.' + footer };
-    }
     if (averageCode === 'not_assessed' || peakCode === 'not_assessed') {
       return { code: 'not_assessed', label: 'Full listening target not assessed',
         detail: 'The entered ratings do not establish both required power comparisons.' + footer };
     }
+    if (averageCode === 'estimate' || peakCode === 'estimate') {
+      return { code: 'estimate', label: 'Estimated power below target at this load',
+        detail: 'The interpolated available power falls below at least one requested level. This is a calculated shortfall, not a directly measured clipping limit.' + footer };
+    }
+    const usedInterpolation = Boolean(averageResult?.projected || peakResult?.projected);
     if (speakerConcern) return { code: 'caution', label: 'Amplifier power meets targets · check speaker handling',
-      detail: 'The entered amplifier ratings cover the modeled average and peak demands, but a documented speaker power-handling concern remains.' };
+      detail: 'Average and peak power demands fit the entered amplifier ratings' +
+        (usedInterpolation ? ' using interpolated wattage at this speaker load' : '') +
+        ', but a documented speaker power-handling concern remains.' };
+    if (usedInterpolation) return { code: 'pass', label: 'Pass · average and peak power targets met',
+      detail: 'Both power demands fit the interpolated amplifier wattage at this speaker load. The calculation uses published ratings at neighboring impedances; the interpolated value is not a separate manufacturer measurement.' };
     return { code: 'pass', label: 'Average and peak power targets met',
       detail: 'Both demands fit the corresponding entered amplifier ratings at this speaker load. This compares rated watts, not measured distortion or real-room maximum sound level.' };
   }
@@ -623,7 +629,7 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
       notice.textContent = show(testLoad) + ' Ω lies between published '
         + show(loadRange.lower.load) + ' Ω and ' + show(loadRange.upper.load)
         + ' Ω continuous test loads. '
-        + 'The wattage shown below is interpolated, not an amplifier pass or a direct published rating.';
+        + 'The wattage shown below is interpolated rather than directly measured at this impedance.';
       card.append(notice);
     }
 
