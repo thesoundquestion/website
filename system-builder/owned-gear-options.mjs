@@ -40,15 +40,24 @@ function existingPair(own,request) {
     blocker=amp.name+' specifies at least '+screen.explicitNominalFloor+' Ω nominal speakers, while '+speaker.name+' is published as '+nominal+' Ω. Do not connect this combination without manufacturer approval.';
   else if(screen.explicitNominalFloor>=8&&Number.isFinite(minimum)&&minimum<6)
     blocker=speaker.name+' has a published '+minimum+' Ω minimum. Its nominal label alone does not establish compatibility with an 8 Ω-only amplifier.';
+  const improvement=request.buildIntent==='improve_existing';
+  const dynamicDemand=request.level==='high'||request.goal==='dynamic'||
+    request.secondary?.includes('dynamic');
   const message=blocker
     ? 'Both parts are already yours, but the published load information raises a specific compatibility concern. Retain them for assessment, not as a confirmed safe pairing.'
-    : 'Keep your '+speaker.name+' and '+amp.name+'. No demonstrated sound-quality deficit justifies replacing either one on the information entered.';
+    : improvement&&dynamicDemand?
+      'Your '+amp.name+' and '+speaker.name+' are the baseline for an occasionally loud / dynamic-music comparison. Check their estimated clean headroom and compare other speakers before deciding whether a change is worthwhile.':
+      improvement?
+      'Start by checking your '+speaker.name+' and '+amp.name+'. Keeping them is an option, but compare documented alternatives against your specific listening goal.':
+      'Keep your '+speaker.name+' and '+amp.name+'. No demonstrated sound-quality deficit justifies replacing either one on the information entered.';
   const use=['speaker','amp'];
   const parts=[part(speaker,'Already owned passive stereo pair'),part(amp,'Already owned amplifier')];
   if(has(own.source)){use.push('source');parts.push(part(own.source,'Already owned source; verify its amplifier connection'));}
   const item={...common,id:'owned-complete',title:speaker.name+' + '+amp.name,
     kind:blocker?'Owned pairing · compatibility alert':'Keep your existing speaker/amplifier pairing',
     architecture:'passive_separates',soundTarget:speaker.name,
+    amplifierModel:amp.record&&!amp.userSupplied?amp.name:null,
+    speakerModel:speaker.record&&!speaker.userSupplied?speaker.name:null,
     why:message,tradeoff:blocker||'Full speaker impedance, amplifier manual, clean output at your seat and source connections remain unverified.',
     parts,loadCaution:blocker,ownershipBlocker:blocker,levelCaution:request.level==='high',
     extra:['Speaker nominal: '+(Number.isFinite(nominal)?nominal+' Ω':'unverified')+
@@ -356,10 +365,19 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
     if(first.ownershipBlocker){
       const partial=shortlistAmpsForOwnedSpeakers({own,request,inventory});
       if(partial.selected.length)selected.push(partial.selected[0]);
+    }
+    if(request.buildIntent==='improve_existing'){
+      const byAmp=keepAmp(own,{...request,upgradeReference:own.speaker},inventory);
+      // Real, catalog-backed speaker alternatives are research candidates, not
+      // declared upgrades. Always show them when the user explicitly asks to
+      // improve a system, even if the current pair has no diagnosed defect.
+      selected.push(...byAmp.selected.filter(item=>item.speakerModel!==own.speaker.name).slice(0,4));
+    }else if(first.ownershipBlocker){
       const byAmp=keepAmp(own,request,inventory);
       if(byAmp.selected.length)selected.push(byAmp.selected[0]);
     }
-    plan={selected,excluded:[],mode:'keep_both'};
+    plan={selected,excluded:[],mode:request.buildIntent==='improve_existing'?
+      'improve_existing_pair':'keep_both'};
   }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&!has(own.amp))
     plan=shortlistAmpsForOwnedSpeakers({own,request,inventory});
