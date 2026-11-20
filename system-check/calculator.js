@@ -467,37 +467,39 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
   }
 
   function musicalPeakContext(row, testLoad, demand, continuous, burst, interpolatedContinuous, interpolatedBurst) {
-    // These are power/headroom comparisons, NOT a prediction of THD, clipping,
-    // audible congestion or a specific listening-room measured SPL.
+    // Give beginners a short, meaningful comparison to the available power.
+    // Neither these ratings nor the calculated target predicts actual THD.
     const ongoing=continuous ? directRating(continuous) : interpolatedContinuous;
     const transient=burst ? directRating(burst) : interpolatedBurst;
-    if(!ongoing && !transient)return;
-    const segments=[];
-    if(ongoing && ongoing.watts>0){
+    if(!ongoing&&!transient)return;
+    const messages=[];
+    if(ongoing&&ongoing.watts>0){
       const fraction=demand/ongoing.watts;
-      const margin=10*Math.log10(ongoing.watts/demand);
-      const source=ongoing.interpolated ? 'assumed continuous power at '+show(testLoad)+' Ω' :
-        'published/entered continuous '+show(testLoad)+' Ω rating';
-      segments.push('The requested peak uses '+powerPercent(fraction)+' of the '+source+
-        ' ('+(margin>=0?'+':'')+db(margin)+' dB of rated-power reserve).');
+      const fractionText=powerPercent(fraction);
+      const basis=ongoing.interpolated?'estimated continuous power':'continuous power rating';
+      if(fraction<=0.5)
+        messages.push('Your amplifier has plenty of power in reserve for these peaks. Your target uses about '
+          +fractionText+' of its '+basis+'.');
+      else if(fraction<1)
+        messages.push('Your amplifier has some headroom left for the loud moments. Your target uses about '
+          +fractionText+' of its '+basis+'.');
+      else if(fraction<=1+1e-12)
+        messages.push('Your target reaches the amplifier’s '+basis+', leaving no rated-power reserve.');
+      else
+        messages.push('Your requested peaks are above the amplifier’s '+basis+' (about '
+          +fractionText+' of that rating).');
     }
-    if(transient && transient.watts>0){
-      const source=transient.interpolated?'interpolated burst-power estimate':'published/entered short-burst rating';
-      const margin=10*Math.log10(transient.watts/demand);
-      segments.push('Against the '+source+' ('+show(transient.watts)+' W/ch), the peak target is '+
-        (demand<=transient.watts?'within':'above')+' that specified short-duration power ('+
-        (margin>=0?'+':'')+db(margin)+' dB).');
-      if(ongoing && ongoing.watts>0 && !ongoing.interpolated && !transient.interpolated &&
-          transient.watts>ongoing.watts){
-        segments.push('The burst figure is '+db(10*Math.log10(transient.watts/ongoing.watts))+
-          ' dB above its continuous rating, subject to the manufacturer\u2019s burst-test conditions.');
-      }
+    if(transient&&transient.watts>0){
+      const basis=transient.interpolated?'estimated short-burst power':
+        'published short-burst rating';
+      messages.push(demand<=transient.watts?
+        (ongoing?'Its ':'The amplifier’s ')+basis+' also covers those peaks.':
+        'Your requested peaks exceed its '+basis+'.');
     }
-    // No filler about absent curves or burst ratings. A numerical rating
-    // comparison is useful; an unsupported cleanliness prediction is not.
+    if(!messages.length)return;
     const line=document.createElement('p');
     line.className='sc-load-headroom sc-load-peak-explanation';
-    line.textContent='Musical peaks: '+segments.join(' ');
+    line.textContent='Musical peaks: '+messages.join(' ');
     row.append(line);
   }
 
