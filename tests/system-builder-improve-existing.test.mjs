@@ -23,8 +23,7 @@ test('A-720 and Titan v3 have saved rated power and sensitivity for a headroom b
   assert.equal(own.amp.record.ratings.some(r=>r[0]===105&&r[1]===8&&r[2]==='continuous'),true);
   assert.equal(own.speaker.record.values.load,8);
   assert.equal(own.speaker.record.values.sensitivity,86);
-  assert.equal(own.speaker.record.values.sensitivityInRoom,89);
-  assert.equal(own.speaker.record.values.sensitivityAnechoic,86);
+  assert.match(own.speaker.record.note,/86 dB anechoic \(89 dB in room\)/);
 });
 test('improve existing gives a saved-pair baseline plus relevant, different speaker alternatives',()=>{
   const plan=ownershipPlan({own,request,inventory});
@@ -68,7 +67,7 @@ test('Builder handoff and calculator use published in-room Titan sensitivity wit
   const calculator=read('system-check/calculator.js');
   assert.match(app,/preferRoom:'1'/);
   assert.match(app,/amplifierModel:item\.amplifierModel/);
-  assert.match(calculator,/speaker\?\.values\?\.sensitivityInRoom/);
+  assert.match(calculator,/\bdB\\s\*in\[\\s-\]\?room/);
   assert.match(calculator,/field\('room'\)\.value='0'/);
   assert.match(calculator,/runModelHandoff\(\)/);
 });
