@@ -34,6 +34,24 @@ export const AMP_LISTENING_REPORTS = Object.freeze({
     sources:[{label:'Sony STR-DH190 documentation',url:'https://research.encompass.com/SON/rr/STRDH190.pdf'}]
   }
 });
+// Manufacturer nominal-impedance permissions for ONE speaker pair.
+// Do not extrapolate permission from a resistive amplifier bench test.
+// Missing manufacturer data is unknown, not proof of a conflict.
+const KNOWN_NOMINAL_LOADS=Object.freeze({
+  'Yamaha A-S301':{min:4,high:6,source:'https://fr.yamaha.com/files/download/other_assets/0/332210/web_VEX7920_A-S701_A-S501_A-S301_om_G_EnFrDeSvItEsNlRu_A0.pdf'},
+  'Yamaha A-S501':{min:4,high:6,source:'https://fr.yamaha.com/files/download/other_assets/0/332210/web_VEX7920_A-S701_A-S501_A-S301_om_G_EnFrDeSvItEsNlRu_A0.pdf'},
+  'Sony STR-DH190':{min:6,max:16,source:'https://www.sony.ca/en/electronics/support/audio-components-receivers-amplifiers/str-dh190/specifications'}
+});
+export function manufacturerNominalPairing(model,nominal){
+  const rule=KNOWN_NOMINAL_LOADS[model];
+  if(!rule||!Number.isFinite(nominal))return null;
+  const supported=nominal>=rule.min&&(!rule.max||nominal<=rule.max);
+  return {supported,nominal,model,source:rule.source,
+    setting:rule.high?(nominal>=rule.high?'HIGH':'LOW'):(nominal>=8?'8 OHM':'6 OHM'),
+    statement:supported
+      ?nominal+' Ω nominal is within the manufacturer’s published one-pair speaker range.'
+      :nominal+' Ω nominal conflicts with the manufacturer’s one-pair speaker rating.'};
+}
 const atLeast=(x)=>Number.isFinite(x)&&x>0;
 const bandFull=note=>/20\s*Hz\s*[-–—]\s*20\s*kHz/i.test(String(note||''));
 const distortion=note=>{
@@ -99,11 +117,13 @@ export function assessAmplifierCandidate({idea,record,speaker,request={}}) {
   }
   // Less confidence in an ambiguous speaker max-input rating.
   if(sp.basis==='max_input')powerPoints=Math.max(0,powerPoints-1);
-  const distortionPoints=amp.distortionEvidence==='strong'?3:
-    amp.distortionEvidence==='documented'?2:
-    amp.distortionEvidence==='less_stringent'?0:0;
-  const sortValue=(direct?3:0)+(amp.exact?2:0)+powerPoints+distortionPoints+
-    (required==='undecided'?0:0);
+  // Use facts that can be compared at this speaker's nominal load.
+  // THD percentages and speaker max-input marketing figures never rank sound.
+  const sameLoadBurst=(record?.ratings||[]).find(r=>Array.isArray(r)&&
+    r[2]==='burst'&&r[1]===speaker?.record?.values?.load&&atLeast(r[0]));
+  const documentedBurst=sameLoadBurst?.[0]??null;
+  const sortValue=(direct?4:0)+(amp.exact?3:0)+(amp.fullBand?1:0)+
+    (documentedBurst!==null?1:0);
   const powerNote=ratio===null ?
     'A speaker power-handling comparison is unavailable at the same nominal load; no wattage target is invented.' :
     sp.basis==='max_input' ?
@@ -131,6 +151,6 @@ export function assessAmplifierCandidate({idea,record,speaker,request={}}) {
   const peakNote=sp.peak!==null ?
     'Speaker published peak figure: '+sp.peak+' W. It is not compared against continuous amplifier output.' : null;
   const context=AMP_LISTENING_REPORTS[idea.model]||null;
-  return {amp,speaker:sp,sortValue,powerBand,powerNote,headroomNote,distortionNote,
+  return {amp,speaker:sp,sortValue,documentedBurst,powerBand,powerNote,headroomNote,distortionNote,
     ownerNote,peakNote,context,directInput:direct,ratio};
 }
