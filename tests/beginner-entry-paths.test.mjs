@@ -260,8 +260,8 @@ test('builder markup shows rationale and compatibility checks before technical o
   const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
   const css=await readFile(new URL('../system-builder/style.css',import.meta.url),'utf8');
   const first=app.indexOf("Why this option was suggested");
-  const chain=app.indexOf("renderSetupWorkflow(card,overview.setupWorkflow)");
-  const proof=app.indexOf("Why these pieces make sense together");
+  const chain=app.indexOf("renderSetupWorkflow(card,overview.setupWorkflow,{collapsed:!detailOnly})");
+  const proof=app.indexOf("Why these parts work together");
   const checks=app.indexOf("What to check before connecting or buying");
   const evidence=app.indexOf("See the technical details and original sources");
   assert.ok(first>0&&first<chain&&chain<proof&&proof<checks&&checks<evidence,
@@ -269,7 +269,7 @@ test('builder markup shows rationale and compatibility checks before technical o
   assert.match(app,/How will this setup work\?/);
   assert.match(app,/explainBeginnerOption\(item,request\)/);
   assert.match(app,/What is included|Full verification, trade-offs, equipment and sources/);
-  assert.match(app,/These options show why they were selected/);
+  assert.match(app,/Start with the recommended fit below/);
   assert.match(page,/Your system options, explained/);
   assert.match(page,/Show me options for my goal/);
   assert.match(css,/\.sb-recommendations\{grid-template-columns:minmax\(0,1fr\)/);
@@ -478,7 +478,8 @@ test('subwoofer task asks only for existing gear and actual signal connections',
   for(const name of ['subAmpOutput','subInput','subHighPass','subName'])
     assert.ok(page.includes('name="'+name+'"'));
   assert.match(app,/dedicatedSubReport\(data\)/);
-  assert.match(app,/renderSubwooferWiring\(card,modelPlan/);
+  assert.match(app,/renderSubwooferWiring\(subDetail,modelPlan/);
+  assert.match(app,/card\.append\(subDetail\)/);
 });
 test('dedicated RCA subwoofer output and compatible RCA input means one simple lead',()=>{
   const x=subwooferConnections({ampOutput:'sub_rca',subInput:'rca_line'});
