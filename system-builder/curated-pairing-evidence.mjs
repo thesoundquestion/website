@@ -38,7 +38,7 @@ const documented=Object.freeze({
     ],
     sources:[
       {label:'Yamaha A-S301: published power and load specifications',url:'https://usa.yamaha.com/audio/home-audio/products/hifi-components/a-s301/specs.html'},
-      {label:'Yamaha A-S301 owner manual: impedance-selector chart',url:'https://europe.yamaha.com/files/download/other_assets/0/332210/web_VEX7920_A-S701_A-S501_A-S301_om_G_EnFrDeSvItEsNlRu_A0.pdf'},
+      {label:'Yamaha A-S301 owner manual: impedance-selector chart',url:'https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf'},
       {label:'PSB Alpha P5: nominal/minimum impedance and recommended amplifier',url:'https://www.psbspeakers.com/products/alpha-p5-bookshelf'}
     ]
   })
