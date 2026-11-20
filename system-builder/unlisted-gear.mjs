@@ -8,7 +8,8 @@
 import {buildSearches,googleSearchUrl} from '../system-check/spec-search.mjs';
 
 export const UNLISTED_FIELDS=Object.freeze({
-  speaker:['speakerSpecUrl','speakerLoad'],
+  speaker:['speakerSpecUrl','speakerLoad','speakerMinimum','speakerSensitivity','speakerBasis',
+    'speakerRecommendedAmpMin','speakerRecommendedAmpMax','speakerMaxInput'],
   amp:['ampSpecUrl','ampMinLoad','ampRatedWatts','ampRatedLoad'],
   source:['sourceSpecUrl','sourceOutput'],
   headphone:['headphoneSpecUrl','headphoneLoad','headphoneSensitivity','headphoneBasis']
@@ -63,19 +64,44 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     const sensText=String(data.get('speakerSensitivity')||'').trim();
     const sensitivity=sensText?numeric(sensText,60,120):null;
     const basis=String(data.get('speakerBasis')||'');
+    const recommendedMin=numeric(data.get('speakerRecommendedAmpMin'),1,1000);
+    const recommendedMax=numeric(data.get('speakerRecommendedAmpMax'),1,2000);
+    const listedMaxInput=numeric(data.get('speakerMaxInput'),1,2000);
+    const anyPower=Boolean(String(data.get('speakerRecommendedAmpMin')||'').trim()||
+      String(data.get('speakerRecommendedAmpMax')||'').trim());
+    if(anyPower&&(!recommendedMin||!recommendedMax||recommendedMin>=recommendedMax))
+      return {state:'incomplete',model,record:null,
+        message:'Check the recommended amplifier range. Enter both endpoints in watts, with a smaller minimum than maximum.'};
+    if(String(data.get('speakerMaxInput')||'').trim()&&!listedMaxInput)
+      return {state:'incomplete',model,record:null,
+        message:'The listed maximum speaker input watts must be a valid positive number.'};
     if(load===null)return {state:'incomplete',model,record:null,
       message:'Copy the speaker nominal impedance in ohms from the linked specifications. Without it, an amplifier match would be a guess.'};
     if(minimumText&&(minimum===null||minimum>load))return {state:'incomplete',model,record:null,
       message:'Check the speaker minimum impedance. It must be a valid number and no greater than the nominal impedance.'};
-    if(sensText&&(sensitivity===null||!['power','voltage'].includes(basis)))
+    // A missing test basis cannot invalidate an otherwise useful amplifier
+    // search. Retain the displayed anechoic/room figure without feeding it into
+    // quantitative headroom calculations until its 1W / 2.83V reference is known.
+    if(sensText&&sensitivity===null)
       return {state:'incomplete',model,record:null,
-        message:'If adding sensitivity, include its valid dB figure and whether the test uses 1 watt or 2.83 volts. Do not compare mixed measurement bases.'};
+        message:'Check the sensitivity dB number; it is outside the possible range.'};
+    if(basis&&!['power','voltage'].includes(basis))
+      return {state:'incomplete',model,record:null,
+        message:'Choose a valid sensitivity test basis, or leave it unknown.'};
+    const comparableSensitivity=sensitivity!==null&&['power','voltage'].includes(basis);
     const record={model,type:kind,url,ratings:[],details:null,
-      values:{load,minimum,sensitivity,basis:sensitivity===null?null:basis},
+      values:{load,minimum,sensitivity:comparableSensitivity?sensitivity:null,
+        basis:comparableSensitivity?basis:null,
+        reportedSensitivity:sensitivity,
+        recommendedAmpMinW:recommendedMin,recommendedAmpMaxW:recommendedMax,
+        listedMaxInputW:listedMaxInput},
       note:'Visitor-entered values from the linked document; not independently verified by The Sound Question.',
       evidence:'user_entered_unverified',userEntered:true};
     return {state:'provisional',model,record,
-      message:'Provisional speaker specifications entered. Check the exact revision and original manual before connecting equipment.'};
+      message:'Provisional speaker specifications entered. '+
+        (sensitivity!==null&&!comparableSensitivity?
+          'The sensitivity number is recorded but is not used for headroom until its test basis is known. ':'')+
+        'Check the exact revision and original manual before connecting equipment.'};
   }
   if(kind==='amp'){
     const floor=numeric(data.get('ampMinLoad'),2,16);
