@@ -213,8 +213,22 @@ try {
   const specs=page.locator('#sb-speaker-search [data-gear-details="speaker"]');
   assert.equal(await specs.evaluate(node=>node.open),false);
   const specSearch=page.locator('#sb-speaker-search [data-gear-searches="speaker"] a').first();
-  await specSearch.evaluate(node=>node.addEventListener('click',event=>event.preventDefault(),{once:true}));
-  await specSearch.click();
+  assert.equal(await specSearch.getAttribute('target'),'_blank');
+  assert.match(await specSearch.getAttribute('rel'),/noopener/);
+  assert.match(await specSearch.innerText(),/opens new tab/);
+  // Intercept the external site, not the link's native behavior. In desktop
+  // and mobile emulation this must create a separate tab, not navigate away
+  // from and destroy the partially completed Builder.
+  await context.route('https://www.google.com/search?**',route=>
+    route.fulfill({status:200,contentType:'text/html',body:'<title>Test manufacturer search</title>'}));
+  const [researchTab]=await Promise.all([
+    page.waitForEvent('popup'),specSearch.click()
+  ]);
+  await researchTab.waitForLoadState('domcontentloaded');
+  assert.match(researchTab.url(),/^https:\/\/www\.google\.com\/search\?/);
+  assert.match(page.url(),/\/system-builder\//);
+  assert.equal(await page.locator('[name="speakerOther"]').inputValue(),'Paradigm Phant');
+  await researchTab.close();
   assert.equal(await specs.evaluate(node=>node.open),true,
     device.name+' returning from speaker search must reveal specification inputs');
   await page.locator('[name="speakerOther"]').fill('Test Only Passive Speaker');
