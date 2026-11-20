@@ -119,3 +119,6 @@
 .sc-level-guide[open] summary{border-bottom:1px solid #31546c}
 .sc-level-guide-inner{padding:.5rem 0 1rem;line-height:1.65;color:#d5e4ed}
 .sc-level-guide-inner li{margin:.65rem 0}
+.sc-level-quicklinks{margin:.45rem 0 1rem;color:#c7dce8;line-height:1.6;font-size:.92rem}
+.sc-level-quicklinks a{color:#9ce2fa;font-weight:700;text-underline-offset:3px}
+.sc-level-quicklinks a:focus-visible{outline:2px solid #94dcff;outline-offset:3px;border-radius:3px}
