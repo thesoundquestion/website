@@ -330,34 +330,6 @@ function appendSpeakerPowerSafety(card, { peakW, averageW }) {
   if (flagged) card.append(box);
 }
 
-function appendAmplifierLoadSafety(card, { testLoad, actual, minimum, peakV, entries }) {
-  const usableLoads = entries.filter(r => r.type === 'continuous' || r.type === 'burst')
-    .map(r => r.load).filter(Number.isFinite);
-  const minRatedLoad = usableLoads.length ? Math.min(...usableLoads) : NaN;
-  if (!Number.isFinite(minRatedLoad)) return;
-  const lowerNominal = testLoad < minRatedLoad - 1e-9;
-  const measuredDip = actual && Number.isFinite(minimum) && minimum > 0
-    && minimum < minRatedLoad - 1e-9;
-
-  if (!lowerNominal && !measuredDip) return;
-  const safety = document.createElement('p');
-  safety.className = 'sc-amp-stress-warning';
-  let message = 'Amplifier load-stress warning: ';
-  if (lowerNominal) {
-    message += 'The ' + show(testLoad) + ' Ω load is below your lowest entered amplifier test rating ('
-      + show(minRatedLoad) + ' Ω). At the target voltage it asks for about '
-      + show(peakV / testLoad) + ' A RMS per channel on short peaks. The amplifier may draw excessive current, overheat, trip protection or clip early. A same-voltage wattage projection is NOT evidence of safe operation.';
-  }
-  if (measuredDip) {
-    if (lowerNominal) message += ' ';
-    message += 'Your measured speaker minimum of ' + show(minimum)
-      + ' Ω is also below the lowest tested amplifier load of ' + show(minRatedLoad)
-      + ' Ω, increasing uncertainty about current demand (especially with reactive impedance phase).';
-  }
-  safety.textContent = message;
-  card.append(safety);
-}
-
 function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, averageW, peak, average }) {
   // Compare the ACTUAL speaker load only. Hypothetical 4/6/8 ohm cards
   // used to look like additional manufacturer performance measurements.
@@ -602,7 +574,6 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     if (peakAssessment.code === 'fail') hasDefinitiveFailure = true;
     if (peakAssessment.projected) anyProjection = true;
 
-    appendAmplifierLoadSafety(card, { testLoad, actual, minimum, peakV, entries });
     if (actual) appendSpeakerPowerSafety(card, { peakW, averageW });
     stack.append(card);
   }
@@ -617,12 +588,6 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     'A Fail marks an entered continuous or burst rating below the required power for that duration. The stated dB SPL boundary is a model estimate, not a measured clipping onset.');
 
 
-  if (minimum > 0 && minimum < load && !entries.some(entry => entry.load <= minimum)) {
-    const ampModel = field('ampModel').value.trim();
-    const note = addText('p', 'Your speakers dip to ' + show(minimum) + ' Ω. A lower-load bench test would help assess real current demand, independent of the nominal-load comparison above.');
-    if (ampModel) note.append(' ', searchLink('Find a lower-load amp test', ampModel,
-      show(minimum) + ' ohm amplifier power bench measurements'));
-  }
 
 }
 
