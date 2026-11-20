@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {parseSpeakerSpecText} from '../system-builder/spec-paste.mjs';
+import {unlistedSpecAssessment} from '../system-builder/unlisted-gear.mjs';
+import {validateBuilderIntent} from '../system-builder/intent-routing.mjs';
 
 test('a pasted manufacturer-style spec extract fills only explicit comparable ratings',()=>{
   const parsed=parseSpeakerSpecText([
@@ -102,7 +104,7 @@ test('conflicting repeated nominal ratings block matching, not merely the second
 });
 
 
-test('user-reported full speaker description recognises approximate minimum and keeps compatibility distinct from nominal',()=>{
+test('user-reported full speaker description feeds provisional nominal, minimum, sensitivity and suggested power range',()=>{
   const paste=[
     '• Design: 2-driver, 2-way bass reflex bookshelf/stand-mounted speaker',
     '• Tweeter: 19 mm (3/4 in) polyamide dome with ferro-fluid cooling (often Vifa-sourced on v1 models)',
@@ -116,23 +118,64 @@ test('user-reported full speaker description recognises approximate minimum and 
     '• Recommended Amplifier Power: 15 – 100 watts (maximum input power listed at 60 watts on spec sheets)'
   ].join('\n');
   const parsed=parseSpeakerSpecText(paste);
-  assert.deepEqual(parsed.fields,{speakerMinimum:4.2},
-    'only the explicitly described minimum qualifies; 8-ohm compatible is not confirmed nominal and neither sensitivity has a test basis');
-  assert.match(parsed.observations.join(' '),/8 Ω described as compatible, NOT explicitly nominal/);
+  assert.deepEqual(parsed.fields,{
+    speakerLoad:8,speakerMinimum:4.2,speakerSensitivity:87,
+    speakerRecommendedAmpMin:15,speakerRecommendedAmpMax:100,speakerMaxInput:60
+  });
+  assert.match(parsed.observations.join(' '),/8 Ω described as compatible/);
   assert.match(parsed.observations.join(' '),/90 dB \(in-room\).*87 dB \(anechoic\)/);
   assert.match(parsed.observations.join(' '),/around 4.2 Ω is approximate/);
-  assert.doesNotMatch(parsed.observations.join(' '),/15.*100.*watts/);
+  assert.match(parsed.observations.join(' '),/15–100 W/);
+  assert.match(parsed.observations.join(' '),/60 W/);
 });
 
-test('other compatible-with wording is reported, never silently promoted to nominal',()=>{
+test('other compatible-with wording provisionally supplies nominal load with notes',()=>{
   const parsed=parseSpeakerSpecText('Impedance: 8Ω compatible, measured around 3.6Ω minimum\nSensitivity 89 dB in room');
-  assert.deepEqual(parsed.fields,{speakerMinimum:3.6});
+  assert.deepEqual(parsed.fields,{speakerLoad:8,speakerMinimum:3.6,speakerSensitivity:89});
   assert.match(parsed.observations.join(' '),/8 Ω described as compatible/);
-  assert.equal(parsed.fields.speakerSensitivity,undefined);
+  assert.equal(parsed.fields.speakerBasis,undefined);
 });
 
 test('explicit nominal in a separate manufacturer row remains available alongside compatible context',()=>{
   const parsed=parseSpeakerSpecText('Nominal impedance: 8Ω\nImpedance: compatible with 8 ohms (minimum: 4Ω)');
   assert.equal(parsed.fields.speakerLoad,8);
   assert.match(parsed.observations.join(' '),/8 Ω described as compatible/);
+});
+
+test('a partially documented speaker can be shortlisted with unknown sensitivity basis',()=>{
+  const data=new FormData();
+  data.set('speakerOther','Example Passive Bookshelf');
+  data.set('speakerPowerType','passive');
+  data.set('speakerSpecUrl','https://example.com/manual');
+  data.set('speakerLoad','8');
+  data.set('speakerMinimum','4.2');
+  data.set('speakerSensitivity','87');
+  data.set('speakerBasis','');
+  data.set('speakerRecommendedAmpMin','15');
+  data.set('speakerRecommendedAmpMax','100');
+  data.set('speakerMaxInput','60');
+  const result=unlistedSpecAssessment('speaker',data,{requireForMatch:true});
+  assert.equal(result.state,'provisional');
+  assert.equal(result.record.values.load,8);
+  assert.equal(result.record.values.minimum,4.2);
+  assert.equal(result.record.values.sensitivity,null);
+  assert.equal(result.record.values.reportedSensitivity,87);
+  assert.equal(result.record.values.recommendedAmpMinW,15);
+  assert.equal(result.record.values.recommendedAmpMaxW,100);
+  assert.equal(result.record.values.listedMaxInputW,60);
+  assert.equal(validateBuilderIntent('amp_for_speakers',data).ok,true);
+});
+test('incorrect speaker recommended amplifier range remains unaccepted',()=>{
+  const data=new FormData();
+  data.set('speakerOther','Test');
+  data.set('speakerSpecUrl','https://example.com/spec');
+  data.set('speakerLoad','8');
+  data.set('speakerRecommendedAmpMin','100');
+  data.set('speakerRecommendedAmpMax','15');
+  assert.equal(unlistedSpecAssessment('speaker',data).state,'incomplete');
+});
+test('compatibility alone is not a guarantee when two opposing nominal claims conflict',()=>{
+  const result=parseSpeakerSpecText('Nominal impedance 4Ω\nNominal impedance 8Ω\nImpedance compatible with 8 ohms');
+  assert.equal(result.fields.speakerLoad,undefined);
+  assert.match(result.notes.join(' '),/Conflicting impedance/);
 });
