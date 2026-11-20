@@ -41,6 +41,9 @@ test('Blind Melon opens with two songs but recommends the full album as one list
  assert.match(blindMelon,/Full-album recommendation/);
  assert.match(blindMelon,/entire/);
  assert.match(blindMelon,/front-to-back listen/);
+ assert.match(blindMelon,/href="https:\/\/open\.spotify\.com\/search\/Blind%20Melon%20Soak%20the%20Sin"/);
+ assert.match(blindMelon,/href="https:\/\/open\.spotify\.com\/album\/7yz9SLBNG9nOTuP1aP638b"/);
+ assert.match(blindMelon,/Listen to the full album on Spotify/);
 });
 
 test('Listening Room counts, playback discovery and editorial tone remain intact',()=>{
