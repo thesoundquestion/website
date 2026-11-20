@@ -119,7 +119,8 @@ test('visible card shows clean power, distortion evidence and attributed review 
   const app=read('../system-builder/app.mjs');
   assert.match(app,/if \(item\.amplifierFit\)/);
   assert.match(app,/Power & headroom: /);
-  assert.match(app,/Distortion evidence: /);
+  assert.doesNotMatch(app,/Distortion evidence: /,'Do not recreate unsupported generic distortion claims');
+  assert.match(app,/overview.matchingEvidence/);
   assert.match(app,/Reviewer\/lab context: /);
   assert.match(app,/Model-specific listening reports, not a brand sound signature/);
   assert.match(app,/Published speaker power specification/);

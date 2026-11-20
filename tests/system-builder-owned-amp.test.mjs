@@ -143,5 +143,6 @@ test('UI explains when an explicitly selected architecture cannot reuse the owne
   const app=src('../system-builder/app.mjs');
   assert.ok(app.includes('!own.speaker.name && !speakerFocus'));
   assert.ok(app.includes('A separate compatible route retaining it is still shown below.'));
-  assert.ok(app.includes('if (item.sourceCaution)'));
+  const beginner=src('../system-builder/beginner-output.mjs');
+  assert.match(beginner,/item\?\.sourceCaution/,'Source mismatch guidance belongs to beginner-output');
 });

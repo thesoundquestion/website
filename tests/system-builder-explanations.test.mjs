@@ -52,8 +52,9 @@ test('cards show model-specific sound and exact preference explanation above exp
   const sound=app.indexOf("soundProfileFor(item)",first);
   const details=app.indexOf("const details = el('details','sb-card-details')",first);
   assert.ok(first>=0 && fit>first && sound>fit && details>sound);
-  assert.match(app,/Why this one:/);
-  assert.match(app,/Sound:/);
+  assert.match(app,/Why this option was suggested/);
+  assert.match(app,/Owner experiences: /);
   assert.match(app,/Sound description: evidence/);
-  assert.match(app,/this tool cannot reliably verify or rank models/);
+  assert.match(app,/sound\.type !== 'Not independently characterized'/);
+  assert.match(app,/overview\.goalExplanation/);
 });

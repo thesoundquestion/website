@@ -600,6 +600,10 @@ function calculate() {
         const item = document.createElement('li');
         item.textContent = line;
         appendRatingSource(item, rating);
+        if (testLoad > load && field('ampModel').value.trim()) {
+          item.append(' ', searchLink('Find a lower-load amp test',
+            field('ampModel').value.trim(), 'amplifier continuous power test '+show(load)+' ohm load'));
+        }
         lines.append(item);
       }
       body.append(lines);

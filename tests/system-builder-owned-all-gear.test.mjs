@@ -154,7 +154,8 @@ test('UI places ownership plan ahead of example-only shortlist and hides compari
   assert.match(app,/ownershipPlan\(\{own,request,inventory\}\)/);
   assert.match(app,/const shortlist = ownership \|\|/);
   assert.match(app,/item\.reuseNames\?\.length/);
-  assert.match(app,/item\.pathwayCaution/);
+  const beginner=src('../system-builder/beginner-output.mjs');
+  assert.match(beginner,/item\?\.pathwayCaution/,'Specific ownership restrictions are rendered through beginner-output');
   assert.match(app,/if \(ownership\) \{/);
   assert.match(app,/Compare new equipment: when would replacing yours make sense\?/);
   assert.match(app,/ownership\.comparisonReasons/);

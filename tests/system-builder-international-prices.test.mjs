@@ -150,7 +150,7 @@ test('app formats actual selected currency, is a single complete module and stay
   const app=load('../system-builder/app.mjs');
   assert.match(app,/new Intl\.NumberFormat/);
   assert.match(app,/currency:displayCurrency/);
-  assert.match(app,/Why these speakers/);
+  assert.match(app,/Why these pieces make sense together/);
   assert.equal((app.match(/form\.addEventListener\('submit'/g)||[]).length,1);
   assert.equal((app.match(/const renderCard = item =>/g)||[]).length,1);
   assert.doesNotMatch(app,/\n\+Math\.round\(item\.usedExampleRange/);

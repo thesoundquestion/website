@@ -76,7 +76,7 @@ test('budget passive new stereo has two component prices, load caveat and no pea
   assert.equal(pair.subtotal,438.99);
   assert.equal(pair.parts.length,2);
   assert.match(pair.tradeoff,/300 W/i);
-  assert.match(pair.loadCaution,/4.1 Ω/);
+  assert.match(pair.curatedPairing.proof,/4\.1 Ω/,'Documented minimum stays in the sourced compatibility proof, not a generic warning');
   assert.ok(!x.selected.some(x=>x.title.includes('R-S202 + PSB Alpha P3')));
   assert.ok(!EXAMPLES.some(x=>x.usedOnly));
 });
