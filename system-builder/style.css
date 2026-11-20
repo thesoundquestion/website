@@ -103,6 +103,12 @@
 .sb-keep-inline p{font-size:.8rem;color:#cae3eb;margin:.2rem 0}
 .sb-more{border-top:1px solid #2c4b60;margin:.45rem 0;padding:.48rem .2rem}
 .sb-more>.sb-recommendations{margin-top:.65rem}
+.sb-alternative-setups{margin:.8rem 0;border:1px solid #3e657d;border-radius:10px;padding:.7rem .85rem;background:#102739}
+.sb-alternative-setups>summary{font-size:.92rem;font-weight:750;color:#c8eefe;cursor:pointer}
+.sb-alternative-setups[open]>summary{margin-bottom:.7rem}
+.sb-alternative-setups .sb-recommendations{margin-top:.55rem}
+.sb-recommend--primary{scroll-margin-top:14px}
+.sb-recommend--primary:focus{outline:2px solid #80d6ec;outline-offset:3px}
 .sb-more>p,.sb-more>ul{font-size:.82rem}
 .sb-audit{margin-top:.75rem;border:1px solid #34536a;border-radius:10px;padding:.65rem .85rem;background:#0e2131}
 .sb-audit>summary{font-size:.85rem}
