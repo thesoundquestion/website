@@ -255,6 +255,14 @@ export function parseSpeakerSpecText(text){
     fields.speakerRecommendedAmpMin=p.low;
     fields.speakerRecommendedAmpMax=p.high;
     observations.push('Recommended amplifier power: '+p.low+'–'+p.high+' W. This is manufacturer-style shopping guidance, not a continuous speaker-power or safe-output limit.');
+    // A recommendation for an *external* amplifier is good provisional
+    // evidence that this is a passive speaker. Never apply this inference
+    // when the copied text also calls the model powered or active.
+    const corpus=lines.join(' ');
+    if(!/\b(?:powered|active speaker|built-in (?:power )?amplifier|internal amplifier|integrated amplifier)\b/i.test(corpus)){
+      fields.speakerPowerType='passive';
+      observations.push('External amplifier recommendation suggests passive speakers. Check the model before choosing an amplifier.');
+    }
     if(p.maximum!==null){
       fields.speakerMaxInput=p.maximum;
       observations.push('Listed maximum input power: '+p.maximum+' W. Its continuous/peak measurement basis is not established from the pasted text.');
