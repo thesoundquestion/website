@@ -278,6 +278,10 @@
 .sb-spec-paste-button{margin:.3rem 0 .5rem;max-width:100%;white-space:normal;text-align:center}
 @media(max-width:650px){.sb-spec-paste-button{width:100%}}
 
+.sb-spec-review-list{margin:.55rem 0 .7rem;padding:.65rem .8rem .65rem 1.75rem;border-left:3px solid #7cb6d0;border-radius:5px;background:#122b3d;color:#cfe6f1;font-size:.83rem;line-height:1.55}
+.sb-spec-review-list li{margin:.25rem 0}
+.sb-spec-review-list[hidden]{display:none!important}
+
 /* Source-led search for models not yet in the built-in, vetted catalogue. */
 .sb-gear-search{grid-column:1/-1;min-width:0;margin:.2rem 0 .7rem;padding:clamp(.75rem,2vw,1.1rem);border:1px solid #426781;border-radius:12px;background:#0b2134}
 .sb-gear-search .sb-help{margin:.2rem 0 .7rem}
