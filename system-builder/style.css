@@ -339,3 +339,15 @@
 .sb-headphone-card-electronics{margin:.7rem 0;padding:.75rem;border-left:3px solid #8ad5e4;background:#173448;border-radius:5px}
 .sb-headphone-card-electronics p{font-size:.85rem;line-height:1.55;margin:.3rem 0}
 .sb-headphone-electronics-card a:focus-visible{outline:3px solid #91e3ee;outline-offset:3px}
+
+/* Comparison explanations belong in the main Builder output, not behind
+   Alternative setups or the individual product's technical disclosure. */
+.sb-comparison-overview{margin:1.05rem 0;padding:clamp(.8rem,2vw,1.2rem);border:1px solid #3f819b;border-radius:10px;background:#10283c}
+.sb-comparison-overview>h4{font-size:1.12rem;color:#e2f8ff;margin:.25rem 0 .45rem}
+.sb-comparison-preview-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:.75rem;margin:.75rem 0 .3rem}
+.sb-comparison-preview-card{padding:.85rem;background:#0a2030;border:1px solid #365e73;border-radius:8px}
+.sb-comparison-preview-card h5{font-size:.96rem;color:#e9faff;margin:0 0 .45rem}
+.sb-comparison-preview-card p,.sb-alternative-card-contrast p,.sb-comparison-copy p{font-size:.86rem;line-height:1.56;margin:.35rem 0}
+.sb-alternative-card-contrast,.sb-comparison-copy{margin:.7rem 0;padding:.7rem .8rem;border-left:3px solid #77cbdf;background:#112e40;border-radius:5px}
+.sb-recommend-compact>.sb-alternative-card-contrast{grid-column:1/-1}
+.sb-sub-comparison-preview{margin:.75rem 0;padding:.65rem .8rem;border-left:3px solid #7fcddd;background:#123045;border-radius:5px;line-height:1.55}

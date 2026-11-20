@@ -5,6 +5,7 @@ import {parseSpeakerSpecText} from './spec-paste.mjs?v=passive-inference-2026112
 import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=sub-20261120';
 import {headphoneDriveRequirement} from './headphone-drive.mjs';
 import {headphoneAmplifierPlan,applyHeadphoneAmpChoice} from './headphone-amp-choice.mjs';
+import {compareAlternative,compareElectronic} from './alternative-comparisons.mjs';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -1026,6 +1027,18 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'span',alternative?'Other documented option':'Included in this setup','sb-headphone-electronics-kicker');
         addText(card,'h5',device.model);
         addText(card,'p',device.label+' · '+device.note);
+        if(alternative){
+          const baseline=plan.components.find(x=>x.type===device.type)||plan.components[0];
+          const compared=compareElectronic(baseline,device);
+          if(compared){
+            const explanation=el('div','sb-comparison-copy');
+            addText(explanation,'strong','Compared with '+compared.baseline);
+            addText(explanation,'p',compared.change+'.');
+            addText(explanation,'p','You may prefer this if '+compared.preference+'.');
+            addText(explanation,'p','What to check: '+compared.tradeoff);
+            card.append(explanation);
+          }
+        }
         addText(card,'p','Price not included · check current local price and headphone-output specifications','sb-headphone-electronics-cost');
         link(card,device.sourceUrl,'Manufacturer specifications for '+device.model);
         return card;
@@ -1042,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(section,'p','Current local prices for these electronics have not been verified and are NOT included in headphone-only subtotals. Check USB/RCA inputs, actual headphone jack, gain, power and noise before buying.','sb-headphone-electronics-footnote');
       shop.append(section);
     };
-    const renderCard = item => {
+    const renderCard = (item,alternativeComparison=null) => {
       const card = el('article','sb-recommend sb-recommend-compact');
       const head = el('div','sb-card-head');
       const heading = el('div','sb-card-heading');
@@ -1056,6 +1069,14 @@ document.addEventListener('DOMContentLoaded', () => {
         head.append(badge);
       }
       card.append(head);
+      if(alternativeComparison){
+        const contrast=el('div','sb-alternative-card-contrast');
+        addText(contrast,'strong','Compared with '+alternativeComparison.baseline);
+        addText(contrast,'p',alternativeComparison.change+'.');
+        addText(contrast,'p','You may prefer this if '+alternativeComparison.preference+'.');
+        addText(contrast,'p','Trade-off or check: '+alternativeComparison.tradeoff);
+        card.append(contrast);
+      }
       if(item.architecture==='headphone_first'&&item.headphoneAmpPlan?.components?.length){
         const selectedElectronics=el('div','sb-headphone-card-electronics');
         addText(selectedElectronics,'strong','Electronics in this setup');
@@ -1244,6 +1265,26 @@ document.addEventListener('DOMContentLoaded', () => {
       return card;
     };
 
+    // The listener must see comparison reasons in the ordinary results view,
+    // without opening the detailed alternative setup disclosure.
+    const renderComparisonPreview=(baseline,choices,heading,klass='sb-comparison-overview')=>{
+      if(!baseline||!choices?.length)return;
+      const preview=el('section',klass);
+      addText(preview,'h4',heading);
+      addText(preview,'p','Each choice below is compared with the first recommendation. These are practical differences to investigate, not measured sound-quality winners. Full connection plans and source checks remain in Alternative setups.','sb-brief-note');
+      const grid=el('div','sb-comparison-preview-list');
+      for(const item of choices){
+        const comparison=compareAlternative(baseline,item,request,sharedCatalog);
+        if(!comparison)continue;
+        const note=el('article','sb-comparison-preview-card');
+        addText(note,'h5',comparison.alternative);
+        addText(note,'p','Compared with '+comparison.baseline+': '+comparison.change+'.');
+        addText(note,'p','You may prefer this if '+comparison.preference+'.');
+        addText(note,'p','Trade-off or check: '+comparison.tradeoff);
+        grid.append(note);
+      }
+      if(grid.children.length){preview.append(grid);shop.append(preview);}
+    };
     const alternativeSetups=el('details','sb-more sb-alternative-setups');
     addText(alternativeSetups,'summary','Alternative setups');
     if(headphoneElectronicsPlan)renderHeadphoneElectronics(headphoneElectronicsPlan);
@@ -1261,27 +1302,14 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.append(firstCard);
       shop.append(grid);
       const upgradeIdeas=shortlist.selected.filter(x=>x.upgradeComparedTo);
-      const otherComparisons=shortlist.selected.filter(x=>x.compareAgainst);
-      if(upgradeIdeas.length||otherComparisons.length){
-        const preview=el('section','sb-upgrade-comparison-preview');
-        addText(preview,'h4',upgradeIdeas.length?'Speaker changes worth comparing':'Equipment changes worth comparing');
-        addText(preview,'p',upgradeIdeas.length
-          ? 'You chose to improve an existing setup. The first card checks what you already have; the alternatives below investigate a speaker change for your listening level and music. A larger cabinet or higher published sensitivity is a reason to compare, not proof of cleaner maximum output.'
-          : 'The first card retains your existing equipment. The following alternatives are ways to compare features, fit and sound for your own listening goals; no improvement is assumed.');
-        const bullets=[...upgradeIdeas,...otherComparisons].slice(0,3).map(item=>{
-          const spec=item.speakerValues||{};
-          const number=Number.isFinite(spec.sensitivity)&&item.upgradeComparedTo?
-            ' · published sensitivity '+spec.sensitivity+' dB'+
-            (spec.basis==='power'?' / 1 W':spec.basis==='voltage'?' / 2.83 V':''):'';
-          return item.title+number+' · research candidate, not a demonstrated upgrade.';
-        });
-        list(preview,bullets,'sb-upgrade-ideas');
-        addText(preview,'p','Open Alternative setups to see each complete connection plan, equipment limits and any calculable headroom.','sb-brief-note');
-        shop.append(preview);
-      }
+      if(shortlist.selected.length>1)
+        renderComparisonPreview(shortlist.selected[0],shortlist.selected.slice(1),
+          upgradeIdeas.length?'Speaker changes worth comparing':'What changes with the alternative recommendations?',
+          'sb-upgrade-comparison-preview sb-comparison-overview');
       if(shortlist.selected.length>1){
         const moreGrid=el('div','sb-recommendations');
-        for(const item of shortlist.selected.slice(1))moreGrid.append(renderCard(item));
+        for(const item of shortlist.selected.slice(1))
+          moreGrid.append(renderCard(item,compareAlternative(shortlist.selected[0],item,request,sharedCatalog)));
         alternativeSetups.append(moreGrid);
       }
       if (request.character !== 'faithful')
@@ -1328,6 +1356,11 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(explorer,'h4','Powered studio monitors in the shared equipment catalogue');
         addText(explorer,'p','These are available research candidates, not ranked sound-quality recommendations. Each published model is a powered line-level cabinet, not a passive speaker that needs an external amplifier.','sb-brief-note');
         const cards=el('div','sb-catalog-studio-grid');
+        const firstMonitor=monitors[0];
+        const monitorIntro=el('div','sb-brief-note');
+        addText(monitorIntro,'strong','Compared with your main recommendation: ');
+        addText(monitorIntro,'span','These powered monitors change cabinet size, source-input options and installation. A different woofer size or power figure does not prove more usable bass or cleaner peaks; compare exact model measurements and your listening distance.');
+        explorer.append(monitorIntro);
         for(const record of monitors){
           const details=describeStudioMonitor(record);
           const card=el('article','sb-catalog-studio-card');
@@ -1341,6 +1374,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if(Number.isFinite(a.lf)&&Number.isFinite(a.hf))facts.push('Internal LF/HF amplifier sections: '+a.lf+' W / '+a.hf+' W. Not external power.');
           }
           list(card,facts.length?facts:['Published specifications incomplete; check the manufacturer documentation.']);
+          const monitorComparison=compareAlternative(shortlist.selected[0],
+            {title:record.model,architecture:'active_studio',connections:details.inputTypes||[]},
+            request,sharedCatalog);
+          if(monitorComparison)
+            addText(card,'p',monitorComparison.summary+' You may prefer it if '+monitorComparison.preference+'. Check: '+monitorComparison.tradeoff,'sb-card-reference');
           addText(card,'p',details.cautions[0]+' '+details.cautions[1],'sb-brief-note');
           link(card,details.source,'Manufacturer/source documentation');
           cards.append(card);
@@ -1426,8 +1464,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (ownership.mode !== 'keep_source') {
         const alternativesList = shortlistExamples(request).selected.slice(0,3);
         if (alternativesList.length) {
+          renderComparisonPreview(shortlist.selected[0],alternativesList,
+            'Compared with keeping your current setup',
+            'sb-replacement-comparison-preview sb-comparison-overview');
           const moreGrid = el('div','sb-recommendations');
-          for (const item of alternativesList) moreGrid.append(renderCard(item));
+          for (const item of alternativesList)
+            moreGrid.append(renderCard(item,compareAlternative(shortlist.selected[0],item,request,sharedCatalog)));
           alternatives.append(moreGrid);
         } else
           addText(alternatives,'p','No complete example passes the selected architecture, power and known-price filters. Your existing gear has not been ruled out.','sb-brief-note');
@@ -1441,6 +1483,7 @@ document.addEventListener('DOMContentLoaded', () => {
         primary !== 'party' && useCase !== 'party' && !hasSubExample && !retainedSubPath) {
       const subAdd = el('details','sb-more');
       addText(subAdd,'summary',bassMode === 'no_sub' ? 'Optional deeper bass ideas' : 'Subwoofer models to investigate');
+      addText(shop,'p','Subwoofer alternatives compared: the SVS SB-1000 Pro uses a sealed enclosure; the RSL Speedwoofer 10E uses a ported design. You may prefer a sealed enclosure for its packaging/roll-off characteristics or a ported system when its tuning and measured output suit your bass goal. Neither design guarantees tighter bass or better sound. Compare measured low-frequency output, placement, mains high-pass and actual total cost.','sb-sub-comparison-preview');
       addText(subAdd,'p','SVS SB-1000 Pro (sealed) and RSL Speedwoofer 10E (ported). Integration and regional prices still need verification.');
       link(subAdd,'https://www.svsound.com/products/sb-1000-pro-subwoofer','SVS specifications');
       link(subAdd,'https://rslspeakers.com/pages/speedwoofer-10e','RSL specifications');

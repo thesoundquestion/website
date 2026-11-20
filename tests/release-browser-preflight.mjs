@@ -217,6 +217,11 @@ try {
    assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/FiiO K11/);
    assert.match(await page.locator('.sb-headphone-electronics-card').first().innerText(),/FiiO K11/);
    assert.ok(await page.locator('.sb-headphone-electronics-card').first().isVisible());
+   assert.match(await page.locator('.sb-headphone-electronics-alt').first().innerText(),/Compared with FiiO K11/);
+   assert.match(await page.locator('.sb-headphone-electronics-alt').first().innerText(),/You may prefer this if/);
+   assert.ok(await page.locator('.sb-comparison-overview').first().isVisible(),
+     device.name+' headphone alternatives must be explained without a dropdown');
+   assert.match(await page.locator('.sb-comparison-overview').first().innerText(),/Compared with.*You may prefer this if.*Trade-off or check:/s);
    assert.ok(await page.locator('.sb-headphone-electronics-card a[href^="https://"]').count()>=1);
    assert.match(await page.locator('.sb-headphone-card-electronics').first().innerText(),/FiiO K11/);
    assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/USB digital audio/);
@@ -425,6 +430,10 @@ try {
   assert.equal(await firstWorkflow.count(),1,device.name+' primary recommendation must explain its connections');
   assert.match(await firstWorkflow.locator('h5').innerText(),/How will this setup work\?/);
   assert.ok(await firstWorkflow.locator('ol li').count()>=2,device.name+' setup guide needs actionable steps');
+  const comparisonOverview=page.locator('#sb-results .sb-comparison-overview').first();
+  assert.ok(await comparisonOverview.isVisible(),device.name+' alternatives need visible comparison on the main result screen');
+  assert.ok(await comparisonOverview.locator('.sb-comparison-preview-card').count()>=1);
+  assert.match(await comparisonOverview.innerText(),/Compared with.*You may prefer this if.*Trade-off or check:/s);
   const results=page.locator('#sb-results');
   assert.match(await page.locator('#sb-result-title').innerText(),/Your system options, explained/);
   assert.equal(await results.evaluate(node=>document.activeElement===node),true,
@@ -499,6 +508,8 @@ try {
   const previewText=await preview.innerText();
   assert.match(previewText,/Speaker changes worth comparing/);
   assert.match(previewText,/Cerwin-Vega|Klipsch/);
+  assert.match(previewText,/Compared with.*You may prefer this if.*Trade-off or check:/s);
+  assert.ok(await preview.isVisible(),device.name+' upgrade reasons must appear without opening alternatives');
   const options=page.locator('#sb-results .sb-alternative-setups .sb-recommend');
   assert.ok(await options.count()>=2,device.name+' high dynamic use must offer a few alternatives');
   assert.equal(await options.count(),await options.locator('.sb-setup-workflow').count());
