@@ -1136,7 +1136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         frame.title='Headroom results for '+headroomModels.speakerModel+' with '+headroomModels.amplifierModel;
         // Load the true result even while collapsed so the summary can show
         // its verdict; do not compute or invent an independent estimate.
-        frame.loading='eager';
+        frame.loading=detailOnly?'lazy':'eager';
         frame.src='/system-check/?'+params.toString();
         const refresh=()=>{
           try{
