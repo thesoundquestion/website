@@ -622,11 +622,15 @@ test('unlisted source and headphone searches produce provisional facts instead o
   hp.set('headphoneSpecUrl','https://example.org/headphone-manual');
   hp.set('headphoneLoad','80');
   hp.set('headphoneSensitivity','100');
-  assert.equal(unlistedSpecAssessment('headphone',hp).state,'incomplete');
+  const partial=unlistedSpecAssessment('headphone',hp);
+  assert.equal(partial.state,'provisional');
+  assert.equal(partial.record.values.sensitivity,null,
+    'missing dB/mW vs dB/V means no reliable drive estimate');
+  assert.equal(partial.record.values.reportedSensitivity,100);
   hp.set('headphoneBasis','power');
   const h=unlistedSpecAssessment('headphone',hp);
   assert.equal(h.state,'provisional');
-  assert.deepEqual(h.record.values,{load:80,sensitivity:100,basis:'power'});
+  assert.deepEqual(h.record.values,{load:80,sensitivity:100,basis:'power',reportedSensitivity:100});
   assert.equal(h.record.evidence,'user_entered_unverified');
   assert.match(new URL(googleGearSearchUrl('headphone',h.model)).searchParams.get('q'),/headphones|sensitivity/);
 });
