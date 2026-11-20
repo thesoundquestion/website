@@ -2,7 +2,7 @@ import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './en
 import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
 import {parseSpeakerSpecText} from './spec-paste.mjs?v=passive-inference-20261120';
-import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=20261120';
+import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=sub-20261120';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -532,6 +532,31 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(review,'li',note);
       review.hidden=!review.children.length;
       updateFieldRequirements();
+    });
+  }
+  const subPaste=document.getElementById('sb-sub-spec-paste');
+  const subFill=document.getElementById('sb-sub-spec-fill');
+  const subFeedback=document.getElementById('sb-sub-spec-feedback');
+  const subReview=document.getElementById('sb-sub-spec-observations');
+  if(subPaste&&subFill&&subFeedback&&subReview){
+    subFill.addEventListener('click',()=>{
+      const parsed=parseUnlistedSpecText('sub',subPaste.value);
+      const copied=[],kept=[];
+      for(const [name,value] of Object.entries(parsed.fields)){
+        const field=form.elements.namedItem(name);
+        if(!field)continue;
+        if(field.value&&field.value!=='unknown'){kept.push(name);continue;}
+        field.value=value;
+        field.dispatchEvent(new Event('change',{bubbles:true}));
+        copied.push(name+': '+value);
+      }
+      subFeedback.textContent=copied.length?
+        'Recognised and filled: '+copied.join(', ')+'. Confirm the connections below.':
+        'No new connections filled. Use the dropdowns below for anything not recognised.';
+      if(kept.length)subFeedback.textContent+=' Your existing choices were retained.';
+      subReview.replaceChildren();
+      for(const note of [...parsed.observations,...parsed.notes])addText(subReview,'li',note);
+      subReview.hidden=!subReview.children.length;
     });
   }
   for(const kind of ['speaker','amp','source','headphone']){
