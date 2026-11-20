@@ -563,9 +563,11 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
       const label = averageFailed && peakFailed ? 'Average and peak targets not met'
         : peakFailed ? 'Peak target not met' : 'Average target not met';
       const detail = peakFailed && !averageFailed
-        ? 'The average demand fits the entered rating, but the requested musical peaks exceed the documented short-burst capacity. This setup does not meet the full listening target.'
+        ? (averageCode === 'pass'
+          ? 'The average demand fits the entered rating, but the requested musical peaks exceed the documented short-burst capacity. This setup does not meet the full listening target.'
+          : 'The documented short-burst rating is below the required musical peaks. The average comparison is shown separately, and the full listening target is not met.')
         : averageFailed && !peakFailed
-          ? 'The average demand exceeds the entered continuous rating. Passing a short-burst comparison cannot make sustained demand pass.'
+          ? 'The average demand exceeds the entered continuous rating. A separate short-burst result cannot make sustained demand pass.'
           : 'Both average and musical-peak demands exceed the corresponding entered ratings.';
       return { code: 'fail', label, detail: detail + footer };
     }
@@ -704,7 +706,7 @@ function calculate() {
   const rows = [[db(peak) + ' dB peak', show(peakW) + ' W', show(peakV) + ' V', show(peakV / load) + ' A']];
   if (averageV !== null) rows.unshift([db(average) + ' dB average', show(averageW) + ' W', show(averageV) + ' V', show(averageV / load) + ' A']);
   status.textContent = mode === 'upgrade' ? 'Here’s the output to look for at your seat.' : 'Here’s what your speakers ask for at your seat.';
-  const overall = summarizePower({ mode, entries, load, minimum, distance, peakV, averageV, peakW, average, peak });
+  const overall = summarizePower({ mode, entries, load, minimum, distance, peakV, averageV, peakW, averageW, average, peak });
   if (overall) status.textContent = overall.label + '. ' + overall.detail;
   if (minimum > 0) {
     const hz = num('minimumHz');

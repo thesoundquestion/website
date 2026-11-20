@@ -298,5 +298,9 @@ test('no amplifier rating leaves the result a power requirement rather than a ma
 });
 test('visible result-status reflects the combined comparison, not generic calculation success',()=>{
  assert.match(js,/const overall = summarizePower\(/);
- assert.match(js,/if \(overall\) status.textContent = overall.label \+ '\\. ' \+ overall.detail/);
+ assert.ok(js.includes("if (overall) status.textContent = overall.label + '. ' + overall.detail;"));
+});
+
+test('calculator preserves average watts when handing results to the speaker safety comparison',()=>{
+ assert.match(js,/const overall = summarizePower\(\{ mode, entries, load, minimum, distance, peakV, averageV, peakW, averageW, average, peak \}\)/);
 });
