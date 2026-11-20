@@ -235,6 +235,28 @@ try {
     device.name+' submit should focus first recommendation');
   const firstTop=await firstRecommendation.evaluate(node=>node.getBoundingClientRect().top);
   assert.ok(firstTop>=-3&&firstTop<125,device.name+' first recommendation must be at viewport top, saw '+firstTop);
+
+  // Regression for a delayed scroll jump: the auto-result inside the iframe
+  // loads AFTER the Builder positions the primary recommendation. It must not
+  // focus its own output and drag the parent viewport down to headroom.
+  await page.waitForFunction(()=>{
+    const frame=document.querySelector('#sb-first-recommendation iframe.sb-inline-system-check-frame');
+    return frame?.contentDocument?.readyState==='complete' &&
+      frame.contentDocument.body.classList.contains('sc-auto-result');
+  },null,{timeout:20000});
+  await page.waitForTimeout(180);
+  const afterHeadroomLoad=await firstRecommendation.evaluate(node=>({
+    top:node.getBoundingClientRect().top,
+    focused:document.activeElement===node,
+    childFocused:!!node.querySelector('iframe')&&
+      document.activeElement===node.querySelector('iframe')
+  }));
+  assert.ok(afterHeadroomLoad.top>=-3&&afterHeadroomLoad.top<125,
+    device.name+' iframe must NOT jump to headroom after it loads, top '+afterHeadroomLoad.top);
+  assert.equal(afterHeadroomLoad.focused,true,
+    device.name+' iframe must not take focus away from the primary recommendation');
+  assert.equal(afterHeadroomLoad.childFocused,false);
+
   assert.equal(await page.locator('#sb-results .sb-recommend:visible').count(),1,
     device.name+' must not show multiple setups by default');
   const alternatives=page.locator('#sb-results .sb-alternative-setups');
