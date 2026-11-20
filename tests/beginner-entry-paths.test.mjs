@@ -560,8 +560,8 @@ test('all visible Builder dropdowns and typed fields receive task-sensitive Requ
   assert.match(app,/status\.textContent=messages\[rule\]/);
   assert.match(app,/field\.required=rule==='required'/);
   assert.match(page,/id="sb-required-group-help"/);
-  assert.match(page,/data-gear-search="speaker"/);
-  assert.match(page,/data-gear-search="amp"/);
+  assert.match(page,/data-gear-searches="speaker"/);
+  assert.match(page,/data-gear-searches="amp"/);
   assert.match(app,/unlistedSpecAssessment\(kind,data\)/);
   assert.match(app,/showQuickNode\(document\.getElementById\('sb-'/);
   assert.match(styles,/\.sb-field-requirement\[data-requirement="required_either"\]/);
@@ -666,4 +666,14 @@ test('a source-backed amp card does not repeat empty warnings',()=>{
   assert.equal(view.status,'Published nominal-load match');
   assert.deepEqual(view.firstChecks,[]);
   assert.equal(view.priority,'supported');
+});
+
+test('Listening Builder reuses System Check search profiles and does not duplicate the search button',async()=>{
+  const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
+  const app=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+  assert.match(app,/buildSearches\(kind,typed\)/);
+  for(const kind of ['speaker','amp','source','headphone'])
+    assert.match(page,new RegExp('data-gear-searches="'+kind+'"'));
+  assert.doesNotMatch(page,/data-gear-search="/);
+  assert.doesNotMatch(page,/data-gear-web="/);
 });

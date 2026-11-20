@@ -34,7 +34,7 @@
 </header>
 <p class="sb-bridge"><strong>Need to record or perform instead?</strong> Go to the <a href="/system-builder/creating/">Creating Builder</a> for microphones, interfaces, mixers, recording, streaming and PA systems. <a href="/tools/find-my-setup/">Not sure which builder?</a></p>
 <aside class="tsq-recommend-link" aria-label="Recommend missing equipment"><p><strong>Don't see your model?</strong> Help us grow the verified presets for everyone using these tools.</p><a href="/tools/recommend-gear/">Recommend your gear →</a></aside>
-<div class="sb-preview"><strong>No wall of specifications required.</strong> If your model is in our sourced list, choose it with no extra specifications. If it is missing, use Search for my gear to find the manufacturer manual and add the minimum useful specs. A typed name alone is not enough for model-specific matching. Recommendations explain what fits, what is uncertain, and why.</div>
+<div class="sb-preview"><strong>No wall of specifications required.</strong> If your model is in our sourced list, choose it with no extra specifications. If it is missing, type its model to find the same targeted manufacturer searches as System Check. Add only the relevant documented specifications. Recommendations explain what fits, what is uncertain, and why.</div>
 <noscript><p class="sb-noscript">JavaScript is required to generate a pathway report. You can still use the <a href="/system-check/">System Check</a> for amplifier headroom and read the <a href="/decoder/">Decoder lessons</a> for the engineering behind the choices.</p></noscript>
 <form id="sb-form" class="sb-form">
 <section class="sb-panel sb-intent-panel" aria-labelledby="sb-intent-heading">
@@ -165,8 +165,8 @@
 <label class="sb-field">Search for my speakers (if not in list)
 <input name="speakerOther" maxlength="120" placeholder="Type the brand and exact speaker model"></label>
 <div class="sb-gear-search" id="sb-speaker-search" data-gear-kind="speaker">
- <p class="sb-help">Search our sourced catalogue first. If your exact model isn't there, search its maker's manual and enter the relevant specifications below. <strong>A model name alone cannot produce a match.</strong></p>
- <div class="sb-gear-search-actions"><button type="button" class="button button-secondary" data-gear-search="speaker">Search for my gear</button><a data-gear-web="speaker" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Search manufacturer specs on Google ↗</a></div>
+ <p class="sb-help">Type the exact model above to see saved matches and the same targeted manufacturer searches as System Check.</p>
+ <div class="sb-gear-search-actions" data-gear-searches="speaker" role="group" aria-label="Targeted specification searches"></div>
  <div class="sb-gear-matches" data-gear-matches="speaker" aria-live="polite"></div>
  <details class="sb-gear-source-detail" data-gear-details="speaker">
   <summary>Not in the catalogue? Enter the specs from a manual</summary>
@@ -186,8 +186,8 @@
 <label class="sb-field">Search for my amplifier / receiver (if not in list)
 <input name="ampOther" maxlength="120" placeholder="Type the brand and exact amplifier model"></label>
 <div class="sb-gear-search" id="sb-amp-search" data-gear-kind="amp">
- <p class="sb-help">Search our sourced catalogue first. If your exact model isn't there, search its maker's manual and enter the relevant specifications below. <strong>A model name alone cannot produce a match.</strong></p>
- <div class="sb-gear-search-actions"><button type="button" class="button button-secondary" data-gear-search="amp">Search for my gear</button><a data-gear-web="amp" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Search manufacturer specs on Google ↗</a></div>
+ <p class="sb-help">Type the exact model above to see saved matches and the same targeted manufacturer searches as System Check.</p>
+ <div class="sb-gear-search-actions" data-gear-searches="amp" role="group" aria-label="Targeted specification searches"></div>
  <div class="sb-gear-matches" data-gear-matches="amp" aria-live="polite"></div>
  <details class="sb-gear-source-detail" data-gear-details="amp">
   <summary>Not in the catalogue? Enter the specs from a manual</summary>
@@ -207,7 +207,7 @@
 <input name="sourceOther" maxlength="120" placeholder="Type the brand and exact model"></label>
 <div class="sb-gear-search" id="sb-source-search" data-gear-kind="source">
 <p class="sb-help">Search our existing sourced catalogue. If your model is not listed, use the manufacturer's manual. A model name alone does not verify its connections.</p>
-<div class="sb-gear-search-actions"><button type="button" class="button button-secondary" data-gear-search="source">Search for my gear</button><a data-gear-web="source" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Search manufacturer specs on Google ↗</a></div>
+<div class="sb-gear-search-actions" data-gear-searches="source" role="group" aria-label="Targeted specification searches"></div>
 <div class="sb-gear-matches" data-gear-matches="source" aria-live="polite"></div>
 <details class="sb-gear-source-detail" data-gear-details="source">
 <summary>Not in the catalogue? Add specs from the manual</summary>
@@ -225,7 +225,7 @@
 <input name="headphoneOther" maxlength="120" placeholder="Type the brand and exact model"></label>
 <div class="sb-gear-search" id="sb-headphone-search" data-gear-kind="headphone">
 <p class="sb-help">Search our existing sourced catalogue. If your model is not listed, use the manufacturer's manual. A model name alone does not verify its headphone drive requirements.</p>
-<div class="sb-gear-search-actions"><button type="button" class="button button-secondary" data-gear-search="headphone">Search for my gear</button><a data-gear-web="headphone" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Search manufacturer specs on Google ↗</a></div>
+<div class="sb-gear-search-actions" data-gear-searches="headphone" role="group" aria-label="Targeted specification searches"></div>
 <div class="sb-gear-matches" data-gear-matches="headphone" aria-live="polite"></div>
 <details class="sb-gear-source-detail" data-gear-details="headphone">
 <summary>Not in the catalogue? Add specs from the manual</summary>

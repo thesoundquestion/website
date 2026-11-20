@@ -5,6 +5,8 @@
  * the original HTTPS source before the match engine receives numeric data.
  * These records are never persisted to the shared verified catalogue.
  */
+import {buildSearches,googleSearchUrl} from '../system-check/spec-search.mjs';
+
 export const UNLISTED_FIELDS=Object.freeze({
   speaker:['speakerSpecUrl','speakerLoad'],
   amp:['ampSpecUrl','ampMinLoad','ampRatedWatts','ampRatedLoad'],
@@ -26,15 +28,12 @@ const safeSource=value=>{
     return url.href;
   }catch{return null;}
 };
+// Same targeted queries as System Check; nothing is automatically imported.
 export function googleGearSearchUrl(kind,model){
-  const topic=kind==='speaker'?'loudspeaker nominal impedance sensitivity manufacturer specifications manual':
-    kind==='amp'?'amplifier receiver supported speaker impedance continuous watts per channel manufacturer manual':
-    kind==='source'?'audio player DAC output connection type manufacturer manual':
-    kind==='headphone'?'headphone impedance sensitivity dB per mW or dB per volt manufacturer manual':
-    'audio equipment manufacturer specifications manual';
-  const q=[modelText(model),topic].filter(Boolean).join(' ');
-  return 'https://www.google.com/search?q='+encodeURIComponent(q);
+  const entry=buildSearches(kind,model)[0];
+  return entry?googleSearchUrl(entry.query):'';
 }
+
 export function catalogueGearMatches(entries,query,limit=7){
   const q=modelText(query).toLocaleLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
   if(q.length<2)return [];

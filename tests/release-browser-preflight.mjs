@@ -110,8 +110,8 @@ try {
   // specification path on the actual packaged desktop/mobile page.
   await page.locator('#sb-build-intent').selectOption('amp_for_speakers');
   await page.locator('[name="speakerOther"]').fill('Test Only Passive Speaker');
-  await page.locator('[data-gear-search="speaker"]').click();
-  assert.match(await page.locator('[data-gear-matches="speaker"]').innerText(),/No exact model found/);
+  await page.waitForFunction(()=>document.querySelector('[data-gear-searches="speaker"] a')?.href.includes('google.com/search'));
+  assert.match(await page.locator('[data-gear-message="speaker"]').innerText(),/No saved model matched/);
   await page.locator('[name="speakerSpecUrl"]').fill('https://example.org/test-speaker-manual');
   await page.locator('[name="speakerLoad"]').fill('8');
   await page.locator('#sb-form button[type="submit"]').click();

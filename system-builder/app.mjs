@@ -1,6 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
-import {catalogueGearMatches,googleGearSearchUrl,unlistedSpecAssessment} from './unlisted-gear.mjs';
+import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
+import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
 import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
@@ -335,71 +336,74 @@ document.addEventListener('DOMContentLoaded', () => {
     reorderListeningPriceChoices();
   });
   form.elements.namedItem('pricePreference')?.addEventListener('change',reorderListeningPriceChoices);
-  for (const kind of ['speaker','amp','source','headphone']) {
-    const preset = form.elements.namedItem(kind);
-    const other = form.elements.namedItem(kind+'Other');
-    preset.addEventListener('change', () => {
-      if (preset.value)other.value = '';
-      refreshGearSearch(kind);
-      updateFieldRequirements();
-    });
-    other.addEventListener('input', () => {
-      if (other.value.trim()) preset.value = '';
-      refreshGearSearch(kind);
-      updateFieldRequirements();
-    });
-  }
-  // Free, client-side catalogue lookup, with an explicit external manual search
-  // only if no exact sourced preset matches. No scraping or fictional autofill.
+  // One live lookup, same model-aware search queries as System Check.
+  // A saved exact model keeps the already verified fields; no web scraping.
+  const modelKey=value=>normalizeModel(value).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
   function refreshGearSearch(kind){
-    const typed=String(form.elements.namedItem(kind+'Other')?.value||'').trim();
-    const link=document.querySelector('[data-gear-web="'+kind+'"]');
-    const message=document.querySelector('[data-gear-message="'+kind+'"]');
-    if(link)link.href=googleGearSearchUrl(kind,typed);
-    if(message)message.textContent=typed?
-      'Search our catalogue first. If there is no exact match, open the maker’s manual and copy the required numbers. This does not import web search results automatically.':
-      'Start by typing the manufacturer and exact model above.';
+    const panel=document.getElementById('sb-'+kind+'-search');
+    if(!panel)return;
+    const typed=normalizeModel(form.elements.namedItem(kind+'Other')?.value||'');
+    const preset=form.elements.namedItem(kind);
+    const matches=panel.querySelector('[data-gear-matches]');
+    const searches=panel.querySelector('[data-gear-searches]');
+    const manual=panel.querySelector('[data-gear-details]');
+    const message=panel.querySelector('[data-gear-message]');
+    panel.hidden=!typed;
+    matches.replaceChildren();
+    searches.replaceChildren();
+    if(!typed)return;
+    const options=[...preset.options].filter(x=>x.value).map(x=>({model:x.value}));
+    const saved=catalogueGearMatches(options,typed,6);
+    const exact=saved.filter(x=>modelKey(x.model)===modelKey(typed));
+    if(exact.length===1){
+      preset.value=exact[0].model;
+      form.elements.namedItem(kind+'Other').value='';
+      panel.hidden=true;
+      updateFieldRequirements();
+      return;
+    }
+    for(const match of saved){
+      const choose=el('button','button button-secondary','Use saved model: '+match.model);
+      choose.type='button';
+      choose.addEventListener('click',()=>{
+        preset.value=match.model;
+        form.elements.namedItem(kind+'Other').value='';
+        refreshGearSearch(kind);
+        updateFieldRequirements();
+      });
+      matches.append(choose);
+    }
+    for(const [index,query] of buildSearches(kind,typed).entries()){
+      const link=el('a','sb-search-link'+(index===0?' sb-search-link-primary':''),query.label+' ↗');
+      link.href=googleSearchUrl(query.query);
+      link.target='_blank';link.rel='noopener noreferrer';
+      searches.append(link);
+    }
+    const hasSuggestions=saved.length>0;
+    manual.hidden=hasSuggestions;
+    if(hasSuggestions)manual.open=false;
+    message.textContent=hasSuggestions
+      ?'Choose an exact saved model above to use the already-stored specifications.'
+      :'No saved model matched. Use the searches above, then enter only the documented facts this match requires.';
   }
   for(const kind of ['speaker','amp','source','headphone']){
-    const panel=document.getElementById('sb-'+kind+'-search');
-    if(!panel)continue;
-    const button=panel.querySelector('[data-gear-search]');
-    const results=panel.querySelector('[data-gear-matches]');
-    const detail=panel.querySelector('[data-gear-details]');
-    button.addEventListener('click',()=>{
-      const query=String(form.elements.namedItem(kind+'Other').value||'').trim();
-      results.replaceChildren();
-      if(query.length<2){
-        addText(results,'p','Type at least two letters of your equipment model to search.','sb-help');
-        return;
-      }
-      const options=[...form.elements.namedItem(kind).options]
-        .filter(x=>x.value).map(x=>({model:x.value}));
-      const matches=catalogueGearMatches(options,query);
-      if(!matches.length){
-        addText(results,'p','No exact model found in the current catalogue. Use the Google manufacturer search link, then enter the specifications from its manual below.','sb-help');
-        detail.open=true;
-        return;
-      }
-      addText(results,'p','Choose the exact model and revision below to use its source-backed catalogue specifications:','sb-help');
-      for(const item of matches){
-        const choose=el('button','button button-secondary',item.model);
-        choose.type='button';
-        choose.addEventListener('click',()=>{
-          form.elements.namedItem(kind).value=item.model;
-          form.elements.namedItem(kind+'Other').value='';
-          results.replaceChildren();
-          detail.open=false;
-          refreshGearSearch(kind);
-          updateFieldRequirements();
-        });
-        results.append(choose);
-      }
+    const preset=form.elements.namedItem(kind);
+    const typed=form.elements.namedItem(kind+'Other');
+    preset.addEventListener('change',()=>{
+      if(preset.value)typed.value='';
+      refreshGearSearch(kind);
+      updateFieldRequirements();
+    });
+    typed.addEventListener('input',()=>{
+      if(typed.value.trim())preset.value='';
+      refreshGearSearch(kind);
+      updateFieldRequirements();
     });
     refreshGearSearch(kind);
   }
   form.addEventListener('reset', () => queueMicrotask(() => {
     subOwnershipChosen = false;
+    for(const kind of ['speaker','amp','source','headphone'])refreshGearSearch(kind);
     syncGoals(); syncSub(); syncHeadphoneInputs(); result.hidden = true;
     intentSelect.value='';
     setBuilderIntent();

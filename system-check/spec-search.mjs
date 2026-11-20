@@ -37,6 +37,14 @@ const searchProfiles = Object.freeze({
     ['Sensitivity and nominal impedance', 'speaker sensitivity 2.83V 1W nominal impedance ohms', true],
     ['Power handling and recommended amps', 'speaker continuous peak nominal maximum input power handling amplifier', false],
     ['Measured impedance and phase', 'speaker measured minimum maximum impedance phase sensitivity', true]
+  ],
+  source: [
+    ['Official specs or manual', 'DAC CD player streamer manual manufacturer specifications', false],
+    ['Outputs and connectors', 'RCA optical coaxial USB headphone output connection manual', true]
+  ],
+  headphone: [
+    ['Official specs or manual', 'headphones manufacturer owner manual specifications', false],
+    ['Sensitivity and impedance', 'headphone impedance ohms sensitivity dB per mW dB per volt', true]
   ]
 });
 
