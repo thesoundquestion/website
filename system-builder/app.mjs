@@ -464,13 +464,20 @@ document.addEventListener('DOMContentLoaded', () => {
         speakerLoad:'nominal impedance',speakerMinimum:'minimum impedance',
         speakerSensitivity:'sensitivity',speakerBasis:'sensitivity basis'
       };
+      const unit={speakerLoad:' Ω',speakerMinimum:' Ω',speakerSensitivity:' dB',speakerBasis:''};
+      const recognised=Object.entries(parsed.fields).map(([name,value])=>
+        label[name]+': '+value+(unit[name]||''));
       const description=copied.length
         ?'Filled: '+copied.map(name=>label[name]).join(', ')+'. '
         :'No new fields were filled. ';
       const existing=preserved.length
-        ?'Already entered values were kept; clear a field to replace it. ':'';
-      speakerPasteFeedback.textContent=description+existing+
-        parsed.notes.join(' ')+(copied.length?' Review the values, choose passive or powered, and paste the original specification URL below.':' You can enter the ratings directly into the boxes below.');
+        ?'Existing values were kept; clear a field if you want to replace it. ':'';
+      const readout=recognised.length
+        ?'Recognised from paste: '+recognised.join('; ')+'. '
+        :'No usable labelled values recognised. Try including the field name, number and unit together, for example "Nominal impedance: 8 Ω". ';
+      speakerPasteFeedback.textContent=description+readout+existing+
+        parsed.notes.join(' ')+
+        ' Review the fields, choose passive or powered, and paste the original manufacturer specification URL below.';
       updateFieldRequirements();
     });
   }
