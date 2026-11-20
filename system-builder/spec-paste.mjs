@@ -154,7 +154,14 @@ export function parseSpeakerSpecText(text){
         const result=readSensitivity(segment);
         if(result?.basis)sensitivities.push(result);
         else {
-          const candidates=sensitivityCandidates(segment);
+          // A single printed dB value can still be useful without a stated
+          // stimulus, but a line explicitly giving BOTH 1 W and 2.83 V as
+          // incompatible test bases cannot be interpreted automatically.
+          const mixedBases=/\b2[.,]83\s*(?:v|volts?)\b/i.test(segment)&&
+            /(?<![\d.,])1(?:[.,]0)?\s*(?:w|watts?)\b/i.test(segment);
+          const candidates=mixedBases?[]:sensitivityCandidates(segment);
+          if(mixedBases)
+            notes.push('Sensitivity gives both a watt and voltage reference on the same line; choose the published test condition manually.');
           if(candidates.length>0){
             // Prefer the actual in-room number for this consumer listening
             // workflow; anechoic figures remain separately visible as a
