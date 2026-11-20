@@ -303,6 +303,36 @@ try {
   assert.match(summary,/No source URL provided/i,
     device.name+' unlinked specifications should produce a provisional match and clearly note absent evidence');
   await checkNoErrors(page,errors,device.name+' Listening Builder');
+
+  // Matching the speaker workflow, every other owned gear type must accept a
+  // pasted manufacturer-style paragraph with a usable provisional result.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('speakers_for_amp');
+  await page.locator('[name="ampOther"]').fill('Example Unlisted Stereo Receiver');
+  await page.locator('#sb-amp-spec-paste').fill(
+    'Speaker impedance: 4-16 ohms\\nRated power output: 85 W per channel at 8 ohms'.replaceAll('\\n','\n'));
+  await page.locator('#sb-amp-spec-fill').click();
+  assert.equal(await page.locator('[name="ampMinLoad"]').inputValue(),'4');
+  assert.equal(await page.locator('[name="ampRatedWatts"]').inputValue(),'85');
+  assert.equal(await page.locator('[name="ampRatedLoad"]').inputValue(),'8');
+  assert.equal(await page.locator('[name="ampSpecUrl"]').inputValue(),'');
+
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('improve_existing');
+  await page.locator('[name="sourceOther"]').fill('Unlisted Stereo DAC');
+  await page.locator('#sb-source-spec-paste').fill(
+    'Audio output: RCA stereo L/R\\nDigital inputs: USB and optical'.replaceAll('\\n','\n'));
+  await page.locator('#sb-source-spec-fill').click();
+  assert.equal(await page.locator('[name="sourceOutput"]').inputValue(),'RCA');
+  await page.locator('[name="headphoneOther"]').fill('Unlisted Studio Headphones');
+  await page.locator('#sb-headphone-spec-paste').fill(
+    'Nominal impedance: 32 ohms\\nSensitivity: 100 dB SPL / mW'.replaceAll('\\n','\n'));
+  await page.locator('#sb-headphone-spec-fill').click();
+  assert.equal(await page.locator('[name="headphoneLoad"]').inputValue(),'32');
+  assert.equal(await page.locator('[name="headphoneSensitivity"]').inputValue(),'100');
+  assert.equal(await page.locator('[name="headphoneBasis"]').inputValue(),'power');
+  await checkNoErrors(page,errors,device.name+' unlisted amplifier/source/headphone pasted spec flows');
+
   // Normal, not-owned passive pairs also show the headroom handoff;
   // missing published ratings must never turn into fictional wattage.
   await visit(page,'/system-builder/');
