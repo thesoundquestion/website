@@ -57,6 +57,12 @@
 .sc-load-capacity{color:#c1d5e5;font-size:.82rem}
 .sc-load-headroom{color:#ecf9ff;font-weight:700;font-variant-numeric:tabular-nums;font-size:.87rem}
 .sc-load-boundary{color:#e2d8b9;font-size:.84rem;line-height:1.65!important;padding-top:.4rem;border-top:1px solid #416077}
+.sc-headroom-adjustments{margin-top:.65rem;padding:.75rem .85rem;border:1px solid #5f7687;border-radius:7px;background:#142c3c;color:#e0ecf6}
+.sc-headroom-adjustments h5{font-size:.92rem;margin:0 0 .35rem;color:#f4faff}
+.sc-headroom-adjustments p{margin:.35rem 0;font-size:.85rem;line-height:1.6}
+.sc-headroom-adjustments ul{margin:.35rem 0;padding-left:1.2rem;font-size:.84rem;line-height:1.55}
+.sc-headroom-adjustments li{margin:.45rem 0}
+.sc-headroom-adjustments .sc-headroom-adjustments-note{font-size:.79rem;color:#b8d0e0;margin:.6rem 0 0}
 .sc-load-burst-note{margin:.85rem 0 0!important;padding:.65rem .75rem;border-left:3px solid #b2c9de;background:#162f42;border-radius:4px;font-size:.82rem;line-height:1.55}
 .sc-load-caution{padding:.8rem .95rem;border-left:4px solid #e1c78a;border-radius:5px;background:#202b3b;line-height:1.65;font-size:.88rem}
 @media(min-width:1050px){.sc-load-card{padding:1.1rem}.sc-load-metrics{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}}
