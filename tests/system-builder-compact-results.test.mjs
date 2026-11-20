@@ -26,7 +26,7 @@ test('only the primary full card is visible; each alternative has one inline exp
 });
 
 test('cards show genuine unresolved checks before optional price details', () => {
-  const start = app.indexOf("const renderCard = (item,alternativeComparison=null) =>");
+  const start = app.indexOf("const renderCard = (item,alternativeComparison=null,detailOnly=false) =>");
   const more = app.indexOf("const details = el('details','sb-card-details');",start);
   const warning = app.indexOf('if(overview.firstChecks.length)',start);
   const price = app.indexOf("renderPriceReferences(details,item,'h5');",start);

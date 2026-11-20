@@ -149,7 +149,7 @@ test('owned-speaker amp choices keep price links when the reference is above bud
 test('all-new path is only selected when user has not declared any equipment',()=>{
   assert.equal(run({}),null);
 });
-test('UI places ownership plan ahead of example-only shortlist and hides comparison behind disclosure',()=>{
+test('UI retains owned equipment and shows replacement comparisons once with model-specific details',()=>{
   const app=src('../system-builder/app.mjs');
   assert.match(app,/ownershipPlan\(\{own,request,inventory,catalog:sharedCatalog\}\)/);
   assert.match(app,/const initialShortlist = ownership \|\|/);
@@ -158,7 +158,9 @@ test('UI places ownership plan ahead of example-only shortlist and hides compari
   const beginner=src('../system-builder/beginner-output.mjs');
   assert.match(beginner,/item\?\.pathwayCaution/,'Specific ownership restrictions are rendered through beginner-output');
   assert.match(app,/if \(ownership\) \{/);
-  assert.match(app,/Compare new equipment: when would replacing yours make sense\?/);
+  assert.match(app,/When is replacing your current gear worthwhile\?/);
+  assert.match(app,/sb-replacement-comparison-preview sb-comparison-overview/);
+  assert.match(app,/detail\.append\(renderCard\(item,null,true\)\)/);
   assert.match(app,/ownership\.comparisonReasons/);
   assert.match(beginner,/editorialGoalFocus===false/,'Unproven goal preference must be identified rather than scored');
   assert.match(app,/overview\.goalExplanation/,'Task-specific preference explanation stays visible');

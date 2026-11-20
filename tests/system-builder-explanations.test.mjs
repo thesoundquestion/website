@@ -47,7 +47,7 @@ test('actual shortlist records can explain their own editorial goal status',()=>
   }
 });
 test('cards show model-specific sound and exact preference explanation above expandable evidence',()=>{
-  const first=app.indexOf("const renderCard = (item,alternativeComparison=null) =>");
+  const first=app.indexOf("const renderCard = (item,alternativeComparison=null,detailOnly=false) =>");
   const fit=app.indexOf("recommendationWhy(item,request",first);
   const sound=app.indexOf("soundProfileFor(item)",first);
   const details=app.indexOf("const details = el('details','sb-card-details')",first);
