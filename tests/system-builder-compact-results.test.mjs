@@ -25,20 +25,24 @@ test('only the primary full card is visible; each alternative has one inline exp
   assert.doesNotMatch(app,/shortlist\.selected\.slice\(0,3\)/);
 });
 
-test('beginner-first main view shows only concise guidance; technical depth remains accessible', () => {
-  assert.match(app,/const inline=el\\('details','sb-inline-system-check'\\)/);
-  assert.match(app,/const proof=el\\('details','sb-beginner-proof'\\)/);
-  assert.match(app,/const disclosure=el\\('details','sb-setup-disclosure'\\)/);
-  assert.match(app,/collapsed:!detailOnly/);
-  assert.match(app,/frame.loading='eager'/);
-  assert.match(app,/doc.querySelector\\('#result-status'\\)/);
-  assert.match(app,/if\\(overview.firstChecks.length\\)/);
-  assert.match(app,/const evidence=el\\('details','sb-beginner-evidence'\\)/);
-  assert.match(page,/<details class="sb-listening-reference"/);
-  assert.match(page,/<summary id="sb-listening-reference-title">/);
-  assert.match(css,/Beginner-first density pass/);
-  assert.match(css,/\\.sb-results \\.sb-beginner-reason\\{/);
-  assert.match(css,/\\.sb-results \\.sb-headroom-verdict/);
+test('beginner-first main view shows concise guidance and reachable technical depth', () => {
+  for (const marker of [
+    "const inline=el('details','sb-inline-system-check')",
+    "const proof=el('details','sb-beginner-proof')",
+    "const disclosure=el('details','sb-setup-disclosure')",
+    "collapsed:!detailOnly",
+    "frame.loading='eager'",
+    "doc.querySelector('#result-status')",
+    "if(overview.firstChecks.length)",
+    "const evidence=el('details','sb-beginner-evidence')"
+  ]) assert.ok(app.includes(marker),marker);
+  assert.ok(page.includes('<details class="sb-listening-reference"'));
+  assert.ok(page.includes('<summary id="sb-listening-reference-title">'));
+  for(const marker of [
+    'Beginner-first density pass',
+    '.sb-results .sb-beginner-reason{',
+    '.sb-results .sb-headroom-verdict'
+  ]) assert.ok(css.includes(marker),marker);
 });
 
 test('cards show genuine unresolved checks before optional price details', () => {
