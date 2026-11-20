@@ -63,6 +63,9 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     const sensText=String(data.get('speakerSensitivity')||'').trim();
     const sensitivity=sensText?numeric(sensText,60,120):null;
     const basis=String(data.get('speakerBasis')||'');
+    const listeningContext=String(data.get('speakerSensitivityEnvironment')||'');
+    const anechoicText=String(data.get('speakerAnechoic')||'').trim();
+    const anechoicReference=anechoicText?numeric(anechoicText,60,120):null;
     const recommendedMin=numeric(data.get('speakerRecommendedAmpMin'),1,1000);
     const recommendedMax=numeric(data.get('speakerRecommendedAmpMax'),1,2000);
     const listedMaxInput=numeric(data.get('speakerMaxInput'),1,2000);
@@ -87,10 +90,24 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     if(basis&&!['power','voltage'].includes(basis))
       return {state:'incomplete',model,record:null,
         message:'Choose a valid sensitivity test basis, or leave it unknown.'};
-    const comparableSensitivity=sensitivity!==null&&['power','voltage'].includes(basis);
+    if(listeningContext&&!['in_room','anechoic'].includes(listeningContext))
+      return {state:'incomplete',model,record:null,message:'Choose a valid sensitivity measurement setting.'};
+    if(anechoicText&&anechoicReference===null)
+      return {state:'incomplete',model,record:null,message:'Check the anechoic reference dB value.'};
+    // 8 ohm *nominal* is the conventional point where 2.83 V is
+    // approximately 1 W; treat an absent published stimulus as an
+    // explicitly marked planning assumption, not a measured specification.
+    const assumedBasis=sensitivity!==null&&!basis&&load===8;
+    const resolvedBasis=basis||(assumedBasis?'voltage':null);
+    const comparableSensitivity=sensitivity!==null&&Boolean(resolvedBasis);
     const record={model,type:kind,url,ratings:[],details:null,
       values:{load,minimum,sensitivity:comparableSensitivity?sensitivity:null,
-        basis:comparableSensitivity?basis:null,
+        basis:comparableSensitivity?resolvedBasis:null,basisAssumed:assumedBasis,
+        sensitivityEnvironment:listeningContext||null,
+        // In-room ratings already include the manufacturer's room response.
+        // Any calculator using this datum must NOT add a second room credit.
+        roomAdjustmentAlreadyIncluded:listeningContext==='in_room',
+        anechoicReferenceDb:anechoicReference,
         reportedSensitivity:sensitivity,
         recommendedAmpMinW:recommendedMin,recommendedAmpMaxW:recommendedMax,
         listedMaxInputW:listedMaxInput},
@@ -98,9 +115,9 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
       evidence:'user_entered_unverified',userEntered:true};
     return {state:'provisional',model,record,
       message:'Provisional speaker specifications entered. '+
-        (sensitivity!==null&&!comparableSensitivity?
-          'The sensitivity number is recorded but is not used for headroom until its test basis is known. ':'')+
-        'Check the exact revision and original manual before connecting equipment.'};
+        (assumedBasis?'For the 8 Ω nominal-class load, sensitivity is treated as approximately 1 W / 2.83 V at 1 m. ':'')+
+        (listeningContext==='in_room'?'In-room gain is already included in the reported sensitivity. ':'')+
+        'Confirm the exact model before connecting equipment.'};
   }
   if(kind==='amp'){
     const floor=numeric(data.get('ampMinLoad'),2,16);
