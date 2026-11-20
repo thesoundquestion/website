@@ -31,7 +31,7 @@ test('beginner-first main view shows concise guidance and reachable technical de
     "const proof=el('details','sb-beginner-proof')",
     "const disclosure=el('details','sb-setup-disclosure')",
     "collapsed:!detailOnly",
-    "frame.loading='eager'",
+    "frame.loading=detailOnly?'lazy':'eager'",
     "doc.querySelector('#result-status')",
     "if(overview.firstChecks.length)",
     "const evidence=el('details','sb-beginner-evidence')"
