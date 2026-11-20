@@ -11,10 +11,14 @@ test('summary is one compact profile rather than large multi-column tiles', () =
   assert.doesNotMatch(app,/const summary = el\('div','sb-summary'\)/);
 });
 
-test('first three product options appear before extra options are expandable', () => {
-  assert.match(app,/shortlist\.selected\.slice\(0,3\)/);
-  assert.match(app,/const more = el\('details','sb-more'\)/);
-  assert.match(app,/Show '/);
+test('only one primary recommendation is open and the rest are alternative setups', () => {
+  assert.match(app,/renderCard\(shortlist\.selected\[0\]\)/);
+  assert.match(app,/firstCard\.id='sb-first-recommendation'/);
+  assert.match(app,/shortlist\.selected\.slice\(1\)/);
+  assert.match(app,/const alternativeSetups=el\('details','sb-more sb-alternative-setups'\)/);
+  assert.match(app,/Alternative setups/);
+  assert.match(app,/scrollTarget\.scrollIntoView/);
+  assert.doesNotMatch(app,/shortlist\.selected\.slice\(0,3\)/);
 });
 
 test('cards show genuine unresolved checks before optional price details', () => {
