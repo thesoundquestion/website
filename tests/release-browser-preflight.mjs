@@ -227,6 +227,27 @@ try {
   await page.locator('[name="architecture"]').selectOption('passive_separates');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  // The button lands on the FIRST recommendation, not just the section heading.
+  // Keep every other editorial setup behind one closed disclosure.
+  const firstRecommendation=page.locator('#sb-first-recommendation');
+  assert.equal(await firstRecommendation.count(),1,device.name+' must render one primary card');
+  assert.equal(await firstRecommendation.evaluate(node=>document.activeElement===node),true,
+    device.name+' submit should focus first recommendation');
+  const firstTop=await firstRecommendation.evaluate(node=>node.getBoundingClientRect().top);
+  assert.ok(firstTop>=-3&&firstTop<125,device.name+' first recommendation must be at viewport top, saw '+firstTop);
+  assert.equal(await page.locator('#sb-results .sb-recommend:visible').count(),1,
+    device.name+' must not show multiple setups by default');
+  const alternatives=page.locator('#sb-results .sb-alternative-setups');
+  assert.equal(await alternatives.count(),1);
+  assert.equal(await alternatives.evaluate(node=>node.open),false,
+    device.name+' alternate setups must start closed');
+  assert.match(await alternatives.locator('summary').innerText(),/Alternative setups/);
+  assert.ok(await alternatives.locator('.sb-recommend').count()>=1,
+    device.name+' collapsed setup must retain another recommendation');
+  await alternatives.locator('summary').click();
+  assert.ok(await page.locator('#sb-results .sb-recommend:visible').count()>1,
+    device.name+' alternatives should expand when requested');
+  outcomes.push(device.name+' jumps to primary card, hides all other setups under one dropdown');
   const availablePanels=page.locator('#sb-results .sb-inline-system-check');
   assert.ok(await availablePanels.count()>=1,device.name+' source-backed passive examples must have a headroom handoff');
   assert.match(await availablePanels.first().innerText(),/Headroom for these exact models/);
