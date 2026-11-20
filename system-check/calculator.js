@@ -382,17 +382,15 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
     const isPeak=classification==='peak';
     const shortfallDb=10*Math.log10(demand/available);
     const boundarySPL=enteredSPL-shortfallDb;
-    const guide=document.createElement('section');
+    const guide=document.createElement('details');
     guide.className='sc-headroom-adjustments';
-    const heading=document.createElement('h5');
-    heading.textContent=verdict==='fail'
-      ? 'Why the '+(isPeak?'peak':'average')+' target failed'
-      : 'Why peak capacity is not verified';
+    const heading=document.createElement('summary');
+    heading.textContent='What could you do?';
     guide.append(heading);
     const reason=document.createElement('p');
     reason.textContent=verdict==='fail'
-      ? 'The '+db(enteredSPL)+' dB '+(isPeak?'peak':'average')+' target calls for about '+show(demand)+' W/ch, but the entered '+sourceType+' rating at this speaker load is '+show(available)+' W/ch, a shortfall of '+db(shortfallDb)+' dB.'
-      : 'The '+db(enteredSPL)+' dB peak target calls for about '+show(demand)+' W/ch, above the '+show(available)+' W/ch continuous rating. A continuous power figure does not establish the amplifier’s short-burst limit.';
+      ? 'Why the '+(isPeak?'peak':'average')+' target failed: '+db(enteredSPL)+' dB needs '+show(demand)+' W/ch, versus '+show(available)+' W/ch documented '+sourceType+' output ('+db(shortfallDb)+' dB short).'
+      : 'Why peak capacity is not verified: '+db(enteredSPL)+' dB needs '+show(demand)+' W/ch, above '+show(available)+' W/ch continuous output. Burst capacity is unknown.';
     guide.append(reason);
     const actions=document.createElement('ul');
     const addAction=description=>{
@@ -410,8 +408,53 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
     }
     addAction('Lower the '+(isPeak?'peak':'average')+' target by about '+db(shortfallDb)+' dB, to roughly '+db(boundarySPL)+' dB SPL. If average and peak are linked, adjust both to match how loudly you really listen.');
     if(verdict==='fail')
-      addAction('Alternatively, compare speakers with at least '+db(shortfallDb)+' dB higher sensitivity on a matching measurement basis, or an amplifier with a verified '+sourceType+' rating of at least '+show(demand)+' W/ch at this load.');
+      addAction('For equipment changes, look for about '+db(shortfallDb)+' dB higher comparable speaker sensitivity or a verified '+sourceType+' rating of at least '+show(demand)+' W/ch at this load.');
     guide.append(actions);
+    // A maximum of one saved amp and one saved speaker suggestion. They are
+    // evidence-backed model leads, not a shopping list or compatibility proof.
+    if(isPeak&&verdict==='fail'&&typeof systemCheckGear!=='undefined'){
+      const pick=window.systemCheckHeadroomAlternatives?.suggestions?.({
+        catalog:systemCheckGear,
+        speakerModel:field('speakerModel').value.trim(),
+        ampModel:field('ampModel').value.trim(),
+        sensitivity:num('sensitivity'),basis:field('basis').value,load,
+        distance,room:num('room')||0,pair:Number(field('speakers').value),
+        average,peak,averageWatts:averageW,peakWatts:peakW,
+        amplifierRatings:entries
+      });
+      if(pick){
+        const alternatives=document.createElement('div');
+        alternatives.className='sc-headroom-model-options';
+        const title=document.createElement('h6');
+        title.textContent='Equipment alternatives from saved specifications';
+        alternatives.append(title);
+        const list=document.createElement('ul');
+        const addGear=(kind,option)=>{
+          if(!option)return;
+          const li=document.createElement('li');
+          li.append(kind+' ');
+          if(typeof option.url==='string'&&option.url.startsWith('https://')){
+            const a=document.createElement('a');
+            a.href=option.url;
+            a.target='_blank';
+            a.rel='noopener noreferrer';
+            a.textContent=option.model;
+            li.append(a);
+          }else li.append(option.model);
+          li.append(' · '+option.note);
+          list.append(li);
+        };
+        addGear('Keep speakers, change amplifier:',pick.amplifiers[0]);
+        addGear('Keep amplifier, change speakers:',pick.speakers[0]);
+        if(list.children.length)alternatives.append(list);
+        else {
+          const none=document.createElement('p');
+          none.textContent='No saved model meets all our current documentation checks for this target. This is not proof that no suitable equipment exists.';
+          alternatives.append(none);
+        }
+        guide.append(alternatives);
+      }
+    }
     const caution=document.createElement('p');
     caution.className='sc-headroom-adjustments-note';
     caution.textContent=verdict==='unverified'
@@ -503,8 +546,7 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
             : 'Actual short-burst clipping level is unknown without a burst test.');
       row.append(boundary);
     }
-    explainMissedTarget(row,{classification,verdict,demand,available,enteredSPL,sourceType});
-    return { code: verdict, projected: chosen.projected };
+    return { code: verdict, projected: chosen.projected, classification, verdict, demand, available, enteredSPL, sourceType };
   }
 
 
@@ -544,13 +586,14 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
     items.className = 'sc-load-metrics';
     card.append(items);
 
+    let avgAssessment=null;
     if (avgDemand !== null) {
       const avgItem = document.createElement('div');
       avgItem.className = 'sc-load-metric';
-      const assessment = metricLine(avgItem, 'Average', avgDemand, average,
+      avgAssessment = metricLine(avgItem, 'Average', avgDemand, average,
         directRating(cont) || projectedCont, 'continuous', 'average', testLoad);
       items.append(avgItem);
-      if (assessment.code === 'fail') hasDefinitiveFailure = true;
+      if (avgAssessment.code === 'fail') hasDefinitiveFailure = true;
     }
 
     const peakItem = document.createElement('div');
@@ -565,6 +608,12 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
     items.append(peakItem);
     if (peakAssessment.code === 'fail') hasDefinitiveFailure = true;
 
+    // One collapsed explanation per result card, even if average AND peak
+    // miss their ratings. Peak advice takes priority when both are short.
+    const needsAdvice=a=>a&&(a.code==='fail'||a.code==='unverified');
+    const selectedAdvice=needsAdvice(peakAssessment)?peakAssessment:
+      needsAdvice(avgAssessment)?avgAssessment:null;
+    if(selectedAdvice)explainMissedTarget(card,selectedAdvice);
     if (actual) appendSpeakerPowerSafety(card, { peakW, averageW });
     stack.append(card);
   }
@@ -573,7 +622,7 @@ function summarizePower({ mode, entries, load, minimum, distance, peakV, average
   if (!entries.length || mode === 'upgrade') return;
 
   if (hasDefinitiveFailure) addText('p',
-    'Fail means the chosen listening-level target exceeds the published amplifier power rating used for that comparison. It does NOT mean the amplifier and speakers are electrically incompatible. The estimated SPL boundary is not a measured clipping point.');
+    'A listening-level shortfall is not proof of an electrically incompatible speaker/amplifier pair.');
 
 
 
