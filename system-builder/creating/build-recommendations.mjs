@@ -176,6 +176,48 @@ const lessonsFor={
   stream:['/decoder/audio-interfaces-mixers/','/decoder/recording-sources/'],
   live:['/decoder/speaker-types/','/decoder/audio-interfaces-mixers/','/decoder/microphone-types/']
 };
+
+function recordingSetupGuide({mode,count,requestedRoute,route,mic,capture,independent}){
+  if(mode==='live')return null;
+  const steps=[],monitoring=[],links=[];
+  const micName=mic?.model||'the selected microphone';
+  const captureName=capture?.model||'a compatible recording interface';
+  const dualOutput=routeSupports(mic,'usb')&&routeSupports(mic,'xlr');
+  if(requestedRoute==='usb'&&count>1&&route==='xlr')
+    steps.push('For two or more microphones, this example switches to the XLR recording route. It is NOT a plug-two-USB-mics-into-an-interface setup.');
+  if(route==='xlr'){
+    if(mic&&routeSupports(mic,'xlr')){
+      steps.push('Connect each '+micName+' by its XLR output and an XLR cable to a separate microphone input on '+captureName+'. Connect the interface to the computer by USB. The interface captures the microphones and sets their input levels.');
+      if(dualOutput)steps.push(micName+' also offers USB, but that USB connection is NOT used in this XLR example. Using its USB socket directly into the PC would bypass '+captureName+' for that microphone.');
+    }else steps.push('No verified XLR output is documented for the chosen microphone. It cannot be assumed to connect to '+captureName+'; choose a compatible XLR mic or investigate a separate USB recording route.');
+    if(independent)steps.push('In your recording software, assign interface input 1 and input 2 to separate mono tracks (and more inputs if your setup has them). Record a short test and verify you can edit each voice without changing the other.');
+    else steps.push('Confirm whether the recording app saves a combined mix or independent tracks. An interface with multiple sockets does not automatically create separately editable files.');
+    monitoring.push('Direct monitoring on an interface hears microphones plugged into its physical inputs. It cannot directly monitor separate USB microphones plugged into the computer.');
+    if(capture?.model==='M-Audio M-Track Duo'){
+      monitoring.push('The M-Track Duo has one stereo headphone output. To let two people hear the same low-latency mic mix, plan a suitable headphone distribution amplifier or verified sharing arrangement; it does not offer two independently controlled headphone mixes.');
+      links.push({label:'M-Audio M-Track Duo: connections and direct monitoring',url:'https://www.m-audio.com/audio-midi-interfaces/m-track-duo.html'});
+      links.push({label:'M-Audio: M-Track Duo Windows and recording-software setup',url:'https://support.m-audio.com/en/support/solutions/articles/69000856587-m-audio-m-track-duo-solo-registration-set-up-guide'});
+    }else monitoring.push('If multiple people need headphones, check the actual number of headphone outputs and whether a separate headphone distributor is needed. One output does not guarantee separate mixes.');
+  }else if(route==='usb'){
+    steps.push('Plug '+micName+' into the computer by USB. Its built-in conversion is the recording device; no separate XLR audio interface is used to capture that microphone.');
+    steps.push('Choose the microphone as an input in Windows and your recording software. Verify the separate audio tracks before recording.');
+    monitoring.push('A headphone socket on a USB microphone may monitor that microphone locally. Hearing other microphones or computer/guest sound in the same headphones requires supported software output routing and may introduce delay.');
+  }else{
+    steps.push('Connect the microphone to the documented '+(route==='camera_trs'?'camera microphone input':'phone microphone input or adapter')+'. A typical desktop XLR interface is not in this signal path.');
+    monitoring.push('Confirm the camera or phone monitoring path before planning two-person headphone listening.');
+  }
+  if(mode==='podcast'&&count>1){
+    monitoring.push('Two separate USB microphones on Windows are separate audio devices, not the two inputs of an M-Track Duo. Simultaneous capture and hearing both voices in both headphones may require multi-device recording software, audio routing or aggregation, and careful sample-rate/latency testing. Do not assume it works automatically.');
+    links.push({label:'Audacity manual: using two USB microphones or separate sound devices',url:'https://manual.audacityteam.org/man/faq_recording_how_to_s.html'});
+    links.push({label:'Audacity manual: monitoring latency and separate audio devices',url:'https://manual.audacityteam.org/man/faq_recording_troubleshooting.html'});
+  }
+  if(dualOutput&&mic?.model==='Audio-Technica ATR2100x-USB')
+    links.push({label:'Audio-Technica ATR2100x-USB: USB, XLR and headphones',url:'https://docs.audio-technica.com/us/P52830_01_ATR2100x_USB_UM.pdf'});
+  if(mode==='podcast'||mode==='stream')
+    links.push({label:'Microsoft: configure and test Windows microphone inputs',url:'https://support.microsoft.com/en-us/windows/hardware/drivers/how-to-set-up-and-test-microphones-in-windows'});
+  return {steps,monitoring,links};
+}
+
 export function buildCreatingSystem(catalog,{
   mode='vocal',microphoneCount=1,independentTracks=false,micConnection='xlr',
   includeMonitors=false,region='CA',pricePreference='any',prices=null,
@@ -192,6 +234,7 @@ export function buildCreatingSystem(catalog,{
   const routeRequested=supportedRoutes.includes(micConnection)?micConnection:'xlr';
   const chosenPath=routeRequested!=='xlr'&&count===1&&!live?routeRequested:'xlr';
   const messages=[],stages=[],notes=[];
+  let selectedCapture=null;
   if(routeRequested!=='xlr'&&count>1)
     messages.push('For several microphones at once, this example uses XLR microphones and an appropriate multichannel capture device. Multiple USB, camera or phone microphones cannot be treated as a simple independent multitrack setup.');
   const micCandidates=sorted(category(catalog,'microphone').filter(r=>routeSupports(r,chosenPath)),
@@ -243,7 +286,7 @@ export function buildCreatingSystem(catalog,{
         'Confirm microphone connectors and appropriate gain/phantom-power switching.']});
     stages.push(stageCapture);
     const ownedCapture=safeOwned(catalog,owned,'capture');
-    const selectedCapture=ownedCapture||(!customOwned(ownedNames,'capture')?ranked[0]||null:null);
+    selectedCapture=ownedCapture||(!customOwned(ownedNames,'capture')?ranked[0]||null:null);
     if(ownedCapture&&!captureQualifies(ownedCapture,captureRule)){
       const alternative=ranked[0];
       messages.push('Your '+ownedCapture.model+' has a known input/recording limitation or lacks enough verified facts for this request. '+(alternative?'Research '+alternative.model+' as an alternative.':'No listed device has enough documented capacity for this plan.'));
@@ -289,10 +332,14 @@ export function buildCreatingSystem(catalog,{
       r=>headphoneRank(r,mode),prices,region,pricePreference);
     stages.push(buildStage(catalog,{key:'headphones',title:'Monitoring headphones',
       purpose:'Hear a backing track or the recording without speaker sound leaking into a nearby microphone.',
-      owned,ownedNames,candidates:headphoneCandidates,prices,region,quantity:1,alternatives:3,
+      owned,ownedNames,candidates:headphoneCandidates,prices,region,
+      quantity:mode==='podcast'?count:1,alternatives:3,
       reason:'Catalogued headphone model to investigate for tracking comfort and isolation.',
       checks:['Confirm the headphone plug, output level, volume control and comfortable fit.',
         count>1?'More than one performer may need extra headphone outputs or a distribution amplifier.':'A separate headphone amplifier is not automatically needed.']}));
+    if(mode==='podcast'&&count>1)stages.push(generic('headphone_distribution','Headphone distribution for the people recording',
+      'Let both participants hear the same monitoring mix when using one output.',
+      'Check how many headphone outputs the chosen device actually has. A suitable headphone distribution amplifier may be necessary; a simple splitter does not create separately adjustable mixes.',{need:'verify'}));
     stages.push(generic('software',mode==='stream'?'Streaming or video software':'Recording and editing software',
       mode==='stream'?'Combine microphone and computer/video sound for a broadcast or recording.':
         'Record, name, listen to and edit the tracks on a computer.',
@@ -322,11 +369,12 @@ export function buildCreatingSystem(catalog,{
   if(mode==='stream')notes.push('Streaming and content creation can be a one-mic USB desktop setup, XLR with an interface, a powered 3.5 mm camera microphone, or a compatible phone lavalier. Those are different signal chains.');
   if(independent)notes.push('Separate tracks mean you can change the volume or edit each microphone later. A mixer with many channels may still send only one combined stereo recording to the computer.');
   else if(count>1&&!live)notes.push('You chose a combined recording. Everyone is recorded together, so you usually cannot turn down one microphone afterward without affecting the others.');
+  const setupGuide=recordingSetupGuide({mode,count,requestedRoute:routeRequested,route:chosenPath,mic,capture:selectedCapture,independent});
   const purchased=stages.filter(x=>x.need==='research');
   return {
     mode,title:CREATING_GOALS[mode].name,settings:{microphoneCount:count,independentTracks:independent,
       route:chosenPath,region,pricePreference:validPricePreference(pricePreference)},
-    stages,purchased,alreadyOwned:stages.filter(x=>x.need==='reuse'),messages,notes,
+    stages,purchased,alreadyOwned:stages.filter(x=>x.need==='reuse'),messages,notes,setupGuide,
     lessons:lessonsFor[mode],
     disclaimer:'These are concrete research candidates and a complete parts checklist, not verified live stock, current selling prices, safe wiring, or guaranteed product compatibility. Only stated specifications are used. Local availability and the full cost of every accessory must be checked before purchasing.'
   };
