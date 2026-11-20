@@ -277,11 +277,13 @@
 .sb-gear-message{font-size:.85rem;color:#c5dcec;line-height:1.5;margin:.65rem 0 0}
 @media(max-width:650px){.sb-gear-search-actions{align-items:stretch;flex-direction:column}.sb-gear-search-actions button{width:100%}}
 
-/* Complete System Check remains on-page, with its own controls and math. */
+/* Full model-backed results are visible immediately; the calculator's input
+   form is hidden only after successful documented preset matching. */
 .sb-inline-system-check{border:1px solid #476b80;border-radius:10px;margin:.7rem 0;padding:.65rem .85rem;background:#102739}
-.sb-inline-system-check>summary{cursor:pointer;color:#a5dfff;font-weight:700}
-.sb-inline-system-check-frame{display:block;box-sizing:border-box;width:100%;height:860px;border:1px solid #35586e;border-radius:8px;margin:.7rem 0 0;background:#091625}
-@media(max-width:650px){.sb-inline-system-check-frame{height:1040px}}
+.sb-inline-system-check>h5{margin:0 0 .35rem;color:#c5eafb}
+.sb-inline-system-check-frame{display:block;box-sizing:border-box;width:100%;height:580px;border:1px solid #35586e;border-radius:8px;margin:.6rem 0;background:#091625}
+.sb-inline-system-check .sb-source-link{display:inline-block;margin:.2rem 0 .3rem;font-size:.86rem}
+
 
 /* Live equipment search; hide manual panels until a missing model is entered. */
 .sb-gear-search[hidden],.sb-gear-source-detail[hidden]{display:none!important}
