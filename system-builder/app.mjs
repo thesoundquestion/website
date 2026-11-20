@@ -1,6 +1,7 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
+import {parseSpeakerSpecText} from './spec-paste.mjs';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -423,16 +424,53 @@ document.addEventListener('DOMContentLoaded', () => {
       const link=el('a','sb-search-link'+(index===0?' sb-search-link-primary':''),query.label+' ↗');
       link.href=googleSearchUrl(query.query);
       link.target='_blank';link.rel='noopener noreferrer';
+      // When returning from the manufacturer/spec search, the paste box and
+      // individual verified-value fields should already be in view.
+      link.addEventListener('click',()=>{manual.hidden=false;manual.open=true;});
       searches.append(link);
     }
     const hasSuggestions=saved.length>0;
     // A similar catalogue model does not mean this exact model is saved.
     // Keep manual source-backed entry available even when suggestions appear.
     manual.hidden=false;
-    manual.open=!hasSuggestions;
+    if(!hasSuggestions)manual.open=true;
+    // Once the visitor opens the form, preserve it while typing more model
+    // text. A similar saved-model suggestion must not hide pasted work.
     message.textContent=hasSuggestions
       ?'Choose an exact saved model above, or open Not in the catalogue to enter the documented specifications for your different model.'
       :'No saved model matched. Use the searches above, then enter only the documented facts this match requires.';
+  }
+  const speakerPaste=document.getElementById('sb-speaker-spec-paste');
+  const speakerFill=document.getElementById('sb-speaker-spec-fill');
+  const speakerPasteFeedback=document.getElementById('sb-speaker-spec-feedback');
+  if(speakerPaste&&speakerFill&&speakerPasteFeedback){
+    speakerFill.addEventListener('click',()=>{
+      const parsed=parseSpeakerSpecText(speakerPaste.value);
+      const copied=[],preserved=[];
+      for(const [name,value] of Object.entries(parsed.fields)){
+        const input=form.elements.namedItem(name);
+        if(!input)continue;
+        if(String(input.value).trim()){
+          preserved.push(name);
+          continue;
+        }
+        input.value=String(value);
+        input.dispatchEvent(new Event('input',{bubbles:true}));
+        copied.push(name);
+      }
+      const label={
+        speakerLoad:'nominal impedance',speakerMinimum:'minimum impedance',
+        speakerSensitivity:'sensitivity',speakerBasis:'sensitivity basis'
+      };
+      const description=copied.length
+        ?'Filled: '+copied.map(name=>label[name]).join(', ')+'. '
+        :'No new fields were filled. ';
+      const existing=preserved.length
+        ?'Already entered values were kept; clear a field to replace it. ':'';
+      speakerPasteFeedback.textContent=description+existing+
+        parsed.notes.join(' ')+(copied.length?' Review the values, choose passive or powered, and paste the original specification URL below.':' You can enter the ratings directly into the boxes below.');
+      updateFieldRequirements();
+    });
   }
   for(const kind of ['speaker','amp','source','headphone']){
     const preset=form.elements.namedItem(kind);
