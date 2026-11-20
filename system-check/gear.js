@@ -579,8 +579,6 @@ const systemCheckGear = {
       "model": "Paradigm Titan v3",
       "values": {
         "sensitivity": 86,
-        "sensitivityAnechoic": 86,
-        "sensitivityInRoom": 89,
         "basis": "voltage",
         "load": 8,
         "speakerPowerMaxInput": 60,
