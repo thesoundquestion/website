@@ -203,6 +203,33 @@ try {
    outcomes.push(device.name+' embedded System Check unlisted identity without guessed ratings');
 
    await visit(page,'/system-builder/');
+   await page.locator('#sb-build-intent').selectOption('headphones');
+   assert.ok(await page.locator('#sb-headphone-amp-setup').isVisible());
+   assert.ok(await page.locator('#sb-headphone-amp-choice').evaluate(node=>node.required));
+   await page.locator('#sb-headphone-amp-choice').selectOption('yes');
+   await page.locator('#sb-headphone-source').selectOption('computer_usb');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/FiiO K11/);
+   assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/USB digital audio/);
+   await checkNoErrors(page,errors,device.name+' headphone DAC/amp route');
+   await page.locator('#sb-headphone-amp-choice').selectOption('no');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/No separate headphone amplifier requested/);
+   assert.doesNotMatch(await page.locator('.sb-setup-workflow').first().innerText(),/FiiO K11/);
+   await page.locator('#sb-headphone-amp-choice').selectOption('unsure');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/USB-only source needs/);
+   await page.locator('#sb-build-intent').selectOption('complete_system');
+   assert.ok(await page.locator('#sb-headphone-amp-setup').isHidden());
+   await page.locator('#sb-advanced-form > summary').click();
+   await page.locator('[name="architecture"]').selectOption('headphone_first');
+   assert.ok(await page.locator('#sb-headphone-amp-setup').isVisible());
+   await page.locator('[name="architecture"]').selectOption('passive_separates');
+   assert.ok(await page.locator('#sb-headphone-amp-setup').isHidden());
+   assert.ok(await page.locator('#sb-headphone-amp-choice').evaluate(node=>node.disabled));
+   await checkNoErrors(page,errors,device.name+' headphone choice yes/no/unsure, route switching');
+   outcomes.push(device.name+' headphone amplifier opt-in with source-specific workflow and no-stale-state switch');
+   await visit(page,'/system-builder/');
   // The new task-first Builder intentionally keeps its submit controls hidden
   // until someone selects a goal. Test the unlisted-gear search and provisional
   // specification path on the actual packaged desktop/mobile page.

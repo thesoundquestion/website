@@ -72,7 +72,7 @@ export const BUILDER_INTENTS=Object.freeze({
  * Do not apply HTML 'required' to either individual control.
  */
 export function builderFieldRequirement(id,fieldName){
-  if(fieldName==='buildIntent')return 'required';
+  if(fieldName==='buildIntent'||(id==='headphones'&&fieldName==='headphoneAmpChoice'))return 'required';
   // A source link improves provenance but is not a prerequisite for
   // discovery based on meaningful user-entered numerical specifications.
   if(/^(?:speaker|amp|source|headphone)SpecUrl$/.test(fieldName))return 'optional';
@@ -104,6 +104,9 @@ export function validateBuilderIntent(id,formData){
   const plan=builderIntent(id);
   if(!plan)return {ok:false,message:'Choose what you want help with first.'};
   if(plan.directRoute)return {ok:false,message:'Use the source connection guide for this question.'};
+  if((id==='headphones'||formData.get('architecture')==='headphone_first')&&
+      !['yes','no','unsure'].includes(formData.get('headphoneAmpChoice')))
+    return {ok:false,message:'Choose whether you would like a headphone amplifier, prefer not to add one, or want help deciding.'};
   if(plan.requiredOwn){
     const type=plan.requiredOwn;
     if(empty(formData.get(type))){
@@ -167,5 +170,9 @@ export function scopedBuilderInputs(formData,id,advancedOpen=false){
     // The dedicated report checks amp/sub signal connectors independently.
   }
   if(plan.architecture)data.set('architecture',plan.architecture);
+  if(data.get('architecture')!=='headphone_first'){
+    data.set('headphoneAmpChoice','');
+    data.set('headphoneSource','unknown');
+  }
   return data;
 }

@@ -78,10 +78,28 @@ export function explainSetupWorkflow(item={},request={}){
     if(sub)steps.push(sub);
     equipment='Two monitor cabinets and a practical stereo volume-control path are needed; some models are sold one at a time.';
   }else if(architecture==='headphone_first'){
-    const source=label(sourcePart(parts))||'your phone, computer, player or DAC';
-    steps.push('Play music from '+source+' through a real, volume-controlled headphone output. An ordinary RCA or other line output is not automatically suitable for driving headphones.');
-    steps.push('Connect '+hp+' using the correct headphone plug or an electrically compatible adapter, then set the volume low before listening.');
-    equipment='If the source has no usable headphone output or lacks the required voltage/current, a separate headphone amplifier may be needed.';
+    const plan=item.headphoneAmpPlan;
+    const source=plan?.sourceLabel||label(sourcePart(parts))||'your phone, computer, player or DAC';
+    if(plan?.choice==='yes'&&plan?.model){
+      if(plan.input==='usb')
+        steps.push('Connect '+source+' over compatible USB digital audio to '+plan.model+'. Its built-in DAC converts the digital music; the headphone amplifier controls the headphone output.');
+      else
+        steps.push('Connect the verified stereo RCA line output of '+source+' to the analogue RCA input of '+plan.model+'. Do not use a power-amplifier speaker output or assume a headphone jack is a fixed line output.');
+      steps.push('Plug '+hp+' into the headphone socket of '+plan.model+' using the correct connector. Start at low volume and check the gain, noise floor and output for these exact headphones.');
+      equipment=plan.model+' is included as a documented connection example, not a verified electrical match to these headphones. Its price is NOT included in the headphone-only subtotal. '+plan.check;
+    }else if(plan?.choice==='yes'){
+      steps.push('Before selecting a separate headphone amplifier, establish what audio output '+source+' provides: USB digital audio needs a compatible DAC/headphone amplifier; an RCA line output needs an analogue headphone amplifier.');
+      steps.push('Connect '+hp+' only to a real, volume-controlled headphone output after checking its plug, sensitivity and impedance.');
+      equipment='No amplifier model can be responsibly matched without confirming the source signal. The amplifier and possible DAC are not included in this card’s parts or price.';
+    }else{
+      steps.push('Play music from '+source+' through a real, volume-controlled headphone output. An ordinary RCA or other line output is not automatically suitable for driving headphones.');
+      steps.push('Connect '+hp+' using the correct headphone plug or an electrically compatible adapter, then set the volume low before listening.');
+      equipment=plan?.choice==='no'
+        ?'No separate headphone amplifier is included. Check the source headphone-output drive capability, hiss, low-volume control and connector before purchasing.'
+        :plan?.choice==='unsure'
+          ?'First test the available headphone output with suitable headphones. Add a DAC/headphone amplifier only if an output is missing or a documented drive/noise limitation warrants one.'
+          :'If the source has no usable headphone output or lacks the required voltage/current, a separate headphone amplifier may be needed.';
+    }
   }else if(architecture==='party_pa'){
     const source=label(sourcePart(parts))||'your music source or microphone';
     steps.push('Send '+source+' to the documented mixer or audio inputs of '+primary+'. Check the available sockets and signal levels.');

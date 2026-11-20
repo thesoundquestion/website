@@ -52,6 +52,29 @@
 </select></label>
 <p class="sb-help" id="sb-intent-note" aria-live="polite">You do not need to own every piece of equipment or know specifications for something you haven't bought.</p>
 <div id="sb-quick-setup" class="sb-quick-setup sb-grid" hidden></div>
+<div id="sb-headphone-amp-setup" class="sb-headphone-amp-setup" hidden>
+<h3>Would you also like a headphone amplifier?</h3>
+<p class="sb-help">A separate amplifier is optional. We can include one, keep the simplest headphone setup, or help you decide based on the device you listen from.</p>
+<div class="sb-grid">
+<label class="sb-field">Include a headphone amplifier?
+<select name="headphoneAmpChoice" id="sb-headphone-amp-choice">
+<option value="">Choose one</option>
+<option value="yes">Yes, include an amplifier in my setup</option>
+<option value="no">No, use my existing headphone output</option>
+<option value="unsure">Not sure, help me decide</option>
+</select></label>
+<label class="sb-field">What will play your music?
+<select name="headphoneSource" id="sb-headphone-source">
+<option value="unknown">Not sure yet</option>
+<option value="phone_usb">Phone or tablet with USB audio / USB-C</option>
+<option value="computer_usb">Computer using USB audio</option>
+<option value="analog_line">Player or DAC with analogue RCA line output</option>
+<option value="headphone_jack">Phone or computer with a headphone jack</option>
+<option value="receiver_headphones">Receiver or amplifier headphone socket</option>
+</select></label>
+</div>
+<p class="sb-help" id="sb-headphone-amp-guidance" aria-live="polite">We'll include the amplifier choice in the recommendations and explain the actual signal path.</p>
+</div>
 <p id="sb-required-group-help" class="sb-required-group-help" aria-live="polite" hidden></p>
 <p id="sb-intent-feedback" class="sb-intent-feedback" role="status" aria-live="polite" hidden></p>
 <div id="sb-source-help" class="sb-source-help" hidden>

@@ -4,6 +4,7 @@ import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
 import {parseSpeakerSpecText} from './spec-paste.mjs?v=passive-inference-20261120';
 import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=sub-20261120';
 import {headphoneDriveRequirement} from './headphone-drive.mjs';
+import {headphoneAmplifierPlan,applyHeadphoneAmpChoice} from './headphone-amp-choice.mjs';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -150,8 +151,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const goal = form.elements.namedItem('goal');
   const architecture = form.elements.namedItem('architecture');
   const headphonePreferences = document.getElementById('sb-headphone-preferences');
-  const syncHeadphoneInputs=()=>{if(headphonePreferences)headphonePreferences.hidden=architecture.value!=='headphone_first';};
-  architecture.addEventListener('change',syncHeadphoneInputs);
+  const headphoneAmpSetup=document.getElementById('sb-headphone-amp-setup');
+  const headphoneAmpChoice=form.elements.namedItem('headphoneAmpChoice');
+  const headphoneSource=form.elements.namedItem('headphoneSource');
+  const headphoneAmpGuidance=document.getElementById('sb-headphone-amp-guidance');
+  const syncHeadphoneInputs=()=>{
+    const active=architecture.value==='headphone_first';
+    if(headphonePreferences)headphonePreferences.hidden=!active;
+    if(headphoneAmpSetup)headphoneAmpSetup.hidden=!active;
+    if(headphoneAmpChoice){headphoneAmpChoice.disabled=!active;headphoneAmpChoice.required=active;}
+    if(headphoneSource)headphoneSource.disabled=!active;
+    if(headphoneAmpGuidance&&active){
+      const choice=headphoneAmpChoice.value;
+      headphoneAmpGuidance.textContent=choice==='yes'
+        ?'We will include an amplifier when your source connection matches a documented example. Its cost and headphone drive suitability still need checking.'
+        :choice==='no'?'No separate headphone amplifier will be added. We will explain what your existing output must provide.'
+        :choice==='unsure'?'We will help you check the source output and headphone requirements before spending on an amplifier.'
+        :'Choose Yes, No, or Not sure to guide the signal chain.';
+    }
+  };
+  architecture.addEventListener('change',()=>{syncHeadphoneInputs();updateFieldRequirements();});
+  headphoneAmpChoice.addEventListener('change',syncHeadphoneInputs);
+  headphoneSource.addEventListener('change',syncHeadphoneInputs);
   syncHeadphoneInputs();
   const subMode = form.elements.namedItem('subMode');
   const subOwnedField = form.elements.namedItem('subOwned');
@@ -265,7 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
     for(const label of form.querySelectorAll('label.sb-field')){
       const field=label.querySelector('select, input:not([type="checkbox"])');
       if(!field)continue;
-      let rule=builderFieldRequirement(id,field.name);
+      let rule=field.name==='headphoneAmpChoice'&&architecture.value==='headphone_first'
+        ?'required':builderFieldRequirement(id,field.name);
       if(rule==='required_if_unlisted'){
         const kind=field.name.startsWith('speaker')?'speaker':'amp';
         const hasCustom=String(form.elements.namedItem(kind+'Other')?.value||'').trim();
@@ -880,14 +902,22 @@ document.addEventListener('DOMContentLoaded', () => {
       budget:Number.isFinite(budget) ? budget : null,
       pricePreference:preference,
       budgetStrict:data.get('budgetStrict') === 'strict',used:data.has('used'),
-       headphoneUse:String(data.get('headphoneUse')||'quiet'),headphoneFit:String(data.get('headphoneFit')||'any')
+      headphoneUse:String(data.get('headphoneUse')||'quiet'),headphoneFit:String(data.get('headphoneFit')||'any'),
+      headphoneAmpChoice:String(data.get('headphoneAmpChoice')||''),
+      headphoneSource:String(data.get('headphoneSource')||'unknown')
     };
     const partyPassiveRoute=(primary==='party'||useCase==='party') &&
       arch==='passive_separates' && powered!=='battery';
     const ownership = anyOwned ? ownershipPlan({own,request,inventory,catalog:sharedCatalog}) : null;
-    const shortlist = ownership || (speakerFocus
+    const initialShortlist = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
       : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request,sharedCatalog));
+    const shortlist=arch==='headphone_first'
+      ?applyHeadphoneAmpChoice(initialShortlist,request,sharedCatalog):initialShortlist;
+    if(arch==='headphone_first'){
+      const ampPath=headphoneAmplifierPlan(request,sharedCatalog);
+      if(ampPath)addText(shop,'p',ampPath.summary,'sb-headphone-amp-result');
+    }
     // Price-position preference may reorder only verified, same-region,
     // comparable catalogue examples. It NEVER removes a recommendation.
     // We do not pretend that an unknown price is budget priced.

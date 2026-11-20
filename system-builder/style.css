@@ -316,3 +316,10 @@
 .sb-search-link{display:inline-block;padding:.45rem .65rem;border:1px solid #426d85;border-radius:8px;background:#112c40;color:#afddf1;font-size:.81rem;line-height:1.35}
 .sb-search-link-primary{border-color:#5da5c3;background:#143449;font-weight:700}
 .sb-gear-matches button{margin:.2rem .25rem .2rem 0}
+
+/* Optional headphone amplifier is a task-level decision, not buried in advanced controls. */
+.sb-headphone-amp-setup{margin:1rem 0 0;padding:clamp(.85rem,2vw,1.15rem);border:1px solid #4b8196;border-radius:11px;background:#122a3d}
+.sb-headphone-amp-setup[hidden]{display:none}
+.sb-headphone-amp-setup h3{font-size:1.05rem;margin:0 0 .3rem;color:#d5f5fc}
+.sb-headphone-amp-setup .sb-grid{margin-top:.65rem}
+.sb-headphone-amp-result{margin:.75rem 0 1rem;padding:.8rem 1rem;border-left:4px solid #8cc8dd;background:#112d40;border-radius:6px;line-height:1.65}
