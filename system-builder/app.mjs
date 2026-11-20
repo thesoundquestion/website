@@ -334,6 +334,16 @@ document.addEventListener('DOMContentLoaded', () => {
         showQuickNode(document.getElementById('sb-'+key.slice(0,-5)+'-search'));
       if(key==='level'&&reference)showQuickNode(reference);
     }
+    if(id==='subwoofer'){
+      // The task-first layout moves individual controls into its quick form.
+      // Also move the associated paste UI, otherwise it remains hidden in
+      // the collapsed advanced section and cannot be used on mobile.
+      for(const key of ['sb-sub-spec-paste','sb-sub-spec-fill',
+        'sb-sub-spec-feedback','sb-sub-spec-observations']){
+        const node=document.getElementById(key);
+        showQuickNode(key==='sb-sub-spec-paste'?node?.closest('label'):node);
+      }
+    }
     filterSpeakerChoicesForIntent();
     updateFieldRequirements();
     // No route asks visitors for unowned product specifications. The advanced
