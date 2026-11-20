@@ -263,7 +263,17 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     low_volume:['Polk Signature Elite ES15','Polk Monitor XT15','Polk Monitor XT20','Paradigm Monitor SE Atom','DALI Oberon 1','Wharfedale Diamond 12.1','Wharfedale Diamond 12.2','Polk Signature Elite ES20','Q Acoustics 3010i','Q Acoustics 3020i','KEF Q150','Klipsch R-50M','ELAC Debut 3.0 DB63','JBL Stage 250B','Paradigm Titan v3','ELAC Debut 2.0 B6.2','PSB Alpha P3','PSB Alpha P5','Fluance SX6 Elite (SX6-BK)']
   };
   const partyMode=goal==='party'||scene==='party';
-  const ids=partyMode?goalsOrder.party:(goalsOrder[goal]||goalsOrder.all_rounder);
+  const upgradeDynamic=Boolean(input.upgradeReference)&&
+    (goal==='dynamic'||second.includes('dynamic')||input.level==='high');
+  // Improving an existing stereo pair is a different goal from choosing a
+  // first bookshelf pair. Include high-sensitivity and larger-cabinet models
+  // without calling a home listening scenario a party/PA application.
+  const ids=partyMode?goalsOrder.party:
+    upgradeDynamic?[...new Set([
+      'Cerwin-Vega XLS-15','Cerwin-Vega XLS-12','Klipsch R-51M',
+      'Cerwin-Vega XLS-215','Klipsch R-50M','Polk Signature Elite ES20',
+      'Polk Monitor XT20',...(goalsOrder[goal]||goalsOrder.all_rounder)])]:
+    (goalsOrder[goal]||goalsOrder.all_rounder);
   const ideas=new Map(SPEAKER_IDEAS.map(idea=>[idea.model,idea]));
   const pricesByModel=new Map(ids.map(model=>{
     const context=priceContextFor(model,region,currency) || internationalPriceContextFor(model,region,currency);
@@ -313,6 +323,7 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
     return ids.indexOf(a)-ids.indexOf(b);
   });
   for(const model of ordered) {
+    if(input.upgradeReference?.name===model)continue; // Never offer the user's existing speakers as their own upgrade.
     const idea=ideas.get(model);
     const record=byModel.get(model);
     if(!idea || !record)continue;
@@ -360,8 +371,16 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       id:'owned-speaker-'+model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       architecture:'passive_separates',
       title:model,
-      kind:'Speaker pair for your existing '+screen.ampName,
-      why:partyMode ?
+      kind:input.upgradeReference?'Speaker change to compare with '+input.upgradeReference.name:
+        'Speaker pair for your existing '+screen.ampName,
+      why:input.upgradeReference&&upgradeDynamic?
+        'For occasionally loud, dynamic recordings: investigate this speaker as a higher-output or larger-cabinet alternative to '+input.upgradeReference.name+'. '+
+        (Number.isFinite(record.values?.sensitivity)?
+          'Published sensitivity: '+record.values.sensitivity+' dB ('+
+          (record.values.basis==='power'?'1 W':'2.83 V')+' reference). ':
+          'Published sensitivity is unavailable for comparison. ')+
+        idea.reason+' Different room/measurement methods and unknown compression prevent a guaranteed loudness improvement.' :
+        partyMode ?
         'Party priority: '+partySpeakerEvidence(record).label+'. '+idea.reason+
         ' Sensitivity reduces watts needed for a given level, but does not certify sustained clean SPL.' : idea.reason,
       tradeoff:idea.downside,
@@ -391,6 +410,9 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       ownerEvidenceLabel:ownerEvidenceFor(model)?.label || 'Model specifications; listening reports not verified',
       ownerEvidenceBasis:ownerEvidenceFor(model)?.band || 'spec_led',
       ownedAmpName:screen.ampName,
+      amplifierModel:screen.userSupplied?null:screen.ampName,
+      speakerModel:record.model,
+      upgradeComparedTo:input.upgradeReference?.name||null,
       speakerValues:record.values,
       decisionReasons:[
         'Pairing evidence: '+pairingByModel.get(model).label+'. A published speaker nominal load or amplifier resistive power rating does not certify real-world compatibility.',        ...(idea.goals.includes(goal)?['The primary listening goal is an editorial fit tag, not a measured acoustic score.']:[]),
