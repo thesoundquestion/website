@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // section is still available to people who want technical fine-tuning.
   }
   intentSelect.addEventListener('change',()=>setBuilderIntent());
-  function renderSetupWorkflow(parent,{steps=[],equipment=''}={}){
+  function renderSetupWorkflow(parent,{steps=[],equipment=''}={}, {collapsed=false}={}){
     const panel=el('section','sb-setup-workflow');
     addText(panel,'h5','How will this setup work?');
     const ordered=el('ol','sb-setup-steps');
@@ -400,7 +400,12 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(ordered,'li','Confirm the source, amplification, output and speakers or headphones in the selected system.');
     panel.append(ordered);
     if(equipment)addText(panel,'p',equipment,'sb-setup-equipment');
-    parent.append(panel);
+    if(collapsed){
+      const disclosure=el('details','sb-setup-disclosure');
+      addText(disclosure,'summary','How to connect this setup');
+      disclosure.append(panel);
+      parent.append(disclosure);
+    }else parent.append(panel);
     return panel;
   }
   function renderSubwooferWiring(parent,plan,{heading='How the subwoofer connects',showSources=true}={}){
@@ -956,8 +961,8 @@ document.addEventListener('DOMContentLoaded', () => {
       })[item.id]||null})),
       priceSnapshot,{region:request.region,preference}
     );
-    addText(shop,'p',preference==='any'?'No retail price-category weighting selected.':
-      tierEvidence.note+' Price categories describe local retail expense, not sound quality.','sb-brief-note');
+    if(preference!=='any')
+      addText(shop,'p',tierEvidence.note+' Price categories describe local retail expense, not sound quality.','sb-brief-note');
     const combinedFactors=explainInputInteractions(request);
     if(combinedFactors.length){
       const decision=el('details','sb-more sb-decision-logic');
@@ -974,7 +979,8 @@ document.addEventListener('DOMContentLoaded', () => {
         highPass:String(data.get('subHighPass')||'unknown'),
         subOwned
       });
-      const connectionBlock=el('section','sb-sub-route-section');
+      const connectionBlock=el('details','sb-sub-route-section');
+      addText(connectionBlock,'summary','Subwoofer connection: '+genericPlan.title);
       renderSubwooferWiring(connectionBlock,genericPlan,{heading:'Your subwoofer wiring and filtering'});
       shop.append(connectionBlock);
     }
@@ -1022,7 +1028,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shop.append(section);
         return;
       }
-      addText(section,'p','These are separate equipment recommendations for your chosen source path. Manufacturer documentation supports the listed connection roles; it does not prove a need for an upgrade or an exact headphone-drive match.','sb-help');
+      addText(section,'p','Matched to your chosen source connection. Check headphone power and plugs before buying.','sb-help');
       const draw=(device,alternative=false)=>{
         const card=el('article','sb-headphone-electronics-card'+(alternative?' sb-headphone-electronics-alt':''));
         addText(card,'span',alternative?'Other documented option':'Included in this setup','sb-headphone-electronics-kicker');
@@ -1053,7 +1059,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for(const device of plan.alternatives)others.append(draw(device,true));
         section.append(others);
       }
-      addText(section,'p','Current local prices for these electronics have not been verified and are NOT included in headphone-only subtotals. Check USB/RCA inputs, actual headphone jack, gain, power and noise before buying.','sb-headphone-electronics-footnote');
+      addText(section,'p','Electronics prices are not included. Check current price, connectors, gain and headphone output before buying.','sb-headphone-electronics-footnote');
       shop.append(section);
     };
     const renderCard = (item,alternativeComparison=null,detailOnly=false) => {
@@ -1073,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(!alternativeComparison&&!detailOnly){
         const primarySound=soundImpressionFor(item);
         const profile=el('section','sb-primary-sound');
-        addText(profile,'strong','Sound character · listener impressions');
+        addText(profile,'strong','What might it sound like?');
         addText(profile,'p',primarySound
           ?primarySound.text+'.'
           :'No model-specific listening profile has been verified for this choice yet.');
@@ -1109,18 +1115,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (item.bassSetup){
         addText(card,'p',item.bassSetup.label,'sb-card-minor');
         const modelPlan=knownSubExamplePlan(item.id);
-        if(modelPlan)renderSubwooferWiring(card,modelPlan,{heading:'What connecting this subwoofer involves'});
+        if(modelPlan){
+          const subDetail=el('details','sb-sub-wiring-disclosure');
+          addText(subDetail,'summary','Subwoofer wiring and bass filtering');
+          renderSubwooferWiring(subDetail,modelPlan,{heading:'What connecting this subwoofer involves'});
+          card.append(subDetail);
+        }
       }
       else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
         addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
       const whyBox=el('div','sb-beginner-reason');
       addText(whyBox,'h5',overview.reuse?'Why keeping this is a valid option':'Why this option was suggested');
       addText(whyBox,'p',overview.reason,'sb-beginner-plain');
-      if(overview.goalExplanation)addText(whyBox,'p',overview.goalExplanation,'sb-beginner-basis');
       card.append(whyBox);
-      // Give every recommendation, including alternatives and retained
-      // systems, a distinct beginner-visible, model-aware signal-flow guide.
-      renderSetupWorkflow(card,overview.setupWorkflow);
+      // Keep the exact signal path one tap away on the main result; an opened
+      // alternative already lives inside a disclosure and needs no second one.
+      renderSetupWorkflow(card,overview.setupWorkflow,{collapsed:!detailOnly});
       // Identify the exact models from owned pairings OR documented prebuilt
       // passive recommendations. Missing measured specs stay missing.
       const headroomModels = {
@@ -1128,32 +1138,49 @@ document.addEventListener('DOMContentLoaded', () => {
         speakerModel:item.speakerModel||item.curatedPairing?.speakerModel
       };
       if(headroomModels.amplifierModel&&headroomModels.speakerModel){
-        const inline=el('section','sb-inline-system-check');
+        // Only a short, real calculation verdict belongs in the first view.
+        // The original System Check calculation remains unmodified below.
+        const inline=el('details','sb-inline-system-check');
         const {profile,params}=headroomHandoff(headroomModels,distanceFt,request.level);
-        addText(inline,'h5','Headroom for these exact models');
-        addText(inline,'p',profile.label+' · '+distanceFt+' ft · example '+profile.average+' dB average / '+(profile.average+profile.gap)+' dB peaks. Not a measured listening level.','sb-headroom-brief');
+        const summary=el('summary','sb-headroom-summary');
+        addText(summary,'strong','Headroom for these exact models');
+        const verdict=addText(summary,'span','Checking the saved ratings…','sb-headroom-verdict');
+        inline.append(summary);
+        addText(inline,'p',profile.label+' · '+distanceFt+' ft · illustrative '+profile.average+' dB average / '+(profile.average+profile.gap)+' dB peak. Not a measured listening level.','sb-headroom-brief');
         const frame=el('iframe','sb-inline-system-check-frame');
         frame.title='Headroom results for '+headroomModels.speakerModel+' with '+headroomModels.amplifierModel;
-        frame.loading='lazy';
+        // Load the true result even while collapsed so the summary can show
+        // its verdict; do not compute or invent an independent estimate.
+        frame.loading='eager';
         frame.src='/system-check/?'+params.toString();
-        frame.addEventListener('load',()=>{
-          // Same-origin calculator. Match iframe height to result content so
-          // phone visitors do not need to scroll inside another scroll area.
+        const refresh=()=>{
           try{
             const doc=frame.contentDocument;
-            const resize=()=>{frame.style.height=Math.max(300,Math.ceil(doc.documentElement.scrollHeight)+16)+'px';};
-            resize();
-            if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(doc.body);
-          }catch{/* A normal scrollable iframe remains available if blocked. */}
+            if(!doc)return;
+            const actual=doc.querySelector('#result-status')?.textContent?.trim();
+            if(actual)verdict.textContent=actual;
+            if(inline.open)
+              frame.style.height=Math.max(300,Math.ceil(doc.documentElement.scrollHeight)+16)+'px';
+          }catch{/* Keep the calculator link available if iframe access is blocked. */}
+        };
+        frame.addEventListener('load',()=>{
+          refresh();
+          try{
+            const doc=frame.contentDocument;
+            if(doc?.body&&typeof ResizeObserver!=='undefined')
+              new ResizeObserver(()=>{if(inline.open)refresh();}).observe(doc.body);
+          }catch{/* The full calculator link remains available. */}
         });
+        inline.addEventListener('toggle',()=>{if(inline.open)refresh();});
         inline.append(frame);
         const full=new URLSearchParams(params);
         full.delete('embedded');
-        link(inline,'/system-check/?'+full.toString(),'Open the full calculator to change the targets or inspect the ratings');
+        link(inline,'/system-check/?'+full.toString(),'Open the full calculator to adjust listening levels');
         card.append(inline);
       }
-      const proof=el('div','sb-beginner-proof');
-      addText(proof,'h5','Why these pieces make sense together');
+      const proof=el('details','sb-beginner-proof');
+      addText(proof,'summary','Why these parts work together');
+      if(overview.goalExplanation)addText(proof,'p',overview.goalExplanation,'sb-beginner-basis');
       addText(proof,'p',overview.matchingEvidence,'sb-beginner-plain');
       card.append(proof);
       if(overview.firstChecks.length){
@@ -1319,7 +1346,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (shortlist.selected.length) {
       addText(shop,'p',intent?.requiredOwn==='speaker'
         ?'These amplifiers have published continuous-power tests at your speakers’ nominal load. Use the inline System Check to calculate the listening level you actually want.'
-        :'These options show why they were selected, with documented matching evidence and specific issues only when a genuine problem was identified.','sb-results-orientation');
+        :'Start with the recommended fit below. Open the short explanations when you want the details.','sb-results-orientation');
       // The primary is the only full card on the main page. Other product
       // summaries are visible below, each with its own optional setup detail.
       const grid = el('div','sb-recommendations sb-primary-recommendation');
