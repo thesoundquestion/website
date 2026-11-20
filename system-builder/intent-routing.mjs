@@ -76,6 +76,7 @@ export function builderFieldRequirement(id,fieldName){
   // A source link improves provenance but is not a prerequisite for
   // discovery based on meaningful user-entered numerical specifications.
   if(/^(?:speaker|amp|source|headphone)SpecUrl$/.test(fieldName))return 'optional';
+  if(fieldName==='ampMinLoad')return 'optional'; // A rated load can conservatively guide initial discovery.
   if(fieldName==='speakerPowerType' && id==='amp_for_speakers')return 'required_if_unlisted';
   const plan=BUILDER_INTENTS[id];
   if(!plan)return 'optional';
