@@ -1174,6 +1174,23 @@ document.addEventListener('DOMContentLoaded', () => {
       firstCard.id='sb-first-recommendation';
       grid.append(firstCard);
       shop.append(grid);
+      const upgradeIdeas=shortlist.selected.filter(x=>x.upgradeComparedTo);
+      if(upgradeIdeas.length){
+        const preview=el('section','sb-upgrade-comparison-preview');
+        addText(preview,'h4','Speaker changes worth comparing');
+        addText(preview,'p',
+          'You chose to improve an existing setup. The first card checks what you already have; the alternatives below investigate a speaker change for your listening level and music. A larger cabinet or higher published sensitivity is a reason to compare, not proof of cleaner maximum output.');
+        const bullets=upgradeIdeas.slice(0,3).map(item=>{
+          const spec=item.speakerValues||{};
+          const number=Number.isFinite(spec.sensitivity)?
+            ' · published sensitivity '+spec.sensitivity+' dB'+
+            (spec.basis==='power'?' / 1 W':spec.basis==='voltage'?' / 2.83 V':''):'';
+          return item.title+number+' · research candidate, not a demonstrated upgrade.';
+        });
+        list(preview,bullets,'sb-upgrade-ideas');
+        addText(preview,'p','Open Alternative setups to see each complete connection plan, amplifier-load notes and any calculable headroom.','sb-brief-note');
+        shop.append(preview);
+      }
       if(shortlist.selected.length>1){
         const moreGrid=el('div','sb-recommendations');
         for(const item of shortlist.selected.slice(1))moreGrid.append(renderCard(item));
