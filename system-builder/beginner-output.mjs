@@ -4,6 +4,8 @@
  * change shortlist order, compute a new amplifier rating or rank sound quality.
  * All candidate facts and warnings must come from the existing recommendation.
  */
+import {explainSetupWorkflow} from './setup-workflow.mjs';
+
 const architectures=Object.freeze({
   passive_separates:{
     path:'The music player plugs into an amplifier, which powers the two speakers. These speakers need a separate amplifier because they do not have one built in.',
@@ -149,7 +151,8 @@ export function explainBeginnerOption(item,request={}){
     pairing?
     pairing.notes.join(' ')+' These details explain the evidence behind the recommendation; they are not required reading for a normal manufacturer-specification match.':
     rawReason;
-  return {status,reason,goalExplanation,rolePath:architecture.path,roles,matchingEvidence,checks,
+  const setupWorkflow=explainSetupWorkflow(item,request);
+  return {status,reason,goalExplanation,rolePath:architecture.path,roles,setupWorkflow,matchingEvidence,checks,
     checkHeading:curated?'How to connect this pairing':null,
     firstChecks:checks.slice(0,2),remainingChecks:checks.slice(2),costAndTradeoffs:missing,
     technicalEvidence,technicalChecks,reuse,
