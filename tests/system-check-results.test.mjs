@@ -142,7 +142,7 @@ test('only genuine rating comparisons produce peak explanation',()=>{
 test('published burst data enriches peaks without invented THD conclusions',()=>{
   const r=run({...base,peakV:Math.sqrt(110*8),peakW:110,
     entries:[{watts:80,load:8,type:'continuous'},{watts:140,load:8,type:'burst'}]});
-  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 138%/);
+  assert.match(r.cards[0].allText,/Musical peaks: The requested peak uses 137.5%/);
   assert.match(r.cards[0].allText,/burst figure is 2.4 dB above its continuous rating/);
   assert.doesNotMatch(r.cards[0].allText,/distortion is unlikely|already clipping/);
 });
