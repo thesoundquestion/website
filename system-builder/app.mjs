@@ -3,6 +3,7 @@ import {guideBuilderContext} from './guide-handoff.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
 import {parseSpeakerSpecText} from './spec-paste.mjs?v=passive-inference-20261120';
 import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=sub-20261120';
+import {headphoneDriveRequirement} from './headphone-drive.mjs';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -1357,6 +1358,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const conn = own.source.record.values?.sourceConnection;
         if (conn) addText(ownedSection,'p','Saved source output connection: ' + String(conn) + '. Confirm connector levels, cable type and volume control before declaring a match.');
         else addText(ownedSection,'p','Saved source has no validated output-interface match for this pathway.');
+      }
+      if(own.headphone.record){
+        const hv=own.headphone.record.values||{};
+        const demand=headphoneDriveRequirement({
+          impedanceOhms:hv.load,sensitivityDb:hv.sensitivity,basis:hv.basis,
+          targetDb:95
+        });
+        if(demand.status==='estimated_requirement')
+          addText(ownedSection,'p','Illustrative headphone drive demand at 95 dB SPL: '+
+            demand.voltsRms.toFixed(3)+' V RMS, '+demand.milliwatts.toFixed(2)+' mW, '+
+            demand.milliampsRms.toFixed(1)+' mA into '+hv.load+' Ω nominal. '+
+            'This is an electrical estimate, not a listening-level recommendation. '+
+            'The actual source headphone-output capability and connection still need to be known.');
       }
       if (own.headphone.name && arch === 'headphone_first')
         addText(ownedSection,'p','Keep the headphones on the shortlist for a fit and drive check. An impedance number alone does not establish a sufficient/quiet output.');
