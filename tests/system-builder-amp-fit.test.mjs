@@ -135,3 +135,33 @@ test('8-ohm speaker stays eligible when the measured impedance minimum is unavai
   assert.ok(r.selected.some(x=>x.amplifierModel==='Yamaha A-S501'));
   assert.ok(r.selected.every(x=>x.amplifierFit?.amp.exact));
 });
+
+
+test('owner-entered speaker amplifier guidance survives evidence mapping but is not continuous handling',()=>{
+  const speaker={name:'User bookshelf pair',record:{values:{
+    load:8,minimum:4.2,recommendedAmpMinW:15,recommendedAmpMaxW:100,listedMaxInputW:60
+  },userEntered:true}};
+  const guidance=speakerPowerReference(speaker);
+  assert.equal(guidance.recommendedMin,15);
+  assert.equal(guidance.recommendedMax,100);
+  assert.equal(guidance.listedMaxInput,60);
+  assert.equal(guidance.watts,null);
+  const fit=assessAmplifierCandidate({idea:idea('Yamaha A-S301'),record:yamaha.record,speaker,request});
+  assert.equal(fit.ratio,null);
+  assert.match(fit.ownerNote,/15–100 W/);
+  assert.match(fit.ownerNote,/60 W/);
+  assert.match(fit.ownerNote,/NOT a continuous/);
+});
+test('a valid 4-ohm nominal-class speaker can receive explicitly conditional amp suggestions without fictional watts',()=>{
+  const speaker={name:'Owner 4 Ohm Pair',record:{model:'Owner 4 Ohm Pair',
+    values:{load:4,minimum:3.2},userEntered:true}};
+  const found=shortlistAmpsForOwnedSpeakers({own:{speaker},request,inventory:catalog});
+  assert.ok(found.selected.length>0);
+  assert.ok(found.selected.some(x=>x.matchEvidence==='nominal_load_only'));
+  for(const x of found.selected.filter(x=>x.matchEvidence==='nominal_load_only')){
+    assert.equal(x.amplifierFit.amp.exact,false);
+    assert.equal(x.amplifierFit.amp.watts,null);
+    assert.match(x.loadCaution,/not a proven headroom match/);
+    assert.match(x.amplifierEvidence.join(' '),/do not predict output/);
+  }
+});
