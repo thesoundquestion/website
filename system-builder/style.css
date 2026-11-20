@@ -269,6 +269,15 @@
 @media(max-width:650px){.sb-field-requirement{font-size:.72rem}.sb-required-group-help{font-size:.83rem}}
 
 
+/* Optional copy/paste path for unlisted speaker specifications. These are
+ * never silently turned into a verified equipment record. */
+.sb-spec-paste-label{margin:.85rem 0 .5rem}
+.sb-spec-paste-label textarea{box-sizing:border-box;width:100%;min-width:0;min-height:116px;resize:vertical;padding:.7rem .8rem;background:#071321;border:1px solid #42617a;border-radius:9px;color:#f3f7fb;font:inherit;font-weight:450;line-height:1.5}
+.sb-spec-paste-label textarea::placeholder{color:#9ab1c3;opacity:1}
+.sb-spec-paste-label textarea:focus-visible,.sb-spec-paste-button:focus-visible{outline:3px solid #7adfff;outline-offset:2px}
+.sb-spec-paste-button{margin:.3rem 0 .5rem;max-width:100%;white-space:normal;text-align:center}
+@media(max-width:650px){.sb-spec-paste-button{width:100%}}
+
 /* Source-led search for models not yet in the built-in, vetted catalogue. */
 .sb-gear-search{grid-column:1/-1;min-width:0;margin:.2rem 0 .7rem;padding:clamp(.75rem,2vw,1.1rem);border:1px solid #426781;border-radius:12px;background:#0b2134}
 .sb-gear-search .sb-help{margin:.2rem 0 .7rem}
