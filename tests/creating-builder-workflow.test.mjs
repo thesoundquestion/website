@@ -36,7 +36,7 @@ test('requesting two USB microphones cannot silently imply they enter an XLR int
 test('a single USB microphone bypasses a separate mic interface',()=>{
   const plan=buildCreatingSystem(catalog,{mode:'stream',microphoneCount:1,micConnection:'usb'});
   assert.equal(stage(plan,'capture').need,'included');
-  assert.match(plan.setupGuide.steps.join(' '),/no separate XLR audio interface is used/);
+  assert.match(plan.setupGuide.steps.join(' '),/No separate microphone interface is needed/);
   assert.doesNotMatch(plan.setupGuide.steps.join(' '),/Connect each .* by its XLR output/);
 });
 
