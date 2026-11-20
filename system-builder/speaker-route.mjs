@@ -1,17 +1,17 @@
 /** Powered speakers already contain amplification and cannot be used as passive amplifier loads. */
 export function isPoweredSpeakerRecord(record) {
   const kind=record?.speakerKind ?? record?.facts?.speakerKind?.value ?? null;
-  const powered=record?.powered ?? record?.facts?.powered?.value ?? false;
-  return powered===true || (typeof kind==='string' && /^powered[_-]/i.test(kind));
+  return record?.powered===true || record?.facts?.powered?.value===true ||
+    (typeof kind==='string' && /^powered[_-]/i.test(kind));
 }
 
 export function isPoweredSpeakerModel(model,{legacy=[],shared=[],pairs=[]}={}) {
   const name=String(model||'').trim().toLowerCase();
   if(!name)return false;
   if(pairs.some(x=>String(x.model||'').toLowerCase()===name))return true;
-  const record=[...legacy,...shared].find(x=>
-    String(x.model||'').toLowerCase()===name || x.aliases?.some(alias=>alias.toLowerCase()===name));
-  return isPoweredSpeakerRecord(record);
+  return [...legacy,...shared].some(x=>
+    (String(x.model||'').toLowerCase()===name || x.aliases?.some(alias=>alias.toLowerCase()===name)) &&
+    isPoweredSpeakerRecord(x));
 }
 
 export function availableSpeakersForIntent(entries,intent,metadata={}) {

@@ -36,12 +36,7 @@ def build_nav(index):
     desc = html.escape(nxt["description"])
     current_category = category_info["label"]
     next_category = next_info["label"].upper()
-    top = (
-        '<!-- LESSON_TOP_NAV_BEGIN -->'
-        f'<a class="dl-top-next" href="{lesson_url(nxt)}" aria-label="Next lesson: {title}">'
-        f'Next lesson: {title} →</a>'
-        '<!-- LESSON_TOP_NAV_END -->'
-    )
+    top = ""  # One navigation panel at the bottom; no duplicate top Next button.
     if previous:
         previous_link = f'<a href="{lesson_url(previous)}">← Previous: {html.escape(previous["title"])}</a>'
     else:
@@ -99,8 +94,30 @@ for i, lesson in enumerate(LESSONS):
         if slot not in page:
             raise SystemExit(f"No lesson-end navigation insertion point in {path}")
         page = page.replace(slot, bottom + "\n " + slot, 1)
+    page, count = re.subn(r'(<p class="section-kicker">LESSON )\d{2}',
+        lambda match: match.group(1) + f'{i+1:02d}', page, count=1)
+    if count != 1:
+        raise SystemExit(f"Expected one numbered lesson heading in {path}")
     path.write_text(page, encoding="utf-8")
     print(f"Updated {lesson['slug']}: next → {LESSONS[(i + 1) % len(LESSONS)]['slug']}")
+
+# Make the curriculum the single authority for homepage card numbers, too.
+HUB = ROOT / "decoder" / "index.html"
+hub_source = HUB.read_text(encoding="utf-8")
+card_regex = re.compile(r'(<a class="dl-card" href="/decoder/([^/]+)/">(?:(?!</a>).)*?<span class="dl-number">LESSON )\d{2}', re.DOTALL)
+index_by_slug = {lesson["slug"]: i + 1 for i, lesson in enumerate(LESSONS)}
+found_slugs = []
+def renumber_card(match):
+    slug = match.group(2)
+    if slug not in index_by_slug:
+        raise SystemExit(f"Unknown lesson card slug: {slug}")
+    found_slugs.append(slug)
+    return match.group(1) + f'{index_by_slug[slug]:02d}'
+updated_hub = card_regex.sub(renumber_card, hub_source)
+if found_slugs != [lesson["slug"] for lesson in LESSONS[1:]]:
+    raise SystemExit("Lesson cards must follow the curriculum exactly. Reorder the cards first.")
+if updated_hub != hub_source:
+    HUB.write_text(updated_hub, encoding="utf-8")
 
 # Regenerate Journey topic links whenever the published lesson order is synchronized.
 subprocess.run([sys.executable, str(ROOT / 'scripts' / 'sync_journey_topics.py')], check=True)
