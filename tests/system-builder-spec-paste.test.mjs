@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {parseSpeakerSpecText} from '../system-builder/spec-paste.mjs';
 import {unlistedSpecAssessment} from '../system-builder/unlisted-gear.mjs';
-import {validateBuilderIntent} from '../system-builder/intent-routing.mjs';
+import {builderFieldRequirement,validateBuilderIntent} from '../system-builder/intent-routing.mjs';
 
 test('a pasted manufacturer-style spec extract fills only explicit comparable ratings',()=>{
   const parsed=parseSpeakerSpecText([
@@ -225,4 +225,66 @@ test('standalone anechoic sensitivity stays available when no in-room figure was
   assert.deepEqual(parsed.fields,{
     speakerLoad:8,speakerSensitivity:87,speakerSensitivityEnvironment:'anechoic',speakerAnechoic:87
   });
+});
+
+test('a speaker user has entered meaningful specs and can match without a manufacturer/manual URL',()=>{
+  const form=new FormData();
+  form.set('speakerOther','Paradigm Titan v1');
+  form.set('speakerPowerType','passive');
+  form.set('speakerLoad','8');
+  form.set('speakerMinimum','4.2');
+  form.set('speakerSensitivity','90');
+  form.set('speakerSensitivityEnvironment','in_room');
+  form.set('speakerAnechoic','87');
+  form.set('speakerRecommendedAmpMin','15');
+  form.set('speakerRecommendedAmpMax','100');
+  const a=unlistedSpecAssessment('speaker',form,{requireForMatch:true});
+  assert.equal(a.state,'provisional');
+  assert.equal(a.record.url,null);
+  assert.equal(a.record.sourceStatus,'missing');
+  assert.equal(a.record.values.load,8);
+  assert.equal(a.record.values.sensitivity,90);
+  assert.match(a.message,/No source URL provided/);
+  assert.equal(validateBuilderIntent('amp_for_speakers',form).ok,true);
+  assert.equal(builderFieldRequirement('amp_for_speakers','speakerSpecUrl'),'optional');
+});
+test('a model name without impedance still cannot produce a provisional speaker match',()=>{
+  const form=new FormData();
+  form.set('speakerOther','Paradigm Titan v1');
+  form.set('speakerPowerType','passive');
+  const a=unlistedSpecAssessment('speaker',form,{requireForMatch:true});
+  assert.equal(a.state,'incomplete');
+  assert.equal(a.record,null);
+  assert.match(a.message,/nominal impedance/);
+  assert.equal(validateBuilderIntent('amp_for_speakers',form).ok,false);
+});
+test('amp, source and headphone specifications can be provisional without source URLs too',()=>{
+  const amp=new FormData();
+  amp.set('ampOther','Example Stereo Receiver');
+  amp.set('ampMinLoad','6');amp.set('ampRatedWatts','75');amp.set('ampRatedLoad','8');
+  const a=unlistedSpecAssessment('amp',amp,{requireForMatch:true});
+  assert.equal(a.state,'provisional');assert.equal(a.record.url,null);
+  assert.equal(a.record.sourceStatus,'missing');
+  assert.equal(validateBuilderIntent('speakers_for_amp',amp).ok,true);
+  const source=new FormData();source.set('sourceOther','Example DAC');source.set('sourceOutput','optical');
+  const o=unlistedSpecAssessment('source',source);
+  assert.equal(o.state,'provisional');assert.equal(o.record.values.sourceConnection,'optical');
+  const headphone=new FormData();
+  headphone.set('headphoneOther','Example Headphone');
+  headphone.set('headphoneLoad','32');headphone.set('headphoneSensitivity','98');headphone.set('headphoneBasis','power');
+  const h=unlistedSpecAssessment('headphone',headphone);
+  assert.equal(h.state,'provisional');assert.equal(h.record.sourceStatus,'missing');
+  for(const kind of ['amp','source','headphone']){
+    assert.equal(builderFieldRequirement('improve_existing',kind+'SpecUrl'),'optional');
+  }
+});
+test('providing an optional valid source restores the provenance flag, not independent verification',()=>{
+  const form=new FormData();
+  form.set('speakerOther','Paradigm Titan v1');
+  form.set('speakerLoad','8');form.set('speakerSpecUrl','https://example.org/manual');
+  const a=unlistedSpecAssessment('speaker',form);
+  assert.equal(a.state,'provisional');
+  assert.equal(a.record.url,'https://example.org/manual');
+  assert.equal(a.record.sourceStatus,'provided');
+  assert.match(a.message,/not independently verified/);
 });
