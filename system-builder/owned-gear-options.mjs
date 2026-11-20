@@ -8,6 +8,7 @@ import {assessAmplifierCandidate,manufacturerNominalPairing} from './amplifier-f
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {poweredSubPairFor} from './stereo-subwoofer-examples.mjs';
 import {isPoweredSpeakerRecord,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
+import {sourceSignalMatch} from './source-signal-match.mjs';
 import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
 
 const kinds=['speaker','amp','source','headphone'];
@@ -29,10 +30,7 @@ function sourceNote(own,inputs=[],headphones=false) {
   const out=String(own.source.record?.values?.sourceConnection||'');
   if(headphones)return 'Your '+own.source.name+' uses a '+(out||'currently unverified')+
     ' output. A line output is not automatically a headphone amplifier; verify a suitable headphone socket, drive capability and volume control.';
-  if((out==='RCA'||out==='3.5 mm')&&inputs.includes('analog'))
-    return 'Your '+own.source.name+' lists '+out+' analogue output and this route accepts analogue input. Verify voltage, cables and volume control before calling it compatible.';
-  return 'The '+(out||'unknown')+' output on your '+own.source.name+
-    ' has not been confirmed against this path’s inputs. An adapter or another connection may be necessary.';
+  return sourceSignalMatch(out,inputs).note;
 }
 function existingPair(own,request) {
   const speaker=own.speaker, amp=own.amp, screen=ampSpeakerScreening(amp);
