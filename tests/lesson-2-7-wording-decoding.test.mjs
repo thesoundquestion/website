@@ -5,7 +5,9 @@ const read=name=>readFileSync(new URL('../decoder/'+name+'/index.html',import.me
 
 test('Lesson 2 clarifies subjective frequency balance and covers Yamaha and Cerwin-Vega speakers',()=>{
   const h=read('speaker-frequency-response');
-  assert.match(h,/sounds brighter, warmer or more present/);
+  assert.match(h,/Same song\./);
+  assert.match(h,/cymbals might stand out more/);
+  assert.match(h,/recording through two different pairs of speakers/);
   assert.match(h,/<strong>Yamaha speakers/);
   assert.match(h,/<strong>Cerwin-Vega/);
   assert.match(h,/hs-series\/specs\.html/);
@@ -15,20 +17,23 @@ test('the same approved pump analogy explains overload without claiming inevitab
   for(const slug of ['speaker-impedance','ohms-law','technical-glossary']){
     const html=read(slug);
     assert.match(html,/tsq-pump-taps-approved\.png/);
-    assert.match(html,/wider tap does not give the pump a bigger motor/);
-    assert.match(html,/current limiting or thermal protection/i);
-    assert.match(html,/overheat or damage amplifier components/);
-    assert.match(html,/severe clipping or excessive power can also damage speaker drivers/);
-    assert.match(html,/within its limits need not have any of these problems/);
+    assert.match(html,/water pressure is the voltage/);
+    assert.match(html,/a wider bathtub tap needs more water/);
+    assert.match(html,/shut off to protect itself/);
+    assert.match(html,/overheat, wear out sooner or fail/);
+    assert.match(html,/A 4-ohm speaker isn't automatically dangerous/);
   }
 });
-test('Lesson 7 decodes the exact 80-watt, 8-ohm rating with a worked power progression',()=>{
+test('Lesson 7 directly explains every piece of its example before offering optional math',()=>{
   const html=read('amplifier-power');
   const section=html.split('<section class="dl-stat-decode container" id="decode-the-spec"')[1]?.split('</section>')[0];
   assert.ok(section);
-  for(const value of ['20 W','40 W','80 W','12.6 V RMS','17.9 V RMS','25.3 V RMS','1.58 A RMS','2.24 A RMS','3.16 A RMS','20 Hz–20 kHz'])
-    assert.ok(section.includes(value),value);
-  assert.match(section,/calculated examples/i);
-  assert.match(section,/not measured distortion or clipping points/i);
-  assert.match(section,/distortion limit, test duration, simultaneous channels/i);
+  for(const label of ['80 W/ch','8 Ω','20 Hz','20 kHz','How much electrical power?','Tested with what load?','Across which sound frequencies?','Still missing from the spec:'])
+    assert.ok(section.includes(label),'Missing plain-English decoding: '+label);
+  assert.match(section,/Missing test details don't mean the amplifier is bad/);
+  assert.match(section,/Check your own speaker and amplifier combination/);
+  assert.match(section,/<details class="dl-advanced dl-power-math">/);
+  assert.match(section,/calculated examples, not amplifier measurements/i);
+  for(const label of ['20 W','40 W','80 W','12.6 V','17.9 V','25.3 V'])
+    assert.ok(section.includes(label),'Missing optional worked example: '+label);
 });

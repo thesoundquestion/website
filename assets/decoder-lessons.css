@@ -667,3 +667,22 @@
 .dl-supplemental-content .dl-end{padding:1rem 0 0;gap:.6rem;font-size:.85rem}
 .dl-supplemental-content .dl-related-action{margin-top:.65rem;padding-top:.65rem;max-width:100%;width:100%}
 .dl-supplemental-content .sb-sources{line-height:1.65}
+
+/* Beginner-first rating decode: explain each real number before optional math. */
+.dl-power-spec-grid{grid-template-columns:minmax(0,1.1fr) minmax(290px,.9fr);align-items:start}
+.dl-power-decoder{display:grid;gap:.7rem}
+.dl-power-decode-row{display:grid;grid-template-columns:minmax(94px,142px) 1fr;gap:.8rem;align-items:start;border:1px solid #375c74;border-radius:10px;background:#102c40;padding:.85rem}
+.dl-power-decode-number{font-size:clamp(1.2rem,2vw,1.72rem);font-weight:800;line-height:1.22;color:#90ddf6;overflow-wrap:anywhere}
+.dl-power-decode-row>span:last-child{display:grid;gap:.2rem;line-height:1.54;color:#d8e7f1;font-size:.9rem}
+.dl-power-decode-row strong,.dl-power-decode-missing strong{color:#f4fbff;font-size:.95rem}
+.dl-power-decode-missing{display:grid;gap:.15rem;border-left:3px solid #dda966;background:#292b39;border-radius:8px;padding:.75rem .85rem;color:#e2dde0;font-size:.88rem;line-height:1.55}
+.dl-power-math{max-width:1000px;margin:.9rem auto 0;border:1px solid #41647c;border-radius:11px;padding:.85rem 1rem;background:#102638}
+.dl-power-math>summary{cursor:pointer;font-weight:750;color:#b4e6f7}
+.dl-power-math p{line-height:1.66}
+.dl-power-math-rows{display:grid;gap:.65rem;margin:1rem 0}
+.dl-power-math-row{display:grid;grid-template-columns:68px minmax(100px,1fr) minmax(145px,210px);gap:.85rem;align-items:center;font-size:.87rem}
+.dl-power-math-row strong{color:#f0f9ff}
+.dl-power-math-bar{height:19px;border:1px solid #42667c;border-radius:5px;background:#173042;overflow:hidden}
+.dl-power-math-bar>span{display:block;height:100%;background:#8ad8e7}
+@media(max-width:900px){.dl-power-spec-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:550px){.dl-power-decode-row{grid-template-columns:minmax(75px,105px) 1fr;padding:.7rem;gap:.6rem}.dl-power-decode-number{font-size:1.16rem}.dl-power-decode-row>span:last-child{font-size:.85rem}.dl-power-math-row{grid-template-columns:50px minmax(75px,1fr);gap:.5rem}.dl-power-math-row>span:last-child{grid-column:2;font-size:.8rem}}
