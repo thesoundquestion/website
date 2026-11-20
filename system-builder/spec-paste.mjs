@@ -1,60 +1,150 @@
 /**
- * Only recognises explicitly labelled speaker figures from user-pasted text.
- * No Google scraping, guessed units, derived ratings, or source verification.
- * Review is required: the user must press a button to populate editable fields.
+ * Interpret speaker specification text copied from manufacturer pages, PDFs,
+ * shopping tables, and search snippets. The text is USER-SUPPLIED, not sourced
+ * or verified by this parser. Never invent or convert sensitivity ratings.
+ *
+ * Keep this deliberately conservative: ambiguous ranges, contradictory values,
+ * and unstated sensitivity bases must be reviewed by the visitor.
  */
+const LABEL=/\b(?:nominal\s+(?:(?:loud)?speaker\s+)?(?:impedance|load)|rated\s+(?:speaker\s+)?impedance|min(?:imum)?\.?\s+(?:(?:loud)?speaker\s+)?impedance|(?:speaker\s+)?impedance(?:\s+(?:nominal|rated|minimum|min\.?))?|sensitiv(?:ity|ities)|efficien(?:cy|cies))\b/gi;
 const numberValue=value=>Number(String(value).replace(',','.'));
 const valid=(value,min,max)=>Number.isFinite(value)&&value>=min&&value<=max;
-const matchValues=(lines,label,unit,min,max)=>{
-  const hits=[];
-  for(const line of lines){
-    const m=line.match(label);
-    if(!m)continue;
-    const tail=line.slice(m.index+m[0].length);
-    const unitMatch=tail.match(unit);
-    if(!unitMatch)continue;
-    const n=numberValue(unitMatch[1]);
-    if(valid(n,min,max))hits.push(n);
-  }
-  return [...new Set(hits)];
+const distinct=values=>[...new Set(values)];
+const OHM='(?:Ω|ohms?)';
+const readImpedance=segment=>{
+  let value=segment.trim()
+    .replace(/^[\s:=|–—-]+/,'')
+    .replace(/^\(\s*(?:Ω|ohms?)\s*\)\s*[:=]?\s*/i,'')
+    .replace(/^(?:nominal|rated|min(?:imum)?)\s*[:=]?\s*/i,'')
+    .replace(/^(?:approx(?:imately)?\.?|about|~)\s*/i,'');
+  // Do not choose one end of a manufacturer's 4–8 Ω range, or of 4/8 Ω.
+  if(/^\d+(?:[.,]\d+)?\s*(?:[-–—/]|to\b)\s*\d/i.test(value))return null;
+  const first=value.match(/^(\d{1,2}(?:[.,]\d+)?)\s*(?:Ω|ohms?)?/i);
+  if(!first)return null;
+  const amount=numberValue(first[1]);
+  if(!valid(amount,1,16))return null;
+  const rest=value.slice(first[0].length);
+  // Refuse a separate second impedance figure in the same unlabelled cell.
+  if(new RegExp('\\d+(?:[.,]\\d+)?\\s*'+OHM,'i').test(rest))return null;
+  return amount;
 };
+function readSensitivity(segment){
+  const levels=distinct([...segment.matchAll(/(\d{2,3}(?:[.,]\d+)?)\s*dB(?:\s*SPL)?\b/gi)]
+    .map(x=>numberValue(x[1])).filter(x=>valid(x,60,120)));
+  // Table layouts sometimes put the unit in the column name:
+  // "Sensitivity (dB/2.83V/1m) | 89".
+  if(!levels.length&&/\bdB\b/i.test(segment)){
+    const tail=segment.match(/[:=|]\s*(\d{2,3}(?:[.,]\d+)?)\s*$/);
+    if(tail){
+      const n=numberValue(tail[1]);
+      if(valid(n,60,120))levels.push(n);
+    }
+  }
+  if(levels.length!==1)return null;
+  const voltage=/\b2[.,]83\s*(?:v|volts?)\b/i.test(segment);
+  const power=/(?<![\d.,])1(?:[.,]0)?\s*(?:w|watts?)\b/i.test(segment)||
+    /\bdB(?:\s*SPL)?\s*\/\s*w\s*\/\s*m\b/i.test(segment);
+  if(voltage===power)return {level:levels[0],basis:null};
+  return {level:levels[0],basis:voltage?'voltage':'power'};
+}
+const allMarkers=line=>[...line.matchAll(LABEL)];
+function preparedLines(text){
+  const raw=String(text||'').slice(0,5000).normalize('NFKC')
+    .replace(/\r\n?/g,'\n')
+    .replace(/<br\s*\/?>/gi,'\n')
+    .replace(/<\/(?:p|tr|li|div)>/gi,'\n')
+    .replace(/<[^>]{1,200}>/g,' ')
+    .replace(/[\u00a0\u202f]/g,' ')
+    .replace(/[•▪]/g,'\n')
+    .replace(/[–—−]/g,'-');
+  const lines=raw.split(/[\n;]+/).map(x=>x.trim().replace(/\s+/g,' ')).filter(Boolean);
+  const combined=[];
+  for(let i=0;i<lines.length;i++){
+    let line=lines[i];
+    const markers=allMarkers(line);
+    if(markers.length===1&&i+1<lines.length&&!allMarkers(lines[i+1]).length){
+      const category=/sensitiv|efficien/i.test(markers[0][0])?'sensitivity':'impedance';
+      const segment=line.slice(markers[0].index+markers[0][0].length);
+      const hasValue=category==='sensitivity'
+        ?/\d{2,3}(?:[.,]\d+)?\s*dB\b/i.test(segment)
+        :readImpedance(segment)!==null;
+      const next=lines[i+1];
+      // Copied tables often place the value on the following line.
+      const valueRow=/^(?:(?:[:=|]\s*)|(?:\(\s*(?:Ω|ohms?)\s*\)\s*))?\d/i.test(next);
+      const basisRow=category==='sensitivity'&&
+        /^(?:at\s+|@\s*)?(?:2[.,]83\s*(?:v|volts?)|1\s*(?:w|watts?))\b/i.test(next);
+      if((!hasValue&&valueRow)||(hasValue&&basisRow)){
+        line+=' '+next;
+        i++;
+      }
+    }
+    combined.push(line);
+  }
+  return combined;
+}
 export function parseSpeakerSpecText(text){
-  const lines=String(text||'').slice(0,5000).split(/[\n\r;]+/).map(s=>s.trim()).filter(Boolean);
+  const lines=preparedLines(text);
   const fields={};
   const notes=[];
-  const nominal=matchValues(lines,/\bnominal\s+(?:speaker\s+)?impedance\b/i,
-    /(\d{1,2}(?:[.,]\d+)?)\s*(?:Ω|ohms?)/i,2,16);
-  const minimum=matchValues(lines,/\bmin(?:imum)?\.?\s+(?:speaker\s+)?impedance\b/i,
-    /(\d{1,2}(?:[.,]\d+)?)\s*(?:Ω|ohms?)/i,1,16);
-  if(nominal.length===1)fields.speakerLoad=nominal[0];
-  else if(nominal.length>1)notes.push('Conflicting nominal impedances. Enter the correct model rating yourself.');
-  if(minimum.length===1&&(nominal.length===0||minimum[0]<=nominal[0]))
-    fields.speakerMinimum=minimum[0];
-  else if(minimum.length>1||minimum.length===1&&nominal.length===1&&minimum[0]>nominal[0])
-    notes.push('Minimum impedance was conflicting or above nominal. Check it manually.');
-  const sensitivities=[];
+  const nominal=[],minimum=[],sensitivities=[];
+  let unlabeledNominal=false, sawSensitivity=false, sawImpedance=false, ambiguousImpedance=false;
   for(const line of lines){
-    const m=line.match(/\bsensitiv(?:ity|ities)\b/i);
-    if(!m)continue;
-    const tail=line.slice(m.index+m[0].length);
-    const level=tail.match(/(\d{2,3}(?:[.,]\d+)?)\s*dB\b/i);
-    if(!level)continue;
-    const n=numberValue(level[1]);
-    if(!valid(n,60,120))continue;
-    const voltage=/\b2[.,]83\s*(?:V|volts?)\b/i.test(line);
-    const power=/\b1(?:[.,]0)?\s*(?:W|watt(?:s)?)\b/i.test(line);
-    if(voltage===power)continue;
-    sensitivities.push({n,basis:voltage?'voltage':'power'});
+    const markers=allMarkers(line);
+    for(let i=0;i<markers.length;i++){
+      const marker=markers[i];
+      const label=marker[0].toLowerCase();
+      let segment=line.slice(marker.index+marker[0].length,markers[i+1]?.index??line.length);
+      if(/sensitiv|efficien/.test(label)){
+        sawSensitivity=true;
+        const result=readSensitivity(segment);
+        if(result?.basis)sensitivities.push(result);
+        continue;
+      }
+      sawImpedance=true;
+      // "Impedance (nominal): 8 ohms" and "Impedance: 8 ohms nominal".
+      const min=/min(?:imum)?/.test(label)||/\bmin(?:imum)?\b/i.test(segment);
+      const explicit=/\bnominal\b|\brated\b/.test(label)||
+        /\bnominal\b|\brated\b/i.test(segment);
+      const value=readImpedance(segment);
+      if(value===null){
+        if(/\d/.test(segment))ambiguousImpedance=true;
+        continue;
+      }
+      if(min)minimum.push(value);
+      else {
+        nominal.push(value);
+        if(!explicit)unlabeledNominal=true;
+      }
+    }
   }
-  const unique=[...new Map(sensitivities.map(x=>[x.n+'|'+x.basis,x])).values()];
-  if(unique.length===1){
-    fields.speakerSensitivity=unique[0].n;
-    fields.speakerBasis=unique[0].basis;
-  }else if(unique.length>1)
-    notes.push('More than one sensitivity rating was found. Check the test basis manually.');
-  else if(lines.some(x=>/\bsensitivity\b/i.test(x)))
-    notes.push('Sensitivity was not filled: the dB value must state 1 W or 2.83 V at the measurement distance.');
+  const possibleNominal=distinct(nominal);
+  const possibleMinimum=distinct(minimum);
+  if(possibleNominal.length===1){
+    if(valid(possibleNominal[0],2,16))fields.speakerLoad=possibleNominal[0];
+  }else if(possibleNominal.length>1)
+    notes.push('Conflicting impedance values were found; check the nominal rating for the exact model.');
+  if(unlabeledNominal&&possibleNominal.length===1)
+    notes.push('The document says "impedance" without confirming "nominal". Check that this is the nominal rating before using the match.');
+  if(possibleMinimum.length===1&&!ambiguousImpedance&&
+     possibleNominal.length<=1&&
+     (possibleNominal.length===0||possibleMinimum[0]<=possibleNominal[0]))
+    fields.speakerMinimum=possibleMinimum[0];
+  else if(possibleMinimum.length>1||
+          possibleMinimum.length===1&&
+          (possibleNominal.length>1||possibleMinimum[0]>possibleNominal[0]))
+    notes.push('Minimum impedance needs manual review; no contradictory figure was copied.');
+  if(ambiguousImpedance)notes.push('An impedance value was unclear or given as a range; check that figure manually.');
+  const uniqueSensitivity=[...new Map(sensitivities.map(x=>[x.level+'|'+x.basis,x])).values()];
+  if(uniqueSensitivity.length===1){
+    fields.speakerSensitivity=uniqueSensitivity[0].level;
+    fields.speakerBasis=uniqueSensitivity[0].basis;
+  }else if(uniqueSensitivity.length>1)
+    notes.push('More than one sensitivity rating or test basis was found; check the applicable one manually.');
+  else if(sawSensitivity)
+    notes.push('Sensitivity was not filled: the dB figure must state a 1 W or 2.83 V measurement basis.');
   if(!Object.keys(fields).length)
-    notes.unshift('No unambiguous labelled values found. Enter the relevant figures into the fields below.');
+    notes.unshift('No unambiguous usable ratings found. Copy the specification table, or type the figures into the boxes below.');
+  if(!sawImpedance&&Object.keys(fields).length)
+    notes.push('No speaker impedance rating was recognised. Enter the nominal impedance if you need an amplifier match.');
   return {fields,notes};
 }
