@@ -5,9 +5,9 @@ const read=name=>readFileSync(new URL('../decoder/'+name+'/index.html',import.me
 
 test('Lesson 2 clarifies subjective frequency balance and covers Yamaha and Cerwin-Vega speakers',()=>{
   const h=read('speaker-frequency-response');
-  assert.match(h,/Same song\./);
-  assert.match(h,/cymbals might stand out more/);
-  assert.match(h,/recording through two different pairs of speakers/);
+  assert.match(h,/Here Comes the Sun, <span class="gradient-text">or is it the speakers\?<\/span>/);
+  assert.match(h,/the sunshine hasn't changed/);
+  assert.match(h,/Some speakers push vocals forward, others add bass weight/);
   assert.match(h,/<strong>Yamaha speakers/);
   assert.match(h,/<strong>Cerwin-Vega/);
   assert.match(h,/hs-series\/specs\.html/);
