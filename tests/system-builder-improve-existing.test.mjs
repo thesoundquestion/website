@@ -46,7 +46,7 @@ test('speaker alternatives retain the source-linked 6-ohm load evidence for A-72
   const towers=plan.selected.slice(1).filter(x=>x.speakerModel.startsWith('Cerwin-Vega XLS'));
   assert.ok(towers.length>=1);
   assert.ok(towers.every(x=>x.speakerValues.load===6));
-  assert.ok(towers.every(x=>/methods|measurement/.test(x.why)));
+  assert.ok(towers.every(x=>/methods|measurement/.test(x.speakerRationale)));
   assert.equal(plan.selected.slice(1).some(x=>x.speakerModel==='Paradigm Titan v3'),false);
 });
 test('ordinary reuse route still preserves both owned components without implying a purchase',()=>{
