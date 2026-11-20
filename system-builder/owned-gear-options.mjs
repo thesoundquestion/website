@@ -295,8 +295,12 @@ function keepAmp(own,request,inventory){
   const selected=r.selected.map(item=>{
     const used=['amp'];const parts=[part(own.amp,'Already owned; no new amplifier purchase'),...item.parts];
     if(has(own.source)){used.push('source');parts.push(part(own.source,'Already owned; verify matching amp input'));}
-    const msg='Keep your '+own.amp.name+' and investigate '+item.title+' for the missing stereo speakers. The amplifier’s load suitability is still conditional.';
-    return attach({...item,why:msg,speakerRationale:item.why,parts,preferenceMatchAvailable:true,
+    const changingSpeakers=Boolean(request.upgradeReference?.name);
+    const msg=changingSpeakers
+      ? 'Keep your '+own.amp.name+' and compare '+item.title+' with your existing '+
+        request.upgradeReference.name+'. These are alternatives to investigate, not verified improvements.'
+      : 'Keep your '+own.amp.name+' and investigate '+item.title+' for the missing stereo speakers. The amplifier’s load suitability is still conditional.';
+    return attach({...item,why:changingSpeakers?item.why:msg,speakerRationale:item.why,parts,preferenceMatchAvailable:true,
       extra:[...(item.extra||[]),...(has(own.source)?[sourceNote(own,['analog'])]:[])]},own,used,msg);
   });
   return {selected,excluded:r.excluded,mode:'keep_amp'};
@@ -327,6 +331,33 @@ function keepSeparate(own,request){
     extra:['Different format, connection or off-grid requirements may need separate equipment.']},
     own,owned(own),msg);
 }
+/**
+ * Only an explicit "improve existing" request permits comparing replacements
+ * for working powered speakers or headphones. Treat documented system examples
+ * as alternatives, NOT proof of more output or better sound. The owned source
+ * follows the comparison only with the same output/drive checks as elsewhere.
+ */
+function compareOwnedListeningOptions(own,request,architecture,kind,catalog=null){
+  if(request.buildIntent!=='improve_existing'||!has(own[kind]))return [];
+  const current=own[kind].name;
+  const options=shortlistExamples({...request,architecture},catalog).selected;
+  return options.filter(item=>!(item.parts||[]).some(p=>
+    String(p.name||'').toLowerCase().includes(current.toLowerCase()))).slice(0,3).map(item=>{
+    const reuse=has(own.source)?['source']:[];
+    const sourceParts=has(own.source)?[part(own.source,
+      'Already owned source; output, volume and input compatibility require verification')]:[];
+    const note=has(own.source)?sourceNote(own,item.connections||[],architecture==='headphone_first'):null;
+    const type=kind==='headphone'?'headphones':'powered speakers';
+    const reason='You asked to improve your existing setup. Compare '+item.title+
+      ' with your '+current+' for your listening priorities. This is a different '+
+      type+' option to audition or investigate, not evidence that your current equipment performs worse.';
+    return attach({...item,why:reason,compareAgainst:{kind,model:current},
+      parts:[...sourceParts,...(item.parts||[])],
+      extra:[...(item.extra||[]),...(note?[note]:[]),
+        'Check the exact connection, level capability and real local total before replacing owned equipment.']},
+      own,reuse,reason);
+  });
+}
 function comparisonReasons(own,request){
   const out=[];
   if(request.power==='battery')out.push('Battery operation may justify a separate portable system. Your mains equipment remains useful where wall power exists.');
@@ -339,7 +370,7 @@ function comparisonReasons(own,request){
   if(has(own.headphone))out.push('Replace your headphones only for a real fit, isolation, sound or output mismatch.');
   return out;
 }
-export function ownershipPlan({own={},request={},inventory={}}={}){
+export function ownershipPlan({own={},request={},inventory={},catalog=null}={}){
   if(!owned(own).length)return null;
   const arch=request.architecture||'open';
   // A loud/party listening GOAL is not a request to discard a working
@@ -351,15 +382,22 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
   const poweredStudio=own.speaker?.record?.speakerKind==='powered_studio_monitor';
   const poweredPa=own.speaker?.record?.speakerKind==='powered_pa_speaker';
   let plan;
-  if(headphonePath&&has(own.headphone))plan={selected:[keepHeadphone(own,request)],excluded:[],mode:'keep_headphones'};
+  if(headphonePath&&has(own.headphone))plan={selected:[
+    keepHeadphone(own,request),
+    ...compareOwnedListeningOptions(own,request,'headphone_first','headphone',catalog)
+  ],excluded:[],mode:'keep_headphones'};
   else if(poweredStudio||poweredPa) {
     // No amplifier matching can ever run on these powered line-input units.
-    if(poweredStudio&&!event)plan=keepPoweredStudioMonitor(own,request);
-    else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_powered_separate'};
+    if(poweredStudio&&!event){
+      plan=keepPoweredStudioMonitor(own,request);
+      plan.selected.push(...compareOwnedListeningOptions(own,request,'active_studio','speaker',catalog));
+    }else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_powered_separate'};
   }
   else if(poweredPair) {
-    if(!event&&(arch==='open'||arch==='consumer_powered_pair')) plan=keepPoweredPair(own,request,poweredPair);
-    else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
+    if(!event&&(arch==='open'||arch==='consumer_powered_pair')){
+      plan=keepPoweredPair(own,request,poweredPair);
+      plan.selected.push(...compareOwnedListeningOptions(own,request,'consumer_powered_pair','speaker',catalog));
+    }else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
   }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&has(own.amp)){
     const first=existingPair(own,request);

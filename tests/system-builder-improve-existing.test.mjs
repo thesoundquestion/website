@@ -77,3 +77,52 @@ test('the improvement route is not reduced to a silent retain-only card',()=>{
   assert.match(app,/Speaker changes worth comparing/);
   assert.match(app,/Open Alternative setups to see each complete connection plan/);
 });
+
+// Improvement comparisons must work beyond a passive amplifier/speaker pair.
+// No manufacturer measurement permits an automatic headphone or powered
+// monitor "upgrade" verdict; retain current gear and compare complete paths.
+test('owned headphone improvement keeps the current headphone and shows sourced comparisons',()=>{
+  const ownHeadphone={headphone:get('headphone','Grado SR80e')};
+  const plan=ownershipPlan({own:ownHeadphone,request:{
+    ...request,architecture:'headphone_first',goal:'imaging',headphoneUse:'quiet'
+  },inventory});
+  assert.equal(plan.mode,'keep_headphones');
+  assert.equal(plan.selected[0].id,'owned-headphones');
+  assert.ok(plan.selected.length>1);
+  assert.ok(plan.selected.slice(1).every(x=>x.architecture==='headphone_first'&&
+    x.compareAgainst?.model==='Grado SR80e'&&
+    x.keptSeparate.some(s=>s.includes('Grado SR80e'))));
+});
+test('ordinary headphone ownership does not create replacement suggestions',()=>{
+  const plan=ownershipPlan({own:{headphone:get('headphone','Grado SR80e')},
+    request:{...request,buildIntent:'complete_system',architecture:'headphone_first'},inventory});
+  assert.equal(plan.selected.length,1);
+});
+test('active studio improvement retains owned amplification architecture, without passive amp recommendations',()=>{
+  const monitor=inventory.speaker.find(x=>x.speakerKind==='powered_studio_monitor');
+  assert.ok(monitor,'Expected sourced powered studio monitor');
+  const plan=ownershipPlan({own:{speaker:{name:monitor.model,record:monitor}},
+    request:{...request,architecture:'open'},inventory});
+  assert.equal(plan.mode,'keep_powered_studio');
+  assert.equal(plan.selected[0].id,'owned-studio-monitor');
+  assert.ok(plan.selected.length>1);
+  assert.ok(plan.selected.slice(1).every(x=>x.architecture==='active_studio'&&
+    x.compareAgainst?.model===monitor.model &&
+    !x.parts.some(p=>/Only new amplifier candidate/.test(p.role))));
+});
+test('upgrade candidates explain the comparison rather than saying owned speakers are missing',()=>{
+  const plan=ownershipPlan({own,request,inventory});
+  const choices=plan.selected.slice(1);
+  assert.ok(choices.length>0);
+  assert.ok(choices.every(x=>!x.why.includes('missing stereo speakers')));
+  assert.ok(choices.every(x=>x.why.includes('Paradigm Titan v3')));
+  assert.ok(choices.every(x=>x.speakerRationale.includes('occasionally loud')));
+});
+test('beginner output shows the actual speaker-upgrade rationale first',async()=>{
+  const {explainBeginnerOption}=await import('../system-builder/beginner-output.mjs');
+  const choice=ownershipPlan({own,request,inventory}).selected[1];
+  const summary=explainBeginnerOption(choice,request);
+  assert.match(summary.reason,/occasionally loud, dynamic recordings/);
+  assert.match(summary.reason,/Paradigm Titan v3/);
+  assert.doesNotMatch(summary.reason,/missing stereo speakers/);
+});

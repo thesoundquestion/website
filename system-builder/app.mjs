@@ -884,7 +884,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const partyPassiveRoute=(primary==='party'||useCase==='party') &&
       arch==='passive_separates' && powered!=='battery';
-    const ownership = anyOwned ? ownershipPlan({own,request,inventory}) : null;
+    const ownership = anyOwned ? ownershipPlan({own,request,inventory,catalog:sharedCatalog}) : null;
     const shortlist = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
       : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request,sharedCatalog));
@@ -1175,20 +1175,22 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.append(firstCard);
       shop.append(grid);
       const upgradeIdeas=shortlist.selected.filter(x=>x.upgradeComparedTo);
-      if(upgradeIdeas.length){
+      const otherComparisons=shortlist.selected.filter(x=>x.compareAgainst);
+      if(upgradeIdeas.length||otherComparisons.length){
         const preview=el('section','sb-upgrade-comparison-preview');
-        addText(preview,'h4','Speaker changes worth comparing');
-        addText(preview,'p',
-          'You chose to improve an existing setup. The first card checks what you already have; the alternatives below investigate a speaker change for your listening level and music. A larger cabinet or higher published sensitivity is a reason to compare, not proof of cleaner maximum output.');
-        const bullets=upgradeIdeas.slice(0,3).map(item=>{
+        addText(preview,'h4',upgradeIdeas.length?'Speaker changes worth comparing':'Equipment changes worth comparing');
+        addText(preview,'p',upgradeIdeas.length
+          ? 'You chose to improve an existing setup. The first card checks what you already have; the alternatives below investigate a speaker change for your listening level and music. A larger cabinet or higher published sensitivity is a reason to compare, not proof of cleaner maximum output.'
+          : 'The first card retains your existing equipment. The following alternatives are ways to compare features, fit and sound for your own listening goals; no improvement is assumed.');
+        const bullets=[...upgradeIdeas,...otherComparisons].slice(0,3).map(item=>{
           const spec=item.speakerValues||{};
-          const number=Number.isFinite(spec.sensitivity)?
+          const number=Number.isFinite(spec.sensitivity)&&item.upgradeComparedTo?
             ' · published sensitivity '+spec.sensitivity+' dB'+
             (spec.basis==='power'?' / 1 W':spec.basis==='voltage'?' / 2.83 V':''):'';
           return item.title+number+' · research candidate, not a demonstrated upgrade.';
         });
         list(preview,bullets,'sb-upgrade-ideas');
-        addText(preview,'p','Open Alternative setups to see each complete connection plan, amplifier-load notes and any calculable headroom.','sb-brief-note');
+        addText(preview,'p','Open Alternative setups to see each complete connection plan, equipment limits and any calculable headroom.','sb-brief-note');
         shop.append(preview);
       }
       if(shortlist.selected.length>1){
