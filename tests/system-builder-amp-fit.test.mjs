@@ -150,7 +150,7 @@ test('owner-entered speaker amplifier guidance survives evidence mapping but is 
   assert.equal(fit.ratio,null);
   assert.match(fit.ownerNote,/15–100 W/);
   assert.match(fit.ownerNote,/60 W/);
-  assert.match(fit.ownerNote,/NOT a continuous/);
+  assert.match(fit.ownerNote,/NOT a speaker power-handling limit/);
 });
 test('a valid 4-ohm nominal-class speaker can receive explicitly conditional amp suggestions without fictional watts',()=>{
   const speaker={name:'Owner 4 Ohm Pair',record:{model:'Owner 4 Ohm Pair',
