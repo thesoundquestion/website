@@ -1,8 +1,8 @@
 /**
  * Unlisted gear lookup and PROVISIONAL source-spec entry.
  * Searching the web does not import or certify specifications. The visitor
- * must copy the relevant values from a product manual/spec sheet and provide
- * the original HTTPS source before the match engine receives numeric data.
+ * must provide enough actual specifications for the requested match.
+ * A source URL is helpful but optional; missing provenance is disclosed.
  * These records are never persisted to the shared verified catalogue.
  */
 import {buildSearches,googleSearchUrl} from '../system-check/spec-search.mjs';
@@ -54,8 +54,11 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     return {state:'unknown',model,record:null,
       message:'This name is not in the catalogue. Its specifications remain unknown.'};
   const url=safeSource(data.get(kind+'SpecUrl'));
-  if(!url)return {state:'incomplete',model,record:null,
-    message:'Search for '+model+' and paste the original HTTPS manufacturer specification or manual link. A name alone cannot be matched.'};
+  const sourceNote=url
+    ?'Source URL supplied; the numbers remain user-entered, not independently verified.'
+    :'No source URL provided. The figures remain user-entered and unverified.';
+  // Useful actual ratings may allow a provisional match even without a link.
+  // Each equipment branch below still requires the necessary specifications.
   if(kind==='speaker'){
     const load=numeric(data.get('speakerLoad'),2,16);
     const minimumText=String(data.get('speakerMinimum')||'').trim();
@@ -100,7 +103,7 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     const assumedBasis=sensitivity!==null&&!basis&&load===8;
     const resolvedBasis=basis||(assumedBasis?'voltage':null);
     const comparableSensitivity=sensitivity!==null&&Boolean(resolvedBasis);
-    const record={model,type:kind,url,ratings:[],details:null,
+    const record={model,type:kind,url,sourceStatus:url?'provided':'missing',ratings:[],details:null,
       values:{load,minimum,sensitivity:comparableSensitivity?sensitivity:null,
         basis:comparableSensitivity?resolvedBasis:null,basisAssumed:assumedBasis,
         sensitivityEnvironment:listeningContext||null,
@@ -111,13 +114,13 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
         reportedSensitivity:sensitivity,
         recommendedAmpMinW:recommendedMin,recommendedAmpMaxW:recommendedMax,
         listedMaxInputW:listedMaxInput},
-      note:'Visitor-entered values from the linked document; not independently verified by The Sound Question.',
+      note:'Visitor-entered values. '+sourceNote,
       evidence:'user_entered_unverified',userEntered:true};
     return {state:'provisional',model,record,
       message:'Provisional speaker specifications entered. '+
         (assumedBasis?'For the 8 Ω nominal-class load, sensitivity is treated as approximately 1 W / 2.83 V at 1 m. ':'')+
         (listeningContext==='in_room'?'In-room gain is already included in the reported sensitivity. ':'')+
-        'Confirm the exact model before connecting equipment.'};
+        sourceNote+' Confirm the exact model before connecting equipment.'};
   }
   if(kind==='amp'){
     const floor=numeric(data.get('ampMinLoad'),2,16);
@@ -126,25 +129,25 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     if(floor===null||watts===null||load===null)
       return {state:'incomplete',model,record:null,
         message:'Copy the amplifier minimum permitted speaker ohms, continuous watts per channel, and the ohm load used for that power rating. Do not substitute peak or music power.'};
-    const record={model,type:kind,url,
+    const record={model,type:kind,url,sourceStatus:url?'provided':'missing',
       // This is visitor-entered data, not a verified manufacturer load rule.
       // Screening treats it as preliminary and will not claim a certified match.
       details:null,userNominalFloor:floor,
       ratings:[[watts,load,'continuous']],
-      values:{},note:'Visitor-entered power and impedance figures; not independently verified by The Sound Question.',
+      values:{},note:'Visitor-entered power and impedance figures. '+sourceNote,
       evidence:'user_entered_unverified',userEntered:true};
     return {state:'provisional',model,record,
-      message:'Provisional amplifier specifications entered. Ratings and permitted speaker loads require checking against the exact manufacturer manual.'};
+      message:'Provisional amplifier specifications entered. '+sourceNote+' Ratings and permitted speaker loads require checking against the exact manufacturer manual.'};
   }
   if(kind==='source'){
     const output=String(data.get('sourceOutput')||'');
     if(!['RCA','3.5 mm','optical','coaxial','usb','hdmi','bluetooth','other'].includes(output))
       return {state:'incomplete',model,record:null,
         message:'Choose the documented audio output connection for your unlisted source or DAC.'};
-    const record={model,type:kind,url,ratings:[],details:null,
-      values:{sourceConnection:output},note:'Visitor-entered output connection from the linked document; not independently verified.',
+    const record={model,type:kind,url,sourceStatus:url?'provided':'missing',ratings:[],details:null,
+      values:{sourceConnection:output},note:'Visitor-entered output connection. '+sourceNote,
       evidence:'user_entered_unverified',userEntered:true};
-    return {state:'provisional',model,record,message:'Provisional source output captured. Confirm connection level and exact socket before purchase.'};
+    return {state:'provisional',model,record,message:'Provisional source output captured. '+sourceNote+' Confirm connection level and exact socket before purchase.'};
   }
   if(kind==='headphone'){
     const load=numeric(data.get('headphoneLoad'),1,1000);
@@ -153,10 +156,10 @@ export function unlistedSpecAssessment(kind,data,{requireForMatch=false}={}){
     if(load===null||sensitivity===null||!['power','voltage'].includes(basis))
       return {state:'incomplete',model,record:null,
         message:'Enter the headphone impedance, sensitivity and whether the manufacturer states dB/mW or dB/V. One basis cannot be assumed from the other.'};
-    const record={model,type:kind,url,ratings:[],details:null,
-      values:{load,sensitivity,basis},note:'Visitor-entered headphone specifications; output compatibility and achievable volume are unverified.',
+    const record={model,type:kind,url,sourceStatus:url?'provided':'missing',ratings:[],details:null,
+      values:{load,sensitivity,basis},note:'Visitor-entered headphone specifications. '+sourceNote+' Output compatibility and achievable volume are unverified.',
       evidence:'user_entered_unverified',userEntered:true};
-    return {state:'provisional',model,record,message:'Provisional headphone values captured. Actual headphone output power, distortion and fit remain unchecked.'};
+    return {state:'provisional',model,record,message:'Provisional headphone values captured. '+sourceNote+' Actual headphone output power, distortion and fit remain unchecked.'};
   }
   return {state:requireForMatch?'incomplete':'unknown',model,record:null,message:'Not checked'};
 }
