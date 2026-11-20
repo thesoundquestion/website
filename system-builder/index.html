@@ -10,12 +10,12 @@
   <meta property="og:url" content="https://thesoundquestion.com/system-builder/">
 <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
-<link rel="stylesheet" href="/system-builder/style.css?v=unlisted-spec-paste-20261120">
+<link rel="stylesheet" href="/system-builder/style.css?v=recognition-context-20261120">
 <link rel="stylesheet" href="/tools/recommend-gear/style.css">
 <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
 <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
 <script defer src="/system-builder/catalog-adapter.js"></script>
-<script type="module" src="/system-builder/app.mjs?v=recognition-20261120"></script>
+<script type="module" src="/system-builder/app.mjs?v=recognition-context-20261120"></script>
 
 <title>Listening Builder | The Sound Question</title>
 </head>
@@ -178,7 +178,8 @@ Minimum impedance: 4.2 ohms
 Sensitivity: 89 dB (2.83 V / 1 m)"></textarea>
   </label>
   <button type="button" class="button button-secondary sb-spec-paste-button" id="sb-speaker-spec-fill">Fill recognised fields from pasted text</button>
-  <p id="sb-speaker-spec-feedback" class="sb-help" role="status" aria-live="polite">Prefer typing values? The editable fields are directly below. Only clearly labelled ratings are extracted; review them before building a match.</p>
+  <p id="sb-speaker-spec-feedback" class="sb-help" role="status" aria-live="polite">Paste the speaker description, then choose Fill recognised fields. Confirm the numbers below before matching.</p>
+  <ul id="sb-speaker-spec-observations" class="sb-spec-review-list" aria-label="Specification figures needing review" hidden></ul>
   <div class="sb-grid">
   <label class="sb-field">Are these passive or powered speakers? <select name="speakerPowerType"><option value="">Choose from the manual / not sure</option><option value="passive">Passive: needs an external amplifier</option><option value="powered">Powered / active: amplifier is built in</option></select></label>
    <label class="sb-field">Manufacturer specification/manual HTTPS link <input name="speakerSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
