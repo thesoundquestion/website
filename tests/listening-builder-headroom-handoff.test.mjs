@@ -80,7 +80,7 @@ test('ordinary curated passive recommendations carry exact model identities into
 });
 
 test('exact Q Acoustics 2020i and 3030i source-backed presets enable A-720 embedded headroom',()=>{
-  assert.match(checkerPage,/verified-speaker-supplements\\.js/);
+  assert.ok(checkerPage.includes('verified-speaker-supplements.js'));
   const ctx={};
   vm.runInNewContext(classic+'\n'+supplement+
     '\nglobalThis.models=systemCheckGear;',ctx);
@@ -96,7 +96,7 @@ test('exact Q Acoustics 2020i and 3030i source-backed presets enable A-720 embed
     assert.equal(item.values.speakerRecommendedAmpMax,75);
     assert.equal(item.values.speakerPowerPeak,undefined);
     assert.equal(item.values.speakerPowerContinuous,undefined);
-    assert.match(item.url,/^https:\\/\\//);
+    assert.ok(item.url.startsWith('https://'));
     const params=handoff({speakerModel:item.model,amplifierModel:amp.model},8,'high').params;
     assert.equal(params.get('speaker'),item.model);
     assert.equal(params.get('amp'),amp.model);
