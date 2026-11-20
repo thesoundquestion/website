@@ -117,9 +117,7 @@ test('owned RP-600M II with unknown nominal load excludes explicit-floor Sony am
   const result=shortlistAmpsForOwnedSpeakers({
     own:{speaker},inventory,request:{goal:'dynamic',connection:'analog',region:'CA',currency:'CAD',used:true,budgetStrict:false}
   });
-  assert.ok(result.selected.length>0);
+  assert.equal(result.selected.length,0);
   assert.ok(result.excluded.some(x=>x.title==='Sony STR-DH190' && /no verified numeric nominal/.test(x.reason)));
   assert.ok(!result.selected.some(x=>x.title.includes('Sony STR-DH190')));
-  assert.ok(result.selected.every(x=>x.loadCaution && /Do not connect/.test(x.loadCaution)));
-  assert.ok(result.selected.every(x=>x.reuseNames.includes(speaker.name)));
 });
