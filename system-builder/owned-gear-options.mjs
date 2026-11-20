@@ -30,7 +30,7 @@ function sourceNote(own,inputs=[],headphones=false) {
   const out=String(own.source.record?.values?.sourceConnection||'');
   if(headphones)return 'Your '+own.source.name+' uses a '+(out||'currently unverified')+
     ' output. A line output is not automatically a headphone amplifier; verify a suitable headphone socket, drive capability and volume control.';
-  return sourceSignalMatch(out,inputs).note;
+  return 'Your '+own.source.name+': '+sourceSignalMatch(out,inputs).note;
 }
 function existingPair(own,request) {
   const speaker=own.speaker, amp=own.amp, screen=ampSpeakerScreening(amp);
@@ -204,6 +204,10 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       excluded.push({title:idea.model,reason:'No usable nominal speaker impedance was supplied.'});
       continue;
     }
+    if(!fit.amp.exact&&fit.amp.displayWatts===null){
+      excluded.push({title:idea.model,reason:'No documented continuous rating for this amplifier at any speaker test load.'});
+      continue;
+    }
     const requestedInput=String(request.connection||'undecided');
     const sourcePath=has(own.source)?sourceSignalMatch(own.source.record?.values?.sourceConnection,idea.inputs):null;
     if(requestedInput!=='undecided'&&!idea.inputs.includes(requestedInput)){
@@ -213,7 +217,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     const exactPower=fit.amp.exact;
     const ratingSummary=exactPower?
       idea.model+' is published at '+fit.amp.watts+' W/channel continuously into '+
-        nominal+' Ω, matching the nominal-class impedance of '+speaker.name+'. ':
+        nominal+' Ω, matching the published nominal impedance of '+speaker.name+'. ':
       idea.model+' has no directly documented continuous output rating at '+nominal+
         ' Ω for '+speaker.name+'. '+(fit.amp.displayWatts!==null?
         'The published '+fit.amp.displayWatts+' W / '+fit.amp.displayOhms+
