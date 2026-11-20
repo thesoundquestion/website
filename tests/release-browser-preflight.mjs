@@ -224,8 +224,9 @@ try {
   const [researchTab]=await Promise.all([
     page.waitForEvent('popup'),specSearch.click()
   ]);
-  await researchTab.waitForLoadState('domcontentloaded');
-  assert.match(researchTab.url(),/^https:\/\/www\.google\.com\/search\?/);
+  // Playwright emits popup while the newly created tab is still blank.
+  // Wait for the subsequent external search navigation before reading URL.
+  await researchTab.waitForURL(/^https:\/\/www\.google\.com\/search\?/,{timeout:15000});
   assert.match(page.url(),/\/system-builder\//);
   assert.equal(await page.locator('[name="speakerOther"]').inputValue(),'Paradigm Phant');
   await researchTab.close();
