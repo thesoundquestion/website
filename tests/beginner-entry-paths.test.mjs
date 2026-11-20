@@ -334,6 +334,8 @@ test('unlisted model name alone cannot drive amplifier suggestions',()=>{
   d.set('speakerSpecUrl','https://maker.example/speakers/manual');
   assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,false);
   d.set('speakerLoad','8');
+  assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,false,'speaker type is needed');
+  d.set('speakerPowerType','passive');
   assert.equal(validateBuilderIntent('amp_for_speakers',d).ok,true);
   const v=unlistedSpecAssessment('speaker',d);
   assert.equal(v.state,'provisional');

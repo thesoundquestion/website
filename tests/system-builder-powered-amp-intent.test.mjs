@@ -41,7 +41,7 @@ test('even a direct amp-shortlist call refuses a powered speaker as an external 
   const result=shortlistAmpsForOwnedSpeakers({own:{speaker:powered},request:{architecture:'passive_separates'},inventory});
   assert.equal(result.mode,'powered_speaker_not_passive');
   assert.equal(result.selected.length,0);
-  assert.match(result.excluded[0].reason,/already have one built in/);
+  assert.match(result.excluded[0].reason,/have amplification built in/);
   const pair=shortlistAmpsForOwnedSpeakers({own:{speaker:{name:'Kanto ORA',record:{}}},inventory});
   assert.equal(pair.selected.length,0);
   assert.match(POWERED_AMP_MESSAGE,/line-level source/);
