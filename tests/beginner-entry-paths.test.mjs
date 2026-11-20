@@ -268,7 +268,7 @@ test('builder markup shows rationale and compatibility checks before technical o
     'Reason, system roles, evidence limits and warnings must precede sound reviews');
   assert.match(app,/explainBeginnerOption\(item,request\)/);
   assert.match(app,/What is included|Full verification, trade-offs, equipment and sources/);
-  assert.match(app,/Keeping equipment you already own is a valid outcome/);
+  assert.match(app,/These options show why they were selected/);
   assert.match(page,/Your system options, explained/);
   assert.match(page,/Show me options for my goal/);
   assert.match(css,/\.sb-recommendations\{grid-template-columns:minmax\(0,1fr\)/);

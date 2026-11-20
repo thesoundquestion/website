@@ -804,20 +804,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const fitInfo=item.amplifierFit;
         const p=el('p','sb-card-power');
         addText(p,'strong','Power & headroom: ');
-        const handling=fitInfo.speaker;
         const power=fitInfo.amp;
-        const load=power.exact ? power.watts+' W at '+power.ohms+' Ω' : 'no exact-load published watt figure';
-        const compared=handling.watts!==null && power.exact
-          ? ' vs. '+handling.watts+' W '+handling.label
-          : ' · no usable speaker power-handling comparison';
-        const headroom=fitInfo.powerBand==='in_range' ?
-          'Broadly aligned on paper; real peak reserve still needs checking.' :
-          fitInfo.powerBand==='larger_reserve' ?
-          'Extra available power calls for sensible volume limits, not automatic better sound.' :
-          fitInfo.powerBand==='lower_reserve' || fitInfo.powerBand==='small_relative_to_rating' ?
-          'Less power on paper is not automatically inadequate at your normal volume.' :
-          'No handling-based power target can be justified from the current data.';
-        p.append(document.createTextNode(load+compared+'. '+headroom));
+        const facts=power.exact
+          ?power.watts+' W/channel continuous at '+power.ohms+' Ω'
+          :'No directly published continuous power at this exact load';
+        const burst=Number.isFinite(fitInfo.documentedBurst)
+          ?' · separate '+fitInfo.documentedBurst+' W/channel short-burst rating at the same load'
+          :'';
+        p.append(document.createTextNode(facts+burst+'. Use the on-page calculator for your desired listening level.'));
         evidence.append(p);
         if (fitInfo.context) {
           const impression=el('p','sb-card-review');
@@ -859,6 +853,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(details,'h5','Why this amplifier: technical evidence and checks');
         list(details,item.amplifierEvidence);
         if (item.amplifierSource) link(details,item.amplifierSource,'Published amplifier specifications');
+        if (item.manualPairing?.source) link(details,item.manualPairing.source,'Manufacturer speaker-load instructions');
         if (item.amplifierFit?.speaker?.source)
           link(details,item.amplifierFit.speaker.source,'Published speaker power specification');
         if (item.amplifierFit?.context) {
@@ -938,7 +933,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
     } else {
       addText(shop,'p',speakerFocus ?
-        'None of the suggested speakers has enough verified information to pass our cautious electrical matching checks. Read the amplifier manual for its supported speaker loads before treating a pairing as safe.' :
+        'No evidence-backed pairing is available for these inputs in our current catalogue. We need additional models or comparable measurements before making a recommendation.' :
         'There are no examples for your selected system type and power requirements. Try a different setup.','sb-report-note');
     }
     // Show passive high-efficiency leads next to the event/PA route without

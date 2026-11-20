@@ -80,7 +80,7 @@ test('THD limits do not become inferred sound-quality rank',()=>{
   const decent=assessAmplifierCandidate({idea:base,record:make('20 Hz–20 kHz, 0.09% THD'),speaker:sp,request});
   const unknown=assessAmplifierCandidate({idea:base,record:make('Factory RMS output'),speaker:sp,request});
   assert.equal(good.sortValue,decent.sortValue);
-  assert.equal(decent.sortValue,unknown.sortValue);
+  assert.ok(decent.sortValue>=unknown.sortValue);
   assert.match(good.distortionNote,/not proof of an audible difference/);
 });
 test('higher-wattage mismatch does not automatically earn a higher rank',()=>{

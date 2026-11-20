@@ -235,7 +235,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       priceEvidence:idea.model==='Fosi Audio BT20A Pro'?
         'corroborated_ordinary_CAD_asking_32V_PSU_variant_check':null,
       sceneCaution:false,levelCaution:false,
-      extra:manualPairing?['Manufacturer speaker-load documentation: '+manualPairing.source]:[]},
+      extra:[]},
       own,used,message));
   }
   selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
