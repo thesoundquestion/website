@@ -30,14 +30,14 @@ test('complete amplifier and source specifications get one useful plain-language
   outputZ:0.07,minimum:3.7
  },[{type:'continuous',load:8,watts:105}]);
  assert.match(message,/Source and amplifier connection/);
- assert.match(message,/Your source has enough specified output level/);
+ assert.match(message,/Your source should provide enough signal/);
  assert.doesNotMatch(message,/Enter both|unverified|0\.4 dB|3\.7 Ω|Look for a source/);
 });
 
 test('missing impedance values do not trigger a prompt or generic warning',()=>{
  const message=render({sourceVoltage:2,inputSensitivity:1},
   [{type:'continuous',load:8,watts:105}]);
- assert.match(message,/enough specified output level/);
+ assert.match(message,/should provide enough signal/);
  assert.doesNotMatch(message,/impedance|unverified|check the manual/i);
 });
 
@@ -49,7 +49,7 @@ test('without sufficient source and gain/sensitivity data, omit unhelpful sectio
 test('an actual source shortfall gets a concise explanation',()=>{
  const message=render({sourceVoltage:0.05,inputSensitivity:1},
   [{type:'continuous',load:8,watts:105}]);
- assert.match(message,/specified output level may be too low/);
+ assert.match(message,/may not provide enough signal/);
  assert.doesNotMatch(message,/Enter both|unverified/);
 });
 
