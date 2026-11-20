@@ -41,7 +41,7 @@ test('beginner-first main view shows concise guidance and reachable technical de
   for(const marker of [
     'Beginner-first density pass',
     '.sb-results .sb-beginner-reason{',
-    '.sb-results .sb-headroom-verdict'
+    '.sb-results .sb-inline-system-check .sb-headroom-verdict'
   ]) assert.ok(css.includes(marker),marker);
 });
 
