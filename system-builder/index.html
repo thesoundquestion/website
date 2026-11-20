@@ -15,7 +15,7 @@
 <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
 <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
 <script defer src="/system-builder/catalog-adapter.js"></script>
-<script type="module" src="/system-builder/app.mjs?v=external-research-tab-20261120"></script>
+<script type="module" src="/system-builder/app.mjs?v=recognition-20261120"></script>
 
 <title>Listening Builder | The Sound Question</title>
 </head>
@@ -182,9 +182,9 @@ Sensitivity: 89 dB (2.83 V / 1 m)"></textarea>
   <div class="sb-grid">
   <label class="sb-field">Are these passive or powered speakers? <select name="speakerPowerType"><option value="">Choose from the manual / not sure</option><option value="passive">Passive: needs an external amplifier</option><option value="powered">Powered / active: amplifier is built in</option></select></label>
    <label class="sb-field">Manufacturer specification/manual HTTPS link <input name="speakerSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
-  <label class="sb-field">Nominal speaker impedance (Ω) <input type="number" name="speakerLoad" min="2" max="16" step="0.1" inputmode="decimal" placeholder="e.g. 8"></label>
-  <label class="sb-field">Published minimum impedance (Ω) <input type="number" name="speakerMinimum" min="1" max="16" step="0.1" inputmode="decimal" placeholder="Optional if unknown"></label>
-  <label class="sb-field">Sensitivity (dB) <input type="number" name="speakerSensitivity" min="60" max="120" step="0.1" inputmode="decimal" placeholder="Optional if unknown"></label>
+  <label class="sb-field">Nominal speaker impedance (Ω) <input type="number" name="speakerLoad" min="2" max="16" step="any" inputmode="decimal" placeholder="e.g. 8"></label>
+  <label class="sb-field">Published minimum impedance (Ω) <input type="number" name="speakerMinimum" min="1" max="16" step="any" inputmode="decimal" placeholder="Optional if unknown"></label>
+  <label class="sb-field">Sensitivity (dB) <input type="number" name="speakerSensitivity" min="60" max="120" step="any" inputmode="decimal" placeholder="Optional if unknown"></label>
   <label class="sb-field">Sensitivity rating basis <select name="speakerBasis"><option value="">Not listed / unknown</option><option value="power">1 watt at 1 metre</option><option value="voltage">2.83 volts at 1 metre</option></select></label>
   </div>
  </details>
