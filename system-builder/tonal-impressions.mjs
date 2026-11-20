@@ -11,7 +11,6 @@ const SHORT=Object.freeze({
  'PSB Alpha P3':'open and clear through mids and treble, but limited deep bass',
  'PSB Alpha P5':'natural-sounding vocals, smooth treble and a slightly warm balance',
  'Triangle Borea BR03 (passive)':'a lively, spacious presentation with noticeable treble energy and agile bass',
- 'Q Acoustics 3030i':'bass weight and easy listening, although impressions of bass punch vary',
  'Q Acoustics 3020i':'warm, rich vocals, firm bass for its size and broad stereo presentation',
  'Q Acoustics 3010i':'clear, lively sound with less bass scale than larger models',
  'Q Acoustics 3030i':'a fuller, easy-going low end that some owners still find lacking in punch',

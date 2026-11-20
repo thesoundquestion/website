@@ -197,7 +197,7 @@ export const SOUND_PROFILES = Object.freeze({
   'Paradigm Titan v3': {
     text:'A dependable sonic profile for the exact vintage revision has not been verified. Surrounds, crossover parts and previous repairs can make two used pairs sound different.',
     type:'Not independently characterized',url:null
-  }
+  },
   // Independent listening impressions for popular headphones. The descriptions
   // capture review tendencies, not a universal frequency-response preference.
   'FiiO FT1':{
