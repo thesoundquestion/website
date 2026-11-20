@@ -527,6 +527,42 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
     return { code: verdict, projected: chosen.projected };
   }
 
+  function musicalPeakContext(row, testLoad, demand, continuous, burst, interpolatedContinuous, interpolatedBurst) {
+    // These are power/headroom comparisons, NOT a prediction of THD, clipping,
+    // audible congestion or a specific listening-room measured SPL.
+    const ongoing=continuous ? directRating(continuous) : interpolatedContinuous;
+    const transient=burst ? directRating(burst) : interpolatedBurst;
+    if(!ongoing && !transient)return;
+    const segments=[];
+    if(ongoing && ongoing.watts>0){
+      const fraction=demand/ongoing.watts;
+      const margin=10*Math.log10(ongoing.watts/demand);
+      const source=ongoing.interpolated ? 'assumed continuous power at '+show(testLoad)+' Ω' :
+        'published/entered continuous '+show(testLoad)+' Ω rating';
+      segments.push('The requested peak uses '+powerPercent(fraction)+' of the '+source+
+        ' ('+(margin>=0?'+':'')+db(margin)+' dB of rated-power reserve).');
+    }
+    if(transient && transient.watts>0){
+      const source=transient.interpolated?'interpolated burst-power estimate':'published/entered short-burst rating';
+      const margin=10*Math.log10(transient.watts/demand);
+      segments.push('Against the '+source+' ('+show(transient.watts)+' W/ch), the peak target is '+
+        (demand<=transient.watts?'within':'above')+' that specified short-duration power ('+
+        (margin>=0?'+':'')+db(margin)+' dB).');
+      if(ongoing && ongoing.watts>0 && !ongoing.interpolated && !transient.interpolated &&
+          transient.watts>ongoing.watts){
+        segments.push('The burst figure is '+db(10*Math.log10(transient.watts/ongoing.watts))+
+          ' dB above its continuous rating, subject to the manufacturer\u2019s burst-test conditions.');
+      }
+    }else if(ongoing && demand>ongoing.watts){
+      segments.push('No comparable short-burst rating is supplied. Exceeding continuous power is not proof of immediate clipping.');
+    }
+    segments.push('These figures compare electrical output ratings and a modelled power requirement. They cannot predict distortion at this listening level.');
+    const line=document.createElement('p');
+    line.className='sc-load-headroom sc-load-peak-explanation';
+    line.textContent='Musical peaks: '+segments.join(' ');
+    row.append(line);
+  }
+
   let hasUnknown = false;
   let hasDefinitiveFailure = false;
   let anyProjection = false;
@@ -585,6 +621,8 @@ function summarizePower({ mode, entries, load, minimum, peakV, averageV, peakW, 
 
     const peakAssessment = metricLine(peakItem, 'Short peaks', peakDemand, peak, peakRating,
       'short-burst or continuous', 'peak', testLoad);
+    if(mode === 'check')
+      musicalPeakContext(peakItem,testLoad,peakDemand,cont,burst,projectedCont,projectedBurst);
     items.append(peakItem);
     if (peakAssessment.code === 'fail') hasDefinitiveFailure = true;
     if (peakAssessment.code === 'unverified') hasUnknown = true;
