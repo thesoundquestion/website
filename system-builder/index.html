@@ -15,7 +15,7 @@
 <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
 <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
 <script defer src="/system-builder/catalog-adapter.js"></script>
-<script type="module" src="/system-builder/app.mjs?v=recognition-context-20261120"></script>
+<script type="module" src="/system-builder/app.mjs?v=recognition-flexible-20261120"></script>
 
 <title>Listening Builder | The Sound Question</title>
 </head>
@@ -185,8 +185,11 @@ Sensitivity: 89 dB (2.83 V / 1 m)"></textarea>
    <label class="sb-field">Manufacturer specification/manual HTTPS link <input name="speakerSpecUrl" type="text" inputmode="url" maxlength="600" placeholder="https://manufacturer.example/manual"></label>
   <label class="sb-field">Nominal speaker impedance (Ω) <input type="number" name="speakerLoad" min="2" max="16" step="any" inputmode="decimal" placeholder="e.g. 8"></label>
   <label class="sb-field">Published minimum impedance (Ω) <input type="number" name="speakerMinimum" min="1" max="16" step="any" inputmode="decimal" placeholder="Optional if unknown"></label>
-  <label class="sb-field">Sensitivity (dB) <input type="number" name="speakerSensitivity" min="60" max="120" step="any" inputmode="decimal" placeholder="Optional if unknown"></label>
-  <label class="sb-field">Sensitivity rating basis <select name="speakerBasis"><option value="">Not listed / unknown</option><option value="power">1 watt at 1 metre</option><option value="voltage">2.83 volts at 1 metre</option></select></label>
+  <label class="sb-field">Reported sensitivity (dB) <input type="number" name="speakerSensitivity" min="60" max="120" step="any" inputmode="decimal" placeholder="Optional if unknown"></label>
+  <label class="sb-field">Sensitivity rating basis <select name="speakerBasis"><option value="">Not listed / unknown (still allow matching)</option><option value="power">1 watt at 1 metre</option><option value="voltage">2.83 volts at 1 metre</option></select></label>
+  <label class="sb-field">Recommended amplifier power, from (W) <input type="number" name="speakerRecommendedAmpMin" min="1" max="1000" step="any" inputmode="decimal" placeholder="Optional e.g. 15"></label>
+  <label class="sb-field">Recommended amplifier power, to (W) <input type="number" name="speakerRecommendedAmpMax" min="1" max="2000" step="any" inputmode="decimal" placeholder="Optional e.g. 100"></label>
+  <label class="sb-field">Listed maximum speaker input (W, rating type unknown) <input type="number" name="speakerMaxInput" min="1" max="2000" step="any" inputmode="decimal" placeholder="Optional e.g. 60"></label>
   </div>
  </details>
  <p class="sb-gear-message" data-gear-message="speaker" role="status"></p>
