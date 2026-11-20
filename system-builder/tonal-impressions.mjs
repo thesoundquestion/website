@@ -84,3 +84,24 @@ export function tonalComparison(primary,alternative){
   // suggesting a sonic direction for the unknown one.
   return null;
 }
+
+/** Short, source-attributed impressions for the initial recommendation. */
+export function soundImpressionFor(item){
+  const profile=profileFor(item);
+  return profile
+    ?{model:profile.name,text:profile.report,sources:profile.sources,type:profile.type}
+    :null;
+}
+/** Keep the audible expectation in one sentence rather than two biographies. */
+export function briefTonalContrast(primary,alternative){
+  const a=profileFor(primary),b=profileFor(alternative);
+  if(!b||a?.name===b.name)return null;
+  const brief=s=>s.replace(/\.$/,'').trim();
+  return {
+    text:b.report+(a?' (versus '+a.name+': '+brief(a.report)+')':'')+'.',
+    sources:[
+      ...b.sources.slice(0,1).map(v=>({...v,label:b.name+' review'})),
+      ...(a?a.sources.slice(0,1).map(v=>({...v,label:a.name+' review'})):[])
+    ]
+  };
+}

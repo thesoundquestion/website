@@ -359,3 +359,15 @@
 .sb-tonal-comparison p{line-height:1.58;font-size:.86rem;margin:.4rem 0}
 .sb-tonal-sources{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.45rem}
 .sb-tonal-sources a{font-size:.78rem;text-decoration:underline;text-underline-offset:2px}
+
+/* Compact listening guidance on the actual shortlist. Primary sound is not
+   hidden in verification, and alternative notes are no longer mini essays. */
+.sb-primary-sound{margin:.65rem 0 .8rem;padding:.65rem .8rem;border-left:3px solid #81cad9;background:#173648;border-radius:6px}
+.sb-primary-sound strong{font-size:.9rem;color:#dcf6fc}
+.sb-primary-sound p{margin:.35rem 0;font-size:.9rem;line-height:1.48}
+.sb-comparison-preview-card{padding:.68rem .8rem}
+.sb-comparison-preview-card h5{margin-bottom:.3rem}
+.sb-compact-compare,.sb-tonal-one-line{font-size:.86rem;line-height:1.48;margin:.25rem 0}
+.sb-tonal-one-line{color:#cce2ec}
+.sb-comparison-preview-card .sb-tonal-sources a{font-size:.76rem}
+.sb-alternative-card-contrast{padding:.65rem .8rem}

@@ -5,8 +5,8 @@ import {parseSpeakerSpecText} from './spec-paste.mjs?v=passive-inference-2026112
 import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=sub-20261120';
 import {headphoneDriveRequirement} from './headphone-drive.mjs';
 import {headphoneAmplifierPlan,applyHeadphoneAmpChoice} from './headphone-amp-choice.mjs';
-import {compareAlternative,compareElectronic} from './alternative-comparisons.mjs';
-import {tonalComparison} from './tonal-impressions.mjs';
+import {compareAlternative,compareElectronic,compactAlternativeComparison} from './alternative-comparisons.mjs';
+import {tonalComparison,soundImpressionFor,briefTonalContrast} from './tonal-impressions.mjs';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -1070,23 +1070,30 @@ document.addEventListener('DOMContentLoaded', () => {
         head.append(badge);
       }
       card.append(head);
-      if(alternativeComparison){
-        const contrast=el('div','sb-alternative-card-contrast');
-        addText(contrast,'strong','Compared with '+alternativeComparison.baseline);
-        addText(contrast,'p',alternativeComparison.change+'.');
-        addText(contrast,'p','You may prefer this if '+alternativeComparison.preference+'.');
-        addText(contrast,'p','Trade-off or check: '+alternativeComparison.tradeoff);
-        const tonal=tonalComparison(shortlist.selected[0],item);
-        if(tonal){
-          const sound=el('div','sb-tonal-comparison');
-          addText(sound,'strong',tonal.heading);
-          addText(sound,'p',tonal.text);
+      if(!alternativeComparison){
+        const primarySound=soundImpressionFor(item);
+        const profile=el('section','sb-primary-sound');
+        addText(profile,'strong','Sound character · listener impressions');
+        addText(profile,'p',primarySound
+          ?primarySound.text+'.'
+          :'No model-specific listening profile has been verified for this choice yet.');
+        if(primarySound?.sources?.length){
           const links=el('div','sb-tonal-sources');
-          for(const source of tonal.sources)link(links,source.url,source.label);
-          if(links.children.length)sound.append(links);
-          contrast.append(sound);
+          for(const source of primarySound.sources.slice(0,2))
+            link(links,source.url,source.label||'Listening review');
+          profile.append(links);
         }
-        card.append(contrast);
+        card.append(profile);
+      }
+      if(alternativeComparison){
+        const brief=compactAlternativeComparison(shortlist.selected[0],item,request,sharedCatalog);
+        if(brief){
+          const contrast=el('div','sb-alternative-card-contrast');
+          addText(contrast,'p','Compared with '+brief.baseline+': '+brief.text,'sb-compact-compare');
+          const sound=briefTonalContrast(shortlist.selected[0],item);
+          if(sound)addText(contrast,'p','Sound: '+sound.text,'sb-tonal-one-line');
+          card.append(contrast);
+        }
       }
       if(item.architecture==='headphone_first'&&item.headphoneAmpPlan?.components?.length){
         const selectedElectronics=el('div','sb-headphone-card-electronics');
@@ -1282,25 +1289,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if(!baseline||!choices?.length)return;
       const preview=el('section',klass);
       addText(preview,'h4',heading);
-      addText(preview,'p','Each choice below is compared with the first recommendation. These are practical differences to investigate, not measured sound-quality winners. Open Alternative setups to see each complete connection plan and its source checks.','sb-brief-note');
       const grid=el('div','sb-comparison-preview-list');
       for(const item of choices){
-        const comparison=compareAlternative(baseline,item,request,sharedCatalog);
+        const comparison=compactAlternativeComparison(baseline,item,request,sharedCatalog);
         if(!comparison)continue;
         const note=el('article','sb-comparison-preview-card');
         addText(note,'h5',comparison.alternative);
-        addText(note,'p','Compared with '+comparison.baseline+': '+comparison.change+'.');
-        addText(note,'p','You may prefer this if '+comparison.preference+'.');
-        addText(note,'p','Trade-off or check: '+comparison.tradeoff);
-        const tonal=tonalComparison(baseline,item);
-        if(tonal){
-          const sound=el('div','sb-tonal-comparison');
-          addText(sound,'strong',tonal.heading);
-          addText(sound,'p',tonal.text);
+        addText(note,'p','Compared with '+comparison.baseline+': '+comparison.text,'sb-compact-compare');
+        const sound=briefTonalContrast(baseline,item);
+        if(sound){
+          addText(note,'p','Sound: '+sound.text,'sb-tonal-one-line');
           const links=el('div','sb-tonal-sources');
-          for(const source of tonal.sources)link(links,source.url,source.label);
-          if(links.children.length)sound.append(links);
-          note.append(sound);
+          for(const source of sound.sources)
+            link(links,source.url,source.label);
+          if(links.children.length)note.append(links);
         }
         grid.append(note);
       }

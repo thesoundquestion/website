@@ -196,3 +196,51 @@ export function compareElectronic(base,candidate){
  return {baseline:base.model,alternative:candidate.model,change,preference:prefer,tradeoff,
   summary:'Compared with '+base.model+', '+candidate.model+': '+change+'.'};
 }
+
+/**
+ * A deliberately brief main-screen summary. Detailed values, source caveats,
+ * and all model-specific checks remain in the expanded full recommendation.
+ */
+export function compactAlternativeComparison(base,alt,request={},catalog=null){
+  const comparison=compareAlternative(base,alt,request,catalog);
+  if(!comparison)return null;
+  const arch=alt.architecture;
+  const a=base.architecture;
+  let text='';
+  if(arch==='passive_separates'&&a==='passive_separates'){
+    const sameAmp=(base.amplifierModel||base.ownedAmpName)&&
+      (base.amplifierModel||base.ownedAmpName)===(alt.amplifierModel||alt.ownedAmpName);
+    const sameSpeaker=base.speakerModel&&base.speakerModel===alt.speakerModel;
+    if(sameSpeaker)text='Same speakers, different amplifier or controls.';
+    else if(sameAmp||alt.ownedAmpName){
+      text='Keeps the amplifier, changes the speakers';
+      const x=base.speakerValues,y=alt.speakerValues;
+      if(isNum(x?.sensitivity)&&isNum(y?.sensitivity)&&x.basis===y.basis&&
+         x.sensitivityEnvironment===y.sensitivityEnvironment&&x.sensitivity!==y.sensitivity){
+        const delta=y.sensitivity-x.sensitivity;
+        text+='; '+Math.abs(delta).toFixed(0)+' dB '+(delta>0?'higher':'lower')+' published sensitivity';
+      }
+      text+='.';
+    }else text='Changes the amplifier and speakers. Compare room fit, connections and upgrade flexibility.';
+  }else if(a==='headphone_first'&&arch==='headphone_first'){
+    const first=hpStyle(base),next=hpStyle(alt);
+    text=first&&next&&first!==next
+      ?'Changes from '+first+' to '+next+'. Compare isolation, fit and leakage.'
+      :'Same general headphone format; fit, tuning and source demands may differ.';
+  }else if(a!==arch){
+    text='Switches from '+(setupNames[a]||readable(a))+' to '+(setupNames[arch]||readable(arch))+'.';
+    if(arch==='consumer_powered_pair')text+=' Fewer boxes, less flexibility to replace amplification.';
+    if(arch==='active_studio')text+=' Allow for two powered cabinets and volume control.';
+    if(arch==='party_pa')text+=' Better suited to event coverage than conventional home stereo.';
+  }else if(alt.bassSetup&&!base.bassSetup){
+    text='Adds a subwoofer for possible deeper bass; check crossover and wiring.';
+  }else if(arch==='consumer_powered_pair'||arch==='active_studio'){
+    text='Different powered speakers: compare inputs, placement and bass reach.';
+  }else if(arch==='party_pa'){
+    text='Different PA layout: compare power source, portability and audience coverage.';
+  }else{
+    text=comparison.change.split(';')[0].replace(/^the /,'The ').trim()+'.';
+  }
+  return {baseline:comparison.baseline,alternative:comparison.alternative,
+    text:text.replace(/\.\./g,'.'),detail:comparison};
+}

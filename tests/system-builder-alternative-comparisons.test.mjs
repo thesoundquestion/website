@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {compareAlternative,compareElectronic} from '../system-builder/alternative-comparisons.mjs';
+import {compareAlternative,compareElectronic,compactAlternativeComparison} from '../system-builder/alternative-comparisons.mjs';
 const catalog=JSON.parse(readFileSync(new URL('../equipment/catalog.generated.json',import.meta.url),'utf8'));
 const req={goal:'dynamic',headphoneUse:'quiet',currency:'CAD'};
 const choose=(id,extra={})=>({id,architecture:'headphone_first',
@@ -100,11 +100,41 @@ test('every alternative and full replacement receives comparison on main results
  assert.match(app,/renderComparisonPreview\(shortlist\.selected\[0\],shortlist\.selected\.slice\(1\)/);
  assert.match(app,/renderComparisonPreview\(shortlist\.selected\[0\],alternativesList/);
  assert.match(app,/sb-comparison-preview-card/);
- assert.match(app,/compared\.change/);
+ assert.match(app,/compactAlternativeComparison\(baseline,item,request,sharedCatalog\)/);
  assert.match(app,/compareElectronic\(baseline,device\)/);
  assert.match(app,/sb-sub-comparison-preview/);
  assert.match(css,/\.sb-comparison-overview/);
  assert.match(css,/\.sb-comparison-preview-card/);
  assert.ok(app.indexOf("renderComparisonPreview(shortlist.selected[0],shortlist.selected.slice(1)") <
    app.indexOf("alternativeSetups.append(moreGrid)"),'Comparison must be BEFORE collapsed alternatives');
+});
+
+test('compact alternatives keep one useful line and preserve full technical comparison separately',()=>{
+ const a={id:'p',title:'Polk Signature Elite ES15',architecture:'passive_separates',
+  ownedAmpName:'Yamaha A-720',speakerModel:'Polk Signature Elite ES15',
+  speakerValues:{sensitivity:85,basis:'voltage',sensitivityEnvironment:'anechoic'}};
+ const b={id:'q',title:'Q Acoustics 3030i',architecture:'passive_separates',
+  ownedAmpName:'Yamaha A-720',speakerModel:'Q Acoustics 3030i',
+  speakerValues:{sensitivity:87,basis:'voltage',sensitivityEnvironment:'anechoic'}};
+ const small=compactAlternativeComparison(a,b,req,catalog);
+ assert.match(small.text,/Keeps the amplifier, changes the speakers/);
+ assert.match(small.text,/2 dB higher published sensitivity/);
+ assert.ok(small.text.length<125,'Main comparison must fit a short paragraph');
+ assert.match(small.detail.tradeoff,/cannot prove/);
+});
+test('all system categories get a concise comparison without a repeated warning wall',()=>{
+ const pairs=[
+ [{id:'a',title:'Studio A',architecture:'active_studio'},{id:'b',title:'Studio B',architecture:'active_studio'}],
+ [{id:'a',title:'Headphone A',architecture:'headphone_first',kind:'Open-back'},
+  {id:'b',title:'Headphone B',architecture:'headphone_first',kind:'Closed-back'}],
+ [{id:'a',title:'PA mains',architecture:'party_pa',power:'mains'},
+  {id:'b',title:'PA battery',architecture:'party_pa',power:'battery'}],
+ [{id:'a',title:'Passive A',architecture:'passive_separates'},
+  {id:'b',title:'Powered B',architecture:'consumer_powered_pair'}]
+ ];
+ for(const [a,b] of pairs){
+  const small=compactAlternativeComparison(a,b,req,catalog);
+  assert.ok(small.text.length>10&&small.text.length<205,small.text);
+  assert.doesNotMatch(small.text,/These are different manufacturers|not standardized comparative clean-output measurements/);
+ }
 });

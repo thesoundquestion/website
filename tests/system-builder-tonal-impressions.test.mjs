@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {tonalComparison} from '../system-builder/tonal-impressions.mjs';
+import {tonalComparison,soundImpressionFor,briefTonalContrast} from '../system-builder/tonal-impressions.mjs';
 import {soundProfileFor} from '../system-builder/sound-profiles.mjs';
 const item=(model,type='passive_separates')=>({id:'fixture-'+model,architecture:type,
   speakerModel:type==='headphone_first'?undefined:model,
@@ -74,11 +74,12 @@ test('subjective tonal notes are on the main comparison cards, not behind dropdo
  const from=app.indexOf('const renderComparisonPreview=');
  const render=app.slice(from,app.indexOf("const alternativeSetups=el('details'",from));
  assert.ok(from>0);
- assert.match(render,/tonalComparison\(baseline,item\)/);
- assert.match(render,/sb-tonal-comparison/);
+ assert.match(render,/briefTonalContrast\(baseline,item\)/);
+ assert.match(render,/sb-tonal-one-line/);
  assert.match(render,/link\(links,source.url,source.label\)/);
- assert.match(app,/tonalComparison\(shortlist.selected\[0\],item\)/);
- assert.match(css,/\.sb-tonal-comparison/);
+ assert.match(app,/soundImpressionFor\(item\)/);
+ assert.match(app,/sb-primary-sound/);
+ assert.match(css,/\.sb-primary-sound/);
 });
 
 test('builder-specific headphone category title prefixes still resolve exact model sound impressions',()=>{
@@ -88,4 +89,26 @@ test('builder-specific headphone category title prefixes still resolve exact mod
   assert.ok(c);
   assert.match(c.text,/Koss KSC75.*open, clear/);
   assert.match(c.text,/FiiO FT1.*warm, bass-rich/);
+});
+
+test('first recommendation displays its own short model-backed sound character',()=>{
+ const primary=soundImpressionFor({title:'Polk Signature Elite ES15',
+   speakerModel:'Polk Signature Elite ES15',architecture:'passive_separates'});
+ assert.ok(primary);
+ assert.match(primary.text,/lively.*clear vocals/);
+ assert.ok(primary.sources.length>=1&&primary.sources[0].url.startsWith('https://'));
+});
+test('main alternate listening summary is brief and retains independently sourced links',()=>{
+ const brief=briefTonalContrast(
+  {title:'Polk Signature Elite ES15',speakerModel:'Polk Signature Elite ES15'},
+  {title:'Q Acoustics 3030i',speakerModel:'Q Acoustics 3030i'});
+ assert.ok(brief);
+ assert.match(brief.text,/fuller.*easy-going/);
+ assert.ok(brief.sources.some(x=>/reddit/.test(x.url)));
+ assert.ok(brief.text.length<230);
+});
+test('unchanged speakers with a different amplifier do not grow a fake sonic profile',()=>{
+ const speaker={title:'Polk Signature Elite ES15',speakerModel:'Polk Signature Elite ES15'};
+ assert.equal(briefTonalContrast({...speaker,amplifierModel:'Yamaha A-720'},
+  {...speaker,amplifierModel:'Yamaha A-S301'}),null);
 });

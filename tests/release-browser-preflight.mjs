@@ -240,10 +240,15 @@ try {
    assert.match(await page.locator('.sb-headphone-electronics-alt').first().innerText(),/You may prefer this if/);
    assert.ok(await page.locator('.sb-comparison-overview').first().isVisible(),
      device.name+' headphone alternatives must be explained without a dropdown');
-   assert.match(await page.locator('.sb-comparison-overview').first().innerText(),/Compared with.*You may prefer this if.*Trade-off or check:/s);
-   assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-comparison').count()>=1,
-     device.name+' headphone alternatives should show source-backed possible tonal differences');
-   assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-comparison a[href^="https://"]').count()>=1);
+   assert.ok(await page.locator('#sb-first-recommendation .sb-primary-sound').isVisible(),
+     device.name+' primary headphone choice should have a visible sound profile');
+   assert.match(await page.locator('#sb-first-recommendation .sb-primary-sound').innerText(),/Sound character/);
+   assert.ok(await page.locator('.sb-comparison-overview .sb-compact-compare').count()>=1);
+   assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-one-line').count()>=1,
+     device.name+' headphone alternatives should offer a short tonal comparison');
+   assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-sources a[href^="https://"]').count()>=1);
+   const firstCompare=await page.locator('.sb-comparison-overview .sb-comparison-preview-card').first().innerText();
+   assert.ok(firstCompare.length<520,device.name+' individual alternate preview should not be a wall of text');
    assert.ok(await page.locator('.sb-headphone-electronics-card a[href^="https://"]').count()>=1);
    assert.match(await page.locator('.sb-headphone-card-electronics').first().innerText(),/FiiO K11/);
    assert.match(await page.locator('.sb-setup-workflow').first().innerText(),/USB digital audio/);
@@ -455,7 +460,11 @@ try {
   const comparisonOverview=page.locator('#sb-results .sb-comparison-overview').first();
   assert.ok(await comparisonOverview.isVisible(),device.name+' alternatives need visible comparison on the main result screen');
   assert.ok(await comparisonOverview.locator('.sb-comparison-preview-card').count()>=1);
-  assert.match(await comparisonOverview.innerText(),/Compared with.*You may prefer this if.*Trade-off or check:/s);
+  assert.ok(await page.locator('#sb-first-recommendation .sb-primary-sound').isVisible(),
+    device.name+' primary speaker must show its sound profile or a concise evidence-gap note');
+  assert.ok(await comparisonOverview.locator('.sb-compact-compare').count()>=1);
+  const previewLength=await comparisonOverview.locator('.sb-comparison-preview-card').first().innerText();
+  assert.ok(previewLength.length<520,device.name+' alternative must stay concise');
   const results=page.locator('#sb-results');
   assert.match(await page.locator('#sb-result-title').innerText(),/Your system options, explained/);
   assert.equal(await results.evaluate(node=>document.activeElement===node),true,
@@ -530,7 +539,9 @@ try {
   const previewText=await preview.innerText();
   assert.match(previewText,/Speaker changes worth comparing/);
   assert.match(previewText,/Cerwin-Vega|Klipsch/);
-  assert.match(previewText,/Compared with.*You may prefer this if.*Trade-off or check:/s);
+  assert.match(previewText,/Compared with/);
+  assert.ok(await preview.locator('.sb-compact-compare').count()>=1);
+  assert.ok(await page.locator('#sb-first-recommendation .sb-primary-sound').isVisible());
   assert.ok(await preview.isVisible(),device.name+' upgrade reasons must appear without opening alternatives');
   const options=page.locator('#sb-results .sb-alternative-setups .sb-recommend');
   assert.ok(await options.count()>=2,device.name+' high dynamic use must offer a few alternatives');
