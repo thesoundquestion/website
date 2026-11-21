@@ -268,7 +268,7 @@ test('compact recommendations put source-backed sound, why and connection before
   assert.match(app,/const shortlist=removeUnsafeRecommendations/);
   assert.ok(app.includes('explainBeginnerOption(item,request)'));
   assert.match(page,/Your listening options/);
-  assert.match(page,/Show me options for my goal/);
+  assert.match(page,/Find my matches/);
 });
 
 test('task-first Builder asks what is being purchased and only exposes relevant questions',async()=>{
