@@ -153,7 +153,7 @@ test('all-new path is only selected when user has not declared any equipment',()
 test('UI places ownership plan ahead of example-only shortlist and hides comparison behind disclosure',()=>{
   const app=src('../system-builder/app.mjs');
   assert.match(app,/ownershipPlan\(\{own,request,inventory\}\)/);
-  assert.match(app,/const shortlist = ownership \|\|/);
+  assert.match(app,/const preliminary = ownership \|\|/);
   assert.match(app,/item\.reuseNames\?\.length/);
   assert.match(app,/item\.pathwayCaution/);
   assert.match(app,/if \(ownership\) \{/);
