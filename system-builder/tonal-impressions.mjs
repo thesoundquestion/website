@@ -138,11 +138,12 @@ export function briefTonalContrast(primary,alternative){
   const a=profileFor(primary),b=profileFor(alternative);
   if(!b||a?.name===b.name)return null;
   const changes=a?relativeDescriptions(a.name,b.name):[];
-  const text=changes.length
+  // An absent documented change is not useful listening guidance.
+  // Never turn that absence into a repeated text-only "comparison".
+  if(a&&!changes.length)return null;
+  const text=a
     ?'Reviews suggest '+changes.join(' and ')+'.'
-    :a
-      ?'No clear tonal direction is established by the available model reviews.'
-      :'Reviews describe '+b.report.replace(/\.$/,'')+'.';
+    :'Reviews describe '+b.report.replace(/\.$/,'')+'.';
   return {
     text,
     // The first model's review is already linked on its own visible card.
