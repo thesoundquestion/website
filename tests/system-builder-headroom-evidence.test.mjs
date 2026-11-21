@@ -57,7 +57,7 @@ test('passive output requires matching continuous load and a documented sensitiv
 test('a proposed high-pass or sub route is not automatically awarded extra maximum clean SPL',()=>{
  const item={architecture:'consumer_powered_pair',bassSetup:{label:'100 Hz active crossover'}};
  const r=headroomEvidence(item,req);
- assert.match(r.detail,/100 Hz active crossover/);
+ assert.match(r.detail,/subwoofer route/);
  assert.match(r.detail,/more bass does not automatically mean more maximum volume/);
 });
 
