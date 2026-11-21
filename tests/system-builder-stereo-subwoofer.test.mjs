@@ -117,7 +117,7 @@ test('retained WiiM and ORA price only sub hardware, with no new sub cost assume
 });
 
 test('2.1 bundles and a sub-only purchase retain the same parts and links after expiry', () => {
-  const request = {...basic,connection:'hdmi',budget:100};
+  const request = {...basic,connection:'hdmi',budget:1000};
   const current = find(select(request),'stereo-sub-wiim');
   const expiredRequest = {...request,referenceDate:'2026-12-13'};
   const expired = find(select(expiredRequest),current.id);
