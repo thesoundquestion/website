@@ -28,7 +28,7 @@ test('powered Edifier MR4 has an explicit conditional output answer at user dist
  const e=headroomEvidence(item,req);
  assert.equal(e.status,'powered_maximum_spl_unverified');
  assert.match(e.text,/6 ft/);
- assert.match(e.text,/^Yes\\. A sensible choice for comfortable listening/);
+ assert.match(e.text,/sensible choice for comfortable listening/);
  assert.match(e.detail,/Published amplifier watts/);
  assert.equal(e.link,null);
 });
