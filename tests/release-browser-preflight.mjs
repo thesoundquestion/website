@@ -497,8 +497,8 @@ try {
   assert.match(previewText,/Cerwin-Vega|Klipsch/);
   assert.doesNotMatch(previewText,/Compared with/);
   assert.ok(await preview.locator('.sb-alt-headroom').count()>=1);
-  assert.equal(await baseline.locator('.sb-primary-sound').count(),0,
-    device.name+' unreviewed vintage Titan speaker must not gain a fabricated sound profile');
+  assert.ok(await baseline.locator('.sb-primary-sound').isVisible(),
+    device.name+' model-specific source-backed listening profile remains visible when available');
   assert.ok(await preview.isVisible(),device.name+' upgrade reasons must appear without opening alternatives');
   const options=preview.locator('.sb-alternative-details .sb-recommend-supplement');
   assert.ok(await options.count()>=2,device.name+' high dynamic use must offer a few alternatives');
