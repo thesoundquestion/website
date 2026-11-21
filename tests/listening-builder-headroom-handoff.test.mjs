@@ -53,6 +53,17 @@ test('Builder headroom preview is compact without clipping or changing the full 
   assert.doesNotMatch(css,/sc-embedded\.sc-auto-result[^\n]*\.sc-load-metric\{[^\n]*display:none/);
 });
 
+test('Builder shows a directly visible prefilled System Check link on the strongest match',()=>{
+  assert.match(app,/const checkAction=el\('div','sb-checker-action'\)/);
+  assert.match(app,/card.append\(checkAction\)/);
+  assert.match(app,/checkParams.set\('amp',checkAmp\)/);
+  assert.match(app,/checkParams.set\('speaker',checkSpeaker\)/);
+  assert.match(app,/Open System Check with this gear/);
+  const linkPos=app.indexOf('card.append(checkAction)');
+  const detailPos=app.indexOf("const proof=el('details','sb-beginner-proof')");
+  assert.ok(linkPos>0&&detailPos>linkPos,'Calculator action must be outside the collapsed technical details');
+});
+
 test('lesson example keeps selected models and their actual rated wattage',()=>{
   const example=calculator.slice(calculator.indexOf("document.querySelector('#example').addEventListener"),calculator.indexOf("form.addEventListener('submit'"));
   assert.match(example,/modelSelected/);
