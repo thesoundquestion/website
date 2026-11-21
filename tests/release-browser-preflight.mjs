@@ -158,6 +158,29 @@ try {
   await checkNoErrors(page,errors,device.name+' Creating Builder');
   outcomes.push(device.name+' microphone, recording, studio and PA model-selected checker links');
 
+  // Creating Builder has no listening distance: model moves across, while
+  // distance remains empty until entered by the listener.
+  await page.locator('#sb-purpose-select').selectOption('vocal');
+  await page.locator('#sb-include-monitors').check();
+  const jbl=page.locator('#sb-purpose-monitor option').filter({hasText:'JBL 305P MkII'}).first();
+  const jblId=await jbl.getAttribute('value');
+  assert.ok(jblId,device.name+' JBL monitor absent from Creating equipment list');
+  await page.locator('#sb-purpose-monitor').selectOption(jblId);
+  await page.locator('#sb-purpose-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-purpose-result')?.hidden,null,{timeout:15000});
+  const creatingPowered=page.locator('#sb-purpose-result-body a[href*="/system-check/powered/?model=JBL+305P+MkII"]').first();
+  assert.ok(await creatingPowered.count()>0,device.name+' Creating powered output handoff missing');
+  const creatingPowerUrl=new URL(await creatingPowered.getAttribute('href'),BASE);
+  assert.equal(creatingPowerUrl.searchParams.has('distance'),false);
+  await visit(page,creatingPowerUrl.pathname+creatingPowerUrl.search);
+  assert.equal(await page.locator('#powered-model').inputValue(),'JBL 305P MkII');
+  assert.equal(await page.locator('#powered-distance').inputValue(),'');
+  await page.locator('#powered-distance').fill('6');
+  await page.locator('#powered-form button[type="submit"]').click();
+  assert.match(await page.locator('#powered-verdict').innerText(),/Yes\.|Probably\.|Not a reliable/);
+  await checkNoErrors(page,errors,device.name+' Creating powered handoff');
+  outcomes.push(device.name+' Creating powered model preserved without inventing listening distance');
+
   await visit(page,'/system-builder/');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
