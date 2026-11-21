@@ -585,6 +585,10 @@
             "label": "Metal dome",
             "text": "A stiff metal dome can remain rigid over much of its working range. Designers use its shape and crossover to manage resonances that can appear higher up."
           },
+          "horn": {
+            "label": "Horn-loaded",
+            "text": "A horn or waveguide shapes where a tweeter sends sound and can increase acoustic efficiency. Its geometry and crossover determine the useful coverage; a horn is not automatically harsh or superior."
+          },
           "issue": {
             "label": "AMT",
             "text": "An air motion transformer uses folds in its diaphragm to move air. Its shape affects how sound spreads. The full speaker design determines the result."
