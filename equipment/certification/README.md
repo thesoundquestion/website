@@ -2,6 +2,14 @@
 
 **2026-11-21 baseline:** 197 unique IDs in `equipment/catalog.generated.json` on commit `fe50810f62fd47f8c8a0cf05e540e769e0780090`. Prior references to 173 are stale. The 130 classic presets, 53 research profiles and 17 Builder-only profiles are **profile counts**, not distinct model totals, because sources overlap.
 
+## Prior verification is not erased by this registry
+
+**Historical correction (2026-11-21):** The shared equipment catalogue was assembled from earlier manufacturer/manual and independent-measurement research. The repository already documents detailed verification and source-preserving tests (see `equipment/README.md`, `equipment/COVERAGE_AUDIT_2026_11_18.md`, and `tests/equipment-catalog-unified.test.mjs`). The lack of a new `reviews.json` approval is **not evidence that a record was never researched or its specifications previously checked**. The 197-record baseline describes migration into a *new audit registry*, not the start of factual research.
+
+Do not require wholesale repetition of earlier source checks. First reconcile each historical source, dated review, and relevant test against the exact field in the current master; reuse valid earlier evidence as review provenance. Recheck only changed fields, contradictory evidence, incomplete test conditions, missing safety-critical claims, or sources that no longer substantiate a claim. Treat records with source-backed research as **previously researched; formal registry status pending**, not unresearched.
+
+The automated 197-model scan identifies documentation gaps and prioritizes follow-up. Counts such as 100 missing structured connector mappings must never be reported as 100 unverified devices. Similarly, a field-level crosscheck from the later audit is additional evidence, not the first verification ever performed on that product.
+
 ## Rules
 
 - The 197 existing records are **grandfathered, not certified**. Previous structural, mirror, generator and calculation regression tests continue to apply.
