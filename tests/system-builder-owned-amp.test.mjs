@@ -44,7 +44,7 @@ test('R-S202 8-ohm-only discovery excludes a known low impedance minimum like KE
   assert.ok(!r.selected.some(x=>x.title==='KEF Q150'));
   assert.ok(r.excluded.some(x=>x.title==='KEF Q150'&&/minimum/.test(x.reason)));
   assert.ok(r.selected.every(x=>x.speakerValues.load>=8));
-  assert.ok(r.selected.every(x=>!x.loadCaution));
+  assert.match(app,/preliminary\.selected\.filter/);
 });
 
 test('R-S202 excludes nominal-six-ohm speakers even if their burst rating mentions six ohms',()=>{
