@@ -5,8 +5,8 @@ import {parseSpeakerSpecText} from './spec-paste.mjs?v=passive-inference-2026112
 import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=sub-20261120';
 import {headphoneDriveRequirement} from './headphone-drive.mjs';
 import {headphoneAmplifierPlan,applyHeadphoneAmpChoice} from './headphone-amp-choice.mjs';
-import {compareAlternative,compareElectronic,compactAlternativeComparison} from './alternative-comparisons.mjs';
-import {tonalComparison,soundImpressionFor,briefTonalContrast} from './tonal-impressions.mjs';
+import {compareAlternative,compareElectronic} from './alternative-comparisons.mjs';
+import {soundImpressionFor} from './tonal-impressions.mjs';
 import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec-search.mjs';
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
@@ -1076,16 +1076,6 @@ document.addEventListener('DOMContentLoaded', () => {
         head.append(badge);
       }
       if(!detailOnly)card.append(head);
-      if(alternativeComparison){
-        const brief=compactAlternativeComparison(shortlist.selected[0],item,request,sharedCatalog);
-        if(brief){
-          const contrast=el('div','sb-alternative-card-contrast');
-          addText(contrast,'p','Compared with '+brief.baseline+': '+brief.text,'sb-compact-compare');
-          const sound=briefTonalContrast(shortlist.selected[0],item);
-          if(sound)addText(contrast,'p','Sound: '+sound.text,'sb-tonal-one-line');
-          card.append(contrast);
-        }
-      }
       if(item.architecture==='headphone_first'&&item.headphoneAmpPlan?.components?.length){
         const selectedElectronics=el('div','sb-headphone-card-electronics');
         addText(selectedElectronics,'strong','Electronics in this setup');
