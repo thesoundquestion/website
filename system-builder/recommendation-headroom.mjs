@@ -1,4 +1,5 @@
 import {poweredHeadroomEstimate,poweredHeadroomLink} from '../system-check/powered-headroom-model.mjs';
+import {scenarioForPair,estimateOutputScenario,scenarioSystemCheckUrl} from '../system-check/illustrative-output-scenarios.mjs';
 
 /**
  * Compact card output, separate from the detailed System Check calculator.
@@ -63,11 +64,34 @@ export function recommendationHeadroom(item={},request={},catalog=null){
       finite(r[0])&&r[0]>0&&finite(r[1])&&r[1]===values.load);
     const rated=power?.[0];
     if(!finite(values.sensitivity)||!['voltage','power'].includes(values.basis)||
-       !finite(values.load)||!rated)
+       !finite(values.load)||!rated){
+      // A separate measured-output *scenario* may exist even when a comparable
+      // continuous amplifier rating does not. Never promote it into the
+      // verified catalog, ranking completeness, or the continuous calculator.
+      const scenario=scenarioForPair(item);
+      if(scenario){
+        const estimate=estimateOutputScenario(scenario,values,target);
+        if(estimate.status==='provisional'){
+          const margin=estimate.peakMarginDb;
+          return {kind:'passive',status:'provisional',target,
+            summary:'Illustrative peak margin: '+(margin>=0?'+':'')+
+              Math.round(margin)+' dB (32 V adapter; not verified clean)',
+            detail:scenario.notes+' The estimate assumes one loudspeaker, '+
+              'free-field distance loss and no stereo or room reinforcement. '+
+              'The listed watts are NOT a verified continuous-power test or a guaranteed unclipped output.',
+            basis:scenario.title+' · '+scenario.wattsPerChannel+
+              ' W/channel at '+scenario.loadOhms+' Ω · '+scenario.supply,
+            source:scenario.sources[0]?.url||null,
+            metrics:estimate,
+            link:scenarioSystemCheckUrl(scenario,target),
+            linkText:'Inspect this provisional estimate in System Check'};
+        }
+      }
       return {kind:'passive',status:'unverified',
         summary:'Headroom not numerically verified from saved ratings',
         detail:'A matching continuous amplifier rating and a referenced speaker sensitivity are required. No other-load wattage or speaker sensitivity is guessed.',
         link:url,linkText:'Open prefilled System Check',target};
+    }
     const wattsAtReference=values.basis==='voltage'?2.83**2/values.load:1;
     // Single loudspeaker, do not add 3/6 dB for two speakers or room gain.
     const seatLoss=20*Math.log10(Math.max(1,distanceFt*0.3048));
