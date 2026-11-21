@@ -20,6 +20,7 @@ export const POWERED_OUTPUT_EVIDENCE=Object.freeze({
     model:'Kali LP-6 V2',unit:'single powered studio monitor (2nd Wave)',
     continuous:{db:85,atMeters:2.5,reference:'Kali reference capability: 85 dB continuous with 20 dB headroom inside its recommended maximum listening distance (2.5 m for LP-6 V2)'},
     peak:{db:115,atMeters:1,reference:'Kali max peak SPL at 1 m (published specification)'},
+    peakBenchmark:{db:105,atMeters:2.5,reference:'85 dB continuous and 20 dB dynamic headroom at the manufacturer recommended 2.5 m maximum listening distance'},
     caveat:'The peak and long-term listening-distance figures use different test definitions. They are not directly comparable measurements of distortion-limited clean SPL at every frequency.',
     source:'https://www.kaliaudio.com/lone-pine-studio-monitors'
   },
@@ -61,6 +62,12 @@ export function poweredHeadroomEstimate(model,{distanceFt=6,averageDb=65,peakDb=
   };
   result.projectedContinuousDb=projected(evidence.continuous);
   result.projectedPeakDb=projected(evidence.peak);
+  // Prefer the less optimistic of two incompatible manufacturer output
+  // references rather than adding them or assuming the 115 dB peak is clean.
+  const bench=projected(evidence.peakBenchmark);
+  if(bench!==null)
+    result.projectedPeakDb=result.projectedPeakDb===null?bench:
+      Math.min(result.projectedPeakDb,bench);
   result.averageMarginDb=result.projectedContinuousDb===null?null:
     round(result.projectedContinuousDb-averageDb);
   result.peakMarginDb=result.projectedPeakDb===null?null:
