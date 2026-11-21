@@ -1186,8 +1186,29 @@ document.addEventListener('DOMContentLoaded', () => {
         inline.append(frame);
         const full=new URLSearchParams(params);
         full.delete('embedded');
-        link(inline,'/system-check/?'+full.toString(),'Open prefilled System Check');
         card.append(inline);
+      }
+      // Always expose the calculator transfer directly on the primary card.
+      // It preselects the models known for this actual recommendation.
+      if(!detailOnly){
+        const checkAmp=headroomModels.amplifierModel||own.amp.name;
+        const checkSpeaker=headroomModels.speakerModel||own.speaker.name;
+        const checkParams=new URLSearchParams();
+        if(checkAmp)checkParams.set('amp',checkAmp);
+        if(checkSpeaker)checkParams.set('speaker',checkSpeaker);
+        if(Number.isFinite(distanceFt)&&distanceFt>=0.5&&distanceFt<=300)
+          checkParams.set('distanceFt',String(distanceFt));
+        if(checkAmp&&checkSpeaker){
+          const checkProfile=BUILDER_HEADROOM_PROFILES[request.level]||BUILDER_HEADROOM_PROFILES.moderate;
+          checkParams.set('autocheck','1');
+          checkParams.set('average',String(checkProfile.average));
+          checkParams.set('gap',String(checkProfile.gap));
+          checkParams.set('preferRoom','1');
+        }
+        const checkAction=el('div','sb-checker-action');
+        link(checkAction,'/system-check/'+(checkParams.size?'?'+checkParams.toString():''),
+          checkAmp||checkSpeaker?'Open System Check with this gear':'Open System Check');
+        card.append(checkAction);
       }
       const proof=el('details','sb-beginner-proof');
       addText(proof,'summary','Why these parts work together');
@@ -1323,7 +1344,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // The listener must see comparison reasons in the ordinary results view,
     // without opening the detailed alternative setup disclosure.
-    const renderComparisonPreview=(baseline,choices,heading,klass='sb-comparison-overview')=>{
+    const renderComparisonPreview=(baseline,choices,heading,klass='sb-comparison-overview',target=shop)=>{
       if(!baseline||!choices?.length)return;
       const preview=el('section',klass);
       addText(preview,'h4',heading);
@@ -1333,17 +1354,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!comparison)continue;
         const note=el('article','sb-comparison-preview-card');
         addText(note,'h5',comparison.alternative);
-        const ownerA=soundProfileFor(baseline);
+        // Alternatives have their OWN audible character, not a contrast
+        // against the first match. Do not show generic "no tonal direction" text.
         const ownerB=soundProfileFor(item);
-        const hasA=Boolean(ownerA?.ownerSources?.length);
-        const hasB=Boolean(ownerB?.ownerSources?.length);
-        const sound=hasA&&hasB?briefTonalContrast(baseline,item):null;
-        addText(note,'p',hasB
-          ?(sound?'How it may sound different: '+sound.text:'Owners say: '+ownerB.text)
-          :'No exact-model firsthand listening account reviewed yet.','sb-tonal-one-line');
-        if(hasB){
+        const ownerSources=ownerB?.ownerSources||[];
+        if(ownerSources.length){
+          const sound=soundImpressionFor(item);
+          const description=String(sound?.text||ownerB.text).replace(/[.!?]$/,'');
+          addText(note,'p','What owners say: '+description+'.','sb-tonal-one-line');
           const links=el('div','sb-tonal-sources');
-          for(const source of ownerB.ownerSources.slice(0,2))
+          for(const source of ownerSources.slice(0,2))
             link(links,source.url,source.context||'Firsthand owner report');
           if(links.children.length)note.append(links);
         }
@@ -1360,11 +1380,10 @@ document.addEventListener('DOMContentLoaded', () => {
         note.append(detail);
         grid.append(note);
       }
-      if(grid.children.length){preview.append(grid);shop.append(preview);}
+      if(grid.children.length){preview.append(grid);target.append(preview);}
     };
     if(headphoneElectronicsPlan)renderHeadphoneElectronics(headphoneElectronicsPlan);
     if (shortlist.selected.length) {
-      shop.classList.add('sb-compact-matches');
       addText(shop,'p',intent?.requiredOwn==='speaker'
         ?'These amplifiers have published continuous-power tests at your speakers’ nominal load. Use the inline System Check to calculate the listening level you actually want.'
         :'Start with the recommended fit below. Open the short explanations when you want the details.','sb-results-orientation');
@@ -1376,12 +1395,13 @@ document.addEventListener('DOMContentLoaded', () => {
       firstCard.tabIndex=-1;
       firstCard.id='sb-first-recommendation';
       grid.append(firstCard);
-      shop.append(grid);
-      const upgradeIdeas=shortlist.selected.filter(x=>x.upgradeComparedTo);
+      const matchesRow=el('div','sb-compact-matches');
+      matchesRow.append(grid);
+      shop.append(matchesRow);
       if(shortlist.selected.length>1)
         renderComparisonPreview(shortlist.selected[0],shortlist.selected.slice(1),
-          upgradeIdeas.length?'Speaker changes worth comparing':'What changes with the alternative recommendations?',
-          'sb-upgrade-comparison-preview sb-comparison-overview');
+          'Other options and how they sound',
+          'sb-upgrade-comparison-preview sb-comparison-overview',matchesRow);
       if(request.character !== 'faithful')
         addText(shop,'p','Your tonal preference informs which differences are worth hearing. The model-specific listener and reviewer impressions above can guide an audition, but are not a numerical sound-quality ranking.','sb-brief-note');
       addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
