@@ -39,13 +39,14 @@ export function headroomEvidence(item={},request={}) {
     };
     const intended=inIntendedSetting || (!places.length&&near);
     const text=high
-      ? (near&&intended?'Worth considering for louder listening nearby; maximum clean volume still needs checking.'
-        :'For louder listening'+context+', check this model’s output before relying on it.')
+      ? (near&&intended
+          ? 'Likely enough for occasional louder listening nearby, but not intended to fill a large room.'
+          : 'Not my choice for dependable loud playback'+context+'; pick a higher-output setup for that job.')
       : far
-        ? 'Could work for everyday listening'+context+', but room coverage needs checking.'
+        ? 'Likely adequate for everyday background music'+context+', but not my choice for loud playback across the room.'
         : intended
-          ? 'A reasonable option for comfortable listening'+context+' in this kind of space.'
-          : 'Worth considering for normal listening'+context+'; check that it suits your room.';
+          ? 'Yes. A sensible choice for comfortable listening'+context+' in this kind of room.'
+          : 'Likely adequate for normal listening'+context+'; room size and placement still matter.';
     return {
       status:'powered_maximum_spl_unverified',
       label:'Loud enough for you?',
