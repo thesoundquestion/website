@@ -109,6 +109,9 @@ try {
   const creatingLinks=page.locator('#sb-purpose-result-body a[href^="/system-check/compare/?type="]');
   assert.ok(await creatingLinks.count()>0,
     device.name+' Creating Builder showed no model-specific checker links');
+  const headphoneLinks=page.locator('#sb-purpose-result-body a[href^="/system-check/compare/?type=catalog_headphone"]');
+  assert.ok(await headphoneLinks.count()>0,
+    device.name+' Creating Builder omitted its selected headphone checker link');
   const creatingHref=await creatingLinks.first().getAttribute('href');
   const creatingUrl=new URL(creatingHref,BASE);
   const type=creatingUrl.searchParams.get('type');
