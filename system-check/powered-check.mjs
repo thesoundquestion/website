@@ -51,8 +51,14 @@ if(panel&&form&&result&&query.get('powered')==='1'){
     title.className='sc-powered-result-title';
     add(result,'p','Planning level: '+fmt(averageDb)+' dB average / '+fmt(target.peakDb)+' dB peak.','sc-powered-target');
     if(estimate.status==='unverified'){
-      add(result,'p','Numeric headroom is not established for this exact model.','sc-powered-number');
-      add(result,'p','A published electrical watt rating or speaker size cannot tell us the maximum acoustic output. An independent maximum-SPL test with stated distance and distortion conditions would be needed.','sc-powered-explain');
+      if(estimate.practical){
+        add(result,'p',estimate.practical.summary,'sc-powered-number');
+        add(result,'p','Practical guidance only. No verified numerical dB margin for this distance and listening target.','sc-powered-explain');
+        add(result,'p',estimate.practical.evidence,'sc-powered-explain');
+      }else{
+        add(result,'p','Numeric headroom is not established for this exact model.','sc-powered-number');
+        add(result,'p','A published electrical watt rating or speaker size cannot tell us the maximum acoustic output. An independent maximum-SPL test with stated distance and distortion conditions would be needed.','sc-powered-explain');
+      }
     }else{
       if(estimate.projectedPeakDb!==null){
         const peak=estimate.projectedPeakDb;
@@ -72,8 +78,18 @@ if(panel&&form&&result&&query.get('powered')==='1'){
       source.href=estimate.source;
       source.target='_blank';
       source.rel='noopener noreferrer';
-      source.textContent='See the original manufacturer specifications';
+      source.textContent=estimate.status==='unverified'?
+        'Manufacturer specifications (not a maximum-SPL rating)':
+        'Manufacturer acoustic-output specifications';
       result.append(source);
+    }
+    if(estimate.practical?.reviewUrl){
+      const review=document.createElement('a');
+      review.href=estimate.practical.reviewUrl;
+      review.target='_blank';
+      review.rel='noopener noreferrer';
+      review.textContent='Independent listening and output evidence';
+      result.append(review);
     }
   };
   form.addEventListener('submit',ev=>{ev.preventDefault();update();});
