@@ -9,7 +9,7 @@ import {R1280DBS_PRICES} from './stereo-subwoofer-examples.mjs';
 const EDIFIER='https://ca.edifier.com/';
 const CA_PRICE_DATE='2026-11-13';
 const pair=(id,model,amount,connections,places,goals,why,tradeoff,notes=[],powerNote='')=>({
-  id,architecture:'consumer_powered_pair',
+  id,architecture:'consumer_powered_pair',poweredHeadroomModel:model,
   title:'Budget powered stereo: '+model,
   kind:'One powered stereo pair, compatible source required',
   places,power:'mains',connections,goals,
