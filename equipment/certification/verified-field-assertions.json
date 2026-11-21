@@ -298,6 +298,38 @@
       "source": "https://fosiaudio.com/pages/2-1-channel-amplifier-bt20a-pro",
       "claim": "300 W x 2 @4 ohms is a maximum claim",
       "qualification": "Bundled 32V/5A is not evidence of that continuous output"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "path": "facts.speakerPowerRatings.value.0.wattsPerChannel",
+      "expected": 64,
+      "source": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "claim": "Hi-Fi News measured output at 8/4 ohms below 1% THD",
+      "qualification": "These are lab figures and differing test durations; 59 W dynamic < 64 W nominal is explicitly reported; not an arithmetic error"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "path": "facts.speakerPowerRatings.value.1.wattsPerChannel",
+      "expected": 125,
+      "source": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "claim": "Hi-Fi News measured output at 8/4 ohms below 1% THD",
+      "qualification": "These are lab figures and differing test durations; 59 W dynamic < 64 W nominal is explicitly reported; not an arithmetic error"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "path": "facts.speakerPowerRatings.value.2.wattsPerChannel",
+      "expected": 59,
+      "source": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "claim": "Hi-Fi News dynamic test at 8/4 ohms below 1% THD",
+      "qualification": "These are lab figures and differing test durations; 59 W dynamic < 64 W nominal is explicitly reported; not an arithmetic error"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "path": "facts.speakerPowerRatings.value.3.wattsPerChannel",
+      "expected": 110,
+      "source": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "claim": "Hi-Fi News dynamic test at 8/4 ohms below 1% THD",
+      "qualification": "These are lab figures and differing test durations; 59 W dynamic < 64 W nominal is explicitly reported; not an arithmetic error"
     }
   ]
 }
