@@ -16,7 +16,7 @@ const catalog=JSON.parse(read('equipment/catalog.generated.json'));
 const model=(category,name)=>catalog.records.find(x=>x.categories.includes(category)&&x.model===name);
 
 test('Listening Builder and Creating Builder are independent pages with separate scripts',()=>{
-  assert.match(listening,/<h1>Listening Builder<\/h1>/);
+  assert.match(listening,/<h1>Find what fits\. Understand why\.<\/h1>/);
   assert.match(listening,/src="\/system-builder\/app\.mjs(?:\?[^\"]+)?"/);
   assert.match(listening,/id="sb-form"/);
   assert.doesNotMatch(listening,/id="sb-purpose-form"|goal-chain-builder\.mjs/);
