@@ -50,7 +50,7 @@ test('passive output requires matching continuous load and a documented sensitiv
  assert.equal(r.link,'/system-check/');
  const unknown=headroomEvidence({architecture:'passive_separates'},req);
  assert.equal(unknown.status,'passive_output_unverified');
- assert.match(unknown.text,/numerical headroom is not established/);
+ assert.match(unknown.text,/numerical headroom remains unknown/);
 });
 
 test('a proposed high-pass or sub route is not automatically awarded extra maximum clean SPL',()=>{
