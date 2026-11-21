@@ -267,7 +267,7 @@ test('compact recommendations put source-backed sound, why and connection before
   assert.ok(card.indexOf("addText(card,'p',data.connection")<card.indexOf("const technical=el('details'"));
   assert.match(app,/const shortlist=removeUnsafeRecommendations/);
   assert.ok(app.includes('explainBeginnerOption(item,request)'));
-  assert.match(page,/Your system options, explained/);
+  assert.match(page,/Your listening options/);
   assert.match(page,/Show me options for my goal/);
 });
 
