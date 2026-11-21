@@ -1116,12 +1116,18 @@ document.addEventListener('DOMContentLoaded', () => {
       // Source-linked firsthand owner accounts are the listening section.
       // Technical cautions belong in the separately available verification UI.
       if(!alternativeComparison&&!detailOnly){
+        const primarySound=soundImpressionFor(item);
         const ownerSound=soundProfileFor(item);
         const ownerSources=ownerSound?.ownerSources||[];
+        // The original model-specific helper is retained, but a description is
+        // presented as an owner impression only when exact owner evidence exists.
+        const sourcedOwnerSummary=primarySound?.sources?.some(link=>
+          ownerSources.some(owner=>owner.url===link.url))
+          ?primarySound.text:ownerSound?.text;
         const profile=el('section','sb-primary-sound');
         addText(profile,'strong','What owners say');
         addText(profile,'p',ownerSources.length
-          ?ownerSound.text.replace(/[.!?]$/,'')+'.'
+          ?String(sourcedOwnerSummary||ownerSound.text).replace(/[.!?]$/,'')+'.'
           :'No exact-model owner listening impressions have been reviewed yet.');
         if(ownerSources.length){
           const links=el('div','sb-tonal-sources');
