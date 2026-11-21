@@ -35,5 +35,13 @@ test('the Windows preview does not silently open an old server on port 8765',()=
  assert.match(cmd,/Port %PORT% is already occupied/);
  assert.match(cmd,/system-builder\//);
  assert.match(page,/sb-preview-build/);
- assert.match(page,/fullsite-catalog-layout-20261120/);
+ assert.match(page,/complete-system-catalog-v2-20261120/);
+});
+
+test('saved pairing facts are shown only inside a compact disclosure',()=>{
+ assert.match(app,/const specs=el\('details','sb-saved-pair-specs'\)/);
+ assert.match(app,/Saved amplifier & speaker specifications/);
+ assert.match(app,/ampContinuous/);
+ assert.match(app,/hasSensitivity/);
+ assert.match(compact,/\.sb \.sb-results \.sb-saved-pair-specs/);
 });
