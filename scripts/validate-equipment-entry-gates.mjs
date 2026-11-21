@@ -74,7 +74,8 @@ export function inspectEquipmentEntryGates({baseline:base,ledger:reviews,catalog
   const errors=[],pending=[];
   if(base.schemaVersion!==1||reviews.schemaVersion!==1)
     errors.push('Unsupported admission baseline/ledger schema');
-  if(Object.keys(base.recordFingerprints||{}).length!==197||base.exampleIds?.length!==22)
+  if(Object.keys(base.recordFingerprints||{}).length!==197||base.exampleIds?.length!==22||
+    catalogFingerprint({recordFingerprints:base.recordFingerprints,exampleIds:base.exampleIds})!=='17e23076')
     errors.push('Locked pre-adoption baseline was changed; do not regenerate to silence reviews');
   const byId=new Map();
   for(const entry of registry.records||[]){
