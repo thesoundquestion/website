@@ -30,9 +30,10 @@ test('amp models have genuinely different source-backed reasons and power figure
 test('connection mismatch and unknown data remain explicit, never promised',()=>{
   const h=results({...request,connection:'hdmi'}).selected[0];
   assert.match(h.amplifierReason,/native hdmi input is not documented/);
-  const unknown=results(request,{name:'Unlisted hand-built speaker',record:null}).selected[0];
-  assert.match(unknown.amplifierReason,/no validated nominal impedance/);
-  assert.doesNotMatch(unknown.amplifierReason,/speakers are 8 Ω/);
+  const unknown=results(request,{name:'Unlisted hand-built speaker',record:null});
+  assert.equal(unknown.selected.length,0);
+  assert.ok(unknown.excluded.length>0);
+  assert.ok(unknown.excluded.every(x=>/nominal impedance/.test(x.reason)));
 });
 test('dynamic goal explicitly treats wattage as evidence to check headroom, not a sound-quality label',()=>{
   const amp=inventory.amp.find(x=>x.model==='Yamaha A-S301');
