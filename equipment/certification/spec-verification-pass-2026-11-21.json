@@ -1,0 +1,3077 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-11-21",
+  "recordsTotal": 197,
+  "scope": "197-record machine-assisted claim coverage and six selected product/source comparisons. Never interpret flagged counts as verified inaccuracies.",
+  "fieldCorroborationCount": 6,
+  "wholeRecordCertifications": 0,
+  "flagCounts": {
+    "NO_COMPARABLE_AMP_RATING": 3,
+    "NO_STRUCTURED_CONNECTOR_MAPPING": 100,
+    "SPEAKER_SENSITIVITY_UNKNOWN": 11,
+    "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN": 9,
+    "PEAK_POWER_WITHOUT_CONTINUOUS": 7,
+    "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW": 19,
+    "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS": 15
+  },
+  "records": [
+    {
+      "id": "builder/amp/aiyima-a07-max-stereo",
+      "model": "AIYIMA A07 MAX Stereo",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_COMPARABLE_AMP_RATING",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/amp/denon-avr-s650h-north-america",
+      "model": "Denon AVR-S650H (North America)",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "selected_fields_corroborrated",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [
+        "75 W/ch, 8 Ω, 20 Hz–20 kHz, 0.08% THD, two channels",
+        "Speaker terminals 4–16 Ω"
+      ],
+      "corroborationUrl": "https://manuals.denon.com/avrs650h/na/en/GFNFSYbsjxinov.php",
+      "corroborationNote": "Denon North American manual power and terminals; full product record not yet certified",
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/amp/fosi-audio-bt20a-pro",
+      "model": "Fosi Audio BT20A Pro",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_COMPARABLE_AMP_RATING",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/amp/fosi-audio-v3-stereo",
+      "model": "Fosi Audio V3 Stereo",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_COMPARABLE_AMP_RATING",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/headphone/fiio-ft1",
+      "model": "FiiO FT1",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "selected_fields_corroborrated",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [
+        "32 Ω nominal impedance",
+        "113 dB/Vrms at 1 kHz",
+        "98 dB/mW at 1 kHz"
+      ],
+      "corroborationUrl": "https://fiio.com/ft1",
+      "corroborationNote": "FiiO primary specification. Different sensitivity reference units explicitly preserved",
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/headphone/koss-ksc75",
+      "model": "Koss KSC75",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/headphone/koss-porta-pro-wired",
+      "model": "Koss Porta Pro (wired)",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/fluance-sx6-elite-sx6-bk",
+      "model": "Fluance SX6 Elite (SX6-BK)",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/klipsch-rp-600m-ii",
+      "model": "Klipsch RP-600M II",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN",
+        "PEAK_POWER_WITHOUT_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/polk-monitor-xt15",
+      "model": "Polk Monitor XT15",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/polk-monitor-xt20",
+      "model": "Polk Monitor XT20",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/psb-alpha-p3",
+      "model": "PSB Alpha P3",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/psb-alpha-p5",
+      "model": "PSB Alpha P5",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/q-acoustics-3010i",
+      "model": "Q Acoustics 3010i",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/q-acoustics-3030i",
+      "model": "Q Acoustics 3030i",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "builder/speaker/triangle-borea-br03-passive",
+      "model": "Triangle Borea BR03 (passive)",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-axa35",
+      "model": "Cambridge Audio AXA35",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-axr100d",
+      "model": "Cambridge Audio AXR100D",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-cxa61",
+      "model": "Cambridge Audio CXA61",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-cxa81",
+      "model": "Cambridge Audio CXA81",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-cxa81-mk-ii",
+      "model": "Cambridge Audio CXA81 Mk II",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/denon-avr-s760h",
+      "model": "Denon AVR-S760H",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/denon-avr-x1700h",
+      "model": "Denon AVR-X1700H",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/denon-avr-x1800h",
+      "model": "Denon AVR-X1800H",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/denon-dra-900h",
+      "model": "Denon DRA-900H",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/denon-pma-500v",
+      "model": "Denon PMA-500V",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/denon-pma-600ne",
+      "model": "Denon PMA-600NE",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/denon-pma-900hne",
+      "model": "Denon PMA-900HNE",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/marantz-2230",
+      "model": "Marantz 2230",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/marantz-2270",
+      "model": "Marantz 2270",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/marantz-pm6007",
+      "model": "Marantz PM6007",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/marantz-stereo-70s",
+      "model": "Marantz Stereo 70s",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/nad-3020-original",
+      "model": "NAD 3020 (original)",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/nad-c-316bee-v2",
+      "model": "NAD C 316BEE V2",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/onkyo-tx-8220",
+      "model": "Onkyo TX-8220",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/panasonic-sa-he100",
+      "model": "Panasonic SA-HE100",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/pioneer-sx-780",
+      "model": "Pioneer SX-780",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/pioneer-sx-950",
+      "model": "Pioneer SX-950",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/sansui-au-517",
+      "model": "Sansui AU-517",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/sansui-au-717",
+      "model": "Sansui AU-717",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/sony-str-de475-us-canada",
+      "model": "Sony STR-DE475 (US/Canada)",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/sony-str-dh190",
+      "model": "Sony STR-DH190",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/sony-str-dh590",
+      "model": "Sony STR-DH590",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "model": "WiiM Amp",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "selected_fields_corroborrated",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [
+        "Hi-Fi News 64 W at 8 Ω and 125 W at 4 Ω below 1% THD"
+      ],
+      "corroborationUrl": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "corroborationNote": "Third-party measured lab output; not the same as a manufacturer continuous rating",
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-a-1000",
+      "model": "Yamaha A-1000",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-a-720",
+      "model": "Yamaha A-720",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s1200",
+      "model": "Yamaha A-S1200",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s301",
+      "model": "Yamaha A-S301",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "selected_fields_corroborrated",
+      "sourceLinks": 2,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS"
+      ],
+      "verifiedFields": [
+        "60 W/ch at 8 Ω, 20 Hz–20 kHz, 0.019% THD",
+        "70 W/ch at 6 Ω, 20 Hz–20 kHz, 0.038% THD",
+        "100/120/140 W IHF dynamic at 8/6/4 Ω"
+      ],
+      "corroborationUrl": "https://fr.yamaha.com/files/download/other_assets/0/332210/web_VEX7920_A-S701_A-S501_A-S301_om_G_EnFrDeSvItEsNlRu_A0.pdf",
+      "corroborationNote": "Yamaha shared manual, audio specifications table; not independently bench-measured",
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s3200",
+      "model": "Yamaha A-S3200",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s501",
+      "model": "Yamaha A-S501",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "selected_fields_corroborrated",
+      "sourceLinks": 2,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS"
+      ],
+      "verifiedFields": [
+        "85 W/ch at 8 Ω, 20 Hz–20 kHz, 0.019% THD",
+        "100 W/ch at 6 Ω, 20 Hz–20 kHz, 0.038% THD",
+        "130/150/185 W IHF dynamic at 8/6/4 Ω"
+      ],
+      "corroborationUrl": "https://fr.yamaha.com/files/download/other_assets/0/332210/web_VEX7920_A-S701_A-S501_A-S301_om_G_EnFrDeSvItEsNlRu_A0.pdf",
+      "corroborationNote": "Yamaha shared manual, audio specifications table; not independently bench-measured",
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s701",
+      "model": "Yamaha A-S701",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "selected_fields_corroborrated",
+      "sourceLinks": 2,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS"
+      ],
+      "verifiedFields": [
+        "100 W/ch at 8 Ω, 20 Hz–20 kHz, 0.019% THD",
+        "120 W/ch at 6 Ω, 20 Hz–20 kHz, 0.038% THD",
+        "140/170/220 W IHF dynamic at 8/6/4 Ω"
+      ],
+      "corroborationUrl": "https://fr.yamaha.com/files/download/other_assets/0/332210/web_VEX7920_A-S701_A-S501_A-S301_om_G_EnFrDeSvItEsNlRu_A0.pdf",
+      "corroborationNote": "Yamaha shared manual, audio specifications table; not independently bench-measured",
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s801",
+      "model": "Yamaha A-S801",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-htr-4063-us-canada",
+      "model": "Yamaha HTR-4063 (US/Canada)",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-r-n600a",
+      "model": "Yamaha R-N600A",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-r-n800a",
+      "model": "Yamaha R-N800A",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-r-s202",
+      "model": "Yamaha R-S202",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-rx-485-us-canada",
+      "model": "Yamaha RX-485 (US/Canada)",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/amp/yamaha-rx-v385",
+      "model": "Yamaha RX-V385",
+      "categories": [
+        "amp"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/audio-technica-ath-m50x",
+      "model": "Audio-Technica ATH-M50x",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/beyerdynamic-dt-770-pro-80",
+      "model": "beyerdynamic DT 770 PRO (80 Ω)",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/grado-sr60x",
+      "model": "Grado SR60x",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/grado-sr80e",
+      "model": "Grado SR80e",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/grado-sr80x",
+      "model": "Grado SR80x",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/moondrop-chu-ii",
+      "model": "Moondrop Chu II",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/sennheiser-hd-560s",
+      "model": "Sennheiser HD 560S",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/sennheiser-hd-600",
+      "model": "Sennheiser HD 600",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/shure-se215",
+      "model": "Shure SE215",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/headphone/sony-mdr-7506",
+      "model": "Sony MDR-7506",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/asus-xonar-essence-stx-ii-rca",
+      "model": "ASUS Xonar Essence STX II (RCA)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/asus-xonar-se-front-3-5-mm",
+      "model": "ASUS Xonar SE (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-ae-7-front-3-5-mm",
+      "model": "Creative Sound Blaster AE-7 (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-ae-9-rca-front-out",
+      "model": "Creative Sound Blaster AE-9 (RCA front out)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-audigy-rx-front-3-5-mm",
+      "model": "Creative Sound Blaster Audigy Rx (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x-fi-titanium-hd-rca",
+      "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)",
+      "categories": [
+        "computer_sound_card",
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 4,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x-fi-titanium-sb0880-3-5-mm-front",
+      "model": "Creative Sound Blaster X-Fi Titanium (SB0880, 3.5 mm front)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x3-usb-front-3-5-mm",
+      "model": "Creative Sound Blaster X3 (USB, front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x4-usb-front-3-5-mm",
+      "model": "Creative Sound Blaster X4 (USB, front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x5-usb-rca-line-out",
+      "model": "Creative Sound Blaster X5 (USB, RCA line out)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-z-se-front-3-5-mm",
+      "model": "Creative Sound Blaster Z SE (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blasterx-ae-5-plus-front-3-5-mm",
+      "model": "Creative Sound BlasterX AE-5 Plus (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/creative-sound-blasterx-g6-line-optical-3-5-mm",
+      "model": "Creative Sound BlasterX G6 (line/optical 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/fiio-k11-rca-line-out",
+      "model": "FiiO K11 (RCA line out)",
+      "categories": [
+        "headphone_amplifier",
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/ifi-zen-dac-v2-fixed-rca",
+      "model": "iFi ZEN DAC V2 (fixed RCA)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/schiit-modi-rca",
+      "model": "Schiit Modi+ (RCA)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/smsl-su-1-rca",
+      "model": "SMSL SU-1 (RCA)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/topping-e30-ii-rca",
+      "model": "Topping E30 II (RCA)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/source/wiim-pro-plus-rca",
+      "model": "WiiM Pro Plus (RCA)",
+      "categories": [
+        "source"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/axiom-audio-vocal-point-vp-100-original",
+      "model": "Axiom Audio Vocal Point VP-100 (original)",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-at-15",
+      "model": "Cerwin-Vega AT-15",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-d-3",
+      "model": "Cerwin-Vega D-3",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-d-5",
+      "model": "Cerwin-Vega D-5",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-d-7",
+      "model": "Cerwin-Vega D-7",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-d-9",
+      "model": "Cerwin-Vega D-9",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-xls-12",
+      "model": "Cerwin-Vega XLS-12",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "PEAK_POWER_WITHOUT_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-xls-15",
+      "model": "Cerwin-Vega XLS-15",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "PEAK_POWER_WITHOUT_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-xls-215",
+      "model": "Cerwin-Vega XLS-215",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "PEAK_POWER_WITHOUT_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/dali-oberon-1",
+      "model": "DALI Oberon 1",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/dali-oberon-3",
+      "model": "DALI Oberon 3",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/dali-oberon-5",
+      "model": "DALI Oberon 5",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/dali-oberon-7",
+      "model": "DALI Oberon 7",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/elac-debut-2-0-b5-2",
+      "model": "ELAC Debut 2.0 B5.2",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/elac-debut-2-0-b6-2",
+      "model": "ELAC Debut 2.0 B6.2",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/elac-debut-3-0-db53",
+      "model": "ELAC Debut 3.0 DB53",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "PEAK_POWER_WITHOUT_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/elac-debut-3-0-db63",
+      "model": "ELAC Debut 3.0 DB63",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "PEAK_POWER_WITHOUT_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/elac-debut-3-0-df63",
+      "model": "ELAC Debut 3.0 DF63",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "PEAK_POWER_WITHOUT_CONTINUOUS",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/elac-debut-reference-dbr62",
+      "model": "ELAC Debut Reference DBR62",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/elac-debut-reference-dfr52",
+      "model": "ELAC Debut Reference DFR52",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/elac-uni-fi-2-0-ub52",
+      "model": "ELAC Uni-Fi 2.0 UB52",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/jbl-l100-century-original",
+      "model": "JBL L100 Century (original)",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/jbl-l100-classic",
+      "model": "JBL L100 Classic",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/jbl-stage-250b",
+      "model": "JBL Stage 250B",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/jbl-stage-280f",
+      "model": "JBL Stage 280F",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/jbl-stage-a130",
+      "model": "JBL Stage A130",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-ls50-meta",
+      "model": "KEF LS50 Meta",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-q1-meta",
+      "model": "KEF Q1 Meta",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-q150",
+      "model": "KEF Q150",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-q3-meta",
+      "model": "KEF Q3 Meta",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-q350",
+      "model": "KEF Q350",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-q550",
+      "model": "KEF Q550",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-q7-meta",
+      "model": "KEF Q7 Meta",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-q750",
+      "model": "KEF Q750",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/kef-q950",
+      "model": "KEF Q950",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/klipsch-forte-ii",
+      "model": "Klipsch Forte II",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/klipsch-heresy-ii",
+      "model": "Klipsch Heresy II",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/klipsch-r-50m",
+      "model": "Klipsch R-50M",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/klipsch-r-51m",
+      "model": "Klipsch R-51M",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/klipsch-rp-600m-original",
+      "model": "Klipsch RP-600M (original)",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/paradigm-monitor-se-6000f",
+      "model": "Paradigm Monitor SE 6000F",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/paradigm-monitor-se-atom",
+      "model": "Paradigm Monitor SE Atom",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/paradigm-phantom-v1",
+      "model": "Paradigm Phantom v1",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/paradigm-titan-v3",
+      "model": "Paradigm Titan v3",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/pioneer-hpm-100",
+      "model": "Pioneer HPM-100",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/pioneer-s-h352f-k",
+      "model": "Pioneer S-H352F-K",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN",
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/polk-reserve-r200",
+      "model": "Polk Reserve R200",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/polk-signature-elite-es15",
+      "model": "Polk Signature Elite ES15",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/polk-signature-elite-es20",
+      "model": "Polk Signature Elite ES20",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/polk-signature-elite-es60",
+      "model": "Polk Signature Elite ES60",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/q-acoustics-3020i",
+      "model": "Q Acoustics 3020i",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/sony-ss-cs5-original",
+      "model": "Sony SS-CS5 (original)",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/wharfedale-diamond-12-1",
+      "model": "Wharfedale Diamond 12.1",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/wharfedale-diamond-12-2",
+      "model": "Wharfedale Diamond 12.2",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/wharfedale-diamond-12-3",
+      "model": "Wharfedale Diamond 12.3",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/yamaha-ns-1000m",
+      "model": "Yamaha NS-1000M",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/yamaha-ns-555",
+      "model": "Yamaha NS-555",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/yamaha-ns-6490-canada",
+      "model": "Yamaha NS-6490 (Canada)",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "legacy/speaker/yamaha-ns-777",
+      "model": "Yamaha NS-777",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "NO_STRUCTURED_CONNECTOR_MAPPING"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/arturia-minifuse-1",
+      "model": "Arturia MiniFuse 1 (original)",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/arturia-minifuse-2",
+      "model": "Arturia MiniFuse 2",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/audient-id4-mkii",
+      "model": "Audient iD4 MkII",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/behringer-umc202hd",
+      "model": "Behringer U-PHORIA UMC202HD",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/behringer-umc22",
+      "model": "Behringer U-PHORIA UMC22",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/behringer-umc404hd",
+      "model": "Behringer U-PHORIA UMC404HD",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/elgato-wave-xlr-mk2",
+      "model": "Elgato Wave XLR MK.2",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/focusrite-scarlett-2i2-4",
+      "model": "Focusrite Scarlett 2i2 (4th Gen)",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/focusrite-scarlett-solo-4",
+      "model": "Focusrite Scarlett Solo (4th Gen)",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/maudio-mtrack-duo",
+      "model": "M-Audio M-Track Duo",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/maudio-mtrack-solo",
+      "model": "M-Audio M-Track Solo",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 3,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/audio_interface/presonus-audiobox-go",
+      "model": "PreSonus AudioBox GO",
+      "categories": [
+        "audio_interface"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/headphone_amplifier/fiio-q11",
+      "model": "FiiO Q11",
+      "categories": [
+        "headphone_amplifier"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/headphone_amplifier/jds-atom-amp-2",
+      "model": "JDS Labs Atom Amp 2",
+      "categories": [
+        "headphone_amplifier"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/headphone_amplifier/schiit-magni-6",
+      "model": "Schiit Magni 6",
+      "categories": [
+        "headphone_amplifier"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/headphone_amplifier/topping-l30-ii",
+      "model": "Topping L30 II",
+      "categories": [
+        "headphone_amplifier"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/headphone/akg-k371",
+      "model": "AKG K371",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/headphone/audio-technica-ath-m40x",
+      "model": "Audio-Technica ATH-M40x",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/headphone/shure-srh440a",
+      "model": "Shure SRH440A",
+      "categories": [
+        "headphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/akg-p120",
+      "model": "AKG P120",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/audio-technica-at2020-xlr",
+      "model": "Audio-Technica AT2020 (XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/audio-technica-atr2100x-usb",
+      "model": "Audio-Technica ATR2100x-USB",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/behringer-c1",
+      "model": "Behringer C-1",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/behringer-xm8500",
+      "model": "Behringer XM8500",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/elgato-wave3-mk2",
+      "model": "Elgato Wave:3 MK.2",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/fifine-am8",
+      "model": "FIFINE AmpliGame AM8 (USB/XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/fifine-k669d",
+      "model": "FIFINE K669D",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/fifine-k688",
+      "model": "FIFINE AmpliTank K688 (USB/XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/maono-pd200x",
+      "model": "MAONO PD200X (USB/XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/rode-podmic-xlr",
+      "model": "RØDE PodMic (XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/rode-smartlav-plus",
+      "model": "RØDE smartLav+",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/rode-videomicro-ii",
+      "model": "RØDE VideoMicro II",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/samson-q2u",
+      "model": "Samson Q2U (USB/XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/shure-mv7-plus",
+      "model": "Shure MV7+",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/shure-sm57",
+      "model": "Shure SM57",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/microphone/shure-sm58",
+      "model": "Shure SM58",
+      "categories": [
+        "microphone"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/mixer_recorder/behringer-1204usb",
+      "model": "Behringer XENYX 1204USB",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/mixer_recorder/behringer-xenyx-302usb",
+      "model": "Behringer XENYX 302USB",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/mixer_recorder/mackie-profx6v3-plus",
+      "model": "Mackie ProFX6v3+",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/mixer_recorder/yamaha-ag03mk2",
+      "model": "Yamaha AG03MK2",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/mixer_recorder/yamaha-ag06mk2",
+      "model": "Yamaha AG06MK2",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/mixer_recorder/yamaha-mg10xu",
+      "model": "Yamaha MG10XU",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/mixer_recorder/zoom-livetrak-l12",
+      "model": "Zoom LiveTrak L-12",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/mixer_recorder/zoom-podtrak-p4",
+      "model": "Zoom PodTrak P4",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/speaker/electrovoice-zlx-12p-g2",
+      "model": "Electro-Voice ZLX-12P-G2",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/speaker/jbl-305p-mkii-studio",
+      "model": "JBL 305P MkII",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/speaker/pioneer-sp-fs52",
+      "model": "Pioneer SP-FS52",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 2,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN",
+        "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/speaker/qsc-k12-2-pa",
+      "model": "QSC K12.2",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/speaker/yamaha-hs5-studio",
+      "model": "Yamaha HS5",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/speaker/yamaha-hs7-studio",
+      "model": "Yamaha HS7",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    },
+    {
+      "id": "research/speaker/yamaha-hs8-studio",
+      "model": "Yamaha HS8",
+      "categories": [
+        "speaker"
+      ],
+      "evidenceStatus": "source_not_independently_crosschecked",
+      "sourceLinks": 1,
+      "flags": [
+        "SPEAKER_SENSITIVITY_UNKNOWN",
+        "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
+      ],
+      "verifiedFields": [],
+      "corroborationUrl": null,
+      "corroborationNote": null,
+      "wholeRecordCertified": false
+    }
+  ]
+}
