@@ -82,7 +82,8 @@ function reviewErrors(kind,id,entry,fingerprint,model){
     if(!Array.isArray(entry.testedScenarios)||!entry.testedScenarios.length)
       errs.push(tag+' must name at least one executable scenario test');
     else for(const path of entry.testedScenarios){
-      if(typeof path!=='string'||!/^tests\\/[a-z0-9/-]+\\.test\\.mjs$/.test(path)||
+      if(typeof path!=='string'||!path.startsWith('tests/')||
+         !path.endsWith('.test.mjs')||path.includes('..')||
          !existsSync(resolve(root,path)))
         errs.push(tag+' scenario test path must name an existing tests/*.test.mjs file');
     }
