@@ -66,3 +66,7 @@ After the P5 incident, the numerical estimator was connected to **existing owned
 For powered recommendations without reliable numeric max-output evidence, the on-card statement is now an **actionable suitability judgment** for everyday or louder use at the selected distance rather than "worth considering, check the specs"; the optional details still distinguish intended use from laboratory verification. At long distances with a loud-use goal, the card explicitly advises choosing a more suitable high-output option rather than pretending unknown maximum SPL is an automatic pass.
 
 **Regression rule:** A high-priority, source-qualified passive equipment recommendation must not emit "louder peaks depend on the exact pairing" or any equivalent indefinite placeholder. Every future new researched combination must pass numeric inputs at first entry where the basis is available.
+
+### Visible System Check link is mandatory on passive recommendations
+
+Every passive speaker/amplifier recommendation with a `Loud enough for you?` answer must show a **Check your exact listening levels** link directly beneath it, outside the collapsed technical explanation. The link goes to `/system-check/` where the listener can enter an exact listening level, distance, speaker rating and amplifier conditions. Avoid claiming the general estimate itself is a personalized clean SPL measurement. Powered and headphone systems must not be sent to a passive-only calculator as though it validated their acoustic output. Enforced by `tests/system-builder-headroom-evidence.test.mjs`.
