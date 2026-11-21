@@ -162,3 +162,11 @@
  .sb .sb-compact-matches{display:block}
  .sb .sb-checker-action .sb-source-link{width:100%;min-height:44px}
 }
+
+/* Auto-selected listening assumptions stay unobtrusive and editable. */
+.sb .sb-distance-hint{
+ display:block;font-size:.69rem;line-height:1.36;font-weight:450;
+ color:#a9c7d9;margin:.12rem 0 0;
+}
+.sb .sb-distance-hint[data-level-hint]{max-width:330px}
+@media(max-width:640px){.sb .sb-distance-hint{font-size:.71rem}}
