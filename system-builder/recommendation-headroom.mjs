@@ -31,10 +31,11 @@ export function recommendationHeadroom(item={},request={},catalog=null){
     const peak=estimate.peakMarginDb;
     const continuous=estimate.averageMarginDb;
     const summary=isKnown
-      ?(peak!==null?'Published peak margin: '+(peak>=0?'+':'')+rounded(peak)+' dB':
-        'Peak output not established')+
-        (continuous!==null?' · continuous margin: '+(continuous>=0?'+':'')+
-          rounded(continuous)+' dB':' · sustained output not established')
+      ?'Published output margin (clean SPL not verified): '+
+        (peak!==null?(peak>=0?'+':'')+rounded(peak)+' dB peak':
+          'peak unknown')+
+        (continuous!==null?' · '+(continuous>=0?'+':'')+
+          rounded(continuous)+' dB continuous':' · sustained output unknown')
       :'Numeric headroom not verified: no comparable maximum acoustic SPL rating';
     return {
       kind:'powered',status:estimate.status,summary,source:estimate.source,
