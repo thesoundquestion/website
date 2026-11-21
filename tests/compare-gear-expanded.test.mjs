@@ -52,12 +52,14 @@ test('new categories have actual catalogue records and feature-appropriate spec 
     mixer_recorder:['advertisedMixerChannels','micPreampCount','computerRecordingInputs','usbRecordingMode','inputConnections','outputConnections','inputRoutingConstraints'],
     microphone:['capsule','pattern','requires48v','powerMethod','inputConnections','outputConnections'],
     headphone_amplifier:['ratedOutputMilliwatts','hasBuiltInDac','outputImpedanceOhms','inputConnections','outputConnections'],
-    computer_sound_card:['recordingAdc','playbackDac','hasDedicatedXlrMicPreamps','maxLineInputResolution','inputConnections','outputConnections']
+    computer_sound_card:['recordingAdc','playbackDac','hasDedicatedXlrMicPreamps','maxLineInputResolution','inputConnections','outputConnections'],
+    powered_studio_monitor:['speakerKind','powered','inputConnections','outputConnections'],
+    powered_pa_speaker:['speakerKind','powered','inputConnections','outputConnections']
   };
   for(const type of extras){
-    const records=catalog.records.filter(x=>x.categories.includes(type));
+    const records=catalog.records.filter(x=>type.startsWith('powered_')?x.categories.includes('speaker')&&x.facts?.speakerKind?.value===type:x.categories.includes(type));
     assert.ok(records.length>0,'missing catalogue models '+type);
-    const c=buildEquipmentComparison(records[0],records[0],{category:type});
+    const c=buildEquipmentComparison(records[0],records[0],{category:type.startsWith('powered_')?'speaker':type});
     for(const field of fields[type])assert.ok(row(c,field),type+' missing '+field);
     for(const row of c.rows)for(const key of ['left','right']){
       assert.equal(typeof row[key].display,'string');
