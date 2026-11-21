@@ -21,4 +21,4 @@ jobs:
           node-version: '22'
       - run: node scripts/build-equipment-catalog.mjs --check
       - run: node scripts/audit-equipment-certification.mjs --check
-      - run: node --test tests/equipment-catalog-master.test.mjs tests/equipment-catalog-unified.test.mjs
+      - run: node --test tests/equipment-catalog-master.test.mjs tests/equipment-catalog-unified.test.mjs tests/equipment-spec-evidence.test.mjs tests/equipment-certification-release.test.mjs
