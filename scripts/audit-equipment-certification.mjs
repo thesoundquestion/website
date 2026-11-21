@@ -87,6 +87,14 @@ if(process.argv.includes('--write-report')){
  writeFileSync(path,JSON.stringify(report,null,2)+'\n');
  console.log('Wrote '+path);
 }
+if(process.argv.includes('--check')) {
+ const expected=JSON.stringify(report,null,2)+'\n';
+ const actual=readFileSync(resolve(root,'equipment/certification/risk-register.generated.json'),'utf8').replace(/\r\n/g,'\n');
+ if(actual!==expected){
+   console.error('Risk register stale: rerun --write-report and review resulting diff.');
+   process.exitCode=1;
+ }
+}
 if(process.argv.includes('--check')&&(blocked.length||unauthorizedRemoval.length)){
  console.error('Certification gate failed: new or modified records / removals require approved review.');
  process.exitCode=1;
