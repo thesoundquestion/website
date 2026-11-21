@@ -44,9 +44,45 @@ test('Kanto ORA remains numerically unverified despite the published 50 W total 
  assert.match(x.caveat,/watts alone/i);
  const card=recommendationHeadroom({poweredHeadroomModel:'Kanto ORA',
     architecture:'consumer_powered_pair'},bedroom,catalog);
- assert.match(card.summary,/not verified/);
+ assert.match(card.summary,/Quiet playback is plausible/);
+ assert.match(card.summary,/No verified dB margin/);
+ assert.match(card.reviewSource,/soundstagesimplifi/);
+ assert.equal(card.metrics.peakMarginDb,null);
  assert.match(card.link,/powered=1/);
  assert.match(card.link,/Kanto%20ORA/);
+});
+test('Edifier MR4 offers context from independent output tests without inventing headroom',()=>{
+ const item={poweredHeadroomModel:'Edifier MR4',architecture:'consumer_powered_pair'};
+ const near=recommendationHeadroom(item,bedroom,catalog);
+ assert.equal(near.status,'unverified');
+ assert.match(near.summary,/Quiet playback is plausible/);
+ assert.match(near.summary,/bass-heavy peaks/);
+ assert.match(near.summary,/No verified dB margin/);
+ assert.match(near.reviewSource,/erinsaudiocorner/);
+ assert.equal(near.metrics.projectedPeakDb,null);
+ assert.equal(near.metrics.peakMarginDb,null);
+ assert.match(near.detail,/86 and 96 dB/);
+ const away=recommendationHeadroom(item,{...bedroom,distanceFt:15},catalog);
+ assert.match(away.summary,/headroom at this distance is uncertain/i);
+ const loud=recommendationHeadroom(item,{...bedroom,level:'high'},catalog);
+ assert.match(loud.summary,/cannot be recommended/i);
+});
+test('ORA quiet, normal, loud and far-distance advice changes without fake dB figures',()=>{
+ const item={poweredHeadroomModel:'Kanto ORA',architecture:'consumer_powered_pair'};
+ const a=recommendationHeadroom(item,bedroom,catalog);
+ const b=recommendationHeadroom(item,{...bedroom,level:'moderate'},catalog);
+ const c=recommendationHeadroom(item,{...bedroom,level:'high'},catalog);
+ const d=recommendationHeadroom(item,{...bedroom,distanceFt:12},catalog);
+ assert.match(a.summary,/Quiet playback is plausible/);
+ assert.match(b.summary,/bass-heavy musical peaks remain an unknown/);
+ assert.match(c.summary,/Loud or bass-heavy playback/);
+ assert.match(d.summary,/Designed for desktop listening/);
+ for(const x of [a,b,c,d]){
+  assert.equal(x.status,'unverified');
+  assert.equal(x.metrics.projectedPeakDb,null);
+  assert.equal(x.metrics.peakMarginDb,null);
+  assert.match(x.summary,/No verified dB margin/);
+ }
 });
 test('the real beginner bedroom shortlist gets a relevant System Check link on every option',()=>{
  const selected=shortlistExamples(bedroom,catalog).selected;
