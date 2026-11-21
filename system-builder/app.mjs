@@ -587,8 +587,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (item.connectionStatus === 'adapter_needed')
         checks.unshift('No native connection for your chosen input: add and price a suitable adapter, receiver or interface.');
-      if (item.sourceBatteryCaution)
-        checks.unshift('Battery operation requires a suitable battery-powered source/output.');
       if (item.pathwayCaution)
         checks.unshift(item.pathwayCaution);
       if (item.sourceCaution)
