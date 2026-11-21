@@ -28,7 +28,7 @@ test('powered Edifier MR4 has an explicit conditional output answer at user dist
  const e=headroomEvidence(item,req);
  assert.equal(e.status,'powered_maximum_spl_unverified');
  assert.match(e.text,/6 ft/);
- assert.match(e.text,/reasonable option/);
+ assert.match(e.text,/^Yes\\. A sensible choice for comfortable listening/);
  assert.match(e.detail,/Published amplifier watts/);
  assert.equal(e.link,null);
 });
@@ -39,7 +39,7 @@ test('loud preference alone does not mark any powered product unsuitable or esti
  const b=headroomEvidence(item,{...req,level:'high',distanceFt:16});
  assert.equal(a.status,b.status);
  assert.match(b.text,/16 ft/);
- assert.match(b.text,/check this model/);
+ assert.match(b.text,/Not my choice for dependable loud playback/);
  assert.doesNotMatch(b.text,/unsuitable|fails|cannot play/);
 });
 
