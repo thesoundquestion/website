@@ -67,7 +67,7 @@ test('Builder cards render the evidence note and never send powered users into p
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
  assert.match(app,/headroomEvidence\(item,request\)/);
  assert.match(app,/addText\(headroom,'strong',output.label/);
- assert.match(app,/if\(output.link\)link\(card,output.link,'Check your exact listening levels'\)/);
+ assert.match(app,/if\(output.link\)link\(card,checkerHandoffLink\(item,request\)\|\|output.link,'Check your exact listening levels'\)/);
  assert.doesNotMatch(app,/if\(output.link\)link\(details/);
  assert.match(app,/How loud and why/);
  assert.doesNotMatch(app,/Confirm clean output at your listening distance and level/);
