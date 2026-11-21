@@ -185,3 +185,10 @@ test('every powered numerical SPL projection requires an explicit positive measu
    }
  }
 });
+
+test('a low number alone is not evidence that budget caused an empty shortlist',()=>{
+ const note=explainEmptyExampleShortlist({...base,budget:100,architecture:'headphone_first',connection:'undecided'},
+   {selected:[],excluded:[]});
+ assert.doesNotMatch(note.reason.join(' '),/spending limit|Unpriced parts/);
+ assert.match(note.reason.join(' '),/current catalog/);
+});
