@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import {shortlistExamples} from '../system-builder/recommendations.mjs';
 import {headroomEvidence} from '../system-builder/headroom-evidence.mjs';
 import {requestedSubExamples,ownedSubwooferPath} from '../system-builder/stereo-subwoofer-examples.mjs';
+import {ownershipPlan} from '../system-builder/owned-gear-options.mjs';
+import {createContext,runInContext} from 'node:vm';
+import {readFileSync} from 'node:fs';
 
 const goals=['all_rounder','natural','imaging','dynamic','bass','low_volume','party'];
 const scenes=['desk','bedroom','living_room','outdoors','party'];
@@ -80,4 +83,46 @@ test('exact-model 2.1 routing has no cross-brand crossover leakage in plausible 
    assert.equal(x.ownedSubConnectionVerified,false);
    assert.doesNotMatch(x.bassSetup.setup,/T5 Signal In|T5 cutoff|Main Speakers Output Bass/);
  }
+});
+
+test('owned-gear matrix never recommends a pair with a documented do-not-connect blocker',()=>{
+ const ctx={window:{}};createContext(ctx);
+ for(const path of ['../equipment/legacy-presets.generated.js',
+   '../equipment/compare-details.generated.js','../system-builder/catalog-adapter.js'])
+   runInContext(readFileSync(new URL(path,import.meta.url),'utf8'),ctx);
+ const inventory=ctx.window.systemBuilderInventory;
+ const gear=(kind,name)=>({name,record:inventory[kind].find(x=>x.model===name)||null});
+ const ownedExamples=[
+  {speaker:gear('speaker','Paradigm Phantom v1')},
+  {speaker:gear('speaker','ELAC Debut 3.0 DB63')},
+  {speaker:{name:'Unlisted DIY speaker',record:null}},
+  {amp:gear('amp','Yamaha A-720')},
+  {amp:gear('amp','Yamaha R-S202')},
+  {speaker:gear('speaker','Paradigm Phantom v1'),amp:gear('amp','Yamaha A-720')},
+  {speaker:gear('speaker','ELAC Debut 3.0 DB63'),amp:gear('amp','Yamaha R-S202')},
+  {source:gear('source','Creative Sound Blaster X-Fi Titanium HD (RCA)')},
+  {headphone:gear('headphone','Grado SR80e')}
+ ];
+ let tested=0;
+ for(const own of ownedExamples)for(const level of levels)for(const distanceFt of distances)
+ for(const goal of ['all_rounder','bass','dynamic'])for(const connection of ['analog','optical','hdmi']){
+  const request={...basic,level,distanceFt,goal,connection,useCase:'bedroom',
+   architecture:'open',subMode:'no_sub'};
+  const plan=ownershipPlan({own,request,inventory});
+  assert.ok(plan,'owned gear unexpectedly discarded');
+  const actualRecommended=plan.selected.filter(x=>!x.safetyStatus&&!x.ownershipBlocker&&!x.loadCaution);
+  assert.equal(actualRecommended.length,plan.selected.length,
+   'safety-warning pairing was still in ownership shortlist: '+JSON.stringify(Object.keys(own)));
+  for(const item of plan.selected){
+   assert.ok(item.title&&item.parts?.length&&item.reuseNames?.length,
+     'missing ownership context');
+   assert.ok(!item.loadCaution&&!item.ownershipBlocker);
+  }
+  if(own.speaker?.name==='ELAC Debut 3.0 DB63'&&own.amp?.name==='Yamaha R-S202'){
+   assert.ok(!plan.selected.some(x=>x.id==='owned-complete'));
+   assert.ok(plan.excluded.some(x=>/ELAC/.test(x.title)));
+  }
+  tested++;
+ }
+ assert.equal(tested,972);
 });
