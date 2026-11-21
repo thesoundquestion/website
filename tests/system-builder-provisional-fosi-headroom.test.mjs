@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {shortlistExamples} from '../system-builder/recommendations.mjs';
+import {EXAMPLES} from '../system-builder/recommendations.mjs';
+import {curatedPairingFor} from '../system-builder/curated-pairing-evidence.mjs';
 import {OUTPUT_SCENARIOS,scenarioForPair,estimateOutputScenario,
   scenarioSystemCheckUrl} from '../system-check/illustrative-output-scenarios.mjs';
 import {passivePairingReadiness} from '../system-builder/passive-evidence-readiness.mjs';
@@ -9,11 +10,8 @@ import {recommendationHeadroom} from '../system-builder/recommendation-headroom.
 
 const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const catalog=JSON.parse(read('../equipment/catalog.generated.json'));
-const example=shortlistExamples({
-  architecture:'open',useCase:'bedroom',goal:'all_rounder',level:'quiet',
-  power:'mains',connection:'analog',region:'CA',currency:'CAD',budget:null,
-  distanceFt:6,referenceDate:'2026-11-20',subMode:'no_sub'
-},catalog).selected.find(x=>x.id==='passive-bt20a-xt15');
+const base=EXAMPLES.find(x=>x.id==='passive-bt20a-xt15');
+const example={...base,curatedPairing:curatedPairingFor(base)};
 const power=OUTPUT_SCENARIOS['fosi-bt20a-pro-32v5a-xt15'];
 const profile=catalog.records.find(x=>x.model==='Polk Monitor XT15')
   ?.profiles.find(p=>p.category==='speaker')?.values;
