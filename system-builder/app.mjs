@@ -1033,7 +1033,9 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(technical,'summary','Connection details, headroom basis and sources');
         if(headroom.basis)addText(technical,'p',headroom.basis);
         if(headroom.detail)addText(technical,'p',headroom.detail);
-        if(headroom.source)link(technical,headroom.source,'Published acoustic output specifications');
+        if(headroom.source)link(technical,headroom.source,
+          headroom.status==='unverified'?'Manufacturer specifications':'Published acoustic output specifications');
+        if(headroom.reviewSource)link(technical,headroom.reviewSource,'Independent output evidence');
         if(data.important)addText(technical,'p','Connection or compatibility check: '+data.important);
         if(!top&&data.parts.length)addText(technical,'p','Includes: '+data.parts.join(' · '));
         if(data.tradeoff)addText(technical,'p',data.tradeoff);
@@ -1219,7 +1221,9 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(more,'summary','Published output basis and limitations');
         if(h.basis)addText(more,'p',h.basis);
         if(h.detail)addText(more,'p',h.detail);
-        if(h.source)link(more,h.source,'Published maximum-SPL source');
+        if(h.source)link(more,h.source,
+          h.status==='unverified'?'Manufacturer specifications':'Published maximum-SPL source');
+        if(h.reviewSource)link(more,h.reviewSource,'Independent output evidence');
         card.append(more);
       }
       if(item.reuseNames?.length)
