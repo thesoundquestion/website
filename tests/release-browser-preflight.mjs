@@ -475,6 +475,24 @@ try {
   await checkNoErrors(page,errors,device.name+' compact passive complete-system path');
   outcomes.push(device.name+' compact complete system with sound, honest headroom and optional technical detail');
 
+  // An impossible input requirement must produce specific, actionable
+  // explanation rather than a fake adapter-dependent recommendation.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('complete_system');
+  await page.locator('[name="architecture"]').selectOption('consumer_powered_pair');
+  await page.locator('[name="connection"]').selectOption('hdmi');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  const noMatch=page.locator('#sb-results .sb-simple-empty');
+  assert.equal(await noMatch.count(),1,device.name+' cannot show a fake direct-HDMI powered system');
+  assert.match(await noMatch.innerText(),/No verified complete-system match yet/);
+  assert.match(await noMatch.innerText(),/direct HDMI input/);
+  assert.match(await noMatch.innerText(),/other outputs/);
+  assert.match(await noMatch.innerText(),/separate purchase/);
+  assert.equal(await page.locator('#sb-results .sb-simple-primary').count(),0);
+  await checkNoErrors(page,errors,device.name+' actionable no-match guidance');
+  outcomes.push(device.name+' incompatible HDMI system produces explicit safe alternatives');
+
   // Regression: the real owned A-720 + Titan v3 route used to return ONLY a
   // "keep your gear" card and omit System Check, despite a high/dynamic target.
   await visit(page,'/system-builder/');
