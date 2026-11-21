@@ -1,3 +1,4 @@
+import {poweredEvidenceFor,poweredListeningAssessment} from './powered-output-evidence.mjs';
 /**
  * Beginner-facing loudness guidance. A stated use-case is editorial guidance,
  * NOT an SPL measurement, a clean-output guarantee, or a safety certificate.
@@ -30,6 +31,14 @@ export function headroomEvidence(item={},request={}) {
   };
 
   if(['consumer_powered_pair','active_studio','party_pa'].includes(architecture)){
+    // Prefer actual model-specific peak AND continuous acoustic evidence.
+    // This takes precedence over qualitative category assumptions.
+    const evidence=poweredEvidenceFor(item);
+    const assessed=poweredListeningAssessment(evidence,request);
+    if(assessed)return {
+      ...assessed,label:'Loud enough for you?',link:null,
+      detail:assessed.detail+bass
+    };
     if(architecture==='party_pa')return {
       status:'powered_maximum_spl_unverified',
       label:'Will it get loud enough?',
