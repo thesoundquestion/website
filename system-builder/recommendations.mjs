@@ -29,7 +29,7 @@ export const EXAMPLES = Object.freeze([
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Yamaha A-S301',amount:649.95,url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},{label:'PSB Alpha P5 pair',amount:699,url:'https://audioshop.on.ca/products/psb-p5-bookshelf-speakers'}]}
   },
   {
-    id:'powered-mr4', architecture:'consumer_powered_pair', title:'Low-cost wired desk: Edifier MR4 stereo pair',
+    id:'powered-mr4', architecture:'consumer_powered_pair',poweredHeadroomModel:'Edifier MR4', title:'Low-cost wired desk: Edifier MR4 stereo pair',
     kind:'Complete powered pair (with compatible analogue source)', places:['desk','bedroom','living_room'], power:'mains',
     connections:['analog'],goals:['all_rounder','natural','low_volume','imaging'],
     parts:[{name:'Edifier MR4 powered stereo speakers',count:1,role:'One box contains active right speaker, passive left speaker and connecting cable',url:'https://ca.edifier.com/products/mr4'}],
@@ -39,7 +39,7 @@ export const EXAMPLES = Object.freeze([
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Edifier MR4 pair',amount:179.99,url:'https://ca.edifier.com/products/mr4'}]}
   },
   {
-    id:'powered-ora', architecture:'consumer_powered_pair', title:'Compact flexible desk: Kanto ORA stereo pair',soundTarget:'Kanto ORA',
+    id:'powered-ora', architecture:'consumer_powered_pair',poweredHeadroomModel:'Kanto ORA', title:'Compact flexible desk: Kanto ORA stereo pair',soundTarget:'Kanto ORA',
     kind:'Complete powered pair (with a compatible source)', places:['desk','bedroom','living_room'], power:'mains',
     connections:['analog','usb','bluetooth'],goals:['all_rounder','imaging','natural','bass','low_volume'],
     parts:[{name:'Kanto ORA original powered stereo pair',count:1,role:'Pair with internal amplification, USB-C, RCA, Bluetooth and sub output',url:'https://kantoaudio.com/powered-speakers/ora/'}],
@@ -49,7 +49,7 @@ export const EXAMPLES = Object.freeze([
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Kanto ORA pair',amount:399.99,url:'https://www.crutchfield.ca/p_310ORABK/Kanto-ORA-Matte-Black.html'}]}
   },
   {
-    id:'studio-jbl', architecture:'active_studio', title:'Nearfield separates: two JBL 305P MkII monitors',soundTarget:'JBL 305P MkII',
+    id:'studio-jbl', architecture:'active_studio',poweredHeadroomModel:'JBL 305P MkII', title:'Nearfield separates: two JBL 305P MkII monitors',soundTarget:'JBL 305P MkII',
     kind:'Two individual powered monitors', places:['desk','bedroom'], power:'mains',
     connections:['analog'],goals:['imaging','natural','all_rounder','dynamic'],
     parts:[{name:'JBL 305P MkII active monitor',count:2,role:'Order TWO individual loudspeakers; not a pre-packed stereo pair',url:'https://www.jbl.com/305PMKII-.html'},
@@ -60,7 +60,7 @@ export const EXAMPLES = Object.freeze([
     priceCA:{date:CA_PRICE_DATE,components:[{label:'JBL 305P MkII, each',amount:279.99,quantity:2,url:'https://www.avshop.ca/recording-studio-monitoring-studio-monitors/jbl-305p-mkii-powered-5in-two-way-studio-monitor-each-black'}]}
   },
   {
-    id:'studio-kali', architecture:'active_studio', title:'Larger desk / small room: two Kali LP-6 V2 monitors',
+    id:'studio-kali', architecture:'active_studio',poweredHeadroomModel:'Kali LP-6 V2', title:'Larger desk / small room: two Kali LP-6 V2 monitors',
     kind:'Two individual powered monitors', places:['desk','bedroom','living_room'], power:'mains',
     connections:['analog'],goals:['natural','imaging','all_rounder','dynamic','bass'],
     parts:[{name:'Kali Audio LP-6 V2 (2nd Wave) monitor',count:2,role:'Two individually powered cabinets',url:'https://www.kaliaudio.com/lone-pine-studio-monitors'},
