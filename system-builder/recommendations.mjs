@@ -21,7 +21,7 @@ export const EXAMPLES = Object.freeze([
       {name:'Yamaha A-S301 integrated amplifier',count:1,role:'Amplification, volume control, analogue and optical inputs',url:'https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/a-s301/specs.html'},
       {name:'PSB Alpha P5 passive speakers',count:1,role:'One stereo pair',url:'https://www.psbspeakers.com/collections/alpha'}
     ],
-    why:'A conventional separate-amp system with built-in optical conversion and a wider speaker-upgrade path than compact powered boxes.',
+    why:'A complete stereo starting point with a separate amplifier and a pair of passive speakers. The Yamaha has analogue and optical inputs, and the two speakers can be changed later without replacing the amp.',
     tradeoff:'The amplifier and speakers need separate speaker cable and shelf/stand space. Adding a subwoofer through the A-S301 Sub Out does not establish a high-pass filter for the main speakers.',
     extra:['Speaker cable is required; stands, streamer and optional subwoofer are separate.',
       'For Bluetooth, USB or HDMI, add and price an appropriate source or converter.'],
@@ -42,7 +42,7 @@ export const EXAMPLES = Object.freeze([
     kind:'Complete powered pair (with a compatible source)', places:['desk','bedroom','living_room'], power:'mains',
     connections:['analog','usb','bluetooth'],goals:['all_rounder','imaging','natural','bass','low_volume'],
     parts:[{name:'Kanto ORA original powered stereo pair',count:1,role:'Pair with internal amplification, USB-C, RCA, Bluetooth and sub output',url:'https://kantoaudio.com/powered-speakers/ora/'}],
-    why:'An integrated stereo path for computer and wireless listening. Original ORA documents a 100 Hz main/sub crossover when a sub is connected.',
+    why:'An uncomplicated bedroom or desktop stereo pair with built-in amplification, computer USB audio and Bluetooth. The original ORA also supports a documented main/sub crossover when a compatible sub is added.',
     tradeoff:'The small 3-inch woofers limit what to assume about low bass or large-room output. Original ORA is not ORA4, whose routing differs. Additional sub, stands and connection accessories cost extra.',
     extra:['For a sub, verify the exact ORA revision and connection; do not infer an automatic clean-SPL increase.'],
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Kanto ORA pair',amount:399.99,url:'https://www.crutchfield.ca/p_310ORABK/Kanto-ORA-Matte-Black.html'}]}
@@ -53,7 +53,7 @@ export const EXAMPLES = Object.freeze([
     connections:['analog'],goals:['imaging','natural','all_rounder','dynamic'],
     parts:[{name:'JBL 305P MkII active monitor',count:2,role:'Order TWO individual loudspeakers; not a pre-packed stereo pair',url:'https://www.jbl.com/305PMKII-.html'},
       {name:'Suitable stereo level control/interface and signal cables',count:1,role:'Required if the source lacks appropriate analogue outputs and level control',url:null}],
-    why:'A two-monitor route intended for nearfield stereo listening, with each speaker powered independently.',
+    why:'A left/right stereo setup with amplification inside each monitor, so a separate speaker amplifier is unnecessary. A suitable stereo output and volume control are still needed to connect your music player.',
     tradeoff:'Budget for two monitors and any interface, controller or cables you need. Check connection levels, hiss close to the ears and room placement.',
     extra:['Not a substitute for a portable party rig. No direct USB, optical, HDMI or Bluetooth input on the monitor itself.'],
     priceCA:{date:CA_PRICE_DATE,components:[{label:'JBL 305P MkII, each',amount:279.99,quantity:2,url:'https://www.avshop.ca/recording-studio-monitoring-studio-monitors/jbl-305p-mkii-powered-5in-two-way-studio-monitor-each-black'}]}
