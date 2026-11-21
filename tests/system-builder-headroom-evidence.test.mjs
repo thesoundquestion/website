@@ -47,7 +47,7 @@ test('passive output requires matching continuous load and a documented sensitiv
  const r=headroomEvidence(item,req);
  assert.equal(r.status,'passive_exact_load_power_only');
  assert.match(r.detail,/60 W\/channel at 8 Ω/);
- assert.match(r.detail,/not a seat-level SPL result/);
+ assert.match(r.detail,/A quantitative comparison needs the speaker sensitivity/);
  assert.equal(r.link,'/system-check/');
  const unknown=headroomEvidence({architecture:'passive_separates'},req);
  assert.equal(unknown.status,'passive_output_unverified');
