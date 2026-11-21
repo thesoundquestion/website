@@ -89,3 +89,25 @@ test('the full site shows a compact layout with alternative listening impression
  assert.match(styles,/grid-template-columns:minmax\(0,1\.08fr\) minmax\(0,\.92fr\)/);
  assert.match(styles,/@media\(max-width:930px\)/);
 });
+
+test('unqualified goal or room examples are visibly research leads, not certified matches',()=>{
+ const item={title:'Example powered pair',architecture:'consumer_powered_pair',why:'A research example.',
+   connections:['analog'],goals:['natural'],places:['desk'],parts:[{name:'Example pair',count:1}]};
+ const request={...base,goal:'bass',useCase:'outdoors',budget:150};
+ const report=explainSimpleSystem({...item,subtotal:null},request,true);
+ assert.equal(report.qualifiedFit,false);
+ assert.match(report.fitCaution,/outdoor space/);
+ assert.match(report.fitCaution,/bass impact/);
+ assert.match(report.priceCaution,/not confirmed within your spending limit/);
+ const qualified=explainSimpleSystem(item,{...base,goal:'natural',useCase:'desk',budget:null},true);
+ assert.equal(qualified.qualifiedFit,true);
+ assert.equal(qualified.fitCaution,'');
+ assert.equal(qualified.priceCaution,null);
+ const first=app.indexOf('const renderSimpleCard=(item,top)=>');
+ const end=app.indexOf('panel.append(renderSimpleCard',first);
+ const excerpt=app.slice(first,end);
+ assert.match(excerpt,/CLOSEST RESEARCH LEAD/);
+ assert.match(excerpt,/sb-simple-fit-caution/);
+ assert.match(excerpt,/sb-simple-price-caution/);
+ assert.ok(excerpt.indexOf('card.append(listening)')<excerpt.indexOf('data.fitCaution'));
+});
