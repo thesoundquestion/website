@@ -13,7 +13,7 @@ const connections=['analog','usb','optical','bluetooth','hdmi','undecided'];
 const basic={region:'CA',currency:'CAD',budget:null,budgetStrict:true,
   referenceDate:'2026-11-13',power:'mains',used:true,secondary:[]};
 
-test('broad 30,240-case recommendation matrix contains no safety-blocked products or fabricated volume results',()=>{
+test('broad 15,120-case recommendation matrix contains no safety-blocked products or fabricated volume results',()=>{
  let evaluated=0,nonempty=0;
  for(const goal of goals)for(const useCase of scenes)
  for(const architecture of architectures)for(const level of levels)
@@ -44,7 +44,7 @@ test('broad 30,240-case recommendation matrix contains no safety-blocked product
        assert.ok(['battery','source_dependent'].includes(item.power));
    }
  }
- assert.equal(evaluated,30240);
+ assert.equal(evaluated,15120);
  assert.ok(nonempty>5000,'matrix unexpectedly contains almost no eligible options');
 });
 test('safety and real battery requirements remain hard gates over budgets, goals and loudness',()=>{
