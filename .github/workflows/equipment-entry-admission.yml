@@ -1,0 +1,54 @@
+name: Permanent equipment catalog admission (no deployment)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'equipment/**'
+      - 'system-builder/**'
+      - 'system-check/**'
+      - 'scripts/build-equipment-catalog.mjs'
+      - 'scripts/sync-equipment-source-mirrors.mjs'
+      - 'scripts/validate-equipment-entry-gates.mjs'
+      - 'tests/equipment-entry-*.test.mjs'
+      - '.github/workflows/equipment-entry-admission.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'equipment/**'
+      - 'system-builder/**'
+      - 'system-check/**'
+      - 'scripts/build-equipment-catalog.mjs'
+      - 'scripts/sync-equipment-source-mirrors.mjs'
+      - 'scripts/validate-equipment-entry-gates.mjs'
+      - 'tests/equipment-entry-*.test.mjs'
+      - '.github/workflows/equipment-entry-admission.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: equipment-admission-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source-to-output-admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generated mirror and canonical catalog must be synchronized
+        run: |
+          node scripts/sync-equipment-source-mirrors.mjs --check
+          node scripts/build-equipment-catalog.mjs --check
+      - name: New/changed devices and curated systems require source-specific sign-off
+        run: node scripts/validate-equipment-entry-gates.mjs
+      - name: Check admission, subwoofer evidence and common Builder purchase paths
+        run: |
+          node --test tests/equipment-entry-gate.test.mjs tests/equipment-entry-subwoofer-evidence.test.mjs tests/system-builder-release-acceptance.test.mjs
+      - name: Confirm publishable static source package without deploying
+        run: node scripts/build-public-site.mjs
