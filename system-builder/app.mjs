@@ -22,6 +22,7 @@ import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistP
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
 import {explainBeginnerOption} from './beginner-output.mjs';
+import {explainSimpleSystem} from './simple-system-summary.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
 import {BUILDER_ONLY_AMPS, builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
@@ -968,6 +969,89 @@ document.addEventListener('DOMContentLoaded', () => {
     );
     if(preference!=='any')
       addText(shop,'p',tierEvidence.note+' Price categories describe local retail expense, not sound quality.','sb-brief-note');
+    // The introductory full-system path has its own deliberately small view.
+    // The source-backed shortlist above still determines eligibility and order.
+    // Do not render the large technical/audit card tree on this simple path.
+    if(request.buildIntent==='complete_system'&&!anyOwned&&bassMode==='no_sub'){
+      shop.classList.add('sb-simple-system-results');
+      const chosen=shortlist.selected.slice(0,4);
+      if(!chosen.length){
+        addText(shop,'p','No complete example fits these selections yet. Try another system approach.','sb-simple-empty');
+        return;
+      }
+      const panel=el('div','sb-simple-match-layout');
+      const renderSimpleCard=(item,top)=>{
+        const data=explainSimpleSystem(item,request,top);
+        const card=el('article','sb-simple-match'+(top?' sb-simple-primary':' sb-simple-alternative'));
+        addText(card,'span',top?'FIRST SUGGESTED SETUP':'ANOTHER WAY TO LISTEN','sb-simple-eyebrow');
+        addText(card,'h4',data.title,'sb-simple-title');
+        const why=el('div','sb-simple-why');
+        addText(why,'strong',top?'Why it comes first':'Why it is here');
+        addText(why,'p',data.why);
+        card.append(why);
+        const sound=soundImpressionFor(item);
+        if(sound?.text&&sound.sources?.some(x=>/^https:\/\//.test(x.url))){
+          const listening=el('div','sb-simple-sound');
+          addText(listening,'strong','How listeners describe the sound');
+          addText(listening,'p',sound.text.replace(/[.!?]$/,'')+'.');
+          const source=el('div','sb-simple-source');
+          for(const cited of sound.sources.filter(x=>/^https:\/\//.test(x.url)).slice(0,2))
+            link(source,cited.url,cited.label||'Read listening review');
+          listening.append(source);
+          card.append(listening);
+        }
+        // Ordinary connection guidance is useful even when no source model
+        // has been entered. Never present this as a certified input match.
+        addText(card,'p',data.connection,'sb-simple-connection');
+        if(data.important)addText(card,'p','Check: '+data.important,'sb-simple-note');
+        if(top&&data.parts.length)
+          addText(card,'p','What the example includes: '+data.parts.join(' · '),'sb-simple-parts');
+
+        if(item.architecture==='passive_separates'){
+          const amplifier=item.amplifierModel||item.curatedPairing?.amplifierModel;
+          const speakers=item.speakerModel||item.curatedPairing?.speakerModel;
+          if(amplifier&&speakers){
+            const profile=headroomHandoff({amplifierModel:amplifier,speakerModel:speakers},
+              distanceFt,request.level,request.useCase);
+            profile.params.delete('embedded');
+            const line=el('div','sb-simple-checker');
+            if(data.headroomStatus==='calculable')
+              addText(line,'span','Saved ratings available for a headroom estimate.','sb-simple-headroom');
+            else
+              addText(line,'span','Some headroom ratings are missing.','sb-simple-headroom');
+            link(line,'/system-check/?'+profile.params.toString(),
+              'Check this exact system in System Check');
+            card.append(line);
+          }
+        }
+        const technical=el('details','sb-simple-details');
+        addText(technical,'summary','Parts, trade-offs and sources');
+        if(!top&&data.parts.length)addText(technical,'p','Includes: '+data.parts.join(' · '));
+        if(data.tradeoff)addText(technical,'p',data.tradeoff);
+        if(data.headroomStatus==='incomplete'&&data.headroomMissing.length)
+          addText(technical,'p','For a model-specific headroom estimate, we still need: '+
+            data.headroomMissing.join('; ')+'.');
+        if(data.subtotal!==null&&data.priceDate)
+          addText(technical,'p','Dated listed-parts reference: '+
+            new Intl.NumberFormat('en-CA',{style:'currency',currency:displayCurrency})
+              .format(data.subtotal)+' ('+data.priceDate+'). Not a current complete purchase price.');
+        for(const part of (item.parts||[]))
+          if(part.url)link(technical,part.url,'Specifications: '+part.name);
+        card.append(technical);
+        return card;
+      };
+      panel.append(renderSimpleCard(chosen[0],true));
+      if(chosen.length>1){
+        const alternatives=el('section','sb-simple-alternatives');
+        addText(alternatives,'h4','Other options and how they sound');
+        for(const item of chosen.slice(1))alternatives.append(renderSimpleCard(item,false));
+        panel.append(alternatives);
+      }
+      shop.append(panel);
+      addText(shop,'p','These are sourced examples arranged for your listening choices, not a sound-quality ranking or a measured prediction of clean volume.','sb-simple-footer');
+      return;
+    }
+
     const combinedFactors=explainInputInteractions(request);
     if(combinedFactors.length){
       const decision=el('details','sb-more sb-decision-logic');
