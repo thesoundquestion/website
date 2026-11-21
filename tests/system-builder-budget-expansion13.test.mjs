@@ -61,7 +61,8 @@ test('optical and USB alternatives are ordered by actual native connectivity',()
   assert.equal(usb.selected[0].id,'powered-m60');
   assert.equal(usb.selected[0].connectionStatus,'native_possible');
   assert.equal(usb.selected.find(x=>x.id==='powered-ora').connectionStatus,'native_possible');
-  assert.equal(usb.selected.find(x=>x.id==='powered-mr3').connectionStatus,'adapter_needed');
+  assert.ok(!usb.selected.some(x=>x.id==='powered-mr3'));
+  assert.ok(usb.selected.every(x=>x.connectionStatus==='native_possible'&&x.connections.includes('usb')));
 });
 test('headphone starts below 100 dollars with source-output caveats rather than auto DAC purchase',()=>{
   const r=check(100,{architecture:'headphone_first',connection:'analog'});
