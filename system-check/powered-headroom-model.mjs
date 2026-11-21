@@ -24,6 +24,48 @@ export const POWERED_OUTPUT_EVIDENCE=Object.freeze({
     caveat:'The peak and long-term listening-distance figures use different test definitions. They are not directly comparable measurements of distortion-limited clean SPL at every frequency.',
     source:'https://www.kaliaudio.com/lone-pine-studio-monitors'
   },
+  'Edifier R1280T':{
+    model:'Edifier R1280T',unit:'powered stereo pair',
+    source:'https://ca.edifier.com/products/r1280t',
+    caveat:'Published electrical amplifier power and cabinet size do not establish a clean maximum SPL at the requested listening position.',
+    practical:{quiet:"Quiet desktop playback is plausible; limited deep bass remains.",normal:"Normal listening is plausible, but louder bass passages may strain the pair.",loud:"Sustained loud playback is not supported by a verified clean output limit.",
+      far:"A desk-oriented powered pair; adequacy at this distance is uncertain.",evidence:"SoundGuys reviews the exact R1280T and discusses response, controls and high-output limitations. No comparable distortion-limited maximum acoustic SPL is supplied.",reviewUrl:'https://www.soundguys.com/edifier-r1280t-review-127991/'}
+  },
+  'Edifier R1280DB':{
+    model:'Edifier R1280DB',unit:'powered stereo pair',
+    source:'https://ca.edifier.com/products/r1280db',
+    caveat:'Published electrical amplifier power and cabinet size do not establish a clean maximum SPL at the requested listening position.',
+    practical:{quiet:"Quiet playback is plausible with modest bass expectations.",normal:"Everyday small-room playback is plausible, but bass-heavy peaks are not verified.",loud:"Loud or bass-heavy listening lacks a verified clean-output limit.",
+      far:"The output available for this longer listening distance is not verified.",evidence:"An exact-model independent listening review describes the R1280DB presentation. It does not establish a standardized clean maximum SPL.",reviewUrl:'https://theheadphonelist.com/edifier-r1280db-review-easygoing/'}
+  },
+  'Edifier R1280DBs':{
+    model:'Edifier R1280DBs',unit:'powered stereo pair',
+    source:'https://ca.edifier.com/products/r1280dbs',
+    caveat:'Published electrical amplifier power and cabinet size do not establish a clean maximum SPL at the requested listening position.',
+    practical:{quiet:"Quiet playback is plausible; deep bass is not guaranteed.",normal:"Normal room listening may work, but bass output and dynamic peaks remain uncertain.",loud:"Loud dynamic playback lacks a measured clean acoustic ceiling.",
+      far:"A small powered pair; practical output at this distance is uncertain.",evidence:"TechRadar reviews the exact R1280DBs. It includes an optional subwoofer output, but that does not certify higher clean output without verified crossover behavior.",reviewUrl:'https://www.techradar.com/reviews/edifier-r1280dbs'}
+  },
+  'Edifier R1700BTs':{
+    model:'Edifier R1700BTs',unit:'powered stereo pair',
+    source:'https://ca.edifier.com/products/r1700bts',
+    caveat:'Published electrical amplifier power and cabinet size do not establish a clean maximum SPL at the requested listening position.',
+    practical:{quiet:"Quiet music should be feasible, with bass depending on placement.",normal:"Ordinary room listening may work; bass-heavy material can expose limits.",loud:"High-level playback cannot be confirmed clean from amplifier wattage.",
+      far:"The independent reviewer describes weaker bass authority in larger listening spaces.",evidence:"An independent R1700BTs review covers desktop and larger-room use. Its sound descriptions do not quantify a clean maximum SPL.",reviewUrl:'https://www.ecoustics.com/reviews/edifier-r1700bts/'}
+  },
+  'Edifier MR3':{
+    model:'Edifier MR3',unit:'powered stereo pair',
+    source:'https://ca.edifier.com/products/mr3',
+    caveat:'Published electrical amplifier power and cabinet size do not establish a clean maximum SPL at the requested listening position.',
+    practical:{quiet:"Quiet nearfield listening is plausible; low bass remains limited.",normal:"Moderate playback may work; bass demands and limiters deserve caution.",loud:"High musical peaks are not verified clean at the listening position.",
+      far:"This close-listening model has uncertain usable output at longer distances.",evidence:"Erin’s Audio Corner independently measured the MR3. The manufacturer quotes a maximum SPL figure without a comparable clean-output test basis; it is not used as a headroom margin.",reviewUrl:'https://www.erinsaudiocorner.com/loudspeakers/edifier_mr3/'}
+  },
+  'Edifier M60':{
+    model:'Edifier M60',unit:'powered stereo pair',
+    source:'https://ca.edifier.com/products/m60',
+    caveat:'Published electrical amplifier power and cabinet size do not establish a clean maximum SPL at the requested listening position.',
+    practical:{quiet:"Quiet desktop listening is plausible, with limited deep bass.",normal:"Moderate listening may be suitable nearfield, but bass headroom is uncertain.",loud:"Loud, bass-rich playback is not established as clean.",
+      far:"The small desktop system has no verified clean output at this distance.",evidence:"Erin’s Audio Corner publishes independent tests of the exact M60. These do not establish a transferable clean peak SPL for the requested seat.",reviewUrl:'https://www.erinsaudiocorner.com/loudspeakers/edifier_m60/'}
+  },
   'Kanto ORA':{
     model:'Kanto ORA',unit:'original powered stereo pair',
     electricalWatts:50,
