@@ -760,7 +760,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('[TSQ Builder] Canonical equipment catalogue load failed:',error);
     }
   }
-  attachSharedInventory();
+  const catalogReady=attachSharedInventory();
 
   function chosenGear(data, kind) {
     const exact = String(data.get(kind) || '');
@@ -1763,7 +1763,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link(limitation,'https://www.erinsaudiocorner.com/measurement-data-policy/','Independent measurement-data usage policy');
   }
 
-  form.addEventListener('submit', ev => {
+  form.addEventListener('submit', async ev => {
     ev.preventDefault();
     if (!form.reportValidity()) return;
     const raw=new FormData(form);
@@ -1784,6 +1784,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
     }
+    // If the visitor clicks quickly, wait for the verified equipment registry
+    // before deciding what is the strongest candidate. A missing registry may
+    // keep the older preset suggestions, but never silently claim full evidence.
+    setFeedback('Checking available verified equipment specifications…');
+    await catalogReady;
     setFeedback('');
     report(selected);
     result.hidden = false;
