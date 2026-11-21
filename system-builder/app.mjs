@@ -990,10 +990,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const card=el('article','sb-simple-match'+(top?' sb-simple-primary':' sb-simple-alternative'));
         addText(card,'span',top?'FIRST SUGGESTED SETUP':'ANOTHER WAY TO LISTEN','sb-simple-eyebrow');
         addText(card,'h4',data.title,'sb-simple-title');
-        const why=el('div','sb-simple-why');
-        addText(why,'strong',top?'Why it comes first':'Why it is here');
-        addText(why,'p',data.why);
-        card.append(why);
         const sound=soundImpressionFor(item);
         if(sound?.text&&sound.sources?.some(x=>/^https:\/\//.test(x.url))){
           const listening=el('div','sb-simple-sound');
@@ -1005,10 +1001,13 @@ document.addEventListener('DOMContentLoaded', () => {
           listening.append(source);
           card.append(listening);
         }
+        const why=el('div','sb-simple-why');
+        addText(why,'strong',top?'Why this setup fits':'Why consider this option');
+        addText(why,'p',data.why);
+        card.append(why);
         // Ordinary connection guidance is useful even when no source model
         // has been entered. Never present this as a certified input match.
         addText(card,'p',data.connection,'sb-simple-connection');
-        if(data.important)addText(card,'p','Check: '+data.important,'sb-simple-note');
         if(top&&data.parts.length)
           addText(card,'p','What the example includes: '+data.parts.join(' · '),'sb-simple-parts');
 
@@ -1030,7 +1029,8 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
         const technical=el('details','sb-simple-details');
-        addText(technical,'summary','Parts, trade-offs and sources');
+        addText(technical,'summary','Connection details, parts and sources');
+        if(data.important)addText(technical,'p','Connection or compatibility check: '+data.important);
         if(!top&&data.parts.length)addText(technical,'p','Includes: '+data.parts.join(' · '));
         if(data.tradeoff)addText(technical,'p',data.tradeoff);
         if(data.headroomStatus==='incomplete'&&data.headroomMissing.length)
