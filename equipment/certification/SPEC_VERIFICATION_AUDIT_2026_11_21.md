@@ -74,3 +74,20 @@ The original equipment catalogue and Source Master were not changed. No Cloudfla
 
 ### Owned-subwoofer wiring guard (same pass)
 The old `ownedSubwooferPath` UI reused Edifier T5 cable and crossover instructions **even when the user said they already owned a different, unidentified subwoofer**. That is not a safe model-specific wiring instruction. Purchased T5 examples retain verified T5-specific steps; reused/unspecified subwoofers now show the appropriate amp/active-speaker output setup but explicitly require confirmation that the actual sub accepts a line-level signal and has the expected connector and low-pass controls. Edifier R1280DBs, original Kanto ORA, WiiM Amp and North American Denon AVR-S650H paths are covered by `tests/system-builder-stereo-subwoofer.test.mjs`. Existing 2.1 examples remain available; missing sub input data must not silently become a certified compatible match.
+
+## 2026-11-21 | Final audience-facing safety gate and removal of warning clutter
+
+The Builder must **not show a ready-to-buy recommendation for a speaker/amp combination that carries a known incompatibility or an unresolved safety-critical load issue**. A large yellow do-not-connect box on a suggested purchase is a failed recommendation filter, not responsible UX. Unknown acoustic maximum loudness is a separate, ordinarily non-safety limitation and does not require a yellow card.
+
+Corrections made:
+- The **Fosi BT20A Pro + Polk XT15** editorial example is withheld from results until its specific supply/load pairing evidence is adequately established. Its existing source/history remains in the database; the reason is retained in the excluded-option record. This is *not* a declaration that the actual pairing is inherently unsafe.
+- When an owned speaker's nominal impedance is unavailable, the automatic amplifier purchase shortlist is now empty rather than suggesting a pairing with a visible do-not-connect warning.
+- Likewise, an owned amplifier's speaker shortlist excludes candidate speakers with unknown nominal impedance before composing the result.
+- Where an owned speaker/amp combination contradicts an explicit manufacturer load restriction, it is recorded in `excluded`, and separately screened alternatives can appear. It is not the first recommendation.
+- A final Builder render-level safety backstop rejects `safetyStatus: blocked`, `ownershipBlocker` and `loadCaution` before rendering the recommendation grid. A generic fallback can no longer resurrect an excluded pairing.
+- A beginner-facing **Loud enough for you?** line now gives a short audience-oriented judgement, with uncertainty kept modestly worded, and the technical evidence remains inside **What is included, drawbacks & sources**. Generic distance, adapter and normal listening-volume warnings are no longer large yellow card alerts.
+- Collapsed **Why some options were left out** is available even when no budget was entered. Explanation stays accessible without advertising an unsafe purchase.
+
+**Non-negotiable distinction:** An incompatible or safety-critical unknown *pairing* must be withheld. Lack of comparable maximum SPL data alone is not a proven safety problem, and should not blacklist otherwise reasonable equipment. Do not certify unmeasured compatibility. Keep source/model evidence and rejected reasons for traceability. Release tests must cover both sides of that distinction.
+
+No changes to the original evidence catalogue or production branch. No deployment.
