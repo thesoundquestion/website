@@ -56,16 +56,54 @@ export function headroomEvidence(item={},request={}) {
   }
 
   if(architecture==='passive_separates'){
+    const evidence=item.acousticEvidence;
+    // An estimate is only permitted with an explicitly reviewed 1 W/1 m
+    // sensitivity, actual same-load continuous amplifier watts, and distance.
+    // Free-field attenuation is deliberately used without invented room gain.
+    if(evidence && Number.isFinite(feet)&&feet>0 &&
+      Number.isFinite(evidence.sensitivityDb1W1m) &&
+      Number.isFinite(evidence.continuousWattsPerChannel) &&
+      evidence.continuousWattsPerChannel>0 &&
+      Number.isFinite(evidence.pairGainDb) &&
+      evidence.nominalOhms>0){
+      const meters=feet*0.3048;
+      const estimatedPeak=evidence.sensitivityDb1W1m+
+        10*Math.log10(evidence.continuousWattsPerChannel)+
+        evidence.pairGainDb-20*Math.log10(meters);
+      // 90 dB brief peaks as comfortable starting point; 95 dB for
+      // occasional louder listening. This is NOT a continuous-volume target.
+      const target=high?95:level==='quiet'?80:90;
+      const margin=estimatedPeak-target;
+      const verdict=margin>=5
+        ? (high?'Yes. It should have good reserve for occasional loud listening':'Yes. It should play comfortably at your selected distance')
+        : margin>=0
+          ? (high?'Probably, but reserve for the loudest peaks is limited':'Yes, for typical listening; very loud peaks have less reserve')
+          : 'Not confidently at this distance and volume preference. Consider a system with more output';
+      return {
+        status:margin>=5?'estimated_suitable':margin>=0?'estimated_limited_reserve':'estimated_below_target',
+        label:'Loud enough for you?',
+        text:verdict+' at '+feet+' ft.',
+        estimatedPeakDb:Number(estimatedPeak.toFixed(1)),
+        targetPeakDb:target,
+        marginDb:Number(margin.toFixed(1)),
+        detail:'Estimated peak output at the listening position: roughly '+Math.round(estimatedPeak)+
+          ' dB SPL from '+evidence.sensitivityDb1W1m+' dB (1 W/1 m) speaker sensitivity, '+
+          evidence.continuousWattsPerChannel+' W/ch published continuous amplifier output, '+
+          evidence.pairGainDb+' dB stereo-pair allowance and free-field distance loss. '+
+          'Compared with an illustrative '+target+' dB short peak target. '+
+          'This is a simplified estimate, not a measurement or clean full-band SPL guarantee; deep bass, room effects, real speaker impedance, compression and master dynamics can reduce usable output.'+bass,
+        link:'/system-check/'
+      };
+    }
     const fit=item.amplifierFit?.amp;
     const exact=fit?.exact===true&&Number.isFinite(fit?.watts);
-    const highText=high?'Louder peaks depend on the exact speaker-and-amp pairing.'
-      :'A reasonable starting point for everyday home listening; actual volume depends on the pairing.';
     return {
       status:exact?'passive_exact_load_power_only':'passive_output_unverified',
       label:'Loud enough for you?',
-      text:highText,
+      text:high?'This model still needs a verified output estimate for louder listening at '+(feet||'your listening')+' ft.'
+        :'Likely appropriate for normal home listening'+context+'; exact loudness cannot yet be estimated.',
       detail:(exact?'Published continuous amplifier output: '+fit.watts+' W/channel at '+fit.ohms+' Ω. ':'')+
-        'This is not a seat-level SPL result. To estimate loudness, System Check needs the speaker sensitivity, matching amplifier rating, distance and target peaks.'+bass,
+        'A quantitative comparison needs the speaker sensitivity, a verified same-load continuous rating, distance and a peak target.'+bass,
       link:'/system-check/'
     };
   }
