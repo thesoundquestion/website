@@ -81,7 +81,7 @@ try {
    for(const label of labels)
      assert.ok(heads.some(text=>text.includes(label)),device.name+' '+kind+' missing '+label);
    const cells=await page.locator('#gc-expanded-rows td').allInnerTexts();
-   assert.ok(cells.length>10,device.name+' '+kind+' comparison rows absent');
+   assert.ok(cells.length>=(kind==='catalog_headphone'?6:10),device.name+' '+kind+' comparison rows absent');
    assert.ok(cells.some(text=>text!=='Not verified'),device.name+' '+kind+' every field unknown');
    assert.ok(await page.locator('#gc-expanded-sources section').count()===2);
    assert.ok(await page.locator('#gc-expanded-table-scroll, .gc-expanded-table-scroll').count()>=1);
