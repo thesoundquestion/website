@@ -63,6 +63,16 @@ test('the introductory view has no yellow conditional badges, empty step lists o
  assert.match(simple,/return;/);
  assert.doesNotMatch(simple,/renderCard\(|sb-beginner-status|renderSetupWorkflow\(|sb-audit|sb-headroom-verdict/);
 });
+test('sound is rendered before any why or connection note; checks are collapsed',()=>{
+ const open=app.indexOf("const renderSimpleCard=(item,top)=>");
+ const end=app.indexOf("panel.append(renderSimpleCard",open);
+ const simple=app.slice(open,end);
+ assert.ok(simple.indexOf("card.append(listening)")<simple.indexOf("card.append(why)"));
+ assert.ok(simple.indexOf("card.append(why)")<simple.indexOf("data.connection"));
+ assert.doesNotMatch(simple,/sb-simple-note|addText\(card,'p','Check:/);
+ assert.match(simple,/if\(data.important\)addText\(technical/);
+ assert.match(simple,/el\('details','sb-simple-details'\)/);
+});
 test('powered JBL should never open passive amplifier headroom with only a distance',()=>{
  const start=app.indexOf('const renderSimpleCard=(item,top)=>');
  const finish=app.indexOf('panel.append(renderSimpleCard',start);
