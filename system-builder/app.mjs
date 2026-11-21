@@ -477,6 +477,18 @@ document.addEventListener('DOMContentLoaded', () => {
       // The practical answer stays on the card. The detailed passive speaker
       // listening-level calculator must be immediately reachable, not hidden.
       if(output.link)link(card,checkerHandoffLink(item,request)||output.link,'Check your exact listening levels');
+      // Only expose comparisons with an actual model preset in Compare My Gear.
+      // Generic unselected checker links send beginners back to square one.
+      if(item.architecture==='passive_separates'&&item.acousticEvidence){
+        const model=item.acousticEvidence.amplifierModel;
+        if(inventory?.amp?.some(record=>record.model===model))
+          link(card,'/system-check/compare/?'+new URLSearchParams({type:'amp',left:model}),
+            'Compare '+model+' specifications');
+        const speaker=item.acousticEvidence.speakerModel;
+        if(inventory?.speaker?.some(record=>record.model===speaker))
+          link(card,'/system-check/compare/?'+new URLSearchParams({type:'speaker',left:speaker}),
+            'Compare '+speaker+' specifications');
+      }
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
@@ -890,9 +902,8 @@ document.addEventListener('DOMContentLoaded', () => {
     else experiments.push('Confirm L/R polarity, placement symmetry and room/setup constraints before attributing congestion or imaging issues to a component.');
     if (data.get('keepWorking') && anyOwned) experiments.unshift('Run your present setup through System Check first. If it already meets your level, connectivity and tonal needs, no upgrade may be necessary.');
     list(first,experiments);
-    const referrals = addText(first,'p','Cross-check rather than inventing numbers: ');
-    link(referrals,'/system-check/','System Check for verified headroom');
-    link(referrals,'/system-check/compare/','Compare My Gear source notes');
+    // The relevant tools are linked on exact recommendation cards above,
+    // already populated with selected equipment; no empty generic links.
     const limitation = section('Evidence limits');
     addText(limitation,'p','This Builder does not have a rights-cleared, method-compatible, catalogue-wide acoustic measurement dataset, only limited source-verified category-specific regional price samples, and no calibrated preference-to-product scoring. Manufacturer specs, independent review links and original measurements are different evidence tiers. No data is scraped or copied from third-party review graphs.');
     link(limitation,'https://www.erinsaudiocorner.com/measurement-data-policy/','Independent measurement-data usage policy');
