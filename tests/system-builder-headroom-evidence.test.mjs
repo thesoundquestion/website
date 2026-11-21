@@ -69,3 +69,33 @@ test('Builder cards render the evidence note and never send powered users into p
  assert.match(app,/How loud and why/);
  assert.doesNotMatch(app,/Confirm clean output at your listening distance and level/);
 });
+
+test('Yamaha A-S301 and PSB Alpha P5 gives a real loudness verdict from manufacturer specifications',()=>{
+  const item=byId('passive-as301-p5',{goal:'imaging',level:'high',distanceFt:6});
+  assert.ok(item,'The researched passive pairing must be available');
+  const e=headroomEvidence(item,{...req,level:'high',distanceFt:6});
+  assert.equal(e.status,'estimated_suitable');
+  assert.match(e.text,/^Yes\. It should have good reserve for occasional loud listening at 6 ft/);
+  assert.ok(e.estimatedPeakDb>=100&&e.estimatedPeakDb<=105);
+  assert.equal(e.targetPeakDb,95);
+  assert.ok(e.marginDb>=5);
+  assert.match(e.detail,/60 W\/ch/);
+  assert.match(e.detail,/87 dB/);
+  assert.doesNotMatch(e.text,/depend on the exact speaker-and-amp pairing|needs checking|unverified/);
+});
+
+test('a sufficiently distant loud listening target is not falsely rated with the same confidence',()=>{
+  const item=byId('passive-as301-p5',{goal:'imaging',level:'high',distanceFt:15});
+  const near=headroomEvidence(item,{...req,level:'high',distanceFt:6});
+  const far=headroomEvidence(item,{...req,level:'high',distanceFt:15});
+  assert.ok(far.estimatedPeakDb<near.estimatedPeakDb);
+  assert.notEqual(far.status,'estimated_suitable');
+  assert.match(far.text,/Not confidently|reserve/);
+});
+
+test('a speaker without enough measured/reference data never borrows another speaker’s headroom verdict',()=>{
+  const unknown=headroomEvidence({architecture:'passive_separates',id:'unknown'},{...req,level:'high',distanceFt:6});
+  assert.equal(unknown.status,'passive_output_unverified');
+  assert.equal(unknown.estimatedPeakDb,undefined);
+  assert.doesNotMatch(unknown.text,/^Yes\./);
+});
