@@ -1121,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const profile=el('section','sb-primary-sound');
         addText(profile,'strong','What owners say');
         addText(profile,'p',ownerSources.length
-          ?ownerSound.text.replace(/\\.$/,'')+'.'
+          ?ownerSound.text.replace(/[.!?]$/,'')+'.'
           :'No exact-model owner listening impressions have been reviewed yet.');
         if(ownerSources.length){
           const links=el('div','sb-tonal-sources');
