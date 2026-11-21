@@ -72,3 +72,38 @@ test('published Builder pages render explicit no-match reasons in both compact a
  assert.match(app,/explainEmptyExampleShortlist\(request,shortlist\)/);
  assert.doesNotMatch(app,/No complete example fits these selections yet/);
 });
+
+test('coverage audit classifies empty and weak-fit requests without treating every empty result as an error',()=>{
+ const byArchitecture={},byConnection={},samples=[];
+ let requests=0,empty=0,unpricedLeads=0,weakGoalOrRoom=0,knownOverBudget=0;
+ for(const architecture of ['open','consumer_powered_pair','active_studio','passive_separates','headphone_first'])
+ for(const useCase of ['desk','bedroom','living_room','outdoors','party'])
+ for(const goal of ['all_rounder','natural','imaging','bass'])
+ for(const connection of ['analog','optical','usb','bluetooth','hdmi'])
+ for(const level of ['quiet','moderate','high'])
+ for(const budget of [null,180,650]){
+   const request={...base,architecture,useCase,goal,connection,level,budget,
+     distanceFt:useCase==='desk'?2:useCase==='party'?20:6};
+   const result=shortlistExamples(request,catalog);
+   requests++;
+   if(!result.selected.length){
+     empty++;
+     byArchitecture[architecture]=(byArchitecture[architecture]||0)+1;
+     byConnection[connection]=(byConnection[connection]||0)+1;
+     if(samples.length<12)samples.push({architecture,useCase,goal,connection,level,budget});
+     const note=explainEmptyExampleShortlist(request,result);
+     assert.ok(note.reason.length>0 && note.actions.length>0,'empty route without help');
+   }else{
+     const lead=result.selected[0];
+     if(lead.subtotal===null)unpricedLeads++;
+     if(!lead.goals.includes(goal)||!lead.places.includes(useCase))weakGoalOrRoom++;
+     if(budget!==null && lead.subtotal!==null && lead.subtotal>budget)knownOverBudget++;
+   }
+ }
+ assert.equal(requests,4500);
+ assert.equal(knownOverBudget,0,'firm budget cannot receive a known over-budget lead');
+ console.log('BUILDER_COVERAGE_REPORT '+JSON.stringify({
+   requests,empty,emptyPercent:Math.round(empty*1000/requests)/10,
+   unpricedLeads,weakGoalOrRoom,knownOverBudget,byArchitecture,byConnection,samples
+ }));
+});
