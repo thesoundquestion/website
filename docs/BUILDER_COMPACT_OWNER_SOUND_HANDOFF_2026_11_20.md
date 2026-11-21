@@ -37,3 +37,25 @@ Base: `draft/consolidated-prelaunch-20261119`
 - Alternatives: model and one independent, source-backed "What owners say" sentence; optional setup details.
 - No "How it may sound different" or "No clear tonal direction is established ..." repeated across cards.
 - The same site navigation, palette and component density as the full TSQ site.
+
+## Context-specific listening assumptions (2026-11-20)
+
+The room selector now initializes **editable** listening-distance and relative-level suggestions:
+
+| Use case | Starting distance | Level category | Illustrative System Check average/peak |
+| --- | ---: | --- | --- |
+| Living room | 8 ft | normal | 80 / 95 dB |
+| Bedroom | 6 ft | quiet | 65 / 80 dB |
+| Desk / nearfield | 2 ft | quiet | 65 / 80 dB |
+| Outdoors, patio or lawn | 15 ft | normal | 80 / 95 dB |
+| Gathering / event / party | 20 ft | higher-output scenario | 85 / 105 dB |
+
+These distances are editorial planning examples, not measured population averages, fixed venue-coverage assumptions or claims that all listeners require those levels. The party profile is **not** a recommended continuous listening level. WHO / NIOSH safe-listening guidance and exposure duration should govern actual volume choices.
+
+- The two values update independently on room selection until manually changed; manual overrides remain intact across subsequent room selections.
+- A reset restores automatic defaults. A `Find My Setup` handoff selecting a desk initializes its distance and level accordingly.
+- The Builder uses the live selected values in results and in the prefilled System Check URL. All amplifier, speaker and safety gates remain authoritative.
+- Outdoor and party handoffs use `preferRoom=0`, so a documented in-room sensitivity isn't substituted for an anechoic figure by the model-handoff helper.
+- Site-relative comparisons do not assume a universal free-field correction. Outdoor sound falls approximately 6 dB per doubling of distance under ideal free-field conditions; audience coverage, noise, source size and actual conditions vary. Do not silently invent room gain.
+- Acceptance suite: `tests/system-builder-room-distance.test.mjs` and additional outdoor/party tests in `tests/listening-builder-headroom-handoff.test.mjs`.
+
