@@ -467,3 +467,69 @@
  .sb .sb-simple-alternative .sb-simple-title{font-size:1rem}
 }
 /* END SIMPLE SYSTEM EXPERIENCE */
+
+/* Sound-first hierarchy, no warning-first recommendations */
+.sb .sb-results .sb-primary-sound,
+.sb .sb-results .sb-simple-sound,
+.sb .sb-results .sb-alt-listening-profile{
+  background:transparent;
+  border:0;
+  border-left:2px solid #61ceff;
+  border-top:0;
+  border-radius:0;
+  box-shadow:none;
+  padding:.12rem 0 .15rem .65rem;
+  margin:.35rem 0 .65rem;
+}
+.sb .sb-results :is(.sb-primary-sound,.sb-simple-sound,.sb-alt-listening-profile)>strong{
+  display:block;
+  color:#a8e7ff;
+  font-size:.77rem;
+  margin:0 0 .2rem;
+  letter-spacing:.005em;
+}
+.sb .sb-results :is(.sb-primary-sound,.sb-simple-sound,.sb-alt-listening-profile)>p{
+  color:#e9f4fc;
+  font-size:.85rem;
+  line-height:1.48;
+  margin:0 0 .24rem;
+}
+.sb .sb-results .sb-alt-listening-profile .sb-tonal-one-line{
+  font-size:.81rem;
+  line-height:1.44;
+  margin:0 0 .2rem;
+}
+.sb .sb-results :is(.sb-primary-sound,.sb-simple-sound,.sb-alt-listening-profile) a{
+  color:#93ddfa;
+  font-size:.72rem;
+}
+.sb .sb-results .sb-beginner-reason{
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  margin:.3rem 0 .4rem;
+  padding:0;
+}
+.sb .sb-results .sb-beginner-reason h5{
+  color:#adcfe0;
+  font-size:.74rem;
+  font-weight:700;
+}
+.sb .sb-results .sb-beginner-reason p{
+  color:#d5e4ee;
+  font-size:.81rem;
+}
+.sb .sb-results .sb-beginner-status,
+.sb .sb-results .sb-beginner-checks,
+.sb .sb-results .sb-beginner-cost{display:none!important}
+.sb .sb-results .sb-card-details,
+.sb .sb-results .sb-simple-details{
+  margin-top:.45rem;
+  border-top:1px solid #355166;
+  box-shadow:none;
+}
+@media(max-width:600px){
+ .sb .sb-results :is(.sb-primary-sound,.sb-simple-sound,.sb-alt-listening-profile)>p{
+   font-size:.84rem;
+ }
+}
