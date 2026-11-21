@@ -5,6 +5,7 @@
 import {shortlistExamples} from './recommendations.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartyPassiveConcepts,ampSpeakerScreening} from './owned-amp-speakers.mjs';
 import {assessAmplifierCandidate} from './amplifier-fit.mjs';
+import {acousticEvidenceForPair} from './acoustic-evidence.mjs';
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
 import {poweredSubPairFor} from './stereo-subwoofer-examples.mjs';
 import {compareBudgetReferences, retailPriceReference} from './price-references.mjs';
@@ -51,7 +52,8 @@ function existingPair(own,request) {
     kind:blocker?'Owned pairing · compatibility alert':'Keep your existing speaker/amplifier pairing',
     architecture:'passive_separates',soundTarget:speaker.name,
     why:message,tradeoff:blocker||'Full speaker impedance, amplifier manual, clean output at your seat and source connections remain unverified.',
-    parts,loadCaution:blocker,ownershipBlocker:blocker,levelCaution:request.level==='high',
+    parts,acousticEvidence:acousticEvidenceForPair(speaker,amp),
+    loadCaution:blocker,ownershipBlocker:blocker,levelCaution:request.level==='high',
     extra:['Speaker nominal: '+(Number.isFinite(nominal)?nominal+' Ω':'unverified')+
       (Number.isFinite(minimum)?'; published minimum: '+minimum+' Ω.':'.'),
       screen.exactManufacturerRule||'A resistive load power rating does not certify operation into a real speaker’s changing impedance and phase.',
@@ -209,6 +211,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
         'Ordering considers load and test-condition evidence plus practical power fit, not an audible-quality score. Use System Check for required listening level.'
       ],amplifierSource:rationale.source,
       amplifierFit:fit,amplifierFitRank:fit.sortValue,compactAmp:idea.compact===true,
+      acousticEvidence:acousticEvidenceForPair(speaker,record),
       tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
       loadCaution:null,
       parts,...prices,
