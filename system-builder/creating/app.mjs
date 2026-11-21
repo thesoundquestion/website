@@ -7,6 +7,7 @@ import {loadRegionalPriceTiers,regionalPriceLabel} from '../../equipment/price-t
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../../equipment/price-preference.mjs';
 import {CREATING_GOALS,DEFAULT_GOAL_COUNTS,buildCreatingSystem} from './build-recommendations.mjs';
 import {compareCatalogHandoff} from '../compare-handoff.mjs';
+import {poweredEvidenceFor} from '../powered-output-evidence.mjs';
 
 const $=id=>document.getElementById(id);
 const mode=$('sb-purpose-select'),form=$('sb-purpose-form'),result=$('sb-purpose-result');
@@ -167,6 +168,13 @@ function renderStage(stage,index){
     if(stage.pick.source)link(pick,stage.pick.source,'Model specifications / source');
     const comparison=modelComparisonLink(stage.pick,stage.alternatives?.[0]);
     if(comparison)link(pick,comparison,'Compare this exact model and alternatives');
+    const powered=poweredEvidenceFor({model:stage.pick.model});
+    if(powered){
+      const q=new URLSearchParams({model:powered.model,
+        count:String(stage.quantity>=2?2:1)});
+      link(pick,'/system-check/powered/?'+q.toString(),
+        'Check powered loudness for your listening distance');
+    }
   }else if(stage.need==='research'){
     append(li,'p','sb-build-example','Choose a suitable item meeting this description. No verified single-model suggestion is required for this accessory or software.');
   }else if(stage.need==='verify'){
