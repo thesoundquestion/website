@@ -1342,18 +1342,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return card;
     };
 
-    // The listener must see comparison reasons in the ordinary results view,
-    // without opening the detailed alternative setup disclosure.
+    // Show what owners hear from each alternative in the ordinary results view.
+    // Do not require or manufacture a head-to-head comparison.
     const renderComparisonPreview=(baseline,choices,heading,klass='sb-comparison-overview',target=shop)=>{
       if(!baseline||!choices?.length)return;
       const preview=el('section',klass);
       addText(preview,'h4',heading);
       const grid=el('div','sb-comparison-preview-list');
       for(const item of choices){
-        const comparison=compactAlternativeComparison(baseline,item,request,sharedCatalog);
-        if(!comparison)continue;
         const note=el('article','sb-comparison-preview-card');
-        addText(note,'h5',comparison.alternative);
+        // This is an independent listening description of the alternative.
+        // We do not require an exact head-to-head model comparison.
+        addText(note,'h5',item.title.replace(/^[^:]{3,45}:\\s*/,''));
         // Alternatives have their OWN audible character, not a contrast
         // against the first match. Do not show generic "no tonal direction" text.
         const ownerB=soundProfileFor(item);
@@ -1367,10 +1367,12 @@ document.addEventListener('DOMContentLoaded', () => {
             link(links,source.url,source.context||'Firsthand owner report');
           if(links.children.length)note.append(links);
         }
-        const fit=el('details','sb-comparison-fit');
-        addText(fit,'summary','How the practical fit differs');
-        addText(fit,'p',comparison.text,'sb-compact-compare');
-        note.append(fit);
+        if(item.why){
+          const fit=el('details','sb-comparison-fit');
+          addText(fit,'summary','Why this option fits');
+          addText(fit,'p',item.why,'sb-compact-compare');
+          note.append(fit);
+        }
         // The short comparison is the only visible product listing.
         // Keep the full wiring, cost, headroom and original sources beside
         // the relevant option, not repeated in a separate full-card menu.
@@ -1400,10 +1402,10 @@ document.addEventListener('DOMContentLoaded', () => {
       shop.append(matchesRow);
       if(shortlist.selected.length>1)
         renderComparisonPreview(shortlist.selected[0],shortlist.selected.slice(1),
-          'Other options and how they sound',
+          'Other options · What owners hear',
           'sb-upgrade-comparison-preview sb-comparison-overview',matchesRow);
       if(request.character !== 'faithful')
-        addText(shop,'p','Your tonal preference informs which differences are worth hearing. The model-specific listener and reviewer impressions above can guide an audition, but are not a numerical sound-quality ranking.','sb-brief-note');
+        addText(shop,'p','Owner listening impressions describe individual products, not guaranteed results in every system.','sb-brief-note');
       addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
     } else {
       addText(shop,'p',speakerFocus ?
