@@ -218,7 +218,9 @@
   margin:0;
 }
 .sb .sb-results .sb-compact-matches .sb-inline-system-check-frame{
-  display:none!important; /* status is in the summary; full calculator has its own link */
+  position:absolute!important;width:1px!important;height:1px!important;
+  overflow:hidden!important;opacity:0!important;pointer-events:none!important;
+  clip-path:inset(50%)!important;
 }
 .sb .sb-results .sb-compact-matches .sb-inline-system-check>summary{
   color:#b4dfef;
