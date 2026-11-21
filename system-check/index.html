@@ -17,6 +17,7 @@
 <script defer src="/system-check/calculator.js?v=builder-focus-20261120"></script>
 <script type="module" src="/system-check/spec-search.mjs?v=external-google"></script>
 <script type="module" src="/system-check/powered-check.mjs?v=powered-headroom-20261121"></script>
+<script type="module" src="/system-check/provisional-check.mjs?v=fosi-scenario-20261121"></script>
 
 <title>System Check | The Sound Question</title>
 </head>
@@ -37,6 +38,19 @@
 </nav>
 <aside class="tsq-recommend-link" aria-label="Recommend missing equipment"><p><strong>Don't see your model?</strong> Help us grow the verified presets for everyone using these tools.</p><a href="/tools/recommend-gear/">Recommend your gear →</a></aside>
 <noscript><p>Enable JavaScript to calculate estimates. You can still read the <a href="/decoder/amplifier-power/#headroom">headroom lesson</a>.</p></noscript>
+<section id="sc-provisional-check" class="sc-provisional-check" hidden aria-labelledby="sc-provisional-title">
+ <h2 id="sc-provisional-title">Illustrative amplifier headroom</h2>
+ <p class="sc-provisional-intro">A known amplifier and speaker can have useful published and independently discussed output evidence even when there is no fully validated continuous-power test. This is a provisional estimate, not a guaranteed clean level.</p>
+ <p id="sc-provisional-models" class="sc-provisional-models"></p>
+ <form id="sc-provisional-form" class="sc-provisional-form">
+  <label>Listening distance (ft)<input name="distanceFt" type="number" min=".5" max="300" step=".5" value="6" required></label>
+  <label>Average listening level (dB)<input name="average" type="number" min="40" max="115" step="1" value="65" required></label>
+  <label>Musical peak above average (dB)<input name="gap" type="number" min="0" max="45" step="1" value="15" required></label>
+  <button class="button button-primary" type="submit">Update estimate</button>
+ </form>
+ <div id="sc-provisional-result" class="sc-provisional-result" aria-live="polite"></div>
+ <p class="sc-provisional-switch"><a href="/system-check/">Use the verified-ratings calculator</a></p>
+</section>
 <section id="sc-powered-check" class="sc-powered-check" hidden aria-labelledby="sc-powered-title">
  <div class="sc-powered-intro">
   <h2 id="sc-powered-title">Powered speaker headroom</h2>
