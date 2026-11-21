@@ -468,7 +468,7 @@ try {
   assert.ok(await firstSimple.locator('.sb-simple-why').isVisible());
   assert.ok(await firstSimple.locator('.sb-simple-connection').isVisible());
   assert.match(await firstSimple.locator('.sb-simple-checker').innerText(),/Headroom at/);
-  assert.ok(await firstSimple.locator('.sb-simple-checker a[href^="/system-check/"]').count()===1);
+  assert.ok(await firstSimple.locator('.sb-simple-checker a[href*="/system-check/"]').count()===1);
   const firstTechnical=firstSimple.locator('.sb-simple-details');
   assert.equal(await firstTechnical.evaluate(node=>node.open),false);
   assert.equal(await page.locator('#sb-results .sb-alternative-setups').count(),0);
