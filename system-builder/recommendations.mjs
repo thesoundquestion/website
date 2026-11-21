@@ -209,7 +209,17 @@ export function shortlistExamples(input = {}, catalog = null) {
     const typeLimit = compactStereoBudget&&product.architecture==='consumer_powered_pair' ? 2 : 1;
     if (arch === 'open' && iteration===0 && id!==staged?.stereoAlternative && sameType>=typeLimit &&
         new Set(selected.map(x=>x.architecture)).size < 3) continue;
-    const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
+    const needsConnection = input.connection && input.connection !== 'undecided' &&
+      !product.connections.includes(input.connection);
+    // A complete-system example cannot silently rely on an unspecified
+    // converter or adapter. No verified native connection means it is not a
+    // ready-to-connect recommendation for the selected source.
+    if(needsConnection){
+      excluded.push({title:product.title,reason:
+        'No documented direct '+input.connection+' input for this example. '+
+        'An external converter would need separate model, signal, control and cost checks.'});
+      continue;
+    }
     const prices = examplePriceFor(product, input);
     const configured=configureSubExample(product, input);
     const curatedPairing=curatedPairingFor(configured);
@@ -234,7 +244,7 @@ export function shortlistExamples(input = {}, catalog = null) {
       secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
       pricingStatus: prices.subtotal === null ? 'regional_price_missing' : 'partial_subtotal',
       priceEvidence:product.priceEvidence||null,
-      connectionStatus: needsConnection ? 'adapter_needed' : 'native_possible',
+      connectionStatus: 'native_possible',
       levelCaution:input.level === 'high' &&
         (Boolean(product.bassSetup) || product.id.startsWith('powered-') || ['powered-ora','studio-jbl'].includes(product.id)),
       placementCaution:(Number(input.distanceFt)>10 &&
