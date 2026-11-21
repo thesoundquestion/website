@@ -99,13 +99,13 @@ test('all four owned in headphone route retains headphones/source; acknowledges 
   assert.ok(r.selected[0].keptSeparate.some(x=>x.includes(SPEAKER.name)));
   assert.ok(r.selected[0].keptSeparate.some(x=>x.includes(AMP.name)));
 });
-test('documented speaker/amp nominal restriction triggers visible warning and partial reuse alternatives',()=>{
+test('documented speaker/amp nominal restriction excludes unsafe pair and offers separately checked alternatives',()=>{
   const speaker=gear('speaker','ELAC Debut 3.0 DB63');
   const amp=gear('amp','Yamaha R-S202');
   const r=run({speaker,amp});
-  assert.equal(r.selected[0].id,'owned-complete');
-  assert.match(r.selected[0].loadCaution,/Do not connect/);
-  assert.ok(r.selected.some(x=>x.id.startsWith('owned-speaker-amp')));
+  assert.ok(!r.selected.some(x=>x.id==='owned-complete'));
+  assert.ok(r.excluded.some(x=>/ELAC Debut 3.0 DB63/.test(x.title)&&/Do not connect/.test(x.reason)));
+  assert.ok(r.selected.some(x=>x.id.startsWith('owned-speaker-amp')||x.id.startsWith('owned-speaker-')));
   assert.ok(r.selected.every(x=>x.reuseNames.length>0));
 });
 test('incompatible powered architecture still offers a separate passive route keeping speakers',()=>{
