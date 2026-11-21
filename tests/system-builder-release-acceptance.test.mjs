@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {shortlistExamples} from '../system-builder/recommendations.mjs';
 import {explainEmptyExampleShortlist} from '../system-builder/empty-shortlist-guidance.mjs';
 import {poweredHeadroomEstimate,POWERED_OUTPUT_EVIDENCE} from '../system-check/powered-headroom-model.mjs';
+import {recommendationHeadroom} from '../system-builder/recommendation-headroom.mjs';
 
 const catalog=JSON.parse(readFileSync(new URL('../equipment/catalog.generated.json',import.meta.url),'utf8'));
 const base={
@@ -132,4 +133,37 @@ test('powered-speaker estimates preserve the acoustic evidence boundary across d
    }
   }
  }
+});
+
+test('Yamaha A-S301 and PSB P5 theoretical headroom independently agrees with voltage-ratio physics',()=>{
+ const request={...base,architecture:'passive_separates',distanceFt:6};
+ const item=shortlistExamples(request,catalog).selected.find(x=>x.id==='passive-as301-p5');
+ assert.ok(item,'known manufacturer-supported pairing required');
+ const result=recommendationHeadroom(item,request,catalog);
+ assert.equal(result.status,'projected');
+ // The 87 dB PSB reference is 2.83 V/1 m, not 1 W/1 m at all impedances.
+ // The Yamaha publishes 60 W/channel continuously into 8 ohms.
+ const voltsAtRated=Math.sqrt(60*8);
+ const seatMeters=Math.max(1,6*0.3048);
+ const independentlyProjected=87+20*Math.log10(voltsAtRated/2.83)
+    -20*Math.log10(seatMeters);
+ const independentlyExpectedMargin=independentlyProjected-80;
+ assert.ok(Math.abs(result.metrics.projectedPeakDb-independentlyProjected)<0.11);
+ assert.ok(Math.abs(result.metrics.peakMarginDb-independentlyExpectedMargin)<0.11);
+ assert.ok(result.detail.includes('continuous'));
+ const further=recommendationHeadroom(item,{...request,distanceFt:12},catalog);
+ assert.ok(further.metrics.peakMarginDb<result.metrics.peakMarginDb);
+ const louder=recommendationHeadroom(item,{...request,level:'high'},catalog);
+ assert.ok(louder.metrics.peakMarginDb<result.metrics.peakMarginDb);
+});
+
+test('a published maximum SPL with no microphone reference distance must not produce numeric JBL headroom',()=>{
+ const x=poweredHeadroomEstimate('JBL 305P MkII',{distanceFt:6,averageDb:80,peakDb:95});
+ assert.equal(x.evidence.publishedLimits.peakDb,108);
+ assert.equal(x.evidence.publishedLimits.continuousDb,94);
+ assert.equal(x.status,'unverified');
+ assert.equal(x.projectedPeakDb,null);
+ assert.equal(x.projectedContinuousDb,null);
+ assert.equal(x.peakMarginDb,null);
+ assert.match(x.caveat,/distance/);
 });
