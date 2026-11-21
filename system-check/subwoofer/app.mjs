@@ -21,12 +21,28 @@ selectExact($('sub-source'),q.get('source'),{'WiiM Amp (original)':'WiiM Amp',
  'Denon AVR-S650H (North America)':'Denon AVR-S650H'});
 selectExact($('sub-model'),q.get('sub'),{'Edifier T5 powered subwoofer':'Edifier T5'});
 if(q.get('mode')==='full')$('sub-mode').value='full';
+for(const [key,field] of [
+ ['reportedSourceOutput','sub-reported-output'],
+ ['reportedSubInput','sub-reported-input'],
+ ['reportedSourceConnector','sub-reported-output-connector'],
+ ['reportedSubConnector','sub-reported-input-connector']
+]){
+ const value=q.get(key);
+ if(value&&[...$(field).options].some(option=>option.value===value))$(field).value=value;
+}
+if(!$('sub-source').value||!$('sub-model').value)$('sub-manual').open=true;
 function render(){
  const args={sourceModel:$('sub-source').value,subModel:$('sub-model').value,
-  mainBassMode:$('sub-mode').value};
+  mainBassMode:$('sub-mode').value,
+  reportedSourceOutput:$('sub-reported-output').value||null,
+  reportedSubInput:$('sub-reported-input').value||null,
+  reportedSourceConnector:$('sub-reported-output-connector').value||null,
+  reportedSubConnector:$('sub-reported-input-connector').value||null};
  const result=evaluateSubwooferConnection(args);
  $('sub-verdict').textContent=result.status==='documented_line_route'?'Connection confirmed for these models':
-   result.status==='incompatible'?'Do not connect directly':'Not enough verified information';
+   result.status==='incompatible'?'Do not connect directly':
+   result.status==='reported_possible'?'Possible route, not verified':
+   'Not enough verified information';
  $('sub-message').textContent=result.text;
  $('sub-details').hidden=false;
  $('sub-wiring').textContent=result.wiring;
@@ -39,7 +55,9 @@ function render(){
   a.target='_blank';a.rel='noopener noreferrer';refs.append(a,' ');
  }
  const url=new URL(location.href);
- for(const [key,value] of Object.entries({source:args.sourceModel,sub:args.subModel,mode:args.mainBassMode})){
+ for(const [key,value] of Object.entries({source:args.sourceModel,sub:args.subModel,mode:args.mainBassMode,
+  reportedSourceOutput:args.reportedSourceOutput,reportedSubInput:args.reportedSubInput,
+  reportedSourceConnector:args.reportedSourceConnector,reportedSubConnector:args.reportedSubConnector})){
   if(value)url.searchParams.set(key,value);else url.searchParams.delete(key);
  }
  history.replaceState(null,'',url);
