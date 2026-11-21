@@ -112,6 +112,8 @@ try {
   const headphoneLinks=page.locator('#sb-purpose-result-body a[href^="/system-check/compare/?type=catalog_headphone"]');
   assert.ok(await headphoneLinks.count()>0,
     device.name+' Creating Builder omitted its selected headphone checker link');
+  const headphoneUrl=new URL(await headphoneLinks.first().getAttribute('href'),BASE);
+  assert.ok(headphoneUrl.searchParams.get('left'),'Headphone checker missing selected registry ID');
   const creatingHref=await creatingLinks.first().getAttribute('href');
   const creatingUrl=new URL(creatingHref,BASE);
   const type=creatingUrl.searchParams.get('type');
@@ -125,6 +127,10 @@ try {
     device.name+' Compare My Gear did not restore Creating Builder selection');
   await checkNoErrors(page,errors,device.name+' Creating Builder to Compare');
   outcomes.push(device.name+' Creating Builder exact-model comparison handoff');
+  await visit(page,headphoneUrl.pathname+headphoneUrl.search);
+  await page.waitForFunction(()=>!document.querySelector('#gc-expanded-results')?.hidden,
+    null,{timeout:20000});
+  assert.equal(await page.locator('#gc-expanded-left').inputValue(),headphoneUrl.searchParams.get('left'));
   await visit(page,'/system-builder/creating/');
   await page.waitForFunction(()=>document.querySelector('#sb-purpose-status')?.textContent.includes('Ready to suggest'),
     null,{timeout:20000});
