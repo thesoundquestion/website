@@ -66,12 +66,9 @@ test('unknown prebuilt passive pair is not silently granted documented status',(
   assert.match(unknown.firstChecks.join(' '),/Permitted speaker load/);
 });
 
-test('a real source-connection mismatch still gets a visible warning',()=>{
-  const request={...defaults,connection:'hdmi'};
-  const product=shortlistExamples(request).selected.find(x=>x.id==='passive-bt20a-xt15');
-  assert.ok(product);
-  const view=explainBeginnerOption(product,request);
-  assert.equal(view.priority,'review');
-  assert.ok(view.checks.some(x=>/source|converter/i.test(x)));
-  assert.doesNotMatch(view.checks.join(' '),/check the amplifier manual to see which speakers/i);
+test('incompatible requested source connections are excluded rather than offered as ready-to-connect systems',()=>{
+ const request={...defaults,connection:'hdmi'};
+ const shortlist=shortlistExamples(request);
+ assert.ok(!shortlist.selected.some(x=>x.id==='passive-bt20a-xt15'));
+ assert.ok(shortlist.excluded.some(x=>/No documented direct hdmi input/.test(x.reason)));
 });
