@@ -126,8 +126,8 @@ test('website report routes owned amplifier without selected speakers to targete
   assert.match(app,/shortlistSpeakersForOwnedAmplifier/);
   assert.match(app,/speakers:inventory\?\.speaker/);
   assert.match(app,/speakerFocus \? 'Speakers for your '/);
-  assert.match(app,/if\(overview\.firstChecks\.length\)/);
-  assert.match(app,/overview\.priority==='critical'/);
+  assert.match(app,/const shortlist=removeUnsafeRecommendations\(candidateShortlist,request\)/);
+  assert.match(app,/const renderComparisonPreview=/);
 });
 
 test('owned amp does not silently claim HDMI, USB or optical support',()=>{
