@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {headroomEvidence} from '../system-builder/headroom-evidence.mjs';
+import {acousticEvidenceForPair} from '../system-builder/acoustic-evidence.mjs';
 import {shortlistExamples} from '../system-builder/recommendations.mjs';
 
 const req={goal:'natural',architecture:'open',useCase:'bedroom',distanceFt:6,level:'moderate',
@@ -98,4 +99,35 @@ test('a speaker without enough measured/reference data never borrows another spe
   assert.equal(unknown.status,'passive_output_unverified');
   assert.equal(unknown.estimatedPeakDb,undefined);
   assert.doesNotMatch(unknown.text,/^Yes\./);
+});
+
+test('reusable catalog path produces definite loudness answer for a documented owned pair',()=>{
+  const speaker={model:'Reference speaker',values:{sensitivity:87,basis:'voltage',load:8},
+    url:'https://example.invalid/speaker'};
+  const amp={model:'Reference amp',ratings:[[60,8,'continuous','20 Hz–20 kHz, 0.019% THD']],
+    url:'https://example.invalid/amp'};
+  const evidence=acousticEvidenceForPair(speaker,amp);
+  assert.ok(evidence);
+  assert.equal(evidence.sensitivityDb1W1m,87);
+  const result=headroomEvidence({architecture:'passive_separates',acousticEvidence:evidence},
+    {...req,level:'high',distanceFt:6});
+  assert.equal(result.status,'estimated_suitable');
+  assert.match(result.text,/^Yes\./);
+});
+
+test('the 2.83-volt sensitivity basis is converted rather than treated as one watt for low impedance',()=>{
+  const speaker={model:'6 Ω example',values:{sensitivity:88,basis:'voltage',load:6}};
+  const amp={ratings:[[65,6,'continuous','20 Hz–20 kHz, 0.05% THD']]};
+  const evidence=acousticEvidenceForPair(speaker,amp);
+  assert.ok(evidence);
+  assert.ok(evidence.sensitivityDb1W1m<88);
+  assert.ok(evidence.sensitivityDb1W1m>86);
+});
+
+test('burst-only and other-load amplifier ratings never produce a numerical loudness verdict',()=>{
+  const speaker={values:{sensitivity:87,basis:'power',load:8}};
+  assert.equal(acousticEvidenceForPair(speaker,{ratings:[[200,8,'burst','IHF dynamic']]}),null);
+  assert.equal(acousticEvidenceForPair(speaker,{ratings:[[60,6,'continuous','20 Hz–20 kHz']]}),null);
+  assert.equal(acousticEvidenceForPair({values:{load:8}},{
+    ratings:[[60,8,'continuous','20 Hz–20 kHz']]}),null);
 });
