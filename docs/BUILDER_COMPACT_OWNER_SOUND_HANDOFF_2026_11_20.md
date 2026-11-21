@@ -162,3 +162,21 @@ runtime models load P3/P5 once each with 85/87 dB anechoic voltage basis.
 The Yamaha A-S301 pairing has its 60 W at 8 Ω continuous source rating.
 Full Node and actual-browser acceptance still need a real execution pass.
 No Cloudflare deployment or production change.
+
+## Evidence-aware recommendation order and PowerShell preview
+
+**Question resolved:** How can a strongest-match recommendation lack enough specifications for headroom? Previous ranking used editorial goal/use-case/connection/price ordering. Documented electrical load support did not guarantee a tested continuous wattage or clean SPL measurement.
+
+New `system-builder/passive-evidence-readiness.mjs` distinguishes:
+- `calculable`: saved speaker nominal impedance, sensitivity with an explicit voltage/power 1 m reference, and amplifier continuous rating at that same speaker nominal load.
+- `incomplete`: one of those numeric inputs is absent; list each actual missing input.
+- `unknown`: source registry not yet loaded; this must NOT masquerade as measured failure.
+- `not_applicable`: powered speakers/headphones are not penalized for missing external amplifier ratings.
+
+Within otherwise comparable passive options targeting the same primary purpose and listening setting, candidates with calculable headroom inputs appear ahead of incomplete ones. A declared restrictive budget is not overruled by data completeness. Calculable means *possible to estimate*, not a guarantee of adequate clean output.
+
+Concrete validated shortlist: living-room, no budget => Yamaha A-S301 + PSB Alpha P5 leads (verified source continuous 60 W/8 Ω; P5 sensitivity 87 dB at 2.83 V/1 m). Fosi BT20A Pro + Polk XT15 remains a conditional option, missing a comparable continuous amplifier power test. At a strict CAD 500 budget, cheaper Fosi option can lead but is identified as missing the continuous-power figure. Source registry now finishes loading before results are ranked, to avoid a race that could select the old ranking order.
+
+**Preview command repair:** `PREVIEW_FULL_SITE_WINDOWS.ps1` starts a Python local server and validates source branch, required files, and HTTP 200 responses from the full site, Builder, System Check, Builder JavaScript and catalog before opening the browser. `PREVIEW_FULL_SITE_WINDOWS.cmd` delegates to it. Launcher uses port 8877 and errors explicitly when occupied; it does not open a stale prior preview. Users should update their existing preview checkout and run the new PowerShell script from that directory. No Cloudflare publication was made.
+
+Test module: `tests/system-builder-passive-evidence-readiness.test.mjs`.
