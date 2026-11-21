@@ -14,7 +14,7 @@ export function poweredEvidenceFor(item={}) {
  const names=[item.model,item.title,...(item.parts||[]).map(x=>x.name)].filter(Boolean);
  const matches=Object.values(POWERED_ACOUSTIC_RECORDS).filter(e=>
    names.some(name=>String(name).toLowerCase().includes(e.model.toLowerCase())&&
-     !/\\b(?:mkiii|mk\\s*iii|third generation|3rd wave)\\b/i.test(String(name))));
+     !/\b(?:mkiii|mk\s*iii|third generation|3rd wave)\b/i.test(String(name))));
  if(matches.length!==1)return null;
  const r=matches[0];
  const quantity=(item.parts||[]).filter(x=>String(x.name).toLowerCase().includes(r.model.toLowerCase()))
