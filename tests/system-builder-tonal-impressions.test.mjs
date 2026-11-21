@@ -75,9 +75,9 @@ test('alternatives show their own owner descriptions without a head-to-head requ
  const render=app.slice(from,app.indexOf('if(headphoneElectronicsPlan)',from));
  assert.ok(from>0);
  assert.match(render,/soundImpressionFor\(item\)/);
- assert.match(render,/What owners say:/);
+ assert.match(render,/How listeners describe the sound/);
  assert.match(render,/sb-tonal-one-line/);
- assert.match(render,/link\(links,source.url,source.context/);
+ assert.match(render,/link\(links,source.url,source.label/);
  assert.doesNotMatch(render,/briefTonalContrast|How it may sound different:|No clear tonal direction/);
  assert.match(app,/soundImpressionFor\(item\)/);
  assert.match(app,/sb-primary-sound/);
