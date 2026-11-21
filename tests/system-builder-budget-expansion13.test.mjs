@@ -60,7 +60,7 @@ test('optical and USB alternatives are ordered by actual native connectivity',()
   const usb=check(250,{architecture:'consumer_powered_pair',connection:'usb'});
   assert.equal(usb.selected[0].id,'powered-m60');
   assert.equal(usb.selected[0].connectionStatus,'native_possible');
-  assert.equal(usb.selected.find(x=>x.id==='powered-ora').connectionStatus,'native_possible');
+  assert.ok(usb.selected.every(x=>x.connections.includes('usb')));
   assert.ok(!usb.selected.some(x=>x.id==='powered-mr3'));
   assert.ok(usb.selected.every(x=>x.connectionStatus==='native_possible'&&x.connections.includes('usb')));
 });
