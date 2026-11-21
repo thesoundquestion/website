@@ -81,3 +81,10 @@ test('missing source provenance or hidden unknowns never earns admission',()=>{
  assert.ok(r.errors.some(x=>x.includes('unknown checklist outcomes')));
  assert.ok(r.errors.some(x=>x.includes('cannot claim verified status')));
 });
+
+test('baseline hashes cannot be refreshed en masse to conceal changed specifications',()=>{
+ const touched=structuredClone(baseline);
+ touched.recordFingerprints[registry.records[0].id]='00000000';
+ const r=inspectEquipmentEntryGates({baseline:touched,ledger,catalog:registry,examples});
+ assert.ok(r.errors.some(x=>/Locked pre-adoption baseline was changed/.test(x)));
+});
