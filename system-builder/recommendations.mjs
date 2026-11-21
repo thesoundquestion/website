@@ -147,7 +147,7 @@ export function shortlistExamples(input = {}, catalog = null) {
   else if (aim === 'natural') order = ['passive-as301-p5','studio-kali','powered-mr4','powered-ora','passive-bt20a-xt15','studio-jbl'];
   else if (aim === 'low_volume') order = ['powered-mr4','passive-as301-p5','powered-ora','studio-kali','passive-bt20a-xt15','studio-jbl'];
   else if (aim === 'bass') order = ['powered-ora','passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-mr4'];
-  else if (aim === 'dynamic' || input.level === 'high') order = ['passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-ora','powered-mr4'];
+  else if (aim === 'dynamic') order = ['passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-ora','powered-mr4'];
   else order = ['passive-bt20a-xt15','passive-as301-p5','powered-ora','powered-mr4','studio-kali','studio-jbl'];
   // Start with simpler setups for a smaller spending target.
   const inputType=String(input.connection||'undecided');
