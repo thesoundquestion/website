@@ -209,7 +209,7 @@ try {
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,
     null,{timeout:20000});
-  const poweredLink=page.locator('a[href^="/system-check/powered/?model=JBL+305P+MkII"]').first();
+  const poweredLink=page.locator('a[href*="/system-check/powered/?model=JBL+305P+MkII"]').first();
   assert.ok(await poweredLink.count()>0,device.name+' JBL powered loudness checker missing');
   const poweredTarget=new URL(await poweredLink.getAttribute('href'),BASE);
   assert.equal(poweredTarget.searchParams.get('distance'),'6');
@@ -235,7 +235,7 @@ try {
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,
     null,{timeout:20000});
-  const subLink=page.locator('a[href^="/system-check/subwoofer/?source=Kanto+ORA"]').first();
+  const subLink=page.locator('a[href*="/system-check/subwoofer/?source=Kanto+ORA"]').first();
   assert.ok(await subLink.count()>0,device.name+' exact ORA subwoofer checker link missing');
   const subTarget=new URL(await subLink.getAttribute('href'),BASE);
   assert.equal(subTarget.searchParams.get('sub'),'Edifier T5');
