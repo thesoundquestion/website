@@ -19,8 +19,11 @@ function render(){
  $('powered-verdict').textContent=result.text;
  $('powered-technical').hidden=false;
  $('powered-technical-text').textContent=result.detail;
- $('powered-numbers').textContent='Estimated rated peak at seat: '+result.estimatedPeakDb+
-  ' dB; estimated rated continuous: '+result.estimatedContinuousDb+' dB. Margin to selected targets: '+result.marginDb+' dB.';
+ $('powered-numbers').textContent='Estimated published peak at the seat: '+result.estimatedPeakDb+
+  ' dB. '+(result.estimatedContinuousDb===null
+    ?'No model-specific continuous SPL is available; no clean-volume promise.'
+    :'Estimated published continuous: '+result.estimatedContinuousDb+
+      ' dB. Limiting margin against selected targets: '+result.marginDb+' dB.');
  $('powered-source').href=result.source;
  const url=new URL(location.href);
  for(const [key,value]of Object.entries({model:select.value,distance:$('powered-distance').value,
