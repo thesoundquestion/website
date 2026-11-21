@@ -4,6 +4,7 @@ import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
 import {listeningCatalogOptions,listeningStudioCandidates,describeStudioMonitor} from '../equipment/builder-catalog-options.mjs';
 import {shortlistExamples} from './recommendations.mjs';
+import {headroomEvidence} from './headroom-evidence.mjs';
 import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
@@ -449,6 +450,14 @@ document.addEventListener('DOMContentLoaded', () => {
       fit.append(document.createTextNode(item.headphoneRationale || item.amplifierReason || item.speakerRationale || item.ownershipMessage || (item.bassSetup && item.why) || recommendationWhy(item,request,
         Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
       card.append(fit);
+      // Every visible path gets a scoped headroom answer. Powered amplifier
+      // watts cannot be converted into clean seat SPL without matching evidence.
+      const output=headroomEvidence(item,request);
+      const headroom=el('p','sb-card-headroom');
+      addText(headroom,'strong','Headroom at your seat: ');
+      headroom.append(document.createTextNode(output.text));
+      card.append(headroom);
+      if(output.link)link(headroom,output.link,'Estimate with System Check');
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
@@ -563,6 +572,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(details,'h5','How your inputs affected this option');
         list(details,item.decisionReasons);
       }
+      addText(details,'h5','Headroom evidence and limits');
+      addText(details,'p',output.detail,'sb-card-reference');
       addText(details,'h5','Trade-offs');
       addText(details,'p',item.tradeoff);
       const checks = [...item.extra];
