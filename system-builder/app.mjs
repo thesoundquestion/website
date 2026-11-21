@@ -450,50 +450,16 @@ document.addEventListener('DOMContentLoaded', () => {
       fit.append(document.createTextNode(item.headphoneRationale || item.amplifierReason || item.speakerRationale || item.ownershipMessage || (item.bassSetup && item.why) || recommendationWhy(item,request,
         Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
       card.append(fit);
-      // Every visible path gets a scoped headroom answer. Powered amplifier
-      // watts cannot be converted into clean seat SPL without matching evidence.
+      // Give beginners a practical, short answer. Keep all modelling
+      // limitations and calculations in the optional details section.
       const output=headroomEvidence(item,request);
       const headroom=el('p','sb-card-headroom');
-      addText(headroom,'strong','Headroom at your seat: ');
+      addText(headroom,'strong',output.label+' ');
       headroom.append(document.createTextNode(output.text));
       card.append(headroom);
-      if(output.link)link(headroom,output.link,'Estimate with System Check');
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
-      if (item.amplifierFit) {
-        const fitInfo=item.amplifierFit;
-        const p=el('p','sb-card-power');
-        addText(p,'strong','Power & headroom: ');
-        const handling=fitInfo.speaker;
-        const power=fitInfo.amp;
-        const load=power.exact ? power.watts+' W at '+power.ohms+' Ω' : 'no exact-load published watt figure';
-        const compared=handling.watts!==null && power.exact
-          ? ' vs. '+handling.watts+' W '+handling.label
-          : ' · no usable speaker power-handling comparison';
-        const headroom=fitInfo.powerBand==='in_range' ?
-          'Broadly aligned on paper; real peak reserve still needs checking.' :
-          fitInfo.powerBand==='larger_reserve' ?
-          'Extra available power calls for sensible volume limits, not automatic better sound.' :
-          fitInfo.powerBand==='lower_reserve' || fitInfo.powerBand==='small_relative_to_rating' ?
-          'Less power on paper is not automatically inadequate at your normal volume.' :
-          'No handling-based power target can be justified from the current data.';
-        p.append(document.createTextNode(load+compared+'. '+headroom));
-        card.append(p);
-        const thd=el('p','sb-card-thd');
-        addText(thd,'strong','Distortion evidence: ');
-        thd.append(document.createTextNode(fitInfo.amp.distortionEvidence==='strong' ||
-          fitInfo.amp.distortionEvidence==='documented'
-          ? fitInfo.amp.thd+'% THD at rated power across 20 Hz–20 kHz; not an audible-quality score.'
-          : 'A comparable full-band low-distortion rating is not documented for this load.'));
-        card.append(thd);
-        if (fitInfo.context) {
-          const impression=el('p','sb-card-review');
-          addText(impression,'strong','Reviewer/lab context: ');
-          impression.append(document.createTextNode(fitInfo.context.text));
-          card.append(impression);
-        }
-      }
       const sound = soundProfileFor(item);
       // A speaker's listening profile must never be presented as the amplifier's
       // sound. Unknown owned-speaker profiles do not get a generic "Sound" card.
@@ -512,8 +478,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p','Your chosen source connection needs extra hardware.','sb-card-alert');
       else if (item.sourceBatteryCaution)
         addText(card,'p','Battery-powered source/output required separately.','sb-card-alert');
-      else if (item.levelCaution || item.placementCaution)
-        addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
+      // Distance and ordinary loudness uncertainty are already explained briefly
+      // in the main card. They are not urgent safety warnings.
       if (item.sourceCaution)
         addText(card,'p',item.sourceCaution,'sb-card-alert');
       if (item.pathwayCaution)
@@ -572,8 +538,43 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(details,'h5','How your inputs affected this option');
         list(details,item.decisionReasons);
       }
-      addText(details,'h5','Headroom evidence and limits');
+      addText(details,'h5','How loud and why');
       addText(details,'p',output.detail,'sb-card-reference');
+      if(output.link)link(details,output.link,'Check loudness with System Check');
+      if (item.amplifierFit) {
+        const fitInfo=item.amplifierFit;
+        const p=el('p','sb-card-power');
+        addText(p,'strong','Power & headroom: ');
+        const handling=fitInfo.speaker;
+        const power=fitInfo.amp;
+        const load=power.exact ? power.watts+' W at '+power.ohms+' Ω' : 'no exact-load published watt figure';
+        const compared=handling.watts!==null && power.exact
+          ? ' vs. '+handling.watts+' W '+handling.label
+          : ' · no usable speaker power-handling comparison';
+        const headroom=fitInfo.powerBand==='in_range' ?
+          'Broadly aligned on paper; real peak reserve still needs checking.' :
+          fitInfo.powerBand==='larger_reserve' ?
+          'Extra available power calls for sensible volume limits, not automatic better sound.' :
+          fitInfo.powerBand==='lower_reserve' || fitInfo.powerBand==='small_relative_to_rating' ?
+          'Less power on paper is not automatically inadequate at your normal volume.' :
+          'No handling-based power target can be justified from the current data.';
+        p.append(document.createTextNode(load+compared+'. '+headroom));
+        card.append(p);
+        const thd=el('p','sb-card-thd');
+        addText(thd,'strong','Distortion evidence: ');
+        thd.append(document.createTextNode(fitInfo.amp.distortionEvidence==='strong' ||
+          fitInfo.amp.distortionEvidence==='documented'
+          ? fitInfo.amp.thd+'% THD at rated power across 20 Hz–20 kHz; not an audible-quality score.'
+          : 'A comparable full-band low-distortion rating is not documented for this load.'));
+        card.append(thd);
+        if (fitInfo.context) {
+          const impression=el('p','sb-card-review');
+          addText(impression,'strong','Reviewer/lab context: ');
+          impression.append(document.createTextNode(fitInfo.context.text));
+          card.append(impression);
+        }
+      }
+
       addText(details,'h5','Trade-offs');
       addText(details,'p',item.tradeoff);
       const checks = [...item.extra];
@@ -589,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (item.sourceBatteryCaution)
         checks.unshift('Allow for a compatible battery-powered source with a headphone output.');
       if (item.levelCaution || item.placementCaution)
-        checks.unshift('Verify clean output at your intended distance and level, especially with compact nearfield designs.');
+        checks.unshift('For louder or distant use, confirm this exact model’s usable output; its category alone does not determine the answer.');
       if (item.sceneCaution)
         checks.unshift('Check whether this product is appropriate for the chosen venue and coverage.');
       if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first' && !item.bassSetup && !noPurchase)
