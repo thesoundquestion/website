@@ -40,7 +40,7 @@ export function explainEmptyExampleShortlist(request={},shortlist={}){
       actions.push('An HDMI audio extractor or compatible receiver is a separate purchase and requires its own format, volume-control, connection and price checks.');
   }
   if(budget!==null && request.budgetStrict!==false &&
-      (/budget|over the limit|above the limit|exceeds/i.test(rejected)||budget<180)){
+      /budget|over the limit|above the limit|exceeds/i.test(rejected)){
     reason.push('No complete setup has been verified within your '+currency+' '+budget+' spending limit. Unpriced parts are not assumed free.');
     actions.push('Increase the budget, consider a different system type, or compare a separately verified used listing.');
   }
