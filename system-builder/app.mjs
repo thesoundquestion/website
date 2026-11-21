@@ -6,6 +6,7 @@ import {listeningCatalogOptions,listeningStudioCandidates,describeStudioMonitor}
 import {shortlistExamples} from './recommendations.mjs';
 import {headroomEvidence} from './headroom-evidence.mjs';
 import {checkerHandoffLink} from './checker-handoff.mjs';
+import {compareCatalogHandoff} from './compare-handoff.mjs';
 import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
@@ -479,6 +480,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if(output.link)link(card,checkerHandoffLink(item,request)||output.link,'Check your exact listening levels');
       // Only expose comparisons with an actual model preset in Compare My Gear.
       // Generic unselected checker links send beginners back to square one.
+      if(['active_studio','party_pa'].includes(item.architecture)&&sharedCatalog?.records){
+        const targetType=item.architecture==='active_studio'?'powered_studio_monitor':'powered_pa_speaker';
+        const names=[item.title,...(item.parts||[]).map(part=>part.name)].join(' ').toLowerCase();
+        const found=sharedCatalog.records.filter(record=>
+          record.facts?.speakerKind?.value===targetType &&
+          names.includes(record.model.toLowerCase()));
+        if(found.length===1){
+          const exact=compareCatalogHandoff(found[0]);
+          if(exact)link(card,exact,'Compare documented '+found[0].model+' specifications');
+        }
+      }
       if(item.architecture==='passive_separates'&&item.acousticEvidence){
         const model=item.acousticEvidence.amplifierModel;
         if(inventory?.amp?.some(record=>record.model===model))
@@ -696,6 +708,8 @@ document.addEventListener('DOMContentLoaded', () => {
           list(card,facts.length?facts:['Published specifications incomplete; check the manufacturer documentation.']);
           addText(card,'p',details.cautions[0]+' '+details.cautions[1],'sb-brief-note');
           link(card,details.source,'Manufacturer/source documentation');
+          const comparison=compareCatalogHandoff(record);
+          if(comparison)link(card,comparison,'Compare exact powered studio monitor specifications');
           cards.append(card);
         }
         explorer.append(cards);
