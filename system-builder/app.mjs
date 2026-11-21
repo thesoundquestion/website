@@ -23,6 +23,7 @@ import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
 import {explainBeginnerOption} from './beginner-output.mjs';
 import {explainSimpleSystem} from './simple-system-summary.mjs';
+import {explainEmptyExampleShortlist} from './empty-shortlist-guidance.mjs';
 import {recommendationHeadroom} from './recommendation-headroom.mjs';
 import {removeUnsafeRecommendations} from './recommendation-safety-gate.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
@@ -986,7 +987,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }).slice(0,3);
       const chosen=leader?[leader,...reviewedOptions]:[];
       if(!chosen.length){
-        addText(shop,'p','No complete example fits these selections yet. Try another system approach.','sb-simple-empty');
+        const missing=explainEmptyExampleShortlist(request,shortlist);
+        const empty=el('section','sb-simple-empty');
+        addText(empty,'h4',missing.title);
+        for(const statement of missing.reason)addText(empty,'p',statement);
+        const steps=el('ul');
+        for(const step of missing.actions)addText(steps,'li',step);
+        empty.append(steps);
+        if(missing.excludedCount){
+          const excluded=el('details','sb-simple-details');
+          addText(excluded,'summary','Why saved examples were excluded');
+          list(excluded,shortlist.excluded.slice(0,5).map(x=>x.title+': '+x.reason));
+          empty.append(excluded);
+        }
+        shop.append(empty);
         return;
       }
       const panel=el('div','sb-simple-match-layout');
@@ -1552,9 +1566,14 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(shop,'p','Owner listening impressions describe individual products, not guaranteed results in every system.','sb-brief-note');
       addText(shop,'p','Check current prices and stock for all the parts you need. Include delivery and taxes when comparing with your budget.','sb-brief-note');
     } else {
-      addText(shop,'p',speakerFocus ?
-        'No evidence-backed pairing is available for these inputs in our current catalogue. We need additional models or comparable measurements before making a recommendation.' :
-        'There are no examples for your selected system type and power requirements. Try a different setup.','sb-report-note');
+      if(speakerFocus){
+        addText(shop,'p','No evidence-backed pairing is available for these inputs in our current catalogue. We need additional models or comparable measurements before making a recommendation.','sb-report-note');
+      }else{
+        const missing=explainEmptyExampleShortlist(request,shortlist);
+        addText(shop,'h4',missing.title,'sb-report-note');
+        for(const statement of [...missing.reason,...missing.actions])
+          addText(shop,'p',statement,'sb-report-note');
+      }
     }
     // Show passive high-efficiency leads next to the event/PA route without
     // pretending that an unpriced speaker pair is a complete party system.
