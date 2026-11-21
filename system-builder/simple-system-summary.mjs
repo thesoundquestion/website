@@ -47,8 +47,18 @@ export function explainSimpleSystem(item={},request={},isFirst=false){
   const important=item.connectionStatus==='adapter_needed'
     ?'Your selected source needs an extra connection or converter.'
     :item.ownershipBlocker||item.loadCaution||item.sourceCaution||'';
+  const fitNotes=[];
+  if(!fitsRoom)fitNotes.push('This example is not documented for your selected '+room+' use.');
+  if(!fitsGoal)fitNotes.push('Its listening evidence does not establish a specific match to your '+focus+' priority.');
+  const priceNote=request.budget!==null&&Number.isFinite(request.budget)&&
+    !Number.isFinite(item.subtotal)
+    ?'Regional listed-parts price is unverified. This is not confirmed within your spending limit.'
+    :null;
   return {
     title:friendlySystemName(item),why,connection,
+    fitCaution:fitNotes.join(' '),
+    qualifiedFit:fitsGoal&&fitsRoom,
+    priceCaution:priceNote,
     parts:namedSystemParts(item),
     important:String(important||'').trim(),
     tradeoff:String(item.tradeoff||'').trim(),
