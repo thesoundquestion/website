@@ -26,7 +26,7 @@ test('all 197 catalog records have unique identities and sensible load/sensitivi
     assert.ok(['voltage','power'].includes(v.basis),r.model+' no reference basis');
    }
    if(v.load!==undefined)
-    assert.ok(Number.isFinite(v.load)&&v.load>0&&v.load<40,r.model);
+    assert.ok(Number.isFinite(v.load)&&v.load>0&&v.load<(p.category==='headphone'?1500:40),r.model);
   }
  }
  assert.equal(catalog.records.length,197,'update audit coverage when catalog is rebuilt');
