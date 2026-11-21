@@ -1033,7 +1033,8 @@ document.addEventListener('DOMContentLoaded', () => {
             data.headroomMissing.join('; ')+'.');
         if(data.subtotal!==null&&data.priceDate)
           addText(technical,'p','Dated listed-parts reference: '+
-            new Intl.NumberFormat('en-CA',{style:'currency',currency:displayCurrency})
+            new Intl.NumberFormat('en-CA',{style:'currency',
+              currency:['CAD','USD','GBP','EUR','AUD'].includes(currency)?currency:'CAD'})
               .format(data.subtotal)+' ('+data.priceDate+'). Not a current complete purchase price.');
         for(const part of (item.parts||[]))
           if(part.url)link(technical,part.url,'Specifications: '+part.name);
