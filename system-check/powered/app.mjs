@@ -7,7 +7,8 @@ for(const record of Object.values(POWERED_ACOUSTIC_RECORDS)){
 }
 if(POWERED_ACOUSTIC_RECORDS[q.get('model')])select.value=q.get('model');
 const d=Number(q.get('distance'));
-if(Number.isFinite(d)&&d>=0.5&&d<=300)$('powered-distance').value=d;
+if(Number.isFinite(d)&&d>=0.5&&d<=300&&q.has('distance'))$('powered-distance').value=d;
+else if(!q.has('distance'))$('powered-distance').value='';
 if(['quiet','moderate','high'].includes(q.get('level')))$('powered-level').value=q.get('level');
 if(['1','2'].includes(q.get('count')))$('powered-count').value=q.get('count');
 function render(){
@@ -31,4 +32,4 @@ function render(){
  history.replaceState(null,'',url);
 }
 $('powered-form').addEventListener('submit',e=>{e.preventDefault();render()});
-if(q.has('model'))render();
+if(q.has('model')&&q.has('distance'))render();
