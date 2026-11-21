@@ -2,7 +2,7 @@
 **2026-11-21 | Draft PR #39 | 197 unique models | No deployment**
 
 ## Scope and evidentiary boundary
-Every one of the 197 records was included in a **mechanical field-coverage and evidence-risk scan** (see `spec-verification-pass-2026-11-21.json`). This does **not** mean the cited manuals for all 197 were read or that their specifications are factually certified. Ten exact model records had specific claims compared against primary manufacturer publications or, for WiiM, an explicitly identified independent bench test. No full-record approvals were issued.
+Every one of the 197 records was included in a **mechanical field-coverage and evidence-risk scan** (see `spec-verification-pass-2026-11-21.json`). This does **not** mean the cited manuals for all 197 were read or that their specifications are factually certified. Thirteen exact model records had specific claims compared against primary manufacturer publications or, for WiiM, an explicitly identified independent bench test. No full-record approvals were issued.
 
 Avoid the false implication that a passing test or attached source URL proves the whole product specification. Old records remain grandfathered and uncertified. Do not turn these 10 partial checks into review approvals.
 
@@ -28,6 +28,13 @@ Avoid the false implication that a passing test or attached source URL proves th
 - **Polk Monitor XT15**: official documentation describes compatibility with 4/8 Ω amplifier outputs. That wording is not itself a measured nominal impedance and cannot independently verify a claimed impedance minimum. https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html
 - **Yamaha HS5**: Yamaha confirms 45 W LF + 25 W HF internal power, 74 Hz–24 kHz (-3 dB) and 54 Hz–30 kHz (-10 dB). One powered enclosure is not a stereo pair; summed amp watts are not verified SPL capability. https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/specs.html
 - **Yamaha R-S202**: 100 W/ch at 8 Ω, 40 Hz–20 kHz, 0.2% THD confirmed by Yamaha Canada; must not be compared unqualified against a 20 Hz–20 kHz low-THD rating. https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s202/specs.html
+
+### Additional verified source conditions
+- **Yamaha HS7/HS8**: Yamaha publishes 95 W (60 W LF + 35 W HF) and 120 W (75 W LF + 45 W HF) internal amplification respectively. These are bi-amplifier allocations for single active enclosures, not safe maximum-SPL or room headroom ratings. https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html
+- **AIYIMA A07 MAX**: Maker’s 300 W × 2 at 4 Ω maximum is conditioned on **48 V / 12 A** and stereo mode. Listed retail bundles include other power supplies; therefore the rated continuous output remains unverified. https://www.aiyima.com/products/aiyima-a07-max
+- **Polk XT15 update**: The actual Polk primary owner’s manual directly establishes **86 dB at 2.83 V/1 m**, **4.1 Ω minimum impedance** and **73 Hz–26 kHz (-3 dB)**. Its separate 4/8 Ω amplifier-compatibility language does **not** prove that it is a flat 8 Ω load. The catalogue’s nominal 8 Ω is sourced separately to a retailer, and still deserves an exact-model check. https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw9cd07cce/downloads/monitor-xt-series-owners-manual-global.pdf
+
+**Machine-checkable crosschecks:** `verified-field-assertions.json` now pins 41 independently compared values/conditions across 13 products. `tests/equipment-spec-evidence.test.mjs` detects drift and guards against promoting marketing peak watts or active-monitor internal amplification to comparable continuous ratings. These tests confirm transcription and preservation of checked fields, not full product safety or recommendation suitability.
 
 ## Release implications and next checks
 1. **No blanket certification.** Finish field-by-field source crosschecks and date them before approving affected model records.
