@@ -31,14 +31,16 @@ test('a native required source connection wins over otherwise equal adapter depe
     .some(x=>/Native USB/.test(x)));
 });
 
-test('high output at distance demotes small nearfield ideas without inventing max SPL',()=>{
+test('loud preference at distance requires evidence but never rejects all nearfield designs by category',()=>{
   const desk=item('powered-mr4');
   const passive=item('stereo',{architecture:'passive_separates'});
-  assert.ok(first(desk,passive,{...request,level:'high',distanceFt:16})>0);
+  assert.ok(first(desk,passive,{...request,level:'high',distanceFt:16})<0);
   assert.ok(first(desk,passive,{...request,level:'moderate',distanceFt:8})<0);
   const notes=explainInputInteractions({...request,level:'high',distanceFt:16});
-  assert.ok(notes.some(x=>/beyond 12 ft/.test(x)));
-  assert.ok(notes.some(x=>/requires model-specific evidence/.test(x)));
+  assert.ok(notes.some(x=>/longer distances/.test(x)));
+  assert.ok(notes.some(x=>/do not reject all powered/.test(x)));
+  const reasons=explainExampleInteractions(desk,{...request,level:'high',distanceFt:16});
+  assert.ok(reasons.some(x=>/nearfield category alone does not establish a pass or fail/.test(x)));
 });
 
 test('a recent matching-market reference breaks practical ties and expires on day 30',()=>{
