@@ -15,12 +15,13 @@ const legacy=read('system-check/compare/compare.js');
 const css=read('system-check/compare/style.css');
 const model=name=>catalog.records.find(item=>item.model===name);
 const types=['amp','speaker','source','headphone',
-  'audio_interface','mixer_recorder','microphone','headphone_amplifier','computer_sound_card'];
+  'audio_interface','mixer_recorder','microphone','headphone_amplifier','computer_sound_card',
+  'powered_studio_monitor','powered_pa_speaker'];
 const extras=types.slice(4);
 const compare=(a,b,type)=>buildEquipmentComparison(model(a),model(b),{category:type});
 const row=(comparison,key)=>comparison.rows.find(x=>x.key===key);
 
-test('Compare My Gear exposes all nine categories without removing legacy specs and actions',()=>{
+test('Compare My Gear exposes all eleven categories without removing legacy specs and actions',()=>{
   assert.deepEqual([...html.matchAll(/data-kind="([^"]+)"/g)].map(x=>x[1]),types);
   assert.ok(html.includes('id="gc-legacy"'));
   assert.ok(html.includes('id="gc-expanded"'));
