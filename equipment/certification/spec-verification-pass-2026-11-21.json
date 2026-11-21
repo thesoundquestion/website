@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "checkedOn": "2026-11-21",
   "recordsTotal": 197,
-  "scope": "197-record machine-assisted claim coverage and six selected product/source comparisons. Never interpret flagged counts as verified inaccuracies.",
-  "fieldCorroborationCount": 6,
+  "scope": "197-record machine-assisted evidence-gap audit with 10 selected source crosschecks. This is not whole-record certification.",
+  "fieldCorroborationCount": 10,
   "wholeRecordCertifications": 0,
   "flagCounts": {
     "NO_COMPARABLE_AMP_RATING": 3,
@@ -38,7 +38,7 @@
       "categories": [
         "amp"
       ],
-      "evidenceStatus": "selected_fields_corroborrated",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [
         "NO_STRUCTURED_CONNECTOR_MAPPING"
@@ -57,15 +57,19 @@
       "categories": [
         "amp"
       ],
-      "evidenceStatus": "source_not_independently_crosschecked",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [
         "NO_COMPARABLE_AMP_RATING",
         "NO_STRUCTURED_CONNECTOR_MAPPING"
       ],
-      "verifiedFields": [],
-      "corroborationUrl": null,
-      "corroborationNote": null,
+      "verifiedFields": [
+        "Manufacturer lists 300 W × 2 at 4 Ω as maximum, not clean full-band continuous output",
+        "Included 32 V / 5 A adapter",
+        "RCA/Bluetooth inputs, speaker output and 3.5 mm pre-out"
+      ],
+      "corroborationUrl": "https://fosiaudio.com/products/bt20a-pro-2-channel-bluetooth-power-amplifier",
+      "corroborationNote": "Critical headroom restriction: keep numeric continuous output unverified; do not substitute 300 W/channel",
       "wholeRecordCertified": false
     },
     {
@@ -91,7 +95,7 @@
       "categories": [
         "headphone"
       ],
-      "evidenceStatus": "selected_fields_corroborrated",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [],
       "verifiedFields": [
@@ -172,14 +176,16 @@
       "categories": [
         "speaker"
       ],
-      "evidenceStatus": "source_not_independently_crosschecked",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [
         "NO_STRUCTURED_CONNECTOR_MAPPING"
       ],
-      "verifiedFields": [],
-      "corroborationUrl": null,
-      "corroborationNote": null,
+      "verifiedFields": [
+        "Polk labels speaker compatible with 4 and 8 Ω amplifier outputs; compatibility is not a measured flat 8 Ω nominal impedance"
+      ],
+      "corroborationUrl": "https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html",
+      "corroborationNote": "Polk primary site corroborates amplifier compatibility only; exact nominal and minimum impedance and 2.83 V sensitivity remain separately sourced",
       "wholeRecordCertified": false
     },
     {
@@ -720,7 +726,7 @@
       "categories": [
         "amp"
       ],
-      "evidenceStatus": "selected_fields_corroborrated",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [
         "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
@@ -789,7 +795,7 @@
       "categories": [
         "amp"
       ],
-      "evidenceStatus": "selected_fields_corroborrated",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 2,
       "flags": [
         "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS"
@@ -825,7 +831,7 @@
       "categories": [
         "amp"
       ],
-      "evidenceStatus": "selected_fields_corroborrated",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 2,
       "flags": [
         "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS"
@@ -845,7 +851,7 @@
       "categories": [
         "amp"
       ],
-      "evidenceStatus": "selected_fields_corroborrated",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 2,
       "flags": [
         "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS"
@@ -933,15 +939,17 @@
       "categories": [
         "amp"
       ],
-      "evidenceStatus": "source_not_independently_crosschecked",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 2,
       "flags": [
         "BURST_RATING_PRESENT_DO_NOT_ASSESS_AS_CONTINUOUS",
         "SECONDARY_OR_ARCHIVAL_SOURCE_REVIEW"
       ],
-      "verifiedFields": [],
-      "corroborationUrl": null,
-      "corroborationNote": null,
+      "verifiedFields": [
+        "100 W/ch at 8 Ω, 40 Hz–20 kHz, 0.2% THD minimum RMS"
+      ],
+      "corroborationUrl": "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s202/specs.html",
+      "corroborationNote": "The 100 W rating is conditional; IHF dynamic figures require separate verification",
       "wholeRecordCertified": false
     },
     {
@@ -3028,15 +3036,18 @@
       "categories": [
         "speaker"
       ],
-      "evidenceStatus": "source_not_independently_crosschecked",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [
         "SPEAKER_SENSITIVITY_UNKNOWN",
         "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
       ],
-      "verifiedFields": [],
-      "corroborationUrl": null,
-      "corroborationNote": null,
+      "verifiedFields": [
+        "Single HS5: 45 W LF + 25 W HF internal bi-amplification",
+        "74 Hz–24 kHz at -3 dB; 54 Hz–30 kHz at -10 dB"
+      ],
+      "corroborationUrl": "https://ca.yamaha.com/en/audio/music-audio-production/products/studio-monitors/hs-series/specs.html",
+      "corroborationNote": "Amplifier internal watts do not establish pair SPL at distance; no numeric headroom certification",
       "wholeRecordCertified": false
     },
     {
