@@ -8,6 +8,7 @@ const page=file('../system-builder/index.html');
 const app=file('../system-builder/app.mjs');
 const compact=file('../system-builder/compact-preview.css');
 const cmd=file('../PREVIEW_FULL_SITE_WINDOWS.cmd');
+const ps1=file('../PREVIEW_FULL_SITE_WINDOWS.ps1');
 
 test('complete-system mode shows listening distance beside other core questions',()=>{
  assert.ok(BUILDER_INTENTS.complete_system.fields.includes('useCase'));
