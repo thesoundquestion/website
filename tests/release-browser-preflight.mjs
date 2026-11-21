@@ -271,7 +271,31 @@ try {
   await page.locator('#sub-model').selectOption('');
   await page.locator('#sub-form button[type="submit"]').click();
   assert.match(await page.locator('#sub-verdict').innerText(),/Not enough verified information/);
+  await page.locator('#sub-source').selectOption('');
+  await page.locator('#sub-reported-output').selectOption('speaker');
+  await page.locator('#sub-reported-input').selectOption('line');
+  await page.locator('#sub-form button[type="submit"]').click();
+  assert.match(await page.locator('#sub-message').innerText(),/Do not connect directly/);
+  await page.locator('#sub-reported-output').selectOption('line');
+  await page.locator('#sub-reported-output-connector').selectOption('rca');
+  await page.locator('#sub-reported-input-connector').selectOption('rca');
+  await page.locator('#sub-form button[type="submit"]').click();
+  assert.match(await page.locator('#sub-verdict').innerText(),/Possible route, not verified/);
   await checkNoErrors(page,errors,device.name+' subwoofer connection checker');
+
+  // A user-entered SPL estimate for unlisted powered speakers must remain
+  // visibly unverified, even when it predicts sufficient output.
+  await visit(page,'/system-check/powered/');
+  await page.locator('#powered-model').selectOption('__manual__');
+  await page.locator('#powered-distance').fill('6');
+  await page.locator('#powered-manual-peak').fill('108');
+  await page.locator('#powered-manual-continuous').fill('94');
+  await page.locator('#powered-manual-reference').fill('1');
+  await page.locator('#powered-form button[type="submit"]').click();
+  assert.match(await page.locator('#powered-verdict').innerText(),/entered specifications/);
+  assert.doesNotMatch(await page.locator('#powered-verdict').innerText(),/^Yes\./);
+  assert.ok(await page.locator('#powered-source').isHidden());
+  await checkNoErrors(page,errors,device.name+' unlisted powered speaker estimate');
   outcomes.push(device.name+' powered acoustic output and 2.1 line-level/crossover checker handoffs');
   await checkNoErrors(page,errors,device.name+' Listening Builder');
   assert.equal(workerRequests,0,device.name+' smoke attempted live Worker API');
