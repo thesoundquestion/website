@@ -122,7 +122,31 @@ try {
   await checkNoErrors(page,errors,device.name+' Creating Builder to Compare');
   outcomes.push(device.name+' Creating Builder exact-model comparison handoff');
   await visit(page,'/system-builder/creating/');
+  await page.waitForFunction(()=>document.querySelector('#sb-purpose-status')?.textContent.includes('Ready to suggest'),
+    null,{timeout:20000});
+  for(const scenario of [
+    {goal:'vocal',type:'powered_studio_monitor',monitors:true},
+    {goal:'live',type:'powered_pa_speaker',monitors:false}
+  ]){
+    await page.locator('#sb-purpose-select').selectOption(scenario.goal);
+    if(scenario.monitors)await page.locator('#sb-include-monitors').check();
+    await page.locator('#sb-purpose-form button[type="submit"]').click();
+    await page.waitForFunction(()=>!document.querySelector('#sb-purpose-result')?.hidden,
+      null,{timeout:15000});
+    const routed=page.locator('#sb-purpose-result-body a[href^="/system-check/compare/?type='+scenario.type+'"]');
+    assert.ok(await routed.count()>0,device.name+' missing '+scenario.type+' checker link');
+    const target=new URL(await routed.first().getAttribute('href'),BASE);
+    assert.ok(target.searchParams.get('left'),'Missing exact '+scenario.type+' device ID');
+    await visit(page,target.pathname+target.search);
+    await page.waitForFunction(()=>!document.querySelector('#gc-expanded-results')?.hidden,
+      null,{timeout:20000});
+    assert.equal(await page.locator('#gc-expanded-left').inputValue(),target.searchParams.get('left'));
+    await visit(page,'/system-builder/creating/');
+    await page.waitForFunction(()=>document.querySelector('#sb-purpose-status')?.textContent.includes('Ready to suggest'),
+      null,{timeout:20000});
+  }
   await checkNoErrors(page,errors,device.name+' Creating Builder');
+  outcomes.push(device.name+' microphone, recording, studio and PA model-selected checker links');
 
   await visit(page,'/system-builder/');
   await page.locator('#sb-form button[type="submit"]').click();
