@@ -59,3 +59,66 @@ These distances are editorial planning examples, not measured population average
 - Site-relative comparisons do not assume a universal free-field correction. Outdoor sound falls approximately 6 dB per doubling of distance under ideal free-field conditions; audience coverage, noise, source size and actual conditions vary. Do not silently invent room gain.
 - Acceptance suite: `tests/system-builder-room-distance.test.mjs` and additional outdoor/party tests in `tests/listening-builder-headroom-handoff.test.mjs`.
 
+
+## Full-site preview loader and complete-system repair
+
+Date: 2026-11-20. Same review-only branch, not production.
+
+The local preview now uses **127.0.0.1:8877** (the older preview uses 8765).
+The Windows launcher refuses an occupied 8877 port, checks the expected Git
+branch and verifies the equipment and Builder files before opening a browser.
+A subtle visible build label in the Builder distinguishes this version from
+an older cached checkout.
+
+Confirmed issues and fixes:
+
+1. **Complete-system intent hid listening distance.** Its quick fields now include
+   `distanceFt`, following the selected room defaults or manual entry.
+2. **Half-width primary recommendation.** The original recommendations grid had
+   two equal columns even when it contained just one primary card; the
+   latest compact CSS gives the primary one full column and gives the alternatives
+   a separate narrower column on wide screens, stacking them on mobile.
+3. **Shared catalogue adapter discarded valid specs.** The new
+   `system-builder/shared-gear-adapter.mjs` preserves exact original profiles,
+   8/6-ohm continuous or burst amp-test rows, speaker loads, sensitivity references,
+   source voltage data and reviewed metadata, while retaining unknown values.
+4. **Async catalogue refresh could remove selected old-model options.**
+   It now preserves a selected model when still present in the source-verified
+   legacy, supplement or shared catalogue.
+5. **Silent catalogue failures.** The quick form now shows an explicit warning
+   if the canonical data file cannot load; the legacy fallback stays available.
+6. **Saved specs not inspectable from complete-system cards.** A compact
+   collapsed `Saved amplifier & speaker specifications` disclosure shows the
+   stored power ratings and speaker values, and identifies incomplete source
+   facts without fabricating measurements.
+7. **Embedded headroom status.** Keep the source-calculator iframe mounted
+   and visually tiny, not `display:none`, so the status can load.
+   The separate System Check link stays visible and prefilled.
+
+Concrete source-data distinctions:
+
+- Yamaha A-S301: original catalogue preserves five separately categorized
+  continuous/burst rating rows; 60 W/channel at 8 ohms continuous is present.
+- Polk Monitor XT15: nominal 8 ohms, minimum 4.1 ohms and published sensitivity
+  86 dB at 2.83 V/1 m are structured.
+- PSB Alpha P5: nominal/minimum impedance and recommended amp range are saved,
+  while source text states 87 dB anechoic / 89 dB in-room; the currently admitted
+  structured sensitivity basis remains unresolved, so a precise full-system
+  headroom result cannot be assumed without a validated basis.
+- Fosi Audio BT20A Pro with the specified 32 V/5 A supply: no equivalent,
+  qualifying continuous watts-per-channel test is saved. Its headline output
+  figure MUST NOT be silently used as continuous power.
+
+Verification: 16 source-level integration and syntax checks passed, and the
+seven shared-gear-adapter tests passed using the actual 197-record catalogue.
+The complete browser/mobile screenshot regression suite remains pending, and
+the preview branch must not be considered release ready until it passes.
+
+Files added: `system-builder/shared-gear-adapter.mjs`,
+`tests/system-builder-shared-specs.test.mjs`,
+`tests/system-builder-fullsite-preview.test.mjs`.
+
+For review, use a fresh checkout of
+`draft/magicpath-compact-full-site-20261120` and
+`PREVIEW_FULL_SITE_WINDOWS.cmd`; the local Builder opens at
+`http://127.0.0.1:8877/system-builder/`.
