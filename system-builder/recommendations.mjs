@@ -4,6 +4,7 @@ import {catalogHeadphoneExamples} from './headphone-options.mjs';
 import {compareExamplePriorities, examplePriceFor, explainExampleInteractions} from './decision-context.mjs';
 import {configureSubExample, requestedSubExamples} from './stereo-subwoofer-examples.mjs';
 import {passivePairingReadiness,passiveReadinessPriority} from './passive-evidence-readiness.mjs';
+import {screenRecommendationSafety} from './recommendation-safety-gate.mjs';
 
 const CA_PRICE_DATE = '2026-11-12';
 
@@ -218,6 +219,11 @@ export function shortlistExamples(input = {}, catalog = null) {
     if(configured.architecture==='passive_separates'&&!curatedPairing){
       excluded.push({title:configured.title,reason:
         'This exact passive amplifier/speaker combination has not passed the manufacturer-load specification check. It is not offered as a recommended new system.'});
+      continue;
+    }
+    const safety=screenRecommendationSafety({...configured,curatedPairing},input);
+    if(!safety.eligible){
+      excluded.push({title:configured.title,reason:safety.blockers.join(' ')});
       continue;
     }
     const headroomData=passivePairingReadiness(configured,catalog,curatedPairing);
