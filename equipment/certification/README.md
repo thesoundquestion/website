@@ -10,6 +10,14 @@ Do not require wholesale repetition of earlier source checks. First reconcile ea
 
 The automated 197-model scan identifies documentation gaps and prioritizes follow-up. Counts such as 100 missing structured connector mappings must never be reported as 100 unverified devices. Similarly, a field-level crosscheck from the later audit is additional evidence, not the first verification ever performed on that product.
 
+## Historical source reconciliation (2026-11-21)
+
+The machine-readable `historical-evidence-reconciliation.json` is the authoritative **migration provenance map** of existing work. Across 197 records it preserves 318 distinct stored evidence references (record/source appearances), with at least one dated reference on 160 devices and no explicit checked date on 37. It also identifies the 17 model-level curated connection overlays, 189 records with previously written review/technical notes, and the 13 models with additional field assertions introduced in this audit.
+
+**Do not confuse review date absence with absence of earlier checking.** All 37 undated items are amplifiers, and their records contain technical notes and original source links. In the initial gap scan, none of those 37 was separately flagged for missing comparable amp power. They form a **date/provenance-reconciliation queue**, not automatic engineering failure or a demand to remeasure every unit.
+
+For editing: (1) inspect this ledger and the source-master record; (2) reuse applicable saved manufacturer or independent evidence and historic unit/basis checks; (3) investigate only the field and application where conditions are absent or conflicting; (4) preserve source scope and uncertainty; (5) use new fingerprint-specific formal approval only when actual review has been documented. Never overwrite the historic baseline or reclassify all 197 as unresearched.
+
 ## Rules
 
 - The 197 existing records are **grandfathered, not certified**. Previous structural, mirror, generator and calculation regression tests continue to apply.
