@@ -26,13 +26,15 @@ test('2.1 budgets include a stereo pair and one powered sub in the selected curr
   }
 });
 
-test('a small budget can compare both a 2.1 setup and the stereo pair on its own', () => {
+test('strict small budget keeps the affordable stereo-only choice but excludes the costlier 2.1 bundle', () => {
   const result = select({region:'GB', currency:'GBP', budget:150});
-  assert.equal(result.selected[0].id,'stereo-sub-edifier');
-  assert.equal(result.selected[0].subtotal,268);
-  assert.equal(find(result,'powered-r1280dbs').subtotal,139);
-  assert.ok(!find(result,'powered-r1280dbs').bassSetup);
-  assert.ok(!result.excluded.some(item=>item.title==='Edifier R1280DBs + T5'));
+  assert.equal(result.selected[0].id,'powered-r1280dbs');
+  assert.equal(result.selected[0].subtotal,139);
+  assert.ok(!result.selected[0].bassSetup);
+  assert.ok(!find(result,'stereo-sub-edifier'));
+  assert.ok(result.excluded.some(item=>/strict budget/.test(item.reason)));
+  const flexible=select({region:'GB',currency:'GBP',budget:150,budgetStrict:false});
+  assert.equal(find(flexible,'stereo-sub-edifier').subtotal,268);
 });
 
 test('WiiM example prices local passive speakers, wire and sub lead for HDMI ARC', () => {
