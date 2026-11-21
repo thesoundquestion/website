@@ -198,6 +198,57 @@ try {
     null,{timeout:15000});
   await checkNoErrors(page,errors,device.name+' Builder to System Check');
   outcomes.push(device.name+' Builder to prefilled System Check loudness calculation');
+
+  // Source-qualified powered monitor: real recommended or catalogue model,
+  // exact distance/level/cabinet count and a completed acoustic calculation.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-form [name="architecture"]').selectOption('active_studio');
+  await page.locator('#sb-form [name="useCase"]').selectOption('desk');
+  await page.locator('#sb-form [name="distanceFt"]').fill('6');
+  await page.locator('#sb-form [name="level"]').selectOption('high');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,
+    null,{timeout:20000});
+  const poweredLink=page.locator('a[href^="/system-check/powered/?model=JBL+305P+MkII"]').first();
+  assert.ok(await poweredLink.count()>0,device.name+' JBL powered loudness checker missing');
+  const poweredTarget=new URL(await poweredLink.getAttribute('href'),BASE);
+  assert.equal(poweredTarget.searchParams.get('distance'),'6');
+  assert.equal(poweredTarget.searchParams.get('level'),'high');
+  await visit(page,poweredTarget.pathname+poweredTarget.search);
+  assert.equal(await page.locator('#powered-model').inputValue(),'JBL 305P MkII');
+  assert.equal(await page.locator('#powered-distance').inputValue(),'6');
+  assert.equal(await page.locator('#powered-level').inputValue(),'high');
+  assert.match(await page.locator('#powered-verdict').innerText(),/Yes\.|Probably\.|Not a reliable/);
+  assert.ok(await page.locator('#powered-technical').isVisible());
+  await page.locator('#powered-distance').fill('15');
+  await page.locator('#powered-form button[type="submit"]').click();
+  assert.match(await page.locator('#powered-verdict').innerText(),/Probably|Not a reliable/);
+  await checkNoErrors(page,errors,device.name+' powered loudness checker');
+
+  // A known 2.1 recommendation must open a preselected connection checker.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-form [name="architecture"]').selectOption('consumer_powered_pair');
+  await page.locator('#sb-form [name="useCase"]').selectOption('bedroom');
+  await page.locator('#sb-form [name="connection"]').selectOption('usb');
+  await page.locator('#sb-form [name="subMode"]').selectOption('plan_sub');
+  await page.locator('#sb-form [name="subOwned"]').selectOption('no');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,
+    null,{timeout:20000});
+  const subLink=page.locator('a[href^="/system-check/subwoofer/?source=Kanto+ORA"]').first();
+  assert.ok(await subLink.count()>0,device.name+' exact ORA subwoofer checker link missing');
+  const subTarget=new URL(await subLink.getAttribute('href'),BASE);
+  assert.equal(subTarget.searchParams.get('sub'),'Edifier T5');
+  await visit(page,subTarget.pathname+subTarget.search);
+  assert.equal(await page.locator('#sub-source').inputValue(),'Kanto ORA');
+  assert.equal(await page.locator('#sub-model').inputValue(),'Edifier T5');
+  assert.match(await page.locator('#sub-message').innerText(),/Yes\. These exact models/);
+  assert.match(await page.locator('#sub-mains').innerText(),/100 Hz/);
+  await page.locator('#sub-model').selectOption('');
+  await page.locator('#sub-form button[type="submit"]').click();
+  assert.match(await page.locator('#sub-verdict').innerText(),/Not enough verified information/);
+  await checkNoErrors(page,errors,device.name+' subwoofer connection checker');
+  outcomes.push(device.name+' powered acoustic output and 2.1 line-level/crossover checker handoffs');
   await checkNoErrors(page,errors,device.name+' Listening Builder');
   assert.equal(workerRequests,0,device.name+' smoke attempted live Worker API');
   outcomes.push(device.name+' Listening Builder equipment results');
