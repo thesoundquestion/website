@@ -38,7 +38,7 @@ export const EXAMPLES = Object.freeze([
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Edifier MR4 pair',amount:179.99,url:'https://ca.edifier.com/products/mr4'}]}
   },
   {
-    id:'powered-ora', architecture:'consumer_powered_pair', title:'Compact flexible desk: Kanto ORA stereo pair',
+    id:'powered-ora', architecture:'consumer_powered_pair', title:'Compact flexible desk: Kanto ORA stereo pair',soundTarget:'Kanto ORA',
     kind:'Complete powered pair (with a compatible source)', places:['desk','bedroom','living_room'], power:'mains',
     connections:['analog','usb','bluetooth'],goals:['all_rounder','imaging','natural','bass','low_volume'],
     parts:[{name:'Kanto ORA original powered stereo pair',count:1,role:'Pair with internal amplification, USB-C, RCA, Bluetooth and sub output',url:'https://kantoaudio.com/powered-speakers/ora/'}],
@@ -48,7 +48,7 @@ export const EXAMPLES = Object.freeze([
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Kanto ORA pair',amount:399.99,url:'https://www.crutchfield.ca/p_310ORABK/Kanto-ORA-Matte-Black.html'}]}
   },
   {
-    id:'studio-jbl', architecture:'active_studio', title:'Nearfield separates: two JBL 305P MkII monitors',
+    id:'studio-jbl', architecture:'active_studio', title:'Nearfield separates: two JBL 305P MkII monitors',soundTarget:'JBL 305P MkII',
     kind:'Two individual powered monitors', places:['desk','bedroom'], power:'mains',
     connections:['analog'],goals:['imaging','natural','all_rounder','dynamic'],
     parts:[{name:'JBL 305P MkII active monitor',count:2,role:'Order TWO individual loudspeakers; not a pre-packed stereo pair',url:'https://www.jbl.com/305PMKII-.html'},
