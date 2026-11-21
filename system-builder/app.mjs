@@ -1011,8 +1011,6 @@ document.addEventListener('DOMContentLoaded', () => {
           ?(data.qualifiedFit?'FIRST SUGGESTED SETUP':'CLOSEST RESEARCH LEAD')
           :'ANOTHER WAY TO LISTEN','sb-simple-eyebrow');
         addText(card,'h4',data.title,'sb-simple-title');
-        if(data.fitCaution)addText(card,'p',data.fitCaution,'sb-simple-fit-caution');
-        if(data.priceCaution)addText(card,'p',data.priceCaution,'sb-simple-price-caution');
         const sound=soundImpressionFor(item);
         if(sound?.text&&sound.sources?.some(x=>/^https:\/\//.test(x.url))){
           const listening=el('div','sb-simple-sound');
@@ -1024,6 +1022,8 @@ document.addEventListener('DOMContentLoaded', () => {
           listening.append(source);
           card.append(listening);
         }
+        if(data.fitCaution)addText(card,'p',data.fitCaution,'sb-simple-fit-caution');
+        if(data.priceCaution)addText(card,'p',data.priceCaution,'sb-simple-price-caution');
         const why=el('div','sb-simple-why');
         addText(why,'strong',top?'Why this setup fits':'Why consider this option');
         addText(why,'p',data.why);
