@@ -53,6 +53,21 @@ export function poweredListeningAssessment(evidence,request={}) {
  const targetAverage=targetPeak-15;
  const margin=continuous===null?peak-targetPeak:
    Math.min(continuous-targetAverage,peak-targetPeak);
+ if(evidence.evidenceType==='user_reported')return {
+  status:'reported_estimate',
+  estimatedPeakDb:Number(peak.toFixed(1)),
+  estimatedContinuousDb:continuous===null?null:Number(continuous.toFixed(1)),
+  targetPeakDb:targetPeak,targetAverageDb:targetAverage,marginDb:null,
+  text:margin>=0?'Your entered specifications suggest the selected level may be achievable at '+
+    distanceFt+' ft, but this is not a verified capability result.'
+    :'Your entered peak rating falls short of the selected listening target at '+distanceFt+
+    ' ft. Do not rely on this combination for that level.',
+  detail:'These were entered manually, not verified against manufacturer test conditions: '+
+    evidence.maxPeakDb+' dB peak'+(continuous===null?' with no known continuous rating':
+    ' and '+evidence.maxContinuousDb+' dB continuous')+
+    ' at '+evidence.referenceMeters+' m. Distance-only estimate; no independent measured SPL, distortion, compression, room response or safe exposure is established.',
+  source:null,evidenceType:'user_reported'
+ };
  if(continuous===null)return {
   status:'peak_only_uncertain',
   estimatedPeakDb:Number(peak.toFixed(1)),
