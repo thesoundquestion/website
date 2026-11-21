@@ -101,10 +101,11 @@ Concrete source-data distinctions:
   continuous/burst rating rows; 60 W/channel at 8 ohms continuous is present.
 - Polk Monitor XT15: nominal 8 ohms, minimum 4.1 ohms and published sensitivity
   86 dB at 2.83 V/1 m are structured.
-- PSB Alpha P5: nominal/minimum impedance and recommended amp range are saved,
-  while source text states 87 dB anechoic / 89 dB in-room; the currently admitted
-  structured sensitivity basis remains unresolved, so a precise full-system
-  headroom result cannot be assumed without a validated basis.
+- PSB Alpha P5: nominal 8 Ω, minimum 4 Ω, recommended amp 10–90 W,
+  now with manufacturer-datasheet-confirmed 87 dB anechoic sensitivity at
+  2.83 V/1 m (89 dB quoted as typical in-room). This resolves the previously
+  unresolved basis; the numeric signal is manufacturer-published, not an
+  independently measured clean-output limit.
 - Fosi Audio BT20A Pro with the specified 32 V/5 A supply: no equivalent,
   qualifying continuous watts-per-channel test is saved. Its headline output
   figure MUST NOT be silently used as continuous power.
@@ -122,3 +123,42 @@ For review, use a fresh checkout of
 `draft/magicpath-compact-full-site-20261120` and
 `PREVIEW_FULL_SITE_WINDOWS.cmd`; the local Builder opens at
 `http://127.0.0.1:8877/system-builder/`.
+
+## PSB Alpha P3/P5 shared-data repair (2026-11-20)
+
+**Root cause:** The Builder used PSB P3/P5 as canonical supplement records,
+but its previous sensitivity values had no admitted voltage/power basis.
+System Check's legacy speaker preset list also lacked both models, so a
+Builder-to-Checker handoff carried model names but filled no speaker specs.
+
+**Manufacturer verification:** Original PSB P3 and P5 datasheets define sensitivity
+as `1 W (2.83 V) at 1 m`, IEC-filtered pink noise, C-weighted. The anechoic
+figures are **P3: 85 dB** and **P5: 87 dB**; PSB also quotes 87 and 89 dB
+for a typical listening room. Both are 8 Ω nominal and 4 Ω minimum.
+The published 10–80 W / 10–90 W figures are *recommended amplifier ranges*,
+not continuous or peak speaker handling. The 60 W 'program' figure remains
+distinct and is not used as continuous handling.
+
+Sources:
+- P3: https://psbspeakers.in/wp-content/uploads/2024/01/Alpha-P3-Data-Sheet.pdf
+- P5: https://content-psbspeakers-com.s3.amazonaws.com/uploads/2021/03/PSB_Alpha_P5_DataSheet_Revised.pdf
+- PSB product: https://www.psbspeakers.com/products/alpha-p5-bookshelf
+
+**Changes made, all on the preview branch:**
+- Canonical `equipment/source-master.json`: admit verified exact-model sensitivity and voltage reference.
+- Deterministically regenerated `equipment/catalog.generated.json` and
+  `system-builder/catalog-supplements.generated.mjs`; price tier, classic,
+  and comparison projections remain unchanged by this amendment.
+- `system-check/verified-speaker-supplements.js`: register both exact PSB Alpha
+  models without duplicates; preserve separate amplifier power and speaker handling semantics.
+- `system-check/index.html`: version the verified preset script.
+- `system-builder/index.html` and `system-builder/app.mjs`: refresh
+  app version and fetch the new canonical JSON on this preview.
+
+**Validation:** In-process generator recomposition exactly reproduces the
+updated 197-model catalogue; the generated Builder supplements and regional
+price tiers match their deterministic expected outputs; System Check
+runtime models load P3/P5 once each with 85/87 dB anechoic voltage basis.
+The Yamaha A-S301 pairing has its 60 W at 8 Ω continuous source rating.
+Full Node and actual-browser acceptance still need a real execution pass.
+No Cloudflare deployment or production change.
