@@ -155,3 +155,20 @@ test('configuration helper never attaches WiiM crossover behavior to a different
   const full=configureSubExample(wiim,{...basic,subMode:'sub_full'});
   assert.match(full.bassSetup.setup,/Main Speakers Output Bass/);
 });
+
+test('an unidentified owned sub never inherits T5-specific connector or knob instructions',()=>{
+ const cases=[
+  [{speaker:{name:'Edifier R1280DBs'}},{...basic,connection:'optical'}],
+  [{speaker:{name:'Kanto ORA'}},{...basic,connection:'usb'}],
+  [{amp:{name:'WiiM Amp'}},{...basic,connection:'optical'}],
+  [{amp:{name:DENON_S650H_NAME}},{...basic,connection:'optical'}]
+ ];
+ for(const [own,request] of cases){
+   const route=ownedSubwooferPath(own,{...request,subOwned:'yes'});
+   assert.ok(route,'Expected documented amplifier/speaker sub output route');
+   assert.equal(route.buying,false);
+   assert.equal(route.ownedSubConnectionVerified,false);
+   assert.match(route.bassSetup.setup,/compatible line(-level)? (signal|sub input|line input)|compatible line-level sub input/);
+   assert.doesNotMatch(route.bassSetup.setup,/T5 Signal In|turn the T5|T5 cutoff|T5 knob/);
+ }
+});
