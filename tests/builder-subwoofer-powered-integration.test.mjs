@@ -78,7 +78,7 @@ test('only exact model acoustic evidence provides a powered SPL estimate and it 
  assert.equal(verdict.status,'estimated_suitable');
  assert.match(verdict.text,/^Yes\./);
  assert.equal(poweredEvidenceFor({title:'Unlisted powered model',parts:[]}),null);
- assert.equal(poweredEvidenceFor({title:'JBL 305P MkII alternative MkIII',parts:[]})?.model,'JBL 305P MkII');
+ assert.equal(poweredEvidenceFor({title:'JBL 305P MkII alternative MkIII',parts:[]}),null);
 });
 
 test('the full subwoofer and powered outputs use the same evaluators as their checker pages',()=>{
