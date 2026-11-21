@@ -168,7 +168,8 @@ test('an unidentified owned sub never inherits T5-specific connector or knob ins
    assert.ok(route,'Expected documented amplifier/speaker sub output route');
    assert.equal(route.buying,false);
    assert.equal(route.ownedSubConnectionVerified,false);
-   assert.match(route.bassSetup.setup,/compatible line(-level)? (signal|sub input|line input)|compatible line-level sub input/);
+   assert.match(route.bassSetup.setup,/line-level/);
+   assert.match(route.bassSetup.setup,/check|verify|confirm/i);
    assert.doesNotMatch(route.bassSetup.setup,/T5 Signal In|turn the T5|T5 cutoff|T5 knob/);
  }
 });
