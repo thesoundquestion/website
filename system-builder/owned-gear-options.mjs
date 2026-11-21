@@ -178,9 +178,8 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
     const screen=ampSpeakerScreening({name:idea.model,record});
     // Symmetric with the owned-amplifier speaker filter: a manufacturer
     // minimum nominal load cannot be satisfied by an unverified label.
-    if(!Number.isFinite(nominal)&&screen.explicitNominalFloor){
-      excluded.push({title:idea.model,reason:idea.model+' specifies at least '+
-        screen.explicitNominalFloor+' Ω nominal load. The owned speaker has no verified numeric nominal impedance, so this combination must not be recommended.'});
+    if(!Number.isFinite(nominal)){
+      excluded.push({title:idea.model,reason:'The owned speaker has no verified numeric nominal impedance. Pairing withheld until the speaker load is identified.'});
       continue;
     }
     if(Number.isFinite(nominal)&&nominal<screen.discoveryFloor){
@@ -211,9 +210,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       ],amplifierSource:rationale.source,
       amplifierFit:fit,amplifierFitRank:fit.sortValue,compactAmp:idea.compact===true,
       tradeoff:'Neither full reactive-load suitability nor complete new-system cost is verified.',
-      loadCaution:!Number.isFinite(nominal) ?
-        'Your '+speaker.name+' has no verified nominal impedance. Do not connect to '+idea.model+
-        ' until the actual load and amplifier manual permissions are confirmed.' : null,
+      loadCaution:null,
       parts,...prices,
       pricingStatus:prices.subtotal===null?'regional_price_missing':'partial_subtotal',
       priceEvidence:idea.model==='Fosi Audio BT20A Pro'?
@@ -315,14 +312,21 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
   }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&has(own.amp)){
     const first=existingPair(own,request);
-    const selected=[first];
+    // A known unsafe retained pair belongs in the excluded/compatibility
+    // section, never in the recommendations grid.
+    const selected=first.ownershipBlocker?[]:[first];
+    const excluded=first.ownershipBlocker ? [
+      {title:first.title,reason:first.ownershipBlocker}
+    ] : [];
     if(first.ownershipBlocker){
       const partial=shortlistAmpsForOwnedSpeakers({own,request,inventory});
-      if(partial.selected.length)selected.push(partial.selected[0]);
+      selected.push(...partial.selected.slice(0,2));
+      excluded.push(...partial.excluded);
       const byAmp=keepAmp(own,request,inventory);
-      if(byAmp.selected.length)selected.push(byAmp.selected[0]);
+      selected.push(...byAmp.selected.slice(0,2));
+      excluded.push(...byAmp.excluded);
     }
-    plan={selected,excluded:[],mode:'keep_both'};
+    plan={selected,excluded,mode:'keep_both'};
   }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&!has(own.amp))
     plan=shortlistAmpsForOwnedSpeakers({own,request,inventory});
@@ -333,7 +337,9 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
   else if(has(own.speaker)&&has(own.amp)) {
     const item=existingPair(own,request);
     item.pathwayCaution='This keeps your passive stereo system for a separate mains-powered listening route; it does not meet the selected '+arch+' / '+request.power+' requirement.';
-    plan={selected:[item],excluded:[],mode:'keep_separate_pair'};
+    plan=item.ownershipBlocker?
+      {selected:[],excluded:[{title:item.title,reason:item.ownershipBlocker}],mode:'keep_separate_pair'}:
+      {selected:[item],excluded:[],mode:'keep_separate_pair'};
   }
   else if(has(own.speaker)){
     const alt=shortlistAmpsForOwnedSpeakers({own,request,inventory});
