@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "checkedOn": "2026-11-21",
   "recordsTotal": 197,
-  "scope": "197-record machine-assisted evidence-gap audit with 10 selected source crosschecks. This is not whole-record certification.",
-  "fieldCorroborationCount": 10,
+  "scope": "197-record machine-assisted field coverage + 13 selected models independently crosschecked at specific source fields. This is not full record certification.",
+  "fieldCorroborationCount": 13,
   "wholeRecordCertifications": 0,
   "flagCounts": {
     "NO_COMPARABLE_AMP_RATING": 3,
@@ -21,15 +21,17 @@
       "categories": [
         "amp"
       ],
-      "evidenceStatus": "source_not_independently_crosschecked",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [
         "NO_COMPARABLE_AMP_RATING",
         "NO_STRUCTURED_CONNECTOR_MAPPING"
       ],
-      "verifiedFields": [],
-      "corroborationUrl": null,
-      "corroborationNote": null,
+      "verifiedFields": [
+        "300 W × 2 at 4 Ω is claimed maximum in stereo mode with 48 V/12 A supply; not continuous with ordinary bundled supplies"
+      ],
+      "corroborationUrl": "https://www.aiyima.com/products/aiyima-a07-max",
+      "corroborationNote": "Verified claim is limited to cited specifications; no independent full-record certification.",
       "wholeRecordCertified": false
     },
     {
@@ -3056,15 +3058,17 @@
       "categories": [
         "speaker"
       ],
-      "evidenceStatus": "source_not_independently_crosschecked",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [
         "SPEAKER_SENSITIVITY_UNKNOWN",
         "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
       ],
-      "verifiedFields": [],
-      "corroborationUrl": null,
-      "corroborationNote": null,
+      "verifiedFields": [
+        "95 W internal biamplification: 60 W LF and 35 W HF; not usable external amplifier headroom"
+      ],
+      "corroborationUrl": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "corroborationNote": "Verified claim is limited to cited specifications; no independent full-record certification.",
       "wholeRecordCertified": false
     },
     {
@@ -3073,15 +3077,17 @@
       "categories": [
         "speaker"
       ],
-      "evidenceStatus": "source_not_independently_crosschecked",
+      "evidenceStatus": "selected_fields_corroborated",
       "sourceLinks": 1,
       "flags": [
         "SPEAKER_SENSITIVITY_UNKNOWN",
         "SPEAKER_NOMINAL_IMPEDANCE_UNKNOWN"
       ],
-      "verifiedFields": [],
-      "corroborationUrl": null,
-      "corroborationNote": null,
+      "verifiedFields": [
+        "120 W internal biamplification: 75 W LF and 45 W HF; not usable external amplifier headroom"
+      ],
+      "corroborationUrl": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "corroborationNote": "Verified claim is limited to cited specifications; no independent full-record certification.",
       "wholeRecordCertified": false
     }
   ]
