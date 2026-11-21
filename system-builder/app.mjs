@@ -150,6 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if(previous && previous!==select.value)refreshGearSearch('speaker');
   }
   const state = document.getElementById('sb-inventory-state');
+  const catalogAlert=document.getElementById('sb-catalog-alert');
+  const showCatalogAlert=(message)=>{
+    if(!catalogAlert)return;
+    catalogAlert.textContent=message||'';
+    catalogAlert.hidden=!message;
+  };
   const result = document.getElementById('sb-results');
   const body = document.getElementById('sb-result-body');
   const goal = form.elements.namedItem('goal');
@@ -223,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       BUILDER_ONLY_AMPS.length+' additional amplifiers and receivers · '+POWERED_SUB_PAIRS.length+' powered pairs.';
   } else {
     state.textContent = 'The saved preset catalog did not load. Unlisted model inputs remain available; no specs will be assumed.';
+    showCatalogAlert('Saved equipment presets did not load. The Builder can still accept sourced manual specifications, but automatic matches may be incomplete.');
   }
   rememberSpeakerChoices();
 
@@ -746,8 +753,11 @@ document.addEventListener('DOMContentLoaded', () => {
       sharedCatalog=await loadEquipmentCatalog();
       try{priceSnapshot=await loadRegionalPriceTiers()}catch{priceSnapshot=null}
       reorderListeningPriceChoices();
-    }catch{
+      if(inventory)showCatalogAlert('');
+    }catch(error){
       state.textContent+=' Canonical catalogue unavailable; showing legacy fallback presets only. No missing facts are inferred.';
+      showCatalogAlert('The shared equipment catalogue could not load. Some saved models are unavailable; older verified presets remain available. Refresh the preview or check the local server.');
+      console.warn('[TSQ Builder] Canonical equipment catalogue load failed:',error);
     }
   }
   attachSharedInventory();
