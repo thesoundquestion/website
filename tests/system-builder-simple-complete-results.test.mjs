@@ -21,7 +21,7 @@ test('beginner bedroom imaging path shows JBL with its actual reason and listeni
  assert.match(view.title,/JBL 305P MkII/);
  assert.match(view.why,/bedroom|6 ft/);
  assert.match(view.why,/imaging and spaciousness/);
- assert.match(view.why,/two-monitor route/i);
+ assert.match(view.why,/left\/right stereo setup/i);
  assert.match(view.connection,/both powered monitors/);
  assert.deepEqual(view.parts[0],'2 × JBL 305P MkII active monitor');
  const sound=soundImpressionFor(choices[0]);
