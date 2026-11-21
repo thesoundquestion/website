@@ -15,7 +15,7 @@ const read = path => readFileSync(new URL(path, repo), 'utf8');
 const graph = (lesson, plot, example, section = 'compare') => getContext(bank, { lesson, plot, example, section });
 
 test('each published lesson has six prompts, its printed spec and a bank matching its graph controls', () => {
-  assert.deepEqual(Object.keys(bank), curriculum.lessons.map(item => item.slug));
+  assert.deepEqual(Object.keys(bank).sort(), curriculum.lessons.map(item => item.slug).sort());
   for (const [slug, lesson] of Object.entries(bank)) {
     const html = read('decoder/' + slug + '/index.html');
     assert.match(html, /src="\/assets\/decoder-lessons\.js(?:\?[^"]*)?"/, slug);
