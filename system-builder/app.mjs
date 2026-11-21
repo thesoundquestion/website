@@ -750,7 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   async function attachSharedInventory(){
     try{
-      sharedCatalog=await loadEquipmentCatalog();
+      sharedCatalog=await loadEquipmentCatalog({url:'/equipment/catalog.generated.json?v=psb-alpha-20261120'});
       try{priceSnapshot=await loadRegionalPriceTiers()}catch{priceSnapshot=null}
       reorderListeningPriceChoices();
       if(inventory)showCatalogAlert('');
