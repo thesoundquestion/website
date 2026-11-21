@@ -11,7 +11,9 @@ const categories={
   mixer_recorder:['Advertised mixer channels','USB recording mode','Documented outputs and connections'],
   microphone:['Microphone capsule / type','Pickup pattern','Documented microphone outputs'],
   headphone_amplifier:['Published output ratings','Documented source inputs','Documented headphone and line outputs'],
-  computer_sound_card:['Recording ADC','Documented sound-card inputs','Documented sound-card outputs']
+  computer_sound_card:['Recording ADC','Documented sound-card inputs','Documented sound-card outputs'],
+  powered_studio_monitor:['Speaker type','Built-in amplification'],
+  powered_pa_speaker:['Speaker type','Built-in amplification']
 };
 const expectedPitch="Ever wonder why one recording moves you, why two speakers sound different, or whether expensive equipment is worth it?";
 const devices=[
@@ -66,7 +68,7 @@ try {
 
   await visit(page,'/system-check/compare/?type=audio_interface');
   await page.waitForFunction(()=>!document.querySelector('#gc-expanded-results')?.hidden,{timeout:20000});
-  assert.equal(await page.locator('[data-kind]').count(),9);
+  assert.equal(await page.locator('[data-kind]').count(),11);
   assert.ok(await page.locator('#gc-expanded').isVisible());
   assert.ok(await page.locator('#gc-legacy').isHidden());
   for(const [kind,labels] of Object.entries(categories)){
@@ -94,7 +96,7 @@ try {
   assert.ok(await page.locator('#comparison').isVisible());
   assert.match(await page.locator('#comparison-rows').innerText(),/W\/ch|Power per channel|Input sensitivity/);
   await checkNoErrors(page,errors,device.name+' Compare My Gear');
-  outcomes.push(device.name+' nine gear types with source-backed connections and preserved amplifier comparison');
+  outcomes.push(device.name+' eleven gear types with source-backed connections and preserved amplifier comparison');
 
   await visit(page,'/system-builder/creating/');
   await page.waitForFunction(()=>document.querySelector('#sb-purpose-status')?.textContent.includes('Ready to suggest'),null,{timeout:20000});
