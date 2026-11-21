@@ -1038,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!top&&data.parts.length)addText(technical,'p','Includes: '+data.parts.join(' · '));
         if(data.tradeoff)addText(technical,'p',data.tradeoff);
         if(data.headroomStatus==='incomplete'&&data.headroomMissing.length)
-          addText(technical,'p','For a model-specific headroom estimate, we still need: '+
+          addText(technical,'p','For a verified continuous-power headroom result, we still need: '+
             data.headroomMissing.join('; ')+'.');
         if(data.subtotal!==null&&data.priceDate)
           addText(technical,'p','Dated listed-parts reference: '+
@@ -1393,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const details = el('details','sb-card-details');
       addText(details,'summary','Technical checks, trade-offs and sources');
       if(item.headroomData?.status==='incomplete'&&item.headroomData.missing?.length)
-        addText(details,'p','For a model-specific headroom estimate, the saved data still needs: '+
+        addText(details,'p','For verified continuous-power headroom, the saved data still needs: '+
           item.headroomData.missing.join('; ')+'.','sb-card-reference');
       if(item.why&&item.why!==reason)addText(details,'p',item.why,'sb-card-why-full');
       if (item.reuseNames?.length) {
