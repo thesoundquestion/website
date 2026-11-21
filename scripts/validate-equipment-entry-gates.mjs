@@ -10,7 +10,7 @@
  *        node scripts/validate-equipment-entry-gates.mjs --pending
  * Never rewrite the baseline to conceal an edit. Revalidate and update ledger.
  */
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname,resolve} from 'node:path';
 import {EXAMPLES} from '../system-builder/recommendations.mjs';
@@ -66,8 +66,27 @@ function reviewErrors(kind,id,entry,fingerprint,model){
   if(entry.releaseDecision==='accepted_verified'&&
       checklist.some(k=>entry.checks?.[k]==='unknown'))
     errs.push(tag+' cannot claim verified status with unresolved checks');
-  if(kind==='example'&&(!Array.isArray(entry.testedScenarios)||!entry.testedScenarios.length))
-    errs.push(tag+' must name at least one executable scenario test');
+  if(entry.checks?.identity!=='verified')
+    errs.push(tag+' exact identity/variant check must be verified, not omitted');
+  if(entry.checks?.outputAndRegression!=='verified')
+    errs.push(tag+' generated output and regression check must be verified');
+  if(entry.checks?.manufacturerSpecs==='not_applicable')
+    errs.push(tag+' product/model manufacturer evidence cannot be not_applicable');
+  if(kind==='example'){
+    if(entry.releaseDecision==='research_only')
+      errs.push(tag+' research-only concept cannot be admitted as a purchase example');
+    for(const check of ['signalRoles','loadsAndSafety','accessoriesAndSubRouting']){
+      if(entry.checks?.[check]==='not_applicable')
+        errs.push(tag+' ready-to-buy example must explicitly review '+check);
+    }
+    if(!Array.isArray(entry.testedScenarios)||!entry.testedScenarios.length)
+      errs.push(tag+' must name at least one executable scenario test');
+    else for(const path of entry.testedScenarios){
+      if(typeof path!=='string'||!/^tests\\/[a-z0-9/-]+\\.test\\.mjs$/.test(path)||
+         !existsSync(resolve(root,path)))
+        errs.push(tag+' scenario test path must name an existing tests/*.test.mjs file');
+    }
+  }
   return errs;
 }
 export function inspectEquipmentEntryGates({baseline:base,ledger:reviews,catalog:registry,examples}){
