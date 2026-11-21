@@ -126,3 +126,39 @@ test('owned-gear matrix never recommends a pair with a documented do-not-connect
  }
  assert.equal(tested,972);
 });
+
+test('budget, region, currency and aged prices never become invented complete-system costs',()=>{
+ let count=0;
+ for(const [region,currency] of [['CA','CAD'],['US','USD'],['GB','GBP'],['AU','AUD']])
+ for(const budget of [0,150,500,1200])
+ for(const budgetStrict of [true,false])
+ for(const architecture of ['open','consumer_powered_pair','active_studio','passive_separates'])
+ for(const connection of ['analog','usb','optical','hdmi'])
+ for(const referenceDate of ['2026-11-13','2026-12-13']){
+  const req={...basic,region,currency,budget,budgetStrict,architecture,connection,
+    referenceDate,goal:'all_rounder',useCase:'bedroom',distanceFt:6,level:'moderate'};
+  const result=shortlistExamples(req);
+  count++;
+  for(const item of result.selected){
+   assert.notEqual(item.safetyStatus,'blocked');
+   if(item.subtotal!==null&&item.subtotal!==undefined){
+     assert.equal(region,'CA','Unexpected regional conversion or invented asking amount');
+     assert.equal(currency,'CAD');
+     assert.equal(referenceDate,'2026-11-13','Expired reference must not remain priced');
+     assert.ok(item.priceComponents.length,'priced result missing component references');
+   }else{
+     assert.equal(item.priceDate,null,'dated but unpriced candidate '+item.id);
+   }
+   if(item.connectionStatus==='adapter_needed')
+     assert.ok(!item.priceComponents?.some(p=>/adapter/i.test(p.label)),
+       'Adapter must not silently be included in unrelated base product price');
+  }
+ }
+ assert.equal(count,4096);
+});
+test('visible card must disclose additional source adapter cost without an attention-grabbing warning',()=>{
+ const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+ assert.match(app,/Connection: an additional adapter or source device is needed \(not priced\)/);
+ assert.match(app,/preliminary\.selected\.filter/);
+ assert.doesNotMatch(app,/addText\(card,'p','Your chosen source connection needs extra hardware\./);
+});
