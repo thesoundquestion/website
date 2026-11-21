@@ -94,13 +94,14 @@ test('DAC, standalone amp and combo alternatives describe jobs not guaranteed so
   {id:'6',model:'FiiO Q11',type:'combo',label:'DAC \+ headphone amplifier'});
  assert.match(combo.change,/digital audio/);
 });
-test('every alternative and full replacement receives comparison on main results screen',()=>{
+test('alternatives display independent owner impressions on main results screen',()=>{
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
  const css=readFileSync(new URL('../system-builder/style.css',import.meta.url),'utf8');
  assert.match(app,/renderComparisonPreview\(shortlist\.selected\[0\],shortlist\.selected\.slice\(1\)/);
  assert.match(app,/renderComparisonPreview\(shortlist\.selected\[0\],alternativesList/);
  assert.match(app,/sb-comparison-preview-card/);
- assert.match(app,/compactAlternativeComparison\(baseline,item,request,sharedCatalog\)/);
+ assert.match(app,/What owners say:/);
+ assert.doesNotMatch(app,/How it may sound different:|No clear tonal direction is established/);
  assert.match(app,/compareElectronic\(baseline,device\)/);
  assert.match(app,/sb-sub-comparison-preview/);
  assert.match(css,/\.sb-comparison-overview/);
