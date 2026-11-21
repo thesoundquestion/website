@@ -73,15 +73,16 @@ test('sound is rendered before any why or connection note; checks are collapsed'
  assert.match(simple,/if\(data.important\)addText\(technical/);
  assert.match(simple,/el\('details','sb-simple-details'\)/);
 });
-test('powered JBL should never open passive amplifier headroom with only a distance',()=>{
+test('powered and passive systems now open their own model-aware System Check route',()=>{
  const start=app.indexOf('const renderSimpleCard=(item,top)=>');
  const finish=app.indexOf('panel.append(renderSimpleCard',start);
  const simple=app.slice(start,finish);
- assert.match(simple,/if\(item.architecture==='passive_separates'\)/);
- assert.match(simple,/if\(amplifier&&speakers\)/);
- assert.match(simple,/Check this exact system in System Check/);
+ assert.match(simple,/recommendationHeadroom\(item,request,sharedCatalog\)/);
+ assert.match(simple,/Headroom at /);
+ assert.match(simple,/link\(line,headroom.link/);
  assert.doesNotMatch(simple,/Open System Check\x27/);
 });
+
 test('the full site shows a compact layout with alternative listening impressions',()=>{
  assert.match(styles,/BEGIN SIMPLE SYSTEM EXPERIENCE/);
  assert.match(styles,/sb-simple-match-layout/);
