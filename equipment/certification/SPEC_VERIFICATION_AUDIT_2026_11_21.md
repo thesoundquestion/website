@@ -49,3 +49,13 @@ Avoid the false implication that a passing test or attached source URL proves th
 Every release and preview must run the certification fingerprint gate. Editors must update the master, generate projections, inspect the changed model evidence and add a fingerprint-specific approval. The evidence-gap report is a triage record with deliberately distinct statuses: `source_not_independently_crosschecked` versus `selected_fields_corroborated`. Full `certified` remains **zero** pending all applicable checks.
 
 No Cloudflare build or deployment authorized or triggered.
+
+## 2026-11-21 recommendation-logic interpretation corrections
+
+This pass examined *consumer code* rather than rechecking source records:
+
+1. `system-builder/engine.mjs` previously treated an **IHF burst rating at the nominal speaker impedance** as any matching output rating. It now specifically requires a continuous rating for that statement. A burst-only match produces an explicit sustained-headroom warning.
+2. `system-builder/owned-gear-options.mjs` previously returned `ratingWatts` as the first available continuous output, even when **the rated impedance differed** from the owned speaker. It now sets that same-load value to `null` unless an exact-load rating exists; separate `otherLoadReferenceWatts/Ohms` preserves context, clearly labelled different-load data. The dynamic-impact rationale also refuses to suggest this represents a usable headroom figure without an exact-load rating.
+3. New `tests/system-builder-rating-interpretation.test.mjs` checks burst-only, other-load, exact-load and unknown-output routes. Existing site and catalogue tests remain mandatory.
+
+**Limitations:** A matching nominal impedance and published continuous power still do not prove permitted reactive-load operation, clean real-room output or safe speaker pairing. This change intentionally does not modify power ratings, estimate maximum SPL for powered monitors or assert that a particular combination is safe. Recheck high-traffic Builder outputs against the exact published page before release.
