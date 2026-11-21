@@ -453,6 +453,10 @@ document.addEventListener('DOMContentLoaded', () => {
       card.append(head);
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
+      // A missing requested source connection is a practical buying detail,
+      // not an electrical hazard. Do not bury that extra cost in the dropdown.
+      if (item.connectionStatus === 'adapter_needed')
+        addText(card,'p','Connection: an additional adapter or source device is needed (not priced).','sb-card-minor');
       if (item.bassSetup)
         addText(card,'p',item.bassSetup.label,'sb-card-minor');
       else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
