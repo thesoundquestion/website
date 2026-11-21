@@ -28,12 +28,12 @@ test('quoted JBL monitor price is for two separate cabinets',()=>{
   assert.equal(j.priceComponents[0].quantity,2);
   assert.ok(j.parts.some(p=>p.count===2));
 });
-test('a past subtotal above a firm ceiling does not block a system',()=>{
+test('a known above-budget subtotal is excluded from strict purchase recommendations',()=>{
   const x=shortlistExamples({...defaults,architecture:'passive_separates',budget:400});
-  const starter=x.selected.find(x=>x.id==='passive-bt20a-xt15');
-  assert.equal(starter.subtotal,438.99);
-  assert.equal(starter.priceDate,'2026-11-13');
-  assert.ok(!x.excluded.some(x=>/budget/.test(x.reason)));
+  assert.ok(!x.selected.some(x=>x.id==='passive-bt20a-xt15'));
+  assert.ok(x.excluded.some(x=>/strict budget/.test(x.reason)));
+  const comparison=shortlistExamples({...defaults,architecture:'passive_separates',budget:400,budgetStrict:false});
+  assert.equal(comparison.selected.find(x=>x.id==='passive-bt20a-xt15').subtotal,438.99);
 });
 test('flexible budget can show examples with a higher dated parts reference',()=>{
   const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',budget:100,budgetStrict:false,useCase:'desk'});
