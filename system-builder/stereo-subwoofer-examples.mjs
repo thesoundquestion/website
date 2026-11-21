@@ -233,7 +233,7 @@ export function ownedSubwooferPath(own, request) {
       route.retained===edifier.model ?
         'The speaker supplies a line-level Sub Out; check whether your sub accepts the matching line-level signal and connector. Edifier does not specify the mains crossover frequency. Adjust the actual sub controls only after identifying its model.' :
       route.retained===ora.model ?
-        'The original ORA provides a line-level Sub Out and a documented automatic 100 Hz main-speaker crossover. Verify your sub has a compatible line input and adjust its actual low-pass controls appropriately; do not assume an Edifier T5 knob arrangement.' :
+        'The original ORA provides a line-level Sub Out and a documented automatic 100 Hz main-speaker crossover. Verify your sub has a compatible line input and adjust its actual low-pass controls appropriately; the controls and crossover range vary by subwoofer model.' :
       route.retained===DENON_S650H_NAME ?
         'On the North American Denon select Subwoofer Yes, Front Small and a suitable crossover. Connect its Subwoofer Pre Out only to a verified compatible line-level sub input. Confirm the actual sub controls and any bypass option.' :
         'In WiiM Home enable the sub and set the selected main-bass and crossover options. Connect WiiM Sub Out to a verified compatible line-level sub input. Confirm the actual subwoofer low-pass/bypass controls; do not assume T5 hardware.'
