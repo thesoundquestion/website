@@ -221,6 +221,16 @@ export function shortlistExamples(input = {}, catalog = null) {
       continue;
     }
     const prices = examplePriceFor(product, input);
+    // A known, current listed-parts subtotal already above a visitor's
+    // explicitly strict budget cannot be a ready-to-buy recommendation.
+    // Unknown or expired prices remain unknown and need verification; they
+    // are not treated as zero or silently certified affordable.
+    if(strict && budget!==null && Number.isFinite(prices.subtotal) && prices.subtotal>budget){
+      excluded.push({title:product.title,reason:
+        'Known listed-parts subtotal exceeds the selected strict budget. '+
+        'Check prices again or change the budget before considering this example.'});
+      continue;
+    }
     const configured=configureSubExample(product, input);
     const curatedPairing=curatedPairingFor(configured);
     // A prebuilt passive system must name an amp/speaker pairing that the
