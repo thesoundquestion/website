@@ -8,6 +8,7 @@ const form=document.getElementById('sc-provisional-form');
 const result=document.getElementById('sc-provisional-result');
 const scenario=OUTPUT_SCENARIOS[query.get('scenario')]||null;
 if(panel&&form&&result&&scenario){
+  (async()=>{
   panel.hidden=false;
   document.body.classList.add('sc-provisional-mode');
   const intro=document.querySelector('.sc > .lead');
@@ -91,4 +92,5 @@ if(panel&&form&&result&&scenario){
   for(const key of ['distanceFt','average','gap'])
     get(key).addEventListener('change',update);
   update();
+  })().catch(err=>console.warn('[System Check] Provisional mode failed:',err));
 }
