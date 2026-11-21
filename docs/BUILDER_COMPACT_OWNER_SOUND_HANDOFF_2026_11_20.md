@@ -235,3 +235,73 @@ and CSS structure passed. Full cross-browser and visual QA are still
 required before production promotion. Existing complex owned-equipment
 and deliberate subwoofer flows retain their established detailed logic.
 No published site or Cloudflare deployment changed.
+
+## Powered speaker acoustic headroom (21 November 2026)
+
+**Root issue:** The simple complete-system view previously showed a System Check
+handoff for the passive Yamaha/PSB option, but none for the JBL or Kanto powered
+systems. The detailed normal results also treated System Check as if only an
+external amplifier and passive speaker could have headroom.
+
+**Current approach:** A powered speaker's actual amplified loudspeaker and
+internal limiter require an **acoustic max-SPL reference**, not its internal
+amplifier output watts. A documented continuous or peak acoustic SPL at a known
+distance can be projected to the listening seat with simplified free-field
+distance scaling. Do **not** count speculative room gain or a 3/6 dB stereo
+bonus. Distances closer than the measured reference earn no gain. Such
+manufacturer output values are not guaranteed clean SPL; a published peak with
+10% THD permitted at limiter engagement is particularly not a clean reference.
+
+- `system-check/powered-headroom-model.mjs`: central verified-source SPL
+  references plus the shared pure distance-projection function and powered
+  checker URL generator.
+- `system-builder/recommendation-headroom.mjs`: one brief headroom summary
+  used across primary and alternative result cards for powered and passive
+  setups. For passive, it uses the exact amp continuous wattage at the published
+  speaker nominal impedance and a known sensitivity reference; it remains a
+  one-speaker ideal estimate, not measured clean output.
+- `system-check/powered-check.mjs`, `system-check/index.html`,
+  `system-check/style.css`: a compact, dedicated powered-speaker mode inside
+  the original System Check, prefilled from the Builder and with editable
+  distance / average / peak inputs. The existing passive calculator remains
+  available through a separate link.
+- Builder's `simple-system` cards all show headroom, with their actual model
+  handoff links. Standard main and alternative cards include powered output
+  where applicable. Non-speaker equipment is not given a fake speaker-headroom
+  result.
+- Source specifics:
+  * JBL 305P MkII: 94 dB max continuous and 108 dB max peak, published by JBL.
+    The 1m reference is an **assumption for this projection** because the
+    SPL values were not presented with an explicit measurement distance on
+    the cited specification block. JBL permits limiter operation and high
+    distortion at its maximum-output criterion. Manufacturer:
+    https://jblpro.com/en-US/products/305p-mkii.html
+  * Kali LP-6 V2 (2nd Wave): 115 dB peak at 1m. Its separate recommended
+    listening distance is up to 2.5m with 85dB continuous and 20dB dynamic
+    margin. The model caps its peak projection to the **less optimistic**
+    of these two manufacturer benchmarks. Manufacturer:
+    https://www.kaliaudio.com/lone-pine-studio-monitors
+  * Kanto ORA **original**, not ORA4: manufacturer publishes 50W combined RMS,
+    but no directly comparable acoustic max SPL. Do **not** extrapolate clean
+    acoustic SPL from this electrical number. Manufacturer:
+    https://kantoaudio.com/en-ca/products/ora
+  * Edifier MR4: no qualifying max-SPL acoustic benchmark admitted. Numeric
+    margin stays unknown, but System Check explains the missing evidence.
+
+For bedroom 6ft, quiet 65dB average / 80dB musical peak planning:
+- JBL approximate single-speaker output-bound margins: +24dB continuous /
+  +23dB peak. Not a clean-SPL guarantee.
+- Kali lower of the published benchmarks: +20dB continuous / +25dB peak.
+- Yamaha A-S301 and PSB Alpha P5 simple 1-speaker electrical/sensitivity
+  reference: +20dB peak margin, ideal conditions, not a clipping proof.
+- Kanto ORA: no valid numeric margin. Its 50W RMS pair rating is not silently
+  converted into a sensitivity or max acoustic level.
+
+**Tests:** `tests/system-builder-powered-headroom.test.mjs` covers JBL/Kali
+numeric projections, Kanto refusal-to-guess, passive reference, native powered
+links, data/DOM hookups, input validity, and a no-stereo-gain boundary.
+Ten targeted tests passed in an in-memory JavaScript harness; full Node suite
+and real browser/mobile layout validation remain outstanding.
+
+Review-only branch: `draft/magicpath-compact-full-site-20261120`.
+No production merge, Cloudflare deployment, or paid API.
