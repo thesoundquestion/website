@@ -719,8 +719,8 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(panel,'summary',summary);
       addText(panel,'p',route.bassSetup.label);
       addText(panel,'p',route.buying ? 'The example uses an Edifier T5. Check whether you need a separate connection cable.' :
-        route.wantsOwnedSub ? 'Keep your subwoofer if it accepts the right connection. The T5 wiring below is an example.' :
-        'Confirm whether your sub can be reused. The T5 wiring below is an example.');
+        route.wantsOwnedSub ? 'Your subwoofer model and its signal inputs have not been verified. Follow the receiver or speaker output setup below only after confirming the sub accepts that line-level signal; do not copy another subwoofer’s knobs or wiring.' :
+        'Your subwoofer model is unspecified. Confirm its line-level inputs and actual low-pass controls before assuming this route will work.');
       if (route.needsMainSpeakers) addText(panel,'p','Price the passive stereo pair and speaker wire separately.');
       addText(panel,'p',route.bassSetup.setup);
       link(panel,route.bassSetup.source,'Manufacturer bass-routing instructions');
