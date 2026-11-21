@@ -139,7 +139,7 @@ try {
    assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Paradigm Phantom v1');
    assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-S301');
    assert.equal(await page.locator('[name="distance"]').inputValue(),'9');
-   assert.equal(await page.locator('[name="average"]').inputValue(),'80');
+   assert.equal(await page.locator('#check [name="average"]').inputValue(),'80');
    assert.equal(await page.locator('[name="peak"]').inputValue(),'95');
    assert.ok(await page.locator('body.sc-embedded.sc-auto-result').count()===1);
    assert.ok(await page.locator('.sc-inputs').isHidden());
@@ -207,7 +207,7 @@ try {
    assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Paradigm Phantom v1');
    assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-S301');
    assert.equal(await page.locator('#ratings [data-watts]').first().inputValue(),beforePower);
-   assert.equal(await page.locator('[name="average"]').inputValue(),'87');
+   assert.equal(await page.locator('#check [name="average"]').inputValue(),'87');
    await checkNoErrors(page,errors,device.name+' lesson example retains selected models');
    outcomes.push(device.name+' lesson example preserves exact model pair and published ratings');
 
