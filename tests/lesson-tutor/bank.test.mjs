@@ -42,7 +42,10 @@ test('each published lesson has six prompts, its printed spec and a bank matchin
       }
       assert.ok(plot.referenceCases.every(caseId => Object.hasOwn(plot.examples, caseId)), id);
     }
-    for (const section of lesson.sections) assert.ok(html.includes('id="' + section + '"'), slug + '#' + section);
+    for (const section of lesson.sections){
+      if(section==='next') assert.match(html,/<nav class="dl-continue container"[^>]*aria-label="Continue learning"/,slug+' continuation nav');
+      else assert.ok(html.includes('id="' + section + '"'),slug+'#'+section);
+    }
     for (const link of lesson.relatedLinks) {
       assert.ok(isLessonLink(link), link);
       const [path, hash] = link.split('#');
