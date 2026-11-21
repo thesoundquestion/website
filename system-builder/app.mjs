@@ -1139,6 +1139,44 @@ document.addEventListener('DOMContentLoaded', () => {
         amplifierModel:item.amplifierModel||item.curatedPairing?.amplifierModel,
         speakerModel:item.speakerModel||item.curatedPairing?.speakerModel
       };
+      if(headroomModels.amplifierModel&&headroomModels.speakerModel&&!detailOnly){
+        // Original saved measurements are inspectable without duplicating the
+        // calculator in the recommendation surface.
+        const saved=(kind,model)=>{
+          const original=(inventory?.[kind]||[]).find(x=>x.model===model);
+          if(original)return original;
+          const supplement=kind==='speaker'?builderOnlySpeakerFor(model):
+            kind==='amp'?builderOnlyAmpFor(model):null;
+          if(supplement)return supplement;
+          const shared=availableShared(kind).find(x=>x.model===model||x.aliases?.includes(model));
+          return shared?sharedGearAsLegacyView(shared,kind):null;
+        };
+        const amp=saved('amp',headroomModels.amplifierModel);
+        const speaker=saved('speaker',headroomModels.speakerModel);
+        const specs=el('details','sb-saved-pair-specs');
+        addText(specs,'summary','Saved amplifier & speaker specifications');
+        const ampContinuous=amp?.ratings?.find(r=>r[2]==='continuous'&&
+          Number.isFinite(r[0])&&Number.isFinite(r[1]));
+        addText(specs,'p',headroomModels.amplifierModel+': '+
+          (ampContinuous?ampContinuous[0]+' W/channel continuous into '+ampContinuous[1]+' Ω'+
+            (ampContinuous[3]?' ('+ampContinuous[3]+')':'')
+            :'No comparable continuous power measurement recorded for this exact model.'));
+        const speakerValues=speaker?.values||{};
+        const hasSensitivity=Number.isFinite(speakerValues.sensitivity)&&
+          ['power','voltage'].includes(speakerValues.basis);
+        const speakerFacts=[
+          Number.isFinite(speakerValues.load)?speakerValues.load+' Ω nominal':null,
+          Number.isFinite(speakerValues.minimum)?speakerValues.minimum+' Ω minimum':null,
+          hasSensitivity?speakerValues.sensitivity+' dB ('+
+            (speakerValues.basis==='power'?'1 W':'2.83 V')+' at 1 m)':null
+        ].filter(Boolean);
+        addText(specs,'p',headroomModels.speakerModel+': '+
+          (speakerFacts.length?speakerFacts.join(' · '):'No numeric speaker specifications saved')+
+          (hasSensitivity?'':'. Sensitivity reference not established for a model-specific headroom calculation.'));
+        if(amp?.url)link(specs,amp.url,'Amplifier specification source');
+        if(speaker?.url)link(specs,speaker.url,'Speaker specification source');
+        card.append(specs);
+      }
       if(headroomModels.amplifierModel&&headroomModels.speakerModel){
         // Only a short, real calculation verdict belongs in the first view.
         // The original System Check calculation remains unmodified below.
