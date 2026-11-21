@@ -16,6 +16,17 @@
 <label>Amplifier or powered speakers <select id="sub-source" name="source"></select></label>
 <label>Subwoofer <select id="sub-model" name="sub"></select></label>
 <label>Main-speaker bass setting <select id="sub-mode" name="mode"><option value="default">Normal / filtered when available</option><option value="full">Keep main speakers full-range</option></select></label>
+<details id="sub-manual" class="sc-details"><summary>My model is not listed: describe its documented connections</summary>
+<p>Use specifications from both manuals. These entries can identify an unsuitable connection, but they cannot certify arbitrary hardware as electrically safe.</p>
+<label>Amplifier or speaker subwoofer output type
+<select id="sub-reported-output"><option value="">Unknown</option><option value="line">Line-level / Sub Out</option><option value="speaker">Speaker-level / amplified terminals</option></select></label>
+<label>Subwoofer input type
+<select id="sub-reported-input"><option value="">Unknown</option><option value="line">Line-level / LFE input</option><option value="speaker">Speaker-level / high-level input</option></select></label>
+<label>Output connector
+<select id="sub-reported-output-connector"><option value="">Unknown</option><option value="rca">RCA</option><option value="3.5mm">3.5 mm</option><option value="speaker_terminals">Speaker terminals</option></select></label>
+<label>Input connector
+<select id="sub-reported-input-connector"><option value="">Unknown</option><option value="rca">RCA</option><option value="3.5mm">3.5 mm</option><option value="speaker_terminals">Speaker terminals</option></select></label>
+</details>
 <button class="button button-primary" type="submit">Check this connection</button>
 </fieldset></form>
 <section id="sub-result" class="sc-results" aria-live="polite">
