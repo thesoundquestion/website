@@ -974,7 +974,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Do not render the large technical/audit card tree on this simple path.
     if(request.buildIntent==='complete_system'&&!anyOwned&&bassMode==='no_sub'){
       shop.classList.add('sb-simple-system-results');
-      const chosen=shortlist.selected.slice(0,4);
+      const [leader,...remaining]=shortlist.selected;
+      const reviewedOptions=remaining.filter(item=>{
+        const impression=soundImpressionFor(item);
+        return impression?.text&&impression.sources?.some(x=>/^https:\/\//.test(x.url));
+      }).slice(0,3);
+      const chosen=leader?[leader,...reviewedOptions]:[];
       if(!chosen.length){
         addText(shop,'p','No complete example fits these selections yet. Try another system approach.','sb-simple-empty');
         return;
