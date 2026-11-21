@@ -19,6 +19,8 @@ $required = @(
   'index.html',
   'system-builder/index.html',
   'system-builder/app.mjs',
+  'system-builder/simple-system-summary.mjs',
+  'system-builder/tonal-impressions.mjs',
   'system-builder/passive-evidence-readiness.mjs',
   'system-builder/shared-gear-adapter.mjs',
   'system-builder/compact-preview.css',
