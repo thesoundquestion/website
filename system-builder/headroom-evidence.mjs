@@ -34,7 +34,7 @@ export function headroomEvidence(item={},request={}) {
       status:exact?'passive_exact_load_power_only':'passive_output_unverified',
       text:context+(exact ?
         'published continuous amplifier output of '+fit.watts+' W/channel at '+fit.ohms+' Ω is available as one input, but clean peaks at the seat are not yet calculated or verified.' :
-        'numerical headroom is not established from an exact-load continuous amplifier rating and a properly referenced speaker sensitivity.'),
+        'numerical headroom remains unknown until the required exact-load amplifier output, speaker sensitivity basis, distance and peak target are established.'),
       detail:'System Check can estimate passive-speaker power demand with verified sensitivity, load, distance and musical peaks. A matching rated load is not a speaker safety certificate.'+(bass?' '+bass:''),
       link:'/system-check/'
     };
