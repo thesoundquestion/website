@@ -29,12 +29,12 @@ export function explainSimpleSystem(item={},request={},isFirst=false){
     ?' at '+request.distanceFt+' ft':'';
   const fitsGoal=Array.isArray(item.goals)&&item.goals.includes(request.goal);
   const fitsRoom=Array.isArray(item.places)&&item.places.includes(request.useCase);
-  const place=fitsRoom?room+' listening'+distance:'a different system approach';
+  const place=fitsRoom?'your '+room+(distance?' at around '+request.distanceFt+' ft':''):'a different listening setup';
   const context=isFirst
-    ?(fitsGoal?'This is the first example for '+focus+' in '+place+'. '
-      :'This is one option to explore for '+place+'. ')
-    :(fitsGoal?'Also listed for '+focus+' in '+place+'. '
-      :'Another system approach for '+place+'. ');
+    ?(fitsGoal?'This leads the example shortlist for '+focus+' in '+place+'. '
+      :'This is a system option worth exploring for '+place+'. ')
+    :(fitsGoal?'Another option suited to '+focus+' in '+place+'. '
+      :'A different way to build a system for '+place+'. ');
   const reason=String(item.why||'').trim();
   const why=context+(reason||'It is a system idea, not an exact performance match.');
   const connection={
