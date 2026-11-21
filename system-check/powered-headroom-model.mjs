@@ -20,7 +20,7 @@ export const POWERED_OUTPUT_EVIDENCE=Object.freeze({
       loud:'A clean high-volume ceiling at your seat is unverified from these published maximum-output figures.',
       far:'JBL’s maximum SPL specification lacks an explicit distance reference, so far-seat output cannot be projected.',
       evidence:'The JBL 305P MkII manufacturer sell sheet lists 94 dB continuous and 108 dB peak (C-weighted), along with a maximum-output distortion criterion. Neither maximum is accompanied by a measurement distance in that sheet.',
-      reviewUrl:'https://jblpro.com/en/site_elements/305p-mkii-sell-sheet'}
+      reviewUrl:null}
   },
   'Kali LP-6 V2':{
     model:'Kali LP-6 V2',unit:'single powered studio monitor (2nd Wave)',
