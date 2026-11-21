@@ -710,6 +710,23 @@ document.addEventListener('DOMContentLoaded', () => {
           select.append(group);
         }
       }
+      if(previous&&![...select.options].some(item=>item.value===previous)){
+        // The canonical price/category menu may omit legacy supplements.
+        // Do not erase a still-verified model selected before async loading.
+        const stillKnown=(inventory?.[kind]||[]).some(x=>x.model===previous)||
+          availableShared(kind).some(x=>x.model===previous||x.aliases?.includes(previous))||
+          (kind==='speaker'&&Boolean(builderOnlySpeakerFor(previous)||poweredSubPairFor(previous)))||
+          (kind==='headphone'&&Boolean(builderOnlyHeadphoneFor(previous)))||
+          (kind==='amp'&&Boolean(builderOnlyAmpFor(previous)));
+        if(stillKnown){
+          const group=el('optgroup');
+          group.label='Your selected sourced model';
+          const savedOption=el('option','',previous);
+          savedOption.value=previous;
+          group.append(savedOption);
+          select.append(group);
+        }
+      }
       if([...select.options].some(item=>item.value===previous))select.value=previous;
       else select.value='';
     }
