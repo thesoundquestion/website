@@ -1020,13 +1020,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Powered speakers use published acoustic output rather than
         // treating their internal amplifier watts as external power ratings.
         const headroom=recommendationHeadroom(item,request,sharedCatalog);
-        const line=el('div','sb-simple-checker');
-        addText(line,'strong','Headroom at '+headroom.target.distanceFt+' ft',
-          'sb-simple-headroom-title');
-        addText(line,'span',headroom.summary,'sb-simple-headroom');
-        if(headroom.link)
-          link(line,headroom.link,headroom.linkText||'Explore System Check');
-        card.append(line);
+        if(headroom.kind!=='other'){
+          const line=el('div','sb-simple-checker');
+          addText(line,'strong','Headroom at '+headroom.target.distanceFt+' ft',
+            'sb-simple-headroom-title');
+          addText(line,'span',headroom.summary,'sb-simple-headroom');
+          if(headroom.link)
+            link(line,headroom.link,headroom.linkText||'Explore System Check');
+          card.append(line);
+        }
         const technical=el('details','sb-simple-details');
         addText(technical,'summary','Connection details, headroom basis and sources');
         if(headroom.basis)addText(technical,'p',headroom.basis);
@@ -1497,13 +1499,15 @@ document.addEventListener('DOMContentLoaded', () => {
           note.append(profile);
         }
         const headroom=recommendationHeadroom(item,request,sharedCatalog);
-        const hrow=el('div','sb-alt-headroom');
-        addText(hrow,'strong','Headroom at '+headroom.target.distanceFt+' ft');
-        addText(hrow,'span',headroom.summary);
-        if(headroom.link)
-          link(hrow,headroom.link,
-            headroom.kind==='powered'?'Powered System Check':'View System Check');
-        note.append(hrow);
+        if(headroom.kind!=='other'){
+          const hrow=el('div','sb-alt-headroom');
+          addText(hrow,'strong','Headroom at '+headroom.target.distanceFt+' ft');
+          addText(hrow,'span',headroom.summary);
+          if(headroom.link)
+            link(hrow,headroom.link,
+              headroom.kind==='powered'?'Powered System Check':'View System Check');
+          note.append(hrow);
+        }
         if(item.why){
           const fit=el('details','sb-comparison-fit');
           addText(fit,'summary','Why this option fits');
