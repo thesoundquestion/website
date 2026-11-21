@@ -100,7 +100,7 @@ test('alternatives display independent owner impressions on main results screen'
  assert.match(app,/renderComparisonPreview\(shortlist\.selected\[0\],shortlist\.selected\.slice\(1\)/);
  assert.match(app,/renderComparisonPreview\(shortlist\.selected\[0\],alternativesList/);
  assert.match(app,/sb-comparison-preview-card/);
- assert.match(app,/What owners say:/);
+ assert.match(app,/How listeners describe the sound/);
  assert.doesNotMatch(app,/How it may sound different:|No clear tonal direction is established/);
  assert.match(app,/compareElectronic\(baseline,device\)/);
  assert.match(app,/sb-sub-comparison-preview/);
