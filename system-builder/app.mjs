@@ -1089,7 +1089,24 @@ document.addEventListener('DOMContentLoaded', () => {
         card.append(selectedElectronics);
       }
       const overview=explainBeginnerOption(item,request);
-      addText(card,'p',overview.status,'sb-beginner-status sb-beginner-'+overview.priority);
+      // An approved speaker load is not sufficient evidence for a clean
+      // output recommendation. Keep the result honest about data coverage.
+      const evidenceState=item.headroomData?.status;
+      const visibleStatus=(item.architecture==='passive_separates'&&
+          evidenceState==='incomplete')
+        ?'Speaker load supported; clean-output estimate still needs data'
+        :(item.architecture==='passive_separates'&&evidenceState==='unknown')
+          ?'Speaker load documented; output ranking remains provisional'
+          :overview.status;
+      addText(card,'p',visibleStatus,'sb-beginner-status sb-beginner-'+
+        (evidenceState==='incomplete'||evidenceState==='unknown'?'review':overview.priority));
+      if(item.headroomData?.status==='incomplete'&&item.headroomData.missing.length&&
+         !detailOnly){
+        const notes=el('details','sb-headroom-missing');
+        addText(notes,'summary','Which output specifications are missing?');
+        addText(notes,'p',item.headroomData.missing.join('; ')+'.');
+        card.append(notes);
+      }
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
       if (item.bassSetup){
