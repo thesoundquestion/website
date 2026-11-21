@@ -1119,23 +1119,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const primarySound=soundImpressionFor(item);
         const ownerSound=soundProfileFor(item);
         const ownerSources=ownerSound?.ownerSources||[];
-        // The original model-specific helper is retained, but a description is
-        // presented as an owner impression only when exact owner evidence exists.
-        const sourcedOwnerSummary=primarySound?.sources?.some(link=>
-          ownerSources.some(owner=>owner.url===link.url))
-          ?primarySound.text:ownerSound?.text;
-        const profile=el('section','sb-primary-sound');
-        addText(profile,'strong','What owners say');
-        addText(profile,'p',ownerSources.length
-          ?String(sourcedOwnerSummary||ownerSound.text).replace(/[.!?]$/,'')+'.'
-          :'No exact-model owner listening impressions have been reviewed yet.');
+        // Never fill the listening area with an invented or generic profile.
+        // Present actual firsthand impressions only where we have sources.
         if(ownerSources.length){
+          const sourcedOwnerSummary=primarySound?.sources?.some(link=>
+            ownerSources.some(owner=>owner.url===link.url))
+            ?primarySound.text:ownerSound.text;
+          const profile=el('section','sb-primary-sound');
+          addText(profile,'strong','What owners say');
+          addText(profile,'p',String(sourcedOwnerSummary).replace(/[.!?]$/,'')+'.');
           const links=el('div','sb-tonal-sources');
           for(const source of ownerSources.slice(0,2))
             link(links,source.url,source.context||'Firsthand owner report');
           profile.append(links);
+          card.append(profile);
         }
-        card.append(profile);
       }
       // Keep the exact signal path one tap away on the main result; an opened
       // alternative already lives inside a disclosure and needs no second one.
@@ -1345,7 +1343,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show what owners hear from each alternative in the ordinary results view.
     // Do not require or manufacture a head-to-head comparison.
     const renderComparisonPreview=(baseline,choices,heading,klass='sb-comparison-overview',target=shop)=>{
-      if(!baseline||!choices?.length)return;
+      if(!choices?.length)return;
       const preview=el('section',klass);
       addText(preview,'h4',heading);
       const grid=el('div','sb-comparison-preview-list');
@@ -1353,7 +1351,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const note=el('article','sb-comparison-preview-card');
         // This is an independent listening description of the alternative.
         // We do not require an exact head-to-head model comparison.
-        addText(note,'h5',item.title.replace(/^[^:]{3,45}:\\s*/,''));
+        addText(note,'h5',item.title.replace(/^[^:]{3,45}:\s*/,''));
         // Alternatives have their OWN audible character, not a contrast
         // against the first match. Do not show generic "no tonal direction" text.
         const ownerB=soundProfileFor(item);
@@ -1373,9 +1371,8 @@ document.addEventListener('DOMContentLoaded', () => {
           addText(fit,'p',item.why,'sb-compact-compare');
           note.append(fit);
         }
-        // The short comparison is the only visible product listing.
-        // Keep the full wiring, cost, headroom and original sources beside
-        // the relevant option, not repeated in a separate full-card menu.
+        // One short independent listening description, with optional wiring,
+        // headroom, cost and source details attached to this option.
         const detail=el('details','sb-alternative-details');
         addText(detail,'summary','Connections, headroom & full specifications');
         detail.append(renderCard(item,null,true));
