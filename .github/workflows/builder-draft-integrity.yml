@@ -9,6 +9,12 @@ on:
 permissions:
   contents: read
 
+# Superseded draft pushes must not consume multiple full browser/test runs.
+# This does not change the release gate: the latest exact commit must pass.
+concurrency:
+  group: builder-draft-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   unit-and-data:
     runs-on: ubuntu-latest
