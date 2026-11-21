@@ -473,6 +473,9 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(headroom,'strong',output.label+' ');
       headroom.append(document.createTextNode(output.text));
       card.append(headroom);
+      // The practical answer stays on the card. The detailed passive speaker
+      // listening-level calculator must be immediately reachable, not hidden.
+      if(output.link)link(card,output.link,'Check your exact listening levels');
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
@@ -546,7 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       addText(details,'h5','How loud and why');
       addText(details,'p',output.detail,'sb-card-reference');
-      if(output.link)link(details,output.link,'Check loudness with System Check');
+
       if (item.amplifierFit) {
         const fitInfo=item.amplifierFit;
         const p=el('p','sb-card-power');
