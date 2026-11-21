@@ -1,5 +1,6 @@
 import {GOALS, describeBass, eligibleArchitectures, inspectOwnedPair} from './engine.mjs';
 import {guideBuilderContext} from './guide-handoff.mjs';
+import {bindListeningDistanceDefaults} from './listening-distance.mjs';
 import {catalogueGearMatches,unlistedSpecAssessment} from './unlisted-gear.mjs';
 import {parseSpeakerSpecText} from './spec-paste.mjs?v=passive-inference-20261120';
 import {parseUnlistedSpecText} from './other-gear-spec-paste.mjs?v=sub-20261120';
@@ -255,6 +256,10 @@ document.addEventListener('DOMContentLoaded', () => {
     panel.append(detail);
     form.before(panel);
   }
+
+  // Use the room-specific starting distance, including any optional guide
+  // handoff choice, without overwriting a visitor's manually entered feet.
+  bindListeningDistanceDefaults(form);
 
   // The task picker is the actual first step. Existing, source-backed
   // equipment selectors are moved, never cloned, so the original Builder
