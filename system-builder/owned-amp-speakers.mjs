@@ -1,3 +1,4 @@
+import {acousticEvidenceForPair} from './acoustic-evidence.mjs';
 import {ownerEvidenceFor, ownerEvidenceTier} from './owner-evidence.mjs';
 import {priceContextFor} from './market-price-context.mjs';
 import {BUILDER_ONLY_SPEAKERS} from './supplemental-speakers.mjs';
@@ -339,6 +340,7 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       'Your '+screen.ampName+' manufacturer load guidance still needs checking against the speaker’s full impedance curve; a nominal '+nominal+' Ω label is not a safety certificate.' :
       'Your amplifier has '+(screen.minPublishedTestOhms??'no verified')+' Ω published continuous-load test data; that is NOT a promise of compatibility with this speaker’s unknown phase/minimum or your volume.';
     selected.push({
+      acousticEvidence:acousticEvidenceForPair(record,ownedAmp),
       id:'owned-speaker-'+model.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
       architecture:'passive_separates',
       title:model,
