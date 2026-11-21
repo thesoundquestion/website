@@ -23,6 +23,7 @@ import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
 import {explainBeginnerOption} from './beginner-output.mjs';
 import {explainSimpleSystem} from './simple-system-summary.mjs';
+import {recommendationHeadroom} from './recommendation-headroom.mjs';
 import {removeUnsafeRecommendations} from './recommendation-safety-gate.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
@@ -1015,25 +1016,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if(top&&data.parts.length)
           addText(card,'p','What the example includes: '+data.parts.join(' · '),'sb-simple-parts');
 
-        if(item.architecture==='passive_separates'){
-          const amplifier=item.amplifierModel||item.curatedPairing?.amplifierModel;
-          const speakers=item.speakerModel||item.curatedPairing?.speakerModel;
-          if(amplifier&&speakers){
-            const profile=headroomHandoff({amplifierModel:amplifier,speakerModel:speakers},
-              distanceFt,request.level,request.useCase);
-            profile.params.delete('embedded');
-            const line=el('div','sb-simple-checker');
-            if(data.headroomStatus==='calculable')
-              addText(line,'span','Saved ratings available for a headroom estimate.','sb-simple-headroom');
-            else
-              addText(line,'span','Some headroom ratings are missing.','sb-simple-headroom');
-            link(line,'/system-check/?'+profile.params.toString(),
-              'Check this exact system in System Check');
-            card.append(line);
-          }
-        }
+        // All system types display a brief source-bounded headroom summary.
+        // Powered speakers use published acoustic output rather than
+        // treating their internal amplifier watts as external power ratings.
+        const headroom=recommendationHeadroom(item,request,sharedCatalog);
+        const line=el('div','sb-simple-checker');
+        addText(line,'strong','Headroom at '+headroom.target.distanceFt+' ft',
+          'sb-simple-headroom-title');
+        addText(line,'span',headroom.summary,'sb-simple-headroom');
+        if(headroom.link)
+          link(line,headroom.link,headroom.linkText||'Explore System Check');
+        card.append(line);
         const technical=el('details','sb-simple-details');
-        addText(technical,'summary','Connection details, parts and sources');
+        addText(technical,'summary','Connection details, headroom basis and sources');
+        if(headroom.basis)addText(technical,'p',headroom.basis);
+        if(headroom.detail)addText(technical,'p',headroom.detail);
+        if(headroom.source)link(technical,headroom.source,'Published acoustic output specifications');
         if(data.important)addText(technical,'p','Connection or compatibility check: '+data.important);
         if(!top&&data.parts.length)addText(technical,'p','Includes: '+data.parts.join(' · '));
         if(data.tradeoff)addText(technical,'p',data.tradeoff);
