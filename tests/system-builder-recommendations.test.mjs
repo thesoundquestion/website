@@ -56,9 +56,16 @@ test('headphones may be used with an independently checked off-grid source',()=>
   assert.ok(x.selected.some(x=>x.id==='headphone-hd560'));
   assert.ok(x.selected.every(x=>x.sourceBatteryCaution));
 });
-test('requested unsupported native source connection requires separately priced adaptation',()=>{
+test('unsupported direct connections exclude complete systems instead of promising unspecified adapters',()=>{
   const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',useCase:'desk',connection:'hdmi'});
-  assert.ok(x.selected.every(x=>x.connectionStatus==='adapter_needed'));
+  assert.equal(x.selected.length,0);
+  assert.ok(x.excluded.some(x=>/No documented direct hdmi input/.test(x.reason)));
+});
+test('optical sources return native input options, not analog-only speakers',()=>{
+  const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',useCase:'desk',connection:'optical',budget:230});
+  assert.ok(x.selected.length>0);
+  assert.ok(x.selected.every(i=>i.connections.includes('optical')&&i.connectionStatus==='native_possible'));
+  assert.ok(x.selected.some(i=>i.id==='powered-r1280db'));
 });
 test('used models are an unpriced evergreen watchlist, not forced secondhand bundles',()=>{
   const x=shortlistExamples({...defaults,architecture:'passive_separates',used:false});
