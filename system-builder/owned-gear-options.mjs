@@ -227,7 +227,7 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
   selected.sort((a,b)=>b.amplifierFitRank-a.amplifierFitRank ||
     compareBudgetReferences(a.subtotal,b.subtotal,request) || a.title.localeCompare(b.title));
   const shortlist=selected.slice(0,3);
-  if (shortlist.length===3 && !shortlist.some(item=>item.compactAmp) && request.level!=='high' &&
+  if (shortlist.length===3 && !shortlist.some(item=>item.compactAmp) &&
       request.goal!=='party' && request.useCase!=='party' && request.useCase!=='outdoors') {
     // Leave room to compare a simpler amplifier at ordinary listening levels.
     const compact=selected.find(item=>item.compactAmp && item.amplifierFit.directInput);
