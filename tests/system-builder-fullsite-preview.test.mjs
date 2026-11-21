@@ -30,13 +30,14 @@ test('equipment loading remains source-backed and has a visible failure state',(
  assert.match(app,/Your selected sourced model/);
  assert.match(page,/\/equipment\/legacy-presets.generated.js/);
 });
-test('the Windows preview does not silently open an old server on port 8765',()=>{
- assert.match(cmd,/set "PORT=8877"/);
- assert.match(cmd,/if errorlevel 1 goto port_busy/);
- assert.match(cmd,/Port %PORT% is already occupied/);
- assert.match(cmd,/system-builder\//);
+test('Windows launcher uses a branch-verified dedicated port rather than stale server',()=>{
+ assert.match(cmd,/PREVIEW_FULL_SITE_WINDOWS\.ps1/);
+ assert.match(ps1,/Port = 8877/);
+ assert.match(ps1,/Wrong Git branch/);
+ assert.match(ps1,/127\.0\.0\.1/);
+ assert.match(ps1,/system-builder\//);
  assert.match(page,/sb-preview-build/);
- assert.match(page,/complete-system-catalog-v2-20261120/);
+ assert.match(page,/app\.mjs\?v=powered-practical-output-20261121/);
 });
 
 test('saved pairing facts are shown only inside a compact disclosure',()=>{
