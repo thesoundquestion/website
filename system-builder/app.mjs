@@ -5,6 +5,7 @@ import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} 
 import {listeningCatalogOptions,listeningStudioCandidates,describeStudioMonitor} from '../equipment/builder-catalog-options.mjs';
 import {shortlistExamples} from './recommendations.mjs';
 import {headroomEvidence} from './headroom-evidence.mjs';
+import {checkerHandoffLink} from './checker-handoff.mjs';
 import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
@@ -475,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.append(headroom);
       // The practical answer stays on the card. The detailed passive speaker
       // listening-level calculator must be immediately reachable, not hidden.
-      if(output.link)link(card,output.link,'Check your exact listening levels');
+      if(output.link)link(card,checkerHandoffLink(item,request)||output.link,'Check your exact listening levels');
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
