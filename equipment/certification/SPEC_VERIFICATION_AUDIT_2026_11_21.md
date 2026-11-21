@@ -59,3 +59,15 @@ This pass examined *consumer code* rather than rechecking source records:
 3. New `tests/system-builder-rating-interpretation.test.mjs` checks burst-only, other-load, exact-load and unknown-output routes. Existing site and catalogue tests remain mandatory.
 
 **Limitations:** A matching nominal impedance and published continuous power still do not prove permitted reactive-load operation, clean real-room output or safe speaker pairing. This change intentionally does not modify power ratings, estimate maximum SPL for powered monitors or assert that a particular combination is safe. Recheck high-traffic Builder outputs against the exact published page before release.
+
+## 2026-11-21 | Powered headroom and 2.1 routing production-output audit
+
+**Problem found:** The Builder's cards only supplied an explicit "Power & headroom" panel for amplifier-recommendation cases. Powered stereo, studio monitors and party-speaker paths could show no headroom line whatsoever even though those architectures require their *own* acoustic output evidence. A category or built-in watt figure cannot establish clean listening SPL at the seat.
+
+**Fix:** `system-builder/headroom-evidence.mjs` now evaluates each candidate based on its actual architecture, listening distance and stated preference and produces an always-present **Headroom at your seat** text. Passive paths distinguish a known same-load continuous amp rating from missing ratings; both still require speaker sensitivity and peak/distance calculations in System Check. Powered stereo/active studio/party paths explicitly state that clean maximum output has **not** been verified from comparable distance, frequency and distortion measurements, and **do not** send users to the passive-only power calculator. Headphones use a separate output-drive warning. A documented subwoofer routing path is described, but not awarded speculative extra peak SPL.
+
+**Additional model routing bug:** `configureSubExample` previously applied the WiiM-specific `Main Speakers Output Bass` full-range mode to *any* sub example whenever `sub_full` was passed. The generator currently limits supported full-range presets, but the helper was unsafe for future callers. It is now restricted to `stereo-sub-wiim`. Test asserts Edifier and Kanto setup data are never replaced by WiiM routing, while WiiM retains its valid choice.
+
+**Tests:** `tests/system-builder-headroom-evidence.test.mjs` protects six key architecture/measurement cases, including the Edifier MR4 at 6 ft and hypothetical long-distance high-volume active studio use. `tests/system-builder-stereo-subwoofer.test.mjs` adds a routing-specific regression case. Continue to run complete browser/UI and release tests. Nothing here certifies powered output or removes a safety gate. A numeric powered speaker headroom estimate requires appropriately qualified per-model max *clean* SPL evidence, distance/reference and uncertainty treatment, not merely amplifier wattage or manufacturer marketing maximum.
+
+The original equipment catalogue and Source Master were not changed. No Cloudflare build or deployment.
