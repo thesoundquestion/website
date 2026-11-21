@@ -11,10 +11,16 @@
 export const POWERED_OUTPUT_EVIDENCE=Object.freeze({
   'JBL 305P MkII':{
     model:'JBL 305P MkII',unit:'single powered monitor',
-    continuous:{db:94,atMeters:1,reference:'Manufacturer max continuous SPL (full-band pink noise, C-weighted); 1 m scaling reference is an assumption, not an explicitly stated distance beside the SPL rating'},
-    peak:{db:108,atMeters:1,reference:'Manufacturer maximum peak SPL; 1 m distance reference assumed for illustrative scaling'},
-    caveat:'At maximum output JBL permits substantial distortion/limiter activity (manufacturer criterion under 10% THD). This is a maximum-output boundary, not guaranteed clean musical headroom.',
-    source:'https://jblpro.com/en-US/products/305p-mkii.html'
+    publishedLimits:{continuousDb:94,peakDb:108,
+      measurement:'Full-bandwidth pink noise, C-weighted (continuous); C-weighted peak. The JBL sell sheet does not specify a microphone distance for these two maximum output limits.'},
+    caveat:'JBL publishes 94 dB maximum continuous and 108 dB maximum peak acoustic output, but does not attach a measurement distance to those limits in the official sell sheet. They cannot support a listener-distance headroom projection. At maximum output JBL allows substantial distortion/limiter activity (under 10% THD).',
+    source:'https://jblpro.com/en/site_elements/305p-mkii-sell-sheet',
+    practical:{quiet:'Nearfield listening may be practical, but a distance-referenced clean SPL limit is not verified.',
+      normal:'Moderate playback is plausible in a suitable nearfield setup; exact clean peak headroom is unknown.',
+      loud:'A clean high-volume ceiling at your seat is unverified from these published maximum-output figures.',
+      far:'JBL’s maximum SPL specification lacks an explicit distance reference, so far-seat output cannot be projected.',
+      evidence:'The JBL 305P MkII manufacturer sell sheet lists 94 dB continuous and 108 dB peak (C-weighted), along with a maximum-output distortion criterion. Neither maximum is accompanied by a measurement distance in that sheet.',
+      reviewUrl:'https://jblpro.com/en/site_elements/305p-mkii-sell-sheet'}
   },
   'Kali LP-6 V2':{
     model:'Kali LP-6 V2',unit:'single powered studio monitor (2nd Wave)',
@@ -134,7 +140,10 @@ export function poweredHeadroomEstimate(model,{distanceFt=6,averageDb=65,peakDb=
     evidence};
   if(!evidence)return result;
   const projected=(metric)=>{
-    const loss=metric?distanceLossDb(distanceFt,metric.atMeters):null;
+    // Never invent a 1 m test point to turn a distance-unspecified maximum
+    // acoustic-output number into headroom at the listener's seat.
+    const loss=metric&&finite(metric.db)&&finite(metric.atMeters)&&metric.atMeters>0
+      ?distanceLossDb(distanceFt,metric.atMeters):null;
     return loss===null?null:round(metric.db-loss);
   };
   result.projectedContinuousDb=projected(evidence.continuous);
