@@ -26,7 +26,7 @@ export const BUILDER_INTENTS=Object.freeze({
   complete_system:{
     label:'Build a complete listening system',
     description:'Start with how and where you listen. We can suggest a whole system without requiring you to own or enter any equipment.',
-    fields:['goal','architecture','useCase','level','region','budget'],
+    fields:['goal','architecture','useCase','distanceFt','level','region','budget'],
     architecture:null,
     requiredOwn:null,
     resultTitle:'Complete system options for your listening needs'
