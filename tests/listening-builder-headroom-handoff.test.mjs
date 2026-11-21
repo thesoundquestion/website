@@ -33,6 +33,16 @@ test('builder carries exact model names, distance and broad volume profile to Sy
   }
 });
 
+test('outdoor and party headroom use their room-specific seat distance without in-room sensitivity preference',()=>{
+  const item={amplifierModel:'Yamaha A-S301',speakerModel:'Polk Signature Elite ES15'};
+  assert.equal(handoff(item,15,'moderate','outdoors').params.get('preferRoom'),'0');
+  assert.equal(handoff(item,20,'high','party').params.get('preferRoom'),'0');
+  assert.equal(handoff(item,8,'moderate','living_room').params.get('preferRoom'),'1');
+  assert.equal(handoff(item,6,'quiet','bedroom').params.get('distanceFt'),'6');
+  assert.match(app,/headroomHandoff\(headroomModels,distanceFt,request.level,request.useCase\)/);
+  assert.match(app,/checkParams.set\('preferRoom',\['outdoors','party'\]/);
+});
+
 test('model-aware auto result does not show a second model dropdown or blank input form',()=>{
   assert.match(app,/const inline=el\('details','sb-inline-system-check'\)/);
   assert.doesNotMatch(app,/addText\(inline,'summary','Check headroom with these exact models'\)/);
