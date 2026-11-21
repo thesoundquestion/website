@@ -146,3 +146,32 @@ test('adding Q Acoustics handoff supplements does not replace existing verified 
   assert.equal(ctx.models.speaker.filter(x=>x.model==='Q Acoustics 3030i').length,1);
   assert.ok(ctx.models.speaker.some(x=>x.model==='Q Acoustics 3020i'));
 });
+
+test('PSB Alpha P3 and P5 preload their verified speaker values with saved Yamaha A-S301',()=>{
+  assert.match(checkerPage,/verified-speaker-supplements\.js\?v=psb-alpha-qacoustics-20261120/);
+  const ctx={};
+  vm.runInNewContext(classic+'\n'+supplement+'\n'+supplement+
+    '\nglobalThis.models=systemCheckGear;',ctx);
+  const amp=ctx.models.amp.find(x=>x.model==='Yamaha A-S301');
+  assert.ok(amp&&amp.ratings.some(([watts,ohms,type])=>
+    watts===60&&ohms===8&&type==='continuous'));
+  for(const [name,sensitivity,upper] of [
+    ['PSB Alpha P3',85,80],['PSB Alpha P5',87,90]
+  ]){
+    const matches=ctx.models.speaker.filter(x=>x.model===name);
+    assert.equal(matches.length,1,'no duplicate or aliases for '+name);
+    const speaker=matches[0];
+    assert.equal(speaker.values.load,8);
+    assert.equal(speaker.values.minimum,4);
+    assert.equal(speaker.values.sensitivity,sensitivity);
+    assert.equal(speaker.values.basis,'voltage');
+    assert.equal(speaker.values.speakerRecommendedAmpMax,upper);
+    assert.equal(speaker.values.speakerPowerContinuous,undefined);
+    assert.equal(speaker.values.speakerPowerPeak,undefined);
+    assert.ok(speaker.url.startsWith('https://'));
+    const {params}=handoff({amplifierModel:amp.model,speakerModel:name},8,'moderate');
+    assert.equal(params.get('amp'),amp.model);
+    assert.equal(params.get('speaker'),name);
+    assert.equal(params.get('autocheck'),'1');
+  }
+});
