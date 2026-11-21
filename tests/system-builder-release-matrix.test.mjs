@@ -142,8 +142,9 @@ test('budget, region, currency and aged prices never become invented complete-sy
   for(const item of result.selected){
    assert.notEqual(item.safetyStatus,'blocked');
    if(item.subtotal!==null&&item.subtotal!==undefined){
-     assert.equal(region,'CA','Unexpected regional conversion or invented asking amount');
-     assert.equal(currency,'CAD');
+     assert.ok(['CA','US','GB'].includes(region),'Unexpected unpriced market showing a numeric amount');
+     if(region!=='CA')assert.equal(item.id,'powered-r1280dbs',
+       'Only the independently sourced regional R1280DBs pair may be priced outside Canada');
      assert.equal(referenceDate,'2026-11-13','Expired reference must not remain priced');
      assert.ok(item.priceComponents.length,'priced result missing component references');
    }else{
