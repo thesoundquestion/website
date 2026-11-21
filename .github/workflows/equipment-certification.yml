@@ -1,0 +1,24 @@
+name: Equipment certification gate
+on:
+  pull_request:
+    paths:
+      - 'equipment/source-master.json'
+      - 'equipment/catalog.generated.json'
+      - 'equipment/certification/**'
+      - 'scripts/audit-equipment-certification.mjs'
+      - 'scripts/build-equipment-catalog.mjs'
+      - '.github/workflows/equipment-certification.yml'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/build-equipment-catalog.mjs --check
+      - run: node scripts/audit-equipment-certification.mjs --check
+      - run: node --test tests/equipment-catalog-master.test.mjs tests/equipment-catalog-unified.test.mjs
