@@ -70,5 +70,5 @@ test('unknown catalog coverage is described as uncertainty, not proof of incompa
 test('published Builder pages render explicit no-match reasons in both compact and advanced routes',()=>{
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
  assert.match(app,/explainEmptyExampleShortlist\(request,shortlist\)/);
- assert.match(app,/No complete example fits these selections yet/); // Should no longer be a generic dead end.
+ assert.doesNotMatch(app,/No complete example fits these selections yet/);
 });
