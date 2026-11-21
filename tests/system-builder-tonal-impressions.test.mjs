@@ -68,15 +68,17 @@ test('sourced headphone profiles have independent review URLs and preserve mixed
  assert.match(soundProfileFor({title:'FiiO FT1'}).text,/Listeners differ.*obscures/);
  assert.match(soundProfileFor({title:'Grado SR80x'}).text,/Other reviewers/);
 });
-test('subjective tonal notes are on the main comparison cards, not behind dropdowns',()=>{
+test('alternatives show their own owner descriptions without a head-to-head requirement',()=>{
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
  const css=readFileSync(new URL('../system-builder/style.css',import.meta.url),'utf8');
  const from=app.indexOf('const renderComparisonPreview=');
- const render=app.slice(from,app.indexOf("const alternativeSetups=el('details'",from));
+ const render=app.slice(from,app.indexOf('if(headphoneElectronicsPlan)',from));
  assert.ok(from>0);
- assert.match(render,/briefTonalContrast\(baseline,item\)/);
+ assert.match(render,/soundImpressionFor\\(item\\)/);
+ assert.match(render,/What owners say:/);
  assert.match(render,/sb-tonal-one-line/);
- assert.match(render,/link\(links,source.url,source.label\)/);
+ assert.match(render,/link\\(links,source.url,source.context/);
+ assert.doesNotMatch(render,/briefTonalContrast|How it may sound different:|No clear tonal direction/);
  assert.match(app,/soundImpressionFor\(item\)/);
  assert.match(app,/sb-primary-sound/);
  assert.match(css,/\.sb-primary-sound/);
@@ -120,6 +122,10 @@ test('every secondary option compares directionally without repeating the first-
  const alternatives=['Q Acoustics 3030i','PSB Alpha P5','Triangle Borea BR03 (passive)'];
  for(const speakerModel of alternatives){
   const d=briefTonalContrast(primary,{speakerModel,title:speakerModel});
+  if(speakerModel==='Triangle Borea BR03 (passive)'){
+    assert.equal(d,null,'No supported relative contrast must not output generic filler');
+    continue;
+  }
   assert.ok(d);
   assert.ok(d.text.length<105,d.text);
   assert.doesNotMatch(d.text,/lively, clear vocals|Polk Signature Elite ES15|versus|vs\./i);
@@ -128,7 +134,7 @@ test('every secondary option compares directionally without repeating the first-
  const p5=briefTonalContrast(primary,{speakerModel:'PSB Alpha P5'});
  assert.match(p5.text,/softer highs/);
  const tri=briefTonalContrast(primary,{speakerModel:'Triangle Borea BR03 (passive)'});
- assert.match(tri.text,/No clear tonal direction/);
+ assert.equal(tri,null,'No unsupported tonal filler');
 });
 test('headphone contrasts describe only relative change, not the first headphone twice',()=>{
  const a={title:'Koss KSC75',architecture:'headphone_first'};
