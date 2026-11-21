@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {headroomEvidence} from '../system-builder/headroom-evidence.mjs';
 import {acousticEvidenceForPair} from '../system-builder/acoustic-evidence.mjs';
+import {checkerHandoffLink} from '../system-builder/checker-handoff.mjs';
 import {shortlistExamples} from '../system-builder/recommendations.mjs';
 
 const req={goal:'natural',architecture:'open',useCase:'bedroom',distanceFt:6,level:'moderate',
@@ -131,4 +132,49 @@ test('burst-only and other-load amplifier ratings never produce a numerical loud
   assert.equal(acousticEvidenceForPair(speaker,{ratings:[[60,6,'continuous','20 Hz–20 kHz']]}),null);
   assert.equal(acousticEvidenceForPair({values:{load:8}},{
     ratings:[[60,8,'continuous','20 Hz–20 kHz']]}),null);
+});
+
+test('Builder link loads selected Yamaha PSB system and listening level into System Check',()=>{
+ const item=byId('passive-as301-p5',{goal:'imaging',level:'high',distanceFt:6});
+ assert.ok(item);
+ const href=checkerHandoffLink(item,{...req,level:'high',distanceFt:6});
+ const url=new URL(href,'https://thesoundquestion.pages.dev');
+ assert.equal(url.pathname,'/system-check/');
+ assert.equal(url.searchParams.get('speaker'),'PSB Alpha P5');
+ assert.equal(url.searchParams.get('amp'),'Yamaha A-S301');
+ assert.equal(url.searchParams.get('distance'),'6');
+ assert.equal(url.searchParams.get('peak'),'95');
+ assert.equal(url.searchParams.get('average'),'80');
+ assert.equal(url.searchParams.get('builderSensitivity'),'87');
+ assert.equal(url.searchParams.get('builderBasis'),'power');
+ assert.equal(url.searchParams.get('builderLoad'),'8');
+ assert.equal(url.searchParams.get('builderAmpWatts'),'60');
+});
+
+test('every qualified passive recommendation can supply a parameterized checker link',()=>{
+ const evidence=acousticEvidenceForPair(
+  {model:'Sample speaker',values:{load:6,sensitivity:88,basis:'voltage'}},
+  {model:'Sample amp',ratings:[[65,6,'continuous','20 Hz–20 kHz']]});
+ const href=checkerHandoffLink({architecture:'passive_separates',acousticEvidence:evidence},
+   {...req,distanceFt:10,level:'moderate'});
+ const q=new URL(href,'https://thesoundquestion.pages.dev').searchParams;
+ assert.equal(q.get('speaker'),'Sample speaker');
+ assert.equal(q.get('amp'),'Sample amp');
+ assert.equal(q.get('distance'),'10');
+ assert.equal(q.get('peak'),'90');
+ assert.equal(q.get('builderLoad'),'6');
+ assert.ok(Number(q.get('builderSensitivity'))<88);
+ assert.equal(checkerHandoffLink({architecture:'consumer_powered_pair'},{...req}),null);
+});
+
+test('System Check applies incoming Builder data without overwriting actual saved presets',()=>{
+ const code=readFileSync(new URL('../system-check/calculator.js',import.meta.url),'utf8');
+ const page=readFileSync(new URL('../system-check/index.html',import.meta.url),'utf8');
+ const builder=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
+ assert.match(builder,/checkerHandoffLink\(item,request\)/);
+ assert.match(code,/function applyBuilderHandoff\(\)/);
+ assert.match(code,/if\(speakerChoice\?\.value===''/);
+ assert.match(code,/if\(ampChoice\?\.value===''/);
+ assert.match(code,/field\('distance'\)/);
+ assert.match(page,/id="builder-handoff-note"/);
 });
