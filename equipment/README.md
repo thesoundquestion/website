@@ -10,7 +10,7 @@ functions/categories, so category totals intentionally exceed the model count.
 
 Before adding a new model, changing an existing normalized device, inserting a new Builder bundle, modifying sourced listening/headroom claims or expanding subwoofer routing, follow [the permanent equipment-entry validation handoff](../docs/EQUIPMENT_ENTRY_VALIDATION_HANDOFF.md). **Do not defer these checks to the next release audit.**
 
-The admission tooling is `../scripts/validate-equipment-entry-gates.mjs`, with a frozen legacy baseline in `entry-gate-baseline.json` and evidence attestations in `entry-review-ledger.json`. The draft workflow blocks a new or altered device without its current fingerprint and a source-specific manufacturer/manual review. A new curated system requires a test-backed ledger entry. Existing 197 records are structurally preserved, **not retrospectively certified**. Evidence gaps must remain explicitly unknown. Run:
+The admission tooling is `../scripts/validate-equipment-entry-gates.mjs`, with a checksum-pinned frozen legacy baseline in `entry-gate-baseline.json` and evidence attestations in `entry-review-ledger.json`. `.github/workflows/equipment-entry-admission.yml` enforces this on future pull requests and `main` pushes, independent of the current draft-only preflight. The draft workflow blocks a new or altered device without its current fingerprint and a source-specific manufacturer/manual review. A new curated system requires a test-backed ledger entry. Existing 197 records are structurally preserved, **not retrospectively certified**. Evidence gaps must remain explicitly unknown. Run:
 
 ```sh
 node scripts/build-equipment-catalog.mjs --check
