@@ -1179,62 +1179,49 @@ document.addEventListener('DOMContentLoaded', () => {
         card.append(selectedElectronics);
       }
       const overview=explainBeginnerOption(item,request);
-      // An approved speaker load is not sufficient evidence for a clean
-      // output recommendation. Keep the result honest about data coverage.
-      const evidenceState=item.headroomData?.status;
-      const visibleStatus=(item.architecture==='passive_separates'&&
-          evidenceState==='incomplete')
-        ?'Speaker load supported; clean-output estimate still needs data'
-        :(item.architecture==='passive_separates'&&evidenceState==='unknown')
-          ?'Speaker load documented; output ranking remains provisional'
-          :overview.status;
-      addText(card,'p',visibleStatus,'sb-beginner-status sb-beginner-'+
-        (evidenceState==='incomplete'||evidenceState==='unknown'?'review':overview.priority));
-      if(item.headroomData?.status==='incomplete'&&item.headroomData.missing.length&&
-         !detailOnly){
-        const notes=el('details','sb-headroom-missing');
-        addText(notes,'summary','Which output specifications are missing?');
-        addText(notes,'p',item.headroomData.missing.join('; ')+'.');
-        card.append(notes);
+      // Listening character is the first visible content after the product
+      // name. It may come from an owner OR an independent listening review,
+      // but not from manufacturer claims or inferred technical properties.
+      if(!detailOnly&&!alternativeComparison){
+        const impression=soundImpressionFor(item);
+        const cited=impression?.sources?.filter(source=>/^https:\/\//.test(source.url))||[];
+        if(impression?.text&&cited.length){
+          const profile=el('section','sb-primary-sound');
+          addText(profile,'strong','How listeners describe the sound');
+          addText(profile,'p',String(impression.text).replace(/[.!?]$/,'')+'.');
+          const links=el('div','sb-tonal-sources');
+          for(const source of cited.slice(0,2))
+            link(links,source.url,source.label||'Read the listening review');
+          profile.append(links);
+          card.append(profile);
+        }
       }
-      if (item.reuseNames?.length)
+      // Ordinary verification does not deserve a yellow warning banner.
+      // Only a known electrical or connection blocker interrupts the card.
+      if(!detailOnly&&overview.priority==='critical'){
+        const critical=item.ownershipBlocker||item.loadCaution||
+          (item.pairingEvidence?.demandingMinimum
+            ?'The speakers may present a load this amplifier cannot safely support.'
+            :'This exact equipment combination has a compatibility problem.');
+        addText(card,'p',critical,'sb-safety-blocker');
+      }
+      const reason=String(item.amplifierReason||item.speakerRationale||
+        item.ownershipMessage||item.why||overview.reason||'').trim();
+      if(reason){
+        const whyBox=el('div','sb-beginner-reason');
+        addText(whyBox,'h5',overview.reuse?'Why keeping this makes sense':'Why this fits');
+        addText(whyBox,'p',reason,'sb-beginner-plain');
+        card.append(whyBox);
+      }
+      if(item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
-      if (item.bassSetup){
-        addText(card,'p',item.bassSetup.label,'sb-card-minor');
+      if(item.bassSetup){
         const modelPlan=knownSubExamplePlan(item.id);
         if(modelPlan){
           const subDetail=el('details','sb-sub-wiring-disclosure');
-          addText(subDetail,'summary','Subwoofer wiring and bass filtering');
+          addText(subDetail,'summary','Subwoofer connection and filtering');
           renderSubwooferWiring(subDetail,modelPlan,{heading:'What connecting this subwoofer involves'});
           card.append(subDetail);
-        }
-      }
-      else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
-        addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
-      const whyBox=el('div','sb-beginner-reason');
-      addText(whyBox,'h5',overview.reuse?'Why keeping this is a valid option':'Why this option was suggested');
-      addText(whyBox,'p',overview.reason,'sb-beginner-plain');
-      card.append(whyBox);
-      // Source-linked firsthand owner accounts are the listening section.
-      // Technical cautions belong in the separately available verification UI.
-      if(!alternativeComparison&&!detailOnly){
-        const primarySound=soundImpressionFor(item);
-        const ownerSound=soundProfileFor(item);
-        const ownerSources=ownerSound?.ownerSources||[];
-        // Never fill the listening area with an invented or generic profile.
-        // Present actual firsthand impressions only where we have sources.
-        if(ownerSources.length){
-          const sourcedOwnerSummary=primarySound?.sources?.some(link=>
-            ownerSources.some(owner=>owner.url===link.url))
-            ?primarySound.text:ownerSound.text;
-          const profile=el('section','sb-primary-sound');
-          addText(profile,'strong','What owners say');
-          addText(profile,'p',String(sourcedOwnerSummary).replace(/[.!?]$/,'')+'.');
-          const links=el('div','sb-tonal-sources');
-          for(const source of ownerSources.slice(0,2))
-            link(links,source.url,source.context||'Firsthand owner report');
-          profile.append(links);
-          card.append(profile);
         }
       }
       // Keep the exact signal path one tap away on the main result; an opened
@@ -1353,15 +1340,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if(overview.goalExplanation)addText(proof,'p',overview.goalExplanation,'sb-beginner-basis');
       addText(proof,'p',overview.matchingEvidence,'sb-beginner-plain');
       card.append(proof);
-      if(overview.firstChecks.length){
-        const firstChecks=el('div','sb-beginner-checks');
-        addText(firstChecks,'h5',overview.priority==='critical'?'Important: resolve before connecting':
-          overview.checkHeading||'What to check before connecting or buying');
-        list(firstChecks,overview.firstChecks,'sb-beginner-checklist');
-        card.append(firstChecks);
-      }
-      if(overview.costAndTradeoffs.length&&!item.amplifierModel)
-        addText(card,'p','Price and trade-off: '+overview.costAndTradeoffs[0],'sb-beginner-cost');
       const evidence=el('details','sb-beginner-evidence');
       addText(evidence,'summary','See the technical details and original sources');
       addText(evidence,'p',overview.technicalEvidence,'sb-beginner-technical');
@@ -1402,8 +1380,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if(evidence.childElementCount>1)card.append(evidence);
 
       const details = el('details','sb-card-details');
-      addText(details,'summary','Full verification, trade-offs, equipment and sources');
-      addText(details,'p',item.why,'sb-card-why-full');
+      addText(details,'summary','Technical checks, trade-offs and sources');
+      if(item.headroomData?.status==='incomplete'&&item.headroomData.missing?.length)
+        addText(details,'p','For a model-specific headroom estimate, the saved data still needs: '+
+          item.headroomData.missing.join('; ')+'.','sb-card-reference');
+      if(item.why&&item.why!==reason)addText(details,'p',item.why,'sb-card-why-full');
       if (item.reuseNames?.length) {
         addText(details,'h5','What stays in your system');
         list(details,item.reuseNames);
@@ -1494,16 +1475,17 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(note,'h5',item.title.replace(/^[^:]{3,45}:\s*/,''));
         // Alternatives have their OWN audible character, not a contrast
         // against the first match. Do not show generic "no tonal direction" text.
-        const ownerB=soundProfileFor(item);
-        const ownerSources=ownerB?.ownerSources||[];
-        if(ownerSources.length){
-          const sound=soundImpressionFor(item);
-          const description=String(sound?.text||ownerB.text).replace(/[.!?]$/,'');
-          addText(note,'p','What owners say: '+description+'.','sb-tonal-one-line');
+        const sound=soundImpressionFor(item);
+        const reports=sound?.sources?.filter(source=>/^https:\/\//.test(source.url))||[];
+        if(sound?.text&&reports.length){
+          const profile=el('section','sb-alt-listening-profile');
+          addText(profile,'strong','How listeners describe the sound');
+          addText(profile,'p',String(sound.text).replace(/[.!?]$/,'')+'.','sb-tonal-one-line');
           const links=el('div','sb-tonal-sources');
-          for(const source of ownerSources.slice(0,2))
-            link(links,source.url,source.context||'Firsthand owner report');
-          if(links.children.length)note.append(links);
+          for(const source of reports.slice(0,2))
+            link(links,source.url,source.label||'Read the listening review');
+          profile.append(links);
+          note.append(profile);
         }
         if(item.why){
           const fit=el('details','sb-comparison-fit');
