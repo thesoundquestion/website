@@ -1007,8 +1007,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const renderSimpleCard=(item,top)=>{
         const data=explainSimpleSystem(item,request,top);
         const card=el('article','sb-simple-match'+(top?' sb-simple-primary':' sb-simple-alternative'));
-        addText(card,'span',top?'FIRST SUGGESTED SETUP':'ANOTHER WAY TO LISTEN','sb-simple-eyebrow');
+        addText(card,'span',top
+          ?(data.qualifiedFit?'FIRST SUGGESTED SETUP':'CLOSEST RESEARCH LEAD')
+          :'ANOTHER WAY TO LISTEN','sb-simple-eyebrow');
         addText(card,'h4',data.title,'sb-simple-title');
+        if(data.fitCaution)addText(card,'p',data.fitCaution,'sb-simple-fit-caution');
+        if(data.priceCaution)addText(card,'p',data.priceCaution,'sb-simple-price-caution');
         const sound=soundImpressionFor(item);
         if(sound?.text&&sound.sources?.some(x=>/^https:\/\//.test(x.url))){
           const listening=el('div','sb-simple-sound');
