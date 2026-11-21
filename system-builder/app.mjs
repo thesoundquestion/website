@@ -359,9 +359,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const partyPassiveRoute=(primary==='party'||useCase==='party') &&
       arch==='passive_separates' && powered!=='battery';
     const ownership = anyOwned ? ownershipPlan({own,request,inventory}) : null;
-    const shortlist = ownership || (speakerFocus
+    const preliminary = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
       : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request,sharedCatalog));
+    // Final safety backstop: no pairing carrying an unresolved dangerous
+    // connection/load warning may appear as a recommendation.
+    const unsafe = preliminary.selected.filter(item=>
+      item.safetyStatus==='blocked'||Boolean(item.ownershipBlocker)||Boolean(item.loadCaution));
+    const shortlist = {
+      ...preliminary,
+      selected:preliminary.selected.filter(item=>!unsafe.includes(item)),
+      excluded:[...(preliminary.excluded||[]),...unsafe.map(item=>({
+        title:item.title,reason:item.ownershipBlocker||item.loadCaution||
+          item.safetyReason||'Unresolved safety-critical pairing'
+      }))]
+    };
     // Price-position preference may reorder only verified, same-region,
     // comparable catalogue examples. It NEVER removes a recommendation.
     // We do not pretend that an unknown price is budget priced.
@@ -471,19 +483,9 @@ document.addEventListener('DOMContentLoaded', () => {
         card.append(soundLine);
       }
 
-      // Only material blockers and urgent caveats interrupt the skim view.
-      if (item.loadCaution)
-        addText(card,'p',item.loadCaution,'sb-card-alert');
-      else if (item.connectionStatus === 'adapter_needed')
-        addText(card,'p','Your chosen source connection needs extra hardware.','sb-card-alert');
-      else if (item.sourceBatteryCaution)
-        addText(card,'p','Battery-powered source/output required separately.','sb-card-alert');
-      // Distance and ordinary loudness uncertainty are already explained briefly
-      // in the main card. They are not urgent safety warnings.
-      if (item.sourceCaution)
-        addText(card,'p',item.sourceCaution,'sb-card-alert');
-      if (item.pathwayCaution)
-        addText(card,'p',item.pathwayCaution,'sb-card-alert');
+      // Safety-blocked pairings have already been removed. Connection
+      // adapters and ordinary limitations belong in the optional details.
+      // No generic yellow warning panels on eligible recommendations.
 
       const details = el('details','sb-card-details');
       addText(details,'summary','What is included, drawbacks & sources');
@@ -585,6 +587,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (item.connectionStatus === 'adapter_needed')
         checks.unshift('No native connection for your chosen input: add and price a suitable adapter, receiver or interface.');
+      if (item.sourceBatteryCaution)
+        checks.unshift('Battery operation requires a suitable battery-powered source/output.');
+      if (item.pathwayCaution)
+        checks.unshift(item.pathwayCaution);
       if (item.sourceCaution)
         checks.unshift(item.sourceCaution);
       if (item.sourceBatteryCaution)
@@ -680,7 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    if (shortlist.excluded.length && budget !== null) {
+    if (shortlist.excluded.length) {
       const excluded = el('details','sb-more');
       addText(excluded,'summary','Why some options were left out');
       list(excluded,shortlist.excluded.slice(0,5).map(x=>x.title+': '+x.reason));
