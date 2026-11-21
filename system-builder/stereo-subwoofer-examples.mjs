@@ -190,7 +190,7 @@ export function configureSubExample(item, request) {
     ...item,
     title: speaker ? 'WiiM Amp + ' + speaker.name.replace(' passive stereo pair', '') + ' + T5' : item.title,
     parts: speaker ? [item.parts[0], speaker, ...item.parts.slice(1)] : item.parts,
-    bassSetup: request.subMode === 'sub_full' ? wiimFullRange : item.bassSetup
+    bassSetup: request.subMode === 'sub_full' && item.id === 'stereo-sub-wiim' ? wiimFullRange : item.bassSetup
   };
 }
 
