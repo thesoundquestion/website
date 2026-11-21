@@ -92,3 +92,50 @@ test('the full subwoofer and powered outputs use the same evaluators as their ch
  assert.match(poweredPage,/poweredListeningAssessment/);
  assert.match(builder,/system-check\/powered\/\?/);
 });
+
+test('unlisted equipment can test reported connections but never gets a verified safety pass',()=>{
+ const possible=evaluateSubwooferConnection({
+  sourceModel:'Custom preamplifier',subModel:'Unknown sub',
+  reportedSourceOutput:'line',reportedSubInput:'line',
+  reportedSourceConnector:'rca',reportedSubConnector:'rca'
+ });
+ assert.equal(possible.status,'reported_possible');
+ assert.equal(possible.compatible,false);
+ assert.equal(possible.highPassVerified,false);
+ assert.equal(possible.cable,'RCA line-level signal lead');
+ const mismatch=evaluateSubwooferConnection({
+  sourceModel:'Custom power amplifier',subModel:'Unknown sub',
+  reportedSourceOutput:'speaker',reportedSubInput:'line'
+ });
+ assert.equal(mismatch.status,'incompatible');
+ assert.equal(mismatch.compatible,false);
+ const high=evaluateSubwooferConnection({
+  sourceModel:'Custom power amplifier',subModel:'Unknown sub',
+  reportedSourceOutput:'speaker',reportedSubInput:'speaker'
+ });
+ assert.equal(high.status,'reported_possible');
+ assert.equal(high.compatible,false);
+ assert.match(high.wiring,/bridged outputs/);
+ const actual=evaluateSubwooferConnection({
+  sourceModel:'Kanto ORA',subModel:'Edifier T5',
+  reportedSourceOutput:'speaker',reportedSubInput:'speaker'
+ });
+ assert.equal(actual.status,'documented_line_route');
+ assert.equal(actual.compatible,true);
+});
+test('peak-only powered manufacturer output is never reported as verified clean continuous SPL',()=>{
+ const kali=poweredEvidenceFor({model:'Kali Audio LP-6 V2',
+   parts:[{name:'Kali Audio LP-6 V2 (2nd Wave)',count:2}]});
+ assert.ok(kali);
+ const result=poweredListeningAssessment(kali,{distanceFt:6,level:'high'});
+ assert.equal(result.status,'peak_only_uncertain');
+ assert.equal(result.estimatedContinuousDb,null);
+ assert.equal(result.marginDb,null);
+ assert.doesNotMatch(result.text,/^Yes\./);
+ assert.match(result.detail,/No source-qualified continuous SPL/);
+ const qsc=poweredEvidenceFor({model:'QSC K12.2'});
+ assert.equal(qsc.maxContinuousDb,126);
+ assert.equal(qsc.maxPeakDb,132);
+ const dzr=poweredEvidenceFor({model:'Yamaha DZR15'});
+ assert.equal(poweredListeningAssessment(dzr,{distanceFt:15,level:'high'}).status,'peak_only_uncertain');
+});
