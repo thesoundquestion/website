@@ -20,8 +20,9 @@ if(new Set(catalog.records.map(r=>r.id)).size!==catalog.records.length)throw Err
 /** Deterministic 64-bit FNV-1a over UTF-16 code units, split into bytes. */
 function fingerprint(record){
   let v=0xcbf29ce484222325n;
-  for(const char of JSON.stringify(record)){
-    const n=char.charCodeAt(0);
+  const serialized=JSON.stringify(record);
+  for(let i=0;i<serialized.length;i++){
+    const n=serialized.charCodeAt(i);
     v^=BigInt(n&255);
     v=BigInt.asUintN(64,v*0x100000001b3n);
     v^=BigInt(n>>>8);
@@ -42,8 +43,8 @@ function certified(id,fp){
  const cert=certifications.approved?.[id];
  return Boolean(cert&&cert.fingerprint===fp&&
    typeof cert.reviewer==='string'&&cert.reviewer.trim().length>=2&&
-   /^\\d{4}-\\d{2}-\\d{2}$/.test(cert.reviewedOn||'')&&
-   Array.isArray(cert.evidence)&&cert.evidence.some(e=>/^https?:\\/\\//.test(e.url||'')&&
+   /^\d{4}-\d{2}-\d{2}$/.test(cert.reviewedOn||'')&&
+   Array.isArray(cert.evidence)&&cert.evidence.some(e=>/^https?:\/\//.test(e.url||'')&&
       typeof e.fields==='string'&&e.fields.trim())&&
    requiredChecks.every(k=>cert.checks?.[k]==='pass')&&
    typeof cert.decisionNote==='string'&&cert.decisionNote.trim().length>=15);
@@ -68,7 +69,7 @@ const removed=Object.keys(baseline.records).filter(id=>!seen.has(id));
 const unauthorizedRemoval=removed.filter(id=>{
  const x=certifications.approvedRemovals?.[id];
  return !(x&&typeof x.reviewer==='string'&&x.reviewer.trim()&&
-   /^\\d{4}-\\d{2}-\\d{2}$/.test(x.reviewedOn||'')&&
+   /^\d{4}-\d{2}-\d{2}$/.test(x.reviewedOn||'')&&
    typeof x.reason==='string'&&x.reason.trim().length>=15);
 });
 const blocked=rows.filter(r=>r.certification==='review_required');
@@ -83,7 +84,7 @@ console.log(JSON.stringify({counts,blocked:blocked.map(r=>r.id),unauthorizedRemo
 if(process.argv.includes('--write-report')){
  const path=resolve(root,'equipment/certification/risk-register.generated.json');
  mkdirSync(dirname(path),{recursive:true});
- writeFileSync(path,JSON.stringify(report,null,2)+'\\n');
+ writeFileSync(path,JSON.stringify(report,null,2)+'\n');
  console.log('Wrote '+path);
 }
 if(process.argv.includes('--check')&&(blocked.length||unauthorizedRemoval.length)){
