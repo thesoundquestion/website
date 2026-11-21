@@ -44,3 +44,17 @@ Power tests, frequency/phase/burst conditions, original owner sources and bass-m
 
 ## Ongoing rule
 **Run this matrix for every meaningful recommendation, equipment-source, connection, price or UI change in GitHub CI.** New recommendation types must be represented in both matrix dimensions and focused case assertions. Preserve existing earlier research and source provenance; verify only changed or contradictory claims. Do not deploy when the site regression or browser preflight fails.
+
+## 2026-11-21 | Numerical loudness verdict regression: Yamaha A-S301 + PSB Alpha P5
+
+**Critical user-observed failure:** The Builder displayed `Loud enough for you? Louder peaks depend on the exact speaker-and-amp pairing.` for a pairing whose relevant manufacturer ratings had **already been researched**. That is not a useful beginner recommendation and should never have passed acceptance as a completed loudness answer.
+
+**Fix committed:** `system-builder/recommendations.mjs` carries the source-qualified speaker-plus-amp acoustic evidence for the exact A-S301/P5 pairing (PSB Alpha P5 87 dB/1 W/1 m anechoic; Yamaha A-S301 60 W/ch continuous at 8 Ω, full band). `system-builder/headroom-evidence.mjs` now calculates a listening-distance estimate using that evidence, 3 dB stereo allowance and inverse-distance loss, and compares with a defined 90 dB short peak comfortable / 95 dB occasional-loud scenario. The result states **Yes / Probably with limited reserve / Not confidently at this distance** as warranted. Estimated output, margins, original values, and approximation limits remain behind the technical dropdown, not in yellow warning boxes.
+
+**Example:** A-S301/P5 at 6 ft, occasional-loud preference: approximately 103 dB theoretical peak versus 95 dB chosen brief target, giving about 8 dB arithmetic reserve. Main card says: **"Yes. It should have good reserve for occasional loud listening at 6 ft."** At 15 ft the predicted output is only around 95 dB before losses/uncertainty and is appropriately not called "good reserve." Deep-bass and room-dependent limits are not guaranteed by this midband model. Do not interpret numerical estimates as verified clean maximum SPL or as unsafe SPL exposure targets.
+
+**Evidence:** [PSB P5 87 dB/2.83 V/m anechoic specifications](https://www.stereophile.com/content/psb-alpha-p5-loudspeaker-specifications), [Yamaha Canada A-S301 60 W/ch full-band continuous specs](https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/a-s301/). The older Builder `source-master.json` already documented the sensitivity and amp rating, but the display code failed to use them.
+
+**Permanent test:** `tests/system-builder-headroom-evidence.test.mjs` now demands an affirmative supported verdict at 6 ft and restrained status at 15 ft. Prior vague placeholder wording cannot return for this equipment combination. More source-qualified pairs should enter `acousticEvidence` at the time their model combination is added, not after repeated user previews. No source-free watts or maximum SPL may be fabricated.
+
+**Limit:** This patch fixes the concrete confirmed failure and creates the generic numerical evaluator for *other* explicitly sourced pairings. It does **not** make up measured powered-speaker headroom for models without independent acoustic capability evidence. Remaining models must be migrated by evidence quality; the test suite does not certify every verdict.
