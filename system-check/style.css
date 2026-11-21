@@ -216,3 +216,37 @@ body.sc-powered-mode .sc-notes{display:none!important}
 .sc-powered-switch{font-size:.83rem;margin:1rem 0}
 @media(max-width:600px){.sc-powered-form{grid-template-columns:1fr;padding:.7rem}
  .sc-powered-result{padding:.8rem}}
+
+/* Source-labelled provisional passive amplifier scenario */
+.sc-provisional-check[hidden]{display:none!important}
+body.sc-provisional-mode .sc-layout,
+body.sc-provisional-mode .sc-notes{display:none!important}
+.sc-provisional-check{margin:1rem 0 2rem;max-width:860px}
+.sc-provisional-check>h2{font-size:1.2rem;color:#e2f6ff;margin:0 0 .35rem}
+.sc-provisional-intro{color:#c2dbe8;line-height:1.6;max-width:56rem}
+.sc-provisional-models{font-size:.87rem;font-weight:700;color:#e5f5ff}
+.sc-provisional-form{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;
+  align-items:end;border:1px solid #35516a;border-radius:10px;
+  padding:.8rem;background:#101d2c
+}
+.sc-provisional-form label{display:block;font-size:.82rem;color:#d8ebf5}
+.sc-provisional-form input{
+  box-sizing:border-box;width:100%;padding:.55rem .6rem;margin:.25rem 0 0;
+  color:#eef8ff;background:#0b1725;border:1px solid #4b6983;border-radius:7px;font:inherit
+}
+.sc-provisional-result{margin:.8rem 0;border:1px solid #40657b;
+  border-radius:10px;background:#112438;padding:1rem}
+.sc-provisional-result-title{font-size:1.04rem!important;color:#e1f8ff;margin:0 0 .4rem}
+.sc-provisional-result p{font-size:.84rem;line-height:1.57;margin:.35rem 0}
+.sc-provisional-evidence{color:#cadfeb}
+.sc-provisional-number{font-weight:750;color:#e7f7ff}
+.sc-provisional-margin{font-weight:710;color:#c5eff4}
+.sc-provisional-caveat{border-top:1px solid #355268;padding-top:.6rem;
+  margin-top:.75rem!important;color:#bdccdd}
+.sc-provisional-sources{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:.65rem}
+.sc-provisional-sources a{font-size:.77rem;color:#a8e8f2;text-decoration:underline}
+.sc-provisional-error{color:#ffe0c1}
+.sc-provisional-switch{font-size:.83rem;margin:1rem 0}
+@media(max-width:600px){.sc-provisional-form{grid-template-columns:1fr;padding:.7rem}
+.sc-provisional-result{padding:.8rem}}
