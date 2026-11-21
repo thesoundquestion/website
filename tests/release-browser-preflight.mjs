@@ -85,8 +85,10 @@ try {
    assert.ok(await page.locator('#gc-expanded-sources section').count()===2);
    assert.ok(await page.locator('#gc-expanded-table-scroll, .gc-expanded-table-scroll').count()>=1);
   }
-  const lone=await page.locator('#gc-expanded-status').innerText();
-  assert.match(lone,/Only one documented model/);
+  // The newest powered categories contain multiple real models, so a
+  // one-model status is no longer a valid end-of-loop assumption.
+  const comparisonStatus=await page.locator('#gc-expanded-status').innerText();
+  assert.match(comparisonStatus,/Showing documented specifications|Only one documented model/);
   await page.locator('[data-kind="amp"]').click();
   assert.ok(await page.locator('#gc-legacy').isVisible());
   assert.ok(await page.locator('#gc-expanded').isHidden());
