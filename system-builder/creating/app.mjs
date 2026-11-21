@@ -6,6 +6,7 @@ import {loadEquipmentCatalog} from '../../equipment/catalog-client.mjs';
 import {loadRegionalPriceTiers,regionalPriceLabel} from '../../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../../equipment/price-preference.mjs';
 import {CREATING_GOALS,DEFAULT_GOAL_COUNTS,buildCreatingSystem} from './build-recommendations.mjs';
+import {compareCatalogHandoff} from '../compare-handoff.mjs';
 
 const $=id=>document.getElementById(id);
 const mode=$('sb-purpose-select'),form=$('sb-purpose-form'),result=$('sb-purpose-result');
@@ -142,6 +143,12 @@ const statuses={
   included:'Already included · no extra device needed',
   verify:'Need to research this requirement'
 };
+function modelComparisonLink(pick,alternative=null){
+  if(!pick?.id||!catalog)return null;
+  const current=catalog.records.find(x=>x.id===pick.id);
+  const other=alternative?.id?catalog.records.find(x=>x.id===alternative.id):null;
+  return compareCatalogHandoff(current,other);
+}
 function renderStage(stage,index){
   const li=node('li','sb-build-step');
   const top=append(li,'div','sb-build-step-top');
@@ -158,6 +165,8 @@ function renderStage(stage,index){
       stage.pick.priceCategory+' · '+stage.pick.priceRegion+' (reviewed '+stage.pick.tierDate+')');
     if(stage.pick.reason)append(pick,'p','sb-build-reason',stage.pick.reason);
     if(stage.pick.source)link(pick,stage.pick.source,'Model specifications / source');
+    const comparison=modelComparisonLink(stage.pick,stage.alternatives?.[0]);
+    if(comparison)link(pick,comparison,'Compare this exact model and alternatives');
   }else if(stage.need==='research'){
     append(li,'p','sb-build-example','Choose a suitable item meeting this description. No verified single-model suggestion is required for this accessory or software.');
   }else if(stage.need==='verify'){
@@ -176,6 +185,8 @@ function renderStage(stage,index){
       if(alt.priceCategory)append(row,'span','sb-price-category',' '+alt.priceCategory);
       if(alt.reason)append(row,'small','sb-build-alternative-reason',alt.reason);
       if(alt.source)link(row,alt.source,'Specifications');
+      const comparison=modelComparisonLink(alt,stage.pick);
+      if(comparison)link(row,comparison,'Compare these models');
     }
   }
   if(stage.checks?.length){
@@ -237,8 +248,9 @@ function render(plan){
     const li=append(ul,'li');
     link(li,href,names[href]||'More about this part of the chain');
   }
-  const verification=append(body,'p','sb-build-checker','Already have the gear? ');
-  link(verification,'/system-check/compare/','Use Compare My Gear to inspect documented ports, recording channels and other specifications');
+  // Exact catalogue comparison actions live alongside each relevant stage.
+  // Never pretend the passive System Check calculator can analyze microphone
+  // signal chains, headphone outputs or powered monitors.
   append(body,'p','sb-chain-disclaimer',plan.disclaimer);
   result.hidden=false;
 }
