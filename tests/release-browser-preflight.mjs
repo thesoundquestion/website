@@ -165,6 +165,7 @@ try {
   const jbl=page.locator('#sb-purpose-monitor option').filter({hasText:'JBL 305P MkII'}).first();
   const jblId=await jbl.getAttribute('value');
   assert.ok(jblId,device.name+' JBL monitor absent from Creating equipment list');
+  await page.locator('details.sb-own-equipment summary').click();
   await page.locator('#sb-purpose-monitor').selectOption(jblId);
   await page.locator('#sb-purpose-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-purpose-result')?.hidden,null,{timeout:15000});
