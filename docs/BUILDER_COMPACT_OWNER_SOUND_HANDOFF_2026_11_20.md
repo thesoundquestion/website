@@ -180,3 +180,58 @@ Concrete validated shortlist: living-room, no budget => Yamaha A-S301 + PSB Alph
 **Preview command repair:** `PREVIEW_FULL_SITE_WINDOWS.ps1` starts a Python local server and validates source branch, required files, and HTTP 200 responses from the full site, Builder, System Check, Builder JavaScript and catalog before opening the browser. `PREVIEW_FULL_SITE_WINDOWS.cmd` delegates to it. Launcher uses port 8877 and errors explicitly when occupied; it does not open a stale prior preview. Users should update their existing preview checkout and run the new PowerShell script from that directory. No Cloudflare publication was made.
 
 Test module: `tests/system-builder-passive-evidence-readiness.test.mjs`.
+
+## Beginner complete-system result overhaul (November 20, 2026)
+
+**Reproduced problem:** A visitor selected `Build a complete listening system`,
+left the system approach `open`, chose `bedroom`, with an imaging/spaciousness
+priority. The old UI led with "A possible setup, with details to check",
+did not use the exact example's `why`, hid JBL's independently reviewed
+listening impression inside a technical disclosure, offered an empty generic
+System Check link for powered monitors, duplicated verification disclaimers,
+and generated many empty/irrelevant-looking expanded disclosure headings.
+The site looked like a technical report rather than a listening recommendation.
+
+**New focused rendering:** The exact no-owned-gear `complete_system` and
+`no_sub` entry route uses a separate, compact output in `system-builder/app.mjs`
+and `system-builder/simple-system-summary.mjs`, styled through
+`system-builder/compact-preview.css`. The existing source-verified shortlist
+still chooses eligible products and ranks them; the new layer does not
+calculate new watts, assign subjective scores or invent compatibility.
+
+- First card: exact model, specific room/listening-priority rationale,
+  sourced listening description, connection route, purchased parts and optional
+  trade-off/source disclosure.
+- Alternatives: each model's *own* audible character and supporting listening
+  review link, with brief fit rationale. No head-to-head requirement.
+- Review eligibility: actual subjective owner experiences or an independent
+  review containing real listening observations. Mere manufacturer marketing
+  and measurement-only interpretation do not qualify as listening impressions.
+  When no qualifying listening source exists, the alternative is not presented
+  as one of the few sound-first options in this simplified results view.
+- No full `renderCard`/secondary audit/used-gear technical tree and no
+  alarming generic "A possible setup" status for this introductory path.
+- The amplifier + passive speaker system can link to prefilled System Check,
+  showing the exact models and room-specific distance/level. Powered JBL,
+  Kanto and similar systems **do not** receive a distance-only System Check
+  link, because that passive-amplifier headroom calculator is inapplicable.
+- Correct JBL/Kanto `soundTarget` model identities make their existing
+  source-backed auditory summaries visible in the main view.
+
+**Validated real example:** Bedroom, 6 ft, open system choice, imaging
+priority. First JBL 305P MkII pair, linked listening review reports a
+broad stereo image, punchy bass and some forward upper mids. Alternatives
+shown with source-backed sound descriptions are Kanto ORA (clear mids,
+even presentation, softer upper treble) and Yamaha A-S301 + PSB Alpha P5
+(natural vocals, smooth treble, warmer balance). Kali LP-6 V2 is not
+promoted as a sound-described option where only measurement interpretation
+is available. For default balanced music priority, the well-documented
+Yamaha/PSB pairing leads the same room's examples.
+
+**Tests:** `tests/system-builder-simple-complete-results.test.mjs`.
+Six in-memory tests of the exact real shortlist, source links, sound
+descriptions, page branch, correct powered/passive System Check handling,
+and CSS structure passed. Full cross-browser and visual QA are still
+required before production promotion. Existing complex owned-equipment
+and deliberate subwoofer flows retain their established detailed logic.
+No published site or Cloudflare deployment changed.
