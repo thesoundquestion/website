@@ -65,7 +65,7 @@ test('speaker upgrade research never invents a compatibility clearance for unkno
 test('Builder handoff and calculator use published in-room Titan sensitivity without double counting',()=>{
   const app=read('system-builder/app.mjs');
   const calculator=read('system-check/calculator.js');
-  assert.match(app,/preferRoom:'1'/);
+  assert.match(app,/checkParams\\.set\\('preferRoom'/);
   assert.match(app,/amplifierModel:item\.amplifierModel/);
   assert.match(calculator,/\bdB\\s\*in\[\\s-\]\?room/);
   assert.match(calculator,/field\('room'\)\.value='0'/);
