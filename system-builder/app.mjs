@@ -12,6 +12,7 @@ import {buildSearches,googleSearchUrl,normalizeModel} from '../system-check/spec
 import {builderIntent,builderFieldRequirement,handoffBuilderIntent,validateBuilderIntent,scopedBuilderInputs} from './intent-routing.mjs';
 import {isPoweredSpeakerModel,isPoweredSpeakerRecord,availableSpeakersForIntent,POWERED_AMP_MESSAGE} from './speaker-route.mjs';
 import {loadEquipmentCatalog} from '../equipment/catalog-client.mjs';
+import {sharedGearAsLegacyView} from './shared-gear-adapter.mjs';
 import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
 import {listeningCatalogOptions,listeningStudioCandidates,describeStudioMonitor} from '../equipment/builder-catalog-options.mjs';
@@ -656,34 +657,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setBuilderIntent();
   }));
 
-  function asLegacyView(entry,kind){
-    const findFact=key=>entry?.facts?.[key]?.value??null;
-    const passive=kind==='speaker'&&findFact('speakerKind')!=='powered_studio_monitor'&&findFact('speakerKind')!=='powered_pa_speaker';
-    const values={};
-    if(passive){
-      const ohms=findFact('speakerNominalImpedanceOhms');
-      if(Number.isFinite(ohms))values.load=ohms;
-      const db=findFact('speakerSensitivityDb');
-      const basis=findFact('speakerSensitivityBasis');
-      if(Number.isFinite(db)&&(basis==='1_W_at_1_m'||basis==='2.83_V_at_1_m')){
-        values.sensitivity=db;
-        values.basis=basis==='1_W_at_1_m'?'power':'voltage';
-      }
-    }
-    if(kind==='headphone'){
-      if(Number.isFinite(findFact('nominalImpedanceOhms')))values.load=findFact('nominalImpedanceOhms');
-      if(Number.isFinite(findFact('sensitivityDb'))){
-        values.sensitivity=findFact('sensitivityDb');
-        if(findFact('sensitivityBasis')==='dB_SPL_per_mW')values.basis='power';
-        if(findFact('sensitivityBasis')==='dB_SPL_per_V')values.basis='voltage';
-      }
-    }
-    return {model:entry.model,type:kind,values,ratings:[],
-      url:entry.evidence?.find(x=>x.url?.startsWith('https://'))?.url||null,
-      note:'Shared source-verified catalogue entry; unknown specifications are not inferred.',
-      catalogueId:entry.id,speakerKind:findFact('speakerKind'),powered:findFact('powered')===true,
-      evidence:'Shared catalogue identity with scoped, unverified or partially verified specifications'};
-  }
   const kindsForCategory={
     speaker:['speaker'],amp:['amp'],source:['source','computer_sound_card','audio_interface','headphone_amplifier'],
     headphone:['headphone']
@@ -770,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
       (kind==='speaker' ? builderOnlySpeakerFor(exact) || poweredSubPairFor(exact) :
         kind==='headphone' ? builderOnlyHeadphoneFor(exact) :
         kind==='amp' ? builderOnlyAmpFor(exact) : null) ||
-      (shared?asLegacyView(shared,kind):null);
+      (shared?sharedGearAsLegacyView(shared,kind):null);
     const submitted=custom?unlistedSpecAssessment(kind,data):null;
     const resolved=custom?submitted?.record:record;
     return {name: custom || resolved?.model || '', record: resolved||null,
