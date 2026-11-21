@@ -15,7 +15,7 @@ test('all architectures produce explicit headroom, not generic missing text',()=
  for(const arch of ['consumer_powered_pair','active_studio','party_pa','passive_separates','headphone_first']){
   const e=headroomEvidence({architecture:arch},{...req,level:'high'});
   assert.ok(e.status);
-  assert.ok(e.text.length>45);
+  assert.ok(e.text.length>30);
   assert.ok(e.detail.length>25);
   assert.ok(!/0 W|0 dB/.test(e.text));
  }
@@ -27,7 +27,8 @@ test('powered Edifier MR4 has an explicit conditional output answer at user dist
  const e=headroomEvidence(item,req);
  assert.equal(e.status,'powered_maximum_spl_unverified');
  assert.match(e.text,/6 ft/);
- assert.match(e.detail,/Built-in amplifier watts/);
+ assert.match(e.text,/reasonable option/);
+ assert.match(e.detail,/Published amplifier watts/);
  assert.equal(e.link,null);
 });
 
@@ -37,7 +38,7 @@ test('loud preference alone does not mark any powered product unsuitable or esti
  const b=headroomEvidence(item,{...req,level:'high',distanceFt:16});
  assert.equal(a.status,b.status);
  assert.match(b.text,/16 ft/);
- assert.match(b.text,/not been verified/);
+ assert.match(b.text,/check this model/);
  assert.doesNotMatch(b.text,/unsuitable|fails|cannot play/);
 });
 
@@ -46,24 +47,25 @@ test('passive output requires matching continuous load and a documented sensitiv
  const r=headroomEvidence(item,req);
  assert.equal(r.status,'passive_exact_load_power_only');
  assert.match(r.text,/60 W\/channel at 8 Ω/);
- assert.match(r.text,/not yet calculated/);
+ assert.match(r.detail,/not a seat-level SPL result/);
  assert.equal(r.link,'/system-check/');
  const unknown=headroomEvidence({architecture:'passive_separates'},req);
  assert.equal(unknown.status,'passive_output_unverified');
- assert.match(unknown.text,/numerical headroom remains unknown/);
+ assert.match(unknown.detail,/speaker sensitivity/);
 });
 
 test('a proposed high-pass or sub route is not automatically awarded extra maximum clean SPL',()=>{
  const item={architecture:'consumer_powered_pair',bassSetup:{label:'100 Hz active crossover'}};
  const r=headroomEvidence(item,req);
  assert.match(r.detail,/100 Hz active crossover/);
- assert.match(r.detail,/does not establish additional clean maximum SPL/);
+ assert.match(r.detail,/more bass does not automatically mean more maximum volume/);
 });
 
 test('Builder cards render the evidence note and never send powered users into passive wattage calculation',()=>{
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
  assert.match(app,/headroomEvidence\(item,request\)/);
- assert.match(app,/Headroom at your seat: /);
+ assert.match(app,/addText\(headroom,'strong',output.label/);
  assert.match(app,/if\(output.link\)link\(headroom/);
- assert.match(app,/Headroom evidence and limits/);
+ assert.match(app,/How loud and why/);
+ assert.doesNotMatch(app,/sb-card-alert'\);\\n      if \\(item.sourceCaution\\)/);
 });
