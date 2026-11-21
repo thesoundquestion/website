@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {shortlistExamples} from '../system-builder/recommendations.mjs';
 import {explainEmptyExampleShortlist} from '../system-builder/empty-shortlist-guidance.mjs';
+import {poweredHeadroomEstimate,POWERED_OUTPUT_EVIDENCE} from '../system-check/powered-headroom-model.mjs';
 
 const catalog=JSON.parse(readFileSync(new URL('../equipment/catalog.generated.json',import.meta.url),'utf8'));
 const base={
@@ -106,4 +107,29 @@ test('coverage audit classifies empty and weak-fit requests without treating eve
    requests,empty,emptyPercent:Math.round(empty*1000/requests)/10,
    unpricedLeads,weakGoalOrRoom,knownOverBudget,byArchitecture,byConnection,samples
  }));
+});
+
+test('powered-speaker estimates preserve the acoustic evidence boundary across distances and listening levels',()=>{
+ const targets=[[65,80],[80,95],[85,105]];
+ for(const [model,evidence] of Object.entries(POWERED_OUTPUT_EVIDENCE)){
+  let previousAtSameTarget=null;
+  for(const feet of [3,6,12,20]){
+   const quiet=poweredHeadroomEstimate(model,{distanceFt:feet,averageDb:65,peakDb:80});
+   assert.ok(['projected','partial','unverified'].includes(quiet.status),model);
+   assert.ok(evidence.source?.startsWith('https://'),model);
+   if(previousAtSameTarget!==null&&quiet.peakMarginDb!==null)
+    assert.ok(quiet.peakMarginDb<=previousAtSameTarget,model+' should not gain peak headroom farther away');
+   if(quiet.peakMarginDb!==null)previousAtSameTarget=quiet.peakMarginDb;
+   const levels=targets.map(([averageDb,peakDb])=>
+     poweredHeadroomEstimate(model,{distanceFt:feet,averageDb,peakDb}));
+   if(!evidence.peak){
+    assert.ok(levels.every(x=>x.peakMarginDb===null&&x.projectedPeakDb===null),
+      model+' cannot derive a peak acoustic limit from electrical watts');
+   }else{
+    assert.ok(levels.every(x=>x.peakMarginDb!==null),model);
+    assert.ok(levels[0].peakMarginDb>=levels[1].peakMarginDb);
+    assert.ok(levels[1].peakMarginDb>=levels[2].peakMarginDb);
+   }
+  }
+ }
 });
