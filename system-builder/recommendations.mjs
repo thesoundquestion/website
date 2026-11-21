@@ -13,6 +13,16 @@ const CA_PRICE_DATE = '2026-11-12';
 export const EXAMPLES = Object.freeze([
   {
     id:'passive-as301-p5', architecture:'passive_separates', title:'Expandable stereo: Yamaha A-S301 + PSB Alpha P5',
+    // Manufacturer PSB Alpha P5 anechoic sensitivity is 87 dB at 1 W/1 m
+    // (2.83 V into 8 Ω); Yamaha A-S301 published continuous 8 Ω output is 60 W/ch.
+    // This is a rough listening-seat estimate, not independently measured clean SPL.
+    acousticEvidence:{
+      speakerModel:'PSB Alpha P5',amplifierModel:'Yamaha A-S301',
+      sensitivityDb1W1m:87,nominalOhms:8,pairGainDb:3,
+      continuousWattsPerChannel:60,reference:'manufacturer_anechoic',
+      sourceUrls:['https://www.stereophile.com/content/psb-alpha-p5-loudspeaker-specifications',
+        'https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/a-s301/']
+    },
     kind:'New-system example', places:['living_room','bedroom'], power:'mains',
     connections:['analog','optical'],goals:['all_rounder','natural','imaging','dynamic','bass'],
     parts:[
