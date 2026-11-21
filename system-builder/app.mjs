@@ -23,6 +23,7 @@ import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
 import {ownershipPlan} from './owned-gear-options.mjs';
 import {explainBeginnerOption} from './beginner-output.mjs';
 import {explainSimpleSystem} from './simple-system-summary.mjs';
+import {removeUnsafeRecommendations} from './recommendation-safety-gate.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
 import {BUILDER_ONLY_AMPS, builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
@@ -941,8 +942,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialShortlist = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
       : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request,sharedCatalog));
-    const shortlist=arch==='headphone_first'
+    const candidateShortlist=arch==='headphone_first'
       ?applyHeadphoneAmpChoice(initialShortlist,request,sharedCatalog):initialShortlist;
+    // A known unsafe pairing is not a shopping recommendation. Remove it
+    // before sorting, rendering, selecting a top match or offering alternatives.
+    const shortlist=removeUnsafeRecommendations(candidateShortlist,request);
     const headphoneElectronicsPlan=arch==='headphone_first'
       ?headphoneAmplifierPlan(request,sharedCatalog):null;
     if(headphoneElectronicsPlan)
@@ -1195,15 +1199,6 @@ document.addEventListener('DOMContentLoaded', () => {
           profile.append(links);
           card.append(profile);
         }
-      }
-      // Ordinary verification does not deserve a yellow warning banner.
-      // Only a known electrical or connection blocker interrupts the card.
-      if(!detailOnly&&overview.priority==='critical'){
-        const critical=item.ownershipBlocker||item.loadCaution||
-          (item.pairingEvidence?.demandingMinimum
-            ?'The speakers may present a load this amplifier cannot safely support.'
-            :'This exact equipment combination has a compatibility problem.');
-        addText(card,'p',critical,'sb-safety-blocker');
       }
       const reason=String(item.amplifierReason||item.speakerRationale||
         item.ownershipMessage||item.why||overview.reason||'').trim();
