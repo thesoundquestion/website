@@ -29,7 +29,7 @@ Every newly added equipment entry or recommendation path must prove, in the SAME
 | Creating powered studio monitor stage | Compare powered studio monitors | exact registry model ID and optional similar alternative | browser selected model |
 | Creating powered PA stage | Compare powered PA speakers | exact registry model ID and optional similar alternative | browser selected model |
 
-**Important limits / outstanding capabilities:** Compare My Gear is a **specification and connector evidence comparison**, not a proof of end-to-end safe electrical compatibility. It does not verify max clean SPL or room coverage for powered speakers. System Check currently computes passive-speaker power/headroom estimates; it is not an appropriate max-SPL validator for powered monitors, powered PA or headphones. The existing Builder subwoofer routing is model-specific guidance, not a dedicated standalone subwoofer checker for arbitrary owned hardware. Those are real capability gaps and cannot be marked fully certified by merely adding a link. When the user requires these capabilities, extend the correct underlying engine and its tests, not just the UI.
+**Engineering boundary:** Compare My Gear is a specification/connector comparison, not a certified electrical-safety or acoustic test. The newer powered and subwoofer evaluators described below *add actual model-specific calculations*, but they cannot turn undocumented products into measured or electrically certified equipment. Unknown source/input levels remain unverified. Manufacturer peak SPL cannot establish sustained clean output or hearing safety.
 
 ## Required CI
 
@@ -41,3 +41,31 @@ Every newly added equipment entry or recommendation path must prove, in the SAME
 ## Handoff instruction to future AI/release agents
 
 Read this contract and `equipment/certification/RELEASE_MATRIX_AUDIT_2026_11_21.md` **before** touching Builder, System Check, comparison or equipment catalog code. Plan changes to both sides of the transfer together. Add an automated end-to-end regression in the same commit sequence. Keep draft PR and source branch intact and do not deploy without owner authorization and all four release gates passing. Do not misdescribe partial feature support as “fully integrated.”
+
+## 2026-11-21 — Implemented powered-output and subwoofer compatibility engines
+
+The requirement to integrate these validators was established before this pass; generic links and qualitative placeholders were never adequate.
+
+### Powered loudness validation
+- Engine: `system-builder/powered-output-evidence.mjs`; dedicated editable checker: `/system-check/powered/`.
+- The Listening Builder's `Loud enough for you?` cards use the **same model-qualified acoustic engine** and link directly to the checker with the **selected model, number of cabinets, listening distance and preference**. The Creating Builder links source-qualified powered monitor/PA stages to the same checker. Because the Creating Builder does not collect a listening distance, that input is left blank until the visitor provides one.
+- Source-backed acoustic records: **JBL 305P MkII** (94 dB continuous / 108 dB peak at 1 m, JBL; high-distortion peak limit), **QSC K12.2** (126 continuous / 132 peak at 1 m, QSC). **Kali Audio LP-6 V2** (115 dB peak at 1 m; published continuous acoustic output unavailable) and **Yamaha DZR15** (139 dB peak at 1 m, continuous unavailable) have a *peak-only* evidence tier. Do not substitute amplifier wattage or invent a continuous SPL for these.
+- Distance attenuation and pair allowance are mathematically testable, but frequency-dependent acoustic compression, clean deep-bass limit, calibrated room response and hearing exposure are not determined by those ratings. `peak_only_uncertain` must never produce a verified Yes. For arbitrary unlisted powered models, the optional published-SPL input produces an explicitly **user-reported, unverified estimate**, never a certified model verdict.
+- Reference sources: https://jblpro.com/en-US/products/305p-mkii ; https://www.qscaudio.com/solutions-products/loudspeakers/portable/powered/portable-pa/k2-series/k122/ ; https://www.kaliaudio.com/lone-pine-studio-monitors ; https://ca.yamaha.com/en/audio/portable-pa/products/speakers/dzr/specs.html .
+- **New-entry requirement:** Record exact model/revision, acoustic quantity type (continuous, peak-only, independently measured), reference distance, source URL, distortion/processing conditions, and per-cabinet vs stereo-pair basis. Only then connect it to quantitative output guidance. Absent acoustic evidence must not be replaced by electrical power.
+
+### Subwoofer connection and crossover validation
+- Engine: `system-check/subwoofer/engine.mjs`; dedicated editable checker: `/system-check/subwoofer/`.
+- Documented output-side routes: Edifier R1280DBs Sub Out (3.5 mm line; main-bass reduction with unspecified crossover), original Kanto ORA Sub Out (RCA line; documented 100 Hz main-speaker high-pass), original WiiM Amp Sub Out (RCA line; configurable main-bass routing), North American Denon AVR-S650H Subwoofer Pre Out (RCA line; Front Small receiver crossover).
+- The exact **Edifier T5** is the initial fully documented line-level input-side record. Line-level + line-level matches produce an actual cable recommendation and describe whether the mains have verified high-pass filtering. Speaker outputs must never be mistaken for RCA line-level signals. The recommendation and retained-subwoofer UI transfer the exact chosen route and crossover mode into this checker.
+- Arbitrary unlisted equipment can use optional **user-reported** output/input signal classes and connectors to test for a mismatch, with `reported_possible` status **never counted as a verified compatible recommendation**. Bridged speaker-level outputs require additional maker-specific safety confirmation. No input-side ratings or crossover behavior may be borrowed from Edifier T5 for other subs.
+- **New-entry requirement:** Record actual output signal role and connector, actual sub input signal role and connector, high-pass/crossover mode including control location, source/manual URLs, required separate leads, and the safety of intended topology. Only fully documented paths get `documented_line_route`.
+- Initial source documents are retained in the source fixture for every model. Do not conflate an RCA connector with compatible voltage/headroom under every source condition; these are documented signal-path matches, not fault-safe electrical certification.
+
+### Required automatic verification
+- Unit: `tests/builder-subwoofer-powered-integration.test.mjs` verifies published acoustic tiers, distance, stereo allowance, unknown models, revision isolation, real source/sub signal matches, RCA vs 3.5 mm leads, high-pass on/off, and speaker-level-to-line-level rejection.
+- Real UI: `tests/release-browser-preflight.mjs` must follow **actual Builder-generated links** on desktop and mobile: powered model + distance/preference to the editable result, known 2.1 route to a prefilled model/crossover result, unknown input with no fake compatibility, and arbitrary manually entered signal/SPL data with no certified result. Creating Builder powered output must preserve the selected model while leaving the unknown distance empty.
+- Both checkers are independently discoverable on the Tools hub. They must stay available to the user as free local calculations without a paid API or backend.
+- Every addition to the equipment catalogue must update applicable evidence records, the actual checker and its tests **at the time of entry**, not after repeated release-preview complaints.
+
+**Unresolved factual limitations:** The source-backed acoustic list is currently smaller than the full 197-model equipment database, and full **physical measured clean SPL** for every powered speaker is unavailable. The subwoofer input-side verified fixture set initially covers Edifier T5; other exact models require their own documented input/crossover specifications. These are evidence-coverage gaps, not missing ability to perform calculations or missing navigation.
