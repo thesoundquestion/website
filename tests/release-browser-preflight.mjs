@@ -108,6 +108,42 @@ try {
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
   assert.ok((await page.locator('#sb-results').innerText()).length>220);
+
+  // The recommendation's System Check action must carry the actual model,
+  // distance and listening target, and the destination must populate inputs.
+  // A generic link to an empty calculator does not pass this test.
+  await page.locator('#sb-form [name="architecture"]').selectOption('passive_separates');
+  await page.locator('#sb-form [name="goal"]').selectOption('imaging');
+  await page.locator('#sb-form [name="useCase"]').selectOption('bedroom');
+  await page.locator('#sb-form [name="level"]').selectOption('high');
+  await page.locator('#sb-form [name="distanceFt"]').fill('6');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  const recommended=page.locator('article.sb-recommend').filter({hasText:'Yamaha A-S301 + PSB Alpha P5'}).first();
+  assert.equal(await recommended.count(),1,device.name+' researched Yamaha/PSB example absent');
+  const link=recommended.getByRole('link',{name:'Check your exact listening levels'});
+  assert.ok(await link.isVisible(),device.name+' System Check handoff missing');
+  const url=new URL(await link.getAttribute('href'),BASE);
+  assert.equal(url.pathname,'/system-check/');
+  for(const [key,value] of Object.entries({
+    speaker:'PSB Alpha P5',amp:'Yamaha A-S301',distance:'6',
+    peak:'95',average:'80',builderSensitivity:'87',builderLoad:'8'
+  }))assert.equal(url.searchParams.get(key),value,device.name+' handoff field '+key);
+  await visit(page,url.pathname+url.search);
+  assert.equal(await page.locator('#check [name="distance"]').inputValue(),'6');
+  assert.equal(await page.locator('#check [name="peak"]').inputValue(),'95');
+  assert.equal(await page.locator('#check [name="average"]').inputValue(),'80');
+  assert.equal(await page.locator('#check [name="sensitivity"]').inputValue(),'87');
+  assert.equal(await page.locator('#check [name="load"]').inputValue(),'8');
+  assert.equal(await page.locator('#check [name="speakerModel"]').inputValue(),'PSB Alpha P5');
+  assert.equal(await page.locator('#check [name="ampModel"]').inputValue(),'Yamaha A-S301');
+  assert.ok(await page.locator('#builder-handoff-note').isVisible());
+  assert.ok((await page.locator('#ratings').innerText()).length>0);
+  await page.locator('#check button[type="submit"]').first().click();
+  await page.waitForFunction(()=>document.querySelector('#result-body')?.textContent.length>150,
+    null,{timeout:15000});
+  await checkNoErrors(page,errors,device.name+' Builder to System Check');
+  outcomes.push(device.name+' Builder to prefilled System Check loudness calculation');
   await checkNoErrors(page,errors,device.name+' Listening Builder');
   assert.equal(workerRequests,0,device.name+' smoke attempted live Worker API');
   outcomes.push(device.name+' Listening Builder equipment results');
