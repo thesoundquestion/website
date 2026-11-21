@@ -242,7 +242,7 @@ try {
      device.name+' headphone alternatives must be explained without a dropdown');
    assert.ok(await page.locator('#sb-first-recommendation .sb-primary-sound').isVisible(),
      device.name+' primary headphone choice should have a visible sound profile');
-   assert.match(await page.locator('#sb-first-recommendation .sb-primary-sound').innerText(),/What might it sound like\?/);
+   assert.match(await page.locator('#sb-first-recommendation .sb-primary-sound').innerText(),/How listeners describe the sound/);
    assert.ok(await page.locator('.sb-comparison-overview .sb-compact-compare').count()>=1);
    assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-one-line').count()>=1,
      device.name+' headphone alternatives should offer a short tonal comparison');
