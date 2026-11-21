@@ -23,13 +23,23 @@ test('a sourced supplement retains nominal/minimum speaker load',()=>{
  assert.equal(speaker.values.sensitivity,86);
  assert.equal(speaker.values.basis,'voltage');
 });
-test('a published missing specification stays missing',()=>{
- const speaker=sharedGearAsLegacyView(byModel('PSB Alpha P5'),'speaker');
- assert.ok(speaker);
- assert.equal(speaker.values.load,8);
- // The source catalog currently lacks an admitted sensitivity measurement.
- // It must not be silently fabricated, even when a vendor product page exists.
- assert.equal(speaker.values.sensitivity,undefined);
+test('both PSB Alpha models preserve manufacturer-confirmed voltage sensitivity',()=>{
+ for(const [model,sensitivity,maxAmp] of [['PSB Alpha P3',85,80],['PSB Alpha P5',87,90]]){
+   const speaker=sharedGearAsLegacyView(byModel(model),'speaker');
+   assert.ok(speaker,model);
+   assert.equal(speaker.values.load,8,model);
+   assert.equal(speaker.values.minimum,4,model);
+   assert.equal(speaker.values.sensitivity,sensitivity,model);
+   assert.equal(speaker.values.basis,'voltage',model);
+   assert.equal(speaker.values.speakerRecommendedAmpMax,maxAmp,model);
+   assert.equal(speaker.values.speakerPowerContinuous,undefined,
+     'Recommended amplifier wattage must not become speaker continuous handling');
+   assert.equal(speaker.values.speakerPowerPeak,undefined);
+   assert.equal(speaker.ratings.length,0,'passive speaker has no amplifier ratings');
+   assert.ok(speaker.details.sensitivityDataSheetUrl.startsWith('https://'));
+ }
+});
+test('genuinely unverified amplifier output stays unknown',()=>{
  const amp=sharedGearAsLegacyView(byModel('Fosi Audio BT20A Pro'),'amp');
  assert.equal(amp.ratings.length,0,'no verified continuous-rating record in source catalogue');
 });
