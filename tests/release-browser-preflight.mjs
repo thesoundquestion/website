@@ -480,6 +480,7 @@ try {
   await visit(page,'/system-builder/');
   await page.locator('#sb-build-intent').selectOption('complete_system');
   await page.locator('[name="architecture"]').selectOption('consumer_powered_pair');
+  await page.locator('.sb-advanced-form > summary').click();
   await page.locator('[name="connection"]').selectOption('hdmi');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
