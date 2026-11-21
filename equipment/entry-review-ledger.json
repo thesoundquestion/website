@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "policy": "Never add fake approvals or copy data from a similar product. Ledger entries are mandatory for newly added and revised canonical devices and for newly added curated systems; use exact normalized record fingerprint and item identifier.",
+  "records": {},
+  "examples": {}
+}
