@@ -31,6 +31,11 @@ for(const [key,field] of [
  if(value&&[...$(field).options].some(option=>option.value===value))$(field).value=value;
 }
 if(!$('sub-source').value||!$('sub-model').value)$('sub-manual').open=true;
+for(const field of ['sub-source','sub-model']){
+ $(field).addEventListener('change',()=>{
+  if(!$('sub-source').value||!$('sub-model').value)$('sub-manual').open=true;
+ });
+}
 function render(){
  const args={sourceModel:$('sub-source').value,subModel:$('sub-model').value,
   mainBassMode:$('sub-mode').value,
