@@ -495,8 +495,8 @@ try {
   const previewText=await preview.innerText();
   assert.match(previewText,/Other options · What owners hear/);
   assert.match(previewText,/Cerwin-Vega|Klipsch/);
-  assert.match(previewText,/Compared with/);
-  assert.ok(await preview.locator('.sb-compact-compare').count()>=1);
+  assert.doesNotMatch(previewText,/Compared with/);
+  assert.ok(await preview.locator('.sb-alt-headroom').count()>=1);
   assert.ok(await page.locator('#sb-first-recommendation .sb-primary-sound').isVisible());
   assert.ok(await preview.isVisible(),device.name+' upgrade reasons must appear without opening alternatives');
   const options=preview.locator('.sb-alternative-details .sb-recommend-supplement');
