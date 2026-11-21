@@ -70,3 +70,18 @@ For powered recommendations without reliable numeric max-output evidence, the on
 ### Visible System Check link is mandatory on passive recommendations
 
 Every passive speaker/amplifier recommendation with a `Loud enough for you?` answer must show a **Check your exact listening levels** link directly beneath it, outside the collapsed technical explanation. The link goes to `/system-check/` where the listener can enter an exact listening level, distance, speaker rating and amplifier conditions. Avoid claiming the general estimate itself is a personalized clean SPL measurement. Powered and headphone systems must not be sent to a passive-only calculator as though it validated their acoustic output. Enforced by `tests/system-builder-headroom-evidence.test.mjs`.
+
+### Critical Builder → System Check integration correction
+
+**User-found gap:** Prior "Check your exact listening levels" linked to `/system-check/` with no context, meaning the user had to re-enter the complete recommendation and selected listening conditions. The Calculator had already supported exact-model `speaker` and `amp` URL preselection, but the Builder **never used the existing mechanism**. The PSB Alpha P5 is in the original Builder-only source master, not the System Check preset list, so a model-name URL alone still could not populate its sourced sensitivity.
+
+**Implemented:**
+- `system-builder/checker-handoff.mjs` constructs the link using exact recommended speaker/amp model, listening distance, default goal-based peak+average targets, and source-backed sensitivity/impedance/continuous amplifier rating when available.
+- `system-builder/app.mjs` places this populated, same-origin link beneath **Loud enough for you?** on the card.
+- `system-check/calculator.js` reads the Builder handoff on initial load, preserving its own exact-model factory presets where available; when the speaker is *not* in System Check's preset list (e.g. PSB Alpha P5), it fills the available Builder-source sensitivity/basis/nominal load into manual fields and shows an explanation. It only accepts plausible finite numeric values and doesn't silently invent power-handling data. Non-preset amplifiers can be prefilled with the source-qualified published continuous power rating.
+- `system-check/index.html` displays a simple confirmation that the recommendation and listening targets were transferred.
+- Regression test checks Yamaha A-S301 + PSB Alpha P5 at 6 ft and “occasionally loud” transfers `speaker=PSB Alpha P5`, `amp=Yamaha A-S301`, `distance=6`, `peak=95`, `average=80`, `builderSensitivity=87`, `builderBasis=power`, `builderLoad=8` and `builderAmpWatts=60`.
+
+**Non-negotiable:** A generic link to an empty calculator is **not** integration. Future Builder and System Check changes must preserve and test complete, equipment-specific handoff. Powered and headphone recommendation cards must not be sent to this passive speaker calculator as if it certified powered maximum acoustic output. Users must be free to edit the prefilled targets.
+
+**Limit:** This sends meaningful preset values and allows detailed calculation; it doesn't mean a manufacturer-rated estimate has become an exact clean-SPL measurement. Manual/full-browser testing and final release CI remain distinct.
