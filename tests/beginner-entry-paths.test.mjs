@@ -255,25 +255,20 @@ test('extra adapters and unverified source inputs take priority over shopping',(
   assert.ok(x.costAndTradeoffs.some(x=>/priced separately/.test(x)));
 });
 
-test('builder markup shows rationale and compatibility checks before technical opinions',async()=>{
+test('compact recommendations put source-backed sound, why and connection before optional technical detail',async()=>{
   const app=await readFile(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
   const page=await readFile(new URL('../system-builder/index.html',import.meta.url),'utf8');
-  const css=await readFile(new URL('../system-builder/style.css',import.meta.url),'utf8');
-  const first=app.indexOf("Why this option was suggested");
-  const chain=app.indexOf("renderSetupWorkflow(card,overview.setupWorkflow,{collapsed:!detailOnly})");
-  const proof=app.indexOf("Why these parts work together");
-  const checks=app.indexOf("What to check before connecting or buying");
-  const evidence=app.indexOf("See the technical details and original sources");
-  assert.ok(first>0&&first<chain&&chain<proof&&proof<checks&&checks<evidence,
-    'Reason, practical setup steps, matching evidence and checks must precede sound reviews');
-  assert.match(app,/How will this setup work\?/);
-  assert.match(app,/explainBeginnerOption\(item,request\)/);
-  assert.match(app,/What is included|Full verification, trade-offs, equipment and sources/);
-  assert.match(app,/Start with the recommended fit below/);
+  const start=app.indexOf('const renderSimpleCard=(item,top)=>');
+  const end=app.indexOf('panel.append(renderSimpleCard',start);
+  const card=app.slice(start,end);
+  assert.ok(start>0&&end>start);
+  assert.ok(card.indexOf('card.append(listening)')<card.indexOf('card.append(why)'));
+  assert.ok(card.indexOf('card.append(why)')<card.indexOf("addText(card,'p',data.connection"));
+  assert.ok(card.indexOf("addText(card,'p',data.connection")<card.indexOf("const technical=el('details'"));
+  assert.match(app,/const shortlist=removeUnsafeRecommendations/);
+  assert.match(app,/explainBeginnerOption\\(item,request\\)/);
   assert.match(page,/Your system options, explained/);
   assert.match(page,/Show me options for my goal/);
-  assert.match(css,/\.sb-recommendations\{grid-template-columns:minmax\(0,1fr\)/);
-  assert.match(css,/\.sb-beginner-checks\{border-left/);
 });
 
 test('task-first Builder asks what is being purchased and only exposes relevant questions',async()=>{
