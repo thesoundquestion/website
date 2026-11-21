@@ -16,6 +16,7 @@
 <script defer src="/system-check/headroom-alternatives.js?v=draft-shortlist-20261120"></script>
 <script defer src="/system-check/calculator.js?v=builder-focus-20261120"></script>
 <script type="module" src="/system-check/spec-search.mjs?v=external-google"></script>
+<script type="module" src="/system-check/powered-check.mjs?v=powered-headroom-20261121"></script>
 
 <title>System Check | The Sound Question</title>
 </head>
@@ -30,11 +31,27 @@
 <p class="lead">Can your amp handle the loudest hits at your seat? Be careful what you wish for when turning it up: the final countdown to a big chorus can demand more output than the average verse suggests. That doesn't mean you need a bigger amplifier if yours already handles the peaks cleanly. Find out what your speakers ask for and what an upgrade would buy you.</p>
 <nav class="sc-tool-tabs" aria-label="Equipment tools">
 <a class="button button-primary" href="/system-check/" aria-current="page">System Check</a>
+<a class="button button-secondary" href="/system-check/?powered=1">Powered speakers →</a>
 <a class="button button-secondary" href="/system-check/compare/">Compare My Gear →</a>
 <a class="button button-secondary" href="/system-builder/">Build a system →</a>
 </nav>
 <aside class="tsq-recommend-link" aria-label="Recommend missing equipment"><p><strong>Don't see your model?</strong> Help us grow the verified presets for everyone using these tools.</p><a href="/tools/recommend-gear/">Recommend your gear →</a></aside>
 <noscript><p>Enable JavaScript to calculate estimates. You can still read the <a href="/decoder/amplifier-power/#headroom">headroom lesson</a>.</p></noscript>
+<section id="sc-powered-check" class="sc-powered-check" hidden aria-labelledby="sc-powered-title">
+ <div class="sc-powered-intro">
+  <h2 id="sc-powered-title">Powered speaker headroom</h2>
+  <p>Powered speakers are judged by measured or published acoustic output at a known distance, not by the wattage of their internal amplifiers. The figures below are planning estimates, not clean-output guarantees.</p>
+ </div>
+ <form id="sc-powered-form" class="sc-powered-form">
+  <label>Exact powered speaker model<select name="model" aria-label="Powered speaker model"></select></label>
+  <label>Listening distance (ft)<input name="distanceFt" type="number" min=".5" max="300" step=".5" value="6" required></label>
+  <label>Target average (dB SPL)<input name="average" type="number" min="40" max="115" step="1" value="65" required></label>
+  <label>Musical peak above average (dB)<input name="gap" type="number" min="0" max="45" step="1" value="15" required></label>
+  <button class="button button-primary" type="submit">Update powered headroom</button>
+ </form>
+ <section id="sc-powered-result" class="sc-powered-result" aria-live="polite" aria-label="Powered speaker output estimate"></section>
+ <p class="sc-powered-switch"><a href="/system-check/">Use the amplifier and passive-speaker calculator instead</a></p>
+</section>
 <form id="check" class="sc-layout">
 <div class="sc-inputs">
 <fieldset class="sc-mode"><legend>What are you working out?</legend>
