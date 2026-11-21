@@ -310,15 +310,14 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       continue;
     }
     const nominal=record.values?.load;
-    // Missing load information must not automatically prevent discovery.
-    // It does require a plainly visible do-not-connect-before-check warning.
+    // An unidentified nominal speaker load cannot be proposed as a usable
+    // amplifier combination. Keep it in the excluded research queue.
     const loadUnknown=!Number.isFinite(nominal);
     // Explicit manufacturer nominal-load floors require a verified speaker
     // nominal figure, not marketing wording like "8 ohm compatible."
-    if(loadUnknown && screen.explicitNominalFloor) {
+    if(loadUnknown) {
       excluded.push({title:model,reason:'The '+screen.ampName+
-        ' requires a verified nominal load of at least '+screen.explicitNominalFloor+
-        ' Ω. Speaker impedance is unknown; do not propose this pairing until verified.'});
+        ' cannot be matched until this speaker’s nominal impedance has been verified.'});
       continue;
     }
     // Conservative screening; insufficient documentation never becomes "safe".
@@ -365,9 +364,7 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       extra:[caution,'Check the exact speaker revision, nominal and minimum impedance, phase angle, and your amplifier manual before connecting.',
         'Speaker cable, source connectivity and any necessary stands are extra. No new amplifier has been included in the price.',
         'Use System Check to evaluate clean level at your actual listening position; manufacturer sensitivity figures may use different conventions.'],
-      loadCaution:loadUnknown ?
-        'Load unknown: do not connect these speakers to '+screen.ampName+' until the manufacturer’s requirements are checked.' :
-        screen.explicitNominalFloor?'Confirm load: '+screen.ampName+' requires suitable speakers; '+nominal+' Ω nominal alone does not prove a safe match.':null,
+      loadCaution:null,
       ownerEvidenceLabel:ownerEvidenceFor(model)?.label || 'Model specifications; listening reports not verified',
       ownerEvidenceBasis:ownerEvidenceFor(model)?.band || 'spec_led',
       ownedAmpName:screen.ampName,
