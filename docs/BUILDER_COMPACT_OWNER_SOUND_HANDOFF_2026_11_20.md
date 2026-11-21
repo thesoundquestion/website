@@ -305,3 +305,58 @@ and real browser/mobile layout validation remain outstanding.
 
 Review-only branch: `draft/magicpath-compact-full-site-20261120`.
 No production merge, Cloudflare deployment, or paid API.
+
+## Fosi BT20A Pro + Polk Monitor XT15: provisional headroom recovery (21 November 2026)
+
+**User-visible failure:** The Builder showed "Headroom not numerically verified
+from saved ratings" for the Fosi BT20A Pro + Polk Monitor XT15 alternative
+at 6 ft. This is precise about the lack of a qualifying continuous-power
+rating, but conceals usable independent bench-based output context.
+
+**Sources and evidence distinctions:**
+- Manufacturer Fosi BT20A Pro: bundled **32 V / 5 A** supply, 2–8 Ω
+  compatible, TPA3255. The headline 300 W/channel figure is *not*
+  an applicable continuous 8 Ω rating with the stock supply.
+  https://fosiaudio.com/pages/user-instruction-bt20a-pro
+- Independent Audio Science Review original bench discussion, followed by
+  independent/owner summaries, reports output around **40 W/channel into
+  8 Ω using the 32 V adapter**. The original graph's exact THD criterion,
+  channel-drive configuration and test duration were not independently
+  transcribed and validated for the site. Therefore 40 W is a
+  **provisional short-term scenario**, not a verified continuous-power
+  rating or guaranteed clean headroom figure.
+  https://www.audiosciencereview.com/forum/index.php?threads/fosi-audio-bt20a-pro-amplifier-review.43751/
+  https://ampsandreceivers.com/compare/fosi-bt20a-vs-bt20a-pro/
+- Polk Monitor XT15 manufacturer data: 8 Ω nominal, 4.1 Ω minimum,
+  86 dB at 2.83 V/1 m.
+  https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw9cd07cce/downloads/monitor-xt-series-owners-manual-global.pdf
+
+**Technical behavior:**
+- Added `system-check/illustrative-output-scenarios.mjs` with one exact
+  32 V / 5 A Fosi + Polk scenario. This is NOT put in the amplifier's
+  verified `ratings` array or allowed to change the recommendation
+  completeness gate; Fosi still lacks verified continuous power.
+- `system-builder/recommendation-headroom.mjs` now falls back to that
+  source-backed scenario only for the exact Fosi/XT15 prebuilt combination.
+  At 6 ft, one-speaker free-field estimate from approximately 40 W into
+  8 Ω and 86 dB (2.83 V/1m) is **96.8 dB SPL**, i.e. approximately
+  **+16.8 dB above the quiet preset's 80 dB musical peak**.
+  Card copy: "Illustrative peak margin: +17 dB (32 V adapter; not
+  verified clean)". No stereo gain or room reinforcement assumed.
+- `system-check/provisional-check.mjs` and System Check HTML/CSS add
+  a separate, clearly labeled source-rich scenario page with editable
+  distance, average level and peak margin. The original verified-ratings
+  calculator remains unmodified and accessible. Deep links specify
+  `scenario=fosi-bt20a-pro-32v5a-xt15` plus exact model names and
+  listening assumptions; no `autocheck` claims continuous confirmation.
+- Existing unverified-data notes are clarified to refer to **verified
+  continuous-power headroom**, not all estimates.
+
+**Validation:** `tests/system-builder-provisional-fosi-headroom.test.mjs`
+checks strict model/supply scope, real Polk sensitivity from the
+197-record canonical catalog, +17 dB numeric scenario, missing-data
+handling, ranking unchanged, source and deep-link preservation, and
+System Check coexistence. 8/8 targeted tests and JavaScript syntax
+checks passed in an in-memory JS harness. Full Node and browser/mobile
+visual regression remain outstanding. Preview branch only; no production
+deployment.
