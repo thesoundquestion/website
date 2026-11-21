@@ -126,3 +126,39 @@
  .sb .sb-step>span{width:1.8rem;height:1.8rem}
 }
 @media(prefers-reduced-motion:reduce){.sb :is(button,a,summary){transition:none!important}}
+
+/* The first match and the alternative sounds share one continuous result row. */
+.sb .sb-compact-matches {margin:.5rem 0 0;align-items:stretch}
+.sb .sb-compact-matches>.sb-primary-recommendation{min-width:0}
+.sb .sb-compact-matches>.sb-comparison-overview{min-width:0;align-self:stretch}
+.sb .sb-compact-matches .sb-comparison-preview-list{gap:.55rem}
+.sb .sb-compact-matches .sb-comparison-preview-card{
+ background:linear-gradient(145deg,#122538,#0c1d2c);
+ border:1px solid #304c63;
+ padding:.75rem .85rem;
+}
+.sb .sb-compact-matches .sb-comparison-preview-card .sb-tonal-one-line{
+ color:#dceef9;line-height:1.46;font-size:.83rem;margin:.3rem 0 .4rem;
+}
+.sb .sb-compact-matches .sb-comparison-preview-card .sb-tonal-sources a{
+ color:#8fdcff;line-height:1.35;
+}
+.sb .sb-results .sb-comparison-overview>h4{font-size:.82rem;font-weight:730;letter-spacing:.015em;color:#bde9fb}
+.sb .sb-results .sb-comparison-fit>summary{color:#b4d9eb}
+.sb .sb-checker-action{margin:.55rem 0 .4rem;padding:0;display:flex;flex-wrap:wrap;gap:.5rem}
+.sb .sb-checker-action .sb-source-link{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-height:39px;padding:.52rem .83rem;margin:0;
+ border:1px solid #65c6ef;border-radius:7px;
+ background:linear-gradient(110deg,#6bd8ff,#5695ff);
+ color:#06101d!important;font-size:.8rem;font-weight:750;
+ text-decoration:none;line-height:1.32;
+}
+.sb .sb-checker-action .sb-source-link::after{content:' ↗';font-size:.9rem;margin-left:.3rem}
+.sb .sb-checker-action .sb-source-link:hover{filter:brightness(1.08);color:#06101d!important}
+.sb .sb-checker-action .sb-source-link:focus-visible{outline:3px solid #f3f7fb;outline-offset:3px}
+.sb .sb-results .sb-inline-system-check>summary{font-size:.81rem;color:#c8e7f4}
+@media(max-width:640px) {
+ .sb .sb-compact-matches{display:block}
+ .sb .sb-checker-action .sb-source-link{width:100%;min-height:44px}
+}
