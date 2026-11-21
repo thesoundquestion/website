@@ -62,19 +62,19 @@ test('speaker upgrade research never invents a compatibility clearance for unkno
   assert.ok(r.selected.every(x=>x.speakerModel!==own.speaker.name));
   assert.ok(r.selected.every(x=>x.extra.some(note=>/amplifier|minimum|load/i.test(note))));
 });
-test('Builder handoff and calculator use published in-room Titan sensitivity without double counting',()=>{
+test('Builder handoff and calculator preserve exact models and room-sensitivity selection',()=>{
   const app=read('system-builder/app.mjs');
   const calculator=read('system-check/calculator.js');
-  assert.match(app,/checkParams\\.set\\('preferRoom'/);
-  assert.match(app,/amplifierModel:item\.amplifierModel/);
+  assert.match(app,/checkParams\.set\('preferRoom'/);
+  assert.match(app,/checkParams\.set\('amp',checkAmp\)/);
   assert.match(calculator,/\bdB\\s\*in\[\\s-\]\?room/);
   assert.match(calculator,/field\('room'\)\.value='0'/);
   assert.match(calculator,/runModelHandoff\(\)/);
 });
-test('the improvement route is not reduced to a silent retain-only card',()=>{
+test('improve-existing route retains its speaker-alternative comparison',()=>{
   const app=read('system-builder/app.mjs');
-  assert.match(app,/upgradeIdeas=shortlist\.selected\.filter/);
-  assert.match(app,/Speaker changes worth comparing/);
+  assert.match(app,/const matchesRow=el\('div','sb-compact-matches'\)/);
+  assert.match(app,/sb-upgrade-comparison-preview sb-comparison-overview/);
   assert.match(app,/renderComparisonPreview\(shortlist\.selected\[0\],shortlist\.selected\.slice\(1\)/);
 });
 
