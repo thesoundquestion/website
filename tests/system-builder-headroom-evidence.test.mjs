@@ -46,7 +46,7 @@ test('passive output requires matching continuous load and a documented sensitiv
  const item={architecture:'passive_separates',amplifierFit:{amp:{watts:60,ohms:8,exact:true}}};
  const r=headroomEvidence(item,req);
  assert.equal(r.status,'passive_exact_load_power_only');
- assert.match(r.text,/60 W\/channel at 8 Ω/);
+ assert.match(r.detail,/60 W\/channel at 8 Ω/);
  assert.match(r.detail,/not a seat-level SPL result/);
  assert.equal(r.link,'/system-check/');
  const unknown=headroomEvidence({architecture:'passive_separates'},req);
@@ -65,7 +65,7 @@ test('Builder cards render the evidence note and never send powered users into p
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
  assert.match(app,/headroomEvidence\(item,request\)/);
  assert.match(app,/addText\(headroom,'strong',output.label/);
- assert.match(app,/if\(output.link\)link\(headroom/);
+ assert.match(app,/if\(output.link\)link\(details/);
  assert.match(app,/How loud and why/);
- assert.doesNotMatch(app,/sb-card-alert'\);\\n      if \\(item.sourceCaution\\)/);
+ assert.doesNotMatch(app,/Confirm clean output at your listening distance and level/);
 });
