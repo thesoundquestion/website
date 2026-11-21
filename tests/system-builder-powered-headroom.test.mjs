@@ -13,14 +13,19 @@ const bedroom={architecture:'open',useCase:'bedroom',goal:'imaging',
   currency:'CAD',budget:null,distanceFt:6,referenceDate:'2026-11-20',
   subMode:'no_sub'};
 
-test('JBL 305P MkII uses manufacturer 94/108 dB bounds, not electrical watts',()=>{
+test('JBL 305P MkII retains acoustic manufacturer maxima but cannot project from unspecified test distance',()=>{
  const x=poweredHeadroomEstimate('JBL 305P MkII',{distanceFt:6,averageDb:65,peakDb:80});
- assert.equal(x.status,'projected');
- assert.ok(Math.abs(x.projectedContinuousDb-88.8)<0.3,x.projectedContinuousDb);
- assert.ok(Math.abs(x.projectedPeakDb-102.8)<0.3,x.projectedPeakDb);
- assert.ok(Math.abs(x.peakMarginDb-22.8)<0.3,x.peakMarginDb);
+ assert.equal(x.status,'unverified');
+ assert.equal(x.projectedContinuousDb,null);
+ assert.equal(x.projectedPeakDb,null);
+ assert.equal(x.peakMarginDb,null);
+ assert.equal(x.evidence.publishedLimits.continuousDb,94);
+ assert.equal(x.evidence.publishedLimits.peakDb,108);
+ assert.match(x.caveat,/measurement distance|distance/i);
  assert.match(x.caveat,/distortion|limiter/i);
  assert.match(x.source,/jblpro\.com/);
+ const card=recommendationHeadroom({poweredHeadroomModel:'JBL 305P MkII',architecture:'active_studio'},bedroom,catalog);
+ assert.match(card.summary,/No verified dB margin/);
 });
 test('Kali maximum and continuous listening-distance references are conservatively combined',()=>{
  const x=poweredHeadroomEstimate('Kali LP-6 V2',{distanceFt:6,averageDb:65,peakDb:80});
@@ -31,8 +36,8 @@ test('Kali maximum and continuous listening-distance references are conservative
  assert.match(x.source,/kaliaudio/);
 });
 test('closer-than-reference seats never earn an optimistic gain bonus',()=>{
- const one=poweredHeadroomEstimate('JBL 305P MkII',{distanceFt:3.28084,averageDb:65,peakDb:80});
- const near=poweredHeadroomEstimate('JBL 305P MkII',{distanceFt:2,averageDb:65,peakDb:80});
+ const one=poweredHeadroomEstimate('Kali LP-6 V2',{distanceFt:3.28084,averageDb:65,peakDb:80});
+ const near=poweredHeadroomEstimate('Kali LP-6 V2',{distanceFt:2,averageDb:65,peakDb:80});
  assert.equal(near.projectedPeakDb,one.projectedPeakDb);
 });
 test('Kanto ORA remains numerically unverified despite the published 50 W total RMS',()=>{
