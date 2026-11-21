@@ -36,13 +36,13 @@ const BUILDER_HEADROOM_PROFILES=Object.freeze({
   moderate:{average:80,gap:15,label:'Comfortable / normal'},
   high:{average:85,gap:20,label:'Occasionally loud'}
 });
-function headroomHandoff(item,distanceFt,level){
+function headroomHandoff(item,distanceFt,level,useCase='living_room'){
   const profile=BUILDER_HEADROOM_PROFILES[level]||BUILDER_HEADROOM_PROFILES.moderate;
   const params=new URLSearchParams({
     embedded:'1',autocheck:'1',speaker:item.speakerModel,amp:item.amplifierModel,
     distanceFt:String(distanceFt),average:String(profile.average),
     gap:String(profile.gap),profile:String(level||'moderate'),
-    preferRoom:'1'
+    preferRoom:['outdoors','party'].includes(useCase)?'0':'1'
   });
   return {profile,params};
 }
@@ -1143,7 +1143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Only a short, real calculation verdict belongs in the first view.
         // The original System Check calculation remains unmodified below.
         const inline=el('details','sb-inline-system-check');
-        const {profile,params}=headroomHandoff(headroomModels,distanceFt,request.level);
+        const {profile,params}=headroomHandoff(headroomModels,distanceFt,request.level,request.useCase);
         const summary=el('summary','sb-headroom-summary');
         addText(summary,'strong','Headroom for these exact models');
         const verdict=addText(summary,'span','Checking the saved ratings…','sb-headroom-verdict');
@@ -1196,7 +1196,7 @@ document.addEventListener('DOMContentLoaded', () => {
           checkParams.set('autocheck','1');
           checkParams.set('average',String(checkProfile.average));
           checkParams.set('gap',String(checkProfile.gap));
-          checkParams.set('preferRoom','1');
+          checkParams.set('preferRoom',['outdoors','party'].includes(request.useCase)?'0':'1');
         }
         const checkAction=el('div','sb-checker-action');
         link(checkAction,'/system-check/'+(checkParams.size?'?'+checkParams.toString():''),
