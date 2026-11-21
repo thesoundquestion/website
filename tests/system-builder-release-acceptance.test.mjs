@@ -167,3 +167,21 @@ test('a published maximum SPL with no microphone reference distance must not pro
  assert.equal(x.peakMarginDb,null);
  assert.match(x.caveat,/distance/);
 });
+
+test('every powered numerical SPL projection requires an explicit positive measurement distance',()=>{
+ for(const [model,evidence] of Object.entries(POWERED_OUTPUT_EVIDENCE)){
+   for(const kind of ['continuous','peak','peakBenchmark']){
+     const point=evidence[kind];
+     if(!point)continue;
+     assert.ok(Number.isFinite(point.db)&&Number.isFinite(point.atMeters)&&point.atMeters>0,
+       model+' '+kind+' missing independently sourced acoustic distance');
+     assert.ok(typeof point.reference==='string'&&point.reference.length>25,
+       model+' '+kind+' missing provenance/measurement definition');
+   }
+   if(evidence.publishedLimits&&!evidence.continuous&&!evidence.peak&&!evidence.peakBenchmark){
+     const projected=poweredHeadroomEstimate(model,{distanceFt:6,averageDb:80,peakDb:95});
+     assert.equal(projected.projectedContinuousDb,null,model);
+     assert.equal(projected.projectedPeakDb,null,model);
+   }
+ }
+});
