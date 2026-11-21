@@ -58,6 +58,17 @@ For YouTube long-form scripts, Shorts, voiceover cue cards, captions, titles and
 
 **Process:** After a draft has passed beginner-first/technical review, optionally add context-fitting references, read the final copy aloud, and privately track source inspiration, location, rights check, revision and draft/published status in the editorial handoff. The cross-media conventions and initial site inventory are in [docs/MUSICAL_EASTER_EGGS_EDITORIAL_GUIDE_2026_11_19.md](docs/MUSICAL_EASTER_EGGS_EDITORIAL_GUIDE_2026_11_19.md). This is an editorial style convention, not permission to deploy, publish or reuse protected media.
 
+## Permanent model-entry evidence gate — do this at ingestion, not at release
+
+Whenever adding or changing equipment specifications, model identities, audio connections, listening evidence, subwoofer routing, headroom parameters, regional prices, or curated complete-system examples, **first** read [docs/EQUIPMENT_ENTRY_VALIDATION_HANDOFF.md](docs/EQUIPMENT_ENTRY_VALIDATION_HANDOFF.md). This is a standing obligation for all future assistants and collaborators, not a one-time release audit.
+
+- Device changes belong in canonical `equipment/source-master.json`. Generate mirrors and runtime catalog; never hand-edit the generated projections.
+- Run `node scripts/validate-equipment-entry-gates.mjs --pending` on each new or changed model. A current source-specific attestation in `equipment/entry-review-ledger.json` is mandatory before CI can accept it. Do not regenerate the frozen 197-record/22-example `equipment/entry-gate-baseline.json` to conceal a new or edited model.
+- New curated system IDs also require an entry in the review ledger with tested realistic and negative scenarios. Preserve hard input/load/recall/battery and firm-budget gates. Never describe a research lead, unknown price or unverified acoustic max SPL as an established purchase match.
+- Manufacturer claims, independent listening, measurement conditions and electrical ratings have separate provenance. Every unknown must remain unknown, not be guessed from brand, neighboring SKU, amplifier watts or assumed acoustic test distance.
+- Execute mirror freshness, catalog freshness, entry admission, full Node tests, and packaged desktop/mobile browser preflight before requesting a new owner-facing preview. Never reduce existing tests to make a bad recommendation appear green. Keep manual source and physical-device sign-off separate from automated results.
+- Record product-specific approvals, source links, remaining unknowns and changed engineering assumptions in the permanent ledger/handoff **during initial entry**. Review at release only for changed records and integration, rather than repeating the same manual checks for the full historical catalog.
+
 ## Permanent GitHub-first, Cloudflare-on-approval workflow — all edits and prototypes
 
 This is the **default and mandatory workflow** for every website edit, content revision, experimental feature, prototype, comparison tool and release candidate. Cloudflare Pages Free has limited build/deployment quotas, and the owner has explicitly requested that ordinary development **never consume those quotas**.
