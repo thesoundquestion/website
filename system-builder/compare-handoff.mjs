@@ -9,10 +9,13 @@ export const EXPANDED_COMPARE_TYPES=Object.freeze([
 ]);
 export function compareCatalogHandoff(record,other=null){
   if(!record?.id||!Array.isArray(record.categories))return null;
-  const kind=EXPANDED_COMPARE_TYPES.find(type=>record.categories.includes(type));
+  const speakerKind=record.facts?.speakerKind?.value;
+  const kind=speakerKind==='powered_studio_monitor'?'powered_studio_monitor':
+    speakerKind==='powered_pa_speaker'?'powered_pa_speaker':
+    EXPANDED_COMPARE_TYPES.find(type=>record.categories.includes(type));
   if(!kind)return null;
   const q=new URLSearchParams({type:kind,left:record.id});
-  if(other?.id&&other.id!==record.id&&other.categories?.includes(kind))
+  if(other?.id&&other.id!==record.id&&(kind.startsWith('powered_')?other.facts?.speakerKind?.value===kind:other.categories?.includes(kind)))
     q.set('right',other.id);
   return '/system-check/compare/?'+q.toString();
 }
