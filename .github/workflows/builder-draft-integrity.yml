@@ -23,6 +23,11 @@ jobs:
         run: |
           set -euo pipefail
           for path in system-builder/*.mjs system-check/*.mjs equipment/*.mjs; do node --check "$path"; done
+      - name: Gate new and changed catalog entries before unit tests
+        run: |
+          node scripts/sync-equipment-source-mirrors.mjs --check
+          node scripts/build-equipment-catalog.mjs --check
+          node scripts/validate-equipment-entry-gates.mjs
       - name: Run the full source-only site unit test suite, including Builders and catalog
         run: node --test tests/*.test.mjs tests/lesson-tutor/*.test.mjs
       - name: Build static site to verify internal links and compiled output
