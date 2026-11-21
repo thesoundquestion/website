@@ -7,6 +7,8 @@ import {shortlistExamples} from './recommendations.mjs';
 import {headroomEvidence} from './headroom-evidence.mjs';
 import {checkerHandoffLink} from './checker-handoff.mjs';
 import {compareCatalogHandoff} from './compare-handoff.mjs';
+import {poweredEvidenceFor} from './powered-output-evidence.mjs';
+import {evaluateSubwooferConnection,subwooferCheckerLink} from '../system-check/subwoofer/engine.mjs';
 import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
@@ -459,8 +461,26 @@ document.addEventListener('DOMContentLoaded', () => {
       // not an electrical hazard. Do not bury that extra cost in the dropdown.
       if (item.connectionStatus === 'adapter_needed')
         addText(card,'p','Connection: an additional adapter or source device is needed (not priced).','sb-card-minor');
-      if (item.bassSetup)
-        addText(card,'p',item.bassSetup.label,'sb-card-minor');
+      if (item.bassSetup) {
+        const subSource=({
+          'stereo-sub-edifier':'Edifier R1280DBs',
+          'stereo-sub-ora':'Kanto ORA',
+          'stereo-sub-wiim':'WiiM Amp'
+        })[item.id];
+        const knownSub=Boolean((item.parts||[]).some(part=>part.name.includes('Edifier T5')));
+        if(subSource&&knownSub){
+          const result=evaluateSubwooferConnection({
+            sourceModel:subSource,subModel:'Edifier T5',
+            mainBassMode:request.subMode==='sub_full'?'full':'default'
+          });
+          if(result.compatible){
+            addText(card,'p','Subwoofer connection: '+result.cable+'. '+result.mains,'sb-card-minor');
+            link(card,subwooferCheckerLink({sourceModel:subSource,subModel:'Edifier T5',
+              mainBassMode:request.subMode==='sub_full'?'full':'default'}),
+              'Check the subwoofer wiring and crossover');
+          }
+        }else addText(card,'p',item.bassSetup.label,'sb-card-minor');
+      }
       else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
         addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
       const fit = el('p','sb-card-match');
@@ -478,6 +498,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // The practical answer stays on the card. The detailed passive speaker
       // listening-level calculator must be immediately reachable, not hidden.
       if(output.link)link(card,checkerHandoffLink(item,request)||output.link,'Check your exact listening levels');
+      const poweredEvidence=poweredEvidenceFor(item);
+      if(poweredEvidence){
+        const params=new URLSearchParams({
+          model:poweredEvidence.model,distance:String(request.distanceFt),
+          level:request.level||'moderate',count:String(poweredEvidence.units)
+        });
+        link(card,'/system-check/powered/?'+params.toString(),'Check powered-speaker loudness at your seat');
+      }
       // Only expose comparisons with an actual model preset in Compare My Gear.
       // Generic unselected checker links send beginners back to square one.
       if(['active_studio','party_pa'].includes(item.architecture)&&sharedCatalog?.records){
@@ -708,6 +736,14 @@ document.addEventListener('DOMContentLoaded', () => {
           list(card,facts.length?facts:['Published specifications incomplete; check the manufacturer documentation.']);
           addText(card,'p',details.cautions[0]+' '+details.cautions[1],'sb-brief-note');
           link(card,details.source,'Manufacturer/source documentation');
+          const verifiedPowered=poweredEvidenceFor({model:record.model});
+          if(verifiedPowered){
+            const q=new URLSearchParams({
+              model:verifiedPowered.model,distance:String(request.distanceFt),
+              level:request.level||'moderate',count:'2'
+            });
+            link(card,'/system-check/powered/?'+q.toString(),'Check loudness with a stereo pair');
+          }
           const comparison=compareCatalogHandoff(record);
           if(comparison)link(card,comparison,'Compare exact powered studio monitor specifications');
           cards.append(card);
@@ -764,6 +800,18 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(panel,'p',route.bassSetup.setup);
       link(panel,route.bassSetup.source,'Manufacturer bass-routing instructions');
       if (route.buying) renderPriceReferences(panel,route,'h4');
+      const source=route.retained;
+      const selectedSub=route.buying?'Edifier T5':null;
+      const routeCheck=evaluateSubwooferConnection({
+        sourceModel:source,subModel:selectedSub||null,
+        mainBassMode:request.subMode==='sub_full'?'full':'default'
+      });
+      addText(panel,'p',routeCheck.text,'sb-card-minor');
+      const checkUrl=subwooferCheckerLink({
+        sourceModel:source,subModel:selectedSub||null,
+        mainBassMode:request.subMode==='sub_full'?'full':'default'
+      });
+      if(checkUrl)link(panel,checkUrl,'Check this subwoofer connection and main-speaker bass routing');
       shop.append(panel);
     }
 
