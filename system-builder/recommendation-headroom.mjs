@@ -37,15 +37,20 @@ export function recommendationHeadroom(item={},request={},catalog=null){
           'peak unknown')+
         (continuous!==null?' · '+(continuous>=0?'+':'')+
           rounded(continuous)+' dB continuous':' · sustained output unknown')
-      :'Numeric headroom not verified: no comparable maximum acoustic SPL rating';
+      :estimate.practical
+        ?estimate.practical.summary+' No verified dB margin.'
+        :'Numeric headroom not verified: no comparable maximum acoustic SPL rating';
     return {
       kind:'powered',status:estimate.status,summary,source:estimate.source,
-      detail:estimate.caveat,metrics:estimate,target,
+      reviewSource:estimate.practical?.reviewUrl||null,
+      detail:estimate.practical?
+        estimate.practical.evidence+' '+estimate.caveat:estimate.caveat,
+      metrics:estimate,target,
       link:poweredHeadroomLink(model,target),
-      linkText:'Check powered-speaker headroom',
+      linkText:'Check powered-speaker output',
       basis:isKnown?'Projected from manufacturer acoustic SPL limit(s) to '+distanceFt+
         ' ft (single speaker, simplified free-field distance loss; no stereo or room gain).':
-        'Amplifier watts alone cannot establish maximum acoustic output.'
+        'Practical guidance is not a numerical headroom calculation. Amplifier watts alone cannot establish maximum acoustic output.'
     };
   }
   if(item.architecture==='passive_separates'){
