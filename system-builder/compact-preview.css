@@ -257,3 +257,25 @@
   font-size:.8rem;
   line-height:1.4;
 }
+
+/* Only expose the exact saved numbers on demand, not a second calculator. */
+.sb .sb-results .sb-saved-pair-specs{
+  margin:.42rem 0;
+  padding:.42rem 0;
+  border:0;
+  border-top:1px solid #304e65;
+  background:transparent;
+}
+.sb .sb-results .sb-saved-pair-specs>summary{
+  color:#a5daef;
+  font-size:.79rem;
+  line-height:1.4;
+  font-weight:650;
+  cursor:pointer;
+}
+.sb .sb-results .sb-saved-pair-specs :is(p,a){
+  font-size:.78rem;
+  line-height:1.43;
+  margin:.45rem 0;
+}
+.sb .sb-results .sb-saved-pair-specs:focus-within{min-width:0}
