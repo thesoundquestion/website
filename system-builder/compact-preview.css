@@ -235,3 +235,23 @@
   .sb .sb-compact-matches{display:block}
   .sb .sb-compact-matches>.sb-comparison-overview{margin-top:.65rem}
 }
+
+/* Preview identity and source-load status: compact, legible, unobtrusive. */
+.sb .sb-preview-build{
+  margin:.35rem 0 0;
+  font-size:.65rem;
+  line-height:1.3;
+  color:#86aabe;
+  letter-spacing:.045em;
+}
+.sb .sb-catalog-alert:not([hidden]){
+  display:block;
+  padding:.5rem .7rem;
+  margin:.5rem 0 0;
+  border:1px solid #b48155;
+  background:#33251d;
+  border-radius:7px;
+  color:#ffe1b8;
+  font-size:.8rem;
+  line-height:1.4;
+}
