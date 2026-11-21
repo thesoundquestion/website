@@ -49,7 +49,7 @@ test('Kanto ORA remains numerically unverified despite the published 50 W total 
  assert.match(card.reviewSource,/soundstagesimplifi/);
  assert.equal(card.metrics.peakMarginDb,null);
  assert.match(card.link,/powered=1/);
- assert.match(card.link,/Kanto%20ORA/);
+ assert.equal(new URL(card.link,'https://test.invalid').searchParams.get('model'),'Kanto ORA');
 });
 test('Edifier MR4 offers context from independent output tests without inventing headroom',()=>{
  const item={poweredHeadroomModel:'Edifier MR4',architecture:'consumer_powered_pair'};
@@ -84,6 +84,26 @@ test('ORA quiet, normal, loud and far-distance advice changes without fake dB fi
   assert.match(x.summary,/No verified dB margin/);
  }
 });
+test('every budget powered pair has honest nonnumeric model headroom and a review link',()=>{
+ const models=['Edifier R1280T','Edifier R1280DB','Edifier R1280DBs',
+   'Edifier R1700BTs','Edifier MR3','Edifier M60'];
+ for(const model of models){
+  const x=poweredHeadroomEstimate(model,{distanceFt:6,averageDb:65,peakDb:80});
+  assert.equal(x.status,'unverified',model);
+  assert.equal(x.peakMarginDb,null,model);
+  assert.ok(x.practical?.summary?.length>15,model);
+  assert.ok(x.practical.reviewUrl.startsWith('https://'),model);
+  const item=shortlistExamples({...bedroom,architecture:'consumer_powered_pair',
+    useCase:'desk',goal:'all_rounder'},catalog).selected;
+  const budgetId='powered-'+model.replace('Edifier ','').toLowerCase();
+  // The model evidence applies even if this exact example is not in the top-three shortlist.
+  const card=recommendationHeadroom({architecture:'consumer_powered_pair',
+    poweredHeadroomModel:model},bedroom,catalog);
+  assert.equal(card.kind,'powered');
+  assert.match(card.summary,/No verified dB margin/);
+  assert.equal(new URL(card.link,'https://test.invalid').searchParams.get('model'),model);
+ }
+});
 test('the real beginner bedroom shortlist gets a relevant System Check link on every option',()=>{
  const selected=shortlistExamples(bedroom,catalog).selected;
  for(const id of ['studio-jbl','powered-ora','passive-as301-p5','studio-kali']){
@@ -99,8 +119,9 @@ test('the real beginner bedroom shortlist gets a relevant System Check link on e
      assert.match(x.link,/powered=1/);
    }else{
      assert.equal(x.kind,'passive');
-     assert.match(x.link,/amp=Yamaha%20A-S301/);
-     assert.match(x.link,/speaker=PSB%20Alpha%20P5/);
+     const query=new URL(x.link,'https://test.invalid').searchParams;
+     assert.equal(query.get('amp'),'Yamaha A-S301');
+     assert.equal(query.get('speaker'),'PSB Alpha P5');
    }
  }
 });
