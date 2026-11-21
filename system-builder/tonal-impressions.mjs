@@ -8,6 +8,12 @@
 import {soundProfileFor} from './sound-profiles.mjs';
 
 const SHORT=Object.freeze({
+ 'Edifier R1280T':'a pleasant budget desktop sound that can benefit from adjusting the bass and treble controls, with limited loudness headroom',
+ 'Edifier R1280DB':'an easygoing, warm-leaning presentation with natural vocals and modest fine detail',
+ 'Edifier R1280DBs':'clear, punchy small-room playback with a satisfying sense of stereo separation',
+ 'Edifier R1700BTs':'enjoyable close-range sound that can lack bass authority in larger rooms',
+ 'Edifier MR3':'a fairly even desktop presentation, but with bass and high-output limits',
+ 'Edifier M60':'controlled, clear nearfield playback with limited very low bass',
  'PSB Alpha P3':'open and clear through mids and treble, but limited deep bass',
  'PSB Alpha P5':'natural-sounding vocals, smooth treble and a slightly warm balance',
  'Triangle Borea BR03 (passive)':'a lively, spacious presentation with noticeable treble energy and agile bass',
