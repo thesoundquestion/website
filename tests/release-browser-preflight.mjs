@@ -101,8 +101,24 @@ try {
   await page.locator('#sb-purpose-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-purpose-result')?.hidden,null,{timeout:15000});
   assert.ok((await page.locator('#sb-purpose-result-body').innerText()).length>150);
+  const creatingLinks=page.locator('#sb-purpose-result-body a[href^="/system-check/compare/?type="]');
+  assert.ok(await creatingLinks.count()>0,
+    device.name+' Creating Builder showed no model-specific checker links');
+  const creatingHref=await creatingLinks.first().getAttribute('href');
+  const creatingUrl=new URL(creatingHref,BASE);
+  const type=creatingUrl.searchParams.get('type');
+  const selectedId=creatingUrl.searchParams.get('left');
+  assert.ok(['microphone','audio_interface','mixer_recorder','computer_sound_card','headphone_amplifier'].includes(type));
+  assert.ok(selectedId,'Creating Builder checker link had no equipment selected');
+  await visit(page,creatingUrl.pathname+creatingUrl.search);
+  await page.waitForFunction(()=>!document.querySelector('#gc-expanded-results')?.hidden,
+    null,{timeout:20000});
+  assert.equal(await page.locator('#gc-expanded-left').inputValue(),selectedId,
+    device.name+' Compare My Gear did not restore Creating Builder selection');
+  await checkNoErrors(page,errors,device.name+' Creating Builder to Compare');
+  outcomes.push(device.name+' Creating Builder exact-model comparison handoff');
+  await visit(page,'/system-builder/creating/');
   await checkNoErrors(page,errors,device.name+' Creating Builder');
-  outcomes.push(device.name+' Creating Builder example chain');
 
   await visit(page,'/system-builder/');
   await page.locator('#sb-form button[type="submit"]').click();
