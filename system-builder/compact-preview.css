@@ -170,3 +170,68 @@
 }
 .sb .sb-distance-hint[data-level-hint]{max-width:330px}
 @media(max-width:640px){.sb .sb-distance-hint{font-size:.71rem}}
+
+/* FULL-SYSTEM LAYOUT FIX: one primary card means one full-width card.
+   Earlier CSS inherited a two-column grid intended for two products,
+   unintentionally shrinking the primary recommendation to 50%. */
+.sb .sb-compact-matches>.sb-primary-recommendation{
+  display:block;
+  width:100%;
+  min-width:0;
+  grid-template-columns:none;
+  gap:0;
+}
+.sb .sb-compact-matches>.sb-primary-recommendation>.sb-recommend{
+  display:block;
+  width:100%;
+  max-width:none;
+  min-width:0;
+}
+.sb .sb-compact-matches>.sb-comparison-overview{
+  border:0;
+  border-radius:0;
+  margin:0;
+  padding:0;
+  background:transparent;
+}
+.sb .sb-compact-matches>.sb-comparison-overview>.sb-comparison-preview-list{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  align-content:start;
+  margin:0;
+}
+.sb .sb-compact-matches .sb-comparison-preview-card{
+  overflow-wrap:anywhere;
+  box-shadow:none;
+}
+.sb .sb-compact-matches>.sb-primary-recommendation .sb-card-head{
+  margin:0 0 .35rem;
+}
+.sb .sb-results .sb-compact-matches .sb-beginner-reason{
+  display:block;
+  margin:.38rem 0;
+}
+.sb .sb-results .sb-compact-matches .sb-beginner-reason h5{
+  margin:0 0 .17rem;
+}
+.sb .sb-results .sb-compact-matches .sb-beginner-reason .sb-beginner-plain{
+  margin:0;
+}
+.sb .sb-results .sb-compact-matches .sb-inline-system-check-frame{
+  display:none!important; /* status is in the summary; full calculator has its own link */
+}
+.sb .sb-results .sb-compact-matches .sb-inline-system-check>summary{
+  color:#b4dfef;
+}
+@media(min-width:980px){
+  .sb .sb-compact-matches{
+    display:grid;
+    grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+    gap:.75rem;
+    align-items:start;
+  }
+}
+@media(max-width:979px){
+  .sb .sb-compact-matches{display:block}
+  .sb .sb-compact-matches>.sb-comparison-overview{margin-top:.65rem}
+}
