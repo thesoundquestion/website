@@ -28,12 +28,28 @@ export const POWERED_OUTPUT_EVIDENCE=Object.freeze({
     model:'Kanto ORA',unit:'original powered stereo pair',
     electricalWatts:50,
     caveat:'Kanto publishes 50 W total RMS electrical amplification, but not a comparable max acoustic SPL and test reference. No defensible numeric peak headroom can be inferred from watts alone.',
-    source:'https://kantoaudio.com/en-ca/products/ora'
+    source:'https://kantoaudio.com/en-ca/products/ora',
+    practical:{
+      quiet:'Quiet playback is plausible; low-bass output is still limited.',
+      normal:'Normal playback may work, but bass-heavy musical peaks remain an unknown.',
+      loud:'Loud or bass-heavy playback is not supported by a verified clean-output limit.',
+      far:'Designed for desktop listening; output adequacy at this distance is uncertain.',
+      evidence:'An independent desktop listening review reported good control even at its tested maximum volume, but did not publish a repeatable distortion-limited SPL ceiling. The original ORA can high-pass itself at 100 Hz when connected to a compatible subwoofer; this does not verify a new maximum SPL.',
+      reviewUrl:'https://www.soundstagesimplifi.com/index.php/equipment-reviews/250-kanto-audio-ora-reference-active-speaker-system'
+    }
   },
   'Edifier MR4':{
     model:'Edifier MR4',unit:'powered stereo pair',
     caveat:'No verified max acoustic SPL with compatible measurement conditions is admitted to this model; internal amplifier power does not establish a clean acoustic ceiling.',
-    source:'https://ca.edifier.com/products/mr4'
+    source:'https://ca.edifier.com/products/mr4',
+    practical:{
+      quiet:'Quiet playback is plausible; bass-heavy peaks deserve caution.',
+      normal:'Moderate playback may work, but compression and bass distortion need attention.',
+      loud:'Loud, dynamic playback cannot be recommended from the available output tests.',
+      far:'Primarily a close-listening speaker; headroom at this distance is uncertain.',
+      evidence:'Erin’s Audio Corner tested MR4 distortion at 86 and 96 dB at 1 m and ran stepped compression sweeps. Those test inputs are not a certified clean maximum SPL or a guarantee for bass-heavy music.',
+      reviewUrl:'https://www.erinsaudiocorner.com/loudspeakers/edifier_mr4/'
+    }
   }
 });
 const finite=x=>typeof x==='number'&&Number.isFinite(x);
@@ -44,6 +60,24 @@ export const distanceLossDb=(feet,referenceMeters=1)=>{
   // No optimistic extra output credit for closer-than-reference placement.
   return round(20*Math.log10(Math.max(1,metres/referenceMeters)));
 };
+
+// Contextual guidance is deliberately NOT a numeric SPL result or pass/fail.
+// Do not extrapolate a reviewer's test stimulus or subjective listening volume
+// into a clean acoustic ceiling. The language changes with the requested seat
+// distance and target, and never substitutes amplifier watts for SPL.
+export function poweredPracticalGuidance(model,{distanceFt=6,averageDb=65,peakDb=80}={}){
+  const guidance=POWERED_OUTPUT_EVIDENCE[model]?.practical;
+  if(!guidance||!finite(distanceFt)||distanceFt<0.5||distanceFt>300||
+     !finite(averageDb)||!finite(peakDb)||peakDb<averageDb)return null;
+  const close=distanceFt<=6;
+  const quiet=averageDb<=70&&peakDb<=85;
+  const normal=averageDb<=80&&peakDb<=95;
+  const message=!close?guidance.far:quiet?guidance.quiet:
+    normal?guidance.normal:guidance.loud;
+  return {status:'indicative',summary:message,
+    evidence:guidance.evidence,reviewUrl:guidance.reviewUrl};
+}
+
 export function poweredHeadroomEstimate(model,{distanceFt=6,averageDb=65,peakDb=80}={}){
   const evidence=POWERED_OUTPUT_EVIDENCE[model]||null;
   const validInputs=finite(distanceFt)&&distanceFt>=0.5&&distanceFt<=300&&
@@ -54,6 +88,7 @@ export function poweredHeadroomEstimate(model,{distanceFt=6,averageDb=65,peakDb=
     distanceFt,averageDb,peakDb,source:evidence?.source||null,caveat:evidence?.caveat||
       'A verified maximum acoustic output measurement at a known distance is required; amplifier watts alone are insufficient.',
     projectedContinuousDb:null,projectedPeakDb:null,averageMarginDb:null,peakMarginDb:null,
+    practical:poweredPracticalGuidance(model,{distanceFt,averageDb,peakDb}),
     evidence};
   if(!evidence)return result;
   const projected=(metric)=>{
