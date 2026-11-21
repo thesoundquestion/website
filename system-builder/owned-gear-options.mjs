@@ -362,6 +362,7 @@ export function ownershipPlan({own={},request={},inventory={}}={}){
     plan={selected:[item],excluded:[],mode:'keep_separate_headphones'};
   }
   else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
-  if(!plan.selected.length)plan.selected=[keepSeparate(own,request)];
+  // Never replace a rejected unsafe pairing with a generic 'keep it' recommendation.
+  if(!plan.selected.length && !(plan.excluded||[]).length)plan.selected=[keepSeparate(own,request)];
   return {...plan,comparisonReasons:comparisonReasons(own,request)};
 }
