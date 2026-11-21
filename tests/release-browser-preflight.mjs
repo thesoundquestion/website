@@ -493,7 +493,7 @@ try {
   const preview=page.locator('.sb-upgrade-comparison-preview');
   assert.equal(await preview.count(),1,device.name+' improve-existing must actually propose speaker alternatives');
   const previewText=await preview.innerText();
-  assert.match(previewText,/Speaker changes worth comparing/);
+  assert.match(previewText,/Other options · What owners hear/);
   assert.match(previewText,/Cerwin-Vega|Klipsch/);
   assert.match(previewText,/Compared with/);
   assert.ok(await preview.locator('.sb-compact-compare').count()>=1);
