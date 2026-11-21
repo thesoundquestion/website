@@ -22,7 +22,7 @@ const attest=(kind,id,model,fingerprint,releaseDecision='accepted_verified')=>({
     'identity','manufacturerSpecs','signalRoles','loadsAndSafety','acousticHeadroom',
     'regionalPricing','soundClaims','accessoriesAndSubRouting','outputAndRegression'
   ].map(k=>[k,'verified'])),
-  unknowns:[],...(kind==='example'?{testedScenarios:['tests/example-direct-input.test.mjs']}: {})
+  unknowns:[],...(kind==='example'?{testedScenarios:['tests/system-builder-release-acceptance.test.mjs']}: {})
 });
 
 test('frozen adoption baseline passes exactly against the reviewed draft data',()=>{
