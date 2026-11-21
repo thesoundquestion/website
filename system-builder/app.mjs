@@ -1206,6 +1206,20 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(whyBox,'p',reason,'sb-beginner-plain');
         card.append(whyBox);
       }
+      if(!detailOnly&&item.poweredHeadroomModel){
+        const h=recommendationHeadroom(item,request,sharedCatalog);
+        const output=el('div','sb-powered-headroom');
+        addText(output,'strong','Headroom at '+h.target.distanceFt+' ft');
+        addText(output,'p',h.summary);
+        link(output,h.link,h.linkText);
+        card.append(output);
+        const more=el('details','sb-powered-headroom-detail');
+        addText(more,'summary','Published output basis and limitations');
+        if(h.basis)addText(more,'p',h.basis);
+        if(h.detail)addText(more,'p',h.detail);
+        if(h.source)link(more,h.source,'Published maximum-SPL source');
+        card.append(more);
+      }
       if(item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
       if(item.bassSetup){
@@ -1323,10 +1337,12 @@ document.addEventListener('DOMContentLoaded', () => {
           checkParams.set('gap',String(checkProfile.gap));
           checkParams.set('preferRoom',['outdoors','party'].includes(request.useCase)?'0':'1');
         }
-        const checkAction=el('div','sb-checker-action');
-        link(checkAction,'/system-check/'+(checkParams.size?'?'+checkParams.toString():''),
-          checkAmp||checkSpeaker?'Open System Check with this gear':'Open System Check');
-        card.append(checkAction);
+        if(!item.poweredHeadroomModel){
+          const checkAction=el('div','sb-checker-action');
+          link(checkAction,'/system-check/'+(checkParams.size?'?'+checkParams.toString():''),
+            checkAmp||checkSpeaker?'Open System Check with this gear':'Open System Check');
+          card.append(checkAction);
+        }
       }
       const proof=el('details','sb-beginner-proof');
       addText(proof,'summary','Why these parts work together');
@@ -1480,6 +1496,14 @@ document.addEventListener('DOMContentLoaded', () => {
           profile.append(links);
           note.append(profile);
         }
+        const headroom=recommendationHeadroom(item,request,sharedCatalog);
+        const hrow=el('div','sb-alt-headroom');
+        addText(hrow,'strong','Headroom at '+headroom.target.distanceFt+' ft');
+        addText(hrow,'span',headroom.summary);
+        if(headroom.link)
+          link(hrow,headroom.link,
+            headroom.kind==='powered'?'Powered System Check':'View System Check');
+        note.append(hrow);
         if(item.why){
           const fit=el('details','sb-comparison-fit');
           addText(fit,'summary','Why this option fits');
