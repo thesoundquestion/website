@@ -193,6 +193,10 @@ export function shortlistExamples(input = {}, catalog = null) {
     const product = byId.get(id);
     if (!product || !targetArchitectures.includes(product.architecture)) continue;
     if (product.usedOnly && !used) continue;
+    if (product.safetyStatus==='blocked') {
+      excluded.push({title:product.title,reason:product.safetyReason||'Safety-critical matching is not established.'});
+      continue;
+    }
     if (neededPower && product.power !== 'battery' && product.power !== 'source_dependent') {
       excluded.push({title:product.title,reason:'Battery operation required; this example uses wall power.'}); continue;
     }
