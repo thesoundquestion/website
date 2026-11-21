@@ -1,5 +1,7 @@
 # System Builder Release Matrix | 2026-11-21
 
+**Mandatory companion:** [Full cross-tool integration contract](CROSS_TOOL_INTEGRATION_CONTRACT.md). This is an established release requirement and every new recommendation pathway must prove the complete context-preserving Builder → checker workflow; no empty generic tools.
+
 **Scope:** Draft PR #39 only. Not deployed. This is a repeatable release gate, not another round of original specification research.
 
 ## Objective
