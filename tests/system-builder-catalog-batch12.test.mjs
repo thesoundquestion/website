@@ -30,11 +30,12 @@ test('five new exact passive speakers, two wired headphones supplement original 
   }
 });
 test('maker recommendations, program handling, and room sensitivity do not become numeric clean output',()=>{
-  for(const n of ['PSB Alpha P3','PSB Alpha P5']){
+  for(const [n,anechoic] of [['PSB Alpha P3',85],['PSB Alpha P5',87]]){
     const x=builderOnlySpeakerFor(n);
     assert.equal(x.values.load,8);
     assert.equal(x.values.minimum,4);
-    assert.equal(x.values.sensitivity,undefined);
+    assert.equal(x.values.sensitivity,anechoic);
+    assert.equal(x.values.basis,'voltage');
     assert.equal(x.values.speakerPowerNominal,undefined);
     assert.equal(x.values.speakerPowerPeak,undefined);
     assert.match(x.values.speakerPowerNote,/program/);
