@@ -8,7 +8,7 @@ set "URL=http://127.0.0.1:%PORT%/system-builder/"
 
 rem Refuse to open a stale server if this port is already occupied.
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$c=New-Object System.Net.Sockets.TcpClient; try { $c.Connect('127.0.0.1',%PORT%); exit 1 } catch { exit 0 } finally { $c.Dispose() }"
-if not errorlevel 1 goto port_busy
+if errorlevel 1 goto port_busy
 
 where py >nul 2>nul
 if not errorlevel 1 goto use_py
