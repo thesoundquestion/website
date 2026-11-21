@@ -16,7 +16,7 @@
 <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
 <script defer src="/equipment/compare-details.generated.js?v=registry-v1"></script>
 <script defer src="/system-builder/catalog-adapter.js"></script>
-<script type="module" src="/system-builder/app.mjs?v=owner-sound-and-checker-20261120"></script>
+<script type="module" src="/system-builder/app.mjs?v=room-distance-20261120"></script>
 
 <title>Listening Builder | The Sound Question</title>
 </head>
@@ -154,7 +154,8 @@
 <label class="sb-field">Where will you listen?
 <select name="useCase"><option value="living_room">Living room / shared room</option><option value="desk">Desk / nearfield</option><option value="bedroom">Bedroom / small room</option><option value="outdoors">Backyard / outdoors</option><option value="party">Gathering / event / party</option></select></label>
 <label class="sb-field">Distance to listening position (ft)
-<input type="number" name="distanceFt" min="0.5" max="300" step="0.5" value="8"></label>
+<input type="number" name="distanceFt" min="0.5" max="300" step="0.5" value="8">
+<span class="sb-distance-hint" data-distance-hint>Suggested for living room: 8 ft. Editable.</span></label>
 <label class="sb-field">Usual listening level
 <select name="level"><option value="quiet">Quiet / background</option><option value="moderate" selected>Comfortable / normal</option><option value="high">Occasionally loud, clean peaks important</option></select></label>
 
