@@ -30,9 +30,10 @@ test('quoted JBL monitor price is for two separate cabinets',()=>{
 });
 test('a past subtotal above a firm ceiling does not block a system',()=>{
   const x=shortlistExamples({...defaults,architecture:'passive_separates',budget:400});
-  const starter=x.selected.find(x=>x.id==='passive-bt20a-xt15');
-  assert.equal(starter.subtotal,438.99);
-  assert.equal(starter.priceDate,'2026-11-13');
+  const starter=x.selected.find(x=>x.id==='passive-as301-p5');
+  assert.ok(starter);
+  assert.ok(starter.subtotal>400);
+  assert.ok(x.excluded.some(y=>/Fosi BT20A Pro/.test(y.title)));
   assert.ok(!x.excluded.some(x=>/budget/.test(x.reason)));
 });
 test('flexible budget can show examples with a higher dated parts reference',()=>{
@@ -71,12 +72,15 @@ test('an open-system comparison includes different architectures, not four conse
   const x=shortlistExamples({...defaults});
   assert.ok(new Set(x.selected.map(x=>x.architecture)).size>=3);
 });
-test('legacy R-S202/P3 example has been retired; affordable Fosi/Polk pair includes load caution',()=>{
+test('unresolved Fosi/Polk combination is kept out of recommended systems',()=>{
   assert.ok(!EXAMPLES.some(x=>x.title.includes('R-S202 + PSB Alpha P3')));
   const x=EXAMPLES.find(x=>x.id==='passive-bt20a-xt15');
   assert.ok(x);
-  assert.match(x.loadCaution,/4.1 Ω/);
-  assert.match(x.tradeoff,/not a certified|NOT a certified/i);
+  assert.equal(x.safetyStatus,'blocked');
+  assert.match(x.safetyReason,/compatibility evidence/);
+  const result=shortlistExamples({...defaults,architecture:'passive_separates'});
+  assert.ok(!result.selected.some(y=>y.id===x.id));
+  assert.ok(result.excluded.some(y=>y.title===x.title));
   assert.equal(x.priceCA.components.reduce((n,p)=>n+p.amount,0),438.99);
 });
 test('no example certifies a full price or real-world compatibility',()=>{

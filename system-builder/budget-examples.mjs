@@ -79,7 +79,8 @@ export const BUDGET_EXAMPLES=Object.freeze([
         url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html'}
     ]},
     priceEvidence:'multi_retailer_ordinary_advertised_components_not_installed_cost',
-    loadCaution:'Check the Polk XT15’s 4.1 Ω minimum against the actual Fosi BT20A Pro power-supply configuration; no published 300 W claim proves this pairing safe or clean.'
+    safetyStatus:'blocked',
+    safetyReason:'The Fosi BT20A Pro / Polk XT15 combination lacks enough verified load-and-supply compatibility evidence for a ready-to-buy recommendation.'
   },
   {
     id:'headphone-ksc75',architecture:'headphone_first',

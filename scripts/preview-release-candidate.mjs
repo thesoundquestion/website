@@ -35,6 +35,7 @@ function run(label,args){
 }
 if(!existsSync(join(root,'.git')))throw new Error('Open a Git clone of the website, not an untracked copy.');
 run('Checking canonical equipment projections',['scripts/build-equipment-catalog.mjs','--check']);
+run('Checking equipment certification and risk register',['scripts/audit-equipment-certification.mjs','--check']);
 const testFiles=findTests(testsRoot);
 if(testFiles.length<15)throw new Error('Incomplete test checkout. Refusing preview.');
 run('Running all '+testFiles.length+' test modules',['--test',...testFiles]);

@@ -1030,6 +1030,60 @@ for (const name of speakerPowerFields) {
 }
 if (typeof systemCheckGear !== 'undefined') mountGearPresets(systemCheckGear);
 
+// Builder handoff: retain the exact scenario and source-supported values
+// without overriding existing exact-model presets or guessing missing data.
+function applyBuilderHandoff() {
+  const q=new URLSearchParams(location.search);
+  if(!q.has('distance')&&!q.has('builderSensitivity'))return;
+  const numeric=(key,min,max)=>{
+    const raw=q.get(key);
+    if(raw===null||raw.trim()==='')return null;
+    const n=Number(raw);
+    return Number.isFinite(n)&&n>=min&&n<=max?n:null;
+  };
+  for(const [name,min,max] of [
+    ['distance',0.5,300],['peak',20,135],['average',20,135],['gap',0,50]
+  ]){
+    const value=numeric(name,min,max);
+    if(value!==null)field(name).value=String(value);
+  }
+  // Keep linked average, peak and gap internally consistent.
+  const peak=numeric('peak',20,135), average=numeric('average',20,135);
+  if(peak!==null&&average!==null&&peak>=average){
+    field('gap').value=String(peak-average);
+  }
+  const speakerChoice=document.querySelector('[data-gear="speaker"] select');
+  const ampChoice=document.querySelector('[data-gear="amp"] select');
+  const incomingSpeaker=String(q.get('speaker')||'').slice(0,120);
+  if(speakerChoice?.value===''){
+    const sensitivity=numeric('builderSensitivity',40,130);
+    const load=numeric('builderLoad',0.5,32);
+    if(sensitivity!==null&&load!==null&&q.get('builderBasis')==='power'){
+      field('speakerModel').value=incomingSpeaker;
+      field('sensitivity').value=String(sensitivity);
+      field('basis').value='power';
+      field('load').value=String(load);
+      const note=document.querySelector('#gear-speaker-note');
+      if(note)note.textContent='Builder-supplied published speaker specification. Check the exact model and original source before changing equipment.';
+    }
+  }
+  if(ampChoice?.value==='' && q.get('amp')){
+    const watts=numeric('builderAmpWatts',0.001,100000);
+    const ohms=numeric('builderAmpOhms',0.5,32);
+    if(watts!==null&&ohms!==null){
+      field('ampModel').value=String(q.get('amp')).slice(0,120);
+      ratings.replaceChildren();
+      addRating(watts,ohms,'continuous','Builder source-backed full-band amplifier specification');
+    }
+  }
+  const banner=document.querySelector('#builder-handoff-note');
+  if(banner){
+    banner.hidden=false;
+    banner.textContent='Loaded your Builder listening distance, target levels and available equipment ratings. Adjust the values here to check your exact listening preference.';
+  }
+}
+applyBuilderHandoff();
+
 if (!ratings.children.length) addRating();
 sync();
 field('targetMode').addEventListener('change', () => {

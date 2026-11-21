@@ -4,6 +4,11 @@ import {loadRegionalPriceTiers} from '../equipment/price-tier-client.mjs';
 import {preferVerifiedPriceTier,pricingPreferenceCoverage,validPricePreference} from '../equipment/price-preference.mjs';
 import {listeningCatalogOptions,listeningStudioCandidates,describeStudioMonitor} from '../equipment/builder-catalog-options.mjs';
 import {shortlistExamples} from './recommendations.mjs';
+import {headroomEvidence} from './headroom-evidence.mjs';
+import {checkerHandoffLink} from './checker-handoff.mjs';
+import {compareCatalogHandoff} from './compare-handoff.mjs';
+import {poweredEvidenceFor} from './powered-output-evidence.mjs';
+import {evaluateSubwooferConnection,subwooferCheckerLink} from '../system-check/subwoofer/engine.mjs';
 import {explainInputInteractions} from './decision-context.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartySpeakerLeads,shortlistPartyPassiveConcepts} from './owned-amp-speakers.mjs';
 import {soundProfileFor, recommendationWhy} from './sound-profiles.mjs';
@@ -358,9 +363,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const partyPassiveRoute=(primary==='party'||useCase==='party') &&
       arch==='passive_separates' && powered!=='battery';
     const ownership = anyOwned ? ownershipPlan({own,request,inventory}) : null;
-    const shortlist = ownership || (speakerFocus
+    const preliminary = ownership || (speakerFocus
       ? shortlistSpeakersForOwnedAmplifier({ ...request, amp:own.amp, speakers:inventory?.speaker })
       : partyPassiveRoute ? shortlistPartyPassiveConcepts({...request,speakers:inventory?.speaker}) : shortlistExamples(request,sharedCatalog));
+    // Final safety backstop: no pairing carrying an unresolved dangerous
+    // connection/load warning may appear as a recommendation.
+    const unsafe = preliminary.selected.filter(item=>
+      item.safetyStatus==='blocked'||Boolean(item.ownershipBlocker)||Boolean(item.loadCaution));
+    const shortlist = {
+      ...preliminary,
+      selected:preliminary.selected.filter(item=>!unsafe.includes(item)),
+      excluded:[...(preliminary.excluded||[]),...unsafe.map(item=>({
+        title:item.title,reason:item.ownershipBlocker||item.loadCaution||
+          item.safetyReason||'Unresolved safety-critical pairing'
+      }))]
+    };
     // Price-position preference may reorder only verified, same-region,
     // comparable catalogue examples. It NEVER removes a recommendation.
     // We do not pretend that an unknown price is budget priced.
@@ -440,8 +457,30 @@ document.addEventListener('DOMContentLoaded', () => {
       card.append(head);
       if (item.reuseNames?.length)
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
-      if (item.bassSetup)
-        addText(card,'p',item.bassSetup.label,'sb-card-minor');
+      // A missing requested source connection is a practical buying detail,
+      // not an electrical hazard. Do not bury that extra cost in the dropdown.
+      if (item.connectionStatus === 'adapter_needed')
+        addText(card,'p','Connection: an additional adapter or source device is needed (not priced).','sb-card-minor');
+      if (item.bassSetup) {
+        const subSource=({
+          'stereo-sub-edifier':'Edifier R1280DBs',
+          'stereo-sub-ora':'Kanto ORA',
+          'stereo-sub-wiim':'WiiM Amp'
+        })[item.id];
+        const knownSub=Boolean((item.parts||[]).some(part=>part.name.includes('Edifier T5')));
+        if(subSource&&knownSub){
+          const result=evaluateSubwooferConnection({
+            sourceModel:subSource,subModel:'Edifier T5',
+            mainBassMode:request.subMode==='sub_full'?'full':'default'
+          });
+          if(result.compatible){
+            addText(card,'p','Subwoofer connection: '+result.cable+'. '+result.mains,'sb-card-minor');
+            link(card,subwooferCheckerLink({sourceModel:subSource,subModel:'Edifier T5',
+              mainBassMode:request.subMode==='sub_full'?'full':'default'}),
+              'Check the subwoofer wiring and crossover');
+          }
+        }else addText(card,'p',item.bassSetup.label,'sb-card-minor');
+      }
       else if (bassMode !== 'no_sub' && !noPurchase && ['consumer_powered_pair','passive_separates','active_studio'].includes(item.architecture))
         addText(card,'p','Stereo parts only. Subwoofer and crossover costs are separate.','sb-card-minor');
       const fit = el('p','sb-card-match');
@@ -449,42 +488,50 @@ document.addEventListener('DOMContentLoaded', () => {
       fit.append(document.createTextNode(item.headphoneRationale || item.amplifierReason || item.speakerRationale || item.ownershipMessage || (item.bassSetup && item.why) || recommendationWhy(item,request,
         Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label])))));
       card.append(fit);
+      // Give beginners a practical, short answer. Keep all modelling
+      // limitations and calculations in the optional details section.
+      const output=headroomEvidence(item,request);
+      const headroom=el('p','sb-card-headroom');
+      addText(headroom,'strong',output.label+' ');
+      headroom.append(document.createTextNode(output.text));
+      card.append(headroom);
+      // The practical answer stays on the card. The detailed passive speaker
+      // listening-level calculator must be immediately reachable, not hidden.
+      if(output.link)link(card,checkerHandoffLink(item,request)||output.link,'Check your exact listening levels');
+      const poweredEvidence=poweredEvidenceFor(item);
+      if(poweredEvidence){
+        const params=new URLSearchParams({
+          model:poweredEvidence.model,distance:String(request.distanceFt),
+          level:request.level||'moderate',count:String(poweredEvidence.units)
+        });
+        link(card,'/system-check/powered/?'+params.toString(),'Check powered-speaker loudness at your seat');
+      }
+      // Only expose comparisons with an actual model preset in Compare My Gear.
+      // Generic unselected checker links send beginners back to square one.
+      if(['active_studio','party_pa'].includes(item.architecture)&&sharedCatalog?.records){
+        const targetType=item.architecture==='active_studio'?'powered_studio_monitor':'powered_pa_speaker';
+        const names=[item.title,...(item.parts||[]).map(part=>part.name)].join(' ').toLowerCase();
+        const found=sharedCatalog.records.filter(record=>
+          record.facts?.speakerKind?.value===targetType &&
+          names.includes(record.model.toLowerCase()));
+        if(found.length===1){
+          const exact=compareCatalogHandoff(found[0]);
+          if(exact)link(card,exact,'Compare documented '+found[0].model+' specifications');
+        }
+      }
+      if(item.architecture==='passive_separates'&&item.acousticEvidence){
+        const model=item.acousticEvidence.amplifierModel;
+        if(inventory?.amp?.some(record=>record.model===model))
+          link(card,'/system-check/compare/?'+new URLSearchParams({type:'amp',left:model}),
+            'Compare '+model+' specifications');
+        const speaker=item.acousticEvidence.speakerModel;
+        if(inventory?.speaker?.some(record=>record.model===speaker))
+          link(card,'/system-check/compare/?'+new URLSearchParams({type:'speaker',left:speaker}),
+            'Compare '+speaker+' specifications');
+      }
       if (item.ownershipMessage && item.preferenceMatchAvailable)
         addText(card,'p','Listening priorities: '+recommendationWhy(item,request,
           Object.fromEntries(Object.entries(GOALS).map(([key,value])=>[key,value.label]))),'sb-card-preference');
-      if (item.amplifierFit) {
-        const fitInfo=item.amplifierFit;
-        const p=el('p','sb-card-power');
-        addText(p,'strong','Power & headroom: ');
-        const handling=fitInfo.speaker;
-        const power=fitInfo.amp;
-        const load=power.exact ? power.watts+' W at '+power.ohms+' Ω' : 'no exact-load published watt figure';
-        const compared=handling.watts!==null && power.exact
-          ? ' vs. '+handling.watts+' W '+handling.label
-          : ' · no usable speaker power-handling comparison';
-        const headroom=fitInfo.powerBand==='in_range' ?
-          'Broadly aligned on paper; real peak reserve still needs checking.' :
-          fitInfo.powerBand==='larger_reserve' ?
-          'Extra available power calls for sensible volume limits, not automatic better sound.' :
-          fitInfo.powerBand==='lower_reserve' || fitInfo.powerBand==='small_relative_to_rating' ?
-          'Less power on paper is not automatically inadequate at your normal volume.' :
-          'No handling-based power target can be justified from the current data.';
-        p.append(document.createTextNode(load+compared+'. '+headroom));
-        card.append(p);
-        const thd=el('p','sb-card-thd');
-        addText(thd,'strong','Distortion evidence: ');
-        thd.append(document.createTextNode(fitInfo.amp.distortionEvidence==='strong' ||
-          fitInfo.amp.distortionEvidence==='documented'
-          ? fitInfo.amp.thd+'% THD at rated power across 20 Hz–20 kHz; not an audible-quality score.'
-          : 'A comparable full-band low-distortion rating is not documented for this load.'));
-        card.append(thd);
-        if (fitInfo.context) {
-          const impression=el('p','sb-card-review');
-          addText(impression,'strong','Reviewer/lab context: ');
-          impression.append(document.createTextNode(fitInfo.context.text));
-          card.append(impression);
-        }
-      }
       const sound = soundProfileFor(item);
       // A speaker's listening profile must never be presented as the amplifier's
       // sound. Unknown owned-speaker profiles do not get a generic "Sound" card.
@@ -496,19 +543,9 @@ document.addEventListener('DOMContentLoaded', () => {
         card.append(soundLine);
       }
 
-      // Only material blockers and urgent caveats interrupt the skim view.
-      if (item.loadCaution)
-        addText(card,'p',item.loadCaution,'sb-card-alert');
-      else if (item.connectionStatus === 'adapter_needed')
-        addText(card,'p','Your chosen source connection needs extra hardware.','sb-card-alert');
-      else if (item.sourceBatteryCaution)
-        addText(card,'p','Battery-powered source/output required separately.','sb-card-alert');
-      else if (item.levelCaution || item.placementCaution)
-        addText(card,'p','Confirm clean output at your listening distance and level.','sb-card-alert');
-      if (item.sourceCaution)
-        addText(card,'p',item.sourceCaution,'sb-card-alert');
-      if (item.pathwayCaution)
-        addText(card,'p',item.pathwayCaution,'sb-card-alert');
+      // Safety-blocked pairings have already been removed. Connection
+      // adapters and ordinary limitations belong in the optional details.
+      // No generic yellow warning panels on eligible recommendations.
 
       const details = el('details','sb-card-details');
       addText(details,'summary','What is included, drawbacks & sources');
@@ -563,6 +600,43 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(details,'h5','How your inputs affected this option');
         list(details,item.decisionReasons);
       }
+      addText(details,'h5','How loud and why');
+      addText(details,'p',output.detail,'sb-card-reference');
+
+      if (item.amplifierFit) {
+        const fitInfo=item.amplifierFit;
+        const p=el('p','sb-card-power');
+        addText(p,'strong','Power & headroom: ');
+        const handling=fitInfo.speaker;
+        const power=fitInfo.amp;
+        const load=power.exact ? power.watts+' W at '+power.ohms+' Ω' : 'no exact-load published watt figure';
+        const compared=handling.watts!==null && power.exact
+          ? ' vs. '+handling.watts+' W '+handling.label
+          : ' · no usable speaker power-handling comparison';
+        const headroom=fitInfo.powerBand==='in_range' ?
+          'Broadly aligned on paper; real peak reserve still needs checking.' :
+          fitInfo.powerBand==='larger_reserve' ?
+          'Extra available power calls for sensible volume limits, not automatic better sound.' :
+          fitInfo.powerBand==='lower_reserve' || fitInfo.powerBand==='small_relative_to_rating' ?
+          'Less power on paper is not automatically inadequate at your normal volume.' :
+          'No handling-based power target can be justified from the current data.';
+        p.append(document.createTextNode(load+compared+'. '+headroom));
+        card.append(p);
+        const thd=el('p','sb-card-thd');
+        addText(thd,'strong','Distortion evidence: ');
+        thd.append(document.createTextNode(fitInfo.amp.distortionEvidence==='strong' ||
+          fitInfo.amp.distortionEvidence==='documented'
+          ? fitInfo.amp.thd+'% THD at rated power across 20 Hz–20 kHz; not an audible-quality score.'
+          : 'A comparable full-band low-distortion rating is not documented for this load.'));
+        card.append(thd);
+        if (fitInfo.context) {
+          const impression=el('p','sb-card-review');
+          addText(impression,'strong','Reviewer/lab context: ');
+          impression.append(document.createTextNode(fitInfo.context.text));
+          card.append(impression);
+        }
+      }
+
       addText(details,'h5','Trade-offs');
       addText(details,'p',item.tradeoff);
       const checks = [...item.extra];
@@ -573,12 +647,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (item.connectionStatus === 'adapter_needed')
         checks.unshift('No native connection for your chosen input: add and price a suitable adapter, receiver or interface.');
+      if (item.pathwayCaution)
+        checks.unshift(item.pathwayCaution);
       if (item.sourceCaution)
         checks.unshift(item.sourceCaution);
       if (item.sourceBatteryCaution)
         checks.unshift('Allow for a compatible battery-powered source with a headphone output.');
       if (item.levelCaution || item.placementCaution)
-        checks.unshift('Verify clean output at your intended distance and level, especially with compact nearfield designs.');
+        checks.unshift('For louder or distant use, confirm this exact model’s usable output; its category alone does not determine the answer.');
       if (item.sceneCaution)
         checks.unshift('Check whether this product is appropriate for the chosen venue and coverage.');
       if (bassMode !== 'no_sub' && item.architecture !== 'headphone_first' && !item.bassSetup && !noPurchase)
@@ -660,6 +736,16 @@ document.addEventListener('DOMContentLoaded', () => {
           list(card,facts.length?facts:['Published specifications incomplete; check the manufacturer documentation.']);
           addText(card,'p',details.cautions[0]+' '+details.cautions[1],'sb-brief-note');
           link(card,details.source,'Manufacturer/source documentation');
+          const verifiedPowered=poweredEvidenceFor({model:record.model});
+          if(verifiedPowered){
+            const q=new URLSearchParams({
+              model:verifiedPowered.model,distance:String(request.distanceFt),
+              level:request.level||'moderate',count:'2'
+            });
+            link(card,'/system-check/powered/?'+q.toString(),'Check loudness with a stereo pair');
+          }
+          const comparison=compareCatalogHandoff(record);
+          if(comparison)link(card,comparison,'Compare exact powered studio monitor specifications');
           cards.append(card);
         }
         explorer.append(cards);
@@ -668,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    if (shortlist.excluded.length && budget !== null) {
+    if (shortlist.excluded.length) {
       const excluded = el('details','sb-more');
       addText(excluded,'summary','Why some options were left out');
       list(excluded,shortlist.excluded.slice(0,5).map(x=>x.title+': '+x.reason));
@@ -708,12 +794,24 @@ document.addEventListener('DOMContentLoaded', () => {
       addText(panel,'summary',summary);
       addText(panel,'p',route.bassSetup.label);
       addText(panel,'p',route.buying ? 'The example uses an Edifier T5. Check whether you need a separate connection cable.' :
-        route.wantsOwnedSub ? 'Keep your subwoofer if it accepts the right connection. The T5 wiring below is an example.' :
-        'Confirm whether your sub can be reused. The T5 wiring below is an example.');
+        route.wantsOwnedSub ? 'Your subwoofer model and its signal inputs have not been verified. Follow the receiver or speaker output setup below only after confirming the sub accepts that line-level signal; do not copy another subwoofer’s knobs or wiring.' :
+        'Your subwoofer model is unspecified. Confirm its line-level inputs and actual low-pass controls before assuming this route will work.');
       if (route.needsMainSpeakers) addText(panel,'p','Price the passive stereo pair and speaker wire separately.');
       addText(panel,'p',route.bassSetup.setup);
       link(panel,route.bassSetup.source,'Manufacturer bass-routing instructions');
       if (route.buying) renderPriceReferences(panel,route,'h4');
+      const source=route.retained;
+      const selectedSub=route.buying?'Edifier T5':null;
+      const routeCheck=evaluateSubwooferConnection({
+        sourceModel:source,subModel:selectedSub||null,
+        mainBassMode:request.subMode==='sub_full'?'full':'default'
+      });
+      addText(panel,'p',routeCheck.text,'sb-card-minor');
+      const checkUrl=subwooferCheckerLink({
+        sourceModel:source,subModel:selectedSub||null,
+        mainBassMode:request.subMode==='sub_full'?'full':'default'
+      });
+      if(checkUrl)link(panel,checkUrl,'Check this subwoofer connection and main-speaker bass routing');
       shop.append(panel);
     }
 
@@ -866,9 +964,8 @@ document.addEventListener('DOMContentLoaded', () => {
     else experiments.push('Confirm L/R polarity, placement symmetry and room/setup constraints before attributing congestion or imaging issues to a component.');
     if (data.get('keepWorking') && anyOwned) experiments.unshift('Run your present setup through System Check first. If it already meets your level, connectivity and tonal needs, no upgrade may be necessary.');
     list(first,experiments);
-    const referrals = addText(first,'p','Cross-check rather than inventing numbers: ');
-    link(referrals,'/system-check/','System Check for verified headroom');
-    link(referrals,'/system-check/compare/','Compare My Gear source notes');
+    // The relevant tools are linked on exact recommendation cards above,
+    // already populated with selected equipment; no empty generic links.
     const limitation = section('Evidence limits');
     addText(limitation,'p','This Builder does not have a rights-cleared, method-compatible, catalogue-wide acoustic measurement dataset, only limited source-verified category-specific regional price samples, and no calibrated preference-to-product scoring. Manufacturer specs, independent review links and original measurements are different evidence tiers. No data is scraped or copied from third-party review graphs.');
     link(limitation,'https://www.erinsaudiocorner.com/measurement-data-policy/','Independent measurement-data usage policy');

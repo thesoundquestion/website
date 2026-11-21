@@ -94,7 +94,7 @@ export function assessAmplifierCandidate({idea,record,speaker,request={}}) {
   if(ratio!==null) {
     if(ratio>=0.7&&ratio<=1.5){powerBand='in_range';powerPoints=3;}
     else if(ratio>1.5){powerBand='larger_reserve';powerPoints=2;}
-    else if(ratio>=0.4){powerBand='lower_reserve';powerPoints=request.level==='high'?0:1;}
+    else if(ratio>=0.4){powerBand='lower_reserve';powerPoints=1;}
     else {powerBand='small_relative_to_rating';powerPoints=0;}
   }
   // Less confidence in an ambiguous speaker max-input rating.

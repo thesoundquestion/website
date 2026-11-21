@@ -69,14 +69,14 @@ test('headphone starts below 100 dollars with source-output caveats rather than 
   assert.ok(r.selected.every(x=>x.priceComponents.length===1 && x.parts.length===1));
   assert.ok(r.selected.every(x=>x.tradeoff.includes('fit')||x.tradeoff.includes('Fit')||x.tradeoff.includes('bass')));
 });
-test('budget passive new stereo has two component prices, load caveat and no peak-watt shortcut',()=>{
+test('budget starter with unresolved amplifier/speaker load pairing is excluded, not merely warned about',()=>{
   const x=check(450,{architecture:'passive_separates',useCase:'bedroom'});
-  const pair=x.selected.find(x=>x.id==='passive-bt20a-xt15');
+  const pair=EXAMPLES.find(x=>x.id==='passive-bt20a-xt15');
   assert.ok(pair);
-  assert.equal(pair.subtotal,438.99);
-  assert.equal(pair.parts.length,2);
-  assert.match(pair.tradeoff,/300 W/i);
-  assert.match(pair.loadCaution,/4.1 Ω/);
+  assert.equal(pair.safetyStatus,'blocked');
+  assert.equal(pair.priceCA.components.reduce((n,p)=>n+p.amount,0),438.99);
+  assert.ok(!x.selected.some(x=>x.id===pair.id));
+  assert.ok(x.excluded.some(y=>y.title===pair.title));
   assert.ok(!x.selected.some(x=>x.title.includes('R-S202 + PSB Alpha P3')));
   assert.ok(!EXAMPLES.some(x=>x.usedOnly));
 });

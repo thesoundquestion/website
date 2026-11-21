@@ -5,7 +5,7 @@ import {shortlistExamples} from '../system-builder/recommendations.mjs';
 import {ownershipPlan} from '../system-builder/owned-gear-options.mjs';
 import {ampSpeakerScreening} from '../system-builder/owned-amp-speakers.mjs';
 import {builderOnlyAmpFor} from '../system-builder/supplemental-amplifiers.mjs';
-import {DENON_S650H_NAME, ownedSubwooferPath, poweredSubPairFor} from '../system-builder/stereo-subwoofer-examples.mjs';
+import {DENON_S650H_NAME, ownedSubwooferPath, poweredSubPairFor, configureSubExample, STEREO_SUB_EXAMPLES} from '../system-builder/stereo-subwoofer-examples.mjs';
 import {usedWatchlistFor} from '../system-builder/used-amp-watchlist.mjs';
 
 const basic = {architecture:'open', goal:'bass', useCase:'bedroom', power:'mains',
@@ -141,4 +141,35 @@ test('North American Denon has its own load rule and a regional unpriced used wa
   const us = usedWatchlistFor({region:'US',wantedInput:'hdmi'}).find(item=>item.model===record.model);
   assert.ok(us && us.usedTypicalPrice===null && us.listingUrl===null && us.inputCaution===null);
   assert.ok(!usedWatchlistFor({region:'GB'}).some(item=>item.model===record.model));
+});
+
+test('configuration helper never attaches WiiM crossover behavior to a different powered pair',()=>{
+  const edifier=STEREO_SUB_EXAMPLES.find(item=>item.id==='stereo-sub-edifier');
+  const ora=STEREO_SUB_EXAMPLES.find(item=>item.id==='stereo-sub-ora');
+  const wiim=STEREO_SUB_EXAMPLES.find(item=>item.id==='stereo-sub-wiim');
+  for(const item of [edifier,ora]){
+    const result=configureSubExample(item,{...basic,subMode:'sub_full'});
+    assert.equal(result.bassSetup,item.bassSetup);
+    assert.doesNotMatch(result.bassSetup.setup,/Main Speakers Output Bass/);
+  }
+  const full=configureSubExample(wiim,{...basic,subMode:'sub_full'});
+  assert.match(full.bassSetup.setup,/Main Speakers Output Bass/);
+});
+
+test('an unidentified owned sub never inherits T5-specific connector or knob instructions',()=>{
+ const cases=[
+  [{speaker:{name:'Edifier R1280DBs'}},{...basic,connection:'optical'}],
+  [{speaker:{name:'Kanto ORA'}},{...basic,connection:'usb'}],
+  [{amp:{name:'WiiM Amp'}},{...basic,connection:'optical'}],
+  [{amp:{name:DENON_S650H_NAME}},{...basic,connection:'optical'}]
+ ];
+ for(const [own,request] of cases){
+   const route=ownedSubwooferPath(own,{...request,subOwned:'yes'});
+   assert.ok(route,'Expected documented amplifier/speaker sub output route');
+   assert.equal(route.buying,false);
+   assert.equal(route.ownedSubConnectionVerified,false);
+   assert.match(route.bassSetup.setup,/line-level/);
+   assert.match(route.bassSetup.setup,/check|verify|confirm/i);
+   assert.doesNotMatch(route.bassSetup.setup,/T5 Signal In|turn the T5|T5 cutoff|T5 knob/);
+ }
 });

@@ -99,13 +99,13 @@ test('all four owned in headphone route retains headphones/source; acknowledges 
   assert.ok(r.selected[0].keptSeparate.some(x=>x.includes(SPEAKER.name)));
   assert.ok(r.selected[0].keptSeparate.some(x=>x.includes(AMP.name)));
 });
-test('documented speaker/amp nominal restriction triggers visible warning and partial reuse alternatives',()=>{
+test('documented speaker/amp nominal restriction excludes unsafe pair and offers separately checked alternatives',()=>{
   const speaker=gear('speaker','ELAC Debut 3.0 DB63');
   const amp=gear('amp','Yamaha R-S202');
   const r=run({speaker,amp});
-  assert.equal(r.selected[0].id,'owned-complete');
-  assert.match(r.selected[0].loadCaution,/Do not connect/);
-  assert.ok(r.selected.some(x=>x.id.startsWith('owned-speaker-amp')));
+  assert.ok(!r.selected.some(x=>x.id==='owned-complete'));
+  assert.ok(r.excluded.some(x=>/ELAC Debut 3.0 DB63/.test(x.title)&&/Do not connect/.test(x.reason)));
+  assert.ok(r.selected.some(x=>x.id.startsWith('owned-speaker-amp')||x.id.startsWith('owned-speaker-')));
   assert.ok(r.selected.every(x=>x.reuseNames.length>0));
 });
 test('incompatible powered architecture still offers a separate passive route keeping speakers',()=>{
@@ -132,8 +132,9 @@ test('unlisted speaker names remain explicitly unknown rather than fabricated sa
   const unknown={name:'Unlisted DIY Pair',record:null};
   const r=run({speaker:unknown});
   assert.equal(r.mode,'keep_speakers');
-  assert.ok(r.selected.every(x=>x.extra.some(s=>/Check the speaker/.test(s))));
-  assert.ok(r.selected.every(x=>x.reuseNames.includes('Unlisted DIY Pair')));
+  assert.equal(r.selected.length,0);
+  assert.ok(r.excluded.length>0);
+  assert.ok(r.excluded.every(x=>/nominal impedance/.test(x.reason)));
 });
 test('owned-speaker amp choices keep price links when the reference is above budget or expired',()=>{
   const r=run({speaker:SPEAKER},{budget:200});
@@ -152,7 +153,7 @@ test('all-new path is only selected when user has not declared any equipment',()
 test('UI places ownership plan ahead of example-only shortlist and hides comparison behind disclosure',()=>{
   const app=src('../system-builder/app.mjs');
   assert.match(app,/ownershipPlan\(\{own,request,inventory\}\)/);
-  assert.match(app,/const shortlist = ownership \|\|/);
+  assert.match(app,/const preliminary = ownership \|\|/);
   assert.match(app,/item\.reuseNames\?\.length/);
   assert.match(app,/item\.pathwayCaution/);
   assert.match(app,/if \(ownership\) \{/);

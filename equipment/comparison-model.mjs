@@ -76,7 +76,9 @@ const FIELDS = Object.freeze({
     ['speakerNominalImpedanceOhms','Nominal impedance','Ω'],
     ['speakerSensitivityDb','Published sensitivity','dB'],
     ['speakerSensitivityBasis','Sensitivity reference'],
-    ['responseMinus3DbHz','−3 dB frequency range','Hz']
+    ['responseMinus3DbHz','−3 dB frequency range','Hz'],
+    ['inputConnections','Documented speaker inputs'],
+    ['outputConnections','Documented speaker outputs']
   ],
   source: [
     ['lineOutputVoltageVrms','Analogue line output voltage','V RMS'],
@@ -157,7 +159,7 @@ function connectionFact(item,key) {
 }
 const getFact = (item,key,category) => {
   let fact=item?.facts?.[key];
-  if((key==='inputConnections'||key==='outputConnections')&&PROFILE_CATEGORIES.has(category))
+  if((key==='inputConnections'||key==='outputConnections')&&(PROFILE_CATEGORIES.has(category)||category==='speaker'))
     fact=connectionFact(item,key);
   else if(!fact && PROFILE_CATEGORIES.has(category)){
     const profile=item?.profiles?.find(p=>p.category===category && p.specifications &&
