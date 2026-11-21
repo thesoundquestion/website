@@ -3,6 +3,7 @@ import {curatedPairingFor} from './curated-pairing-evidence.mjs';
 import {catalogHeadphoneExamples} from './headphone-options.mjs';
 import {compareExamplePriorities, examplePriceFor, explainExampleInteractions} from './decision-context.mjs';
 import {configureSubExample, requestedSubExamples} from './stereo-subwoofer-examples.mjs';
+import {passivePairingReadiness,passiveReadinessPriority} from './passive-evidence-readiness.mjs';
 
 const CA_PRICE_DATE = '2026-11-12';
 
@@ -176,8 +177,12 @@ export function shortlistExamples(input = {}, catalog = null) {
   const byId=new Map([...subExamples, ...EXAMPLES, ...catalogHeadphones].map(example=>[example.id,example]));
   // Prioritize requested 2.1 paths. Architecture and power requirements still
   // apply, even when current prices have to be checked separately.
-  order.sort((a,b)=>compareExamplePriorities(byId.get(a),byId.get(b),input,
-    example=>priorOrder.get(example?.id)??Infinity));
+  order.sort((a,b)=>{
+    const first=byId.get(a),second=byId.get(b);
+    const confidence=passiveReadinessPriority(first,second,catalog,curatedPairingFor,input);
+    return confidence||compareExamplePriorities(first,second,input,
+      example=>priorOrder.get(example?.id)??Infinity);
+  });
   const staged = order.map(id=>byId.get(id)).find(example=>
     example?.stereoAlternative && targetArchitectures.includes(example.architecture));
   // Keep the matching main speakers visible as a stereo-only starting point.
@@ -215,7 +220,9 @@ export function shortlistExamples(input = {}, catalog = null) {
         'This exact passive amplifier/speaker combination has not passed the manufacturer-load specification check. It is not offered as a recommended new system.'});
       continue;
     }
+    const headroomData=passivePairingReadiness(configured,catalog,curatedPairing);
     selected.push({ ...configured, ...prices, curatedPairing,
+      headroomData,
       editorialGoalFocus: product.goals.includes(aim),
       decisionReasons:explainExampleInteractions(product,input),
       secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
