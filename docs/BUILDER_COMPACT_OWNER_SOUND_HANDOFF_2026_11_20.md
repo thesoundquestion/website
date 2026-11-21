@@ -360,3 +360,15 @@ System Check coexistence. 8/8 targeted tests and JavaScript syntax
 checks passed in an in-memory JS harness. Full Node and browser/mobile
 visual regression remain outstanding. Preview branch only; no production
 deployment.
+
+## Powered-pair headroom: MR4 / original ORA fallback (2026-11-21)
+
+Owner report: MR4 and original ORA both returned the same unhelpful numeric-SPL fallback at 6 ft. Neither manufacturer's amplifier watts establishes clean acoustic headroom.
+
+- The Builder and linked powered System Check now present brief model-specific practical output guidance for quieter, normal and louder music, with a distance caution beyond 6 ft. This is indicative guidance, not a measured SPL result.
+- MR4: Erin's Audio Corner published separate distortion tests at 86 and 96 dB/1 m and compression sweeps. Those are not a certified clean maximum output figure. Source: https://www.erinsaudiocorner.com/loudspeakers/edifier_mr4/
+- Original ORA: SoundStage! Simplifi reported controlled desktop listening and bass benefit with a sub. Its listening volume is not a numerical SPL benchmark; the documented 100 Hz subwoofer crossover does not establish clean max output. Source: https://www.soundstagesimplifi.com/index.php/equipment-reviews/250-kanto-audio-ora-reference-active-speaker-system
+- The original ORA is not ORA4. Both products retain status unverified, peakMarginDb null and an explicit No verified dB margin note. The Builder separately links manufacturer specifications and independent review evidence.
+- Existing powered models with published SPL reference data and passive power calculations remain unchanged. This is still a preview branch, not a live-site deployment.
+
+Verification: tests/system-builder-powered-headroom.test.mjs now checks source-backed practical advice at different distance/volume inputs while rejecting invented headroom. Full Node and browser QA were not run in the remote connector environment; execute the Node suite locally before merging.
