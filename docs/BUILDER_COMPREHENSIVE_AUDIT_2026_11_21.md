@@ -42,3 +42,17 @@ Run the draft-only GitHub Actions workflow:
 The workflow performs source syntax checks, the full `node --test tests/*.test.mjs tests/lesson-tutor/*.test.mjs` suite, static build and desktop/mobile browser preflight **without deployment**.
 
 Only after a clean run at the reviewed branch tip and owner approval should the release candidate be considered for merging.
+
+## Release acceptance follow-up: constraint and budget integrity
+
+**Focus:** checks 1–2 of the pre-release acceptance gates (new-system recommendation usefulness, numerical provenance, empty results). No production merge or deployment.
+
+- The original 4,500-case matrix checked the safety and input compatibility of the **returned** recommendations, but did not establish meaningful coverage, qualified first picks, or a firm budget boundary.
+- The first expanded run exposed **687 strict-budget scenarios with a known priced first pick above the visitor's limit**. The new full-system selection gate rejects these as ready-to-buy matches; flexible-budget comparison can still show them with a clear price reference. A subsequent matrix audit reported **zero known over-budget first picks**.
+- The same 4,500-case audit reported **2,748 empty results (61.1%)**, including all 900 matrix cases requesting direct HDMI in the sampled generic configurations, and **888 first picks with a missing editorial room and/or primary-goal tag**. These are diagnostic counts, not 2,748 errors. Many combinations intentionally have no documented direct input, no budget-fit product or a requested architecture unsuitable for the scene. Empty results now identify the known constraint and offer safe, practical next steps. First picks without documented room/goal fit are explicitly marked as *research leads* with an immediately visible qualification.
+- A budget-selected result without a valid regional listed-parts reference now displays **price unverified, not certified within budget**. Missing/stale prices remain null, not zero.
+- Added realistic route assertions for analogue desktop, optical TV, USB computer, Bluetooth, passive stereo, battery PA, and impossible HDMI. Added a desktop/mobile packaged-browser regression that walks through the actual advanced input selection to the no-match explanation.
+- Added further powered-speaker property tests checking distance/level monotonicity for published SPL references and guarding against electrical-watt-to-acoustic-SPL extrapolation where no compatible measurement exists.
+- These checks do **not** fully resolve manufacturer/owner-source verification for the 197 device records. They also do not certify clean SPL, environmental/weather suitability, accessories, current prices or every possible owner-held-gear combination.
+
+**Release decision:** retain the preview on the draft branch. Next hard gates: representative electrical/headroom independent calculations, source-by-source audit of high-exposure recommendations, physical mobile accessibility review, then full combined-release and deployment review.
