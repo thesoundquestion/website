@@ -450,102 +450,30 @@ try {
   assert.match(await page.locator('#sb-results').innerText(),/Easy RCA subwoofer connection/);
   await checkNoErrors(page,errors,device.name+' subwoofer parsed connection route');
 
-  // Normal, not-owned passive pairs also show the headroom handoff;
-  // missing published ratings must never turn into fictional wattage.
+  // Complete-system mode has its own approved compact presentation.
+  // The sound profile leads, with plain-language fit and exact headroom.
+  // Detailed notes stay behind native disclosure, not repeated giant cards.
   await visit(page,'/system-builder/');
   await page.locator('#sb-build-intent').selectOption('complete_system');
   await page.locator('[name="architecture"]').selectOption('passive_separates');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
-  // Submit lands at "Your system options, explained". Alternative products
-  // appear once; only their detailed setup sections are collapsed.
-  const firstRecommendation=page.locator('#sb-first-recommendation');
-  assert.equal(await firstRecommendation.count(),1,device.name+' must render one primary card');
-  const firstWorkflow=firstRecommendation.locator('.sb-setup-workflow');
-  assert.equal(await firstWorkflow.count(),1,device.name+' primary recommendation must explain its connections');
-  assert.equal(await firstRecommendation.locator('.sb-setup-disclosure').evaluate(node=>node.open),false,
-    device.name+' first recommendation should not open a wiring manual by default');
-  assert.ok(await firstWorkflow.locator('ol li').count()>=2,device.name+' setup guide still contains actionable steps');
-  const comparisonOverview=page.locator('#sb-results .sb-comparison-overview').first();
-  assert.ok(await comparisonOverview.isVisible(),device.name+' alternatives need visible comparison on the main result screen');
-  assert.ok(await comparisonOverview.locator('.sb-comparison-preview-card').count()>=1);
-  assert.ok(await page.locator('#sb-first-recommendation .sb-primary-sound').isVisible(),
-    device.name+' primary speaker must show its sound profile or a concise evidence-gap note');
-  assert.ok(await comparisonOverview.locator('.sb-compact-compare').count()>=1);
-  const previewLength=await comparisonOverview.locator('.sb-comparison-preview-card').first().innerText();
-  assert.ok(previewLength.length<520,device.name+' alternative must stay concise');
-  const results=page.locator('#sb-results');
-  assert.match(await page.locator('#sb-result-title').innerText(),/Your system options, explained/);
-  assert.equal(await results.evaluate(node=>document.activeElement===node),true,
-    device.name+' submit should focus the options explanation section');
-  const resultsTop=await results.evaluate(node=>node.getBoundingClientRect().top);
-  assert.ok(resultsTop>=-3&&resultsTop<125,
-    device.name+' options explanation must be at viewport top, saw '+resultsTop);
-  const firstTop=await firstRecommendation.evaluate(node=>node.getBoundingClientRect().top);
-  assert.ok(firstTop>resultsTop+60,
-    device.name+' should not skip the options heading and introduction');
-
-  // Regression for a delayed scroll jump: the auto-result inside the iframe
-  // loads AFTER the Builder positions the results introduction. It must not
-  // focus its own output and drag the parent viewport down to headroom.
-  await page.waitForFunction(()=>{
-    const frame=document.querySelector('#sb-first-recommendation iframe.sb-inline-system-check-frame');
-    return frame?.contentDocument?.readyState==='complete' &&
-      frame.contentDocument.body.classList.contains('sc-auto-result');
-  },null,{timeout:20000});
-  await page.waitForTimeout(180);
-  const afterHeadroomLoad=await results.evaluate(node=>({
-    top:node.getBoundingClientRect().top,
-    focused:document.activeElement===node,
-    childFocused:document.activeElement?.matches?.('iframe')===true
-  }));
-  assert.ok(afterHeadroomLoad.top>=-3&&afterHeadroomLoad.top<125,
-    device.name+' iframe must NOT skip the results introduction after loading, top '+afterHeadroomLoad.top);
-  assert.equal(afterHeadroomLoad.focused,true,
-    device.name+' iframe must not take focus away from the options explanation');
-  assert.equal(afterHeadroomLoad.childFocused,false);
-  const primarySetup=firstRecommendation.locator('.sb-setup-disclosure');
-  await primarySetup.locator('summary').click();
-  assert.ok(await firstWorkflow.isVisible(),device.name+' setup steps must be available on demand');
-  assert.match(await firstWorkflow.locator('h5').innerText(),/How will this setup work\?/);
-  await primarySetup.locator('summary').click();
-  const headroomDisclosure=firstRecommendation.locator('.sb-inline-system-check');
-  assert.equal(await headroomDisclosure.evaluate(node=>node.open),false,
-    device.name+' long headroom calculation must start collapsed');
-  const headroomVerdict=await headroomDisclosure.locator('.sb-headroom-verdict').innerText();
-  assert.doesNotMatch(headroomVerdict,/Checking the saved ratings/);
-  assert.match(headroomVerdict,/Average|Peak|Amplifier|Model-specific|Power/i);
-  await headroomDisclosure.locator('summary').click();
-  assert.ok(await headroomDisclosure.locator('iframe').isVisible(),
-    device.name+' expanding must reveal the original full calculator');
-  await headroomDisclosure.locator('summary').click();
-
-  assert.equal(await page.locator('#sb-results .sb-recommend:visible').count(),1,
-    device.name+' primary is the only visible complete setup by default');
-  assert.equal(await page.locator('#sb-results .sb-alternative-setups').count(),0,
-    device.name+' redundant Alternative setups list must be absent');
-  const alternatives=page.locator('#sb-results .sb-comparison-overview .sb-alternative-details');
-  assert.ok(await alternatives.count()>=1,
-    device.name+' each alternative must have optional detail within its own preview');
-  const comparisons=page.locator('#sb-results .sb-comparison-overview .sb-comparison-preview-card');
-  assert.equal(await alternatives.count(),await comparisons.count(),
-    device.name+' no duplicate product listing or missing alternative details');
-  assert.equal(await alternatives.first().evaluate(node=>node.open),false);
-  assert.equal(await alternatives.locator('.sb-recommend-supplement').count(),await alternatives.count(),
-    device.name+' each alternative retains its complete model-specific setup');
-  assert.equal(await alternatives.locator('.sb-setup-workflow').count(),await alternatives.count(),
-    device.name+' each alternative retains its wiring explanation');
-  await alternatives.first().locator(':scope > summary').click();
-  assert.ok(await alternatives.first().locator('.sb-setup-workflow').isVisible());
-  assert.ok(await page.locator('#sb-results .sb-recommend:visible').count()>1,
-    device.name+' individual details must open without a second product list');
-  outcomes.push(device.name+' lands at results, alternatives listed once with their own details');
-  const availablePanels=page.locator('#sb-results .sb-inline-system-check');
-  assert.ok(await availablePanels.count()>=1,device.name+' source-backed passive examples must have a headroom handoff');
-  assert.match(await availablePanels.first().innerText(),/Headroom for these exact models/);
-  await checkNoErrors(page,errors,device.name+' normal passive recommendation headroom');
-  outcomes.push(device.name+' non-owned passive recommendations now expose the exact-model headroom link');
-
+  const simple=page.locator('#sb-results .sb-simple-system-results');
+  assert.equal(await simple.count(),1,device.name+' complete system must use compact presentation');
+  const firstSimple=simple.locator('.sb-simple-primary');
+  assert.equal(await firstSimple.count(),1,device.name+' one principal complete-system recommendation');
+  assert.ok(await firstSimple.locator('.sb-simple-title').isVisible());
+  assert.ok(await firstSimple.locator('.sb-simple-sound').isVisible(),
+    device.name+' principal complete-system match needs model-specific sound');
+  assert.ok(await firstSimple.locator('.sb-simple-why').isVisible());
+  assert.ok(await firstSimple.locator('.sb-simple-connection').isVisible());
+  assert.match(await firstSimple.locator('.sb-simple-checker').innerText(),/Headroom at/);
+  assert.ok(await firstSimple.locator('.sb-simple-checker a[href^="/system-check/"]').count()===1);
+  const firstTechnical=firstSimple.locator('.sb-simple-details');
+  assert.equal(await firstTechnical.evaluate(node=>node.open),false);
+  assert.equal(await page.locator('#sb-results .sb-alternative-setups').count(),0);
+  await checkNoErrors(page,errors,device.name+' compact passive complete-system path');
+  outcomes.push(device.name+' compact complete system with sound, honest headroom and optional technical detail');
 
   // Regression: the real owned A-720 + Titan v3 route used to return ONLY a
   // "keep your gear" card and omit System Check, despite a high/dynamic target.
