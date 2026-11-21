@@ -5,7 +5,7 @@ import {shortlistExamples} from '../system-builder/recommendations.mjs';
 import {ownershipPlan} from '../system-builder/owned-gear-options.mjs';
 import {ampSpeakerScreening} from '../system-builder/owned-amp-speakers.mjs';
 import {builderOnlyAmpFor} from '../system-builder/supplemental-amplifiers.mjs';
-import {DENON_S650H_NAME, ownedSubwooferPath, poweredSubPairFor} from '../system-builder/stereo-subwoofer-examples.mjs';
+import {DENON_S650H_NAME, ownedSubwooferPath, poweredSubPairFor, configureSubExample, STEREO_SUB_EXAMPLES} from '../system-builder/stereo-subwoofer-examples.mjs';
 import {usedWatchlistFor} from '../system-builder/used-amp-watchlist.mjs';
 
 const basic = {architecture:'open', goal:'bass', useCase:'bedroom', power:'mains',
@@ -141,4 +141,17 @@ test('North American Denon has its own load rule and a regional unpriced used wa
   const us = usedWatchlistFor({region:'US',wantedInput:'hdmi'}).find(item=>item.model===record.model);
   assert.ok(us && us.usedTypicalPrice===null && us.listingUrl===null && us.inputCaution===null);
   assert.ok(!usedWatchlistFor({region:'GB'}).some(item=>item.model===record.model));
+});
+
+test('configuration helper never attaches WiiM crossover behavior to a different powered pair',()=>{
+  const edifier=STEREO_SUB_EXAMPLES.find(item=>item.id==='stereo-sub-edifier');
+  const ora=STEREO_SUB_EXAMPLES.find(item=>item.id==='stereo-sub-ora');
+  const wiim=STEREO_SUB_EXAMPLES.find(item=>item.id==='stereo-sub-wiim');
+  for(const item of [edifier,ora]){
+    const result=configureSubExample(item,{...basic,subMode:'sub_full'});
+    assert.equal(result.bassSetup,item.bassSetup);
+    assert.doesNotMatch(result.bassSetup.setup,/Main Speakers Output Bass/);
+  }
+  const full=configureSubExample(wiim,{...basic,subMode:'sub_full'});
+  assert.match(full.bassSetup.setup,/Main Speakers Output Bass/);
 });
