@@ -34,17 +34,47 @@ const outputAliases=Object.freeze({
  'Kanto ORA original':'Kanto ORA'
 });
 const subAliases=Object.freeze({'Edifier T5 powered subwoofer':'Edifier T5'});
-export function evaluateSubwooferConnection({sourceModel,subModel,mainBassMode='default'}={}) {
+export function evaluateSubwooferConnection({
+ sourceModel,subModel,mainBassMode='default',
+ reportedSourceOutput=null,reportedSubInput=null,
+ reportedSourceConnector=null,reportedSubConnector=null
+}={}) {
  const source=SUB_OUTPUT_MODELS[outputAliases[sourceModel]||sourceModel]||null;
  const sub=SUB_INPUT_MODELS[subAliases[subModel]||subModel]||null;
  const basic={sourceModel:sourceModel||null,subModel:subModel||null,
    sourceVerified:!!source,subVerified:!!sub,
    sourceUrl:source?.source||null,subUrl:sub?.source||null};
- if(!source||!sub)return {...basic,status:'unverified',compatible:false,
-   text:'Cannot confirm this connection from the saved model specifications.',
-   wiring:'Identify the exact output and subwoofer input first. Do not assume a speaker-output signal can connect to an RCA line input.',
-   mains:'Main-speaker filtering cannot be established for the complete setup.',
-   cable:null,highPassVerified:false};
+ if(!source||!sub){
+   const signalOut=source?.output||reportedSourceOutput;
+   const signalIn=sub?.input||reportedSubInput;
+   const valid=['line','speaker'];
+   const both=valid.includes(signalOut)&&valid.includes(signalIn);
+   const levelMismatch=both&&signalOut!==signalIn;
+   const possible=both&&signalOut===signalIn;
+   const highLevel=possible&&signalOut==='speaker';
+   const outConnector=source?.connector||reportedSourceConnector;
+   const inConnector=sub?.connector||reportedSubConnector;
+   const cable=possible&&!highLevel&&outConnector==='rca'&&inConnector==='rca'
+     ?'RCA line-level signal lead'
+     :possible&&!highLevel&&outConnector==='3.5mm'&&inConnector==='rca'
+       ?'3.5 mm-to-dual-RCA line-level lead'
+       :null;
+   return {...basic,
+     status:levelMismatch?'incompatible':possible?'reported_possible':'unverified',
+     compatible:false,highPassVerified:false,
+     cable,
+     text:levelMismatch
+       ?'No. The entered output and input operate at different signal levels. Do not connect directly.'
+       :possible
+       ?'Potential route only: your entered signal types match, but the exact connection is not manufacturer-verified.'
+       :'Cannot confirm this connection from the saved model specifications.',
+     wiring:levelMismatch?'Do not connect directly. A speaker-output signal cannot feed a line-level RCA input.':
+       highLevel?'Both were described as speaker-level. Confirm the sub is designed for this output, especially if the amplifier uses bridged outputs; no electrical safety approval is made.':
+       possible?'Compare the exact port type, grounding and input/output limits against both manuals before connecting.':
+       'Identify the exact output and subwoofer input first. Do not assume a speaker-output signal can connect to an RCA line input.',
+     mains:'Main-speaker filtering has not been verified for this equipment route.'
+   };
+ }
  if(source.output!==sub.input)return {...basic,status:'incompatible',compatible:false,
    text:'The documented signal types are not directly compatible.',
    wiring:'Do not connect these outputs and inputs directly.',cable:null,
