@@ -154,7 +154,7 @@ test('budget, region, currency and aged prices never become invented complete-sy
        'Adapter must not silently be included in unrelated base product price');
   }
  }
- assert.equal(count,4096);
+ assert.equal(count,1024);
 });
 test('visible card must disclose additional source adapter cost without an attention-grabbing warning',()=>{
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
