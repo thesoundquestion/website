@@ -79,7 +79,9 @@ test('powered and passive systems now open their own model-aware System Check ro
  const simple=app.slice(start,finish);
  assert.match(simple,/recommendationHeadroom\(item,request,sharedCatalog\)/);
  assert.match(simple,/Headroom at /);
- assert.match(simple,/link\(line,headroom.link/);
+ assert.match(simple,/link\(line,checkHref/);
+ assert.match(simple,/sourceBackedPassiveCheck\(item,request,inventory\)/);
+ assert.match(simple,/poweredCheckerLinkFor\(item,request\)/);
  assert.doesNotMatch(simple,/Open System Check\x27/);
 });
 
