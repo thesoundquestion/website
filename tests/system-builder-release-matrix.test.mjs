@@ -167,6 +167,6 @@ test('budget, region, currency and aged prices never become invented complete-sy
 test('visible card must disclose additional source adapter cost without an attention-grabbing warning',()=>{
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
  assert.match(app,/Connection: an additional adapter or source device is needed \(not priced\)/);
- assert.match(app,/preliminary\.selected\.filter/);
+ assert.match(app,/removeUnsafeRecommendations\(candidateShortlist,request\)/);
  assert.doesNotMatch(app,/addText\(card,'p','Your chosen source connection needs extra hardware\./);
 });
