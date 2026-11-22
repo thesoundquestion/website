@@ -113,13 +113,13 @@ try {
   await visit(page,'/system-check/powered/?model=JBL%20305P%20MkII&distance=6&level=high&count=2');
   assert.equal(await page.locator('#powered-model').inputValue(),'JBL 305P MkII');
   assert.match(await page.locator('#powered-verdict').innerText(),/reference measurement distance has not been verified/);
-  assert.match(await page.locator('#powered-numbers').innerText(),/No verified distance-based SPL margin/);
+  assert.match(await page.locator('#powered-numbers').textContent(),/No verified distance-based SPL margin/);
   assert.ok(await page.locator('#powered-technical').isVisible());
   await checkNoErrors(page,errors,device.name+' powered speaker unknown test distance');
   await visit(page,'/system-check/powered/?model=Kali%20Audio%20LP-6%20V2&distance=6&level=high&count=2');
   assert.equal(await page.locator('#powered-model').inputValue(),'Kali Audio LP-6 V2');
-  assert.match(await page.locator('#powered-technical-text').innerText(),/No source-qualified continuous SPL/);
-  assert.match(await page.locator('#powered-numbers').innerText(),/No model-specific continuous SPL is available/);
+  assert.match(await page.locator('#powered-technical-text').textContent(),/No source-qualified continuous SPL/);
+  assert.match(await page.locator('#powered-numbers').textContent(),/No model-specific continuous SPL is available/);
   await checkNoErrors(page,errors,device.name+' peak-only powered speaker loudness');
   outcomes.push(device.name+' powered JBL unknown-distance and Kali peak-only evidence protections');
 

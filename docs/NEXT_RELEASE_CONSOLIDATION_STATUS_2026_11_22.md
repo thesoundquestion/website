@@ -1,45 +1,53 @@
-# TSQ consolidated next release: integration checkpoint (2026-11-22)
-
+# The Sound Question | Next-release consolidation and release acceptance
+**Updated:** 2026-11-22  
 **Repository:** `thesoundquestion/website`  
-**Branch:** `release/consolidated-next-20261122`  
-**Review:** draft PR #43 targeting `main`  
-**Release status:** NOT APPROVED; do not merge or deploy.  
-**Source branches:** `draft/magicpath-compact-full-site-20261120` (includes prelaunch/Builder/Decoder work), `audit/legacy-197-risk-gates-20261121` (PR #39), Spotify PR #41, IndexNow PR #38, video intro documentation PR #40.
+**Integrated branch:** `release/consolidated-next-20261122`  
+**Review PR:** [#43](https://github.com/thesoundquestion/website/pull/43), DRAFT, targeted at production `main`  
+**Release decision:** NOT YET AUTHORIZED. No production merge, Cloudflare deployment, IndexNow production submission or optional AI activation has been performed.
 
-## What has been staged and integrated
+## Consolidated features and source branches
 
-- Starts from the sound-first compact Listening Builder and completed developer/UI work on the compact draft. Preserve its beginner-facing summary, owner-specific listening evidence, optional technical detail, room-level suggestions, existing lessons and validated calculations.
-- Imported non-overlapping audit files (equipment certification evidence and test gates, added subwoofer and powered speaker standalone checkers, Builder→Checker handoff modules, comparison handoff, test coverage and build checks), plus Spotify app-first handler, IndexNow verification/submission scripts, and video intro documentation.
-- Rebased source-specific Creating Builder linking and core recommendation code without replacing the newer compact UI.
-- Integrated exact passive Builder→System Check links using manufacturer-compatible sensitivity basis and same-load continuous power **only where available**. Includes model identity, user-selected distance, average/peak targets; missing equipment fields stay unknown and editable. `system-check/calculator.js` can now calculate using supported Builder-transferred specs for Builder-only models not already present in the original calculator preset list; original exact factory presets still take precedence.
-- Linked the dedicated powered and subwoofer checkers from Tools, and selected model-aware output/wiring paths from Listening Builder. Creating Builder source-to-Compare handoffs are staged.
-- Prevented arbitrary unlisted subwoofers from inheriting the Edifier T5's exact wiring or filtering and excluded unknown-nominal-impedance speakers from ready-to-connect owned-amplifier shortlists.
-- Kept unsupported Fosi BT20A Pro (32 V / 5 A) + Polk XT15 as a **blocked ready-to-buy example pending claim-specific evidence review**. This is **not** an assertion that its physical pairing is inherently unsafe; older draft tests treated manufacturer general load permissions as sufficient, whereas the audit branch demands further qualification. Reconcile evidence and editorial policy before restoring a recommendation.
-- Corrected JBL 305P MkII maximum acoustic SPL treatment: maker quotes maximum peak/continuous numbers but the cited sell sheet does not verify a reference microphone distance for those maxima, so no numeric distance-scaled headroom may be asserted. The dedicated powered checker now explains this explicitly.
-- Every Listening Room Spotify HTTPS destination is preserved; desktop app URI attempt and web fallback are staged. Mobile retains OS-handled HTTPS app links. Browser UX remains best-effort, not perfect app-install detection.
-- IndexNow remains a **post-approved-deployment manual step**; no live submission has been sent.
-- No Cloudflare build, preview or production deployment was triggered.
+- Started from `draft/magicpath-compact-full-site-20261120`, which had already incorporated beginner-friendly navigation, compact/sound-first recommendations, revised lessons and musical references from the consolidated prelaunch work.
+- Adapted `audit/legacy-197-risk-gates-20261121` / PR #39's source-conscious equipment certification, evidence-preserving headroom analysis, Builder-to-System-Check handoffs, new powered-loudness and subwoofer-connection checkers, Compare categories, and safety/evidence tests. These were carefully rebased around the newer compact Builder instead of wholesale replacing its HTML and recommendation UI.
+- Included the Spotify app-first Listening Room handler from PR #41. All 55 original `open.spotify.com` destinations remain plain HTTPS fallbacks. Desktop `spotify:` custom URI launch uses a best-effort delayed fallback; Android/iOS retain OS-handled HTTPS links. A browser cannot reliably detect app installation and may display a protocol confirmation prompt.
+- Included the IndexNow verification file, submission helper and post-deployment instructions from PR #38. **Submit only after the approved live domain is actually deployed and checked.**
+- Included the separate video intro/soundtrack production handoff from PR #40; it does not add autoplay audio, live video or a new website animation.
+- AI backend remains disabled; Ask TSQ continues using its free, prepared lesson-aware answer model. No affiliate scripts or sponsored links have been activated. Unapproved engineering preview tools remain unlisted.
 
-## Required corrections and hard release blockers
+## Integrated workflow and safety contract
 
-1. **197-record certification gate:** exactly 197 current records, of which 195 match the pinned legacy baseline and **two changed PSB Alpha P3/P5 source records require review**. No blanket approval or baseline reset is permitted. Review exact changed fields against primary datasheets, any variant/source conditions, and prove their builder/output effects; then record an accountable approval only if substantiated. The generated risk register was refreshed against the combined catalogue without fabricating certificates.
-2. **Unresolved overlapping implementations:** the two source branches diverged on approximately 21 source/test files. Some substantive overlaps have been adapted; the compact primary result renderer, source evidence and System Check interfaces must be checked end to end, not replaced with an older source file. Preserve new audio presentation and all safety constraints.
-3. **Powered-speaker model consistency:** the compact Builder's `system-check/powered-headroom-model.mjs` and new dedicated checker `system-builder/powered-output-evidence.mjs` have overlapping evidence maps. Consolidate proven shared facts without inventing microphone distances, clean SPL, or pair gain. JBL and Kali test conditions need special care.
-4. **Test expectation conflict:** audit tests expected brief high target 95 dB and 75/90 dB default System Check in some cases; the compact Builder currently uses 85/105 dB high and original 80/95 dB illustrative standalone defaults, with expanded levels guidance. Keep accurate, editable semantics. Tests should verify actual intended behavior, not merely literal older wording.
-5. **Fosi/Polk source conflict:** older compact tests treat an Fosi/XT15 example as manufacturer-permitted and eligible, whereas the audit branch blocks that curated purchase example due to unresolved exact performance evidence. Verify the manufacturer load permission and stock-supply circumstances; distinguish electrical safety from lack of measured continuous clean headroom. Do not bypass the release gate by weakening a test.
-6. **Other regressions:** inspect current GitHub Actions run logs for strict budget, first-pick completeness, owned-pair blockers, source citations and powered/passive correct checker routing. The main browser preflight/Pages static build is expected to fail until certification and integration are corrected.
-7. **Final acceptance:** full Node suite + equipment admission and certification + static build + desktop/mobile browser preflight + ABX/audio labs + real model→checker URL handoff validation on the **exact combined branch tip**. Confirm navigational links, 320px/mobile widths, keyboard, blocked pair disclosure, unknown powered SPL, unknown subwoofer input and real source connections.
+1. **Listening/Creating Builders:** preserve listener's existing equipment, requested room/distance and source requirements; dynamically distinguish required from optional fields. Use a documented exact equipment record or editable visitor-supplied specifications; a model name alone never fabricates values.
+2. **Passive headroom:** transfer exact models, distance and target average/brief peak into System Check. Only documented, relevant sensitivity and same-load continuous amplifier output may support a numeric theoretical estimate. Speaker impedance, room response, phase, burst behavior and clean bass output remain distinct limitations. Unknown values stay unknown; a 2.83 V sensitivity is not universally 1 W.
+3. **Powered speakers:** no electrical amplifier-wattage-to-SPL conversion. Standalone checker uses documented acoustic reference distance or clearly reports an unverified result. JBL 305P MkII 94/108 dB manufacturer maxima do NOT have a confirmed microphone distance in the cited reference, so no seat-distance max-SPL margin is calculated. Kali LP-6 V2's published 115 dB peak at 1 m is not a source-qualified maximum continuous SPL; the earlier compact calculator separately discusses the manufacturer's 85 dB continuous reference listening capability at its specified distance. These different statements and test conditions must not be represented as interchangeable clean-output maxima.
+4. **Subwoofer signal path:** require actual source output and sub input types; use confirmed RCA/3.5 mm routes where documented. An unlisted/unknown subwoofer never inherits Edifier T5 wiring, filtering, controls or a certified connection. Main-speaker high-pass claims require exact model/settings evidence.
+5. **Comparison handoff:** the reusable `exactRecommendedCompareHandoff` only creates a preselected comparison when exactly one qualifying catalogue identity matches the recommended product. Current Compare has 12 categories, including powered studio, powered PA and catalogue headphones. Empty generic or lookalike-variant links are not valid integration.
+6. **Safety gates:** unsafe load/speaker-level-to-line-level connections and missing nominal speaker ratings do not become ready-to-connect recommendations. A technically possible pairing does not imply guaranteed clean headroom. A powered pair does not accept external amplifier speaker outputs. An additional source converter/adapter must be disclosed and never silently priced as included.
+7. **Pricing:** manufacturer and dealer references are dated component asking prices, not live stock, a guaranteed complete budget or an automatically updated feed. Local currency and incomplete totals must stay visible.
 
-### Historical CI checkpoint, not a current result
+## Manufacturer source reviews and registry status
 
-At commit `595d1af3`, before later integrations, **982 tests / 965 passing / 17 failing**. Listening Labs playback/ABX workflow passed on multiple intermediate commits. GitHub regression and static release build were red, mainly due PSB certification gate, older UI test assumptions and outstanding safety/integration contracts. Any later CI must be read on its own commit SHA. Do **not** report this as a final passing release.
+- The **197 frozen legacy record IDs are preserved**: 195 unchanged grandfathered, plus 2 changed PSB speaker records given fingerprint-specific **AI-assisted manufacturer-source technical review**. Exactly **0 outstanding review-required changes**, 0 removals. The high/medium/lower register is triage, not proof of safe pairing.
+- PSB Alpha P3: published 85 dB anechoic/87 dB typical room sensitivity; P5: 87/89 dB. Their cited datasheets specify 1 W (2.83 V) at 1 m with IEC-filtered C-weighted pink noise, nominal 8 Ω, minimum 4 Ω. The 60 W program rating is not a continuous damage threshold. Formal field-specific evidence and review limitations are recorded in `equipment/certification/reviews.json` against the exact current fingerprints.
+- Those reviewer entries explicitly say **AI-assisted manufacturer-source review, no human production approval or independent bench test**. Do not describe the 197 as all certified, or the two reviewed records as third-party laboratory verified.
+- Fosi BT20A Pro (32 V/5 A adapter) + Polk Monitor XT15: the two manufacturers state compatible nominal speaker-load permissions (Fosi 2–8 Ω, Polk compatible with 4/8 Ω amplifier loads, documented 4.1 Ω minimum). This **does not** verify a matched full-band continuous clean-output rating or unrestricted high-volume operation. The example is retained as a load-permitted, evidence-qualified budget option, not an electrically unsafe combination and not a guaranteed clean 300 W/channel system.
+- Do not reset `equipment/certification/legacy-baseline.json`, invent unavailable measurements or bypass certification by changing tests to suppress genuine safety failures.
 
-## Next integration pass
+## GitHub validation, exact commits
 
-- Inspect the latest exact-head GitHub CI logs, classify actual defects versus outdated assertions.
-- Resolve PSB P3/P5 source review and Fosi/XT15 evidence policy before changing release assertions.
-- Unify powered speaker evidence and test both normal/unknown-distance cases across standalone and Builder.
-- Verify passive full custom-spec handoff and Creating studio/PA and subwoofer handoff in browser preflight; reject empty generic links.
-- Only after green combined tests, owner visual approval and explicit deployment authorization: merge final approved change into `main` and deploy once. Run manual IndexNow submission after verifying live key URL.
+- **`ebab2dc9844faff4db6dc49fbcb04317ed118c25`**: all 6 GitHub workflows completed successfully on the *exact same commit*, including site regression **983/983 passing**, equipment certification, permanent catalog admission, Ask TSQ free-only release checks, packaged desktop/mobile browser preflight and Listening Labs/ABX browser smoke.
+- Subsequent preflight additions exercise standalone powered and subwoofer checkers on desktop/mobile plus narrow viewport routes. Their exact-head CI must be reviewed again before final release sign-off; do not reuse a previous green result as proof for later commits.
+- GitHub-only `scripts/build-public-site.mjs` enforces certification and the generated-output contract. It is NOT a Cloudflare deployment. Where relevant, also verify the audio lab, homepage/Decoder navigation, mobile widths at 320/390/768 px and keyboard interaction.
+- Historical CI failures (16, then 7, then 2) were reconciled by source review, safe ownership gating, and updating assertions for the new UI rather than reverting working compact features.
 
-**Permanent boundary:** Draft GitHub review only. No Cloudflare build or deployment for previews, tests or this integration until the owner explicitly approves that exact deployment.
+## Final go-live acceptance checklist
+
+- [x] Consolidated Builder, lesson, listening, Spotify, tools, evidence, SEO and handoff code staged in PR #43.
+- [x] Certification and catalog admission controls enforced without overwriting the 197 legacy baseline.
+- [x] Exact full GitHub suite green at `ebab2dc9` (983 tests and 6 workflows).
+- [ ] All workflows green on the **final exact PR #43 HEAD** after the latest browser additions/document edits.
+- [ ] Owner acceptance: visually review mobile and desktop compact recommendations, lessons, navigation, room/loudness examples and source limitations. Test protocol/app handoff on actual Spotify-installed and uninstalled devices where possible.
+- [ ] Verify real model-specific headroom, 2.1 signal wiring, safe unknown-input behavior and cross-tool links on the exact packaged release candidate. Manual review of any claimed powered continuous acoustic output is mandatory before promoting it as clean SPL.
+- [ ] Explicit owner authorization to merge approved PR into `main` and carry out one separately authorized production deployment.
+- [ ] Post-deployment HTTPS/navigation/robots/site maps/structured data inspection, then manually submit IndexNow URLs if desired. No evergreen price/stock claims.
+
+**Release boundary:** Keep PR #43 a draft, preserve other development branches, never automatically merge `main`, never deploy to Cloudflare and never submit live IndexNow until the user explicitly authorizes those actions.
