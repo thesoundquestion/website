@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-11-21",
+  "scope": "Exact sourced field comparisons for selected records, NOT full record certification. Expected values are assertions against current catalogue.",
+  "checks": [
+    {
+      "id": "legacy/amp/yamaha-a-s301",
+      "path": "facts.speakerPowerRatings.value.0.wattsPerChannel",
+      "expected": 60,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "Continuous power under specified 8 or 6 ohm conditions",
+      "qualification": "Do not compare without its frequency and THD conditions"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s301",
+      "path": "facts.speakerPowerRatings.value.1.wattsPerChannel",
+      "expected": 70,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "Continuous power under specified 8 or 6 ohm conditions",
+      "qualification": "Do not compare without its frequency and THD conditions"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s301",
+      "path": "facts.speakerPowerRatings.value.2.wattsPerChannel",
+      "expected": 100,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s301",
+      "path": "facts.speakerPowerRatings.value.3.wattsPerChannel",
+      "expected": 120,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s301",
+      "path": "facts.speakerPowerRatings.value.4.wattsPerChannel",
+      "expected": 140,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s501",
+      "path": "facts.speakerPowerRatings.value.0.wattsPerChannel",
+      "expected": 85,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "Continuous power under specified 8 or 6 ohm conditions",
+      "qualification": "Do not compare without its frequency and THD conditions"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s501",
+      "path": "facts.speakerPowerRatings.value.1.wattsPerChannel",
+      "expected": 100,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "Continuous power under specified 8 or 6 ohm conditions",
+      "qualification": "Do not compare without its frequency and THD conditions"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s501",
+      "path": "facts.speakerPowerRatings.value.2.wattsPerChannel",
+      "expected": 130,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s501",
+      "path": "facts.speakerPowerRatings.value.3.wattsPerChannel",
+      "expected": 150,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s501",
+      "path": "facts.speakerPowerRatings.value.4.wattsPerChannel",
+      "expected": 185,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s701",
+      "path": "facts.speakerPowerRatings.value.0.wattsPerChannel",
+      "expected": 100,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "Continuous power under specified 8 or 6 ohm conditions",
+      "qualification": "Do not compare without its frequency and THD conditions"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s701",
+      "path": "facts.speakerPowerRatings.value.1.wattsPerChannel",
+      "expected": 120,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "Continuous power under specified 8 or 6 ohm conditions",
+      "qualification": "Do not compare without its frequency and THD conditions"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s701",
+      "path": "facts.speakerPowerRatings.value.2.wattsPerChannel",
+      "expected": 140,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s701",
+      "path": "facts.speakerPowerRatings.value.3.wattsPerChannel",
+      "expected": 170,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s701",
+      "path": "facts.speakerPowerRatings.value.4.wattsPerChannel",
+      "expected": 220,
+      "source": "https://ca.yamaha.com/files/download/other_assets/8/332208/web_VEX7880_A-S701_A-S501_A-S301_om_U_EnFr_A0.pdf",
+      "claim": "IHF dynamic power only",
+      "qualification": "Burst value, not continuous-output headroom"
+    },
+    {
+      "id": "builder/speaker/polk-monitor-xt15",
+      "path": "facts.speakerSensitivityDb.value",
+      "expected": 86,
+      "source": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw9cd07cce/downloads/monitor-xt-series-owners-manual-global.pdf",
+      "claim": "86 dB at 2.83 V/1 m",
+      "qualification": ""
+    },
+    {
+      "id": "builder/speaker/polk-monitor-xt15",
+      "path": "profiles.0.values.minimum",
+      "expected": 4.1,
+      "source": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw9cd07cce/downloads/monitor-xt-series-owners-manual-global.pdf",
+      "claim": "Minimum impedance 4.1 ohms",
+      "qualification": "Manufacturer's 4/8 ohm amplifier compatibility is not a standalone nominal-impedance rating"
+    },
+    {
+      "id": "builder/speaker/polk-monitor-xt15",
+      "path": "profiles.0.details.frequencyResponse",
+      "expected": "73 Hz–26 kHz (-3 dB, manufacturer)",
+      "source": "https://www.polkaudio.com/on/demandware.static/-/Library-Sites-polk_northamerica_shared/default/dw9cd07cce/downloads/monitor-xt-series-owners-manual-global.pdf",
+      "claim": "Published minus-3-dB response endpoints",
+      "qualification": ""
+    },
+    {
+      "id": "builder/headphone/fiio-ft1",
+      "path": "facts.nominalImpedanceOhms.value",
+      "expected": 32,
+      "source": "https://fiio.com/ft1",
+      "claim": "Nominal impedance 32 ohms",
+      "qualification": ""
+    },
+    {
+      "id": "builder/headphone/fiio-ft1",
+      "path": "facts.sensitivityDb.value",
+      "expected": 113,
+      "source": "https://fiio.com/ft1",
+      "claim": "113 dB per Vrms at 1 kHz",
+      "qualification": "Do not interchange with 98 dB per mW"
+    },
+    {
+      "id": "builder/headphone/fiio-ft1",
+      "path": "facts.sensitivityBasis.value",
+      "expected": "dB_SPL_per_V",
+      "source": "https://fiio.com/ft1",
+      "claim": "Voltage sensitivity basis",
+      "qualification": ""
+    },
+    {
+      "id": "research/speaker/yamaha-hs5-studio",
+      "path": "facts.internalAmplificationWatts.value.lf",
+      "expected": 45,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs5-studio",
+      "path": "facts.internalAmplificationWatts.value.hf",
+      "expected": 25,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs5-studio",
+      "path": "facts.internalAmplificationWatts.value.combined",
+      "expected": 70,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs5-studio",
+      "path": "facts.unitsPerRetailPackage.value",
+      "expected": 1,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Single monitor enclosure",
+      "qualification": "Confirm retailer pack quantity independently"
+    },
+    {
+      "id": "research/speaker/yamaha-hs7-studio",
+      "path": "facts.internalAmplificationWatts.value.lf",
+      "expected": 60,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs7-studio",
+      "path": "facts.internalAmplificationWatts.value.hf",
+      "expected": 35,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs7-studio",
+      "path": "facts.internalAmplificationWatts.value.combined",
+      "expected": 95,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs7-studio",
+      "path": "facts.unitsPerRetailPackage.value",
+      "expected": 1,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Single monitor enclosure",
+      "qualification": "Confirm retailer pack quantity independently"
+    },
+    {
+      "id": "research/speaker/yamaha-hs8-studio",
+      "path": "facts.internalAmplificationWatts.value.lf",
+      "expected": 75,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs8-studio",
+      "path": "facts.internalAmplificationWatts.value.hf",
+      "expected": 45,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs8-studio",
+      "path": "facts.internalAmplificationWatts.value.combined",
+      "expected": 120,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Per-cabinet internal biamp power",
+      "qualification": "NOT a verified amplifier output into a separate passive loudspeaker or a maximum SPL figure"
+    },
+    {
+      "id": "research/speaker/yamaha-hs8-studio",
+      "path": "facts.unitsPerRetailPackage.value",
+      "expected": 1,
+      "source": "https://usa.yamaha.com/products/proaudio/speakers/hs_series/specs.html",
+      "claim": "Single monitor enclosure",
+      "qualification": "Confirm retailer pack quantity independently"
+    },
+    {
+      "id": "builder/amp/denon-avr-s650h-north-america",
+      "path": "profiles.0.ratings.0.0",
+      "expected": 75,
+      "source": "https://manuals.denon.com/AVRS650h/NA/EN/GFNFSYbsjxinov.php",
+      "claim": "75 W per channel at 8 ohms, 20 Hz–20 kHz, 0.08% THD",
+      "qualification": ""
+    },
+    {
+      "id": "legacy/amp/yamaha-r-s202",
+      "path": "facts.speakerPowerRatings.value.0.wattsPerChannel",
+      "expected": 100,
+      "source": "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s202/specs.html",
+      "claim": "100 W per channel at 8 ohms, 40 Hz–20 kHz, 0.2% THD",
+      "qualification": "Not directly equivalent to a 20 Hz–20 kHz, lower distortion rating"
+    },
+    {
+      "id": "builder/amp/aiyima-a07-max-stereo",
+      "path": "profiles.0.details.outputPowerVerified",
+      "expected": false,
+      "source": "https://www.aiyima.com/products/aiyima-a07-max",
+      "claim": "300 W x 2 advertised MAX in stereo mode is conditional on 48V/12A supply",
+      "qualification": "False signifies no comparable continuous rating recorded"
+    },
+    {
+      "id": "builder/amp/fosi-audio-bt20a-pro",
+      "path": "profiles.0.details.outputPowerVerified",
+      "expected": false,
+      "source": "https://fosiaudio.com/pages/2-1-channel-amplifier-bt20a-pro",
+      "claim": "300 W x 2 @4 ohms is a maximum claim",
+      "qualification": "Bundled 32V/5A is not evidence of that continuous output"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "path": "facts.speakerPowerRatings.value.0.wattsPerChannel",
+      "expected": 64,
+      "source": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "claim": "Hi-Fi News measured output at 8/4 ohms below 1% THD",
+      "qualification": "These are lab figures and differing test durations; 59 W dynamic < 64 W nominal is explicitly reported; not an arithmetic error"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "path": "facts.speakerPowerRatings.value.1.wattsPerChannel",
+      "expected": 125,
+      "source": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "claim": "Hi-Fi News measured output at 8/4 ohms below 1% THD",
+      "qualification": "These are lab figures and differing test durations; 59 W dynamic < 64 W nominal is explicitly reported; not an arithmetic error"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "path": "facts.speakerPowerRatings.value.2.wattsPerChannel",
+      "expected": 59,
+      "source": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "claim": "Hi-Fi News dynamic test at 8/4 ohms below 1% THD",
+      "qualification": "These are lab figures and differing test durations; 59 W dynamic < 64 W nominal is explicitly reported; not an arithmetic error"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "path": "facts.speakerPowerRatings.value.3.wattsPerChannel",
+      "expected": 110,
+      "source": "https://www.hifinews.com/content/wiim-amp-lab-report",
+      "claim": "Hi-Fi News dynamic test at 8/4 ohms below 1% THD",
+      "qualification": "These are lab figures and differing test durations; 59 W dynamic < 64 W nominal is explicitly reported; not an arithmetic error"
+    }
+  ]
+}

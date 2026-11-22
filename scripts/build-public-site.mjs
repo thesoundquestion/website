@@ -10,6 +10,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // This is a read-only preflight; regeneration remains an explicit development step.
 execFileSync(process.execPath,['scripts/build-equipment-catalog.mjs','--check'],
   {cwd:root,stdio:'pipe'});
+// Every release path must enforce the legacy/new-record review boundary.
+execFileSync(process.execPath,['scripts/audit-equipment-certification.mjs','--check'],
+  {cwd:root,stdio:'pipe'});
 // The Pages Functions bundler needs an ESM form of the same approved-answer
 // data the browser loads as JSON; refuse any stale or independently edited copy.
 execFileSync(process.execPath,['scripts/build-tutor-bank-module.mjs','--check'],

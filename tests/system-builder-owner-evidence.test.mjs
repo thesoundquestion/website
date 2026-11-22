@@ -103,15 +103,13 @@ test('documented 8-ohm-only amplifier restriction still blocks demanding KEF rou
   assert.ok(!result.selected.some(x=>x.title==='KEF Q150'));
 });
 
-test('a missing nominal speaker rating is a warning, not disappearance',()=>{
+test('a missing nominal speaker rating prevents a purchase recommendation until verified',()=>{
   const target='Polk Signature Elite ES15';
   const modified=inventory.speaker.map(x=>x.model===target?
     {...x,values:{...x.values,load:undefined}}:x);
   const result=shortlistSpeakersForOwnedAmplifier({...base,speakers:modified});
-  const item=result.selected.find(x=>x.title===target);
-  assert.ok(item,'candidate remains visible under incomplete manufacturer data');
-  assert.match(item.loadCaution,/do not connect/i);
-  assert.match(item.extra.join(' '),/Do NOT connect/);
+  assert.ok(!result.selected.some(x=>x.title===target));
+  assert.ok(result.excluded.some(x=>x.title===target&&/nominal impedance/.test(x.reason)));
 });
 
 test('UK buyers receive the actually priced Q Acoustics, while unknown-priced options stay unknown',()=>{

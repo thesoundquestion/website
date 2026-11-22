@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "description": "Editorial approvals keyed to exact record fingerprints. Empty means no retroactive certifications.",
+  "approved": {},
+  "approvedRemovals": {}
+}
