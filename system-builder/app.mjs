@@ -1063,6 +1063,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ordinary connection guidance is useful even when no source model
         // has been entered. Never present this as a certified input match.
         addText(card,'p',data.connection,'sb-simple-connection');
+        if(item.connectionStatus==='adapter_needed')
+          addText(card,'p','Connection: an additional adapter or source device is needed (not priced).','sb-card-minor');
         if(top&&data.parts.length)
           addText(card,'p','What the example includes: '+data.parts.join(' · '),'sb-simple-parts');
 
@@ -1262,6 +1264,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(whyBox,'p',reason,'sb-beginner-plain');
         card.append(whyBox);
       }
+      if(!detailOnly&&item.connectionStatus==='adapter_needed')
+        addText(card,'p','Connection: an additional adapter or source device is needed (not priced).','sb-card-minor');
       if(!detailOnly&&item.poweredHeadroomModel){
         const h=recommendationHeadroom(item,request,sharedCatalog);
         const output=el('div','sb-powered-headroom');
