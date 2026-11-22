@@ -3,6 +3,7 @@
  * visible; no matching catalog name is a certification of electrical or sonic fit.
  */
 import {shortlistExamples} from './recommendations.mjs';
+import {acousticEvidenceForPair} from './acoustic-evidence.mjs';
 import {shortlistSpeakersForOwnedAmplifier,shortlistPartyPassiveConcepts,ampSpeakerScreening} from './owned-amp-speakers.mjs';
 import {assessAmplifierCandidate,manufacturerNominalPairing} from './amplifier-fit.mjs';
 import {builderOnlyAmpFor} from './supplemental-amplifiers.mjs';
@@ -59,7 +60,8 @@ function existingPair(own,request) {
     amplifierModel:amp.record&&!amp.userSupplied?amp.name:null,
     speakerModel:speaker.record&&!speaker.userSupplied?speaker.name:null,
     why:message,tradeoff:blocker||'Full speaker impedance, amplifier manual, clean output at your seat and source connections remain unverified.',
-    parts,loadCaution:blocker,ownershipBlocker:blocker,levelCaution:request.level==='high',
+    parts,acousticEvidence:acousticEvidenceForPair(speaker,amp),
+    loadCaution:blocker,ownershipBlocker:blocker,levelCaution:request.level==='high',
     extra:['Speaker nominal: '+(Number.isFinite(nominal)?nominal+' Ω':'unverified')+
       (Number.isFinite(minimum)?'; published minimum: '+minimum+' Ω.':'.'),
       screen.exactManufacturerRule||'A resistive load power rating does not certify operation into a real speaker’s changing impedance and phase.',
@@ -186,11 +188,9 @@ export function shortlistAmpsForOwnedSpeakers({own={},request={},inventory={}}={
       builderOnlyAmpFor(idea.model);
     if(!record)continue;
     const screen=ampSpeakerScreening({name:idea.model,record});
-    // Symmetric with the owned-amplifier speaker filter: a manufacturer
-    // minimum nominal load cannot be satisfied by an unverified label.
-    if(!Number.isFinite(nominal)&&screen.explicitNominalFloor){
-      excluded.push({title:idea.model,reason:idea.model+' specifies at least '+
-        screen.explicitNominalFloor+' Ω nominal load. The owned speaker has no verified numeric nominal impedance, so this combination must not be recommended.'});
+    // Never recommend a new amplifier against an unknown nominal speaker load.
+    if(!Number.isFinite(nominal)){
+      excluded.push({title:idea.model,reason:'The owned speaker has no verified numeric nominal impedance. The matching must wait for an exact speaker specification.'});
       continue;
     }
     // A low test impedance is not a maker-approved nominal speaker limit.
@@ -407,7 +407,10 @@ export function ownershipPlan({own={},request={},inventory={},catalog=null}={}){
   }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&has(own.amp)){
     const first=existingPair(own,request);
-    const selected=[first];
+    // A known electrical blocker stays in excluded, never in a purchase/keep card.
+    const selected=first.ownershipBlocker?[]:[first];
+    const excluded=first.ownershipBlocker?
+      [{title:first.title,reason:first.ownershipBlocker}]:[];
     if(first.ownershipBlocker){
       const partial=shortlistAmpsForOwnedSpeakers({own,request,inventory});
       if(partial.selected.length)selected.push(partial.selected[0]);
@@ -422,7 +425,7 @@ export function ownershipPlan({own={},request={},inventory={},catalog=null}={}){
       const byAmp=keepAmp(own,request,inventory);
       if(byAmp.selected.length)selected.push(byAmp.selected[0]);
     }
-    plan={selected,excluded:[],mode:request.buildIntent==='improve_existing'?
+    plan={selected,excluded,mode:request.buildIntent==='improve_existing'?
       'improve_existing_pair':'keep_both'};
   }
   else if(!event&&(arch==='open'||arch==='passive_separates')&&has(own.speaker)&&!has(own.amp))
