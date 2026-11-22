@@ -345,15 +345,12 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       continue;
     }
     const nominal=record.values?.load;
-    // Missing load information must not automatically prevent discovery.
-    // It does require a plainly visible do-not-connect-before-check warning.
+    // Unknown speaker nominal impedance is a legitimate research lead but
+    // not an eligible ready-to-connect amplifier/speaker recommendation.
+    // Keep it in the excluded list with a practical next action.
     const loadUnknown=!Number.isFinite(nominal);
-    // Explicit manufacturer nominal-load floors require a verified speaker
-    // nominal figure, not marketing wording like "8 ohm compatible."
-    if(loadUnknown && screen.explicitNominalFloor) {
-      excluded.push({title:model,reason:'The '+screen.ampName+
-        ' requires a verified nominal load of at least '+screen.explicitNominalFloor+
-        ' Ω. Speaker impedance is unknown; do not propose this pairing until verified.'});
+    if(loadUnknown){
+      excluded.push({title:model,reason:'This speaker has no verified nominal impedance. Find the exact manufacturer load specification before matching it to '+screen.ampName+'.'});
       continue;
     }
     // Conservative screening; insufficient documentation never becomes "safe".
