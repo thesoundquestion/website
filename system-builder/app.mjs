@@ -27,6 +27,8 @@ import {explainEmptyExampleShortlist} from './empty-shortlist-guidance.mjs';
 import {recommendationHeadroom} from './recommendation-headroom.mjs';
 import {acousticEvidenceForPair} from './acoustic-evidence.mjs';
 import {checkerHandoffLink} from './checker-handoff.mjs';
+import {compareCatalogHandoff} from './compare-handoff.mjs';
+import {evaluateSubwooferConnection,subwooferCheckerLink} from '../system-check/subwoofer/engine.mjs';
 import {removeUnsafeRecommendations} from './recommendation-safety-gate.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
@@ -1265,11 +1267,29 @@ document.addEventListener('DOMContentLoaded', () => {
         addText(card,'p','Retains: '+item.reuseNames.join(' · '),'sb-card-retained');
       if(item.bassSetup){
         const modelPlan=knownSubExamplePlan(item.id);
+        const subSource=({
+          'stereo-sub-edifier':'Edifier R1280DBs',
+          'stereo-sub-ora':'Kanto ORA',
+          'stereo-sub-wiim':'WiiM Amp'
+        })[item.id];
+        const t5Present=(item.parts||[]).some(part=>String(part.name).includes('Edifier T5'));
         if(modelPlan){
           const subDetail=el('details','sb-sub-wiring-disclosure');
           addText(subDetail,'summary','Subwoofer connection and filtering');
           renderSubwooferWiring(subDetail,modelPlan,{heading:'What connecting this subwoofer involves'});
           card.append(subDetail);
+        }
+        if(subSource&&t5Present&&!detailOnly){
+          const options={sourceModel:subSource,subModel:'Edifier T5',
+            mainBassMode:request.subMode==='sub_full'?'full':'default'};
+          const checked=evaluateSubwooferConnection(options);
+          if(checked.compatible){
+            const route=el('div','sb-card-minor');
+            addText(route,'p','Subwoofer wiring: '+checked.cable+'. '+checked.mains);
+            const href=subwooferCheckerLink(options);
+            if(href)link(route,href,'Check subwoofer wiring and bass filtering');
+            card.append(route);
+          }
         }
       }
       // Keep the exact signal path one tap away on the main result; an opened
@@ -1709,7 +1729,16 @@ document.addEventListener('DOMContentLoaded', () => {
         route.wantsOwnedSub ? 'Keep your subwoofer if it accepts the right connection. The T5 wiring below is an example.' :
         'Confirm whether your sub can be reused. The T5 wiring below is an example.');
       if (route.needsMainSpeakers) addText(panel,'p','Price the passive stereo pair and speaker wire separately.');
-      const retainedSub= subwooferConnections({ampName:route.retained,subName:'Edifier T5',subOwned:route.wantsOwnedSub?'yes':'no'});
+      const retainedSub= subwooferConnections({ampName:route.retained,
+        subName:route.buying?'Edifier T5':String(data.get('subName')||''),
+        subOwned:route.wantsOwnedSub?'yes':'no'});
+      const subCheckOptions={sourceModel:route.retained,
+        subModel:route.buying?'Edifier T5':null,
+        mainBassMode:request.subMode==='sub_full'?'full':'default'};
+      const subCheck=evaluateSubwooferConnection(subCheckOptions);
+      addText(panel,'p',subCheck.text,'sb-card-minor');
+      const subCheckHref=subwooferCheckerLink(subCheckOptions);
+      if(subCheckHref)link(panel,subCheckHref,'Check this connection and main-speaker filtering');
       renderSetupWorkflow(panel,{
         steps:[
           'Keep '+route.retained+' as the main amplification or powered-speaker system.',
