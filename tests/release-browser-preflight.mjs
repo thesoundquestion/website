@@ -66,7 +66,7 @@ try {
 
   await visit(page,'/system-check/compare/?type=audio_interface');
   await page.waitForFunction(()=>!document.querySelector('#gc-expanded-results')?.hidden,{timeout:20000});
-  assert.equal(await page.locator('[data-kind]').count(),9);
+  assert.equal(await page.locator('#compare-tool [data-kind]').count(),12);
   assert.ok(await page.locator('#gc-expanded').isVisible());
   assert.ok(await page.locator('#gc-legacy').isHidden());
   for(const [kind,labels] of Object.entries(categories)){
@@ -83,6 +83,18 @@ try {
    assert.ok(await page.locator('#gc-expanded-sources section').count()===2);
    assert.ok(await page.locator('#gc-expanded-table-scroll, .gc-expanded-table-scroll').count()>=1);
   }
+  // Smoke the newly integrated exact-model categories, which have
+  // different documented field counts from recording interfaces.
+  for(const kind of ['powered_studio_monitor','powered_pa_speaker','catalog_headphone']){
+    await page.locator('[data-kind="'+kind+'"]').click();
+    await page.waitForFunction(type=>
+      document.querySelector('[data-kind="'+type+'"]')?.getAttribute('aria-pressed')==='true' &&
+      !document.querySelector('#gc-expanded-results')?.hidden,kind,{timeout:15000});
+    assert.ok((await page.locator('#gc-expanded-rows th').allInnerTexts()).length>=3,
+      device.name+' '+kind+' lacks labeled fields');
+    assert.ok((await page.locator('#gc-expanded-rows td').allInnerTexts()).length>0,
+      device.name+' '+kind+' has no rendered comparison');
+  }
   const lone=await page.locator('#gc-expanded-status').innerText();
   assert.match(lone,/Only one documented model/);
   await page.locator('[data-kind="amp"]').click();
@@ -94,7 +106,7 @@ try {
   assert.ok(await page.locator('#comparison').isVisible());
   assert.match(await page.locator('#comparison-rows').innerText(),/W\/ch|Power per channel|Input sensitivity/);
   await checkNoErrors(page,errors,device.name+' Compare My Gear');
-  outcomes.push(device.name+' nine gear types with source-backed connections and preserved amplifier comparison');
+  outcomes.push(device.name+' twelve gear types with source-backed connections and preserved amplifier comparison');
 
   await visit(page,'/system-builder/creating/');
   await page.waitForFunction(()=>document.querySelector('#sb-purpose-status')?.textContent.includes('Ready to suggest'),null,{timeout:20000});
