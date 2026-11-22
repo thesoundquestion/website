@@ -15,10 +15,13 @@ test('System Check has just one everyday listening-level dropdown',()=>{
 });
 
 test('calculator defaults and clear average/peak explanation are preserved',()=>{
-  assert.match(html,/name="average"[^>]*value="80"/);
+  assert.match(html,/name="average"[^>]*value="75"/);
+  assert.match(html,/name="peak"[^>]*value="90"/);
   assert.match(html,/name="gap"[^>]*value="15"/);
-  assert.match(html,/Start with <strong>80 dB SPL as the average sound level at your seat<\/strong>/);
-  assert.match(html,/We initially allow another <strong>15 dB<\/strong>/);
+  assert.match(html,/75 dB SPL as the example average sound level at your seat/);
+  assert.match(html,/15 dB<\/strong> for brief musical peaks/);
+  assert.match(html,/set 95, 100 or 105 dB peaks/);
+  assert.match(html,/not interchangeable/);
   assert.match(html,/Heavily compressed music may have a smaller gap/);
 });
 
