@@ -9,8 +9,8 @@
     "medium": 54,
     "lower": 17,
     "grandfathered": 195,
-    "certified": 0,
-    "reviewRequired": 2,
+    "certified": 2,
+    "reviewRequired": 0,
     "removed": 0
   },
   "removed": [],
@@ -136,8 +136,8 @@
       ],
       "risk": "high",
       "baseline": "modified",
-      "certification": "review_required",
-      "recommendationStatus": "block_new_or_changed_recommendations",
+      "certification": "certified",
+      "recommendationStatus": "certified_for_evaluated_use",
       "sourceLinks": 1,
       "declaredUnknowns": 0,
       "fingerprint": "978022fd9d013fa3"
@@ -150,8 +150,8 @@
       ],
       "risk": "high",
       "baseline": "modified",
-      "certification": "review_required",
-      "recommendationStatus": "block_new_or_changed_recommendations",
+      "certification": "certified",
+      "recommendationStatus": "certified_for_evaluated_use",
       "sourceLinks": 1,
       "declaredUnknowns": 0,
       "fingerprint": "231259c23f9f494f"
