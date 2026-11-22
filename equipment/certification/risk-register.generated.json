@@ -8,9 +8,9 @@
     "high": 126,
     "medium": 54,
     "lower": 17,
-    "grandfathered": 197,
+    "grandfathered": 195,
     "certified": 0,
-    "reviewRequired": 0,
+    "reviewRequired": 2,
     "removed": 0
   },
   "removed": [],
@@ -135,12 +135,12 @@
         "speaker"
       ],
       "risk": "high",
-      "baseline": "unchanged",
-      "certification": "grandfathered_not_certified",
-      "recommendationStatus": "legacy_existing_behavior_only",
+      "baseline": "modified",
+      "certification": "review_required",
+      "recommendationStatus": "block_new_or_changed_recommendations",
       "sourceLinks": 1,
       "declaredUnknowns": 0,
-      "fingerprint": "7f3007d747136661"
+      "fingerprint": "978022fd9d013fa3"
     },
     {
       "id": "builder/speaker/psb-alpha-p5",
@@ -149,12 +149,12 @@
         "speaker"
       ],
       "risk": "high",
-      "baseline": "unchanged",
-      "certification": "grandfathered_not_certified",
-      "recommendationStatus": "legacy_existing_behavior_only",
+      "baseline": "modified",
+      "certification": "review_required",
+      "recommendationStatus": "block_new_or_changed_recommendations",
       "sourceLinks": 1,
       "declaredUnknowns": 0,
-      "fingerprint": "5870cc57bd828d50"
+      "fingerprint": "231259c23f9f494f"
     },
     {
       "id": "builder/speaker/q-acoustics-3010i",
