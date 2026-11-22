@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {compareCatalogHandoff} from '../system-builder/compare-handoff.mjs';
+import {compareCatalogHandoff,exactRecommendedCompareHandoff} from '../system-builder/compare-handoff.mjs';
 import {checkerHandoffLink} from '../system-builder/checker-handoff.mjs';
 
 const record=(kind,id)=>({
@@ -61,6 +61,26 @@ test('release workflow is triggered when any System Check or Builder code change
  assert.match(workflow,/system-builder\/\*\*/);
  assert.match(creating,/compareCatalogHandoff/);
  assert.match(listening,/checkerHandoffLink/);
- assert.match(listening,/compareCatalogHandoff/);
+ assert.match(listening,/exactRecommendedCompareHandoff\(item,sharedCatalog\)/);
  assert.match(doc,/A generic link to a blank tool is not integration/);
+});
+
+test('Listening Builder opens Compare only for one exact eligible model, never lookalikes or unrelated products',()=>{
+ const catalog=JSON.parse(readFileSync(new URL('../equipment/catalog.generated.json',import.meta.url),'utf8'));
+ const jbl=exactRecommendedCompareHandoff({architecture:'active_studio',
+   parts:[{name:'JBL 305P MkII powered studio monitor',count:2}]},catalog);
+ assert.ok(jbl,'JBL 305P MkII must have an exact catalogue record');
+ assert.equal(jbl.record.model,'JBL 305P MkII');
+ const url=new URL(jbl.href,'https://thesoundquestion.pages.dev');
+ assert.equal(url.pathname,'/system-check/compare/');
+ assert.equal(url.searchParams.get('type'),'powered_studio_monitor');
+ assert.equal(url.searchParams.get('left'),jbl.record.id);
+ const headphone=exactRecommendedCompareHandoff({architecture:'headphone_first',
+   parts:[{name:'Sennheiser HD 600 headphone',count:1}]},catalog);
+ assert.equal(headphone?.record.model,'Sennheiser HD 600');
+ assert.ok(headphone.href.includes('type=catalog_headphone'));
+ assert.equal(exactRecommendedCompareHandoff({architecture:'active_studio',
+   parts:[{name:'JBL 305P MkIII studio monitor',count:2}]},catalog),null);
+ assert.equal(exactRecommendedCompareHandoff({architecture:'active_studio',
+   title:'Unlisted model',parts:[]},catalog),null);
 });

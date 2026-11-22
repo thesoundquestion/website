@@ -27,7 +27,7 @@ import {explainEmptyExampleShortlist} from './empty-shortlist-guidance.mjs';
 import {recommendationHeadroom} from './recommendation-headroom.mjs';
 import {acousticEvidenceForPair} from './acoustic-evidence.mjs';
 import {checkerHandoffLink} from './checker-handoff.mjs';
-import {compareCatalogHandoff} from './compare-handoff.mjs';
+import {exactRecommendedCompareHandoff} from './compare-handoff.mjs';
 import {evaluateSubwooferConnection,subwooferCheckerLink} from '../system-check/subwoofer/engine.mjs';
 import {poweredEvidenceFor} from './powered-output-evidence.mjs';
 import {removeUnsafeRecommendations} from './recommendation-safety-gate.mjs';
@@ -82,31 +82,6 @@ function poweredCheckerLinkFor(item,request) {
   if(Number.isFinite(distance)&&distance>=0.5&&distance<=300)
     params.set('distance',String(distance));
   return '/system-check/powered/?'+params.toString();
-}
-
-// Only an unambiguous exact catalogue model gets a preselected Compare link.
-// A generic category or model-name guess must never open an empty checker.
-function exactCompareCheckerFor(item,catalog) {
-  if(!Array.isArray(catalog?.records))return null;
-  const described=[item?.model,item?.poweredHeadroomModel,
-    item?.title,...(item?.parts||[]).map(part=>part.name)].filter(Boolean);
-  const normalized=name=>String(name).toLowerCase().normalize('NFKC')
-    .replace(/[^a-z0-9]+/g,' ').trim();
-  const fullNames=described.map(normalized);
-  const exactCandidates=catalog.records.filter(record=>{
-    if(item?.catalogId && item.catalogId===record.id)return true;
-    const model=normalized(record.model||'');
-    // All component tokens must occur as one complete phrase, preventing
-    // lookalike revisions from inheriting each other's sources and ratings.
-    return model.length>=5&&fullNames.some(text=>
-      text===model||text.startsWith(model+' ')||
-      text.endsWith(' '+model)||text.includes(' '+model+' '));
-  });
-  const eligible=exactCandidates.map(record=>({record,href:compareCatalogHandoff(record)}))
-    .filter(entry=>entry.href);
-  // A bundled system may contain several catalogued items; only pass the
-  // specific powered speaker/headphone when there is a unique candidate.
-  return eligible.length===1?eligible[0]:null;
 }
 
 const el = (tag, className = '', text = '') => {
@@ -1108,7 +1083,7 @@ document.addEventListener('DOMContentLoaded', () => {
             link(line,checkHref,headroom.linkText||'Explore System Check');
           card.append(line);
         }
-        const comparison=exactCompareCheckerFor(item,sharedCatalog);
+        const comparison=exactRecommendedCompareHandoff(item,sharedCatalog);
         if(comparison)
           link(card,comparison.href,'Compare documented '+comparison.record.model+' specifications');
         const technical=el('details','sb-simple-details');
@@ -1313,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.append(more);
       }
       if(!detailOnly){
-        const comparison=exactCompareCheckerFor(item,sharedCatalog);
+        const comparison=exactRecommendedCompareHandoff(item,sharedCatalog);
         if(comparison)
           link(card,comparison.href,'Compare documented '+comparison.record.model+' specifications');
       }
