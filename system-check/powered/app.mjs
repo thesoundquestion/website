@@ -38,6 +38,16 @@ function render(){
    units:1,conditions:'Values entered by the listener, not independently checked.',source:null};
  }
  if(!original){$('powered-verdict').textContent='No documented acoustic evidence for this model.';return;}
+ if(!Number.isFinite(original.referenceMeters)||original.referenceMeters<=0){
+   $('powered-verdict').textContent='Published acoustic output exists for '+original.model+
+     ', but its reference measurement distance has not been verified. Numerical loudness at your seat cannot be calculated from this source.';
+   $('powered-technical').hidden=false;
+   $('powered-technical-text').textContent=original.conditions;
+   $('powered-numbers').textContent='No verified distance-based SPL margin is available; this is not evidence that the speaker cannot reach your listening target.';
+   $('powered-source').hidden=!original.source;
+   if(original.source)$('powered-source').href=original.source;
+   return;
+ }
  const result=poweredListeningAssessment({...original,units:Number($('powered-count').value)},
  {distanceFt:Number($('powered-distance').value),level:$('powered-level').value});
  if(!result){$('powered-verdict').textContent='Please enter a valid listening distance.';return;}
