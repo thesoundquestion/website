@@ -1162,9 +1162,22 @@ function runModelHandoff(){
   }
   const selected=kind=>{
     const picker=document.querySelector('[data-gear="'+kind+'"]');
-    return picker?.querySelector('select')?.value!=='';
+    const choice=picker?.querySelector('select');
+    return Boolean(choice&&choice.value!=='');
   };
-  const complete=selected('speaker')&&selected('amp')&&
+  // The Builder has a broader approved equipment catalogue than the original
+  // calculator presets. Verified-by-Builder fields transferred in the URL
+  // remain visibly editable and must be usable for an actual calculation,
+  // not just fill boxes without generating a result.
+  const transferredSpeaker=builderParams.has('builderSensitivity')&&
+    builderParams.get('builderBasis')==='power'&&
+    field('speakerModel').value===builderParams.get('speaker')&&
+    Number.isFinite(num('sensitivity'))&&Number.isFinite(num('load'));
+  const transferredAmp=builderParams.has('builderAmpWatts')&&
+    field('ampModel').value===builderParams.get('amp')&&
+    readRatings().some(r=>r.type==='continuous'&&Number.isFinite(r.watts)&&r.watts>0);
+  const complete=(selected('speaker')||transferredSpeaker)&&
+    (selected('amp')||transferredAmp)&&
     Number.isFinite(num('sensitivity'))&&Number.isFinite(num('load'))&&
     Number.isFinite(num('distance'))&&readRatings().some(r=>r.type!=='unknown')&&
     form.checkValidity();
