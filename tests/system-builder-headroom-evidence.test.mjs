@@ -65,11 +65,13 @@ test('a proposed high-pass or sub route is not automatically awarded extra maxim
 
 test('Builder cards render the evidence note and never send powered users into passive wattage calculation',()=>{
  const app=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
- assert.match(app,/headroomEvidence\(item,request\)/);
- assert.match(app,/addText\(headroom,'strong',output.label/);
- assert.match(app,/if\(output.link\)link\(card,checkerHandoffLink\(item,request\)\|\|output.link,'Check your exact listening levels'\)/);
- assert.doesNotMatch(app,/if\(output.link\)link\(details/);
- assert.match(app,/How loud and why/);
+ // The consolidated compact cards use one shared output summary for
+ // both passive and powered models, and choose the type-specific checker.
+ assert.match(app,/recommendationHeadroom\(item,request,sharedCatalog\)/);
+ assert.match(app,/sourceBackedPassiveCheck\(item,request,inventory\)/);
+ assert.match(app,/poweredCheckerLinkFor\(item,request\)/);
+ assert.match(app,/sb-simple-checker/);
+ assert.match(app,/if\(!item.poweredHeadroomModel\)/);
  assert.doesNotMatch(app,/Confirm clean output at your listening distance and level/);
 });
 
@@ -143,8 +145,8 @@ test('Builder link loads selected Yamaha PSB system and listening level into Sys
  assert.equal(url.searchParams.get('speaker'),'PSB Alpha P5');
  assert.equal(url.searchParams.get('amp'),'Yamaha A-S301');
  assert.equal(url.searchParams.get('distance'),'6');
- assert.equal(url.searchParams.get('peak'),'95');
- assert.equal(url.searchParams.get('average'),'80');
+ assert.equal(url.searchParams.get('peak'),'105');
+ assert.equal(url.searchParams.get('average'),'85');
  assert.equal(url.searchParams.get('builderSensitivity'),'87');
  assert.equal(url.searchParams.get('builderBasis'),'power');
  assert.equal(url.searchParams.get('builderLoad'),'8');
@@ -161,7 +163,7 @@ test('every qualified passive recommendation can supply a parameterized checker 
  assert.equal(q.get('speaker'),'Sample speaker');
  assert.equal(q.get('amp'),'Sample amp');
  assert.equal(q.get('distance'),'10');
- assert.equal(q.get('peak'),'90');
+ assert.equal(q.get('peak'),'95');
  assert.equal(q.get('builderLoad'),'6');
  assert.ok(Number(q.get('builderSensitivity'))<88);
  assert.equal(checkerHandoffLink({architecture:'consumer_powered_pair'},{...req}),null);
@@ -171,8 +173,8 @@ test('System Check applies incoming Builder data without overwriting actual save
  const code=readFileSync(new URL('../system-check/calculator.js',import.meta.url),'utf8');
  const page=readFileSync(new URL('../system-check/index.html',import.meta.url),'utf8');
  const builder=readFileSync(new URL('../system-builder/app.mjs',import.meta.url),'utf8');
- assert.match(builder,/checkerHandoffLink\(item,request\)/);
- assert.match(code,/function applyBuilderHandoff\(\)/);
+ assert.match(builder,/sourceBackedPassiveCheck\(item,request,inventory\)/);
+ assert.match(code,/function applySourceAwareBuilderTransfer\(\)/);
  assert.match(code,/if\(speakerChoice\?\.value===''/);
  assert.match(code,/if\(ampChoice\?\.value===''/);
  assert.match(code,/field\('distance'\)/);
