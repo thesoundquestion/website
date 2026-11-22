@@ -39,12 +39,13 @@ test('never include an unrelated model as a comparison alternative',()=>{
 test('passive equipment gets context-preserving System Check; active systems do not get a false passive calculator',()=>{
  const gear={architecture:'passive_separates',acousticEvidence:{
    speakerModel:'Example speakers',amplifierModel:'Example amp',nominalOhms:8,
-   sensitivityDb1W1m:87,continuousWattsPerChannel:60
+   sensitivityDb1W1m:87,continuousWattsPerChannel:60,
+   reference:'catalog_same_load_full_band'
  }};
  const path=checkerHandoffLink(gear,{distanceFt:6,level:'high'});
  const q=new URL(path,'https://thesoundquestion.pages.dev').searchParams;
  for(const [key,value] of Object.entries({
-  speaker:'Example speakers',amp:'Example amp',distance:'6',peak:'95',average:'80',
+  speaker:'Example speakers',amp:'Example amp',distance:'6',peak:'105',average:'85',
   builderSensitivity:'87',builderLoad:'8',builderAmpWatts:'60'
  }))assert.equal(q.get(key),value);
  for(const architecture of ['consumer_powered_pair','active_studio','party_pa','headphone_first'])
