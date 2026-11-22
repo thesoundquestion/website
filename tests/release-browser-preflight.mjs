@@ -83,6 +83,8 @@ try {
    assert.ok(await page.locator('#gc-expanded-sources section').count()===2);
    assert.ok(await page.locator('#gc-expanded-table-scroll, .gc-expanded-table-scroll').count()>=1);
   }
+  const lone=await page.locator('#gc-expanded-status').innerText();
+  assert.match(lone,/Only one documented model/);
   // Smoke the newly integrated exact-model categories, which have
   // different documented field counts from recording interfaces.
   for(const kind of ['powered_studio_monitor','powered_pa_speaker','catalog_headphone']){
@@ -95,8 +97,6 @@ try {
     assert.ok((await page.locator('#gc-expanded-rows td').allInnerTexts()).length>0,
       device.name+' '+kind+' has no rendered comparison');
   }
-  const lone=await page.locator('#gc-expanded-status').innerText();
-  assert.match(lone,/Only one documented model/);
   await page.locator('[data-kind="amp"]').click();
   assert.ok(await page.locator('#gc-legacy').isVisible());
   assert.ok(await page.locator('#gc-expanded').isHidden());
