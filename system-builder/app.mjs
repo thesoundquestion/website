@@ -25,6 +25,8 @@ import {explainBeginnerOption} from './beginner-output.mjs';
 import {explainSimpleSystem} from './simple-system-summary.mjs';
 import {explainEmptyExampleShortlist} from './empty-shortlist-guidance.mjs';
 import {recommendationHeadroom} from './recommendation-headroom.mjs';
+import {acousticEvidenceForPair} from './acoustic-evidence.mjs';
+import {checkerHandoffLink} from './checker-handoff.mjs';
 import {removeUnsafeRecommendations} from './recommendation-safety-gate.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
@@ -50,6 +52,20 @@ function headroomHandoff(item,distanceFt,level,useCase='living_room'){
     preferRoom:['outdoors','party'].includes(useCase)?'0':'1'
   });
   return {profile,params};
+}
+
+// Shared passive-system handoff for primary and alternate Builder cards.
+// Numerical values transfer ONLY from an exact-model, same-load full-band
+// rating; missing facts remain editable unknowns inside System Check.
+function sourceBackedPassiveCheck(item,request,inventory={}) {
+  if(item.architecture!=='passive_separates')return null;
+  const ampName=item.amplifierModel||item.curatedPairing?.amplifierModel;
+  const speakerName=item.speakerModel||item.curatedPairing?.speakerModel;
+  const find=(kind,name)=>name?
+    (inventory[kind]||[]).find(r=>r.model===name)||
+    (kind==='speaker'?builderOnlySpeakerFor(name):builderOnlyAmpFor(name)):null;
+  const evidence=acousticEvidenceForPair(find('speaker',speakerName),find('amp',ampName));
+  return checkerHandoffLink({...item,acousticEvidence:evidence},request);
 }
 
 const el = (tag, className = '', text = '') => {
@@ -1043,8 +1059,9 @@ document.addEventListener('DOMContentLoaded', () => {
           addText(line,'strong','Headroom at '+headroom.target.distanceFt+' ft',
             'sb-simple-headroom-title');
           addText(line,'span',headroom.summary,'sb-simple-headroom');
-          if(headroom.link)
-            link(line,headroom.link,headroom.linkText||'Explore System Check');
+          const checkHref=sourceBackedPassiveCheck(item,request,inventory)||headroom.link;
+          if(checkHref)
+            link(line,checkHref,headroom.linkText||'Explore System Check');
           card.append(line);
         }
         const technical=el('details','sb-simple-details');
@@ -1363,7 +1380,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if(!item.poweredHeadroomModel){
           const checkAction=el('div','sb-checker-action');
-          link(checkAction,'/system-check/'+(checkParams.size?'?'+checkParams.toString():''),
+          const checkHref=sourceBackedPassiveCheck(item,request,inventory)||
+            '/system-check/'+(checkParams.size?'?'+checkParams.toString():'');
+          link(checkAction,checkHref,
             checkAmp||checkSpeaker?'Open System Check with this gear':'Open System Check');
           card.append(checkAction);
         }
