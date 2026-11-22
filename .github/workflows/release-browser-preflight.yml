@@ -10,7 +10,7 @@ on:
       - 'tests/beginner-entry-paths.test.mjs'
       - 'assets/styles.css'
       - 'library/**'
-      - 'system-check/compare/**'
+      - 'system-check/**'
       - 'system-builder/**'
       - 'equipment/**'
       - 'tests/release-browser-preflight.mjs'
