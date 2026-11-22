@@ -4,8 +4,8 @@
  * Use ONLY same-nominal-load full-band continuous amplifier test ratings.
  */
 export function acousticEvidenceForPair(speaker={},amplifier={}) {
-  const s=speaker.record||speaker;
-  const amp=amplifier.record||amplifier;
+  const s=speaker?.record||speaker||{};
+  const amp=amplifier?.record||amplifier||{};
   const v=s?.values||{};
   const nominal=v.load;
   const sensitivity=v.sensitivity;
