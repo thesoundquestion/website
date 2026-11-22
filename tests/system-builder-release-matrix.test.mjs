@@ -54,8 +54,15 @@ test('safety and real battery requirements remain hard gates over budgets, goals
  for(const goal of goals)for(const level of levels){
    const result=shortlistExamples({...basic,goal,level,architecture:'passive_separates',useCase:'bedroom',
      distanceFt:6,connection:'analog'});
-   assert.ok(!result.selected.some(x=>x.id==='passive-bt20a-xt15'));
-   assert.ok(result.excluded.some(x=>/Fosi BT20A Pro/.test(x.title)));
+   // Manufacturer load permission is not an electrical blocker;
+   // missing clean-output measurement remains explicitly unknown.
+   assert.ok(!result.excluded.some(x=>/Fosi BT20A Pro/.test(x.title)&&
+     /unsafe|not supported|load-and-supply compatibility/i.test(x.reason)));
+   for(const item of result.selected.filter(x=>x.id==='passive-bt20a-xt15')){
+     assert.equal(item.curatedPairing?.level,'manufacturer_supported');
+     assert.match(item.curatedPairing.output,/not evidence of continuous clean output/);
+     assert.ok(!item.acousticEvidence,'No unsupported peak SPL figure is allowed');
+   }
    const battery=shortlistExamples({...basic,goal,level,architecture:'party_pa',useCase:'party',
      power:'battery',distanceFt:15,connection:'bluetooth'});
    assert.ok(battery.selected.every(x=>x.power==='battery'||x.power==='source_dependent'));
