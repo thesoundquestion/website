@@ -131,7 +131,8 @@ export function explainAmplifierChoice({idea,record,speaker,request={}}) {
     Number.isFinite(r[0])&&Number.isFinite(r[1]));
   const atNominal=Number.isFinite(nominal) ? continuous.find(r=>r[1]===nominal) : null;
   const rated=atNominal||continuous[0]||null;
-  const ratingText=rated ? rated[0]+' W at '+rated[1]+' Ω (published continuous rating)' :
+  const ratingText=atNominal ? atNominal[0]+' W at '+atNominal[1]+' Ω (published continuous rating at this nominal load)' :
+    rated ? rated[0]+' W at '+rated[1]+' Ω (different-load continuous rating; output at this speaker load unverified)' :
     'no verified continuous power figure in our catalog';
   const speakerText=Number.isFinite(nominal)?
     speaker.name+' is listed as '+nominal+' Ω nominal' :
@@ -152,7 +153,10 @@ export function explainAmplifierChoice({idea,record,speaker,request={}}) {
     all_rounder:'For balanced listening, the key is a suitable load, source path and enough clean level rather than a brand sound signature',
     party:'For high-output use, sustained output and coverage must be checked; a home stereo rating alone cannot establish event suitability'
   };
-  const fit=goalNotes[request.goal]||goalNotes.all_rounder;
+  // A continuous rating at another impedance cannot support even a provisional
+  // same-load headroom claim; short-burst figures do not substitute for it.
+  const fit=atNominal ? (goalNotes[request.goal]||goalNotes.all_rounder) :
+    'No published continuous output at this speaker’s exact nominal load; headroom cannot be inferred from other loads or marketing peak watts';
   const summary='Keeps your '+speaker.name+'. '+idea.model+' has '+ratingText+
     '; '+speakerText+'. '+connectionNote+'. This is a first-stage equipment match, not verified safe loading or clean output.';
   const evidence=[
@@ -163,7 +167,9 @@ export function explainAmplifierChoice({idea,record,speaker,request={}}) {
     'Preference: '+fit+'. No measurable sound signature or audible improvement is inferred from amplifier brand, type or power rating.'
   ];
   return {summary,evidence,source:record?.url||null,goalNote:fit,
-    ratingWatts:rated?.[0]??null,ratingOhms:rated?.[1]??null,
+    ratingWatts:atNominal?.[0]??null,ratingOhms:atNominal?.[1]??null,
+    otherLoadReferenceWatts:!atNominal?rated?.[0]??null:null,
+    otherLoadReferenceOhms:!atNominal?rated?.[1]??null:null,
     inputFit:connection==='undecided'?'unknown':sourceMatches?'listed':'requires_check'};
 }
 
@@ -428,7 +434,9 @@ export function ownershipPlan({own={},request={},inventory={},catalog=null}={}){
   else if(has(own.speaker)&&has(own.amp)) {
     const item=existingPair(own,request);
     item.pathwayCaution='This keeps your passive stereo system for a separate mains-powered listening route; it does not meet the selected '+arch+' / '+request.power+' requirement.';
-    plan={selected:[item],excluded:[],mode:'keep_separate_pair'};
+    plan=item.ownershipBlocker?
+      {selected:[],excluded:[{title:item.title,reason:item.ownershipBlocker}],mode:'keep_separate_pair'}:
+      {selected:[item],excluded:[],mode:'keep_separate_pair'};
   }
   else if(has(own.speaker)){
     const alt=shortlistAmpsForOwnedSpeakers({own,request,inventory});
@@ -451,6 +459,7 @@ export function ownershipPlan({own={},request={},inventory={},catalog=null}={}){
     plan={selected:[item],excluded:[],mode:'keep_separate_headphones'};
   }
   else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
-  if(!plan.selected.length)plan.selected=[keepSeparate(own,request)];
+  // Never replace a rejected unsafe pairing with a generic 'keep it' recommendation.
+  if(!plan.selected.length && !(plan.excluded||[]).length)plan.selected=[keepSeparate(own,request)];
   return {...plan,comparisonReasons:comparisonReasons(own,request)};
 }
