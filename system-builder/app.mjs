@@ -29,6 +29,7 @@ import {acousticEvidenceForPair} from './acoustic-evidence.mjs';
 import {checkerHandoffLink} from './checker-handoff.mjs';
 import {compareCatalogHandoff} from './compare-handoff.mjs';
 import {evaluateSubwooferConnection,subwooferCheckerLink} from '../system-check/subwoofer/engine.mjs';
+import {poweredEvidenceFor} from './powered-output-evidence.mjs';
 import {removeUnsafeRecommendations} from './recommendation-safety-gate.mjs';
 import {BUILDER_ONLY_SPEAKERS, builderOnlySpeakerFor} from './supplemental-speakers.mjs';
 import {BUILDER_ONLY_HEADPHONES, builderOnlyHeadphoneFor} from './supplemental-headphones.mjs';
@@ -68,6 +69,19 @@ function sourceBackedPassiveCheck(item,request,inventory={}) {
     (kind==='speaker'?builderOnlySpeakerFor(name):builderOnlyAmpFor(name)):null;
   const evidence=acousticEvidenceForPair(find('speaker',speakerName),find('amp',ampName));
   return checkerHandoffLink({...item,acousticEvidence:evidence},request);
+}
+
+function poweredCheckerLinkFor(item,request) {
+  const published=poweredEvidenceFor(item);
+  if(!published)return null;
+  const params=new URLSearchParams({
+    model:published.model,level:request.level||'moderate',
+    count:String(published.units>=2?2:1)
+  });
+  const distance=Number(request.distanceFt);
+  if(Number.isFinite(distance)&&distance>=0.5&&distance<=300)
+    params.set('distance',String(distance));
+  return '/system-check/powered/?'+params.toString();
 }
 
 const el = (tag, className = '', text = '') => {
@@ -1061,7 +1075,8 @@ document.addEventListener('DOMContentLoaded', () => {
           addText(line,'strong','Headroom at '+headroom.target.distanceFt+' ft',
             'sb-simple-headroom-title');
           addText(line,'span',headroom.summary,'sb-simple-headroom');
-          const checkHref=sourceBackedPassiveCheck(item,request,inventory)||headroom.link;
+          const checkHref=sourceBackedPassiveCheck(item,request,inventory)||
+            poweredCheckerLinkFor(item,request)||headroom.link;
           if(checkHref)
             link(line,checkHref,headroom.linkText||'Explore System Check');
           card.append(line);
@@ -1252,7 +1267,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const output=el('div','sb-powered-headroom');
         addText(output,'strong','Headroom at '+h.target.distanceFt+' ft');
         addText(output,'p',h.summary);
-        link(output,h.link,h.linkText);
+        const exactPoweredLink=poweredCheckerLinkFor(item,request);
+        link(output,exactPoweredLink||h.link,
+          exactPoweredLink?'Check this exact powered-speaker model':h.linkText);
         card.append(output);
         const more=el('details','sb-powered-headroom-detail');
         addText(more,'summary','Published output basis and limitations');
