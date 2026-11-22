@@ -108,6 +108,37 @@ try {
   await checkNoErrors(page,errors,device.name+' Compare My Gear');
   outcomes.push(device.name+' twelve gear types with source-backed connections and preserved amplifier comparison');
 
+  // Standalone Builder checkers must work in the *packaged browser*, not
+  // only inside isolated Node module tests. Keep unknown evidence unknown.
+  await visit(page,'/system-check/powered/?model=JBL%20305P%20MkII&distance=6&level=high&count=2');
+  assert.equal(await page.locator('#powered-model').inputValue(),'JBL 305P MkII');
+  assert.match(await page.locator('#powered-verdict').innerText(),/reference measurement distance has not been verified/);
+  assert.match(await page.locator('#powered-numbers').innerText(),/No verified distance-based SPL margin/);
+  assert.ok(await page.locator('#powered-technical').isVisible());
+  await checkNoErrors(page,errors,device.name+' powered speaker unknown test distance');
+  await visit(page,'/system-check/powered/?model=Kali%20Audio%20LP-6%20V2&distance=6&level=high&count=2');
+  assert.equal(await page.locator('#powered-model').inputValue(),'Kali Audio LP-6 V2');
+  assert.match(await page.locator('#powered-technical-text').innerText(),/No source-qualified continuous SPL/);
+  assert.match(await page.locator('#powered-numbers').innerText(),/No model-specific continuous SPL is available/);
+  await checkNoErrors(page,errors,device.name+' peak-only powered speaker loudness');
+  outcomes.push(device.name+' powered JBL unknown-distance and Kali peak-only evidence protections');
+
+  await visit(page,'/system-check/subwoofer/?source=WiiM%20Amp&sub=Edifier%20T5');
+  assert.equal(await page.locator('#sub-source').inputValue(),'WiiM Amp');
+  assert.equal(await page.locator('#sub-model').inputValue(),'Edifier T5');
+  assert.match(await page.locator('#sub-verdict').innerText(),/Connection confirmed/);
+  assert.match(await page.locator('#sub-cable').innerText(),/RCA/);
+  await page.locator('#sub-mode').selectOption('full');
+  await page.locator('#sub-form button[type="submit"]').click();
+  assert.match(await page.locator('#sub-mains').innerText(),/full-range/i);
+  await visit(page,'/system-check/subwoofer/?source=WiiM%20Amp&sub=Unknown%20Subwoofer');
+  assert.equal(await page.locator('#sub-model').inputValue(),'');
+  assert.match(await page.locator('#sub-verdict').innerText(),/Not enough verified information/);
+  assert.equal(await page.locator('#sub-cable').innerText(),'');
+  assert.doesNotMatch(await page.locator('#sub-wiring').innerText(),/T5 cutoff|T5 Signal In/);
+  await checkNoErrors(page,errors,device.name+' exact and unknown subwoofer routes');
+  outcomes.push(device.name+' subwoofer exact RCA route, full-range option and unknown-model safety');
+
   await visit(page,'/system-builder/creating/');
   await page.waitForFunction(()=>document.querySelector('#sb-purpose-status')?.textContent.includes('Ready to suggest'),null,{timeout:20000});
   await page.locator('#sb-purpose-form button[type="submit"]').click();
@@ -567,7 +598,8 @@ try {
    page.on('pageerror',error=>errors.push(error.message));
    for (const path of ['/','/decoder/','/decoder/sound-basics/','/decoder/speaker-frequency-response/',
      '/decoder/speaker-dispersion/','/decoder/amplifier-power/','/system-builder/','/system-check/',
-     '/labs/','/lab/','/lab/mastering/','/labs/formats/']) {
+     '/labs/','/lab/','/lab/mastering/','/labs/formats/',
+     '/system-check/powered/','/system-check/subwoofer/']) {
      await visit(page,path);
      await checkNoErrors(page,errors,width+'px '+path);
    }
