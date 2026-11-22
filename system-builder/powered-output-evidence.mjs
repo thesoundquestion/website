@@ -5,8 +5,8 @@
 export const POWERED_ACOUSTIC_RECORDS=Object.freeze({
  'JBL 305P MkII':Object.freeze({
   model:'JBL 305P MkII',maxPeakDb:108,maxContinuousDb:94,
-  referenceMeters:1,units:1,evidenceType:'manufacturer',
-  conditions:'Manufacturer maximum peak tested with compressor/limiter and system distortion criterion below 10% THD. Not a clean full-band SPL guarantee.',
+  referenceMeters:null,units:1,evidenceType:'manufacturer_distance_unverified',
+  conditions:'Manufacturer reports 94 dB continuous and 108 dB maximum peak with limiter/compressor conditions and up to 10% distortion criterion. The cited rating lacks a verified measurement distance; do not project it numerically to the listening seat.',
   source:'https://jblpro.com/en-US/products/305p-mkii'
  }),
  'QSC K12.2':Object.freeze({
