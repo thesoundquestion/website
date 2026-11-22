@@ -407,11 +407,12 @@ export function shortlistSpeakersForOwnedAmplifier(input={}) {
       extra:[caution,'Check the exact speaker revision, nominal and minimum impedance, phase angle, and your amplifier manual before connecting.',
         'Speaker cable, source connectivity and any necessary stands are extra. No new amplifier has been included in the price.',
         'Use System Check to evaluate clean level at your actual listening position; manufacturer sensitivity figures may use different conventions.'],
+      // The generic "verify full impedance curve" qualification belongs
+      // in details/extra, not the hard electrical blocker field. Unknown
+      // speaker loads were excluded above. Unverified visitor-entered amp
+      // limits still prevent a ready-to-connect recommendation.
       loadCaution:screen.userSupplied ?
-        'Amplifier figures were entered by the visitor and have not been checked against the manufacturer manual. Check the actual supported load before connecting.' :
-        loadUnknown ?
-        'Load unknown: do not connect these speakers to '+screen.ampName+' until the manufacturer’s requirements are checked.' :
-        screen.explicitNominalFloor?'Confirm load: '+screen.ampName+' requires suitable speakers; '+nominal+' Ω nominal alone does not prove a safe match.':null,
+        'Amplifier figures were entered by the visitor and have not been checked against the manufacturer manual. Check the actual supported load before connecting.' : null,
       pairingEvidence:pairingByModel.get(model),
       ownerEvidenceLabel:ownerEvidenceFor(model)?.label || 'Model specifications; listening reports not verified',
       ownerEvidenceBasis:ownerEvidenceFor(model)?.band || 'spec_led',
