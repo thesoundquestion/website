@@ -79,7 +79,8 @@ export const BUDGET_EXAMPLES=Object.freeze([
         url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html'}
     ]},
     priceEvidence:'multi_retailer_ordinary_advertised_components_not_installed_cost',
-    // Basic speaker-load compatibility is established by both manufacturers; real clean output remains context-dependent.
+    safetyStatus:'blocked',
+    safetyReason:'This exact Fosi BT20A Pro / Polk XT15 bundle lacks qualifying tested load-and-supply performance evidence for a ready-to-buy matched recommendation.'
   },
   {
     id:'headphone-ksc75',architecture:'headphone_first',
