@@ -69,14 +69,14 @@ test('only exact model acoustic evidence provides a powered SPL estimate and it 
  assert.equal(evidence.maxContinuousDb,94);
  const near=poweredListeningAssessment(evidence,{level:'high',distanceFt:6});
  const far=poweredListeningAssessment(evidence,{level:'high',distanceFt:15});
- assert.equal(near.status,'estimated_suitable');
- assert.equal(far.status,'estimated_limited_reserve');
- assert.ok(near.estimatedPeakDb>far.estimatedPeakDb);
- assert.ok(near.estimatedContinuousDb>far.estimatedContinuousDb);
- assert.match(near.detail,/10% THD/);
+ // JBL's published 94/108 dB figures lack a confirmed maximum-output
+ // microphone distance. Never assume 1m to manufacture a seat SPL estimate.
+ assert.equal(evidence.referenceMeters,null);
+ assert.equal(near,null);
+ assert.equal(far,null);
  const verdict=headroomEvidence(stereo,{level:'high',distanceFt:6});
- assert.equal(verdict.status,'estimated_suitable');
- assert.match(verdict.text,/^Yes\./);
+ assert.equal(verdict.status,'powered_maximum_spl_unverified');
+ assert.doesNotMatch(verdict.text,/^Yes\./);
  assert.equal(poweredEvidenceFor({title:'Unlisted powered model',parts:[]}),null);
  assert.equal(poweredEvidenceFor({title:'JBL 305P MkII alternative MkIII',parts:[]}),null);
 });
