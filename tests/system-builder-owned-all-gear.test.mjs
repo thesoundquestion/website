@@ -103,10 +103,12 @@ test('documented speaker/amp nominal restriction triggers visible warning and pa
   const speaker=gear('speaker','ELAC Debut 3.0 DB63');
   const amp=gear('amp','Yamaha R-S202');
   const r=run({speaker,amp});
-  assert.equal(r.selected[0].id,'owned-complete');
-  assert.match(r.selected[0].loadCaution,/Do not connect/);
+  // A documented do-not-connect pairing is disclosed in excluded, not
+  // presented as a safe "keep this system" recommendation.
+  assert.ok(!r.selected.some(x=>x.id==='owned-complete'));
+  assert.ok(r.excluded.some(x=>/ELAC/.test(x.title)&&/Do not connect|minimum|Ω/.test(x.reason)));
   assert.ok(r.selected.some(x=>x.id.startsWith('owned-speaker-amp')));
-  assert.ok(r.selected.every(x=>x.reuseNames.length>0));
+  assert.ok(r.selected.every(x=>!x.loadCaution&&!x.ownershipBlocker&&x.reuseNames.length>0));
 });
 test('incompatible powered architecture still offers a separate passive route keeping speakers',()=>{
   const r=run({speaker:SPEAKER},{architecture:'consumer_powered_pair'});
