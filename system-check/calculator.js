@@ -1004,6 +1004,57 @@ if(builderParams.has('distanceFt')&&Number.isFinite(builderDistance)&&builderDis
   field('distance').value=String(builderDistance);
 if (typeof systemCheckGear !== 'undefined') mountGearPresets(systemCheckGear);
 
+// Accept model-aware Builder links without overriding a matching factory preset.
+// URL parameters are editable/unverified transfer values, not independent
+// certification of manufacturer performance.
+function applySourceAwareBuilderTransfer() {
+  const q=builderParams;
+  if(!['distance','builderSensitivity','builderAmpWatts'].some(key=>q.has(key)))return;
+  const bounded=(key,low,high)=>{
+    const raw=q.get(key);
+    if(raw===null||!raw.trim())return null;
+    const n=Number(raw);
+    return Number.isFinite(n)&&n>=low&&n<=high?n:null;
+  };
+  const distance=bounded('distance',0.5,300);
+  if(distance!==null)field('distance').value=String(distance);
+  const peak=bounded('peak',20,135),average=bounded('average',20,135);
+  if(peak!==null)field('peak').value=String(peak);
+  if(average!==null)field('average').value=String(average);
+  if(peak!==null&&average!==null&&peak>=average&&peak-average<=50)
+    field('gap').value=String(peak-average);
+  else {
+    const gap=bounded('gap',0,50);
+    if(gap!==null)field('gap').value=String(gap);
+  }
+  const speakerChoice=document.querySelector('[data-gear="speaker"] select');
+  const speakerModel=String(q.get('speaker')||'').slice(0,120);
+  const sensitivity=bounded('builderSensitivity',40,130);
+  const load=bounded('builderLoad',0.5,32);
+  if(speakerChoice?.value===''&&speakerModel&&sensitivity!==null&&load!==null&&q.get('builderBasis')==='power'){
+    field('speakerModel').value=speakerModel;
+    field('sensitivity').value=String(sensitivity);
+    field('basis').value='power';
+    field('load').value=String(load);
+    const note=document.getElementById('gear-speaker-note');
+    if(note)note.textContent='Values transferred from the Builder, not independently re-certified here. Confirm the exact speaker revision and manufacturer specification.';
+  }
+  const ampChoice=document.querySelector('[data-gear="amp"] select');
+  const ampModel=String(q.get('amp')||'').slice(0,120);
+  const watts=bounded('builderAmpWatts',0.001,100000),ohms=bounded('builderAmpOhms',0.5,32);
+  if(ampChoice?.value===''&&ampModel&&watts!==null&&ohms!==null){
+    field('ampModel').value=ampModel;
+    ratings.replaceChildren();
+    addRating(watts,ohms,'continuous','Builder-transferred rating; verify source and test conditions');
+  }
+  const note=document.getElementById('builder-handoff-note');
+  if(note){
+    note.hidden=false;
+    note.textContent='Loaded the available equipment and listening values from the Builder. Check each specification and adjust your exact listening targets before relying on a result.';
+  }
+}
+applySourceAwareBuilderTransfer();
+
 if (!ratings.children.length) addRating();
 sync();
 field('targetMode').addEventListener('change', () => {
