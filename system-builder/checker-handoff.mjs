@@ -27,7 +27,10 @@ export function checkerHandoffLink(item={},request={}) {
     evidence.sensitivityDb1W1m>=40&&evidence.sensitivityDb1W1m<=130&&
     Number.isFinite(evidence.nominalOhms)&&evidence.nominalOhms>=0.5&&
     Number.isFinite(evidence.continuousWattsPerChannel)&&
-    evidence.continuousWattsPerChannel>0&&evidence.reference==='catalog_same_load_full_band'){
+    evidence.continuousWattsPerChannel>0&&
+    (evidence.reference==='catalog_same_load_full_band'||
+      (evidence.reference==='manufacturer_anechoic'&&
+       Array.isArray(evidence.sourceUrls)&&evidence.sourceUrls.length>=2))){
     params.set('builderSensitivity',String(evidence.sensitivityDb1W1m));
     params.set('builderBasis','power');
     params.set('builderLoad',String(evidence.nominalOhms));
