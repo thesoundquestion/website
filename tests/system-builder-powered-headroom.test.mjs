@@ -152,7 +152,9 @@ test('Builder keeps the source-based acoustic summary immediately on cards',()=>
  assert.match(simple,/recommendationHeadroom\(item,request,sharedCatalog\)/);
  assert.match(simple,/Headroom at /);
  assert.match(simple,/card.append\(line\)/);
- assert.match(simple,/link\(line,headroom.link/);
+ assert.match(simple,/link\(line,checkHref/);
+ assert.match(simple,/sourceBackedPassiveCheck\(item,request,inventory\)/);
+ assert.match(simple,/poweredCheckerLinkFor\(item,request\)/);
  assert.ok(simple.indexOf('card.append(listening)')<simple.indexOf('card.append(line)'));
  assert.match(app,/sb-powered-headroom/);
  assert.match(app,/sb-alt-headroom/);
