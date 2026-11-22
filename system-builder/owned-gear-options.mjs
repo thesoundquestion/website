@@ -462,6 +462,18 @@ export function ownershipPlan({own={},request={},inventory={},catalog=null}={}){
     plan={selected:[item],excluded:[],mode:'keep_separate_headphones'};
   }
   else plan={selected:[keepSeparate(own,request)],excluded:[],mode:'retain_separate'};
+  // Independent caller safety gate: ownershipPlan is also used outside
+  // the DOM renderer, so blocked load/connection candidates must never
+  // remain in selected even when the user owns some or all components.
+  const blocked=(plan.selected||[]).filter(item=>
+    item.safetyStatus==='blocked'||Boolean(item.ownershipBlocker)||Boolean(item.loadCaution));
+  if(blocked.length){
+    const rejected=blocked.map(item=>({title:item.title,
+      reason:item.ownershipBlocker||item.loadCaution||item.safetyReason||
+        'Exact-model load or connection safety is not established.'}));
+    plan={...plan,selected:plan.selected.filter(item=>!blocked.includes(item)),
+      excluded:[...(plan.excluded||[]),...rejected]};
+  }
   // Never replace a rejected unsafe pairing with a generic 'keep it' recommendation.
   if(!plan.selected.length && !(plan.excluded||[]).length)plan.selected=[keepSeparate(own,request)];
   return {...plan,comparisonReasons:comparisonReasons(own,request)};
