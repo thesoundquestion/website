@@ -370,7 +370,7 @@
           {
             "url": "https://www.psbspeakers.com/int/alpha-p3-compact-bookshelf",
             "origin": "system-builder/supplemental-*.mjs",
-            "checkedDate": "2026-11-12",
+            "checkedDate": "2026-11-20",
             "describedFields": [
               "builder supplement"
             ]
@@ -400,7 +400,7 @@
           {
             "url": "https://www.psbspeakers.com/products/alpha-p5-bookshelf",
             "origin": "system-builder/supplemental-*.mjs",
-            "checkedDate": "2026-11-12",
+            "checkedDate": "2026-11-20",
             "describedFields": [
               "builder supplement"
             ]
