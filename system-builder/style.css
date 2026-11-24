@@ -85,6 +85,12 @@
 .sb-recommend .sb-card-why{font-size:.84rem;line-height:1.45;margin:.4rem 0 .55rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .sb-recommend .sb-card-alert{font-size:.76rem;line-height:1.4;background:#382e24;color:#ffe0b1;border-left:2px solid #f2b46e;padding:.36rem .55rem;margin:.5rem 0}
 .sb-recommend .sb-card-minor{font-size:.73rem;line-height:1.4;color:#f0d6b4;margin:.3rem 0}
+.sb-setup-workflow{border-top:1px solid #2b4b60;margin:.7rem 0 .55rem;padding:.55rem 0 0}
+.sb-setup-workflow h5{font-size:.88rem;line-height:1.35;color:#cce9f7;margin:.05rem 0 .4rem}
+.sb-setup-steps{margin:.3rem 0 .45rem;padding-left:1.35rem}
+.sb-setup-steps li{font-size:.82rem;line-height:1.48;margin:.32rem 0;padding-left:.08rem;overflow-wrap:anywhere}
+.sb-setup-steps li::marker{font-weight:650;color:#a8cddc}
+.sb-setup-equipment{font-size:.78rem;line-height:1.5;color:#c0d8e6;margin:.4rem 0 .15rem}
 .sb-card-details{border-top:1px solid #2b4b60;margin-top:.55rem;padding-top:.4rem}
 .sb-card-details>summary,.sb-more>summary,.sb-audit>summary,.sb-audit-part>summary{cursor:pointer;color:#a5dfff;font-size:.82rem;font-weight:650;line-height:1.5}
 .sb-card-details :is(p,li){font-size:.81rem;line-height:1.5}
@@ -103,6 +109,12 @@
 .sb-keep-inline p{font-size:.8rem;color:#cae3eb;margin:.2rem 0}
 .sb-more{border-top:1px solid #2c4b60;margin:.45rem 0;padding:.48rem .2rem}
 .sb-more>.sb-recommendations{margin-top:.65rem}
+.sb-alternative-setups{margin:.8rem 0;border:1px solid #3e657d;border-radius:10px;padding:.7rem .85rem;background:#102739}
+.sb-alternative-setups>summary{font-size:.92rem;font-weight:750;color:#c8eefe;cursor:pointer}
+.sb-alternative-setups[open]>summary{margin-bottom:.7rem}
+.sb-alternative-setups .sb-recommendations{margin-top:.55rem}
+.sb-recommend--primary{scroll-margin-top:14px}
+.sb-recommend--primary:focus{outline:2px solid #80d6ec;outline-offset:3px}
 .sb-more>p,.sb-more>ul{font-size:.82rem}
 .sb-audit{margin-top:.75rem;border:1px solid #34536a;border-radius:10px;padding:.65rem .85rem;background:#0e2131}
 .sb-audit>summary{font-size:.85rem}
@@ -161,3 +173,299 @@
 .sb-catalog-studio-card li{line-height:1.52;margin:.24rem 0;overflow-wrap:anywhere}
 .sb-catalog-studio-card p{line-height:1.6}
 @media(max-width:730px){.sb-catalog-studio-grid{grid-template-columns:1fr}}
+
+
+/* Listening-level orientation: relatable examples first; precise measurement limits available on demand. */
+.sb-listening-reference{grid-column:1/-1;border:1px solid #3b6178;border-radius:12px;background:#10263a;padding:clamp(.85rem,2vw,1.25rem);min-width:0}
+.sb-listening-reference h3{font-size:1rem;margin:0;color:#e5f6ff}
+.sb-listening-reference>.sb-help{margin:.4rem 0 .7rem}
+.sb-listening-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;list-style:none;padding:0;margin:0}
+.sb-listening-examples li{min-width:0;padding:.65rem .75rem;background:#0b1b2b;border:1px solid #30536b;border-radius:9px;font-size:.82rem;line-height:1.52;color:#c8dfec}
+.sb-listening-examples strong{color:#f1faff}
+.sb-listening-measure{margin-top:.8rem;padding:.75rem .85rem;background:#0b1b2b;border:1px solid #30536b;border-radius:9px}
+.sb-listening-measure>summary{cursor:pointer;font-weight:700;color:#a5dfff;font-size:.89rem}
+.sb-listening-measure>summary:focus-visible{outline:2px solid #85dfff;outline-offset:3px}
+.sb-listening-measure[open]>summary{margin-bottom:.65rem}
+.sb-listening-measure :is(li,p){font-size:.82rem;line-height:1.55;color:#cbdfe9}
+.sb-listening-measure li{margin:.45rem 0}
+.sb-listening-reference a{color:#9cddff;text-underline-offset:.15em}
+.sb-reference-sources{font-size:.75rem;color:#99b9ce;line-height:1.5;margin:.7rem 0 0}
+@media(max-width:650px){.sb-listening-examples{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Explanation-first Builder results. Preserve technical source detail on demand. */
+.sb-recommendations{grid-template-columns:minmax(0,1fr);gap:.8rem}
+.sb-recommend-compact{padding:clamp(1rem,2.5vw,1.4rem)}
+.sb-results-orientation{border-left:3px solid #7acde8;padding:.55rem .75rem;background:#132d41;border-radius:4px;color:#d2e9f7;font-size:.89rem;line-height:1.55}
+.sb-beginner-status{margin:.45rem 0 .6rem;padding:.3rem .65rem;border:1px solid #607f91;border-radius:7px;font-size:.78rem;line-height:1.4;font-weight:750;color:#e6f3fa;width:fit-content;max-width:100%}
+.sb-beginner-critical{border-color:#d69d72;color:#ffe0ba;background:#342a25}
+.sb-beginner-review{border-color:#bca575;color:#f0dfb3;background:#282c2e}
+.sb-beginner-conditional{background:#102c3d}
+.sb-beginner-supported{border-color:#6ba79b;color:#d3f4ec;background:#12302f}
+.sb-beginner-reason,.sb-beginner-connection,.sb-beginner-proof,.sb-beginner-checks{margin:.65rem 0;padding:.65rem .8rem;background:#0b2031;border:1px solid #35536a;border-radius:9px;min-width:0}
+.sb-recommend-compact :is(.sb-beginner-reason,.sb-beginner-connection,.sb-beginner-proof,.sb-beginner-checks) h5{font-size:.96rem;color:#e8f6ff;margin:0 0 .35rem;line-height:1.35}
+.sb-recommend-compact .sb-beginner-plain{font-size:.87rem;line-height:1.58;color:#d5e6f0;margin:.2rem 0}
+.sb-beginner-basis{font-size:.8rem;color:#9fcbe0;line-height:1.5;margin:.5rem 0 0}
+.sb-recommend-compact .sb-beginner-parts,.sb-recommend-compact .sb-beginner-checklist{margin:.4rem 0 0;padding-left:1.2rem}
+.sb-recommend-compact .sb-beginner-parts li,.sb-recommend-compact .sb-beginner-checklist li{font-size:.84rem;line-height:1.5;margin:.3rem 0;overflow-wrap:anywhere}
+.sb-beginner-checks{border-left:3px solid #e1b078;background:#251f1d;border-color:#765a41}
+.sb-beginner-checks h5{color:#ffdfb4!important}
+.sb-beginner-cost{font-size:.83rem;line-height:1.5;color:#c8d6e4;margin:.5rem 0}
+.sb-beginner-evidence{margin:.65rem 0;border-top:1px solid #38556b;border-bottom:1px solid #38556b;padding:.5rem .2rem}
+.sb-beginner-evidence>summary{cursor:pointer;color:#a5dfff;font-size:.84rem;font-weight:700}
+.sb-beginner-evidence>summary:focus-visible{outline:2px solid #85dfff;outline-offset:3px}
+.sb-beginner-evidence[open]>summary{margin-bottom:.6rem}
+.sb-beginner-evidence :is(p,li){font-size:.82rem;line-height:1.5}
+@media(min-width:880px){
+ .sb-recommend-compact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem .85rem}
+ .sb-recommend-compact>.sb-card-head,.sb-recommend-compact>.sb-beginner-status,.sb-recommend-compact>.sb-card-retained,.sb-recommend-compact>.sb-card-minor,.sb-recommend-compact>.sb-beginner-reason,.sb-recommend-compact>.sb-beginner-checks,.sb-recommend-compact>.sb-beginner-cost,.sb-recommend-compact>.sb-beginner-evidence,.sb-recommend-compact>.sb-card-details{grid-column:1/-1}
+ .sb-recommend-compact>.sb-beginner-connection,.sb-recommend-compact>.sb-beginner-proof{height:100%}
+}
+
+
+/* Task-first, progressive form. Advanced fields are available without
+ * demanding that newcomers fill in equipment they do not own. */
+.sb-intent-panel{border-color:#46809e}
+.sb-intent-select{max-width:620px}
+.sb-intent-panel .sb-step{margin-bottom:.85rem}
+.sb-quick-setup{margin-top:1.15rem;align-items:start}
+.sb-quick-setup>.sb-listening-reference{grid-column:1/-1}
+.sb-quick-setup .sb-field{min-width:0}
+.sb-intent-feedback{padding:.8rem 1rem;margin:1rem 0 0;border-left:3px solid #e0a864;border-radius:8px;background:#30271e;color:#ffe4c0;line-height:1.5}
+.sb-source-help{padding:.8rem 1rem;margin-top:.9rem;background:#0b2033;border:1px solid #42617a;border-radius:10px}
+.sb-source-help p{font-size:.9rem;line-height:1.6}
+.sb-source-help .button{display:inline-flex;margin:.25rem .6rem .25rem 0}
+.sb-advanced-form{border:1px solid #3a6078;border-radius:13px;background:#0e2031}
+.sb-advanced-form>summary{padding:1rem 1.2rem;cursor:pointer;font-size:.88rem;font-weight:700;color:#aee4ff;line-height:1.45}
+.sb-advanced-form>summary:focus-visible{outline:3px solid #7adfff;outline-offset:3px}
+.sb-advanced-form[open]>summary{border-bottom:1px solid #3a6078}
+.sb-advanced-panels{display:grid;gap:1rem;padding:.85rem}
+.sb-advanced-form .sb-panel{background:#0e1b2b;border-color:#2b4558}
+.sb-intent-panel .sb-listening-reference{margin:0}
+.sb-form>.sb-actions{margin:.4rem 0 1rem}
+@media(max-width:650px){.sb-quick-setup{grid-template-columns:minmax(0,1fr)}.sb-source-help .button{width:100%;justify-content:center}.sb-advanced-panels{padding:.55rem}}
+
+
+/* Subwoofer hookups: the cable, the main-speaker crossover and extra
+ * hardware are separate decisions, not buried in a spec-sheet appendix. */
+.sb-sub-route-section,.sb-sub-intent-report{margin:.8rem 0;padding:clamp(.8rem,2vw,1.25rem);background:#102639;border:1px solid #3d647b;border-radius:12px;min-width:0}
+.sb-sub-route{margin:.65rem 0;padding:clamp(.75rem,2vw,1.1rem);border:1px solid #45758b;border-radius:10px;background:#0c2132;min-width:0}
+.sb-sub-route h4{font-size:1.05rem;color:#eaf6ff;margin:.15rem 0 .45rem}
+.sb-sub-route h5{font-size:.9rem;margin:.85rem 0 .2rem;color:#b8e5f7}
+.sb-sub-route p{font-size:.88rem;line-height:1.57;overflow-wrap:anywhere}
+.sb-sub-connection-kind{color:#c4edff;font-weight:750;font-size:.92rem}
+.sb-sub-cable,.sb-sub-main-filter{padding:.5rem .65rem;background:#142f43;border-left:3px solid #62b9dc;border-radius:5px}
+.sb-sub-next{color:#d5e6ef}
+.sb-sub-routing-detail{border-top:1px solid #476478;margin:.6rem 0 0;padding-top:.55rem}
+.sb-sub-routing-detail>summary{font-size:.82rem;cursor:pointer;font-weight:700;color:#a5dfff}
+.sb-sub-routing-detail:focus-visible,.sb-sub-routing-detail>summary:focus-visible{outline:2px solid #85dfff;outline-offset:3px}
+.sb-sub-routing-detail ul{padding-left:1.1rem}
+.sb-sub-routing-detail li{font-size:.81rem;line-height:1.5}
+.sb-sub-cost{font-size:.87rem;color:#d8dfe9}
+.sb-sub-intent-report>.sb-sub-connection-kind{margin:.7rem 0}
+.sb-quick-setup [name=subOwned]{width:100%}
+
+
+/* Every visible dropdown and typed field names whether it is needed for the
+ * current task; the pair of model inputs is one OR-choice, not two demands. */
+.sb-field-requirement{display:inline-block;justify-self:start;width:fit-content;max-width:100%;padding:.16rem .45rem;border:1px solid #526b7b;border-radius:5px;font-size:.73rem;line-height:1.4;font-weight:650;letter-spacing:0;color:#bbcfdf;background:#152b3a}
+.sb-field-requirement[data-requirement="required"],.sb-field-requirement[data-requirement="required_either"]{border-color:#87b7c9;color:#def4ff;background:#17364a}
+.sb-field-requirement[data-requirement="optional_alternative"]{color:#bde1ef;border-color:#507589}
+.sb-required-group-help{padding:.6rem .85rem;border-left:3px solid #83cbe6;background:#152f40;border-radius:5px;color:#d3ebf7;font-size:.86rem;line-height:1.55;margin:.65rem 0 0}
+@media(max-width:650px){.sb-field-requirement{font-size:.72rem}.sb-required-group-help{font-size:.83rem}}
+
+
+/* Optional copy/paste path for unlisted speaker specifications. These are
+ * never silently turned into a verified equipment record. */
+.sb-spec-paste-label{margin:.85rem 0 .5rem}
+.sb-spec-paste-label textarea{box-sizing:border-box;width:100%;min-width:0;min-height:116px;resize:vertical;padding:.7rem .8rem;background:#071321;border:1px solid #42617a;border-radius:9px;color:#f3f7fb;font:inherit;font-weight:450;line-height:1.5}
+.sb-spec-paste-label textarea::placeholder{color:#9ab1c3;opacity:1}
+.sb-spec-paste-label textarea:focus-visible,.sb-spec-paste-button:focus-visible{outline:3px solid #7adfff;outline-offset:2px}
+.sb-spec-paste-button{margin:.3rem 0 .5rem;max-width:100%;white-space:normal;text-align:center}
+@media(max-width:650px){.sb-spec-paste-button{width:100%}}
+
+.sb-spec-review-list{margin:.55rem 0 .7rem;padding:.65rem .8rem .65rem 1.75rem;border-left:3px solid #7cb6d0;border-radius:5px;background:#122b3d;color:#cfe6f1;font-size:.83rem;line-height:1.55}
+.sb-spec-review-list li{margin:.25rem 0}
+.sb-spec-review-list[hidden]{display:none!important}
+
+/* Source-led search for models not yet in the built-in, vetted catalogue. */
+.sb-gear-search{grid-column:1/-1;min-width:0;margin:.2rem 0 .7rem;padding:clamp(.75rem,2vw,1.1rem);border:1px solid #426781;border-radius:12px;background:#0b2134}
+.sb-gear-search .sb-help{margin:.2rem 0 .7rem}
+.sb-gear-search-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:.65rem 0}
+.sb-gear-search-actions a{font-size:.91rem;text-decoration:underline;text-underline-offset:.2em;overflow-wrap:anywhere}
+.sb-gear-matches{display:flex;flex-wrap:wrap;gap:.4rem;min-width:0}
+.sb-gear-matches .sb-help{flex-basis:100%}
+.sb-gear-matches button{text-align:left;max-width:100%}
+.sb-gear-source-detail{margin:.75rem 0;padding:.7rem;border:1px solid #45687b;border-radius:9px;background:#10283a}
+.sb-gear-source-detail summary{font-weight:700;cursor:pointer}
+.sb-gear-source-detail .sb-grid{margin-top:.6rem}
+.sb-gear-message{font-size:.85rem;color:#c5dcec;line-height:1.5;margin:.65rem 0 0}
+@media(max-width:650px){.sb-gear-search-actions{align-items:stretch;flex-direction:column}.sb-gear-search-actions button{width:100%}}
+
+/* Full model-backed results are visible immediately; the calculator's input
+   form is hidden only after successful documented preset matching. */
+.sb-inline-system-check{border:1px solid #476b80;border-radius:10px;margin:.5rem 0;padding:.5rem .65rem;background:#102739;min-width:0}
+.sb-inline-system-check>h5{margin:0 0 .2rem;color:#c5eafb;font-size:.94rem}
+.sb-inline-system-check .sb-headroom-brief{margin:.2rem 0 .4rem;font-size:.81rem;line-height:1.45;color:#b7d9e9}
+.sb-inline-system-check-frame{display:block;box-sizing:border-box;width:100%;height:450px;border:1px solid #35586e;border-radius:8px;margin:.4rem 0;background:#091625}
+.sb-inline-system-check .sb-source-link{display:inline-block;margin:.2rem 0;font-size:.8rem}
+/* On desktop the embedded result needs room for numbers, not a squeezed half-column. */
+@media(min-width:880px){.sb-recommend-compact>.sb-inline-system-check{grid-column:1/-1}}
+
+
+/* Live equipment search; hide manual panels until a missing model is entered. */
+.sb-gear-search[hidden],.sb-gear-source-detail[hidden]{display:none!important}
+.sb-gear-search-actions{display:flex;flex-wrap:wrap;gap:.5rem}
+.sb-search-link{display:inline-block;padding:.45rem .65rem;border:1px solid #426d85;border-radius:8px;background:#112c40;color:#afddf1;font-size:.81rem;line-height:1.35}
+.sb-search-link-primary{border-color:#5da5c3;background:#143449;font-weight:700}
+.sb-gear-matches button{margin:.2rem .25rem .2rem 0}
+
+/* Optional headphone amplifier is a task-level decision, not buried in advanced controls. */
+.sb-headphone-amp-setup{margin:1rem 0 0;padding:clamp(.85rem,2vw,1.15rem);border:1px solid #4b8196;border-radius:11px;background:#122a3d}
+.sb-headphone-amp-setup[hidden]{display:none}
+.sb-headphone-amp-setup h3{font-size:1.05rem;margin:0 0 .3rem;color:#d5f5fc}
+.sb-headphone-amp-setup .sb-grid{margin-top:.65rem}
+.sb-headphone-amp-result{margin:.75rem 0 1rem;padding:.8rem 1rem;border-left:4px solid #8cc8dd;background:#112d40;border-radius:6px;line-height:1.65}
+
+/* Directly visible headphone electronics recommendations, not buried in the
+   headphone card's collapsed technical verification section. */
+.sb-headphone-electronics-recs{margin:1rem 0 1.3rem;padding:clamp(.85rem,2vw,1.2rem);border:1px solid #4a8299;border-radius:12px;background:#10283a}
+.sb-headphone-electronics-recs>h4{color:#def8ff;margin:.1rem 0 .55rem;font-size:1.08rem}
+.sb-headphone-electronics-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:.75rem;margin:.8rem 0}
+.sb-headphone-electronics-card{padding:.85rem;background:#0b1d2d;border:1px solid #4d7286;border-radius:9px;min-width:0}
+.sb-headphone-electronics-card h5{font-size:1.02rem;margin:.3rem 0 .5rem;color:#edf9ff}
+.sb-headphone-electronics-card p{margin:.4rem 0;line-height:1.55;font-size:.87rem}
+.sb-headphone-electronics-kicker{font-size:.78rem;letter-spacing:.03em;text-transform:uppercase;color:#abdde8;font-weight:700}
+.sb-headphone-electronics-alt{border-color:#405a70}
+.sb-headphone-electronics-cost,.sb-headphone-electronics-footnote{font-size:.82rem;color:#c3dbe8;line-height:1.55}
+.sb-headphone-electronics-other-heading{margin:.9rem 0 .3rem;font-size:.94rem;color:#d4ebf6}
+.sb-headphone-card-electronics{margin:.7rem 0;padding:.75rem;border-left:3px solid #8ad5e4;background:#173448;border-radius:5px}
+.sb-headphone-card-electronics p{font-size:.85rem;line-height:1.55;margin:.3rem 0}
+.sb-headphone-electronics-card a:focus-visible{outline:3px solid #91e3ee;outline-offset:3px}
+
+/* Comparison explanations belong in the main Builder output, not behind
+   Alternative setups or the individual product's technical disclosure. */
+.sb-comparison-overview{margin:1.05rem 0;padding:clamp(.8rem,2vw,1.2rem);border:1px solid #3f819b;border-radius:10px;background:#10283c}
+.sb-comparison-overview>h4{font-size:1.12rem;color:#e2f8ff;margin:.25rem 0 .45rem}
+.sb-comparison-preview-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:.75rem;margin:.75rem 0 .3rem}
+.sb-comparison-preview-card{padding:.85rem;background:#0a2030;border:1px solid #365e73;border-radius:8px}
+.sb-comparison-preview-card h5{font-size:.96rem;color:#e9faff;margin:0 0 .45rem}
+.sb-comparison-preview-card p,.sb-alternative-card-contrast p,.sb-comparison-copy p{font-size:.86rem;line-height:1.56;margin:.35rem 0}
+.sb-alternative-card-contrast,.sb-comparison-copy{margin:.7rem 0;padding:.7rem .8rem;border-left:3px solid #77cbdf;background:#112e40;border-radius:5px}
+.sb-recommend-compact>.sb-alternative-card-contrast{grid-column:1/-1}
+.sb-sub-comparison-preview{margin:.75rem 0;padding:.65rem .8rem;border-left:3px solid #7fcddd;background:#123045;border-radius:5px;line-height:1.55}
+
+/* Substantive source-backed listening descriptions belong on the ordinary
+   result comparisons, not solely in technical/source disclosures. */
+.sb-tonal-comparison{margin:.75rem 0 0;padding:.7rem .8rem;background:#193648;border-left:3px solid #81cad9;border-radius:7px}
+.sb-tonal-comparison strong{display:block;margin-bottom:.35rem;color:#d9f6ff}
+.sb-tonal-comparison p{line-height:1.58;font-size:.86rem;margin:.4rem 0}
+.sb-tonal-sources{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.45rem}
+.sb-tonal-sources a{font-size:.78rem;text-decoration:underline;text-underline-offset:2px}
+
+/* Compact listening guidance on the actual shortlist. Primary sound is not
+   hidden in verification, and alternative notes are no longer mini essays. */
+.sb-primary-sound{margin:.65rem 0 .8rem;padding:.65rem .8rem;border-left:3px solid #81cad9;background:#173648;border-radius:6px}
+.sb-primary-sound strong{font-size:.9rem;color:#dcf6fc}
+.sb-primary-sound p{margin:.35rem 0;font-size:.9rem;line-height:1.48}
+.sb-comparison-preview-card{padding:.68rem .8rem}
+.sb-comparison-preview-card h5{margin-bottom:.3rem}
+.sb-compact-compare,.sb-tonal-one-line{font-size:.86rem;line-height:1.48;margin:.25rem 0}
+.sb-tonal-one-line{color:#cce2ec}
+.sb-comparison-preview-card .sb-tonal-sources a{font-size:.76rem}
+.sb-alternative-card-contrast{padding:.65rem .8rem}
+
+/* Alternative product appears once: one readable summary and a local
+   optional section for unique wiring, headroom, price and evidence. */
+.sb-alternative-details{margin:.65rem 0 0;border-top:1px solid #385e72;padding:.55rem 0 0}
+.sb-alternative-details>summary{font-size:.87rem;font-weight:650;color:#a9e2f0;cursor:pointer}
+.sb-alternative-details>summary:focus-visible{outline:3px solid #8ad8e8;outline-offset:3px}
+.sb-alternative-details>.sb-recommend-supplement{margin:.8rem 0 0;padding:.5rem .1rem;border:0;box-shadow:none;background:transparent}
+.sb-recommend-supplement>.sb-primary-sound{display:none}
+
+
+/* Beginner-first density pass (draft): the answer is the product, not the boxes.
+   Keep 44px-ish form targets and text legible; hide no safety warnings or source
+   details, but move longer explanations behind native keyboard disclosures. */
+.sb-hero{padding:clamp(1.3rem,3vw,2.6rem) 0 1rem}
+.sb-hero h1{font-size:clamp(2rem,4.1vw,3.4rem);margin:.25rem 0 .65rem}
+.sb-hero-meta{margin-top:.75rem}
+.sb-form{gap:.7rem}
+.sb-form .sb-panel{padding:clamp(.8rem,1.8vw,1.3rem);border-radius:12px}
+.sb-step{gap:.75rem;margin-bottom:.85rem}
+.sb-step h2{font-size:clamp(1.2rem,2.1vw,1.55rem);margin:0 0 .3rem}
+.sb-step p{font-size:.88rem;line-height:1.47}
+.sb-field{gap:.3rem}
+.sb-field input,.sb-field select{min-height:44px}
+.sb-advanced-form>summary{padding:.7rem 1rem}
+.sb-quick-setup{margin-top:.7rem;gap:.75rem}
+.sb-quick-setup .sb-listening-reference{margin:.1rem 0}
+.sb-listening-reference{padding:.6rem .8rem;border-radius:8px;background:transparent}
+.sb-listening-reference>summary{color:#bae9f9;font-size:.87rem;font-weight:700;cursor:pointer;line-height:1.55}
+.sb-listening-reference>summary:focus-visible{outline:2px solid #8bdeef;outline-offset:3px}
+.sb-listening-reference[open]>summary{margin-bottom:.5rem}
+.sb-listening-examples{gap:.4rem}
+.sb-listening-examples li{padding:.55rem .65rem}
+
+.sb-results{padding:clamp(.75rem,2vw,1.1rem);border-radius:10px;background:#0e2232}
+.sb-results>h2{font-size:clamp(1.3rem,2.4vw,1.7rem);margin:0 0 .25rem}
+.sb-results section{padding:.35rem 0}
+.sb-results section>h3{font-size:1rem}
+.sb-results-orientation{font-size:.85rem;line-height:1.45;margin:.4rem 0;padding:.3rem 0;border:0;background:transparent}
+.sb-results .sb-recommend-compact{padding:clamp(.7rem,1.7vw,1rem);border-radius:9px;background:#10283a}
+.sb-results .sb-recommend-compact>.sb-card-head{margin:0 0 .3rem}
+.sb-results .sb-recommend-compact .sb-card-heading h4{font-size:1.13rem;margin:.12rem 0 .25rem}
+.sb-results .sb-beginner-status{margin:.25rem 0 .45rem;padding:.2rem .5rem;font-size:.76rem}
+.sb-results .sb-card-retained,.sb-results .sb-card-minor{margin:.25rem 0}
+.sb-results .sb-primary-sound{margin:.35rem 0 .5rem;padding:.35rem 0;border:0;border-bottom:1px solid #2d4d60;border-radius:0;background:transparent}
+.sb-results .sb-primary-sound strong{font-size:.84rem}
+.sb-results .sb-primary-sound p{font-size:.88rem;line-height:1.48;margin:.2rem 0}
+.sb-results .sb-tonal-sources{margin-top:.18rem;gap:.2rem .8rem}
+.sb-results .sb-beginner-reason{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:.3rem .7rem;align-items:baseline;margin:.35rem 0;padding:.3rem 0;border:0;border-radius:0;background:transparent}
+.sb-results .sb-beginner-reason h5{font-size:.84rem;margin:0;color:#bfe6f5}
+.sb-results .sb-beginner-reason .sb-beginner-plain{font-size:.87rem;line-height:1.5;margin:0}
+.sb-results .sb-beginner-checks{padding:.45rem .65rem;margin:.45rem 0;border-radius:5px}
+.sb-results .sb-beginner-checks h5{font-size:.87rem;margin:0 0 .22rem}
+.sb-results .sb-beginner-checklist li{margin:.22rem 0;line-height:1.46}
+.sb-results .sb-beginner-cost{margin:.3rem 0;font-size:.8rem}
+
+/* One-line actions. Every supporting detail stays reachable by keyboard. */
+.sb-results :is(.sb-setup-disclosure,.sb-beginner-proof,.sb-inline-system-check,.sb-beginner-evidence,.sb-card-details,.sb-sub-wiring-disclosure){
+  display:block;min-width:0;margin:.25rem 0;padding:.42rem 0;border:0;border-top:1px solid #33576b;border-radius:0;background:transparent;
+}
+.sb-results :is(.sb-setup-disclosure,.sb-beginner-proof,.sb-inline-system-check,.sb-beginner-evidence,.sb-card-details,.sb-sub-wiring-disclosure)>summary{
+  cursor:pointer;color:#b1e4f4;font-size:.85rem;font-weight:650;line-height:1.5;
+}
+.sb-results :is(.sb-setup-disclosure,.sb-beginner-proof,.sb-inline-system-check,.sb-beginner-evidence,.sb-card-details,.sb-sub-wiring-disclosure)>summary:focus-visible{
+  outline:2px solid #8bdeef;outline-offset:3px;
+}
+.sb-results .sb-setup-disclosure[open],.sb-results .sb-beginner-proof[open],
+.sb-results .sb-inline-system-check[open]{padding-bottom:.3rem}
+.sb-results .sb-setup-workflow{margin:.35rem 0 .1rem;padding:.35rem 0 0}
+.sb-results .sb-beginner-proof>p{font-size:.85rem;line-height:1.52;margin:.5rem 0}
+.sb-results .sb-inline-system-check .sb-headroom-summary strong{font-size:.86rem;margin-right:.65rem}
+.sb-results .sb-inline-system-check .sb-headroom-verdict{font-size:.83rem;color:#c7deeb;font-weight:450;overflow-wrap:anywhere}
+.sb-results .sb-inline-system-check .sb-headroom-brief{font-size:.81rem;line-height:1.45;margin:.45rem 0}
+.sb-results .sb-inline-system-check-frame{height:360px;margin:.3rem 0}
+.sb-results .sb-inline-system-check .sb-source-link{font-size:.81rem;margin:.3rem 0}
+.sb-results .sb-sub-wiring-disclosure .sb-sub-route{margin:.5rem 0;padding:.6rem}
+.sb-results .sb-sub-route-section{padding:.45rem .2rem;margin:.5rem 0;background:transparent}
+.sb-results .sb-sub-route-section>summary{font-size:.88rem;color:#b9e6f6;font-weight:700}
+.sb-results .sb-sub-route-section[open]>.sb-sub-route{margin:.5rem 0}
+@media(min-width:880px){.sb-recommend-compact{display:block}}
+@media(max-width:640px){
+ .sb-results{padding:.65rem}
+ .sb-results .sb-recommend-compact{padding:.7rem}
+ .sb-results .sb-beginner-reason{display:block}
+ .sb-results .sb-beginner-reason h5{margin:0 0 .15rem}
+ .sb-results .sb-headroom-verdict{display:block;margin:.12rem 0 0 1.2rem}
+}
+
+/* Alternatives are comparisons, not another chapter of the manual. */
+.sb-results .sb-comparison-overview{margin:.65rem 0;padding:.4rem 0;border:0;border-top:1px solid #416378;border-radius:0;background:transparent}
+.sb-results .sb-comparison-overview>h4{font-size:1rem;margin:.25rem 0}
+.sb-results .sb-comparison-preview-list{margin:.45rem 0;gap:.55rem}
+.sb-results .sb-comparison-preview-card{padding:.6rem .7rem;border-radius:7px;background:#0d2132}
+.sb-results .sb-comparison-preview-card h5{font-size:.93rem;margin:0 0 .3rem}
+.sb-results .sb-comparison-preview-card p{font-size:.84rem;line-height:1.48;margin:.23rem 0}
+.sb-results .sb-alternative-details{margin:.5rem 0 0;padding:.4rem 0 0}

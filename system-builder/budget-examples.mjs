@@ -9,7 +9,7 @@ import {R1280DBS_PRICES} from './stereo-subwoofer-examples.mjs';
 const EDIFIER='https://ca.edifier.com/';
 const CA_PRICE_DATE='2026-11-13';
 const pair=(id,model,amount,connections,places,goals,why,tradeoff,notes=[],powerNote='')=>({
-  id,architecture:'consumer_powered_pair',
+  id,architecture:'consumer_powered_pair',poweredHeadroomModel:model,
   title:'Budget powered stereo: '+model,
   kind:'One powered stereo pair, compatible source required',
   places,power:'mains',connections,goals,
@@ -58,19 +58,19 @@ export const BUDGET_EXAMPLES=Object.freeze([
   {
     id:'passive-bt20a-xt15',architecture:'passive_separates',
     title:'Affordable passive starter: Fosi BT20A Pro + Polk Monitor XT15',
-    kind:'Two-piece conditional passive stereo example',places:['desk','bedroom','living_room'],
+    kind:'Manufacturer-supported passive stereo pairing',places:['desk','bedroom','living_room'],
     power:'mains',connections:['analog','bluetooth'],goals:['all_rounder','natural','low_volume','imaging'],
     parts:[
       {name:'Fosi Audio BT20A Pro (32 V / 5 A supply)',count:1,
-        role:'Compact stereo amplification, RCA/BT, tone and volume control; included PSU must be verified',
+        role:'Compact RCA/Bluetooth stereo amplifier with the listed 32 V / 5 A supply',
         url:'https://fosiaudio.com/pages/2-1-channel-amplifier-bt20a-pro'},
       {name:'Polk Monitor XT15 passive speaker pair',count:1,role:'One new passive stereo pair, not two individual prices',
         url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html'}
     ],
     why:'A compact amp and passive stereo pair for listeners who want to be able to change speakers later.',
-    tradeoff:'This is an initial pairing, NOT a certified safe reactive load or clean SPL. Polk reports a 4.1 Ω minimum. Fosi markets 2–8 Ω support but does not give a test-condition-matched continuous power figure with the normal 32 V/5 A supply. Do not infer 300 W per channel from the advertised maximum.',
+    tradeoff:'The supplied 32 V / 5 A power adapter limits available output; the advertised 300 W/channel maximum is not its continuous clean rating. Allow for speaker cable and stands if needed.',
     extra:['Connect only a suitable RCA line/headphone source or Bluetooth. No optical, USB DAC or TV HDMI without another component.',
-      'Check amp/speaker output level at the seat, Fosi 32 V/5 A supply, heat, actual speaker impedance and phase, cable, stands, delivery/taxes.',
+      'Speaker cable and stands may be needed; allow for delivery and taxes. Clean headroom still depends on room, listening distance, speakers and the 32 V / 5 A supply.',
       'Fosi manufacturer THD percentage is not identified here at rated continuous both-channel power across the full band.'],
     priceCA:{date:CA_PRICE_DATE,components:[
       {label:'Fosi BT20A Pro · ordinary CA dealer asking',amount:189.99,
@@ -79,7 +79,10 @@ export const BUDGET_EXAMPLES=Object.freeze([
         url:'https://www.polkaudio.com/en-ca/product/home-speakers/satellite-surround/monitor-xt15/300147.html'}
     ]},
     priceEvidence:'multi_retailer_ordinary_advertised_components_not_installed_cost',
-    loadCaution:'Check the Polk XT15’s 4.1 Ω minimum against the actual Fosi BT20A Pro power-supply configuration; no published 300 W claim proves this pairing safe or clean.'
+    // Both manufacturers specify compatible speaker-load ranges. This is
+    // connection permission, not evidence of maximum clean acoustic output.
+    compatibilityEvidence:'Fosi BT20A Pro: 2–8 Ω rated loads with supplied 32 V / 5 A adapter; Polk Monitor XT15: compatible with 4/8 Ω amplifier outputs, 4.1 Ω published impedance minimum.',
+    outputVerification:'No source-qualified two-channel, full-band continuous output figure for this adapter and speaker load; numeric clean headroom remains unknown.'
   },
   {
     id:'headphone-ksc75',architecture:'headphone_first',

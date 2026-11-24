@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "description": "Editorial approvals keyed to exact record fingerprints. Empty means no retroactive certifications.",
+  "approved": {
+    "builder/speaker/psb-alpha-p3": {
+      "fingerprint": "978022fd9d013fa3",
+      "reviewer": "ChatGPT GPT-6 (AI-assisted manufacturer datasheet source review; no human release sign-off)",
+      "reviewedOn": "2026-11-22",
+      "evidence": [
+        {
+          "url": "https://content-psbspeakers-com.s3.amazonaws.com/uploads/2021/03/PSB_Alpha-P3-Data-Sheet.pdf",
+          "fields": "Exact Alpha P3 variant; 1 W (2.83 V), 1 m, IEC-filtered pink noise, C-weighted sensitivity 85 dB anechoic/87 dB typical listening room; nominal 8 Ω, minimum 4 Ω; 80 W recommended amplifier maximum and 60 W program input power; passive binding posts."
+        },
+        {
+          "url": "https://www.psbspeakers.com/int/alpha-p3-compact-bookshelf",
+          "fields": "Original model/marketing product page and manufacturer-stated recommended amplification; not a continuous clean SPL or power-handling measurement."
+        }
+      ],
+      "checks": {
+        "exact_model_variant": "pass",
+        "source_and_measurement_conditions": "pass",
+        "connections_and_use": "pass",
+        "recommendation_safety": "pass"
+      },
+      "decisionNote": "Source-field review only: approve manufacturer 1 W (2.83 V) anechoic sensitivity reference and 8 Ω nominal/4 Ω minimum exactly as stated for the named Alpha model. Program power is not continuous damage threshold, 87/89 dB in-room is not assumed measured in visitor room, and compatibility, distortion-limited headroom and safe loudness of any amp/speaker pairing require separate checks. AI-reviewed, not independently bench-measured or human deployment-approved."
+    },
+    "builder/speaker/psb-alpha-p5": {
+      "fingerprint": "231259c23f9f494f",
+      "reviewer": "ChatGPT GPT-6 (AI-assisted manufacturer datasheet source review; no human release sign-off)",
+      "reviewedOn": "2026-11-22",
+      "evidence": [
+        {
+          "url": "https://content-psbspeakers-com.s3.amazonaws.com/uploads/2021/03/PSB_Alpha_P5_DataSheet_Revised.pdf",
+          "fields": "Exact Alpha P5 variant; 1 W (2.83 V), 1 m, IEC-filtered pink noise, C-weighted sensitivity 87 dB anechoic/89 dB typical listening room; nominal 8 Ω, minimum 4 Ω; 90 W recommended amplifier maximum and 60 W program input power; passive binding posts."
+        },
+        {
+          "url": "https://www.psbspeakers.com/products/alpha-p5-bookshelf",
+          "fields": "Original model/marketing product page and manufacturer-stated recommended amplification; not a continuous clean SPL or power-handling measurement."
+        }
+      ],
+      "checks": {
+        "exact_model_variant": "pass",
+        "source_and_measurement_conditions": "pass",
+        "connections_and_use": "pass",
+        "recommendation_safety": "pass"
+      },
+      "decisionNote": "Source-field review only: approve manufacturer 1 W (2.83 V) anechoic sensitivity reference and 8 Ω nominal/4 Ω minimum exactly as stated for the named Alpha model. Program power is not continuous damage threshold, 87/89 dB in-room is not assumed measured in visitor room, and compatibility, distortion-limited headroom and safe loudness of any amp/speaker pairing require separate checks. AI-reviewed, not independently bench-measured or human deployment-approved."
+    }
+  },
+  "approvedRemovals": {}
+}

@@ -30,11 +30,12 @@ test('five new exact passive speakers, two wired headphones supplement original 
   }
 });
 test('maker recommendations, program handling, and room sensitivity do not become numeric clean output',()=>{
-  for(const n of ['PSB Alpha P3','PSB Alpha P5']){
+  for(const [n,anechoic] of [['PSB Alpha P3',85],['PSB Alpha P5',87]]){
     const x=builderOnlySpeakerFor(n);
     assert.equal(x.values.load,8);
     assert.equal(x.values.minimum,4);
-    assert.equal(x.values.sensitivity,undefined);
+    assert.equal(x.values.sensitivity,anechoic);
+    assert.equal(x.values.basis,'voltage');
     assert.equal(x.values.speakerPowerNominal,undefined);
     assert.equal(x.values.speakerPowerPeak,undefined);
     assert.match(x.values.speakerPowerNote,/program/);
@@ -117,9 +118,7 @@ test('owned RP-600M II with unknown nominal load excludes explicit-floor Sony am
   const result=shortlistAmpsForOwnedSpeakers({
     own:{speaker},inventory,request:{goal:'dynamic',connection:'analog',region:'CA',currency:'CAD',used:true,budgetStrict:false}
   });
-  assert.ok(result.selected.length>0);
+  assert.equal(result.selected.length,0);
   assert.ok(result.excluded.some(x=>x.title==='Sony STR-DH190' && /no verified numeric nominal/.test(x.reason)));
   assert.ok(!result.selected.some(x=>x.title.includes('Sony STR-DH190')));
-  assert.ok(result.selected.every(x=>x.loadCaution && /Do not connect/.test(x.loadCaution)));
-  assert.ok(result.selected.every(x=>x.reuseNames.includes(speaker.name)));
 });

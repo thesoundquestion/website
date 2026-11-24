@@ -57,6 +57,17 @@
 .sc-load-capacity{color:#c1d5e5;font-size:.82rem}
 .sc-load-headroom{color:#ecf9ff;font-weight:700;font-variant-numeric:tabular-nums;font-size:.87rem}
 .sc-load-boundary{color:#e2d8b9;font-size:.84rem;line-height:1.65!important;padding-top:.4rem;border-top:1px solid #416077}
+.sc-headroom-adjustments{margin-top:.65rem;padding:.75rem .85rem;border:1px solid #5f7687;border-radius:7px;background:#142c3c;color:#e0ecf6}
+.sc-headroom-adjustments summary{font-size:.92rem;margin:0;color:#c9f4ff;font-weight:750;cursor:pointer}
+.sc-headroom-adjustments[open] summary{margin-bottom:.55rem}
+.sc-headroom-model-options{margin-top:.7rem;border-top:1px solid #426175;padding-top:.55rem}
+.sc-headroom-model-options h6{font-size:.85rem;line-height:1.5;color:#e5f5ff;margin:0 0 .35rem}
+.sc-headroom-model-options ul{margin:.35rem 0;padding-left:1.15rem}
+.sc-headroom-model-options a{text-decoration:underline;text-underline-offset:2px}
+.sc-headroom-adjustments p{margin:.35rem 0;font-size:.85rem;line-height:1.6}
+.sc-headroom-adjustments ul{margin:.35rem 0;padding-left:1.2rem;font-size:.84rem;line-height:1.55}
+.sc-headroom-adjustments li{margin:.45rem 0}
+.sc-headroom-adjustments .sc-headroom-adjustments-note{font-size:.79rem;color:#b8d0e0;margin:.6rem 0 0}
 .sc-load-burst-note{margin:.85rem 0 0!important;padding:.65rem .75rem;border-left:3px solid #b2c9de;background:#162f42;border-radius:4px;font-size:.82rem;line-height:1.55}
 .sc-load-caution{padding:.8rem .95rem;border-left:4px solid #e1c78a;border-radius:5px;background:#202b3b;line-height:1.65;font-size:.88rem}
 @media(min-width:1050px){.sc-load-card{padding:1.1rem}.sc-load-metrics{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}}
@@ -113,3 +124,129 @@
 .sc-demand-distortion--caution{border-left-color:#e0b889;background:#352e29}
 .sc-demand-distortion--risk{border-left-color:#ef9b93;background:#3b2830}
 .sc-demand-distortion--unknown{border-left-color:#a2adbb;background:#29303b}
+
+.sc-level-guide{border:1px solid #37647f;border-radius:12px;background:#11293b;margin:1.15rem 0;padding:0 1rem}
+.sc-level-guide summary{cursor:pointer;padding:1rem 0;font-weight:750;line-height:1.5;color:#c3e9f9}
+.sc-level-guide[open] summary{border-bottom:1px solid #31546c}
+.sc-level-guide-inner{padding:.5rem 0 1rem;line-height:1.65;color:#d5e4ed}
+.sc-level-guide-inner li{margin:.65rem 0}
+.sc-level-quicklinks{margin:.45rem 0 1rem;color:#c7dce8;line-height:1.6;font-size:.92rem}
+.sc-level-quicklinks a{color:#9ce2fa;font-weight:700;text-underline-offset:3px}
+.sc-level-quicklinks a:focus-visible{outline:2px solid #94dcff;outline-offset:3px;border-radius:3px}
+
+/* Same full calculator shown inside the Builder: hide only duplicate site chrome. */
+body.sc-embedded .site-header,body.sc-embedded .site-footer,
+body.sc-embedded .sc-tool-tabs,body.sc-embedded .tsq-recommend-link,
+body.sc-embedded .page-endnav,body.sc-embedded .sc>h1,
+body.sc-embedded .sc>.lead,body.sc-embedded .sc>noscript,
+body.sc-embedded .sc-notes{display:none!important}
+body.sc-embedded .sc{padding:.7rem;max-width:100%}
+body.sc-embedded .sc-layout{grid-template-columns:minmax(0,1fr)}
+
+/* Builder handoff: show actual computed output alone after validated model
+   autofill. If a model lacks ratings, a concise result links to the editor. */
+body.sc-embedded.sc-auto-result .sc-inputs{display:none!important}
+body.sc-embedded.sc-auto-result .sc-layout{display:block;margin-top:0}
+body.sc-embedded.sc-auto-result .sc-results{width:100%;max-width:100%;box-sizing:border-box}
+body.sc-embedded.sc-auto-result .sc{padding:0}
+
+/* Compact the Builder preview only. Standalone System Check keeps its full
+   explanation and sizing; all verdicts, ratings, adjustments and links remain. */
+body.sc-embedded.sc-auto-result .sc-results{padding:.65rem .75rem}
+body.sc-embedded.sc-auto-result #result-title{font-size:1.02rem;margin:0 0 .2rem}
+body.sc-embedded.sc-auto-result #result-status{font-size:.86rem;line-height:1.4;margin:.2rem 0 .5rem}
+body.sc-embedded.sc-auto-result .sc-results h3{font-size:.98rem;margin:.6rem 0 .25rem}
+body.sc-embedded.sc-auto-result .sc-results p{margin:.3rem 0 .5rem;line-height:1.45}
+body.sc-embedded.sc-auto-result .sc-overall-verdict{padding:.6rem .7rem;margin:.35rem 0 .55rem;line-height:1.42}
+body.sc-embedded.sc-auto-result .sc-overall-verdict strong{font-size:.96rem}
+body.sc-embedded.sc-auto-result .sc-overall-verdict p{font-size:.82rem}
+body.sc-embedded.sc-auto-result .sc-load-results{margin:.4rem 0 .65rem}
+body.sc-embedded.sc-auto-result .sc-load-intro{font-size:.82rem;line-height:1.45}
+body.sc-embedded.sc-auto-result .sc-load-stack{gap:.5rem;margin-top:.55rem}
+body.sc-embedded.sc-auto-result .sc-load-card{padding:.62rem .7rem}
+body.sc-embedded.sc-auto-result .sc-load-card--yours .sc-load-heading{font-size:1rem}
+body.sc-embedded.sc-auto-result .sc-load-subheading{margin:.15rem 0 .5rem!important;font-size:.8rem;line-height:1.4}
+body.sc-embedded.sc-auto-result .sc-load-metrics{gap:.5rem}
+body.sc-embedded.sc-auto-result .sc-load-metric{padding:.5rem .6rem}
+body.sc-embedded.sc-auto-result .sc-load-metric>p{margin:.16rem 0;line-height:1.4}
+body.sc-embedded.sc-auto-result .sc-headroom-adjustments{margin:.45rem 0;padding:.55rem .7rem}
+@media(min-width:640px){
+ body.sc-embedded.sc-auto-result .sc-load-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Overall rating must be more prominent than individual average and load notes. */
+.sc-overall-verdict{margin:.6rem 0 1rem;padding:.9rem 1rem;border:1px solid #56748a;border-left:5px solid #98c9e2;border-radius:7px;background:#14293b;line-height:1.55}
+.sc-overall-verdict strong{display:block;font-size:1.05rem;line-height:1.35}
+.sc-overall-verdict p{margin:.3rem 0 0!important;font-size:.87rem;color:#d8eaf4}
+.sc-overall-verdict--fail{border-left-color:#f0a495;background:#332630}
+.sc-overall-verdict--fail strong{color:#ffe1d9}
+.sc-overall-verdict--unverified,.sc-overall-verdict--estimate,.sc-overall-verdict--not_assessed,.sc-overall-verdict--caution{border-left-color:#e6c58d;background:#302c2f}
+.sc-overall-verdict--unverified strong,.sc-overall-verdict--estimate strong,.sc-overall-verdict--not_assessed strong,.sc-overall-verdict--caution strong{color:#ffe8ba}
+.sc-overall-verdict--pass{border-left-color:#a4edcb}
+.sc-overall-verdict--pass strong{color:#c8f6df}
+.sc-load-range-info{font-size:.85rem;line-height:1.55;color:#c1d5e5;margin:.3rem 0 1rem}
+
+/* Powered acoustic-output route, distinct from passive amplifier wattage. */
+.sc-powered-check[hidden]{display:none!important}
+body.sc-powered-mode .sc-layout{display:none!important}
+body.sc-powered-mode .sc-notes{display:none!important}
+.sc-powered-check{margin:1rem 0 2rem;max-width:860px}
+.sc-powered-intro{margin-bottom:1rem}
+.sc-powered-intro h2{font-size:1.2rem;color:#e2f6ff;margin:0 0 .35rem}
+.sc-powered-intro p{max-width:58rem;color:#c1dbe9;line-height:1.6}
+.sc-powered-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:.7rem;align-items:end;border:1px solid #35516a;border-radius:10px;
+ padding:.8rem;background:#101d2c}
+.sc-powered-form label{display:block;font-size:.82rem;color:#d8ebf5}
+.sc-powered-form select,.sc-powered-form input{
+ display:block;width:100%;box-sizing:border-box;padding:.55rem .6rem;
+ color:#eef8ff;background:#0b1725;border:1px solid #4b6983;
+ border-radius:7px;margin:.25rem 0 0;font:inherit}
+.sc-powered-form button{min-height:40px}
+.sc-powered-result{margin:.8rem 0;border:1px solid #40657b;border-radius:10px;
+ background:#112438;padding:1rem}
+.sc-powered-result-title{font-size:1.05rem!important;color:#e1f8ff;margin:0 0 .4rem}
+.sc-powered-result p{font-size:.85rem;line-height:1.6;margin:.35rem 0}
+.sc-powered-target{color:#bddbe9}
+.sc-powered-number{font-weight:700;color:#e7f7ff}
+.sc-powered-margin{color:#c1f1f4;font-weight:660}
+.sc-powered-caveat{color:#bdccdd;padding-top:.55rem;
+ border-top:1px solid #355268;margin-top:.6rem!important}
+.sc-powered-error{color:#ffe1c6}
+.sc-powered-switch{font-size:.83rem;margin:1rem 0}
+@media(max-width:600px){.sc-powered-form{grid-template-columns:1fr;padding:.7rem}
+ .sc-powered-result{padding:.8rem}}
+
+/* Source-labelled provisional passive amplifier scenario */
+.sc-provisional-check[hidden]{display:none!important}
+body.sc-provisional-mode .sc-layout,
+body.sc-provisional-mode .sc-notes{display:none!important}
+.sc-provisional-check{margin:1rem 0 2rem;max-width:860px}
+.sc-provisional-check>h2{font-size:1.2rem;color:#e2f6ff;margin:0 0 .35rem}
+.sc-provisional-intro{color:#c2dbe8;line-height:1.6;max-width:56rem}
+.sc-provisional-models{font-size:.87rem;font-weight:700;color:#e5f5ff}
+.sc-provisional-form{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;
+  align-items:end;border:1px solid #35516a;border-radius:10px;
+  padding:.8rem;background:#101d2c
+}
+.sc-provisional-form label{display:block;font-size:.82rem;color:#d8ebf5}
+.sc-provisional-form input{
+  box-sizing:border-box;width:100%;padding:.55rem .6rem;margin:.25rem 0 0;
+  color:#eef8ff;background:#0b1725;border:1px solid #4b6983;border-radius:7px;font:inherit
+}
+.sc-provisional-result{margin:.8rem 0;border:1px solid #40657b;
+  border-radius:10px;background:#112438;padding:1rem}
+.sc-provisional-result-title{font-size:1.04rem!important;color:#e1f8ff;margin:0 0 .4rem}
+.sc-provisional-result p{font-size:.84rem;line-height:1.57;margin:.35rem 0}
+.sc-provisional-evidence{color:#cadfeb}
+.sc-provisional-number{font-weight:750;color:#e7f7ff}
+.sc-provisional-margin{font-weight:710;color:#c5eff4}
+.sc-provisional-caveat{border-top:1px solid #355268;padding-top:.6rem;
+  margin-top:.75rem!important;color:#bdccdd}
+.sc-provisional-sources{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:.65rem}
+.sc-provisional-sources a{font-size:.77rem;color:#a8e8f2;text-decoration:underline}
+.sc-provisional-error{color:#ffe0c1}
+.sc-provisional-switch{font-size:.83rem;margin:1rem 0}
+@media(max-width:600px){.sc-provisional-form{grid-template-columns:1fr;padding:.7rem}
+.sc-provisional-result{padding:.8rem}}

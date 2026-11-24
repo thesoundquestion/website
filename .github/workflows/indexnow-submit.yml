@@ -1,0 +1,31 @@
+name: Submit URLs to IndexNow (after approved production deployment)
+
+on:
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: "Canonical paths (space/comma separated); use @sitemap for a one-time full submission"
+        type: string
+        required: true
+        default: "/"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-manual-submit
+  cancel-in-progress: false
+
+jobs:
+  submit-indexnow:
+    name: Verify live key and submit URLs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Submit only after production deployment
+        env:
+          INDEXNOW_PATHS: ${{ inputs.paths }}
+        run: node scripts/submit-indexnow.mjs --submit

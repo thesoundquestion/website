@@ -6040,10 +6040,12 @@
           "minimum": 4,
           "speakerRecommendedAmpMax": 80,
           "speakerPowerSource": "https://www.psbspeakers.com/int/alpha-p3-compact-bookshelf",
-          "speakerPowerNote": "Manufacturer lists 10–80 W recommended amplifier power and 60 W program power. Neither is a measured continuous speaker damage threshold."
+          "speakerPowerNote": "Manufacturer lists 10–80 W recommended amplifier power and 60 W program power. Neither is a measured continuous speaker damage threshold.",
+          "sensitivity": 85,
+          "basis": "voltage"
         },
         "ratings": [],
-        "note": "PSB states 85 dB anechoic and 87 dB listening-room sensitivity; the source page does not establish a voltage/power reference to import as a System Check numeric sensitivity. 8 Ω nominal, 4 Ω minimum.",
+        "note": "Manufacturer datasheet: 85 dB anechoic at 2.83 V/1 m (also stated as 1 W for 8 Ω nominal); 87 dB typical listening room. 8 Ω nominal, 4 Ω minimum. Recommended amplifier power is not verified continuous speaker handling.",
         "url": "https://www.psbspeakers.com/int/alpha-p3-compact-bookshelf",
         "details": {
           "configuration": "Passive compact 2-way pair",
@@ -6051,10 +6053,11 @@
           "frequencyResponse": "57 Hz–21 kHz (on-axis ±3 dB, manufacturer)",
           "sensitivityAnechoic": "85 dB (manufacturer)",
           "sensitivityInRoom": "87 dB (manufacturer)",
-          "responseBasis": "Manufacturer on-axis; numeric sensitivity basis not specified",
+          "responseBasis": "Manufacturer datasheet: 1 W (2.83 V) at 1 m, IEC-filtered pink noise, C-weighted; anechoic reference",
           "handling": "60 W program (NOT verified continuous power handling)",
-          "reviewedOn": "2026-11-12",
-          "reviewStatus": "builder-only-sourced"
+          "reviewedOn": "2026-11-20",
+          "reviewStatus": "builder-only-sourced",
+          "sensitivityDataSheetUrl": "https://psbspeakers.in/wp-content/uploads/2024/01/Alpha-P3-Data-Sheet.pdf"
         },
         "evidence": "Builder-only exact-model, manufacturer specs + independent review; original System Check unchanged"
       },
@@ -6066,10 +6069,12 @@
           "minimum": 4,
           "speakerRecommendedAmpMax": 90,
           "speakerPowerSource": "https://www.psbspeakers.com/products/alpha-p5-bookshelf",
-          "speakerPowerNote": "Manufacturer lists 10–90 W recommended amplifier power and 60 W program power. Neither establishes continuous speaker damage limits."
+          "speakerPowerNote": "Manufacturer lists 10–90 W recommended amplifier power and 60 W program power. Neither establishes continuous speaker damage limits.",
+          "sensitivity": 87,
+          "basis": "voltage"
         },
         "ratings": [],
-        "note": "PSB states 87 dB anechoic / 89 dB listening-room sensitivity, not a measured comparison with speaker sensitivities using a different basis. 8 Ω nominal, 4 Ω minimum.",
+        "note": "Manufacturer datasheet: 87 dB anechoic at 2.83 V/1 m (also stated as 1 W for 8 Ω nominal); 89 dB typical listening room. 8 Ω nominal, 4 Ω minimum. Recommended amplifier power is not verified continuous speaker handling.",
         "url": "https://www.psbspeakers.com/products/alpha-p5-bookshelf",
         "details": {
           "configuration": "Passive 2-way standmount stereo pair",
@@ -6077,10 +6082,11 @@
           "frequencyResponse": "55 Hz–21 kHz (on-axis ±3 dB, manufacturer)",
           "sensitivityAnechoic": "87 dB (manufacturer)",
           "sensitivityInRoom": "89 dB (manufacturer)",
-          "responseBasis": "Manufacturer; numeric sensitivity basis not specified",
+          "responseBasis": "Manufacturer datasheet: 1 W (2.83 V) at 1 m, IEC-filtered pink noise, C-weighted; anechoic reference",
           "handling": "60 W program (NOT verified continuous power handling)",
-          "reviewedOn": "2026-11-12",
-          "reviewStatus": "builder-only-sourced"
+          "reviewedOn": "2026-11-20",
+          "reviewStatus": "builder-only-sourced",
+          "sensitivityDataSheetUrl": "https://content-psbspeakers-com.s3.amazonaws.com/uploads/2021/03/PSB_Alpha_P5_DataSheet_Revised.pdf"
         },
         "evidence": "Builder-only exact-model; multiple independent listening reviews; original System Check unchanged"
       },

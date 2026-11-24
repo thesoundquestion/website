@@ -28,12 +28,12 @@ test('quoted JBL monitor price is for two separate cabinets',()=>{
   assert.equal(j.priceComponents[0].quantity,2);
   assert.ok(j.parts.some(p=>p.count===2));
 });
-test('a past subtotal above a firm ceiling does not block a system',()=>{
+test('a known above-budget subtotal is excluded from strict purchase recommendations',()=>{
   const x=shortlistExamples({...defaults,architecture:'passive_separates',budget:400});
-  const starter=x.selected.find(x=>x.id==='passive-bt20a-xt15');
-  assert.equal(starter.subtotal,438.99);
-  assert.equal(starter.priceDate,'2026-11-13');
-  assert.ok(!x.excluded.some(x=>/budget/.test(x.reason)));
+  assert.ok(!x.selected.some(x=>x.id==='passive-bt20a-xt15'));
+  assert.ok(x.excluded.some(x=>/strict budget/.test(x.reason)));
+  const comparison=shortlistExamples({...defaults,architecture:'passive_separates',budget:400,budgetStrict:false});
+  assert.equal(comparison.selected.find(x=>x.id==='passive-bt20a-xt15').subtotal,438.99);
 });
 test('flexible budget can show examples with a higher dated parts reference',()=>{
   const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',budget:100,budgetStrict:false,useCase:'desk'});
@@ -56,9 +56,16 @@ test('headphones may be used with an independently checked off-grid source',()=>
   assert.ok(x.selected.some(x=>x.id==='headphone-hd560'));
   assert.ok(x.selected.every(x=>x.sourceBatteryCaution));
 });
-test('requested unsupported native source connection requires separately priced adaptation',()=>{
+test('unsupported direct connections exclude complete systems instead of promising unspecified adapters',()=>{
   const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',useCase:'desk',connection:'hdmi'});
-  assert.ok(x.selected.every(x=>x.connectionStatus==='adapter_needed'));
+  assert.equal(x.selected.length,0);
+  assert.ok(x.excluded.some(x=>/No documented direct hdmi input/.test(x.reason)));
+});
+test('optical sources return native input options, not analog-only speakers',()=>{
+  const x=shortlistExamples({...defaults,architecture:'consumer_powered_pair',useCase:'desk',connection:'optical',budget:230});
+  assert.ok(x.selected.length>0);
+  assert.ok(x.selected.every(i=>i.connections.includes('optical')&&i.connectionStatus==='native_possible'));
+  assert.ok(x.selected.some(i=>i.id==='powered-r1280db'));
 });
 test('used models are an unpriced evergreen watchlist, not forced secondhand bundles',()=>{
   const x=shortlistExamples({...defaults,architecture:'passive_separates',used:false});
@@ -71,12 +78,17 @@ test('an open-system comparison includes different architectures, not four conse
   const x=shortlistExamples({...defaults});
   assert.ok(new Set(x.selected.map(x=>x.architecture)).size>=3);
 });
-test('legacy R-S202/P3 example has been retired; affordable Fosi/Polk pair includes load caution',()=>{
+test('legacy R-S202/P3 example retired; Fosi/Polk has documented 4-ohm load permission',()=>{
   assert.ok(!EXAMPLES.some(x=>x.title.includes('R-S202 + PSB Alpha P3')));
   const x=EXAMPLES.find(x=>x.id==='passive-bt20a-xt15');
   assert.ok(x);
-  assert.match(x.loadCaution,/4.1 Ω/);
-  assert.match(x.tradeoff,/not a certified|NOT a certified/i);
+  assert.equal(x.loadCaution,undefined);
+  assert.match(x.tradeoff,/32 V \/ 5 A power adapter/);
+  assert.match(x.tradeoff,/300 W/);
+  const option=shortlistExamples({...defaults,architecture:'passive_separates'})
+    .selected.find(x=>x.id==='passive-bt20a-xt15');
+  assert.equal(option.curatedPairing.level,'manufacturer_supported');
+  assert.match(option.curatedPairing.proof,/Polk.*4.1 Ω/);
   assert.equal(x.priceCA.components.reduce((n,p)=>n+p.amount,0),438.99);
 });
 test('no example certifies a full price or real-world compatibility',()=>{

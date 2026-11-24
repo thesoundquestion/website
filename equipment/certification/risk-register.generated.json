@@ -1,0 +1,2780 @@
+{
+  "schemaVersion": 1,
+  "note": "Risk classification is automatic triage, not factual verification or proof of safe pairing. Certification is an editorial attestation, not an independent laboratory measurement.",
+  "baselineCommit": "fe50810f62fd47f8c8a0cf05e540e769e0780090",
+  "counts": {
+    "total": 197,
+    "baseline": 197,
+    "high": 126,
+    "medium": 54,
+    "lower": 17,
+    "grandfathered": 195,
+    "certified": 2,
+    "reviewRequired": 0,
+    "removed": 0
+  },
+  "removed": [],
+  "unauthorizedRemoval": [],
+  "records": [
+    {
+      "id": "builder/amp/aiyima-a07-max-stereo",
+      "model": "AIYIMA A07 MAX Stereo",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "3abaeb37ba3bad87"
+    },
+    {
+      "id": "builder/amp/denon-avr-s650h-north-america",
+      "model": "Denon AVR-S650H (North America)",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "c15a47794248fc06"
+    },
+    {
+      "id": "builder/amp/fosi-audio-bt20a-pro",
+      "model": "Fosi Audio BT20A Pro",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "ec450b9ae4658910"
+    },
+    {
+      "id": "builder/amp/fosi-audio-v3-stereo",
+      "model": "Fosi Audio V3 Stereo",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "4e6fe6faefe126f3"
+    },
+    {
+      "id": "builder/speaker/fluance-sx6-elite-sx6-bk",
+      "model": "Fluance SX6 Elite (SX6-BK)",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "6439e08c0fce2881"
+    },
+    {
+      "id": "builder/speaker/klipsch-rp-600m-ii",
+      "model": "Klipsch RP-600M II",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "16dac195c820b02c"
+    },
+    {
+      "id": "builder/speaker/polk-monitor-xt15",
+      "model": "Polk Monitor XT15",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "19a43447b51c0c9b"
+    },
+    {
+      "id": "builder/speaker/polk-monitor-xt20",
+      "model": "Polk Monitor XT20",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "0c9fef49f9f78985"
+    },
+    {
+      "id": "builder/speaker/psb-alpha-p3",
+      "model": "PSB Alpha P3",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "modified",
+      "certification": "certified",
+      "recommendationStatus": "certified_for_evaluated_use",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "978022fd9d013fa3"
+    },
+    {
+      "id": "builder/speaker/psb-alpha-p5",
+      "model": "PSB Alpha P5",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "modified",
+      "certification": "certified",
+      "recommendationStatus": "certified_for_evaluated_use",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "231259c23f9f494f"
+    },
+    {
+      "id": "builder/speaker/q-acoustics-3010i",
+      "model": "Q Acoustics 3010i",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "980412113e1af0f4"
+    },
+    {
+      "id": "builder/speaker/q-acoustics-3030i",
+      "model": "Q Acoustics 3030i",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "2c82f5f98992cf18"
+    },
+    {
+      "id": "builder/speaker/triangle-borea-br03-passive",
+      "model": "Triangle Borea BR03 (passive)",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "83b35a640d8872ab"
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-axa35",
+      "model": "Cambridge Audio AXA35",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "62b0b517b743c948"
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-axr100d",
+      "model": "Cambridge Audio AXR100D",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "d6cb68d06a4c30e3"
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-cxa61",
+      "model": "Cambridge Audio CXA61",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "82206954a05e89e6"
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-cxa81",
+      "model": "Cambridge Audio CXA81",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "d283c2f66dfe3683"
+    },
+    {
+      "id": "legacy/amp/cambridge-audio-cxa81-mk-ii",
+      "model": "Cambridge Audio CXA81 Mk II",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "a27d396ad33fdb3d"
+    },
+    {
+      "id": "legacy/amp/denon-avr-s760h",
+      "model": "Denon AVR-S760H",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "7d7644b583189b66"
+    },
+    {
+      "id": "legacy/amp/denon-avr-x1700h",
+      "model": "Denon AVR-X1700H",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "2debddbdadb08c3a"
+    },
+    {
+      "id": "legacy/amp/denon-avr-x1800h",
+      "model": "Denon AVR-X1800H",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "0c574e9974d61725"
+    },
+    {
+      "id": "legacy/amp/denon-dra-900h",
+      "model": "Denon DRA-900H",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "0492d80d93950429"
+    },
+    {
+      "id": "legacy/amp/denon-pma-500v",
+      "model": "Denon PMA-500V",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "fd89d88212650f06"
+    },
+    {
+      "id": "legacy/amp/denon-pma-600ne",
+      "model": "Denon PMA-600NE",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "adf9938150e225f9"
+    },
+    {
+      "id": "legacy/amp/denon-pma-900hne",
+      "model": "Denon PMA-900HNE",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "0dd38f0182fec4ed"
+    },
+    {
+      "id": "legacy/amp/marantz-2230",
+      "model": "Marantz 2230",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "c440913e97b9a0e0"
+    },
+    {
+      "id": "legacy/amp/marantz-2270",
+      "model": "Marantz 2270",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "c8feff0637ae948f"
+    },
+    {
+      "id": "legacy/amp/marantz-pm6007",
+      "model": "Marantz PM6007",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "d83d9c606811f727"
+    },
+    {
+      "id": "legacy/amp/marantz-stereo-70s",
+      "model": "Marantz Stereo 70s",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "131751547fa65b38"
+    },
+    {
+      "id": "legacy/amp/nad-3020-original",
+      "model": "NAD 3020 (original)",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "95ce1428cfd2d33c"
+    },
+    {
+      "id": "legacy/amp/nad-c-316bee-v2",
+      "model": "NAD C 316BEE V2",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "8ff2160cef315ff3"
+    },
+    {
+      "id": "legacy/amp/onkyo-tx-8220",
+      "model": "Onkyo TX-8220",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "3bc5ca2dae163b44"
+    },
+    {
+      "id": "legacy/amp/panasonic-sa-he100",
+      "model": "Panasonic SA-HE100",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "250de857feb72f71"
+    },
+    {
+      "id": "legacy/amp/pioneer-sx-780",
+      "model": "Pioneer SX-780",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "1457e58380167910"
+    },
+    {
+      "id": "legacy/amp/pioneer-sx-950",
+      "model": "Pioneer SX-950",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "0378e9fcd652b910"
+    },
+    {
+      "id": "legacy/amp/sansui-au-517",
+      "model": "Sansui AU-517",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "677f1f9e08e67279"
+    },
+    {
+      "id": "legacy/amp/sansui-au-717",
+      "model": "Sansui AU-717",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "643ebeda97976210"
+    },
+    {
+      "id": "legacy/amp/sony-str-de475-us-canada",
+      "model": "Sony STR-DE475 (US/Canada)",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "fbc51a18bc7274ea"
+    },
+    {
+      "id": "legacy/amp/sony-str-dh190",
+      "model": "Sony STR-DH190",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "a6d0438978547302"
+    },
+    {
+      "id": "legacy/amp/sony-str-dh590",
+      "model": "Sony STR-DH590",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "e0cd770e20b8b3c9"
+    },
+    {
+      "id": "legacy/amp/wiim-amp",
+      "model": "WiiM Amp",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "cdfbe3a1fe656fad"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-1000",
+      "model": "Yamaha A-1000",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "5caaf16aa07e35b9"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-720",
+      "model": "Yamaha A-720",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "abde779862b0ba48"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s1200",
+      "model": "Yamaha A-S1200",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "10024d3d08fe0407"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s301",
+      "model": "Yamaha A-S301",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "31e01973d4e5e3f2"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s3200",
+      "model": "Yamaha A-S3200",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "2ebc6ba0e77a5542"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s501",
+      "model": "Yamaha A-S501",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "2607c63fc5e3edbb"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s701",
+      "model": "Yamaha A-S701",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "535ea5fe41c9c014"
+    },
+    {
+      "id": "legacy/amp/yamaha-a-s801",
+      "model": "Yamaha A-S801",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "020a7a3b1ef54bd0"
+    },
+    {
+      "id": "legacy/amp/yamaha-htr-4063-us-canada",
+      "model": "Yamaha HTR-4063 (US/Canada)",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "7dbc54fdadff6c32"
+    },
+    {
+      "id": "legacy/amp/yamaha-r-n600a",
+      "model": "Yamaha R-N600A",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "564f3f1cd72599ba"
+    },
+    {
+      "id": "legacy/amp/yamaha-r-n800a",
+      "model": "Yamaha R-N800A",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "8f58fee214998d54"
+    },
+    {
+      "id": "legacy/amp/yamaha-r-s202",
+      "model": "Yamaha R-S202",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "7bc1061a01d114b7"
+    },
+    {
+      "id": "legacy/amp/yamaha-rx-485-us-canada",
+      "model": "Yamaha RX-485 (US/Canada)",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "d918ebf795efe5e6"
+    },
+    {
+      "id": "legacy/amp/yamaha-rx-v385",
+      "model": "Yamaha RX-V385",
+      "categories": [
+        "amp"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "2af96743b25ee4d4"
+    },
+    {
+      "id": "legacy/source/fiio-k11-rca-line-out",
+      "model": "FiiO K11 (RCA line out)",
+      "categories": [
+        "headphone_amplifier",
+        "source"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 2,
+      "fingerprint": "bb759621fc542f39"
+    },
+    {
+      "id": "legacy/speaker/axiom-audio-vocal-point-vp-100-original",
+      "model": "Axiom Audio Vocal Point VP-100 (original)",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "09d990c8b2457ef3"
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-at-15",
+      "model": "Cerwin-Vega AT-15",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "4cd08c432d22b116"
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-d-3",
+      "model": "Cerwin-Vega D-3",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "7ea5699ddc23f124"
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-d-5",
+      "model": "Cerwin-Vega D-5",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "5227ee0c20846e43"
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-d-7",
+      "model": "Cerwin-Vega D-7",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "ff471bb723026cd4"
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-d-9",
+      "model": "Cerwin-Vega D-9",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "3faf35f309b2dc4a"
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-xls-12",
+      "model": "Cerwin-Vega XLS-12",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "70174c72650c6fa8"
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-xls-15",
+      "model": "Cerwin-Vega XLS-15",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "36d2e6f5aea54d76"
+    },
+    {
+      "id": "legacy/speaker/cerwin-vega-xls-215",
+      "model": "Cerwin-Vega XLS-215",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "03f6036bfaabe972"
+    },
+    {
+      "id": "legacy/speaker/dali-oberon-1",
+      "model": "DALI Oberon 1",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "bc9f85b1cd165979"
+    },
+    {
+      "id": "legacy/speaker/dali-oberon-3",
+      "model": "DALI Oberon 3",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "bcbfce28117ff40b"
+    },
+    {
+      "id": "legacy/speaker/dali-oberon-5",
+      "model": "DALI Oberon 5",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "b9fcec47272be472"
+    },
+    {
+      "id": "legacy/speaker/dali-oberon-7",
+      "model": "DALI Oberon 7",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "70d728a5fd148458"
+    },
+    {
+      "id": "legacy/speaker/elac-debut-2-0-b5-2",
+      "model": "ELAC Debut 2.0 B5.2",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "9e40faefed811dea"
+    },
+    {
+      "id": "legacy/speaker/elac-debut-2-0-b6-2",
+      "model": "ELAC Debut 2.0 B6.2",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "c7e0483be00afb46"
+    },
+    {
+      "id": "legacy/speaker/elac-debut-3-0-db53",
+      "model": "ELAC Debut 3.0 DB53",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "58f7668208b14b7d"
+    },
+    {
+      "id": "legacy/speaker/elac-debut-3-0-db63",
+      "model": "ELAC Debut 3.0 DB63",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "883696ed4a834bad"
+    },
+    {
+      "id": "legacy/speaker/elac-debut-3-0-df63",
+      "model": "ELAC Debut 3.0 DF63",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "4739cb09c65dcf31"
+    },
+    {
+      "id": "legacy/speaker/elac-debut-reference-dbr62",
+      "model": "ELAC Debut Reference DBR62",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "b4abc17f2283acc8"
+    },
+    {
+      "id": "legacy/speaker/elac-debut-reference-dfr52",
+      "model": "ELAC Debut Reference DFR52",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "b7d421db39b38c4d"
+    },
+    {
+      "id": "legacy/speaker/elac-uni-fi-2-0-ub52",
+      "model": "ELAC Uni-Fi 2.0 UB52",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "6515f1600524ff62"
+    },
+    {
+      "id": "legacy/speaker/jbl-l100-century-original",
+      "model": "JBL L100 Century (original)",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "2126545de037d1a6"
+    },
+    {
+      "id": "legacy/speaker/jbl-l100-classic",
+      "model": "JBL L100 Classic",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "859b0a1a578b0f84"
+    },
+    {
+      "id": "legacy/speaker/jbl-stage-250b",
+      "model": "JBL Stage 250B",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "75c4b5c7faafcdc4"
+    },
+    {
+      "id": "legacy/speaker/jbl-stage-280f",
+      "model": "JBL Stage 280F",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "5892d5d6a44d0cb0"
+    },
+    {
+      "id": "legacy/speaker/jbl-stage-a130",
+      "model": "JBL Stage A130",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "354e45f4c9bc6aa9"
+    },
+    {
+      "id": "legacy/speaker/kef-ls50-meta",
+      "model": "KEF LS50 Meta",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "09c31a7674447417"
+    },
+    {
+      "id": "legacy/speaker/kef-q1-meta",
+      "model": "KEF Q1 Meta",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "ae550cdee1ebb189"
+    },
+    {
+      "id": "legacy/speaker/kef-q150",
+      "model": "KEF Q150",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "1372c691887cfbde"
+    },
+    {
+      "id": "legacy/speaker/kef-q3-meta",
+      "model": "KEF Q3 Meta",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "4a68e9e59a1f44ac"
+    },
+    {
+      "id": "legacy/speaker/kef-q350",
+      "model": "KEF Q350",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "b037fe3d360befbb"
+    },
+    {
+      "id": "legacy/speaker/kef-q550",
+      "model": "KEF Q550",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "b672d90f9dbb5181"
+    },
+    {
+      "id": "legacy/speaker/kef-q7-meta",
+      "model": "KEF Q7 Meta",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "1b9547c147e357aa"
+    },
+    {
+      "id": "legacy/speaker/kef-q750",
+      "model": "KEF Q750",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "95d692eb6fe21e2e"
+    },
+    {
+      "id": "legacy/speaker/kef-q950",
+      "model": "KEF Q950",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "99a9c037c8607b90"
+    },
+    {
+      "id": "legacy/speaker/klipsch-forte-ii",
+      "model": "Klipsch Forte II",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "bd04ffc182f825df"
+    },
+    {
+      "id": "legacy/speaker/klipsch-heresy-ii",
+      "model": "Klipsch Heresy II",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "b89a7259b39045d6"
+    },
+    {
+      "id": "legacy/speaker/klipsch-r-50m",
+      "model": "Klipsch R-50M",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 0,
+      "fingerprint": "590f49c26ca16f23"
+    },
+    {
+      "id": "legacy/speaker/klipsch-r-51m",
+      "model": "Klipsch R-51M",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "8d9483bf122f7736"
+    },
+    {
+      "id": "legacy/speaker/klipsch-rp-600m-original",
+      "model": "Klipsch RP-600M (original)",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "f427b1ea88abf405"
+    },
+    {
+      "id": "legacy/speaker/paradigm-monitor-se-6000f",
+      "model": "Paradigm Monitor SE 6000F",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "8d6af620d18af9ae"
+    },
+    {
+      "id": "legacy/speaker/paradigm-monitor-se-atom",
+      "model": "Paradigm Monitor SE Atom",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 0,
+      "fingerprint": "676b45811572a963"
+    },
+    {
+      "id": "legacy/speaker/paradigm-phantom-v1",
+      "model": "Paradigm Phantom v1",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "988ec129810df426"
+    },
+    {
+      "id": "legacy/speaker/paradigm-titan-v3",
+      "model": "Paradigm Titan v3",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 0,
+      "fingerprint": "76dcc5721d4c244d"
+    },
+    {
+      "id": "legacy/speaker/pioneer-hpm-100",
+      "model": "Pioneer HPM-100",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "3ae58c64c7ee0484"
+    },
+    {
+      "id": "legacy/speaker/pioneer-s-h352f-k",
+      "model": "Pioneer S-H352F-K",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "636cd959ad991e59"
+    },
+    {
+      "id": "legacy/speaker/polk-reserve-r200",
+      "model": "Polk Reserve R200",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "fbbd5d102ac49b41"
+    },
+    {
+      "id": "legacy/speaker/polk-signature-elite-es15",
+      "model": "Polk Signature Elite ES15",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 0,
+      "fingerprint": "97fb5fcca5bac98e"
+    },
+    {
+      "id": "legacy/speaker/polk-signature-elite-es20",
+      "model": "Polk Signature Elite ES20",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 0,
+      "fingerprint": "42c46d56ea16fce9"
+    },
+    {
+      "id": "legacy/speaker/polk-signature-elite-es60",
+      "model": "Polk Signature Elite ES60",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "05b61ea7d669bf4c"
+    },
+    {
+      "id": "legacy/speaker/q-acoustics-3020i",
+      "model": "Q Acoustics 3020i",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "5a460280744b5987"
+    },
+    {
+      "id": "legacy/speaker/sony-ss-cs5-original",
+      "model": "Sony SS-CS5 (original)",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "78cbf08e0c4046c5"
+    },
+    {
+      "id": "legacy/speaker/wharfedale-diamond-12-1",
+      "model": "Wharfedale Diamond 12.1",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "a4b82e8432275804"
+    },
+    {
+      "id": "legacy/speaker/wharfedale-diamond-12-2",
+      "model": "Wharfedale Diamond 12.2",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "185830234c24e9f6"
+    },
+    {
+      "id": "legacy/speaker/wharfedale-diamond-12-3",
+      "model": "Wharfedale Diamond 12.3",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "f6dacdfe129b6afc"
+    },
+    {
+      "id": "legacy/speaker/yamaha-ns-1000m",
+      "model": "Yamaha NS-1000M",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "b89daebd3d300808"
+    },
+    {
+      "id": "legacy/speaker/yamaha-ns-555",
+      "model": "Yamaha NS-555",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "a7bc3b4c8afce342"
+    },
+    {
+      "id": "legacy/speaker/yamaha-ns-6490-canada",
+      "model": "Yamaha NS-6490 (Canada)",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "6a9e52cbbbadc359"
+    },
+    {
+      "id": "legacy/speaker/yamaha-ns-777",
+      "model": "Yamaha NS-777",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "79925654fd389703"
+    },
+    {
+      "id": "research/headphone_amplifier/fiio-q11",
+      "model": "FiiO Q11",
+      "categories": [
+        "headphone_amplifier"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 3,
+      "fingerprint": "cc01a74ead94e7e4"
+    },
+    {
+      "id": "research/headphone_amplifier/jds-atom-amp-2",
+      "model": "JDS Labs Atom Amp 2",
+      "categories": [
+        "headphone_amplifier"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 2,
+      "fingerprint": "69c7886331ce1e3e"
+    },
+    {
+      "id": "research/headphone_amplifier/schiit-magni-6",
+      "model": "Schiit Magni 6",
+      "categories": [
+        "headphone_amplifier"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 2,
+      "fingerprint": "186f8cff24ebd9d3"
+    },
+    {
+      "id": "research/headphone_amplifier/topping-l30-ii",
+      "model": "Topping L30 II",
+      "categories": [
+        "headphone_amplifier"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 2,
+      "fingerprint": "2edffadaf0cff5be"
+    },
+    {
+      "id": "research/speaker/electrovoice-zlx-12p-g2",
+      "model": "Electro-Voice ZLX-12P-G2",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 1,
+      "fingerprint": "f4c88196647173d2"
+    },
+    {
+      "id": "research/speaker/jbl-305p-mkii-studio",
+      "model": "JBL 305P MkII",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "92d3cabfacaf959f"
+    },
+    {
+      "id": "research/speaker/pioneer-sp-fs52",
+      "model": "Pioneer SP-FS52",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 4,
+      "fingerprint": "e5e4476e5a9f821e"
+    },
+    {
+      "id": "research/speaker/qsc-k12-2-pa",
+      "model": "QSC K12.2",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 1,
+      "fingerprint": "6bc48b332550a325"
+    },
+    {
+      "id": "research/speaker/yamaha-hs5-studio",
+      "model": "Yamaha HS5",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "505f9d1147f6c454"
+    },
+    {
+      "id": "research/speaker/yamaha-hs7-studio",
+      "model": "Yamaha HS7",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "70e5d6ac57053365"
+    },
+    {
+      "id": "research/speaker/yamaha-hs8-studio",
+      "model": "Yamaha HS8",
+      "categories": [
+        "speaker"
+      ],
+      "risk": "high",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "e8dc711a893d418d"
+    },
+    {
+      "id": "builder/headphone/fiio-ft1",
+      "model": "FiiO FT1",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "6834c55a5208dde5"
+    },
+    {
+      "id": "builder/headphone/koss-ksc75",
+      "model": "Koss KSC75",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "67253f6d62d836ca"
+    },
+    {
+      "id": "builder/headphone/koss-porta-pro-wired",
+      "model": "Koss Porta Pro (wired)",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "41d63fada7c3b2c2"
+    },
+    {
+      "id": "legacy/headphone/audio-technica-ath-m50x",
+      "model": "Audio-Technica ATH-M50x",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "f29beb1347825c7b"
+    },
+    {
+      "id": "legacy/headphone/beyerdynamic-dt-770-pro-80",
+      "model": "beyerdynamic DT 770 PRO (80 Ω)",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "9d8488ddb65ea8d4"
+    },
+    {
+      "id": "legacy/headphone/grado-sr60x",
+      "model": "Grado SR60x",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "67273a9798862f41"
+    },
+    {
+      "id": "legacy/headphone/grado-sr80e",
+      "model": "Grado SR80e",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 0,
+      "fingerprint": "70b089f6be3bad3f"
+    },
+    {
+      "id": "legacy/headphone/grado-sr80x",
+      "model": "Grado SR80x",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "f924542fa0f60673"
+    },
+    {
+      "id": "legacy/headphone/moondrop-chu-ii",
+      "model": "Moondrop Chu II",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "faf6fe1721e90689"
+    },
+    {
+      "id": "legacy/headphone/sennheiser-hd-560s",
+      "model": "Sennheiser HD 560S",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "14efff356d73ad3c"
+    },
+    {
+      "id": "legacy/headphone/sennheiser-hd-600",
+      "model": "Sennheiser HD 600",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 0,
+      "fingerprint": "d53e9bfc5161b93e"
+    },
+    {
+      "id": "legacy/headphone/shure-se215",
+      "model": "Shure SE215",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "a3ddb3b7f6233289"
+    },
+    {
+      "id": "legacy/headphone/sony-mdr-7506",
+      "model": "Sony MDR-7506",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "1b18bd59e4dd7eab"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x-fi-titanium-hd-rca",
+      "model": "Creative Sound Blaster X-Fi Titanium HD (RCA)",
+      "categories": [
+        "computer_sound_card",
+        "source"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 4,
+      "declaredUnknowns": 2,
+      "fingerprint": "d2b6190afdb6edce"
+    },
+    {
+      "id": "research/audio_interface/arturia-minifuse-1",
+      "model": "Arturia MiniFuse 1 (original)",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "f0871ae8d0d50105"
+    },
+    {
+      "id": "research/audio_interface/arturia-minifuse-2",
+      "model": "Arturia MiniFuse 2",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 5,
+      "fingerprint": "e0c95064c52ebddd"
+    },
+    {
+      "id": "research/audio_interface/audient-id4-mkii",
+      "model": "Audient iD4 MkII",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 2,
+      "fingerprint": "99181ac86ef62f70"
+    },
+    {
+      "id": "research/audio_interface/behringer-umc202hd",
+      "model": "Behringer U-PHORIA UMC202HD",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 6,
+      "fingerprint": "56cd5ada565502a9"
+    },
+    {
+      "id": "research/audio_interface/behringer-umc22",
+      "model": "Behringer U-PHORIA UMC22",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 1,
+      "fingerprint": "c340cd2ac9e03a5c"
+    },
+    {
+      "id": "research/audio_interface/behringer-umc404hd",
+      "model": "Behringer U-PHORIA UMC404HD",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 2,
+      "fingerprint": "8a3bc7aa7d48a770"
+    },
+    {
+      "id": "research/audio_interface/elgato-wave-xlr-mk2",
+      "model": "Elgato Wave XLR MK.2",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 2,
+      "fingerprint": "e780563a504f12a0"
+    },
+    {
+      "id": "research/audio_interface/focusrite-scarlett-2i2-4",
+      "model": "Focusrite Scarlett 2i2 (4th Gen)",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 5,
+      "fingerprint": "ff18c396fb5651ab"
+    },
+    {
+      "id": "research/audio_interface/focusrite-scarlett-solo-4",
+      "model": "Focusrite Scarlett Solo (4th Gen)",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 5,
+      "fingerprint": "4ec3bfa37dca9baa"
+    },
+    {
+      "id": "research/audio_interface/maudio-mtrack-duo",
+      "model": "M-Audio M-Track Duo",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 1,
+      "fingerprint": "fb054608a9619197"
+    },
+    {
+      "id": "research/audio_interface/maudio-mtrack-solo",
+      "model": "M-Audio M-Track Solo",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 3,
+      "declaredUnknowns": 3,
+      "fingerprint": "b7d710c33affee1a"
+    },
+    {
+      "id": "research/audio_interface/presonus-audiobox-go",
+      "model": "PreSonus AudioBox GO",
+      "categories": [
+        "audio_interface"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 1,
+      "fingerprint": "3df7ad6412cd8383"
+    },
+    {
+      "id": "research/headphone/akg-k371",
+      "model": "AKG K371",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "3c8cae754827ff78"
+    },
+    {
+      "id": "research/headphone/audio-technica-ath-m40x",
+      "model": "Audio-Technica ATH-M40x",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 3,
+      "fingerprint": "90d12ed4ffaa9395"
+    },
+    {
+      "id": "research/headphone/shure-srh440a",
+      "model": "Shure SRH440A",
+      "categories": [
+        "headphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 3,
+      "fingerprint": "b869a34a3e97b119"
+    },
+    {
+      "id": "research/microphone/akg-p120",
+      "model": "AKG P120",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "223785cce3601edf"
+    },
+    {
+      "id": "research/microphone/audio-technica-at2020-xlr",
+      "model": "Audio-Technica AT2020 (XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 2,
+      "fingerprint": "0a38c8da13700b72"
+    },
+    {
+      "id": "research/microphone/audio-technica-atr2100x-usb",
+      "model": "Audio-Technica ATR2100x-USB",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "f2418777e78faabc"
+    },
+    {
+      "id": "research/microphone/behringer-c1",
+      "model": "Behringer C-1",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "d37eb8c16ca8c207"
+    },
+    {
+      "id": "research/microphone/behringer-xm8500",
+      "model": "Behringer XM8500",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "a1d6c49b9fcf5bda"
+    },
+    {
+      "id": "research/microphone/elgato-wave3-mk2",
+      "model": "Elgato Wave:3 MK.2",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "78f03f7de69b9824"
+    },
+    {
+      "id": "research/microphone/fifine-am8",
+      "model": "FIFINE AmpliGame AM8 (USB/XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "5a36aa0eefe2412c"
+    },
+    {
+      "id": "research/microphone/fifine-k669d",
+      "model": "FIFINE K669D",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 3,
+      "fingerprint": "7ac938a7404b5094"
+    },
+    {
+      "id": "research/microphone/fifine-k688",
+      "model": "FIFINE AmpliTank K688 (USB/XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "66baf69cfb52f0ff"
+    },
+    {
+      "id": "research/microphone/maono-pd200x",
+      "model": "MAONO PD200X (USB/XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "37932ec24095be99"
+    },
+    {
+      "id": "research/microphone/rode-podmic-xlr",
+      "model": "RØDE PodMic (XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 3,
+      "fingerprint": "f09e07ad39f2fc0f"
+    },
+    {
+      "id": "research/microphone/rode-smartlav-plus",
+      "model": "RØDE smartLav+",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "ba27eaa47bbc1fce"
+    },
+    {
+      "id": "research/microphone/rode-videomicro-ii",
+      "model": "RØDE VideoMicro II",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "ad37ff4157da169b"
+    },
+    {
+      "id": "research/microphone/samson-q2u",
+      "model": "Samson Q2U (USB/XLR)",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "3246790d863a09ed"
+    },
+    {
+      "id": "research/microphone/shure-mv7-plus",
+      "model": "Shure MV7+",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 4,
+      "fingerprint": "8b59aaa4fdd1e54b"
+    },
+    {
+      "id": "research/microphone/shure-sm57",
+      "model": "Shure SM57",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 3,
+      "fingerprint": "de9b1fa9cd69c3ea"
+    },
+    {
+      "id": "research/microphone/shure-sm58",
+      "model": "Shure SM58",
+      "categories": [
+        "microphone"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 3,
+      "fingerprint": "65dd1e4a71bad294"
+    },
+    {
+      "id": "research/mixer_recorder/behringer-1204usb",
+      "model": "Behringer XENYX 1204USB",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 2,
+      "fingerprint": "398e2f01cd7a14c0"
+    },
+    {
+      "id": "research/mixer_recorder/behringer-xenyx-302usb",
+      "model": "Behringer XENYX 302USB",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 3,
+      "fingerprint": "1db28248fa6411bf"
+    },
+    {
+      "id": "research/mixer_recorder/mackie-profx6v3-plus",
+      "model": "Mackie ProFX6v3+",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 1,
+      "fingerprint": "40090d9d03294f99"
+    },
+    {
+      "id": "research/mixer_recorder/yamaha-ag03mk2",
+      "model": "Yamaha AG03MK2",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 0,
+      "fingerprint": "3426213aa02c3890"
+    },
+    {
+      "id": "research/mixer_recorder/yamaha-ag06mk2",
+      "model": "Yamaha AG06MK2",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 1,
+      "fingerprint": "5de6333d107ca0e8"
+    },
+    {
+      "id": "research/mixer_recorder/yamaha-mg10xu",
+      "model": "Yamaha MG10XU",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 1,
+      "fingerprint": "a0a907c38b0f4bfc"
+    },
+    {
+      "id": "research/mixer_recorder/zoom-livetrak-l12",
+      "model": "Zoom LiveTrak L-12",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 1,
+      "fingerprint": "de96031b2f76338f"
+    },
+    {
+      "id": "research/mixer_recorder/zoom-podtrak-p4",
+      "model": "Zoom PodTrak P4",
+      "categories": [
+        "mixer_recorder"
+      ],
+      "risk": "medium",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 1,
+      "declaredUnknowns": 1,
+      "fingerprint": "41ee98e6f9dbb9ed"
+    },
+    {
+      "id": "legacy/source/asus-xonar-essence-stx-ii-rca",
+      "model": "ASUS Xonar Essence STX II (RCA)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "7186ae46236e0ff9"
+    },
+    {
+      "id": "legacy/source/asus-xonar-se-front-3-5-mm",
+      "model": "ASUS Xonar SE (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "f4074d13e93c0873"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-ae-7-front-3-5-mm",
+      "model": "Creative Sound Blaster AE-7 (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "88acf0cc399d41a2"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-ae-9-rca-front-out",
+      "model": "Creative Sound Blaster AE-9 (RCA front out)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "53069da32104c34d"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-audigy-rx-front-3-5-mm",
+      "model": "Creative Sound Blaster Audigy Rx (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "322678dbc13e9267"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x-fi-titanium-sb0880-3-5-mm-front",
+      "model": "Creative Sound Blaster X-Fi Titanium (SB0880, 3.5 mm front)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "dc59c20c17ed8992"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x3-usb-front-3-5-mm",
+      "model": "Creative Sound Blaster X3 (USB, front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "4100bb0e18b8d336"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x4-usb-front-3-5-mm",
+      "model": "Creative Sound Blaster X4 (USB, front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "abfb436f815e3a92"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-x5-usb-rca-line-out",
+      "model": "Creative Sound Blaster X5 (USB, RCA line out)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "01894a0d30d9efa8"
+    },
+    {
+      "id": "legacy/source/creative-sound-blaster-z-se-front-3-5-mm",
+      "model": "Creative Sound Blaster Z SE (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "b22b15e9beaf7668"
+    },
+    {
+      "id": "legacy/source/creative-sound-blasterx-ae-5-plus-front-3-5-mm",
+      "model": "Creative Sound BlasterX AE-5 Plus (front 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "c99ccefcaee8777b"
+    },
+    {
+      "id": "legacy/source/creative-sound-blasterx-g6-line-optical-3-5-mm",
+      "model": "Creative Sound BlasterX G6 (line/optical 3.5 mm)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "3eb32bf5bc2a8d02"
+    },
+    {
+      "id": "legacy/source/ifi-zen-dac-v2-fixed-rca",
+      "model": "iFi ZEN DAC V2 (fixed RCA)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "3d2566055af146a2"
+    },
+    {
+      "id": "legacy/source/schiit-modi-rca",
+      "model": "Schiit Modi+ (RCA)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "9f54190dde90cb24"
+    },
+    {
+      "id": "legacy/source/smsl-su-1-rca",
+      "model": "SMSL SU-1 (RCA)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "89430691a9085bac"
+    },
+    {
+      "id": "legacy/source/topping-e30-ii-rca",
+      "model": "Topping E30 II (RCA)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "beeb2a5fde5ae8eb"
+    },
+    {
+      "id": "legacy/source/wiim-pro-plus-rca",
+      "model": "WiiM Pro Plus (RCA)",
+      "categories": [
+        "source"
+      ],
+      "risk": "lower",
+      "baseline": "unchanged",
+      "certification": "grandfathered_not_certified",
+      "recommendationStatus": "legacy_existing_behavior_only",
+      "sourceLinks": 2,
+      "declaredUnknowns": 0,
+      "fingerprint": "4de7a596c2b85fda"
+    }
+  ]
+}

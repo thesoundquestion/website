@@ -104,6 +104,6 @@ test('UI shows dated regular price references and retailer links inside card det
   assert.doesNotMatch(app,/Used asking examples/);
   assert.match(app,/usedWatchlistFor/);
   assert.match(app,/Used stereo amplifiers worth keeping an eye out for/);
-  assert.match(app,/Why these speakers/);
+  assert.match(app,/Why these parts work together/);
   assert.doesNotMatch(app,/marketContext\.average|marketContext\.median/);
 });

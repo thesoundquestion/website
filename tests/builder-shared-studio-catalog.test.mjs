@@ -15,7 +15,7 @@ const prices=JSON.parse(read('equipment/price-tiers.generated.json'));
 
 test('Listening Builder menus come from canonical product records, not separate legacy-only presets',()=>{
   const app=read('system-builder/app.mjs');
-  assert.match(app,/loadEquipmentCatalog\(\)/);
+  assert.match(app,/loadEquipmentCatalog\(\{url:/);
   assert.match(app,/listeningCatalogOptions\(sharedCatalog,kind/);
   assert.match(app,/select\.replaceChildren\(\)/);
   assert.match(app,/Canonical equipment catalogue loaded/);

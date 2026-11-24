@@ -10,9 +10,9 @@ const page=read('decoder/audio-interfaces-mixers/index.html');
 const curriculum=JSON.parse(read('decoder/curriculum.json'));
 const bank=JSON.parse(read('assets/lesson-tutor/approved-answers.json'));
 
-test('input equipment is fully integrated as numbered lesson 17 of 27',()=>{
+test('input equipment is fully integrated as numbered lesson 19 of 27',()=>{
  assert.equal(curriculum.lessons.length,27,'Audio interfaces is now a real curriculum lesson');
- assert.equal(curriculum.lessons[16].slug,'audio-interfaces-mixers');
+ assert.equal(curriculum.lessons[18].slug,'audio-interfaces-mixers');
  assert.equal(Object.keys(bank).length,27,'Published lesson has a matching tutor answer bank');
  assert.ok(read('decoder/index.html').includes('/decoder/audio-interfaces-mixers/'),'linked in Decoder course index');
  assert.ok(read('sitemap.xml').includes('/decoder/audio-interfaces-mixers/'),'listed in sitemap');
@@ -24,7 +24,7 @@ test('input equipment is fully integrated as numbered lesson 17 of 27',()=>{
  assert.match(page,/<nav class="dl-continue container" aria-label="Continue learning">/);
  assert.match(page,/class="dl-related-action"/);
  assert.match(page,/<!-- LESSON_NAV_BEGIN -->/);
- assert.match(page,/Lesson 17 of 27/);
+ assert.match(page,/Lesson 19 of 27/);
  assert.match(page,/href="\/decoder\/sample-rate\/"/);
  assert.equal((page.match(/<h1\b/g)||[]).length,1);
  assert.equal((page.match(/<main\b/g)||[]).length,1);

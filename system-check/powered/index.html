@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Powered Speaker Loudness Checker | The Sound Question</title>
+<link rel="icon" href="/assets/mark.svg"><link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/system-check/style.css">
+<script type="module" src="/system-check/powered/app.mjs"></script></head><body>
+<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="container header-inner">
+<a class="brand" href="/"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details></div></header>
+<main class="container sc" id="main"><h1>Powered Speaker Loudness Checker</h1>
+<p class="lead">See what published acoustic output ratings suggest about your listening distance. This checks loudness evidence, not internal amplifier watts.</p>
+<form id="powered-form" class="sc-layout"><fieldset><legend>Your setup</legend>
+<label>Exact powered speaker model <select id="powered-model" name="model" required></select></label>
+<label>Listening distance (feet) <input id="powered-distance" name="distance" type="number" min="0.5" max="300" step="0.5" value="6" required></label>
+<label>Listening preference <select id="powered-level" name="level"><option value="quiet">Quiet/background</option><option value="moderate">Comfortable music</option><option value="high">Occasionally loud</option></select></label>
+<label>Speaker cabinets <select id="powered-count" name="count"><option value="1">One</option><option value="2">Stereo pair</option></select></label>
+<details id="powered-manual"><summary>My powered speaker is not listed: use its published SPL ratings</summary>
+<p>These fields are for ratings you can find in the model's documentation, not internal amplifier watts. Enter the actual reference distance and test condition; unknown continuous SPL can be left blank.</p>
+<label>Published maximum peak SPL (dB)<input id="powered-manual-peak" type="number" min="40" max="160" step="any" placeholder="e.g. 108"></label>
+<label>Published maximum continuous SPL (dB, optional)<input id="powered-manual-continuous" type="number" min="40" max="160" step="any" placeholder="Leave blank if unspecified"></label>
+<label>Measurement distance (metres)<input id="powered-manual-reference" type="number" min="0.1" max="100" step="any" placeholder="e.g. 1"></label>
+</details>
+<button class="button button-primary" type="submit">Check loudness</button></fieldset></form>
+<section id="powered-result" class="sc-results" aria-live="polite"><h2>Loud enough for you?</h2>
+<p id="powered-verdict">Choose an exact model with documented output ratings.</p>
+<details id="powered-technical" hidden><summary>How this estimate works</summary>
+<p id="powered-technical-text"></p><p id="powered-numbers"></p><a id="powered-source" target="_blank" rel="noopener noreferrer">Manufacturer source and measurement conditions</a></details></section>
+<p class="sc-brief-note">Manufacturer maximum peak SPL may involve substantial distortion and limiting; it is not a promise of clean output at every frequency or a recommended hearing exposure.</p>
+<a href="/system-builder/">Back to Listening Builder</a><nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/system-builder/">Return to the Listening Builder <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="#">↑ Back to top</a></div></nav></main></body></html>

@@ -9,9 +9,9 @@
 <main id="main">
 <div class="dl-lesson-top container"><div class="dl-lesson-utility"><nav class="dl-breadcrumb" aria-label="Breadcrumb"><a href="/decoder/">Spec Decoder</a><span>/</span><span>Lossless vs lossy audio and bitrates</span></nav>
 </div>
-<p class="section-kicker">LESSON 20 · DIGITAL AUDIO</p>
-<h1>Does lossless sound better than MP3?</h1>
-<p class="lead">FLAC can preserve every audio sample. MP3 and AAC make smaller files by leaving information out. But what you can <em>hear</em> depends on the encoding, the music, and how you compare them, not merely the number printed beside a file.</p>
+<p class="section-kicker">LESSON 22 · DIGITAL AUDIO</p>
+<h1>Codec Black: <span class="gradient-text">Lossy and Lossless Audio Explained</span></h1>
+<p class="lead">Inside the codec's black box, audio can be stored without losing the original samples or compressed by discarding information judged less noticeable. FLAC, MP3 and AAC take different approaches, but whether their differences are audible depends on the recording, the encoding and how you compare them.</p>
 <div class="dl-format-test-callout"><strong>Want to hear the difference?</strong><p>Try our short listening test with two real songs. Play the original, switch to MP3, and see what you notice. No special knowledge needed.</p><a href="/labs/formats/">Listen and compare MP3 vs lossless →</a> <a href="/labs/abx/?test=formats-light-128-v1&amp;mode=training">Try a blind A/B/X listening game →</a></div>
 <dl class="dl-term-grid"><div><dt>Bitrate</dt><dd>The number of data bits stored or transmitted <strong>each second</strong>, across the encoded stream.</dd></div><div><dt>Lossless</dt><dd>Compression that restores the same original digital audio samples when decoded.</dd></div><div><dt>Lossy</dt><dd>Compression that makes irreversible changes to reduce how much data is needed.</dd></div></dl>
 <div class="dl-example-spec" role="note"><span class="dl-spec-tag">EXAMPLE AUDIO FILE SPECIFICATION</span><strong>MP3 · stereo · 320 kb/s CBR</strong><p>What do these exact letters and numbers say? <a href="#decode-the-spec">Decode the specification ↓</a></p></div>
@@ -22,7 +22,7 @@
 <p class="dl-stat-key">320 kb/s means about 320,000 encoded bits in one second, <em>total</em>.</p>
 <p><strong>MP3</strong> names the compression format. <strong>Stereo</strong> indicates two-channel playback. <strong>CBR</strong> means <em>constant bitrate</em>: the stream aims to use the same data rate throughout, rather than freely varying its average. <strong>320 kb/s</strong> describes the combined encoded stream, not 320 kb/s for each channel.</p>
 <p>Here's what 320 kb/s means for storage, not hearing: a file uses roughly <strong>320,000 bits per second</strong>. Eight bits make one byte, so that's about <strong>40,000 bytes each second</strong>, <strong>2.40 MB per minute</strong>, or <strong>9.60 MB for four minutes</strong>, before small file overhead. More bits can preserve more information, but the number alone cannot tell you what differences you'll hear.</p>
-<p class="dl-stat-warning"><strong>What this number doesn't tell you:</strong> whether the recording was mastered differently, what the encoder removed, or whether any change is audible to you. Bitrate tells you the amount of data used each second, not a guaranteed sound-quality score.</p></div>
+<p class="dl-stat-warning"><strong>What this number doesn't tell you:</strong> whether the recording was mastered differently, what the encoder removed, or whether any change is audible to you. Bitrate tells you the amount of data used each second, not a guaranteed sound-quality score. Let the music play before deciding what difference matters to you.</p></div>
 <div class="dl-stat-chart"><div class="ll-exact-figure" role="group" aria-label="Exact data-rate specification: 320 kilobits per second, shown as eight conceptual blocks of 40 kilobits each within one second.">
 <p class="ll-graph-heading">320 kb/s shown on a 0–400 kb/s ruler</p><div class="ll-exact-bar" role="img" aria-label="MP3 320 kilobits per second fills eighty percent of a zero to four hundred kilobits-per-second scale."><span></span></div><div class="ll-axis"><span>0</span><span>100</span><span>200</span><span>300</span><span>400 kb/s</span></div>
 <p class="ll-graph-heading ll-block-heading">One second of encoded data, split into eight equal conceptual portions</p><div class="ll-blocks"><div class="ll-block" aria-hidden="true"><strong>1</strong><span>40 kb</span></div><div class="ll-block" aria-hidden="true"><strong>2</strong><span>40 kb</span></div><div class="ll-block" aria-hidden="true"><strong>3</strong><span>40 kb</span></div><div class="ll-block" aria-hidden="true"><strong>4</strong><span>40 kb</span></div><div class="ll-block" aria-hidden="true"><strong>5</strong><span>40 kb</span></div><div class="ll-block" aria-hidden="true"><strong>6</strong><span>40 kb</span></div><div class="ll-block" aria-hidden="true"><strong>7</strong><span>40 kb</span></div><div class="ll-block" aria-hidden="true"><strong>8</strong><span>40 kb</span></div></div>
@@ -79,34 +79,35 @@
 <p>This connects to the glossary's <a href="/decoder/audiophile-glossary/#grainy">grainy</a>, <a href="/decoder/audiophile-glossary/#airy">airy</a> and <a href="/decoder/audiophile-glossary/#separation">separation</a> descriptions. A subjective word is a clue to investigate, not proof of codec damage.</p>
 </div></section>
 <section class="dl-section-soft dl-listening" id="listening"><div class="container dl-reading"><h2>Can you reliably hear lossless versus a good MP3?</h2>
-<p>Sometimes, depending on the track, encoder, bitrate, equipment and listener. In other situations, a good lossy copy may be <strong>perceptually transparent</strong>: you cannot reliably distinguish it from the matched reference under controlled conditions. The file being smaller does not establish an audible problem.</p>
+<p>Sometimes, depending on the track, encoder, bitrate, equipment and listener. If you're comparing a familiar song like Don't Stop Believin', use the same master and match playback levels before deciding which file sounds different. In other situations, a good lossy copy may be <strong>perceptually transparent</strong>: you cannot reliably distinguish it from the matched reference under controlled conditions. The file being smaller does not establish an audible problem.</p>
 <p>For a fair comparison, start with <strong>the exact same master</strong>, encode the lossy copy directly from that lossless source, match playback levels, avoid visual cues, and compare blind. An <strong>ABX test</strong> asks whether an unknown “X” is A or B across repeated trials, so a claimed difference can be checked rather than merely described. The <a href="/labs/formats/">Listening Lab</a> lets you compare real audio, and the <a href="/labs/abx/?test=formats-light-128-v1&amp;mode=training">ABX Training game</a> lets you test your guesses without seeing which version is playing. These are listening examples, not proof that everyone will hear the same differences.</p>
 <div class="dl-claims-grid"><div class="dl-audiophile"><p class="dl-box-label">POPULAR CLAIM</p><p>“A 320 kb/s MP3 contains only 23% of the sound, so it must sound 77% worse.”</p></div><div class="dl-evidence"><p class="dl-box-label">WHAT WE CAN ACTUALLY SAY</p><p>The data rate is roughly 23% of CD-style PCM, but codec design is deliberately selective. <strong>Data-rate reduction is not a percentage of audible quality lost.</strong> Only suitable listening tests can establish whether differences are reliably audible.</p></div></div>
 <details class="dl-advanced"><summary>What is CBR versus VBR? <small>Optional detail</small></summary><p><strong>CBR</strong> aims for a constant encoded bitrate. <strong>VBR</strong> means variable bitrate, so the encoder can devote more or fewer bits to different parts of the recording. VBR files are often described by their overall <em>average</em> bitrate or by an encoder quality setting, not a guaranteed bitrate at every moment. Even two 256 kb/s files made by different encoders are not automatically equivalent in audible quality.</p><p>For uncompressed stereo PCM, <strong>16 bits × 44,100 samples/s × 2 channels = 1,411,200 bits/s</strong>. For a 320 kb/s constant-rate stream, four minutes of audio contain about <strong>9.60 MB</strong> of encoded data. See <a href="/decoder/bit-depth/">bit depth</a> and <a href="/decoder/sample-rate/">sample rate</a> for the two separate PCM terms.</p></details>
 </div></section>
-<section class="container dl-buy-section" id="buying"><div class="dl-reading"><h2>Which format should you actually use?</h2>
+<section class="container dl-buy-section" id="buying"><div class="dl-reading"><h2>Take it easy: which format should you actually use?</h2>
 <ol class="dl-buy-list"><li><strong>Archiving CDs or a music library?</strong> Prefer genuine lossless sources such as FLAC when storage permits. They preserve the decoded PCM and can be converted to other formats later without inherited lossy damage.</li>
 <li><strong>Listening on limited storage or bandwidth?</strong> Well-encoded MP3, AAC and other modern lossy codecs can offer useful size savings. Choose a reasonable quality setting and verify compatibility rather than worshipping one number.</li>
 <li><strong>Already have MP3 files?</strong> Keep the original files until you obtain genuinely lossless versions. Merely re-encoding MP3 to FLAC or a higher MP3 bitrate does not restore missing information, and repeated lossy re-encoding can compound damage.</li>
 <li><strong>Judging an upgrade?</strong> Compare like-for-like masters under controlled levels, and distinguish compression artifacts from EQ, remastering, amplification, speaker placement and room effects.</li></ol>
-<p>Related lessons: <a href="/decoder/bit-depth/">16-bit versus 24-bit</a>, <a href="/decoder/sample-rate/">sample-rate limits</a> and <a href="/decoder/dac-specifications/">DAC performance numbers</a>.</p>
+</section>
+<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
+ <div class="dl-course-progress"><span>Lesson 22 of 27 · Sources &amp; DACs</span><span>Your next lesson is below</span></div>
+ <div class="dl-progress-track" role="progressbar" aria-label="Lessons completed" aria-valuemin="0" aria-valuemax="27" aria-valuenow="22"><span style="width:81.48%"></span></div>
+ <p class="dl-lesson-bridge">You&#x27;ve followed the music file to the listener. Now follow the signal back to the performances, microphones and instruments that created the recording.</p>
+ <a class="dl-next-card" href="/decoder/recording-sources/">
+  <span class="dl-next-copy"><span class="dl-next-kicker">NEXT LESSON 23 OF 27 · NEW TOPIC: RECORDING & PRODUCTION</span>
+  <strong>Microphones, DI and virtual instruments</strong><span>Trace microphones, direct instrument inputs, hardware synths and software instruments into a recording; see how mic placement and a room change the captured sound.</span><span class="dl-next-action">Continue to lesson 23</span></span>
+  <span class="dl-next-arrow" aria-hidden="true">→</span>
+ </a>
+ <div class="dl-nav-utilities"><a href="/decoder/bit-depth/">← Previous: Bit depth and dynamic range</a><a href="/decoder/">All lessons ↗</a></div>
+ </nav><!-- LESSON_NAV_END -->
+
+<section class="container dl-reading dl-sources-after-nav" aria-label="Optional reading and links"><details class="dl-supplemental"><summary>Additional reading, sources and optional activities</summary><div class="dl-supplemental-content"><p>Related lessons: <a href="/decoder/bit-depth/">16-bit versus 24-bit</a>, <a href="/decoder/sample-rate/">sample-rate limits</a> and <a href="/decoder/dac-specifications/">DAC performance numbers</a>.</p>
 <div class="dl-references"><h2>Sources and further reading</h2><ul><li><a href="https://www.xiph.org/flac/features.html" rel="noopener noreferrer">Xiph.Org · What FLAC preserves and why it is lossless ↗</a></li>
 <li><a href="https://www.xiph.org/flac/documentation_format_overview.html" rel="noopener noreferrer">Xiph.Org · How FLAC stores PCM and variable-rate frames ↗</a></li>
 <li><a href="https://www.audacityteam.org/blog/on-audio-quality/" rel="noopener noreferrer">Audacity · Lossy versus lossless and perceptual transparency ↗</a></li>
 <li><a href="https://www.izotope.com/community/blog/avoid-artifacts-with-clip-free-compression-in-rx-7?page=0" rel="noopener noreferrer">iZotope · MP3/AAC encoding artifacts and peaks ↗</a></li>
 <li><a href="https://www.foobar2000.org/components/view/foo_abx" rel="noopener noreferrer">foobar2000 · ABX comparator for double-blind listening ↗</a></li></ul>
 <p><strong>Integrity note:</strong> Every size and bar on this page is a mathematical teaching example. No commercial audio excerpt, real encoder output, listening-test result or proprietary recording is presented as proof.</p></div>
-</div></section>
-<!-- LESSON_NAV_BEGIN --><nav class="dl-continue container" aria-label="Continue learning">
- <div class="dl-course-progress"><span>KEEP LEARNING</span><span>Lesson 20 of 27 · Sources & DACs</span></div>
- <a class="dl-next-card" href="/decoder/speaker-dispersion/">
-  <span class="dl-next-copy"><span class="dl-next-kicker">NEXT TOPIC · SPEAKERS</span>
-  <strong>Speaker dispersion and off-axis response</strong><span>Why sound changes away from the centre seat, how to read horizontal/vertical response and speaker directivity.</span></span>
-  <span class="dl-next-arrow" aria-hidden="true">→</span>
- </a>
- <div class="dl-nav-utilities"><a href="/decoder/bit-depth/">← Previous: Bit depth and dynamic range</a><a href="/decoder/">All lessons ↗</a></div>
- 
- </nav><div class="dl-related-action"><span>Related next step</span><a href="/decoder/sample-rate/">Understand digital audio rates</a></div>
-<!-- LESSON_NAV_END -->
-
+</div><div class="dl-related-action"><span>Related next step</span><a href="/decoder/sample-rate/">Understand digital audio rates</a></div></div></details></section>
 </main><footer class="site-footer tsq-footer-compact"><div class="container tsq-footer-inner"><span>© 2026 The Sound Question · Free to explore</span><nav aria-label="Policies"><a href="/privacy/">Privacy</a><a href="/content-use/">Content Use &amp; Attribution</a></nav></div></footer></div><script defer src="/assets/decoder-lessons.js"></script></body></html>

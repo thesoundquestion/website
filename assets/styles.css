@@ -604,3 +604,38 @@ main{flex:1}
     line-height:1.46;
   }
 }
+
+/* Cross-media TSQ signal: logo remains its original, separate brand mark.
+   Waveform is a decorative intro-inspired motif, not a live audio meter. */
+.site-header{isolation:isolate}
+.site-header::after{
+ content:"";position:absolute;left:0;right:0;bottom:-2px;
+ height:24px;pointer-events:none;z-index:0;
+ background:url("/assets/header-waveform.svg") center bottom/1440px 28px repeat-x;
+ opacity:.67;
+ -webkit-mask-image:linear-gradient(90deg,transparent,black 5%,black 95%,transparent);
+ mask-image:linear-gradient(90deg,transparent,black 5%,black 95%,transparent);
+ animation:tsq-header-signal-drift 18s ease-in-out infinite alternate;
+}
+.site-header .header-inner{z-index:1}
+@keyframes tsq-header-signal-drift{
+ from{background-position:calc(50% - 12px) bottom;opacity:.55}
+ to{background-position:calc(50% + 12px) bottom;opacity:.75}
+}
+/* Homepage has no navigation header. Keep the waveform separate from
+   the main mark and wordmark as an underline to the hero region. */
+.home-simple .home-goal-intro::after{
+ content:"";position:absolute;left:0;right:0;bottom:0;height:28px;
+ pointer-events:none;
+ background:url("/assets/header-waveform.svg") center bottom/1440px 28px repeat-x;
+ opacity:.68;
+ -webkit-mask-image:linear-gradient(90deg,transparent,black 7%,black 93%,transparent);
+ mask-image:linear-gradient(90deg,transparent,black 7%,black 93%,transparent);
+}
+@media(max-width:620px){
+ .site-header::after{height:20px;background-size:960px 19px}
+ .home-simple .home-goal-intro::after{height:22px;background-size:1100px 22px}
+}
+@media(prefers-reduced-motion:reduce){
+ .site-header::after{animation:none;opacity:.67}
+}

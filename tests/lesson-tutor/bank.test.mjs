@@ -15,7 +15,7 @@ const read = path => readFileSync(new URL(path, repo), 'utf8');
 const graph = (lesson, plot, example, section = 'compare') => getContext(bank, { lesson, plot, example, section });
 
 test('each published lesson has six prompts, its printed spec and a bank matching its graph controls', () => {
-  assert.deepEqual(Object.keys(bank), curriculum.lessons.map(item => item.slug));
+  assert.deepEqual(Object.keys(bank).sort(), curriculum.lessons.map(item => item.slug).sort());
   for (const [slug, lesson] of Object.entries(bank)) {
     const html = read('decoder/' + slug + '/index.html');
     assert.match(html, /src="\/assets\/decoder-lessons\.js(?:\?[^"]*)?"/, slug);
@@ -42,7 +42,10 @@ test('each published lesson has six prompts, its printed spec and a bank matchin
       }
       assert.ok(plot.referenceCases.every(caseId => Object.hasOwn(plot.examples, caseId)), id);
     }
-    for (const section of lesson.sections) assert.ok(html.includes('id="' + section + '"'), slug + '#' + section);
+    for (const section of lesson.sections){
+      if(section==='next') assert.match(html,/<nav class="dl-continue container"[^>]*aria-label="Continue learning"/,slug+' continuation nav');
+      else assert.ok(html.includes('id="' + section + '"'),slug+'#'+section);
+    }
     for (const link of lesson.relatedLinks) {
       assert.ok(isLessonLink(link), link);
       const [path, hash] = link.split('#');

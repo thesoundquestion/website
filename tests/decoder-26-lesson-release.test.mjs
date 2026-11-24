@@ -34,6 +34,24 @@ test('all 27 lessons have one numbered card or opening link, page title and site
  assert.match(hub,/27 beginner-friendly lessons on sound basics/);
 });
 
+test('lesson cards, headings and previous/next links follow exactly the same 27-lesson curriculum',()=>{
+ const expected=slugs.slice(1);
+ const cards=[...hub.matchAll(/<a class="dl-card" href="\/decoder\/([^/]+)\/">(?:(?!<\/a>)[\s\S])*?<span class="dl-number">LESSON\s+(\d+)/g)];
+ assert.deepEqual(cards.map(m=>m[1]),expected,'homepage cards must be in the same order as curriculum');
+ assert.deepEqual(cards.map(m=>Number(m[2])),expected.map((_,i)=>i+2),'homepage cards need consecutive numbers');
+ for(let i=0;i<slugs.length;i++){
+   const page=read('decoder/'+slugs[i]+'/index.html');
+   const number=String(i+1).padStart(2,'0');
+   assert.match(page,new RegExp('<p class="section-kicker">LESSON '+number+'\\b'),'header numbering: '+slugs[i]);
+   assert.ok(page.includes('Lesson '+number+' of '+slugs.length),'footer numbering: '+slugs[i]);
+   const next=slugs[i+1];
+   const target=next?'/decoder/'+next+'/':'/decoder/';
+   assert.ok(page.includes('<a class="dl-next-card" href="'+target+'">'),'guided destination: '+slugs[i]);
+   if(i>0)assert.ok(page.includes('<a href="/decoder/'+slugs[i-1]+'/">← Previous:'),'previous link: '+slugs[i]);
+ }
+ assert.doesNotMatch(hub,/\b0[1-5] \/ (?:LOUDSPEAKERS|AMPLIFIERS|HEADPHONES|SOURCES|RECORDING)/,'sections must not have misleading parallel numbering');
+});
+
 test('the full Decoder course has valid static internal links and illustration files',()=>{
  const missing=[];
  for(const slug of slugs){

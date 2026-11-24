@@ -15,12 +15,13 @@ const legacy=read('system-check/compare/compare.js');
 const css=read('system-check/compare/style.css');
 const model=name=>catalog.records.find(item=>item.model===name);
 const types=['amp','speaker','source','headphone',
-  'audio_interface','mixer_recorder','microphone','headphone_amplifier','computer_sound_card'];
+  'audio_interface','mixer_recorder','microphone','headphone_amplifier','computer_sound_card',
+  'powered_studio_monitor','powered_pa_speaker','catalog_headphone'];
 const extras=types.slice(4);
 const compare=(a,b,type)=>buildEquipmentComparison(model(a),model(b),{category:type});
 const row=(comparison,key)=>comparison.rows.find(x=>x.key===key);
 
-test('Compare My Gear exposes all nine categories without removing legacy specs and actions',()=>{
+test('Compare My Gear exposes all twelve categories without removing legacy specs and actions',()=>{
   assert.deepEqual([...html.matchAll(/data-kind="([^"]+)"/g)].map(x=>x[1]),types);
   assert.ok(html.includes('id="gc-legacy"'));
   assert.ok(html.includes('id="gc-expanded"'));
@@ -51,12 +52,15 @@ test('new categories have actual catalogue records and feature-appropriate spec 
     mixer_recorder:['advertisedMixerChannels','micPreampCount','computerRecordingInputs','usbRecordingMode','inputConnections','outputConnections','inputRoutingConstraints'],
     microphone:['capsule','pattern','requires48v','powerMethod','inputConnections','outputConnections'],
     headphone_amplifier:['ratedOutputMilliwatts','hasBuiltInDac','outputImpedanceOhms','inputConnections','outputConnections'],
-    computer_sound_card:['recordingAdc','playbackDac','hasDedicatedXlrMicPreamps','maxLineInputResolution','inputConnections','outputConnections']
+    computer_sound_card:['recordingAdc','playbackDac','hasDedicatedXlrMicPreamps','maxLineInputResolution','inputConnections','outputConnections'],
+    powered_studio_monitor:['speakerKind','powered','inputConnections','outputConnections'],
+    powered_pa_speaker:['speakerKind','powered','inputConnections','outputConnections'],
+    catalog_headphone:['nominalImpedanceOhms','sensitivityDb','sensitivityBasis']
   };
   for(const type of extras){
-    const records=catalog.records.filter(x=>x.categories.includes(type));
+    const records=catalog.records.filter(x=>type.startsWith('powered_')?x.categories.includes('speaker')&&x.facts?.speakerKind?.value===type:type==='catalog_headphone'?x.categories.includes('headphone'):x.categories.includes(type));
     assert.ok(records.length>0,'missing catalogue models '+type);
-    const c=buildEquipmentComparison(records[0],records[0],{category:type});
+    const c=buildEquipmentComparison(records[0],records[0],{category:type.startsWith('powered_')?'speaker':type==='catalog_headphone'?'headphone':type});
     for(const field of fields[type])assert.ok(row(c,field),type+' missing '+field);
     for(const row of c.rows)for(const key of ['left','right']){
       assert.equal(typeof row[key].display,'string');

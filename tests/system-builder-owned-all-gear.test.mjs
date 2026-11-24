@@ -103,10 +103,12 @@ test('documented speaker/amp nominal restriction triggers visible warning and pa
   const speaker=gear('speaker','ELAC Debut 3.0 DB63');
   const amp=gear('amp','Yamaha R-S202');
   const r=run({speaker,amp});
-  assert.equal(r.selected[0].id,'owned-complete');
-  assert.match(r.selected[0].loadCaution,/Do not connect/);
+  // A documented do-not-connect pairing is disclosed in excluded, not
+  // presented as a safe "keep this system" recommendation.
+  assert.ok(!r.selected.some(x=>x.id==='owned-complete'));
+  assert.ok(r.excluded.some(x=>/ELAC/.test(x.title)&&/Do not connect|minimum|Ω/.test(x.reason)));
   assert.ok(r.selected.some(x=>x.id.startsWith('owned-speaker-amp')));
-  assert.ok(r.selected.every(x=>x.reuseNames.length>0));
+  assert.ok(r.selected.every(x=>!x.loadCaution&&!x.ownershipBlocker&&x.reuseNames.length>0));
 });
 test('incompatible powered architecture still offers a separate passive route keeping speakers',()=>{
   const r=run({speaker:SPEAKER},{architecture:'consumer_powered_pair'});
@@ -132,8 +134,8 @@ test('unlisted speaker names remain explicitly unknown rather than fabricated sa
   const unknown={name:'Unlisted DIY Pair',record:null};
   const r=run({speaker:unknown});
   assert.equal(r.mode,'keep_speakers');
-  assert.ok(r.selected.every(x=>x.extra.some(s=>/Check the speaker/.test(s))));
-  assert.ok(r.selected.every(x=>x.reuseNames.includes('Unlisted DIY Pair')));
+  assert.ok(!r.selected.some(x=>x.amplifierModel));
+  assert.ok(r.excluded.length>0 || r.selected.every(x=>x.id==='owned-other-route'));
 });
 test('owned-speaker amp choices keep price links when the reference is above budget or expired',()=>{
   const r=run({speaker:SPEAKER},{budget:200});
@@ -149,14 +151,19 @@ test('owned-speaker amp choices keep price links when the reference is above bud
 test('all-new path is only selected when user has not declared any equipment',()=>{
   assert.equal(run({}),null);
 });
-test('UI places ownership plan ahead of example-only shortlist and hides comparison behind disclosure',()=>{
+test('UI retains owned equipment and shows replacement comparisons once with model-specific details',()=>{
   const app=src('../system-builder/app.mjs');
-  assert.match(app,/ownershipPlan\(\{own,request,inventory\}\)/);
-  assert.match(app,/const shortlist = ownership \|\|/);
+  assert.match(app,/ownershipPlan\(\{own,request,inventory,catalog:sharedCatalog\}\)/);
+  assert.match(app,/const initialShortlist = ownership \|\|/);
+  assert.match(app,/applyHeadphoneAmpChoice\(initialShortlist,request,sharedCatalog\)/);
   assert.match(app,/item\.reuseNames\?\.length/);
-  assert.match(app,/item\.pathwayCaution/);
+  const beginner=src('../system-builder/beginner-output.mjs');
+  assert.match(beginner,/item\?\.pathwayCaution/,'Specific ownership restrictions are rendered through beginner-output');
   assert.match(app,/if \(ownership\) \{/);
-  assert.match(app,/Compare new equipment: when would replacing yours make sense\?/);
+  assert.match(app,/When is replacing your current gear worthwhile\?/);
+  assert.match(app,/sb-replacement-comparison-preview sb-comparison-overview/);
+  assert.match(app,/detail\.append\(renderCard\(item,null,true\)\)/);
   assert.match(app,/ownership\.comparisonReasons/);
-  assert.match(app,/preferenceMatchAvailable/);
+  assert.match(beginner,/editorialGoalFocus===false/,'Unproven goal preference must be identified rather than scored');
+  assert.match(app,/overview\.goalExplanation/,'Task-specific preference explanation stays visible');
 });

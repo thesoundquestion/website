@@ -314,7 +314,7 @@ function deviceLinks(device) {
   if (device.thirdReference) notes.append(linkedText('Converter-chip identification reference', device.thirdReference, true));
   if (device.detailNote) notes.append(withCondition('', device.detailNote));
   if (device.extra) notes.append(linkedText(device.extra[0], device.extra[1], true));
-  if (device.url && kind !== 'headphone') {
+  if (device.url && ['amp','speaker','source'].includes(kind)) {
     notes.append(linkedText('Use in System Check', '/system-check/?' + new URLSearchParams({ [kind]: device.model })));
   }
   return notes;

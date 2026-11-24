@@ -11,22 +11,54 @@ test('summary is one compact profile rather than large multi-column tiles', () =
   assert.doesNotMatch(app,/const summary = el\('div','sb-summary'\)/);
 });
 
-test('first three product options appear before extra options are expandable', () => {
-  assert.match(app,/shortlist\.selected\.slice\(0,3\)/);
-  assert.match(app,/const more = el\('details','sb-more'\)/);
-  assert.match(app,/Show '/);
+test('only the primary full card is visible; each alternative has one inline expandable detail', () => {
+  assert.match(app,/renderCard\(shortlist\.selected\[0\]\)/);
+  assert.match(app,/firstCard\.id='sb-first-recommendation'/);
+  assert.match(app,/shortlist\.selected\.slice\(1\)/);
+  assert.match(app,/el\('details','sb-alternative-details'\)/);
+  assert.match(app,/detail\.append\(renderCard\(item,null,true\)\)/);
+  assert.doesNotMatch(app,/sb-alternative-setups|const alternativeSetups/);
+  assert.match(app,/result\.focus\(\{preventScroll:true\}\)/);
+  assert.match(app,/result\.scrollIntoView\(\{behavior:'instant',block:'start'\}\)/);
+  assert.doesNotMatch(app,/firstRecommendation\|\|result/,
+    'Do not skip the options explanation in favor of the first product');
+  assert.doesNotMatch(app,/shortlist\.selected\.slice\(0,3\)/);
 });
 
-test('card structure keeps urgent warnings visible and price references inside optional details', () => {
-  const start = app.indexOf("const renderCard = item =>");
-  const more = app.indexOf("const details = el('details','sb-card-details');",start);
-  const warning = app.indexOf("if (item.loadCaution)",start);
-  const price = app.indexOf("renderPriceReferences(details,item,'h5');",start);
-  assert.ok(start>=0&&warning>start&&more>warning&&price>more);
-  assert.match(app,/item\.loadCaution/);
-  assert.match(app,/sb-card-alert/);
-  assert.doesNotMatch(app,/item\.id === 'passive-rs202-p3'/);
-  assert.match(app,/item.connectionStatus === 'adapter_needed'/);
+test('beginner-first main view shows concise guidance and reachable technical depth', () => {
+  for (const marker of [
+    "const inline=el('details','sb-inline-system-check')",
+    "const proof=el('details','sb-beginner-proof')",
+    "const disclosure=el('details','sb-setup-disclosure')",
+    "collapsed:!detailOnly",
+    "frame.loading=detailOnly?'lazy':'eager'",
+    "doc.querySelector('#result-status')",
+    "removeUnsafeRecommendations(candidateShortlist,request)",
+    "const evidence=el('details','sb-beginner-evidence')"
+  ]) assert.ok(app.includes(marker),marker);
+  assert.ok(page.includes('<details class="sb-listening-reference"'));
+  assert.ok(page.includes('<summary id="sb-listening-reference-title">'));
+  for(const marker of [
+    'Beginner-first density pass',
+    '.sb-results .sb-beginner-reason{',
+    '.sb-results .sb-inline-system-check .sb-headroom-verdict'
+  ]) assert.ok(css.includes(marker),marker);
+});
+
+test('all recommendation cards put sound before fit, with technical checks inside disclosures', () => {
+  const start=app.indexOf("const renderCard = (item,alternativeComparison=null,detailOnly=false) =>");
+  const end=app.indexOf('const renderComparisonPreview=',start);
+  const render=app.slice(start,end);
+  assert.ok(start>=0&&end>start);
+  assert.ok(render.indexOf("addText(profile,'strong','How listeners describe the sound')")<
+    render.indexOf("addText(whyBox,'h5'"));
+  assert.match(render,/const details = el\('details','sb-card-details'\)/);
+  assert.match(render,/list\(details,checks\)/);
+  assert.doesNotMatch(render,/if\(overview.firstChecks.length\)/);
+  assert.doesNotMatch(render,/sb-safety-blocker/);
+  assert.match(app,/removeUnsafeRecommendations\(candidateShortlist,request\)/);
+  assert.match(app,/item\.curatedPairing\?\.sources/);
+  assert.doesNotMatch(app,/sb-card-thd|Distortion evidence:/);
 });
 
 test('each product card uses native expandable details without opening automatically', () => {

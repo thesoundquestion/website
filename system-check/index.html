@@ -9,11 +9,15 @@
   <meta property="og:url" content="https://thesoundquestion.com/system-check/">
 <link rel="icon" href="/assets/mark.svg">
 <link rel="stylesheet" href="/assets/styles.css">
-<link rel="stylesheet" href="/system-check/style.css?v=amp-distortion-20261112">
+<link rel="stylesheet" href="/system-check/style.css?v=fosi-provisional-headroom-20261121">
 <link rel="stylesheet" href="/tools/recommend-gear/style.css">
 <script defer src="/equipment/legacy-presets.generated.js?v=registry-v1"></script>
-<script defer src="/system-check/calculator.js?v=operating-region-20261112"></script>
+<script defer src="/system-check/verified-speaker-supplements.js?v=psb-alpha-qacoustics-20261120"></script>
+<script defer src="/system-check/headroom-alternatives.js?v=draft-shortlist-20261120"></script>
+<script defer src="/system-check/calculator.js?v=builder-focus-20261120"></script>
 <script type="module" src="/system-check/spec-search.mjs?v=external-google"></script>
+<script type="module" src="/system-check/powered-check.mjs?v=powered-practical-output-20261121"></script>
+<script type="module" src="/system-check/provisional-check.mjs?v=fosi-scenario-20261121"></script>
 
 <title>System Check | The Sound Question</title>
 </head>
@@ -25,14 +29,43 @@
 </div></header>
 <main id="main" class="container sc">
 <h1>System Check</h1>
-<p class="lead">Can your amp handle the loudest hits at your seat? Find out what your speakers ask for and what an upgrade would buy you.</p>
+<p class="lead">Can your amp handle the loudest hits at your seat? Be careful what you wish for when turning it up: the final countdown to a big chorus can demand more output than the average verse suggests. That doesn't mean you need a bigger amplifier if yours already handles the peaks cleanly. Find out what your speakers ask for and what an upgrade would buy you.</p>
 <nav class="sc-tool-tabs" aria-label="Equipment tools">
 <a class="button button-primary" href="/system-check/" aria-current="page">System Check</a>
+<a class="button button-secondary" href="/system-check/?powered=1">Powered speakers →</a>
 <a class="button button-secondary" href="/system-check/compare/">Compare My Gear →</a>
 <a class="button button-secondary" href="/system-builder/">Build a system →</a>
 </nav>
 <aside class="tsq-recommend-link" aria-label="Recommend missing equipment"><p><strong>Don't see your model?</strong> Help us grow the verified presets for everyone using these tools.</p><a href="/tools/recommend-gear/">Recommend your gear →</a></aside>
 <noscript><p>Enable JavaScript to calculate estimates. You can still read the <a href="/decoder/amplifier-power/#headroom">headroom lesson</a>.</p></noscript>
+<section id="sc-provisional-check" class="sc-provisional-check" hidden aria-labelledby="sc-provisional-title">
+ <h2 id="sc-provisional-title">Illustrative amplifier headroom</h2>
+ <p class="sc-provisional-intro">A known amplifier and speaker can have useful published and independently discussed output evidence even when there is no fully validated continuous-power test. This is a provisional estimate, not a guaranteed clean level.</p>
+ <p id="sc-provisional-models" class="sc-provisional-models"></p>
+ <form id="sc-provisional-form" class="sc-provisional-form">
+  <label>Listening distance (ft)<input name="distanceFt" type="number" min=".5" max="300" step=".5" value="6" required></label>
+  <label>Average listening level (dB)<input name="average" type="number" min="40" max="115" step="1" value="65" required></label>
+  <label>Musical peak above average (dB)<input name="gap" type="number" min="0" max="45" step="1" value="15" required></label>
+  <button class="button button-primary" type="submit">Update estimate</button>
+ </form>
+ <div id="sc-provisional-result" class="sc-provisional-result" aria-live="polite"></div>
+ <p class="sc-provisional-switch"><a href="/system-check/">Use the verified-ratings calculator</a></p>
+</section>
+<section id="sc-powered-check" class="sc-powered-check" hidden aria-labelledby="sc-powered-title">
+ <div class="sc-powered-intro">
+  <h2 id="sc-powered-title">Powered speaker headroom</h2>
+  <p>Powered speakers are judged by measured or published acoustic output at a known distance, not by the wattage of their internal amplifiers. The figures below are planning estimates, not clean-output guarantees.</p>
+ </div>
+ <form id="sc-powered-form" class="sc-powered-form">
+  <label>Exact powered speaker model<select name="model" aria-label="Powered speaker model"></select></label>
+  <label>Listening distance (ft)<input name="distanceFt" type="number" min=".5" max="300" step=".5" value="6" required></label>
+  <label>Target average (dB SPL)<input name="average" type="number" min="40" max="115" step="1" value="65" required></label>
+  <label>Musical peak above average (dB)<input name="gap" type="number" min="0" max="45" step="1" value="15" required></label>
+  <button class="button button-primary" type="submit">Update powered headroom</button>
+ </form>
+ <section id="sc-powered-result" class="sc-powered-result" aria-live="polite" aria-label="Powered speaker output estimate"></section>
+ <p class="sc-powered-switch"><a href="/system-check/">Use the amplifier and passive-speaker calculator instead</a></p>
+</section>
 <form id="check" class="sc-layout">
 <div class="sc-inputs">
 <fieldset class="sc-mode"><legend>What are you working out?</legend>
@@ -72,27 +105,36 @@
 <div class="sc-searches" role="group" aria-label="Speaker specification Google links"></div>
 <p class="sc-lookup-extra">Independent measurements may help: <a href="https://www.spinorama.org/" target="_blank" rel="noopener noreferrer">Spinorama speaker index</a>. Leave undocumented fields blank.</p></details>
 </fieldset>
+<p id="builder-handoff-note" class="sc-brief-note" hidden aria-live="polite"></p>
 <fieldset><legend>Listening goal</legend>
 <div class="sc-fields">
 <label>Start with<select name="targetMode"><option value="both" selected>Linked average and peak levels</option><option value="peak">Peak level only</option></select></label>
-<label data-target="peak">Peak at your seat (dB SPL)<input name="peak" type="number" min="20" max="135" step="any" value="95" list="levels" required></label>
-<label data-target="average">Average at your seat (dB SPL)<input name="average" type="number" min="20" max="135" step="any" value="80" list="levels" required></label>
+<label data-target="peak">Peak at your seat (dB SPL)<input name="peak" type="number" min="20" max="135" step="any" value="90" list="levels" required></label>
+<label data-target="average">Average at your seat (dB SPL)<input name="average" type="number" min="20" max="135" step="any" value="75" list="levels" required></label>
 <label data-target="gap">Room above average for peaks (dB)<input name="gap" type="number" min="0" max="50" step="any" value="15" list="peak-gaps" required></label>
 </div>
-<p>Start with <strong>80 dB SPL as the average sound level at your seat</strong>. SPL means sound pressure level, measured in decibels. This is an editable example, not a prescribed listening level. Genelec discusses a <a href="https://www.genelec.com/-/blog/how-to-analyse-frequency-and-temporal-responses" target="_blank" rel="noopener">70–80 dB SPL range</a> for room calibration. We initially allow another <strong>15 dB</strong> for brief loud peaks, such as drum hits. Heavily compressed music may have a smaller gap; more dynamic music can have a larger one. Change either number to match the example you're checking. <a href="https://www.ti.com/lit/an/sloa068/sloa068.pdf" target="_blank" rel="noopener">Technical explanation of peaks and averages</a></p>
+<p>Start with <strong>75 dB SPL as the example average sound level at your seat</strong>, plus <strong>15 dB</strong> for brief musical peaks, giving a 90 dB SPL example peak. These are editable planning numbers, not prescribed listening levels or performance ceilings. You can set 95, 100 or 105 dB peaks for more demanding scenarios and inspect what the selected equipment can deliver. Heavily compressed music may have a smaller gap; more dynamic recordings can have a larger one. Average sound level, instantaneous unweighted peak SPL and A-weighted exposure limits are not interchangeable; higher listening levels also call for shorter exposure. Change either number to match your actual listening question.</p>
+<details class="sc-level-guide"><summary>What do listening levels feel like? (60–70, 80, 85 dB SPL and brief 110 dB peaks)</summary><div class="sc-level-guide-inner">
+<p><strong>These examples use sound pressure level (dB SPL)</strong>, matching the calculator's listening-seat inputs. They are approximate real-world comparisons, not fixed levels for every voice, song, room or distance.</p>
+<ul>
+<li><strong>60–70 dB SPL average:</strong> Around the level of normal conversation near 3 ft (1 m), moving toward raised conversation. Health Canada uses about 60 dB SPL for conversational speech at 1 m.</li>
+<li><strong>Around 80 dB SPL average:</strong> Noticeably louder than conversation; think energetic music at your listening seat. For an outdoor reference, Health Canada lists roughly 80 dB SPL at the shoulder of a busy road from about 16 ft (5 m).</li>
+<li><strong>Around 85 dB SPL average:</strong> Loud, sustained listening, a clear increase above 80 dB SPL. The longer you listen at elevated levels, the more hearing exposure matters. This is <em>not</em> the same measurement as the CDC's 85 <strong>dBA</strong> occupational exposure limit.</li>
+<li><strong>A brief 110 dB SPL peak:</strong> A very loud, momentary drum hit or similar transient, not a normal average or a recommended target. For scale, Health Canada lists a chainsaw at around 110 dB SPL measured 3 ft (1 m) away, but that is a very different <em>duration</em> from one brief musical peak.</li>
+</ul>
+<p><strong>Want to check your own system?</strong> Put a sound-level meter near ear height at your listening seat. For the closest comparison with this calculator, use an <strong>unweighted/flat or Z-weighted SPL average (Leq)</strong> over a familiar 30–60 second passage. If your meter offers only C-weighting, it may be a rough alternative, but isn't identical. A phone SPL app without a calibrated microphone is only an estimate and may miss brief peaks, especially bass-heavy sounds. You do not need to produce a 110 dB peak to use this calculator.</p>
+<p><strong>For hearing exposure:</strong> CDC limits are reported in <strong>dBA</strong>, which weights frequencies differently. Use those guidelines for hearing safety, not as a direct numerical conversion to this unweighted SPL estimate. See <a href="https://www.canada.ca/en/health-canada/services/health-risks-safety/radiation/everyday-things-emit-radiation/wind-turbine-noise/primer-noise-environmental-workplace-health.html" target="_blank" rel="noopener noreferrer">Health Canada's typical SPL examples</a> for the everyday comparisons above.</p>
+</div></details>
+<p class="sc-level-quicklinks" aria-label="Further reading about listening levels"><a href="https://www.cdc.gov/niosh/noise/prevent/understand.html" target="_blank" rel="noopener noreferrer">CDC Recommended Levels</a><span aria-hidden="true"> · </span><a href="https://support.genelec.com/hc/en-us/articles/21060845571090-How-does-the-Standard-Loudness-SPL-Calibration-in-GLM-actually-work" target="_blank" rel="noopener noreferrer">Genelec Test Levels</a></p>
 <datalist id="peak-gaps"><option value="6"><option value="10"><option value="15"><option value="20"><option value="24"></datalist>
 <datalist id="levels"><option value="40"><option value="50"><option value="60"><option value="70"><option value="75"><option value="80"><option value="85"><option value="90"><option value="95"><option value="100"><option value="105"><option value="108"><option value="110"><option value="115"></datalist>
-<details><summary>What does that level sound like?</summary>
-<p>For scale, CDC examples put normal conversation around 60 dB, movie theaters around 70–104 dB and rock concerts around 95–115 dB. Distance, the room, and the sound itself change these figures. In the lesson example, a brief drum hit reaches 102 dB SPL while the passage averages 87 dB SPL.</p>
-<a href="https://www.cdc.gov/nceh/hearing_loss/infographic/" target="_blank" rel="noopener">CDC everyday sound examples</a> · <a href="https://archive.cdc.gov/www_cdc_gov/healthyschools/noise/signs.htm" target="_blank" rel="noopener">Conversation and other reference levels</a>
-</details>
 </fieldset>
 <fieldset id="amp-fields"><legend>Amplifier ratings</legend>
 <div class="sc-gear-picker" data-gear="amp" hidden>
 <label>Amplifier preset<select aria-describedby="gear-amp-note"><option value="">Enter specs manually</option></select></label>
 <p id="gear-amp-note" aria-live="polite"></p>
 </div>
-<p>Enter watts per channel. Use separate rows for different loads or test durations. Results highlight Your Speakers and show estimated 4 Ω, 6 Ω or 8 Ω alternatives as relevant. Enter continuous ratings for sustained output and short-burst ratings separately when known. A missing burst rating is not assumed to equal the clipping limit.</p>
+<p>Enter watts per channel. Use separate rows for different loads or test durations. Results focus on the speaker impedance you entered. If matching amplifier ratings are available, you will see the headroom comparison. When published ratings bracket an intermediate impedance such as 6 Ω, its wattage is clearly labelled as an interpolation rather than a manufacturer test. Short-burst ratings add useful context when available.</p>
 <div id="ratings"></div>
 <button class="sc-button" id="add-rating" type="button">Add a power rating</button>
 <details class="sc-lookup" data-lookup="amp"><summary>Find my amplifier specs</summary>

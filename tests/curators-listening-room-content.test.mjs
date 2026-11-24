@@ -74,6 +74,13 @@ test('paired Blind Melon opening songs count as one recommendation for the entir
   assert.ok(albumSection.includes(term),'Missing listening cue: '+term);
  }
  assert.match(albumSection,/open.spotify.com\/album\/7yz9SLBNG9nOTuP1aP638b/);
+ const songLink=albumSection.match(/<a class="curator-spotify" href="([^"]+)"/)?.[1];
+ const albumLink=albumSection.match(/<a href="([^"]+)"[^>]*aria-label="Open the full Blind Melon/)?.[1];
+ assert.equal(songLink,'https://open.spotify.com/search/Blind%20Melon%20Soak%20the%20Sin');
+ assert.equal(albumLink,'https://open.spotify.com/album/7yz9SLBNG9nOTuP1aP638b');
+ assert.notEqual(songLink,albumLink,'the selected song and full album must have separate Spotify links');
+ assert.match(albumSection,/Find song on Spotify/);
+ assert.match(albumSection,/Listen to the full album on Spotify/);
  assert.doesNotMatch(albumSection,/Soup \(1995\)/);
  assert.equal([...html.matchAll(/<article class="curator-track"/g)].length,51);
  assert.match(html,/51 selections cover 55 tracks/);

@@ -1,7 +1,10 @@
 import {BUDGET_EXAMPLES} from './budget-examples.mjs';
+import {curatedPairingFor} from './curated-pairing-evidence.mjs';
 import {catalogHeadphoneExamples} from './headphone-options.mjs';
 import {compareExamplePriorities, examplePriceFor, explainExampleInteractions} from './decision-context.mjs';
 import {configureSubExample, requestedSubExamples} from './stereo-subwoofer-examples.mjs';
+import {passivePairingReadiness,passiveReadinessPriority} from './passive-evidence-readiness.mjs';
+import {screenRecommendationSafety} from './recommendation-safety-gate.mjs';
 
 const CA_PRICE_DATE = '2026-11-12';
 
@@ -13,20 +16,30 @@ const CA_PRICE_DATE = '2026-11-12';
 export const EXAMPLES = Object.freeze([
   {
     id:'passive-as301-p5', architecture:'passive_separates', title:'Expandable stereo: Yamaha A-S301 + PSB Alpha P5',
+    // Manufacturer PSB Alpha P5 anechoic sensitivity is 87 dB at 1 W/1 m
+    // (2.83 V into 8 Ω); Yamaha A-S301 published continuous 8 Ω output is 60 W/ch.
+    // This is a rough listening-seat estimate, not independently measured clean SPL.
+    acousticEvidence:{
+      speakerModel:'PSB Alpha P5',amplifierModel:'Yamaha A-S301',
+      sensitivityDb1W1m:87,nominalOhms:8,pairGainDb:3,
+      continuousWattsPerChannel:60,reference:'manufacturer_anechoic',
+      sourceUrls:['https://www.stereophile.com/content/psb-alpha-p5-loudspeaker-specifications',
+        'https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/a-s301/']
+    },
     kind:'New-system example', places:['living_room','bedroom'], power:'mains',
     connections:['analog','optical'],goals:['all_rounder','natural','imaging','dynamic','bass'],
     parts:[
       {name:'Yamaha A-S301 integrated amplifier',count:1,role:'Amplification, volume control, analogue and optical inputs',url:'https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/a-s301/specs.html'},
       {name:'PSB Alpha P5 passive speakers',count:1,role:'One stereo pair',url:'https://www.psbspeakers.com/collections/alpha'}
     ],
-    why:'A conventional separate-amp system with built-in optical conversion and a wider speaker-upgrade path than compact powered boxes.',
-    tradeoff:'Not a verified speaker/amplifier load match until the P5 minimum-impedance curve, amplifier permitted loads and room output needs are checked. Sub Out on the A-S301 is not evidence that its main speakers are high-passed.',
+    why:'A complete stereo starting point with a separate amplifier and a pair of passive speakers. The Yamaha has analogue and optical inputs, and the two speakers can be changed later without replacing the amp.',
+    tradeoff:'The amplifier and speakers need separate speaker cable and shelf/stand space. Adding a subwoofer through the A-S301 Sub Out does not establish a high-pass filter for the main speakers.',
     extra:['Speaker cable is required; stands, streamer and optional subwoofer are separate.',
       'For Bluetooth, USB or HDMI, add and price an appropriate source or converter.'],
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Yamaha A-S301',amount:649.95,url:'https://www.crutchfield.ca/p_022AS301B/Yamaha-A-S301.html'},{label:'PSB Alpha P5 pair',amount:699,url:'https://audioshop.on.ca/products/psb-p5-bookshelf-speakers'}]}
   },
   {
-    id:'powered-mr4', architecture:'consumer_powered_pair', title:'Low-cost wired desk: Edifier MR4 stereo pair',
+    id:'powered-mr4', architecture:'consumer_powered_pair',poweredHeadroomModel:'Edifier MR4', title:'Low-cost wired desk: Edifier MR4 stereo pair',
     kind:'Complete powered pair (with compatible analogue source)', places:['desk','bedroom','living_room'], power:'mains',
     connections:['analog'],goals:['all_rounder','natural','low_volume','imaging'],
     parts:[{name:'Edifier MR4 powered stereo speakers',count:1,role:'One box contains active right speaker, passive left speaker and connecting cable',url:'https://ca.edifier.com/products/mr4'}],
@@ -36,28 +49,28 @@ export const EXAMPLES = Object.freeze([
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Edifier MR4 pair',amount:179.99,url:'https://ca.edifier.com/products/mr4'}]}
   },
   {
-    id:'powered-ora', architecture:'consumer_powered_pair', title:'Compact flexible desk: Kanto ORA stereo pair',
+    id:'powered-ora', architecture:'consumer_powered_pair',poweredHeadroomModel:'Kanto ORA', title:'Compact flexible desk: Kanto ORA stereo pair',soundTarget:'Kanto ORA',
     kind:'Complete powered pair (with a compatible source)', places:['desk','bedroom','living_room'], power:'mains',
     connections:['analog','usb','bluetooth'],goals:['all_rounder','imaging','natural','bass','low_volume'],
     parts:[{name:'Kanto ORA original powered stereo pair',count:1,role:'Pair with internal amplification, USB-C, RCA, Bluetooth and sub output',url:'https://kantoaudio.com/powered-speakers/ora/'}],
-    why:'An integrated stereo path for computer and wireless listening. Original ORA documents a 100 Hz main/sub crossover when a sub is connected.',
+    why:'An uncomplicated bedroom or desktop stereo pair with built-in amplification, computer USB audio and Bluetooth. The original ORA also supports a documented main/sub crossover when a compatible sub is added.',
     tradeoff:'The small 3-inch woofers limit what to assume about low bass or large-room output. Original ORA is not ORA4, whose routing differs. Additional sub, stands and connection accessories cost extra.',
     extra:['For a sub, verify the exact ORA revision and connection; do not infer an automatic clean-SPL increase.'],
     priceCA:{date:CA_PRICE_DATE,components:[{label:'Kanto ORA pair',amount:399.99,url:'https://www.crutchfield.ca/p_310ORABK/Kanto-ORA-Matte-Black.html'}]}
   },
   {
-    id:'studio-jbl', architecture:'active_studio', title:'Nearfield separates: two JBL 305P MkII monitors',
+    id:'studio-jbl', architecture:'active_studio',poweredHeadroomModel:'JBL 305P MkII', title:'Nearfield separates: two JBL 305P MkII monitors',soundTarget:'JBL 305P MkII',
     kind:'Two individual powered monitors', places:['desk','bedroom'], power:'mains',
     connections:['analog'],goals:['imaging','natural','all_rounder','dynamic'],
     parts:[{name:'JBL 305P MkII active monitor',count:2,role:'Order TWO individual loudspeakers; not a pre-packed stereo pair',url:'https://www.jbl.com/305PMKII-.html'},
       {name:'Suitable stereo level control/interface and signal cables',count:1,role:'Required if the source lacks appropriate analogue outputs and level control',url:null}],
-    why:'A two-monitor route intended for nearfield stereo listening, with each speaker powered independently.',
+    why:'A left/right stereo setup with amplification inside each monitor, so a separate speaker amplifier is unnecessary. A suitable stereo output and volume control are still needed to connect your music player.',
     tradeoff:'Budget for two monitors and any interface, controller or cables you need. Check connection levels, hiss close to the ears and room placement.',
     extra:['Not a substitute for a portable party rig. No direct USB, optical, HDMI or Bluetooth input on the monitor itself.'],
     priceCA:{date:CA_PRICE_DATE,components:[{label:'JBL 305P MkII, each',amount:279.99,quantity:2,url:'https://www.avshop.ca/recording-studio-monitoring-studio-monitors/jbl-305p-mkii-powered-5in-two-way-studio-monitor-each-black'}]}
   },
   {
-    id:'studio-kali', architecture:'active_studio', title:'Larger desk / small room: two Kali LP-6 V2 monitors',
+    id:'studio-kali', architecture:'active_studio',poweredHeadroomModel:'Kali LP-6 V2', title:'Larger desk / small room: two Kali LP-6 V2 monitors',
     kind:'Two individual powered monitors', places:['desk','bedroom','living_room'], power:'mains',
     connections:['analog'],goals:['natural','imaging','all_rounder','dynamic','bass'],
     parts:[{name:'Kali Audio LP-6 V2 (2nd Wave) monitor',count:2,role:'Two individually powered cabinets',url:'https://www.kaliaudio.com/lone-pine-studio-monitors'},
@@ -147,7 +160,7 @@ export function shortlistExamples(input = {}, catalog = null) {
   else if (aim === 'natural') order = ['passive-as301-p5','studio-kali','powered-mr4','powered-ora','passive-bt20a-xt15','studio-jbl'];
   else if (aim === 'low_volume') order = ['powered-mr4','passive-as301-p5','powered-ora','studio-kali','passive-bt20a-xt15','studio-jbl'];
   else if (aim === 'bass') order = ['powered-ora','passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-mr4'];
-  else if (aim === 'dynamic' || input.level === 'high') order = ['passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-ora','powered-mr4'];
+  else if (aim === 'dynamic') order = ['passive-as301-p5','studio-kali','passive-bt20a-xt15','studio-jbl','powered-ora','powered-mr4'];
   else order = ['passive-bt20a-xt15','passive-as301-p5','powered-ora','powered-mr4','studio-kali','studio-jbl'];
   // Start with simpler setups for a smaller spending target.
   const inputType=String(input.connection||'undecided');
@@ -175,8 +188,12 @@ export function shortlistExamples(input = {}, catalog = null) {
   const byId=new Map([...subExamples, ...EXAMPLES, ...catalogHeadphones].map(example=>[example.id,example]));
   // Prioritize requested 2.1 paths. Architecture and power requirements still
   // apply, even when current prices have to be checked separately.
-  order.sort((a,b)=>compareExamplePriorities(byId.get(a),byId.get(b),input,
-    example=>priorOrder.get(example?.id)??Infinity));
+  order.sort((a,b)=>{
+    const first=byId.get(a),second=byId.get(b);
+    const confidence=passiveReadinessPriority(first,second,catalog,curatedPairingFor,input);
+    return confidence||compareExamplePriorities(first,second,input,
+      example=>priorOrder.get(example?.id)??Infinity);
+  });
   const staged = order.map(id=>byId.get(id)).find(example=>
     example?.stereoAlternative && targetArchitectures.includes(example.architecture));
   // Keep the matching main speakers visible as a stereo-only starting point.
@@ -193,6 +210,10 @@ export function shortlistExamples(input = {}, catalog = null) {
     const product = byId.get(id);
     if (!product || !targetArchitectures.includes(product.architecture)) continue;
     if (product.usedOnly && !used) continue;
+    if (product.safetyStatus==='blocked') {
+      excluded.push({title:product.title,reason:product.safetyReason||'Safety-critical matching is not established.'});
+      continue;
+    }
     if (neededPower && product.power !== 'battery' && product.power !== 'source_dependent') {
       excluded.push({title:product.title,reason:'Battery operation required; this example uses wall power.'}); continue;
     }
@@ -202,15 +223,52 @@ export function shortlistExamples(input = {}, catalog = null) {
     const typeLimit = compactStereoBudget&&product.architecture==='consumer_powered_pair' ? 2 : 1;
     if (arch === 'open' && iteration===0 && id!==staged?.stereoAlternative && sameType>=typeLimit &&
         new Set(selected.map(x=>x.architecture)).size < 3) continue;
-    const needsConnection = input.connection && input.connection !== 'undecided' && !product.connections.includes(input.connection);
+    const needsConnection = input.connection && input.connection !== 'undecided' &&
+      !product.connections.includes(input.connection);
+    // A complete-system example cannot silently rely on an unspecified
+    // converter or adapter. No verified native connection means it is not a
+    // ready-to-connect recommendation for the selected source.
+    if(needsConnection){
+      excluded.push({title:product.title,reason:
+        'No documented direct '+input.connection+' input for this example. '+
+        'An external converter would need separate model, signal, control and cost checks.'});
+      continue;
+    }
     const prices = examplePriceFor(product, input);
-    selected.push({ ...configureSubExample(product, input), ...prices,
+    // A known, current listed-parts subtotal already above a visitor's
+    // explicitly strict budget cannot be a ready-to-buy recommendation.
+    // Unknown or expired prices remain unknown and need verification; they
+    // are not treated as zero or silently certified affordable.
+    if(strict && budget!==null && Number.isFinite(prices.subtotal) && prices.subtotal>budget){
+      excluded.push({title:product.title,reason:
+        'Known listed-parts subtotal exceeds the selected strict budget. '+
+        'Check prices again or change the budget before considering this example.'});
+      continue;
+    }
+    const configured=configureSubExample(product, input);
+    const curatedPairing=curatedPairingFor(configured);
+    // A prebuilt passive system must name an amp/speaker pairing that the
+    // manufacturer data actually supports. Unknown combinations belong in
+    // research, not among ready-to-buy recommendations.
+    if(configured.architecture==='passive_separates'&&!curatedPairing){
+      excluded.push({title:configured.title,reason:
+        'This exact passive amplifier/speaker combination has not passed the manufacturer-load specification check. It is not offered as a recommended new system.'});
+      continue;
+    }
+    const safety=screenRecommendationSafety({...configured,curatedPairing},input);
+    if(!safety.eligible){
+      excluded.push({title:configured.title,reason:safety.blockers.join(' ')});
+      continue;
+    }
+    const headroomData=passivePairingReadiness(configured,catalog,curatedPairing);
+    selected.push({ ...configured, ...prices, curatedPairing,
+      headroomData,
       editorialGoalFocus: product.goals.includes(aim),
       decisionReasons:explainExampleInteractions(product,input),
       secondaryFocus: secondary.filter(x=>product.goals.includes(x)),
       pricingStatus: prices.subtotal === null ? 'regional_price_missing' : 'partial_subtotal',
       priceEvidence:product.priceEvidence||null,
-      connectionStatus: needsConnection ? 'adapter_needed' : 'native_possible',
+      connectionStatus: 'native_possible',
       levelCaution:input.level === 'high' &&
         (Boolean(product.bassSetup) || product.id.startsWith('powered-') || ['powered-ora','studio-jbl'].includes(product.id)),
       placementCaution:(Number(input.distanceFt)>10 &&

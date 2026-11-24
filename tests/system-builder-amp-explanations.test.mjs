@@ -18,21 +18,22 @@ test('amp models have genuinely different source-backed reasons and power figure
   const first=options.find(x=>x.title.includes('Yamaha A-S301'));
   const second=options.find(x=>x.title.includes('Yamaha A-S501'));
   assert.ok(first&&second);
-  assert.match(first.amplifierReason,/60 W at 8 Ω/);
-  assert.match(second.amplifierReason,/85 W at 8 Ω/);
+  assert.match(first.amplifierReason,/60 W\/channel continuously into 8 Ω/);
+  assert.match(second.amplifierReason,/85 W\/channel continuously into 8 Ω/);
   assert.match(first.amplifierReason,/Paradigm Phantom v1/);
-  assert.match(first.amplifierReason,/analogue|analog/);
-  assert.match(second.amplifierReason,/first-stage equipment match/);
+  assert.match(first.amplifierReason,/published nominal impedance/);
+  assert.match(second.amplifierReason,/manufacturer’s published one-pair speaker range/);
   assert.notEqual(first.amplifierReason,second.amplifierReason);
   assert.ok(first.amplifierSource.startsWith('https://'));
-  assert.ok(first.amplifierEvidence.some(x=>x.includes('20 Hz')));
+  assert.ok(first.amplifierEvidence.some(x=>x.includes('Rated continuously')));
 });
 test('connection mismatch and unknown data remain explicit, never promised',()=>{
-  const h=results({...request,connection:'hdmi'}).selected[0];
-  assert.match(h.amplifierReason,/native hdmi input is not documented/);
-  const unknown=results(request,{name:'Unlisted hand-built speaker',record:null}).selected[0];
-  assert.match(unknown.amplifierReason,/no validated nominal impedance/);
-  assert.doesNotMatch(unknown.amplifierReason,/speakers are 8 Ω/);
+  const h=results({...request,connection:'hdmi'});
+  assert.equal(h.selected.length,0);
+  assert.ok(h.excluded.some(x=>/Requested hdmi connection/.test(x.reason)));
+  const unknown=results(request,{name:'Unlisted hand-built speaker',record:null});
+  assert.equal(unknown.selected.length,0);
+  assert.ok(unknown.excluded.length>0);
 });
 test('dynamic goal explicitly treats wattage as evidence to check headroom, not a sound-quality label',()=>{
   const amp=inventory.amp.find(x=>x.model==='Yamaha A-S301');
@@ -50,8 +51,9 @@ test('new amp suggestions carry source and speaker reference but not unsourced a
 });
 test('browser card distinguishes amplifier why from actual speaker acoustic description',()=>{
   const app=read('../system-builder/app.mjs');
-  assert.match(app,/item.amplifierReason \? 'Why this amplifier: '/);
-  assert.match(app,/item.amplifierReason \|\| item.speakerRationale \|\| item.ownershipMessage/);
+  assert.match(app,/headroomModels\.amplifierModel&&headroomModels\.speakerModel/);
+  assert.match(app,/item\.curatedPairing\?\.amplifierModel/);
+  assert.match(app,/explainBeginnerOption\(item,request\)/);
   assert.match(app,/const showSound = sound.type !== 'Not independently characterized'/);
   assert.match(app,/item.soundTarget \? 'Your speaker’s sound: '/);
   assert.match(app,/item.amplifierEvidence\?\.length/);

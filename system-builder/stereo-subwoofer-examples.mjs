@@ -190,7 +190,7 @@ export function configureSubExample(item, request) {
     ...item,
     title: speaker ? 'WiiM Amp + ' + speaker.name.replace(' passive stereo pair', '') + ' + T5' : item.title,
     parts: speaker ? [item.parts[0], speaker, ...item.parts.slice(1)] : item.parts,
-    bassSetup: request.subMode === 'sub_full' ? wiimFullRange : item.bassSetup
+    bassSetup: request.subMode === 'sub_full' && item.id === 'stereo-sub-wiim' ? wiimFullRange : item.bassSetup
   };
 }
 
@@ -223,6 +223,23 @@ export function ownedSubwooferPath(own, request) {
   const components = buying && market?.currency === request.currency ?
     [subPrice(market), ...(route.needsLead ? [leadPrice(market)] : [])] : [];
   const prices = retailPriceReference({date: DATE, components}, request.referenceDate);
-  return {...route, buying, ...prices,
+  // A retained, unidentified subwoofer is NOT automatically an Edifier T5.
+  // Keep verified output-side configuration, but never prescribe T5 input
+  // jacks or crossover knob settings for hardware whose inputs are unknown.
+  const setup=buying ? route.bassSetup : {
+    ...route.bassSetup,
+    setup: route.bassSetup.setup.replace(
+      /Run the included 3\.5 mm-to-dual-RCA cable from the active speaker’s Sub Out to the T5 Signal In\.[^]*|Use a single RCA lead from ORA Sub Out to the T5 Signal In\.[^]*|In WiiM Home[^]*|On the North American AVR-S650H[^]*/,
+      route.retained===edifier.model ?
+        'The speaker supplies a line-level Sub Out; check whether your sub accepts the matching line-level signal and connector. Edifier does not specify the mains crossover frequency. Adjust the actual sub controls only after identifying its model.' :
+      route.retained===ora.model ?
+        'The original ORA provides a line-level Sub Out and a documented automatic 100 Hz main-speaker crossover. Verify your sub has a compatible line input and adjust its actual low-pass controls appropriately; the controls and crossover range vary by subwoofer model.' :
+      route.retained===DENON_S650H_NAME ?
+        'On the North American Denon select Subwoofer Yes, Front Small and a suitable crossover. Connect its Subwoofer Pre Out only to a verified compatible line-level sub input. Confirm the actual sub controls and any bypass option.' :
+        'In WiiM Home enable the sub and set the selected main-bass and crossover options. Connect WiiM Sub Out to a verified compatible line-level sub input. Confirm the actual subwoofer low-pass/bypass controls; do not assume T5 hardware.'
+    )
+  };
+  return {...route, bassSetup:setup, buying, ...prices,
+    ownedSubConnectionVerified:false,
     wantsOwnedSub: request.subOwned === 'yes', needsMainSpeakers: !poweredPair && !own.speaker?.name};
 }

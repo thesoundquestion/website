@@ -110,11 +110,17 @@ export function inspectOwnedPair(speaker, amp) {
   }
   if (speaker && amp) {
     const z = speaker.values?.load;
-    if (Number.isFinite(z) && Array.isArray(amp.ratings) &&
-        amp.ratings.some(x => Array.isArray(x) && x[1] === z)) {
-      facts.push('An amplifier rating at the speaker nominal load exists; this does not verify full load/thermal compatibility.');
+    const exactRatings=Number.isFinite(z)&&Array.isArray(amp.ratings)
+      ? amp.ratings.filter(x=>Array.isArray(x)&&x[1]===z&&
+          Number.isFinite(x[0])&&x[0]>0) : [];
+    const continuous=exactRatings.filter(x=>x[2]==='continuous');
+    const burst=exactRatings.filter(x=>x[2]==='burst');
+    if (continuous.length) {
+      facts.push('A published continuous amplifier rating at the speaker nominal load exists; this does not verify full load/thermal compatibility.');
+    } else if (burst.length) {
+      checks.push('Only a short-burst amplifier rating matches the speaker nominal load. This does NOT establish continuous output, sustained headroom or a permitted speaker load.');
     } else {
-      checks.push('No matching published amplifier rating was identified at the speaker nominal load. Do not extrapolate power from other loads.');
+      checks.push('No matching published continuous amplifier rating was identified at the speaker nominal load. Do not extrapolate power from other loads or unspecified-duration ratings.');
     }
     checks.push('Check manufacturer permitted speaker load and real operating limits before declaring this pair safe.');
     checks.push('Use System Check for listening-distance/level headroom. This preview does not invent a second power formula.');

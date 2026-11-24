@@ -1,0 +1,62 @@
+name: Listening Builder draft integrity audit (no deployment)
+
+on:
+  push:
+    branches:
+      - draft/magicpath-compact-full-site-20261120
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Superseded draft pushes must not consume multiple full browser/test runs.
+# This does not change the release gate: the latest exact commit must pass.
+concurrency:
+  group: builder-draft-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-and-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax of Builder, System Check and equipment modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in system-builder/*.mjs system-check/*.mjs equipment/*.mjs; do node --check "$path"; done
+      - name: Gate new and changed catalog entries before unit tests
+        run: |
+          node scripts/sync-equipment-source-mirrors.mjs --check
+          node scripts/build-equipment-catalog.mjs --check
+          node scripts/validate-equipment-entry-gates.mjs
+      - name: Run the full source-only site unit test suite, including Builders and catalog
+        run: node --test tests/*.test.mjs tests/lesson-tutor/*.test.mjs
+      - name: Build static site to verify internal links and compiled output
+        run: node scripts/build-public-site.mjs
+
+  browser-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser harness in runner only
+        run: npm install --no-save --no-package-lock playwright@1.56.0
+      - name: Build static site (no Cloudflare deployment)
+        run: node scripts/build-public-site.mjs
+      - name: Desktop and mobile packaged-page preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8766 --bind 127.0.0.1 --directory site-dist >/tmp/tsq-builder-preflight.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid || true' EXIT
+          sleep 1
+          timeout 240s node tests/release-browser-preflight.mjs

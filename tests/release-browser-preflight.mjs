@@ -13,7 +13,7 @@ const categories={
   headphone_amplifier:['Published output ratings','Documented source inputs','Documented headphone and line outputs'],
   computer_sound_card:['Recording ADC','Documented sound-card inputs','Documented sound-card outputs']
 };
-const expectedPitch="Ever wonder why one recording moves you, why two speakers sound different, or whether expensive equipment is worth it?";
+const expectedPitch="You don't need to know a thing about audio equipment to love music.";
 const devices=[
  {name:'desktop',options:{viewport:{width:1365,height:900}}},
  {name:'mobile',options:{viewport:{width:390,height:844},isMobile:true,hasTouch:true}}
@@ -44,6 +44,9 @@ try {
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await visit(page,'/');
+  const heroSignal=await page.evaluate(()=>getComputedStyle(
+    document.querySelector('.home-goal-intro'),'::after').backgroundImage);
+  assert.match(heroSignal,/header-waveform\.svg/);
   const lead=page.locator('.home-goal-intro .home-homepage-question');
   assert.ok(await lead.isVisible(),device.name+' homepage question missing');
   assert.ok((await lead.innerText()).startsWith(expectedPitch));
@@ -66,7 +69,7 @@ try {
 
   await visit(page,'/system-check/compare/?type=audio_interface');
   await page.waitForFunction(()=>!document.querySelector('#gc-expanded-results')?.hidden,{timeout:20000});
-  assert.equal(await page.locator('[data-kind]').count(),9);
+  assert.equal(await page.locator('#compare-tool [data-kind]').count(),12);
   assert.ok(await page.locator('#gc-expanded').isVisible());
   assert.ok(await page.locator('#gc-legacy').isHidden());
   for(const [kind,labels] of Object.entries(categories)){
@@ -85,6 +88,18 @@ try {
   }
   const lone=await page.locator('#gc-expanded-status').innerText();
   assert.match(lone,/Only one documented model/);
+  // Smoke the newly integrated exact-model categories, which have
+  // different documented field counts from recording interfaces.
+  for(const kind of ['powered_studio_monitor','powered_pa_speaker','catalog_headphone']){
+    await page.locator('[data-kind="'+kind+'"]').click();
+    await page.waitForFunction(type=>
+      document.querySelector('[data-kind="'+type+'"]')?.getAttribute('aria-pressed')==='true' &&
+      !document.querySelector('#gc-expanded-results')?.hidden,kind,{timeout:15000});
+    assert.ok((await page.locator('#gc-expanded-rows th').allInnerTexts()).length>=3,
+      device.name+' '+kind+' lacks labeled fields');
+    assert.ok((await page.locator('#gc-expanded-rows td').allInnerTexts()).length>0,
+      device.name+' '+kind+' has no rendered comparison');
+  }
   await page.locator('[data-kind="amp"]').click();
   assert.ok(await page.locator('#gc-legacy').isVisible());
   assert.ok(await page.locator('#gc-expanded').isHidden());
@@ -93,8 +108,46 @@ try {
   await sides.nth(1).selectOption({label:'Panasonic SA-HE100'});
   assert.ok(await page.locator('#comparison').isVisible());
   assert.match(await page.locator('#comparison-rows').innerText(),/W\/ch|Power per channel|Input sensitivity/);
+  const signalStyle=await page.evaluate(()=>{
+   const header=document.querySelector('.site-header');
+   const style=getComputedStyle(header,'::after');
+   return {image:style.backgroundImage,events:style.pointerEvents};
+  });
+  assert.match(signalStyle.image,/header-waveform\.svg/);
+  assert.equal(signalStyle.events,'none');
   await checkNoErrors(page,errors,device.name+' Compare My Gear');
-  outcomes.push(device.name+' nine gear types with source-backed connections and preserved amplifier comparison');
+  outcomes.push(device.name+' twelve gear types with source-backed connections and preserved amplifier comparison');
+
+  // Standalone Builder checkers must work in the *packaged browser*, not
+  // only inside isolated Node module tests. Keep unknown evidence unknown.
+  await visit(page,'/system-check/powered/?model=JBL%20305P%20MkII&distance=6&level=high&count=2');
+  assert.equal(await page.locator('#powered-model').inputValue(),'JBL 305P MkII');
+  assert.match(await page.locator('#powered-verdict').innerText(),/reference measurement distance has not been verified/);
+  assert.match(await page.locator('#powered-numbers').textContent(),/No verified distance-based SPL margin/);
+  assert.ok(await page.locator('#powered-technical').isVisible());
+  await checkNoErrors(page,errors,device.name+' powered speaker unknown test distance');
+  await visit(page,'/system-check/powered/?model=Kali%20Audio%20LP-6%20V2&distance=6&level=high&count=2');
+  assert.equal(await page.locator('#powered-model').inputValue(),'Kali Audio LP-6 V2');
+  assert.match(await page.locator('#powered-technical-text').textContent(),/No source-qualified continuous SPL/);
+  assert.match(await page.locator('#powered-numbers').textContent(),/No model-specific continuous SPL is available/);
+  await checkNoErrors(page,errors,device.name+' peak-only powered speaker loudness');
+  outcomes.push(device.name+' powered JBL unknown-distance and Kali peak-only evidence protections');
+
+  await visit(page,'/system-check/subwoofer/?source=WiiM%20Amp&sub=Edifier%20T5');
+  assert.equal(await page.locator('#sub-source').inputValue(),'WiiM Amp');
+  assert.equal(await page.locator('#sub-model').inputValue(),'Edifier T5');
+  assert.match(await page.locator('#sub-verdict').innerText(),/Connection confirmed/);
+  assert.match(await page.locator('#sub-cable').innerText(),/RCA/);
+  await page.locator('#sub-mode').selectOption('full');
+  await page.locator('#sub-form button[type="submit"]').click();
+  assert.match(await page.locator('#sub-mains').innerText(),/full-range/i);
+  await visit(page,'/system-check/subwoofer/?source=WiiM%20Amp&sub=Unknown%20Subwoofer');
+  assert.equal(await page.locator('#sub-model').inputValue(),'');
+  assert.match(await page.locator('#sub-verdict').innerText(),/Not enough verified information/);
+  assert.equal(await page.locator('#sub-cable').innerText(),'');
+  assert.doesNotMatch(await page.locator('#sub-wiring').innerText(),/T5 cutoff|T5 Signal In/);
+  await checkNoErrors(page,errors,device.name+' exact and unknown subwoofer routes');
+  outcomes.push(device.name+' subwoofer exact RCA route, full-range option and unknown-model safety');
 
   await visit(page,'/system-builder/creating/');
   await page.waitForFunction(()=>document.querySelector('#sb-purpose-status')?.textContent.includes('Ready to suggest'),null,{timeout:20000});
@@ -104,14 +157,464 @@ try {
   await checkNoErrors(page,errors,device.name+' Creating Builder');
   outcomes.push(device.name+' Creating Builder example chain');
 
-  await visit(page,'/system-builder/');
+  // Two local podcast speakers need an actual signal path and independently
+  // editable tracks. Explain USB vs XLR and how shared headphones work.
+  await page.locator('#sb-purpose-select').selectOption('podcast');
+  await page.locator('#sb-purpose-tracks').check();
+  await page.locator('#sb-purpose-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-purpose-result')?.hidden,null,{timeout:15000});
+  const podcastExplanation=await page.locator('#sb-purpose-result-body .sb-build-workflow').innerText();
+  assert.match(podcastExplanation,/How will this setup work\?/);
+  assert.match(podcastExplanation,/by XLR cable/);
+  assert.match(podcastExplanation,/this setup uses their XLR outputs/);
+  assert.match(podcastExplanation,/M-Track Duo/);
+  assert.match(podcastExplanation,/headphone output/);
+  assert.doesNotMatch(podcastExplanation,/extra software routing|multiple USB microphones on Windows/);
+  assert.ok(await page.locator('#sb-purpose-result-body .sb-build-workflow-sources a').count()>=2);
+  await checkNoErrors(page,errors,device.name+' podcast monitoring instructions');
+  outcomes.push(device.name+' two-mic podcast: XLR capture, separate tracks and monitoring explanation');
+
+  // Builder-to-System-Check deep links carry exact identity and seat distance.
+   // Existing saved presets autofill only their documented numeric ratings.
+   await visit(page,'/system-check/?embedded=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9');
+   assert.equal(await page.locator('[name="distance"]').inputValue(),'9');
+   assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Paradigm Phantom v1');
+   assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-S301');
+   assert.ok(Number(await page.locator('[name="sensitivity"]').inputValue())>0);
+   assert.ok(Number(await page.locator('[name="load"]').inputValue())>0);
+   assert.ok(await page.locator('body.sc-embedded').count()===1);
+   await checkNoErrors(page,errors,device.name+' embedded System Check known models');
+   outcomes.push(device.name+' embedded System Check exact saved preset handoff');
+
+   // A Builder handoff requires no secondary gear picker or submit click:
+   // the existing documented model presets must populate the real calculator.
+   await visit(page,'/system-check/?embedded=1&autocheck=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9&average=80&gap=15');
+   assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Paradigm Phantom v1');
+   assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-S301');
+   assert.equal(await page.locator('[name="distance"]').inputValue(),'9');
+   assert.equal(await page.locator('#check [name="average"]').inputValue(),'80');
+   assert.equal(await page.locator('[name="peak"]').inputValue(),'95');
+   assert.ok(await page.locator('body.sc-embedded.sc-auto-result').count()===1);
+   assert.ok(await page.locator('.sc-inputs').isHidden());
+   assert.match(await page.locator('#result-status').innerText(),/Average and peak power targets met|Peak headroom not verified|Peak target not met|Amplifier power meets targets/);
+   assert.ok((await page.locator('#result-body').innerText()).length>100);
+   await checkNoErrors(page,errors,device.name+' automatic model-backed headroom results');
+   outcomes.push(device.name+' exact-model headroom calculated directly from transferred listening inputs');
+
+   // Manufacturer-backed Q Acoustics models must produce an actual numerical
+   // headroom result with the already-published Yamaha A-720 ratings.
+   // 2020i, 3020i and 3030i must remain separate exact model identities.
+   for(const speaker of ['Q Acoustics 2020i','Q Acoustics 3030i']){
+     const params=new URLSearchParams({embedded:'1',autocheck:'1',
+       speaker,amp:'Yamaha A-720',distanceFt:'8',average:'85',gap:'20',profile:'high',preferRoom:'1'});
+     await visit(page,'/system-check/?'+params.toString());
+     assert.equal(await page.locator('[name="speakerModel"]').inputValue(),speaker);
+     assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-720');
+     assert.equal(await page.locator('[name="load"]').inputValue(),'6');
+     assert.equal(await page.locator('[name="sensitivity"]').inputValue(),'88');
+     assert.ok(await page.locator('#ratings [data-watts]').count()>=2);
+     assert.match(await page.locator('#result-body').innerText(),/125 W|180 W|6 Ω|Musical/);
+     assert.doesNotMatch(await page.locator('#result-status').innerText(),/has not been calculated/);
+     assert.equal(await page.locator('body.sc-embedded.sc-auto-result').count(),1);
+     await checkNoErrors(page,errors,device.name+' Yamaha A-720 with '+speaker+' headroom');
+   }
+   outcomes.push(device.name+' Yamaha A-720 headroom calculated with exact 2020i and 3030i manufacturer data');
+
+   // A loud preset may exceed published burst output without making the
+   // speaker/amp electrically incompatible. Keep corrective advice COLLAPSED.
+   await visit(page,'/system-check/?embedded=1&autocheck=1&speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9&average=85&gap=20');
+   const loudResult=await page.locator('#result-body').innerText();
+   assert.match(loudResult,/not proof of an electrically incompatible speaker\/amplifier pair/);
+   const fixDropdown=page.locator('#result-body .sc-headroom-adjustments');
+   assert.equal(await fixDropdown.count(),1);
+   assert.equal(await fixDropdown.locator('summary').innerText(),'What could you do?');
+   assert.equal(await fixDropdown.evaluate(node=>node.open),false);
+   assert.doesNotMatch(loudResult,/Sit closer/,'the beginner result should not show the full advice wall');
+   await fixDropdown.locator('summary').click();
+   const fixText=await fixDropdown.innerText();
+   assert.match(fixText,/Why the peak target failed/);
+   assert.match(fixText,/Sit closer: from 9 ft to about/);
+   assert.match(fixText,/Lower the peak target/);
+   assert.match(fixText,/Keep amplifier, change speakers:/);
+   assert.match(fixText,/Klipsch R-51M/);
+   assert.ok(await fixDropdown.locator('a[href^="https://"]').count()>=1);
+   await checkNoErrors(page,errors,device.name+' occasional-loud fixes and speaker shortlist');
+   outcomes.push(device.name+' one collapsed loudness fix menu with comparable speaker alternative');
+
+   // A more modest, sourced deficit can have a genuine amplifier candidate.
+   await visit(page,'/system-check/?embedded=1&autocheck=1&speaker=Paradigm%20Phantom%20v1&amp=NAD%203020%20(original)&distanceFt=9&average=80&gap=18');
+   const ampFix=page.locator('#result-body .sc-headroom-adjustments');
+   assert.equal(await ampFix.count(),1);
+   await ampFix.locator('summary').click();
+   assert.match(await ampFix.innerText(),/Keep speakers, change amplifier:/);
+   assert.match(await ampFix.innerText(),/Yamaha A-S301/);
+   await checkNoErrors(page,errors,device.name+' alternative amplifier shortlisted from documented burst power');
+   outcomes.push(device.name+' source-backed amplifier replacement appears only for a solvable shortfall');
+
+
+   // The example button on the full calculator may change the listening
+   // numbers but never replace the actual selected gear or its specifications.
+   await visit(page,'/system-check/?speaker=Paradigm%20Phantom%20v1&amp=Yamaha%20A-S301&distanceFt=9');
+   const beforePower=await page.locator('#ratings [data-watts]').first().inputValue();
+   await page.locator('#example').click();
+   assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Paradigm Phantom v1');
+   assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Yamaha A-S301');
+   assert.equal(await page.locator('#ratings [data-watts]').first().inputValue(),beforePower);
+   assert.equal(await page.locator('#check [name="average"]').inputValue(),'87');
+   await checkNoErrors(page,errors,device.name+' lesson example retains selected models');
+   outcomes.push(device.name+' lesson example preserves exact model pair and published ratings');
+
+   await visit(page,'/system-check/?embedded=1&speaker=Unlisted%20Speaker%20Model&amp=Unlisted%20Amplifier%20Model&distanceFt=11');
+   assert.equal(await page.locator('[name="speakerModel"]').inputValue(),'Unlisted Speaker Model');
+   assert.equal(await page.locator('[name="ampModel"]').inputValue(),'Unlisted Amplifier Model');
+   assert.equal(await page.locator('[name="distance"]').inputValue(),'11');
+   assert.equal(await page.locator('[name="sensitivity"]').inputValue(),'');
+   assert.equal(await page.locator('[name="load"]').inputValue(),'');
+   assert.match(await page.locator('[data-gear="amp"] p').innerText(),/No exact saved preset/);
+   await checkNoErrors(page,errors,device.name+' embedded System Check unlisted models');
+   outcomes.push(device.name+' embedded System Check unlisted identity without guessed ratings');
+
+   await visit(page,'/system-builder/');
+   await page.locator('#sb-build-intent').selectOption('headphones');
+   assert.ok(await page.locator('#sb-headphone-amp-setup').isVisible());
+   assert.ok(await page.locator('#sb-headphone-amp-choice').evaluate(node=>node.required));
+   assert.ok(await page.locator('#sb-headphone-dac-choice').evaluate(node=>node.required));
+
+   // Combined digital input plus headphone output must be a visible model
+   // recommendation, not only a paragraph or hidden technical disclosure.
+   await page.locator('#sb-headphone-amp-choice').selectOption('yes');
+   await page.locator('#sb-headphone-dac-choice').selectOption('combo');
+   await page.locator('#sb-headphone-source').selectOption('computer_usb');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/FiiO K11/);
+   assert.match(await page.locator('.sb-headphone-electronics-card').first().innerText(),/FiiO K11/);
+   assert.ok(await page.locator('.sb-headphone-electronics-card').first().isVisible());
+   assert.match(await page.locator('.sb-headphone-electronics-alt').first().innerText(),/Compared with FiiO K11/);
+   assert.match(await page.locator('.sb-headphone-electronics-alt').first().innerText(),/You may prefer this if/);
+   assert.ok(await page.locator('.sb-comparison-overview').first().isVisible(),
+     device.name+' headphone alternatives must be explained without a dropdown');
+   assert.ok(await page.locator('#sb-first-recommendation .sb-primary-sound').isVisible(),
+     device.name+' primary headphone choice should have a visible sound profile');
+   assert.match(await page.locator('#sb-first-recommendation .sb-primary-sound').innerText(),/How listeners describe the sound/);
+   assert.ok(await page.locator('.sb-comparison-overview .sb-compact-compare').count()>=1);
+   assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-one-line').count()>=1,
+     device.name+' headphone alternatives should offer a short tonal comparison');
+   assert.ok(await page.locator('.sb-comparison-overview .sb-tonal-sources a[href^="https://"]').count()>=1);
+   const soundLines=await page.locator('.sb-comparison-overview .sb-tonal-one-line').allInnerTexts();
+   for(const line of soundLines){
+     assert.ok(line.length<115,device.name+' alternate sound notes must remain brief');
+     assert.doesNotMatch(line,/versus.*:|the first speaker is|the first headphone is/i);
+   }
+   const firstCompare=await page.locator('.sb-comparison-overview .sb-comparison-preview-card').first().innerText();
+   assert.ok(firstCompare.length<520,device.name+' individual alternate preview should not be a wall of text');
+   assert.ok(await page.locator('.sb-headphone-electronics-card a[href^="https://"]').count()>=1);
+   assert.match(await page.locator('.sb-headphone-card-electronics').first().innerText(),/FiiO K11/);
+   await page.locator('#sb-first-recommendation .sb-setup-disclosure > summary').click();
+   assert.match(await page.locator('#sb-first-recommendation .sb-setup-workflow').innerText(),/USB digital audio/);
+
+   // Standalone DAC + analogue amp must be two independently linked products.
+   await page.locator('#sb-headphone-dac-choice').selectOption('separate');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   const stack=await page.locator('.sb-headphone-electronics-recs').innerText();
+   assert.match(stack,/Schiit Modi\+/);
+   assert.match(stack,/JDS Labs Atom Amp 2/);
+   assert.ok(await page.locator('.sb-headphone-electronics-card').count()>=2);
+   await page.locator('#sb-first-recommendation .sb-setup-disclosure > summary').click();
+   assert.match(await page.locator('#sb-first-recommendation .sb-setup-workflow').innerText(),/RCA outputs of Schiit Modi/);
+
+   // When a user wants only a DAC, don't claim it can power headphones.
+   await page.locator('#sb-headphone-amp-choice').selectOption('no');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   assert.match(await page.locator('.sb-headphone-electronics-card').first().innerText(),/Schiit Modi\+/);
+   await page.locator('#sb-first-recommendation .sb-setup-disclosure > summary').click();
+   assert.match(await page.locator('#sb-first-recommendation .sb-setup-workflow').innerText(),/NOT a working wired-headphone setup/);
+   assert.doesNotMatch(await page.locator('.sb-headphone-card-electronics').first().innerText(),/JDS Labs Atom Amp 2/);
+
+   // No purchase and help-me-decide do not inherit stale named equipment.
+   await page.locator('#sb-headphone-dac-choice').selectOption('none');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   assert.equal(await page.locator('.sb-headphone-electronics-card').count(),0);
+   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/No separate headphone amplifier requested/);
+   await page.locator('#sb-headphone-amp-choice').selectOption('unsure');
+   await page.locator('#sb-headphone-dac-choice').selectOption('unsure');
+   await page.locator('#sb-actions button[type="submit"]').click();
+   assert.equal(await page.locator('.sb-headphone-electronics-card').count(),0);
+   assert.match(await page.locator('.sb-headphone-amp-result').innerText(),/help you decide/);
+
+   // Selecting a combined product explicitly turns the amplifier back on;
+   // switching to speaker building disables the irrelevant questions.
+   await page.locator('#sb-headphone-dac-choice').selectOption('combo');
+   assert.equal(await page.locator('#sb-headphone-amp-choice').inputValue(),'yes');
+   await page.locator('#sb-build-intent').selectOption('complete_system');
+   assert.ok(await page.locator('#sb-headphone-amp-setup').isHidden());
+   await page.locator('#sb-advanced-form > summary').click();
+   await page.locator('[name="architecture"]').selectOption('headphone_first');
+   assert.ok(await page.locator('#sb-headphone-amp-setup').isVisible());
+   await page.locator('[name="architecture"]').selectOption('passive_separates');
+   assert.ok(await page.locator('#sb-headphone-amp-setup').isHidden());
+   assert.ok(await page.locator('#sb-headphone-amp-choice').evaluate(node=>node.disabled));
+   assert.ok(await page.locator('#sb-headphone-dac-choice').evaluate(node=>node.disabled));
+   await checkNoErrors(page,errors,device.name+' headphone amp and DAC route choices');
+   outcomes.push(device.name+' visible headphone amplifier/DAC recommendations and all supported source paths');
+   await visit(page,'/system-builder/');
+  // The new task-first Builder intentionally keeps its submit controls hidden
+  // until someone selects a goal. Test the unlisted-gear search and provisional
+  // specification path on the actual packaged desktop/mobile page.
+  await page.locator('#sb-build-intent').selectOption('amp_for_speakers');
+  // A similar saved model must not hide the source-spec fields after a visitor
+  // chooses the external search link. The link opens a new browser tab normally.
+  await page.locator('[name="speakerOther"]').fill('Paradigm Phant');
+  const specs=page.locator('#sb-speaker-search [data-gear-details="speaker"]');
+  assert.equal(await specs.evaluate(node=>node.open),false);
+  const specSearch=page.locator('#sb-speaker-search [data-gear-searches="speaker"] a').first();
+  assert.equal(await specSearch.getAttribute('target'),'_blank');
+  assert.match(await specSearch.getAttribute('rel'),/noopener/);
+  assert.match(await specSearch.innerText(),/opens new tab/);
+  // Intercept the external site, not the link's native behavior. In desktop
+  // and mobile emulation this must create a separate tab, not navigate away
+  // from and destroy the partially completed Builder.
+  await context.route('https://www.google.com/search?**',route=>
+    route.fulfill({status:200,contentType:'text/html',body:'<title>Test manufacturer search</title>'}));
+  const [researchTab]=await Promise.all([
+    page.waitForEvent('popup'),specSearch.click()
+  ]);
+  // Playwright emits popup while the newly created tab is still blank.
+  // Wait for the subsequent external search navigation before reading URL.
+  await researchTab.waitForURL(/^https:\/\/www\.google\.com\/search\?/,{timeout:15000});
+  assert.match(page.url(),/\/system-builder\//);
+  assert.equal(await page.locator('[name="speakerOther"]').inputValue(),'Paradigm Phant');
+  await researchTab.close();
+  assert.equal(await specs.evaluate(node=>node.open),true,
+    device.name+' returning from speaker search must reveal specification inputs');
+  // The reported real-world paste describes *8-ohm compatibility* (not
+  // necessarily nominal), an approximate 4.2-ohm minimum, and two sensitivity
+  // readings without a 1W/2.83V reference. Show all without misclassifying.
+  const reportedSpeakerText=[
+    '• Design: 2-driver, 2-way bass reflex bookshelf/stand-mounted speaker',
+    '• Tweeter: 19 mm (3/4 in) polyamide dome with ferro-fluid cooling',
+    '• Mid/Bass Driver: 165 mm (6.5 in) polypropylene cone',
+    '• Crossover: 2nd-order electro-acoustic at 3.0 kHz',
+    '• Frequency Response (On-Axis): ±2 dB from 75 Hz – 20 kHz',
+    '• Sensitivity: 90 dB (in-room) / 87 dB (anechoic)',
+    '• Impedance: Compatible with 8 ohms (measured around 4.2 ohms minimum)',
+    '• Recommended Amplifier Power: 15 – 100 watts'
+  ].join('\n');
+  await page.locator('#sb-speaker-spec-paste').fill(reportedSpeakerText);
+  await page.locator('#sb-speaker-spec-fill').click();
+  assert.equal(await page.locator('[name="speakerLoad"]').inputValue(),'8',
+    device.name+' 8-ohm compatible should be usable as a provisional nominal-class match');
+  assert.equal(await page.locator('[name="speakerMinimum"]').inputValue(),'4.2');
+  assert.equal(await page.locator('[name="speakerSensitivity"]').inputValue(),'90',
+    device.name+' in-room listening sensitivity must be primary');
+  assert.equal(await page.locator('[name="speakerSensitivityEnvironment"]').inputValue(),'in_room');
+  assert.equal(await page.locator('[name="speakerAnechoic"]').inputValue(),'87',
+    device.name+' anechoic sensitivity must be kept as a reference');
+  assert.equal(await page.locator('[name="speakerBasis"]').inputValue(),'',
+    device.name+' published test basis is not fabricated in the form');
+  assert.equal(await page.locator('[name="speakerRecommendedAmpMin"]').inputValue(),'15');
+  assert.equal(await page.locator('[name="speakerRecommendedAmpMax"]').inputValue(),'100');
+  assert.match(await page.locator('#sb-speaker-spec-observations').innerText(),/8 Ω described as compatible/);
+  assert.match(await page.locator('#sb-speaker-spec-observations').innerText(),/90 dB \(in-room\).*87 dB \(anechoic\)/);
+  // Clear that exploratory entry before the existing exact-value handoff.
+  await page.locator('[name="speakerMinimum"]').fill('');
+  await page.locator('[name="speakerLoad"]').fill('');
+  await page.locator('[name="speakerSensitivity"]').fill('');
+  await page.locator('[name="speakerSensitivityEnvironment"]').selectOption('');
+  await page.locator('[name="speakerAnechoic"]').fill('');
+  await page.locator('[name="speakerRecommendedAmpMin"]').fill('');
+  await page.locator('[name="speakerRecommendedAmpMax"]').fill('');
+  await page.locator('[name="speakerMaxInput"]').fill('');
+  await page.locator('[name="speakerOther"]').fill('Test Only Passive Speaker');
+  await page.waitForFunction(()=>document.querySelector('[data-gear-searches="speaker"] a')?.href.includes('google.com/search'));
+  assert.match(await page.locator('[data-gear-message="speaker"]').innerText(),/No saved model matched/);
+  assert.equal(await specs.evaluate(node=>node.open),true);
+  await page.locator('#sb-speaker-spec-paste').fill('Impedance (nominal) | 8 ohms\\nMinimum impedance (Ω)\\n4.2\\nSensitivity (dB/2.83 V/1m) | 89'.replaceAll('\\n','\n'));
+  await page.locator('#sb-speaker-spec-fill').click();
+  assert.equal(await page.locator('[name="speakerLoad"]').inputValue(),'8');
+  assert.equal(await page.locator('[name="speakerMinimum"]').inputValue(),'4.2');
+  assert.equal(await page.locator('[name="speakerSensitivity"]').inputValue(),'89');
+  assert.equal(await page.locator('[name="speakerBasis"]').inputValue(),'voltage');
+  assert.match(await page.locator('#sb-speaker-spec-feedback').innerText(),/Filled: nominal impedance/);
+  assert.match(await page.locator('#sb-speaker-spec-feedback').innerText(),/Recognised from paste: nominal impedance: 8 Ω/);
+  // Manual edits must win over a later paste; there is no silent overwrite.
+  await page.locator('[name="speakerLoad"]').fill('6');
+  await page.locator('#sb-speaker-spec-fill').click();
+  assert.equal(await page.locator('[name="speakerLoad"]').inputValue(),'6');
+  await page.locator('[name="speakerLoad"]').fill('8');
+  assert.equal(await page.locator('[name="speakerSpecUrl"]').inputValue(),'',
+    device.name+' pasted text cannot be substituted for a source URL');
+  // A manufacturer URL is optional when usable numerical specifications
+  // were copied into the provisional form. A model name alone stays invalid.
+  assert.equal(await page.locator('[name="speakerSpecUrl"]').inputValue(),'');
+  assert.match(await page.locator('[name="speakerSpecUrl"]').locator('xpath=ancestor::label').innerText(),/Optional/i);
+  await page.locator('[name="speakerPowerType"]').selectOption('passive');
   await page.locator('#sb-form button[type="submit"]').click();
   await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
-  assert.ok((await page.locator('#sb-results').innerText()).length>220);
+  const summary=await page.locator('#sb-results').innerText();
+  assert.ok(summary.length>220);
+  assert.match(summary,/user-supplied|user-entered|provisional/i,
+    device.name+' unlisted gear must stay visibly provisional');
+  assert.match(summary,/No source URL provided/i,
+    device.name+' unlinked specifications should produce a provisional match and clearly note absent evidence');
   await checkNoErrors(page,errors,device.name+' Listening Builder');
+
+  // Matching the speaker workflow, every other owned gear type must accept a
+  // pasted manufacturer-style paragraph with a usable provisional result.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('speakers_for_amp');
+  await page.locator('[name="ampOther"]').fill('Example Unlisted Stereo Receiver');
+  await page.locator('#sb-amp-spec-paste').fill(
+    'Speaker impedance: 4-16 ohms\\nRated power output: 85 W per channel at 8 ohms'.replaceAll('\\n','\n'));
+  await page.locator('#sb-amp-spec-fill').click();
+  assert.equal(await page.locator('[name="ampMinLoad"]').inputValue(),'4');
+  assert.equal(await page.locator('[name="ampRatedWatts"]').inputValue(),'85');
+  assert.equal(await page.locator('[name="ampRatedLoad"]').inputValue(),'8');
+  assert.equal(await page.locator('[name="ampSpecUrl"]').inputValue(),'');
+
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('improve_existing');
+  await page.locator('[name="sourceOther"]').fill('Unlisted Stereo DAC');
+  await page.locator('#sb-source-spec-paste').fill(
+    'Audio output: RCA stereo L/R\\nDigital inputs: USB and optical'.replaceAll('\\n','\n'));
+  await page.locator('#sb-source-spec-fill').click();
+  assert.equal(await page.locator('[name="sourceOutput"]').inputValue(),'RCA');
+  await page.locator('[name="headphoneOther"]').fill('Unlisted Studio Headphones');
+  await page.locator('#sb-headphone-spec-paste').fill(
+    'Nominal impedance: 32 ohms\\nSensitivity: 100 dB SPL / mW'.replaceAll('\\n','\n'));
+  await page.locator('#sb-headphone-spec-fill').click();
+  assert.equal(await page.locator('[name="headphoneLoad"]').inputValue(),'32');
+  assert.equal(await page.locator('[name="headphoneSensitivity"]').inputValue(),'100');
+  assert.equal(await page.locator('[name="headphoneBasis"]').inputValue(),'power');
+  await checkNoErrors(page,errors,device.name+' unlisted amplifier/source/headphone pasted spec flows');
+
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('subwoofer');
+  await page.locator('#sb-sub-spec-paste').fill([
+    'Receiver: Subwoofer Out (RCA)',
+    'Subwoofer: RCA Line In and High Level Speaker In',
+    'Main speakers: no high-pass mentioned'
+  ].join('\n'));
+  await page.locator('#sb-sub-spec-fill').click();
+  assert.equal(await page.locator('[name="subAmpOutput"]').inputValue(),'sub_rca');
+  assert.equal(await page.locator('[name="subInput"]').inputValue(),'both');
+  assert.equal(await page.locator('[name="subHighPass"]').inputValue(),'unknown');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  assert.match(await page.locator('#sb-results').innerText(),/Easy RCA subwoofer connection/);
+  await checkNoErrors(page,errors,device.name+' subwoofer parsed connection route');
+
+  // Complete-system mode has its own approved compact presentation.
+  // The sound profile leads, with plain-language fit and exact headroom.
+  // Detailed notes stay behind native disclosure, not repeated giant cards.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('complete_system');
+  await page.locator('[name="architecture"]').selectOption('passive_separates');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  const simple=page.locator('#sb-results .sb-simple-system-results');
+  assert.equal(await simple.count(),1,device.name+' complete system must use compact presentation');
+  const firstSimple=simple.locator('.sb-simple-primary');
+  assert.equal(await firstSimple.count(),1,device.name+' one principal complete-system recommendation');
+  assert.ok(await firstSimple.locator('.sb-simple-title').isVisible());
+  assert.ok(await firstSimple.locator('.sb-simple-sound').isVisible(),
+    device.name+' principal complete-system match needs model-specific sound');
+  assert.ok(await firstSimple.locator('.sb-simple-why').isVisible());
+  assert.ok(await firstSimple.locator('.sb-simple-connection').isVisible());
+  assert.match(await firstSimple.locator('.sb-simple-checker').innerText(),/Headroom at/);
+  assert.ok(await firstSimple.locator('.sb-simple-checker a[href*="/system-check/"]').count()===1);
+  const firstTechnical=firstSimple.locator('.sb-simple-details');
+  assert.equal(await firstTechnical.evaluate(node=>node.open),false);
+  assert.equal(await page.locator('#sb-results .sb-alternative-setups').count(),0);
+  await checkNoErrors(page,errors,device.name+' compact passive complete-system path');
+  outcomes.push(device.name+' compact complete system with sound, honest headroom and optional technical detail');
+
+  // An impossible input requirement must produce specific, actionable
+  // explanation rather than a fake adapter-dependent recommendation.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('complete_system');
+  await page.locator('[name="architecture"]').selectOption('consumer_powered_pair');
+  await page.locator('.sb-advanced-form > summary').click();
+  await page.locator('[name="connection"]').selectOption('hdmi');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  const noMatch=page.locator('#sb-results .sb-simple-empty');
+  assert.equal(await noMatch.count(),1,device.name+' cannot show a fake direct-HDMI powered system');
+  assert.match(await noMatch.innerText(),/No verified complete-system match yet/);
+  assert.match(await noMatch.innerText(),/direct HDMI input/);
+  assert.match(await noMatch.innerText(),/other outputs/);
+  assert.match(await noMatch.innerText(),/separate purchase/);
+  assert.equal(await page.locator('#sb-results .sb-simple-primary').count(),0);
+  await checkNoErrors(page,errors,device.name+' actionable no-match guidance');
+  outcomes.push(device.name+' incompatible HDMI system produces explicit safe alternatives');
+
+  // Regression: the real owned A-720 + Titan v3 route used to return ONLY a
+  // "keep your gear" card and omit System Check, despite a high/dynamic target.
+  await visit(page,'/system-builder/');
+  await page.locator('#sb-build-intent').selectOption('improve_existing');
+  await page.locator('[name="speaker"]').selectOption('Paradigm Titan v3');
+  await page.locator('[name="amp"]').selectOption('Yamaha A-720');
+  await page.locator('[name="goal"]').selectOption('dynamic');
+  await page.locator('[name="level"]').selectOption('high');
+  await page.locator('#sb-form button[type="submit"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#sb-results')?.hidden,null,{timeout:20000});
+  const baseline=page.locator('#sb-first-recommendation');
+  assert.match(await baseline.innerText(),/Paradigm Titan v3/);
+  assert.match(await baseline.innerText(),/Yamaha A-720/);
+  assert.match(await baseline.innerText(),/Headroom for these exact models/);
+  assert.equal(await baseline.locator('.sb-setup-workflow').count(),1);
+  const preview=page.locator('.sb-upgrade-comparison-preview');
+  assert.equal(await preview.count(),1,device.name+' improve-existing must actually propose speaker alternatives');
+  const previewText=await preview.innerText();
+  assert.match(previewText,/Other options · What owners hear/);
+  assert.match(previewText,/Cerwin-Vega|Klipsch/);
+  assert.doesNotMatch(previewText,/Compared with/);
+  assert.ok(await preview.locator('.sb-alt-headroom').count()>=1);
+  assert.ok(await baseline.locator('.sb-primary-sound').isVisible(),
+    device.name+' model-specific source-backed listening profile remains visible when available');
+  assert.ok(await preview.isVisible(),device.name+' upgrade reasons must appear without opening alternatives');
+  const options=preview.locator('.sb-alternative-details .sb-recommend-supplement');
+  assert.ok(await options.count()>=2,device.name+' high dynamic use must offer a few alternatives');
+  assert.equal(await options.count(),await options.locator('.sb-setup-workflow').count());
+  assert.equal(await page.locator('#sb-results .sb-alternative-setups').count(),0);
+  assert.equal(await preview.locator('.sb-comparison-preview-card').count(),
+    await options.count(),device.name+' upgrade alternatives must appear once, with details attached');
+  await page.waitForFunction(()=>{
+    const frame=document.querySelector('#sb-first-recommendation iframe.sb-inline-system-check-frame');
+    return frame?.contentDocument?.body.classList.contains('sc-auto-result');
+  },null,{timeout:20000});
+  const computed=await baseline.locator('iframe.sb-inline-system-check-frame').evaluate(frame=>{
+    const doc=frame.contentDocument;
+    return {sensitivity:doc.querySelector('[name="sensitivity"]').value,
+      room:doc.querySelector('[name="room"]').value,
+      result:doc.querySelector('#result-body')?.innerText||'',
+      status:doc.querySelector('#result-status')?.innerText||''};
+  });
+  assert.equal(computed.sensitivity,'89',device.name+' in-room Titan sensitivity must be primary');
+  assert.equal(computed.room,'0',device.name+' room credit must not be applied twice');
+  assert.doesNotMatch(computed.result+computed.status,/has not been calculated|No example rating has been substituted/);
+  await checkNoErrors(page,errors,device.name+' A-720 Titan v3 improve-existing headroom and speaker-upgrade comparisons');
+  outcomes.push(device.name+' improved-owned-stereo route calculates in-room headroom and compares higher-output speakers');
+
   assert.equal(workerRequests,0,device.name+' smoke attempted live Worker API');
-  outcomes.push(device.name+' Listening Builder equipment results');
+  outcomes.push(device.name+' Listening Builder unlisted specification pathway');
   await context.close();
+ }
+ // Check both narrow-phone and tablet widths, including reading and lab pages.
+ for (const width of [320,768]) {
+   const context=await browser.newContext({viewport:{width,height:840},isMobile:width===320,hasTouch:width===320});
+   await context.route('**/*.workers.dev/**',route=>route.abort('blockedbyclient'));
+   const page=await context.newPage();
+   const errors=[];
+   page.on('pageerror',error=>errors.push(error.message));
+   for (const path of ['/','/decoder/','/decoder/sound-basics/','/decoder/speaker-frequency-response/',
+     '/decoder/speaker-dispersion/','/decoder/amplifier-power/','/system-builder/','/system-check/',
+     '/labs/','/lab/','/lab/mastering/','/labs/formats/',
+     '/system-check/powered/','/system-check/subwoofer/']) {
+     await visit(page,path);
+     await checkNoErrors(page,errors,width+'px '+path);
+   }
+   outcomes.push(width+'px lesson, tool and lab horizontal-overflow audit');
+   await context.close();
  }
  console.log('RELEASE_BROWSER_PREFLIGHT_OK '+outcomes.join(' | '));
 }finally{

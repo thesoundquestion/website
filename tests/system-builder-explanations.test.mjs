@@ -47,13 +47,14 @@ test('actual shortlist records can explain their own editorial goal status',()=>
   }
 });
 test('cards show model-specific sound and exact preference explanation above expandable evidence',()=>{
-  const first=app.indexOf("const renderCard = item =>");
+  const first=app.indexOf("const renderCard = (item,alternativeComparison=null,detailOnly=false) =>");
   const fit=app.indexOf("recommendationWhy(item,request",first);
   const sound=app.indexOf("soundProfileFor(item)",first);
   const details=app.indexOf("const details = el('details','sb-card-details')",first);
   assert.ok(first>=0 && fit>first && sound>fit && details>sound);
-  assert.match(app,/Why this one:/);
-  assert.match(app,/Sound:/);
+  assert.match(app,/Why consider this option|Why this fits|Why this setup fits/);
+  assert.match(app,/Owner experiences: /);
   assert.match(app,/Sound description: evidence/);
-  assert.match(app,/this tool cannot reliably verify or rank models/);
+  assert.match(app,/sound\.type !== 'Not independently characterized'/);
+  assert.match(app,/overview\.goalExplanation/);
 });

@@ -65,7 +65,9 @@ test('guide is linked from tools and indexed with correct canonical and no exter
 });
 
 test('every configured goal has only meaningful questions and a complete educational result',()=>{
- assert.equal(GOALS.length,11);
+ assert.equal(GOALS.length,15,'Original eleven goals plus four beginner-specific routes');
+ for(const id of ['hifi','tv','headphones','vocal','songwriter','drums','band','stream','podcast','live','learn']) assert.ok(byId(id),'Preserve existing goal '+id);
+ for(const id of ['match','vinyl','digital','improve']) assert.ok(byId(id),'Include new beginner route '+id);
  assert.equal(new Set(GOALS.map(g=>g.id)).size,GOALS.length);
  assert.deepEqual(GROUPS,['Listening','Recording','Creating','Performing','Exploring']);
  for(const g of GOALS){

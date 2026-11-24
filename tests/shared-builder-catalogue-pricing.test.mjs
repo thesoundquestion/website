@@ -30,9 +30,9 @@ test('Listening Builder loads shared catalogue in addition to exact legacy prese
  const html=read('system-builder/index.html'),app=read('system-builder/app.mjs');
  assert.match(html,/select id="sb-speaker"/);
  assert.match(html,/name="pricePreference"/);
- assert.match(app,/loadEquipmentCatalog\(\)/);
- assert.match(app,/availableShared\(kind\)/);
- assert.match(app,/asLegacyView\(shared,kind\)/);
+ assert.match(app,/loadEquipmentCatalog\(\{url:/);
+ assert.match(app,/listeningCatalogOptions\(sharedCatalog,kind/);
+ assert.match(app,/sharedGearAsLegacyView\(shared,kind\)/);
  const options=read('system-builder/owned-gear-options.mjs');
  assert.match(options,/poweredStudio/);
  assert.match(options,/keepPoweredStudioMonitor/);

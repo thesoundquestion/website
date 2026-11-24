@@ -16,8 +16,8 @@ const catalog=JSON.parse(read('equipment/catalog.generated.json'));
 const model=(category,name)=>catalog.records.find(x=>x.categories.includes(category)&&x.model===name);
 
 test('Listening Builder and Creating Builder are independent pages with separate scripts',()=>{
-  assert.match(listening,/<h1>Listening Builder<\/h1>/);
-  assert.match(listening,/src="\/system-builder\/app\.mjs"/);
+  assert.match(listening,/<h1>Find what fits\. Understand why\.<\/h1>/);
+  assert.match(listening,/src="\/system-builder\/app\.mjs(?:\?[^\"]+)?"/);
   assert.match(listening,/id="sb-form"/);
   assert.doesNotMatch(listening,/id="sb-purpose-form"|goal-chain-builder\.mjs/);
   assert.match(listening,/href="\/system-builder\/creating\/"/);
@@ -97,8 +97,8 @@ test('the homepage and Library use one concise front door with no duplicated han
   assert.equal((library.match(/href="\/library\/make-audio-make-sense\/make-audio-make-sense-illustrated\.pdf"/g)||[]).length,1);
   assert.match(library,/href="\/decoder\/technical-glossary\/"/);
   const guide=decoder.indexOf('<a class="dl-card" href="/decoder/audio-interfaces-mixers/"');
-  assert.ok(guide>decoder.indexOf('LESSON 16')&&guide<decoder.indexOf('href="/decoder/sample-rate/"'),'interface guide must be the numbered Lesson 17 card');
-  assert.match(decoder.slice(guide,guide+300),/LESSON 17/);
+  assert.ok(guide>decoder.indexOf('LESSON 18')&&guide<decoder.indexOf('href="/decoder/sample-rate/"'),'interface guide must be the numbered Lesson 19 card');
+  assert.match(decoder.slice(guide,guide+300),/LESSON 19/);
   assert.match(decoder,/href="\/decoder\/technical-glossary\/"/);
 });
 

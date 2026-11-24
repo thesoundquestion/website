@@ -56,13 +56,12 @@ export function compareExamplePriorities(a,b,request={},fallbackIndex=()=>0) {
     // A desk-scale speaker with no verified far-field clean output is NOT a
     // documented high-output solution. This is a suitability caution, not a
     // numerical SPL claim.
-    const demand=highDemandAtDistance(request)&&isNearfieldIdea(example)?1:0;
     const bassNeed=compactBassCaveat(example,request)?1:0;
     const moreGoals=-countsSecondary(example,request);
     // For ordinary desk listening, select input-native, room-suitable systems
     // ahead of otherwise similar choices; goal-tag match remains first.
     const sub = example.bassSetup ? 0 : 1;
-    return [sub,primary,demand,bassNeed,venue,input,moreGoals];
+    return [sub,primary,bassNeed,venue,input,moreGoals];
   };
   const x=rank(a),y=rank(b);
   for(let i=0;i<x.length;i++) if(x[i]!==y[i])return x[i]-y[i];
@@ -77,7 +76,7 @@ export function explainInputInteractions(request={}) {
     notes.push('Party use: the system must play cleanly for a long time and reach the whole listening area. A speaker’s sensitivity number or advertised peak watts alone cannot prove how loud it will play without strain.');
   }
   if(highDemandAtDistance(request)){
-    notes.push('For loud listening beyond 12 ft, small desk (nearfield) speakers may not fit the job. How loudly any model plays without strain still requires model-specific evidence.');
+    notes.push('At longer distances, loud peaks need more output. Compare the exact speaker’s clean-output evidence; do not reject all powered or nearfield speakers by category alone.');
   } else if(request.level==='high'){
     notes.push('For loud listening, check whether the speaker stops getting proportionally louder, whether the amplifier has clean peak reserve, and how much the speaker can safely handle. Advertised watts alone do not answer those questions.');
   }
@@ -122,7 +121,7 @@ export function explainExampleInteractions(example,request={}) {
   if(secondary.length)
     reasons.push('Also tagged for '+secondary.map(x=>x.replaceAll('_',' ')).join(' and ')+'.');
   if(highDemandAtDistance(request)&&isNearfieldIdea(example))
-    reasons.push('Clean output beyond 12 ft at the requested level is unverified for this compact/nearfield route.');
+    reasons.push('At this distance and intended level, confirm this exact model’s usable output; nearfield category alone does not establish a pass or fail.');
   if(compactBassCaveat(example,request))
     reasons.push('Without a verified mains high-pass, the original 3-inch ORA speakers cannot be assumed to provide deep bass unaided.');
   return reasons.slice(0,4);

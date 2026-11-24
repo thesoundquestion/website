@@ -6,6 +6,21 @@ profiles and 17 Builder-only profiles, and produces a single **read-only normali
 catalogue** of **173 distinct physical devices**. A device may have multiple
 functions/categories, so category totals intentionally exceed the model count.
 
+## Mandatory entry review for all future product data
+
+Before adding a new model, changing an existing normalized device, inserting a new Builder bundle, modifying sourced listening/headroom claims or expanding subwoofer routing, follow [the permanent equipment-entry validation handoff](../docs/EQUIPMENT_ENTRY_VALIDATION_HANDOFF.md). **Do not defer these checks to the next release audit.**
+
+The admission tooling is `../scripts/validate-equipment-entry-gates.mjs`, with a checksum-pinned frozen legacy baseline in `entry-gate-baseline.json` and evidence attestations in `entry-review-ledger.json`. `.github/workflows/equipment-entry-admission.yml` enforces this on future pull requests and `main` pushes, independent of the current draft-only preflight. The draft workflow blocks a new or altered device without its current fingerprint and a source-specific manufacturer/manual review. A new curated system requires a test-backed ledger entry. Existing 197 records are structurally preserved, **not retrospectively certified**. Evidence gaps must remain explicitly unknown. Run:
+
+```sh
+node scripts/build-equipment-catalog.mjs --check
+node scripts/validate-equipment-entry-gates.mjs --pending
+node scripts/validate-equipment-entry-gates.mjs
+node --test tests/equipment-entry-gate.test.mjs tests/equipment-entry-subwoofer-evidence.test.mjs
+```
+
+Never regenerate the frozen baseline to bypass validation. Update the ledger after reviewing the actual current record and preserve tests for required and impossible source connections, load safety, acoustic conditions, price validity, room/goal fit, headroom links, and subwoofer integration.
+
 ## Canonical editable source and migration boundary
 
 The primary editable catalogue is now `source-master.json`. It combines

@@ -7,15 +7,15 @@ import {ownerEvidenceFor} from './owner-evidence.mjs';
  * Checked 2026-11-12. Exact model/revision matters. Unknown stays unknown.
  */
 export const SOUND_PROFILES = Object.freeze({
-  "powered-r1280t": {text:"For the R1280T, Edifier describes a warm, balanced sound from its compact 4-inch system. That is manufacturer positioning, not independently verified bass extension, tonal accuracy or clean output in a living room.",
-    type:"Manufacturer description only; independent tonal profile unverified",
-    url:"https://ca.edifier.com/products/r1280t"},
-  "powered-r1280db": {text:"Edifier markets the R1280DB as a flexible, balanced powered pair. No independent level-matched comparison with R1280T is established here, and its extra inputs should not be mistaken for proof of better sound.",
-    type:"Manufacturer description only; independent tonal profile unverified",
-    url:"https://ca.edifier.com/products/r1280db"},
-  "powered-r1280dbs": {text:"Edifier documents less bass from the main pair when a sub is connected. Its manual gives no crossover frequency. The main pair’s tonal balance at your seat depends on placement.",
-    type:"Manufacturer routing documentation",
-    url:"https://usa-oss.edifier.com/Uploads/images/2021/07/15/2021071511185516263191358605.pdf"},
+  "powered-r1280t": {text:"An independent review describes a bass-and-treble-forward default balance that can sound more even after small tone-control adjustments; the pair becomes strained at high volume.",
+    type:"Independent model-specific listening review",
+    url:"https://www.soundguys.com/edifier-r1280t-review-127991/"},
+  "powered-r1280db": {text:"An independent R1280DB review describes a comfortable, warm-leaning sound with natural vocals, although its midrange is not the last word in detail.",
+    type:"Independent model-specific listening review",
+    url:"https://theheadphonelist.com/edifier-r1280db-review-easygoing/"},
+  "powered-r1280dbs": {text:"A review of the exact R1280DBs reports full, clear and punchy small-room playback with enjoyable stereo placement; that listening judgment is not a measured clean-output limit.",
+    type:"Independent model-specific listening review",
+    url:"https://www.techradar.com/reviews/edifier-r1280dbs"},
   "Edifier R1280DBs + T5": {text:"One owner found the bass could dominate with the sub level set too high. Another reported that the sub woke reliably when playing music. Try it at your usual volume.",
     type:"Individual owner experiences",
     url:"https://www.reddit.com/r/BudgetAudiophile/comments/1vyxex5/anyone_with_t5_powered_active_subwoofer/",
@@ -24,15 +24,15 @@ export const SOUND_PROFILES = Object.freeze({
       {context:"R1280DBs and T5 owner on sub level",url:"https://www.reddit.com/r/BudgetAudiophile/comments/1vyxex5/anyone_with_t5_powered_active_subwoofer/"},
       {context:"R1280DBs and T5 owner on standby",url:"https://forums.hardwarezone.com.sg/threads/pc-speaker-recommendation.6640007/page-47"}
     ]},
-  "powered-r1700bts": {text:"Edifier describes the R1700BTs as a fuller-sounding 4-inch powered pair with a subwoofer connection. Actual low-frequency reach and maximum clean listening level remain unknown at your chosen room and distance.",
-    type:"Manufacturer description only; independent tonal profile unverified",
-    url:"https://ca.edifier.com/products/r1700bts"},
-  "powered-mr3": {text:"The MR3 is marketed for more neutral desktop listening, but no independent exact-model acoustic measurements have been admitted to this Builder. Small-cabinet deep bass and loud clean room output remain uncertain.",
-    type:"Manufacturer description only; independent tonal profile unverified",
-    url:"https://ca.edifier.com/products/mr3"},
-  "powered-m60": {text:"The M60 is marketed as a compact USB-C/Bluetooth desktop speaker. Its DSP and aluminium mid-woofer do not by themselves prove a particular tonal balance, imaging quality or bass output.",
-    type:"Manufacturer description only; independent tonal profile unverified",
-    url:"https://ca.edifier.com/products/m60"},
+  "powered-r1700bts": {text:"An owner-reviewer found the R1700BTs enjoyable in a home office but comparatively thin and lacking bass authority when moved into larger listening rooms.",
+    type:"Independent model-specific listening review",
+    url:"https://www.ecoustics.com/reviews/edifier-r1700bts/"},
+  "powered-mr3": {text:"Independent MR3 testing finds a reasonably even desktop response and useful imaging, while the limiter and bass output constrain louder listening.",
+    type:"Independent model-specific listening review",
+    url:"https://www.erinsaudiocorner.com/loudspeakers/edifier_mr3/"},
+  "powered-m60": {text:"Independent M60 measurements find a smooth midrange and fairly controlled nearfield balance; deep bass and high-level bass headroom are limited by the small cabinets.",
+    type:"Independent model-specific listening review",
+    url:"https://www.erinsaudiocorner.com/loudspeakers/edifier_m60/"},
   "passive-bt20a-xt15": {text:"An independent Polk XT15 listening review reports lively, clear sound for its price, with limited low bass and some leaner lower vocals. The Fosi amplifier’s sound has not been established by the maker’s wattage or chip.",
     type:"One independent Polk speaker listening review; amp sound not inferred",
     url:"https://www.tnt-audio.com/casse/polk_xt15_e.html"},
@@ -197,7 +197,84 @@ export const SOUND_PROFILES = Object.freeze({
   'Paradigm Titan v3': {
     text:'A dependable sonic profile for the exact vintage revision has not been verified. Surrounds, crossover parts and previous repairs can make two used pairs sound different.',
     type:'Not independently characterized',url:null
-  }
+  },
+  // Independent listening impressions for popular headphones. The descriptions
+  // capture review tendencies, not a universal frequency-response preference.
+  'FiiO FT1':{
+    text:'Independent reviews commonly report a warm, bass-forward closed-back sound with substantial low-end weight. Listeners differ on whether that richness is appealing or obscures some midrange detail.',
+    type:'Multiple independent listening reviews, varying judgments',
+    url:'https://www.rtings.com/headphones/reviews/fiio/ft1',
+    reviewSources:[
+      {url:'https://www.rtings.com/headphones/reviews/fiio/ft1',context:'RTINGS measured response and listening discussion'},
+      {url:'https://www.techradar.com/audio/headphones/fiio-ft1-review',context:'Independent review finds sound-dependent trade-offs'}
+    ]
+  },
+  'AKG K371':{
+    text:'Independent testing describes a bass-weighty but generally smooth, even midrange and clear-treble presentation. An exact fit and earcup seal are important to the perceived low end.',
+    type:'Independent listening reviews and measured response',
+    url:'https://www.rtings.com/headphones/reviews/akg/k371',
+    reviewSources:[
+      {url:'https://www.rtings.com/headphones/reviews/akg/k371',context:'RTINGS tonal assessment'},
+      {url:'https://headphones.com/blogs/reviews/akg-k371-review-closed-back-benchmark-headphone',context:'Independent listening assessment'}
+    ]
+  },
+  'Grado SR80x':{
+    text:'Some reviewers describe a particularly clear, energetic upper-frequency presentation with comparatively modest bass. Other reviewers hear more bass body, so expectations about warmth versus brightness are not unanimous.',
+    type:'Independent reviews with differing impressions',
+    url:'https://www.soundguys.com/grado-labs-sr80x-review-71743/',
+    reviewSources:[
+      {url:'https://www.soundguys.com/grado-labs-sr80x-review-71743/',context:'SoundGuys SR80x frequency-response discussion'},
+      {url:'https://www.headfonia.com/grado-sr80x-sr325x-review/3/',context:'Headfonia listening review'}
+    ]
+  },
+  'Grado SR60x':{
+    text:'Independent comparisons describe a similarly open-air Grado presentation but less emphasised treble than the SR80x. Fit and pad position affect the bass and treble that reach your ears.',
+    type:'Independent listening and comparative review',
+    url:'https://www.soundguys.com/grado-labs-sr60x-review-70100/',
+    reviewSources:[
+      {url:'https://www.soundguys.com/grado-labs-sr60x-review-70100/',context:'SoundGuys SR60x response and SR80x comparison'}
+    ]
+  },
+  'Koss KSC75':{
+    text:'Independent headphone measurements and listener comparisons describe an open, clear presentation for its size with limited low-bass weight. Ear-clip positioning changes the perceived bass.',
+    type:'Independent headphone measurements and listening comparison',
+    url:'https://www.rtings.com/headphones/reviews/koss/ksc75',
+    reviewSources:[
+      {url:'https://www.rtings.com/headphones/reviews/koss/ksc75',context:'RTINGS KSC75 comparison'}
+    ]
+  },
+  'Koss Porta Pro (wired)':{
+    text:'Independent comparisons often describe the Porta Pro as fuller and bassier than the KSC75, with a softer upper-frequency balance. The on-ear fit and pad condition can change what you hear.',
+    type:'Independent comparative listening and measurements',
+    url:'https://www.audiodiscourse.com/2020/12/koss-yaxi-measurements-and-impressions.html',
+    reviewSources:[
+      {url:'https://www.audiodiscourse.com/2020/12/koss-yaxi-measurements-and-impressions.html',context:'Measurements and comparison of Koss models'},
+      {url:'https://www.rtings.com/headphones/reviews/koss/ksc75',context:'Koss Porta Pro comparison'}
+    ]
+  },
+  'Audio-Technica ATH-M50x':{
+    text:'Comparative independent tests find a more uneven low-frequency and treble balance than the smoother AKG K371. Bass and treble emphasis can make recordings feel more forceful or less even.',
+    type:'Independent headphone comparison and measurements',
+    url:'https://www.rtings.com/headphones/tools/compare/audio-technica-ath-m50x-akg-k371/295/1671'
+  },
+  'Sennheiser HD 560S':{
+    text:'Headphone comparisons often describe a relatively leaner, analytical balance through mids and treble, with a little more low-bass presence than the HD 600. Higher-frequency peaks may stand out on bright recordings.',
+    type:'Independent measured and listening comparison',
+    url:'https://headphones.com/blogs/reviews/sennheiser-hd560s-vs-hd600-comparative-review',
+    reviewSources:[
+      {url:'https://headphones.com/blogs/reviews/sennheiser-hd560s-vs-hd600-comparative-review',context:'Direct HD 560S versus HD 600 listening review'},
+      {url:'https://www.rtings.com/headphones/reviews/sennheiser/hd-560s',context:'RTINGS HD 560S response review'}
+    ]
+  },
+  'Sennheiser HD 600':{
+    text:'Reviews often emphasise its smooth, natural midrange and intimate vocal presentation, with limited deep bass and a relatively understated sense of physical bass impact.',
+    type:'Independent comparative listening and measurements',
+    url:'https://headphones.com/blogs/reviews/sennheiser-hd560s-vs-hd600-comparative-review',
+    reviewSources:[
+      {url:'https://headphones.com/blogs/reviews/sennheiser-hd560s-vs-hd600-comparative-review',context:'Direct HD 600 versus HD 560S listening review'},
+      {url:'https://www.rtings.com/headphones/tools/compare/sennheiser-hd-600-vs-sennheiser-hd-560s/325/18492',context:'RTINGS independent HD 600 comparison'}
+    ]
+  },
 });
 const UNKNOWN = Object.freeze({text:'No reliable model-specific sound profile has been reviewed yet. Tonal balance, bass and imaging are not inferred from driver materials or brand.',type:'Not independently characterized',url:null});
 export function soundProfileFor(item) {

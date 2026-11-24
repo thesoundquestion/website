@@ -10,6 +10,18 @@ const legacy=$('gc-legacy');
 const root=$('compare-tool');
 const buttons=[...root.querySelectorAll('[data-kind]')];
 const TYPES=Object.freeze({
+  powered_studio_monitor:{
+    label:'Powered studio monitors',
+    note:'Compare two model-specific powered studio monitors. Outputs, inputs and tested loudness are different questions; speaker specifications alone do not establish clean maximum SPL at your listening position.'
+  },
+  powered_pa_speaker:{
+    label:'Powered PA loudspeakers',
+    note:'Compare actual PA specifications and documented cabinet design. Peak marketing SPL, duty cycle, coverage, input routing and deployment conditions are not interchangeable.'
+  },
+  catalog_headphone:{
+    label:'Headphones for recording and listening',
+    note:'Compare exact catalogued headphone impedance, published sensitivity and measurement basis. The output capability of the connected interface, headphone amplifier or computer remains a separate requirement.'
+  },
   audio_interface:{
     label:'Audio interfaces',
     note:'An input socket, a microphone preamp and a separately recorded computer channel are not the same thing. Check connector roles, simultaneous inputs and USB track counts before choosing an interface.'
@@ -51,7 +63,10 @@ function textElement(tag,value,cls) {
   return node;
 }
 function recordsForType(){
-  return allRecords.filter(record=>record.categories?.includes(active))
+  return allRecords.filter(record=>active.startsWith('powered_')
+      ?record.categories?.includes('speaker')&&record.facts?.speakerKind?.value===active
+      :active==='catalog_headphone'?record.categories?.includes('headphone')
+      :record.categories?.includes(active))
     .sort((a,b)=>a.model.localeCompare(b.model));
 }
 function matched(record,filter){
@@ -137,7 +152,7 @@ function render() {
     status.textContent='No matching models. Clear the model filters to continue.';
     results.hidden=true;return;
   }
-  const comparison=buildEquipmentComparison(left,right,{category:active});
+  const comparison=buildEquipmentComparison(left,right,{category:active.startsWith('powered_')?'speaker':active==='catalog_headphone'?'headphone':active});
   $('gc-expanded-left-title').textContent=left.model;
   $('gc-expanded-right-title').textContent=right.model;
   details.replaceChildren();

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subwoofer Connection Checker | The Sound Question</title>
+<link rel="icon" href="/assets/mark.svg"><link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/system-check/style.css"><script type="module" src="/system-check/subwoofer/app.mjs"></script></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="/"><img src="/assets/mark.svg" width="42" height="42" alt=""><span>The Sound <b>Question</b></span></a>
+<nav class="main-nav" aria-label="Primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav><details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile primary navigation"><a href="/decoder/">Lessons</a><a href="/labs/">Labs</a><a href="/tools/" aria-current="location">Tools</a><a href="/library/">Library</a><a href="/about/">About</a><a href="/connect/">Connect</a></nav></details>
+</div></header>
+<main class="container sc" id="main">
+<h1>Subwoofer Connection Checker</h1>
+<p class="lead">Find out whether your amplifier or powered speakers have an appropriate connection to your subwoofer, which cable to use, and whether the main speakers will have their bass reduced.</p>
+<form id="sub-form" class="sc-layout">
+<fieldset><legend>Your equipment</legend>
+<label>Amplifier or powered speakers <select id="sub-source" name="source"></select></label>
+<label>Subwoofer <select id="sub-model" name="sub"></select></label>
+<label>Main-speaker bass setting <select id="sub-mode" name="mode"><option value="default">Normal / filtered when available</option><option value="full">Keep main speakers full-range</option></select></label>
+<details id="sub-manual" class="sc-details"><summary>My model is not listed: describe its documented connections</summary>
+<p>Use specifications from both manuals. These entries can identify an unsuitable connection, but they cannot certify arbitrary hardware as electrically safe.</p>
+<label>Amplifier or speaker subwoofer output type
+<select id="sub-reported-output"><option value="">Unknown</option><option value="line">Line-level / Sub Out</option><option value="speaker">Speaker-level / amplified terminals</option></select></label>
+<label>Subwoofer input type
+<select id="sub-reported-input"><option value="">Unknown</option><option value="line">Line-level / LFE input</option><option value="speaker">Speaker-level / high-level input</option></select></label>
+<label>Output connector
+<select id="sub-reported-output-connector"><option value="">Unknown</option><option value="rca">RCA</option><option value="3.5mm">3.5 mm</option><option value="speaker_terminals">Speaker terminals</option></select></label>
+<label>Input connector
+<select id="sub-reported-input-connector"><option value="">Unknown</option><option value="rca">RCA</option><option value="3.5mm">3.5 mm</option><option value="speaker_terminals">Speaker terminals</option></select></label>
+</details>
+<button class="button button-primary" type="submit">Check this connection</button>
+</fieldset></form>
+<section id="sub-result" class="sc-results" aria-live="polite">
+<h2 id="sub-verdict">Connection assessment</h2><p id="sub-message">Choose your exact models to assess their documented signal path.</p>
+<div id="sub-details" hidden><h3>How it connects</h3><p id="sub-wiring"></p>
+<h3>What happens to bass in your main speakers</h3><p id="sub-mains"></p>
+<p id="sub-cable"></p><p id="sub-evidence"></p></div></section>
+<p class="sc-brief-note">A documented line-level connection is not a guarantee about every output level, cable revision, subwoofer calibration or electrical fault. Unlisted equipment remains unverified, rather than inheriting another model's wiring.</p>
+<a href="/system-builder/">Back to Listening Builder</a>
+<nav class="page-endnav container" aria-label="End-of-page navigation"><div class="page-endnav-body"><span class="page-endnav-kicker">KEEP EXPLORING</span><a class="page-endnav-primary" href="/system-builder/">Return to the Listening Builder <span aria-hidden="true">→</span></a></div><div class="page-endnav-links"><a href="#">↑ Back to top</a></div></nav></main></body></html>
