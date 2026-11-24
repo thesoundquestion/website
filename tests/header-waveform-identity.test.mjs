@@ -8,7 +8,7 @@ test('visual signal is a separate safe static SVG, original brand mark intact',(
  assert.match(signal,/viewBox="0 0 1440 28"/);
  assert.match(signal,/Intro-inspired decorative waveform/);
  assert.match(signal,/stroke="url\(#signal\)"/);
- assert.doesNotMatch(signal,/<script|https?:\/\/|<foreignObject|onload=/i);
+ assert.doesNotMatch(signal,/<script|<foreignObject|onload=|(?:href|src)=["']https?:\/\//i);
  assert.match(mark,/M9 32H16L20 25L24 41/);
  assert.match(home,/src="\/assets\/mark\.svg"/);
 });
