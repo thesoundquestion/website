@@ -44,6 +44,9 @@ try {
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await visit(page,'/');
+  const heroSignal=await page.evaluate(()=>getComputedStyle(
+    document.querySelector('.home-goal-intro'),'::after').backgroundImage);
+  assert.match(heroSignal,/header-waveform\.svg/);
   const lead=page.locator('.home-goal-intro .home-homepage-question');
   assert.ok(await lead.isVisible(),device.name+' homepage question missing');
   assert.ok((await lead.innerText()).startsWith(expectedPitch));
@@ -105,6 +108,13 @@ try {
   await sides.nth(1).selectOption({label:'Panasonic SA-HE100'});
   assert.ok(await page.locator('#comparison').isVisible());
   assert.match(await page.locator('#comparison-rows').innerText(),/W\/ch|Power per channel|Input sensitivity/);
+  const signalStyle=await page.evaluate(()=>{
+   const header=document.querySelector('.site-header');
+   const style=getComputedStyle(header,'::after');
+   return {image:style.backgroundImage,events:style.pointerEvents};
+  });
+  assert.match(signalStyle.image,/header-waveform\.svg/);
+  assert.equal(signalStyle.events,'none');
   await checkNoErrors(page,errors,device.name+' Compare My Gear');
   outcomes.push(device.name+' twelve gear types with source-backed connections and preserved amplifier comparison');
 
