@@ -39,7 +39,7 @@ def cmd(*args):
     return subprocess.run(args, check=True, text=True, stdout=subprocess.PIPE).stdout.strip()
 
 def api(path):
-    return json.loads(cmd("gh", "api", "repos/" + REPO + "/" + path))
+    return json.loads(cmd("gh", "api", "repos/" + REPO + ("/" + path if path else "")))
 
 def pages(path):
     payload = json.loads(cmd("gh", "api", "--paginate", "--slurp",
