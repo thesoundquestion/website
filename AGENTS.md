@@ -69,6 +69,14 @@ Whenever adding or changing equipment specifications, model identities, audio co
 - Execute mirror freshness, catalog freshness, entry admission, full Node tests, and packaged desktop/mobile browser preflight before requesting a new owner-facing preview. The permanent `.github/workflows/equipment-entry-admission.yml` checks relevant future pull requests and `main` updates; the isolated draft workflow handles the comprehensive browser run. Never reduce existing tests to make a bad recommendation appear green. Keep manual source and physical-device sign-off separate from automated results.
 - Record product-specific approvals, source links, remaining unknowns and changed engineering assumptions in the permanent ledger/handoff **during initial entry**. Review at release only for changed records and integration, rather than repeating the same manual checks for the full historical catalog.
 
+## Permanent repository housekeeping — owner-authorized 2026-11-26
+
+- After every consolidated release, reconcile open PRs and source branches against the exact approved `main` tree. Close only incorporated or explicitly superseded PRs with a reason; preserve unique work and archive divergent histories before deletion.
+- Maintain one canonical production baseline and aim for 3–6 active development branches. This is a target, not permission to discard work. Mark long-lived protected refs `archive/`, `backup/`, or `keep/`.
+- The repository housekeeping Action, once separately approved and merged, runs weekly on main with a manual dry-run option. It deletes only unprotected, sufficiently old ancestor heads with a closed PR for the exact SHA or an explicitly audited legacy SHA, and only if no open PR uses that ref as head or base. Rechecks main, head, PR references and protection; uses a Git lease to reject stale deletions. Divergent or ambiguous histories are report-only, even if contents look identical. No automated PR merges, PR closures, history rewrites or Cloudflare builds/deployments.
+- Review Action summaries after releases; retain research/planning and the dated branch inventory privately in `thesoundquestion/research`. Update the website master handoff when housekeeping changes. Never treat housekeeping authorization as deployment authorization.
+- Ordinary site edits and workflow changes still use review branches and require explicit approval before merging to production main. The workflow is not active until approved there. No new paid services, PATs or secrets.
+
 ## Permanent GitHub-first, Cloudflare-on-approval workflow — all edits and prototypes
 
 This is the **default and mandatory workflow** for every website edit, content revision, experimental feature, prototype, comparison tool and release candidate. Cloudflare Pages Free has limited build/deployment quotas, and the owner has explicitly requested that ordinary development **never consume those quotas**.

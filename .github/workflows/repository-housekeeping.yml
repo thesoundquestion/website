@@ -1,0 +1,58 @@
+name: Repository housekeeping
+on:
+  schedule:
+    - cron: '37 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Report only (uncheck to retire verified redundant branches)'
+        type: boolean
+        default: true
+  pull_request:
+    paths:
+      - '.github/workflows/repository-housekeeping.yml'
+      - 'scripts/repository-housekeeping.py'
+      - 'tests/repository-housekeeping-test.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repository-housekeeping
+  cancel-in-progress: false
+
+jobs:
+  safety-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 tests/repository-housekeeping-test.py
+  retire-branches:
+    needs: safety-tests
+    if: github.repository == 'thesoundquestion/website' && github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+    steps:
+      - name: Fetch full history and run maintenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh auth setup-git
+          git clone --no-tags --branch main https://github.com/thesoundquestion/website.git checkout
+          cd checkout
+          # Execute only the workflow's exact approved main commit.
+          git checkout --detach "$GITHUB_SHA"
+          if [[ "$DRY_RUN" == "true" ]]; then
+            python3 scripts/repository-housekeeping.py
+          else
+            python3 scripts/repository-housekeeping.py --apply
+          fi
