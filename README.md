@@ -27,7 +27,7 @@ Shared styles are at `assets/styles.css`; the source-identifying graphic is `ass
 
 The `thesoundquestion/research` repository is **private**. Nothing from it is automatically published here. Public studies, supporting files and source notes should only be copied to the website once explicitly reviewed and approved.
 
-The site currently contains **no analytics scripts, third-party embeds, contact forms or advertising**. Please update the privacy notice if that changes.
+Optional, explicit-consent page analytics can be enabled at a separately approved release build; absent configuration, no analytics script is injected and no events are sent. See `deployment/posthog-analytics.md`. Keep the privacy notice accurate when data handling changes.
 
 ## Cloudflare agent integration
 

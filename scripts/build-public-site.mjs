@@ -2,6 +2,7 @@
 import { copyFileSync, existsSync, mkdirSync, rmSync, lstatSync, statSync, readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import { analyticsConfig, injectAnalytics } from './analytics-build.mjs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -18,6 +19,7 @@ execFileSync(process.execPath,['scripts/audit-equipment-certification.mjs','--ch
 execFileSync(process.execPath,['scripts/build-tutor-bank-module.mjs','--check'],
   {cwd:root,stdio:'pipe'});
 const output = path.join(root, 'site-dist');
+const analytics = analyticsConfig(process.env);
 const routes = new Set([
   'about', 'connect', 'content-use', 'decoder', 'journey', 'lab', 'labs',
   'library', 'privacy', 'system-builder', 'system-check', 'tools', 'assets', 'equipment',
@@ -113,6 +115,11 @@ for (const {entry, from} of files) {
   const dest = path.join(output, ...entry.split('/'));
   mkdirSync(path.dirname(dest), { recursive: true });
   copyFileSync(from, dest);
+  if (analytics && entry.endsWith('.html')) {
+    const original = readFileSync(dest, 'utf8');
+    const instrumented = injectAnalytics(original, entry, analytics);
+    if (instrumented !== original) writeFileSync(dest, instrumented, 'utf8');
+  }
   // Git for Windows can convert tracked SVG text to CRLF during checkout.
   // Restore the canonical LF bytes only for the three measured waveform
   // diagrams, then enforce their ORIGINAL SHA-256 values below. This does
