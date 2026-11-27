@@ -1,0 +1,39 @@
+name: Optional analytics privacy regression
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/tsq-analytics.*'
+      - 'scripts/analytics-build.mjs'
+      - 'scripts/build-public-site.mjs'
+      - 'tests/posthog-analytics.test.mjs'
+      - 'tests/posthog-browser-preflight.mjs'
+      - 'privacy/index.html'
+      - '.github/workflows/posthog-analytics.yml'
+permissions:
+  contents: read
+jobs:
+  privacy-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/posthog-analytics.test.mjs
+      - name: Verify analytics-off static package
+        run: |
+          node scripts/build-public-site.mjs
+          ! grep -R -l 'data-token="phc_' site-dist --include='*.html'
+      - name: Build configured package with dummy public token
+        env:
+          TSQ_POSTHOG_PROJECT_TOKEN: phc_test
+          TSQ_POSTHOG_HOST: https://us.i.posthog.com
+        run: node scripts/build-public-site.mjs
+      - name: Install browser runner
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: Validate packaged privacy controls in Chromium (no live requests)
+        run: node tests/posthog-browser-preflight.mjs
