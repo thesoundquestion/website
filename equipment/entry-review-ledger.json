@@ -1,6 +1,238 @@
 {
   "schemaVersion": 1,
   "policy": "Never add fake approvals or copy data from a similar product. Ledger entries are mandatory for newly added and revised canonical devices and for newly added curated systems; use exact normalized record fingerprint and item identifier.",
-  "records": {},
+  "records": {
+    "legacy/amp/yamaha-r-s700": {
+      "fingerprint": "472ed762",
+      "model": "Yamaha R-S700",
+      "reviewedOn": "2026-11-28",
+      "releaseDecision": "research_only",
+      "evidence": [
+        {
+          "type": "manufacturer",
+          "url": "https://ca.yamaha.com/files/download/other_assets/1/330561/R-S700_S500_om_CA-3.pdf",
+          "claims": "Canadian manual pp. 13, 15 and 47: supported speaker load/selector, coupler safety, full-band and IHF burst power, input impedance, noise and THD conditions."
+        },
+        {
+          "type": "manufacturer",
+          "url": "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s700/specs.html",
+          "claims": "Canadian product specifications corroborate power and dynamic ratings."
+        }
+      ],
+      "checks": {
+        "identity": "verified",
+        "manufacturerSpecs": "verified",
+        "signalRoles": "verified",
+        "loadsAndSafety": "verified",
+        "acousticHeadroom": "not_applicable",
+        "regionalPricing": "unknown",
+        "soundClaims": "unknown",
+        "accessoriesAndSubRouting": "unknown",
+        "outputAndRegression": "unknown"
+      },
+      "unknowns": [
+        "No current comparable used price, verified independent THD curve, complete subwoofer routing or rated-output input sensitivity conditions.",
+        "No universal sonic verdict; independent review/measurement links are source-specific, not ranking. Generator outputs and six targeted comparison assertions reproduced in isolated JavaScript; full Node and physical browser/Builder admission not run."
+      ]
+    },
+    "research/speaker/adam-d3v-studio": {
+      "fingerprint": "8ed03974",
+      "model": "ADAM Audio D3V",
+      "reviewedOn": "2026-11-28",
+      "releaseDecision": "research_only",
+      "evidence": [
+        {
+          "type": "manufacturer",
+          "url": "https://www.adam-audio.com/en/desktop/d3v/",
+          "claims": "3.5 inch woofer, D-ART tweeter, two 3.5 inch passive radiators per cabinet; 48 Hz–22.6 kHz -3 dB; 45 Hz–23.2 kHz -6 dB; 97 dB peak / 94 dB RMS sine bursts 100 Hz–6 kHz at 1 m, 3% THD; bass-only output considerably lower; balanced TRS and USB-C audio, 16-bit USB and 48 kHz internal processing, room/desk controls"
+        },
+        {
+          "type": "independent",
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/adam_d3v/",
+          "claims": "Independent Klippel frequency response, directivity and distortion/compression measurements"
+        }
+      ],
+      "checks": {
+        "identity": "verified",
+        "manufacturerSpecs": "verified",
+        "signalRoles": "verified",
+        "loadsAndSafety": "unknown",
+        "acousticHeadroom": "unknown",
+        "regionalPricing": "unknown",
+        "soundClaims": "unknown",
+        "accessoriesAndSubRouting": "unknown",
+        "outputAndRegression": "unknown"
+      },
+      "unknowns": [
+        "No comparable clean continuous broadband acoustic maximum validated; no numeric headroom admission, no current dated regional retail price or verified subwoofer high-pass; exact mains/accessory and full connection constraints need final manual checks.",
+        "No universal sonic verdict; independent review/measurement links are source-specific, not ranking. Generator outputs and six targeted comparison assertions reproduced in isolated JavaScript; full Node and physical browser/Builder admission not run."
+      ]
+    },
+    "research/speaker/edifier-mr3-studio": {
+      "fingerprint": "682216d8",
+      "model": "Edifier MR3",
+      "reviewedOn": "2026-11-28",
+      "releaseDecision": "research_only",
+      "evidence": [
+        {
+          "type": "manufacturer",
+          "url": "https://www.edifier.com/p/studio-monitors/mr3",
+          "claims": "18 W + 18 W RMS system output; 52 Hz–40 kHz no tolerance; 92.5 dB peak at 1 m; test details incomplete; balanced TRS, RCA, 3.5 mm AUX, Bluetooth 5.4 SBC, headphone out; 3.5 inch woofer and 1 inch silk dome; TRS 1228±100 mV; RCA/AUX 775±50 mV input sensitivity; room, desktop and low-cut controls"
+        },
+        {
+          "type": "independent",
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr3/",
+          "claims": "Independent Klippel NFS CTA-2034 response/directivity, distortion and compression; tweeter reference, 0.20 Vrms with tone options off; review finds strong nearfield performance"
+        }
+      ],
+      "checks": {
+        "identity": "verified",
+        "manufacturerSpecs": "verified",
+        "signalRoles": "verified",
+        "loadsAndSafety": "unknown",
+        "acousticHeadroom": "unknown",
+        "regionalPricing": "unknown",
+        "soundClaims": "unknown",
+        "accessoriesAndSubRouting": "unknown",
+        "outputAndRegression": "unknown"
+      },
+      "unknowns": [
+        "No comparable clean continuous broadband acoustic maximum validated; no numeric headroom admission, no current dated regional retail price or verified subwoofer high-pass; exact mains/accessory and full connection constraints need final manual checks.",
+        "No universal sonic verdict; independent review/measurement links are source-specific, not ranking. Generator outputs and six targeted comparison assertions reproduced in isolated JavaScript; full Node and physical browser/Builder admission not run."
+      ]
+    },
+    "research/speaker/edifier-mr4-studio": {
+      "fingerprint": "54f079fb",
+      "model": "Edifier MR4",
+      "reviewedOn": "2026-11-28",
+      "releaseDecision": "research_only",
+      "evidence": [
+        {
+          "type": "manufacturer",
+          "url": "https://ca.edifier.com/products/mr4",
+          "claims": "21 W + 21 W RMS; 60 Hz–20 kHz no tolerance; balanced TRS +4 dBu and RCA/AUX -10 dBV line inputs; stereo set"
+        },
+        {
+          "type": "independent",
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr4/",
+          "claims": "Independent Klippel NFS frequency response, directivity and distortion measurements"
+        }
+      ],
+      "checks": {
+        "identity": "verified",
+        "manufacturerSpecs": "verified",
+        "signalRoles": "verified",
+        "loadsAndSafety": "unknown",
+        "acousticHeadroom": "unknown",
+        "regionalPricing": "unknown",
+        "soundClaims": "unknown",
+        "accessoriesAndSubRouting": "unknown",
+        "outputAndRegression": "unknown"
+      },
+      "unknowns": [
+        "No comparable clean continuous broadband acoustic maximum validated; no numeric headroom admission, no current dated regional retail price or verified subwoofer high-pass; exact mains/accessory and full connection constraints need final manual checks.",
+        "No universal sonic verdict; independent review/measurement links are source-specific, not ranking. Generator outputs and six targeted comparison assertions reproduced in isolated JavaScript; full Node and physical browser/Builder admission not run."
+      ]
+    },
+    "research/speaker/edifier-mr45-studio": {
+      "fingerprint": "fc016713",
+      "model": "Edifier MR4.5",
+      "reviewedOn": "2026-11-28",
+      "releaseDecision": "research_only",
+      "evidence": [
+        {
+          "type": "manufacturer",
+          "url": "https://www.edifier.com/global/p/studio-monitors/mr4-5",
+          "claims": "80 W RMS stereo system; 50 Hz–40 kHz without tolerance; 98 dB peak at 1 m; 4.5 inch woofer, 1 inch silk dome, two-way active crossover; XLR, TRS, RCA, AUX, headphones, Bluetooth 6.0 and LDAC; room compensation"
+        },
+        {
+          "type": "independent",
+          "url": "https://www.ecoustics.com/reviews/edifier-mr4-5/",
+          "claims": "Independent subjective desktop review; observed in-room response differs from marketing flatness claim"
+        }
+      ],
+      "checks": {
+        "identity": "verified",
+        "manufacturerSpecs": "verified",
+        "signalRoles": "verified",
+        "loadsAndSafety": "unknown",
+        "acousticHeadroom": "unknown",
+        "regionalPricing": "unknown",
+        "soundClaims": "unknown",
+        "accessoriesAndSubRouting": "unknown",
+        "outputAndRegression": "unknown"
+      },
+      "unknowns": [
+        "No comparable clean continuous broadband acoustic maximum validated; no numeric headroom admission, no current dated regional retail price or verified subwoofer high-pass; exact mains/accessory and full connection constraints need final manual checks.",
+        "No universal sonic verdict; independent review/measurement links are source-specific, not ranking. Generator outputs and six targeted comparison assertions reproduced in isolated JavaScript; full Node and physical browser/Builder admission not run."
+      ]
+    },
+    "research/speaker/edifier-mr5-studio": {
+      "fingerprint": "b7d104f2",
+      "model": "Edifier MR5",
+      "reviewedOn": "2026-11-28",
+      "releaseDecision": "research_only",
+      "evidence": [
+        {
+          "type": "manufacturer",
+          "url": "https://ca.edifier.com/products/mr5",
+          "claims": "110 W RMS stereo system; 46 Hz–40 kHz no tolerance; 101 dB maximum at 1 m; 5 inch woofer, 3.75 inch mid, 1 inch tweeter; 155 and 2600 Hz crossover; balanced XLR and TRS, RCA/AUX, headphone output, Bluetooth 6.0 SBC/LDAC"
+        },
+        {
+          "type": "independent",
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr5/",
+          "claims": "Independent Klippel response, directivity and output-dependent distortion/compression measurements"
+        }
+      ],
+      "checks": {
+        "identity": "verified",
+        "manufacturerSpecs": "verified",
+        "signalRoles": "verified",
+        "loadsAndSafety": "unknown",
+        "acousticHeadroom": "unknown",
+        "regionalPricing": "unknown",
+        "soundClaims": "unknown",
+        "accessoriesAndSubRouting": "unknown",
+        "outputAndRegression": "unknown"
+      },
+      "unknowns": [
+        "No comparable clean continuous broadband acoustic maximum validated; no numeric headroom admission, no current dated regional retail price or verified subwoofer high-pass; exact mains/accessory and full connection constraints need final manual checks.",
+        "No universal sonic verdict; independent review/measurement links are source-specific, not ranking. Generator outputs and six targeted comparison assertions reproduced in isolated JavaScript; full Node and physical browser/Builder admission not run."
+      ]
+    },
+    "research/speaker/kali-lp-unf-studio": {
+      "fingerprint": "9fbe3dac",
+      "model": "Kali Audio LP-UNF",
+      "reviewedOn": "2026-11-28",
+      "releaseDecision": "research_only",
+      "evidence": [
+        {
+          "type": "manufacturer",
+          "url": "https://www.kaliaudio.com/lp-unf/",
+          "claims": "40 W LF + 40 W HF per channel, 160 W stereo system; 54 Hz–21 kHz ±3 dB; 39 Hz–25 kHz -10 dB; 85 dB continuous at 0.8 m with 20 dB headroom; 103 dB max SPL; 4.5 inch woofer, 1 inch tweeter, 1950 Hz crossover; TRS/RCA/USB-C/Bluetooth; placement EQ"
+        },
+        {
+          "type": "independent",
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/kali_lp_unf/",
+          "claims": "Independent Klippel frequency response and directivity; distortion at 86/96 dB at 1 m, compression sweeps and multitone tests"
+        }
+      ],
+      "checks": {
+        "identity": "verified",
+        "manufacturerSpecs": "verified",
+        "signalRoles": "verified",
+        "loadsAndSafety": "unknown",
+        "acousticHeadroom": "unknown",
+        "regionalPricing": "unknown",
+        "soundClaims": "unknown",
+        "accessoriesAndSubRouting": "unknown",
+        "outputAndRegression": "unknown"
+      },
+      "unknowns": [
+        "No comparable clean continuous broadband acoustic maximum validated; no numeric headroom admission, no current dated regional retail price or verified subwoofer high-pass; exact mains/accessory and full connection constraints need final manual checks.",
+        "No universal sonic verdict; independent review/measurement links are source-specific, not ranking. Generator outputs and six targeted comparison assertions reproduced in isolated JavaScript; full Node and physical browser/Builder admission not run."
+      ]
+    }
+  },
   "examples": {}
 }
