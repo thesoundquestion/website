@@ -807,7 +807,11 @@ const systemCheckGear = {
       ],
       "note": "Published 8 Ω power and line input impedance. The manual gives a separate distortion figure at 80% of rated output.",
       "url": "https://manuals.cambridgeaudio.com/sites/default/files/manuals/axa35_a4_en.pdf",
-      "distortionResearch": {"label":"Hi-Fi News independent AXA35 laboratory measurements","url":"https://www.hifinews.com/content/cambridge-audio-axc35-axa35-cd-playeramplifier-lab-report","note":"Graph 1: dynamic output power versus distortion at several resistive loads; reported range of distortion at rated power is not a point-by-point 1 kHz sweep."}
+      "distortionResearch": {
+        "label": "Hi-Fi News independent AXA35 laboratory measurements",
+        "url": "https://www.hifinews.com/content/cambridge-audio-axc35-axa35-cd-playeramplifier-lab-report",
+        "note": "Graph 1: dynamic output power versus distortion at several resistive loads; reported range of distortion at rated power is not a point-by-point 1 kHz sweep."
+      }
     },
     {
       "model": "Cambridge Audio AXR100D",
@@ -1372,7 +1376,11 @@ const systemCheckGear = {
       ],
       "note": "Uses Hi-Fi News bench results. The lab reports standard output separately from dynamic output. WiiM lists 60 W at 8 Ω and 120 W at 4 Ω. Output impedance varies with frequency in the lab test.",
       "url": "https://www.hifinews.com/content/wiim-amp-lab-report",
-      "distortionResearch": {"label":"Hi-Fi News WiiM Amp lab graphs","url":"https://www.hifinews.com/content/wiim-amp-lab-report","note":"Graph 1: dynamic output power versus distortion at 8, 4, 2 and 1 ohm; frequency-dependent 1 W figures differ by analogue/digital input. No numerical trace copied."},
+      "distortionResearch": {
+        "label": "Hi-Fi News WiiM Amp lab graphs",
+        "url": "https://www.hifinews.com/content/wiim-amp-lab-report",
+        "note": "Graph 1: dynamic output power versus distortion at 8, 4, 2 and 1 ohm; frequency-dependent 1 W figures differ by analogue/digital input. No numerical trace copied."
+      },
       "extra": [
         "WiiM manufacturer specifications",
         "https://faq.wiimhome.com/en/support/solutions/articles/72000616467-technical-specification-of-the-wiim-amp"
@@ -1605,7 +1613,11 @@ const systemCheckGear = {
       ],
       "note": "Minimum RMS and IHF dynamic ratings from the owner’s manual. Dynamic results at low impedances describe a bench test. The estimated output impedance comes from the 8 Ω damping factor at 1 kHz.",
       "url": "https://data.yamaha.com/files/download/other_assets/1/1412681/web_VEX7500_A-S801_om_U_EnFr_A0.pdf",
-      "distortionResearch": {"label":"Audioholics independent A-S801 amplifier measurements","url":"https://www.audioholics.com/amplifier-reviews/yamaha-a-s801-amplifier-review/yamaha-a-s801-measurements","note":"Independent power and distortion bench tests, including short sweep and full-band power results. Review may restrict automated access; source must be checked before numerical points are transcribed."}
+      "distortionResearch": {
+        "label": "Audioholics independent A-S801 amplifier measurements",
+        "url": "https://www.audioholics.com/amplifier-reviews/yamaha-a-s801-amplifier-review/yamaha-a-s801-measurements",
+        "note": "Independent power and distortion bench tests, including short sweep and full-band power results. Review may restrict automated access; source must be checked before numerical points are transcribed."
+      }
     },
     {
       "model": "Yamaha A-S1200",
@@ -1650,7 +1662,11 @@ const systemCheckGear = {
       ],
       "note": "Yamaha’s stereo power ratings. The 0.032 Ω output impedance estimate uses the published minimum damping factor of 250 into 8 Ω at 1 kHz.",
       "url": "https://ca.yamaha.com/en/business/audio/products/custom-installation/a-s3200/specs.html",
-      "distortionResearch": {"label":"Hi-Fi News independent A-S3200 lab report","url":"https://www.hifinews.com/node/131918","note":"Dynamic power-versus-distortion graph and separately described distortion-versus-frequency testing. Approximate figures in article are not exact curve coordinates."}
+      "distortionResearch": {
+        "label": "Hi-Fi News independent A-S3200 lab report",
+        "url": "https://www.hifinews.com/node/131918",
+        "note": "Dynamic power-versus-distortion graph and separately described distortion-versus-frequency testing. Approximate figures in article are not exact curve coordinates."
+      }
     },
     {
       "model": "Yamaha HTR-4063 (US/Canada)",
@@ -1855,6 +1871,57 @@ const systemCheckGear = {
       ],
       "note": "Two-channel and dynamic figures. Check the receiver manual for supported speaker loads.",
       "url": "https://ca.yamaha.com/en/audio/home-audio/products/av-receivers-amps/rx-v385/specs.html"
+    },
+    {
+      "model": "Yamaha R-S700",
+      "values": {
+        "inputZ": 47,
+        "outputZ": 0.03333333333333333
+      },
+      "ratings": [
+        [
+          100,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.019% THD, stereo"
+        ],
+        [
+          120,
+          6,
+          "continuous",
+          "20 Hz–20 kHz, 0.03% THD, stereo"
+        ],
+        [
+          140,
+          8,
+          "burst",
+          "IHF dynamic power per channel"
+        ],
+        [
+          170,
+          6,
+          "burst",
+          "IHF dynamic power per channel"
+        ],
+        [
+          220,
+          4,
+          "burst",
+          "IHF dynamic power per channel"
+        ],
+        [
+          290,
+          2,
+          "burst",
+          "IHF dynamic power per channel; not an approved speaker load"
+        ]
+      ],
+      "note": "North American receiver. Manual: one speaker set ≥6 Ω HIGH or ≥4 Ω LOW; switch only with power disconnected. Two sets in LOW require ≥8 Ω each; Canadian model has separate A+B HIGH restriction. No 4 Ω continuous rating for North America or continuous 2 Ω support. Output impedance is an upper-bound estimate from damping factor ≥240 at 8 Ω, 1 kHz, SPEAKERS A. CD line input sensitivity 200 mV/47 kΩ; rated-output test basis not explicitly given, so calculator sensitivity omitted. MAIN IN 1 V/47 kΩ bypasses volume; use a controlled preamp. Published THD ≤0.015% at 50 W/8 Ω, 20 Hz–20 kHz; SNR ≥100 dB Pure Direct or ≥107 dB CD Direct (IHF-A, 200 mV shorted); residual noise 30 µV IHF-A. No verified distortion curve. Discontinued; current used price unknown.",
+      "url": "https://ca.yamaha.com/files/download/other_assets/1/330561/R-S700_S500_om_CA-3.pdf",
+      "extra": [
+        "Yamaha Canadian product specifications",
+        "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s700/specs.html"
+      ]
     }
   ],
   "source": [
