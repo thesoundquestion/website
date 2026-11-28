@@ -97,6 +97,23 @@ const FIELDS = Object.freeze({
     ['outputConnections','Documented sound-card outputs']
   ]
 });
+// Powered-only rows are not passive sensitivity or external amp wattage.
+const POWERED_SPEAKER_FIELDS=[
+  ['unitsPerRetailPackage','Speakers per retail package'],
+  ['wooferInches','Woofer diameter','in'],
+  ['midrangeInches','Midrange diameter','in'],
+  ['tweeterInches','Tweeter diameter','in'],
+  ['internalAmplificationWatts','Internal amplifier ratings','W'],
+  ['speakerFrequencyRangeHz','Published frequency range','Hz'],
+  ['frequencyRangeToleranceDb','Published range tolerance (±)','dB'],
+  ['responseMinus6DbHz','−6 dB frequency range','Hz'],
+  ['quotedRangeMinus10DbHz','−10 dB frequency range','Hz'],
+  ['manufacturerMaximumSplDb','Manufacturer maximum SPL','dB SPL'],
+  ['manufacturerMaximumSplConditions','Maximum SPL test conditions'],
+  ['maxContinuousSplDb','Published continuous SPL','dB SPL'],
+  ['maxContinuousSplTestConditions','Continuous SPL test conditions'],
+  ['crossoverHz','Crossover frequencies','Hz']
+];
 const keys = Object.freeze(Object.keys(FIELDS));
 const isKnown = x => x !== null && x !== undefined && x !== '' &&
   !(typeof x === 'number' && !Number.isFinite(x)) &&
@@ -161,7 +178,7 @@ const getFact = (item,key,category) => {
   let fact=item?.facts?.[key];
   if((key==='inputConnections'||key==='outputConnections')&&(PROFILE_CATEGORIES.has(category)||category==='speaker'))
     fact=connectionFact(item,key);
-  else if(!fact && PROFILE_CATEGORIES.has(category)){
+  else if(!fact && (PROFILE_CATEGORIES.has(category)||category==='speaker')){
     const profile=item?.profiles?.find(p=>p.category===category && p.specifications &&
       Object.hasOwn(p.specifications,key));
     if(profile){
@@ -219,7 +236,12 @@ export function buildEquipmentComparison(left,right,{category}={}) {
     models:[{id:left.id,model:left.model},{id:right.id,model:right.model}],
     rows:[],notes:['These models do not have a shared documented equipment function.']
   };
-  const rows=FIELDS[selected].map(([key,label,unit])=>{
+  const poweredComparison=selected==='speaker'&&
+    (left.facts?.powered?.value===true||right.facts?.powered?.value===true);
+  const fields=poweredComparison?
+    [...FIELDS[selected].filter(([key])=>!['speakerNominalImpedanceOhms','speakerSensitivityDb','speakerSensitivityBasis'].includes(key)),
+      ...POWERED_SPEAKER_FIELDS]:FIELDS[selected];
+  const rows=fields.map(([key,label,unit])=>{
     const a=getFact(left,key,selected),b=getFact(right,key,selected);
     const formatted=x=>({...x,display:x.known?renderValue(x.value,unit):'Not verified'});
     const leftBasis=getFact(left,'sensitivityBasis').value;
@@ -234,12 +256,20 @@ export function buildEquipmentComparison(left,right,{category}={}) {
       (!speakerBasisLeft||!speakerBasisRight||speakerBasisLeft!==speakerBasisRight);
     const conditionalPower=['speakerPowerRatings','ratedOutputMilliwatts','headphoneOutputPowerRating'].includes(key);
     const setupOnly=key==='documentedSetupBitDepth';
+    const poweredConditional=['internalAmplificationWatts','manufacturerMaximumSplDb','maxContinuousSplDb',
+      'speakerFrequencyRangeHz'].includes(key);
+    const poweredCaution=key==='internalAmplificationWatts'?
+      'Internal ratings may cover different drivers and package quantities; watts are not acoustic loudness.':
+      key==='manufacturerMaximumSplDb'||key==='maxContinuousSplDb'?
+      'Compare only with matching distance, cabinet count, signal, duration and distortion conditions. Peak and continuous are not interchangeable.':
+      key==='speakerFrequencyRangeHz'?'Compare only with a matching stated level tolerance and measurement method.':null;
     return {key,label,unit:unit||null,left:formatted(a),right:formatted(b),
       directlyComparable:a.known&&b.known&&!headphoneBasisMismatch&&!speakerBasisMismatch &&
-        !conditionalPower&&!setupOnly,
+        !conditionalPower&&!setupOnly&&!poweredConditional,
       caution:headphoneBasisMismatch?'Sensitivity figures need the same confirmed reference (dB/mW versus dB/V).':
         speakerBasisMismatch?'Speaker sensitivity needs the same confirmed reference (1 W or 2.83 V at the same distance).':
         conditionalPower?'Compare only at the same load, output path and test conditions.':
+        poweredCaution?poweredCaution:
         setupOnly?'A documented software setup is not necessarily the device’s maximum supported bit depth.':null};
   });
   return {

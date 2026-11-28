@@ -8,7 +8,11 @@ import {catalogFingerprint,inspectEquipmentEntryGates}
 
 const read=path=>JSON.parse(readFileSync(new URL(path,import.meta.url),'utf8'));
 const baseline=read('../equipment/entry-gate-baseline.json');
-const registry=read('../equipment/catalog.generated.json');
+const currentRegistry=read('../equipment/catalog.generated.json');
+// Freeze the historical fixture to its original 197 records; prospective
+// additions still pass the separate current-catalog admission assertion.
+const registry={...currentRegistry,records:currentRegistry.records.filter(
+  r=>Object.hasOwn(baseline.recordFingerprints,r.id))};
 const ledger=read('../equipment/entry-review-ledger.json');
 const examples=[...EXAMPLES,...STEREO_SUB_EXAMPLES];
 const inspect=(catalog=registry,review=ledger,curated=examples)=>inspectEquipmentEntryGates({
@@ -32,6 +36,12 @@ test('frozen adoption baseline passes exactly against the reviewed draft data',(
  assert.deepEqual(x.checked,{records:197,examples:22});
  assert.equal(Object.keys(baseline.recordFingerprints).length,197);
  assert.equal(baseline.exampleIds.length,22);
+});
+test('current catalogue has no unadmitted or missing records',()=>{
+ const x=inspect(currentRegistry);
+ assert.deepEqual(x.errors,[]);
+ assert.equal(x.checked.records,currentRegistry.records.length);
+ assert.equal(x.checked.examples,examples.length);
 });
 test('new model is blocked until exact-source reviewed and tagged in persistent ledger',()=>{
  const entry={...registry.records[0],id:'test/speaker/new-variant',model:'New Test Model v2'};

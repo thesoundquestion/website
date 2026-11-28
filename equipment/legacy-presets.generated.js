@@ -1871,6 +1871,57 @@ const systemCheckGear = {
       ],
       "note": "Two-channel and dynamic figures. Check the receiver manual for supported speaker loads.",
       "url": "https://ca.yamaha.com/en/audio/home-audio/products/av-receivers-amps/rx-v385/specs.html"
+    },
+    {
+      "model": "Yamaha R-S700",
+      "values": {
+        "inputZ": 47,
+        "outputZ": 0.03333333333333333
+      },
+      "ratings": [
+        [
+          100,
+          8,
+          "continuous",
+          "20 Hz–20 kHz, 0.019% THD, stereo"
+        ],
+        [
+          120,
+          6,
+          "continuous",
+          "20 Hz–20 kHz, 0.03% THD, stereo"
+        ],
+        [
+          140,
+          8,
+          "burst",
+          "IHF dynamic power per channel"
+        ],
+        [
+          170,
+          6,
+          "burst",
+          "IHF dynamic power per channel"
+        ],
+        [
+          220,
+          4,
+          "burst",
+          "IHF dynamic power per channel"
+        ],
+        [
+          290,
+          2,
+          "burst",
+          "IHF dynamic power per channel; not an approved speaker load"
+        ]
+      ],
+      "note": "North American receiver. Manual: one speaker set ≥6 Ω HIGH or ≥4 Ω LOW; switch only with power disconnected. Two sets in LOW require ≥8 Ω each; Canadian model has separate A+B HIGH restriction. No 4 Ω continuous rating for North America or continuous 2 Ω support. Output impedance is an upper-bound estimate from damping factor ≥240 at 8 Ω, 1 kHz, SPEAKERS A. CD line input sensitivity 200 mV/47 kΩ; rated-output test basis not explicitly given, so calculator sensitivity omitted. MAIN IN 1 V/47 kΩ bypasses volume; use a controlled preamp. Published THD ≤0.015% at 50 W/8 Ω, 20 Hz–20 kHz; SNR ≥100 dB Pure Direct or ≥107 dB CD Direct (IHF-A, 200 mV shorted); residual noise 30 µV IHF-A. No verified distortion curve. Discontinued; current used price unknown.",
+      "url": "https://ca.yamaha.com/files/download/other_assets/1/330561/R-S700_S500_om_CA-3.pdf",
+      "extra": [
+        "Yamaha Canadian product specifications",
+        "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s700/specs.html"
+      ]
     }
   ],
   "source": [
