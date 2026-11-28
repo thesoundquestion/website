@@ -1873,6 +1873,57 @@
         ],
         "note": "Two-channel and dynamic figures. Check the receiver manual for supported speaker loads.",
         "url": "https://ca.yamaha.com/en/audio/home-audio/products/av-receivers-amps/rx-v385/specs.html"
+      },
+      {
+        "model": "Yamaha R-S700",
+        "values": {
+          "inputZ": 47,
+          "outputZ": 0.03333333333333333
+        },
+        "ratings": [
+          [
+            100,
+            8,
+            "continuous",
+            "20 Hz–20 kHz, 0.019% THD, stereo"
+          ],
+          [
+            120,
+            6,
+            "continuous",
+            "20 Hz–20 kHz, 0.03% THD, stereo"
+          ],
+          [
+            140,
+            8,
+            "burst",
+            "IHF dynamic power per channel"
+          ],
+          [
+            170,
+            6,
+            "burst",
+            "IHF dynamic power per channel"
+          ],
+          [
+            220,
+            4,
+            "burst",
+            "IHF dynamic power per channel"
+          ],
+          [
+            290,
+            2,
+            "burst",
+            "IHF dynamic power per channel; not an approved speaker load"
+          ]
+        ],
+        "note": "North American receiver. Manual: one speaker set ≥6 Ω HIGH or ≥4 Ω LOW; switch only with power disconnected. Two sets in LOW require ≥8 Ω each; Canadian model has separate A+B HIGH restriction. No 4 Ω continuous rating for North America or continuous 2 Ω support. Output impedance is an upper-bound estimate from damping factor ≥240 at 8 Ω, 1 kHz, SPEAKERS A. CD line input sensitivity 200 mV/47 kΩ; rated-output test basis not explicitly given, so calculator sensitivity omitted. MAIN IN 1 V/47 kΩ bypasses volume; use a controlled preamp. Published THD ≤0.015% at 50 W/8 Ω, 20 Hz–20 kHz; SNR ≥100 dB Pure Direct or ≥107 dB CD Direct (IHF-A, 200 mV shorted); residual noise 30 µV IHF-A. No verified distortion curve. Discontinued; current used price unknown.",
+        "url": "https://ca.yamaha.com/files/download/other_assets/1/330561/R-S700_S500_om_CA-3.pdf",
+        "extra": [
+          "Yamaha Canadian product specifications",
+          "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s700/specs.html"
+        ]
       }
     ],
     "source": [
@@ -3337,11 +3388,11 @@
     "status": "research_only",
     "description": "Research-stage recording, headphones and powered/passive speaker products, including original Pioneer SP-FS52 manual; numeric unknowns remain explicit.",
     "counts": {
-      "models": 53,
+      "models": 59,
       "ownedComparisonAnchors": 3,
       "newHeadphoneModels": 3,
       "newHeadphoneAmplifierModels": 5,
-      "addedSpeakerModels": 7
+      "addedSpeakerModels": 13
     },
     "records": [
       {
@@ -5816,6 +5867,397 @@
         "inputRoutingConstraints": [
           "USB interface is 2-in/2-out. Independent podcast tracks are recorded locally, not four separate computer USB capture channels."
         ]
+      },
+      {
+        "category": "speaker",
+        "role": [
+          "recording_monitoring",
+          "mixing_reference",
+          "studio_monitoring",
+          "desktop_listening"
+        ],
+        "speakerKind": "powered_studio_monitor",
+        "powered": true,
+        "unitsPerRetailPackage": 2,
+        "passiveSpeakerOutputRequired": false,
+        "evidenceCheckedDate": "2026-11-28",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "id": "edifier-mr3-studio",
+        "model": "Edifier MR3",
+        "physicalInputTypes": [
+          "6.35mm_trs_line",
+          "rca_stereo_line_in",
+          "3.5mm_stereo_line",
+          "bluetooth_stream"
+        ],
+        "physicalOutputTypes": [
+          "3.5mm_stereo_headphone_out"
+        ],
+        "wooferInches": 3.5,
+        "tweeterInches": 1,
+        "internalAmplificationWatts": {
+          "combined": 36,
+          "perChannel": 18
+        },
+        "speakerFrequencyRangeHz": [
+          52,
+          40000
+        ],
+        "frequencyRangeToleranceDb": null,
+        "manufacturerMaximumSplDb": 92.5,
+        "manufacturerMaximumSplConditions": "Peak at 1 m; cabinet count, stimulus and distortion limit unspecified.",
+        "sourceEvidence": [
+          {
+            "url": "https://www.edifier.com/p/studio-monitors/mr3",
+            "fields": [
+              "18 W + 18 W RMS system output",
+              "52 Hz–40 kHz no tolerance",
+              "92.5 dB peak at 1 m; test details incomplete",
+              "balanced TRS, RCA, 3.5 mm AUX, Bluetooth 5.4 SBC, headphone out",
+              "3.5 inch woofer and 1 inch silk dome",
+              "TRS 1228±100 mV; RCA/AUX 775±50 mV input sensitivity",
+              "room, desktop and low-cut controls"
+            ]
+          },
+          {
+            "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr3/",
+            "fields": [
+              "Independent Klippel NFS CTA-2034 response/directivity, distortion and compression; tweeter reference, 0.20 Vrms with tone options off; review finds strong nearfield performance"
+            ]
+          }
+        ],
+        "editorialNote": "Stereo pair with primary powered and secondary linked cabinet. No verified response tolerance for published range; independent measurements are separate. Analog inputs are line level, not external speaker terminals. Do not interpret Hi-Res internal processing as USB audio. No documented comparable continuous maximum SPL, subwoofer output or automatic subwoofer high-pass. Independent measurement graphs are linked, not reproduced."
+      },
+      {
+        "category": "speaker",
+        "role": [
+          "recording_monitoring",
+          "mixing_reference",
+          "studio_monitoring",
+          "desktop_listening"
+        ],
+        "speakerKind": "powered_studio_monitor",
+        "powered": true,
+        "unitsPerRetailPackage": 2,
+        "passiveSpeakerOutputRequired": false,
+        "evidenceCheckedDate": "2026-11-28",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "id": "edifier-mr4-studio",
+        "model": "Edifier MR4",
+        "physicalInputTypes": [
+          "6.35mm_trs_line",
+          "rca_stereo_line_in",
+          "3.5mm_stereo_line"
+        ],
+        "physicalOutputTypes": [
+          "3.5mm_stereo_headphone_out"
+        ],
+        "wooferInches": 4,
+        "tweeterInches": 1,
+        "internalAmplificationWatts": {
+          "combined": 42,
+          "perChannel": 21
+        },
+        "speakerFrequencyRangeHz": [
+          60,
+          20000
+        ],
+        "frequencyRangeToleranceDb": null,
+        "manufacturerMaximumSplDb": null,
+        "sourceEvidence": [
+          {
+            "url": "https://ca.edifier.com/products/mr4",
+            "fields": [
+              "21 W + 21 W RMS",
+              "60 Hz–20 kHz no tolerance",
+              "balanced TRS +4 dBu and RCA/AUX -10 dBV line inputs",
+              "stereo set"
+            ]
+          },
+          {
+            "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr4/",
+            "fields": [
+              "Independent Klippel NFS frequency response, directivity and distortion measurements"
+            ]
+          }
+        ],
+        "editorialNote": "Original MR4, not MR4.5 or MR3. Stereo powered set; no native Bluetooth/USB audio on documented input list. No verified maximum acoustic SPL with distance; do not calculate acoustic output from 42 W. No documented subwoofer output or automatic high-pass."
+      },
+      {
+        "category": "speaker",
+        "role": [
+          "recording_monitoring",
+          "mixing_reference",
+          "studio_monitoring",
+          "desktop_listening"
+        ],
+        "speakerKind": "powered_studio_monitor",
+        "powered": true,
+        "unitsPerRetailPackage": 2,
+        "passiveSpeakerOutputRequired": false,
+        "evidenceCheckedDate": "2026-11-28",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "id": "edifier-mr45-studio",
+        "model": "Edifier MR4.5",
+        "physicalInputTypes": [
+          "balanced_xlr_line",
+          "6.35mm_trs_line",
+          "rca_stereo_line_in",
+          "3.5mm_stereo_line",
+          "bluetooth_stream"
+        ],
+        "physicalOutputTypes": [
+          "3.5mm_stereo_headphone_out"
+        ],
+        "wooferInches": 4.5,
+        "tweeterInches": 1,
+        "internalAmplificationWatts": {
+          "combined": 80
+        },
+        "speakerFrequencyRangeHz": [
+          50,
+          40000
+        ],
+        "frequencyRangeToleranceDb": null,
+        "manufacturerMaximumSplDb": 98,
+        "manufacturerMaximumSplConditions": "Peak at 1 m; cabinet count, stimulus and distortion limit unspecified.",
+        "sourceEvidence": [
+          {
+            "url": "https://www.edifier.com/global/p/studio-monitors/mr4-5",
+            "fields": [
+              "80 W RMS stereo system",
+              "50 Hz–40 kHz without tolerance",
+              "98 dB peak at 1 m",
+              "4.5 inch woofer, 1 inch silk dome, two-way active crossover",
+              "XLR, TRS, RCA, AUX, headphones, Bluetooth 6.0 and LDAC",
+              "room compensation"
+            ]
+          },
+          {
+            "url": "https://www.ecoustics.com/reviews/edifier-mr4-5/",
+            "fields": [
+              "Independent subjective desktop review; observed in-room response differs from marketing flatness claim"
+            ]
+          }
+        ],
+        "editorialNote": "Distinct MR4.5 model, not MR4. Published range has no stated tolerance. No validated independent anechoic series identified in this pass; do not import MR4 measurements. No comparable continuous SPL rating or documented subwoofer high-pass."
+      },
+      {
+        "category": "speaker",
+        "role": [
+          "recording_monitoring",
+          "mixing_reference",
+          "studio_monitoring",
+          "desktop_listening"
+        ],
+        "speakerKind": "powered_studio_monitor",
+        "powered": true,
+        "unitsPerRetailPackage": 2,
+        "passiveSpeakerOutputRequired": false,
+        "evidenceCheckedDate": "2026-11-28",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "id": "edifier-mr5-studio",
+        "model": "Edifier MR5",
+        "physicalInputTypes": [
+          "balanced_xlr_line",
+          "6.35mm_trs_line",
+          "rca_stereo_line_in",
+          "3.5mm_stereo_line",
+          "bluetooth_stream"
+        ],
+        "physicalOutputTypes": [
+          "3.5mm_stereo_headphone_out"
+        ],
+        "wooferInches": 5,
+        "tweeterInches": 1,
+        "midrangeInches": 3.75,
+        "crossoverHz": [
+          155,
+          2600
+        ],
+        "internalAmplificationWatts": {
+          "combined": 110
+        },
+        "speakerFrequencyRangeHz": [
+          46,
+          40000
+        ],
+        "frequencyRangeToleranceDb": null,
+        "manufacturerMaximumSplDb": 101,
+        "manufacturerMaximumSplConditions": "Maximum at 1 m; cabinet count, stimulus, peak/RMS definition and distortion limit unspecified.",
+        "sourceEvidence": [
+          {
+            "url": "https://ca.edifier.com/products/mr5",
+            "fields": [
+              "110 W RMS stereo system",
+              "46 Hz–40 kHz no tolerance",
+              "101 dB maximum at 1 m",
+              "5 inch woofer, 3.75 inch mid, 1 inch tweeter; 155 and 2600 Hz crossover",
+              "balanced XLR and TRS, RCA/AUX, headphone output, Bluetooth 6.0 SBC/LDAC"
+            ]
+          },
+          {
+            "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr5/",
+            "fields": [
+              "Independent Klippel response, directivity and output-dependent distortion/compression measurements"
+            ]
+          }
+        ],
+        "editorialNote": "Three-way powered stereo set. Published range is not a -3 dB response. No verified comparable continuous maximum SPL; no documented subwoofer output or automatic high-pass. Independent curves are linked, not transcribed."
+      },
+      {
+        "category": "speaker",
+        "role": [
+          "recording_monitoring",
+          "mixing_reference",
+          "studio_monitoring",
+          "desktop_listening"
+        ],
+        "speakerKind": "powered_studio_monitor",
+        "powered": true,
+        "unitsPerRetailPackage": 2,
+        "passiveSpeakerOutputRequired": false,
+        "evidenceCheckedDate": "2026-11-28",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "id": "kali-lp-unf-studio",
+        "model": "Kali Audio LP-UNF",
+        "physicalInputTypes": [
+          "6.35mm_trs_line",
+          "rca_stereo_line_in",
+          "usb_c_audio",
+          "bluetooth_stream"
+        ],
+        "physicalOutputTypes": [],
+        "wooferInches": 4.5,
+        "tweeterInches": 1,
+        "boxType": "front_ported_bass_reflex",
+        "internalAmplificationWatts": {
+          "lf": 40,
+          "hf": 40,
+          "combined": 160
+        },
+        "frequencyRangeToleranceDb": 3,
+        "speakerFrequencyRangeHz": [
+          54,
+          21000
+        ],
+        "quotedRangeMinus10DbHz": [
+          39,
+          25000
+        ],
+        "crossoverHz": 1950,
+        "manufacturerMaximumSplDb": 103,
+        "manufacturerMaximumSplConditions": "Manufacturer max SPL; product page does not specify max test conditions. Separate 85 dB continuous at 0.8 m with 20 dB headroom statement; not interchangeable.",
+        "sourceEvidence": [
+          {
+            "url": "https://www.kaliaudio.com/lp-unf/",
+            "fields": [
+              "40 W LF + 40 W HF per channel, 160 W stereo system",
+              "54 Hz–21 kHz ±3 dB; 39 Hz–25 kHz -10 dB",
+              "85 dB continuous at 0.8 m with 20 dB headroom; 103 dB max SPL",
+              "4.5 inch woofer, 1 inch tweeter, 1950 Hz crossover",
+              "TRS/RCA/USB-C/Bluetooth; placement EQ"
+            ]
+          },
+          {
+            "url": "https://www.erinsaudiocorner.com/loudspeakers/kali_lp_unf/",
+            "fields": [
+              "Independent Klippel frequency response and directivity; distortion at 86/96 dB at 1 m, compression sweeps and multitone tests"
+            ]
+          }
+        ],
+        "editorialNote": "Ultra-nearfield stereo pair. LF/HF figures are per channel; combined figure is both cabinets. No inferred continuous or single-cabinet max SPL from the product page. USB-C is audio; no documented subwoofer high-pass. Source review needed before numeric headroom admission."
+      },
+      {
+        "category": "speaker",
+        "role": [
+          "recording_monitoring",
+          "mixing_reference",
+          "studio_monitoring",
+          "desktop_listening"
+        ],
+        "speakerKind": "powered_studio_monitor",
+        "powered": true,
+        "unitsPerRetailPackage": 2,
+        "passiveSpeakerOutputRequired": false,
+        "evidenceCheckedDate": "2026-11-28",
+        "evidenceTier": "manufacturer_primary_or_documented",
+        "price": null,
+        "priceCurrency": null,
+        "priceCheckedDate": null,
+        "availability": null,
+        "ratingsConsensus": null,
+        "roleOfRecord": "research_comparison_not_published_recommendation",
+        "id": "adam-d3v-studio",
+        "model": "ADAM Audio D3V",
+        "physicalInputTypes": [
+          "6.35mm_trs_line",
+          "usb_c_audio"
+        ],
+        "physicalOutputTypes": [
+          "3.5mm_stereo_headphone_out"
+        ],
+        "wooferInches": 3.5,
+        "boxType": "dual_passive_radiator",
+        "responseMinus3DbHz": [
+          48,
+          22600
+        ],
+        "responseMinus6DbHz": [
+          45,
+          23200
+        ],
+        "crossoverHz": 4000,
+        "manufacturerMaximumSplDb": 97,
+        "manufacturerMaximumSplConditions": "One speaker, full space, 1 m, sine bursts averaged 100 Hz–6 kHz, 3% THD, peak; 94 dB RMS under same test; 84 dB peak / 80 dB RMS at 50–100 Hz. Not clean broadband continuous SPL.",
+        "sourceEvidence": [
+          {
+            "url": "https://www.adam-audio.com/en/desktop/d3v/",
+            "fields": [
+              "3.5 inch woofer, D-ART tweeter, two 3.5 inch passive radiators per cabinet",
+              "48 Hz–22.6 kHz -3 dB; 45 Hz–23.2 kHz -6 dB",
+              "97 dB peak / 94 dB RMS sine bursts 100 Hz–6 kHz at 1 m, 3% THD; bass-only output considerably lower",
+              "balanced TRS and USB-C audio, 16-bit USB and 48 kHz internal processing, room/desk controls"
+            ]
+          },
+          {
+            "url": "https://www.erinsaudiocorner.com/loudspeakers/adam_d3v/",
+            "fields": [
+              "Independent Klippel frequency response, directivity and distortion/compression measurements"
+            ]
+          }
+        ],
+        "editorialNote": "Stereo desktop system, not separate passive speakers; no native Bluetooth/optical documented. ADAM's current manufacturer specification supersedes older retailer 92/96 dB figures for this draft; firmware/test revision differences not resolved. No subwoofer high-pass verified. Burst output must not be treated as continuous broadband maximum."
       }
     ],
     "existingPresetCrossReferences": [
@@ -5904,6 +6346,21 @@
           "FiiO K11 (RCA line out)"
         ],
         "purpose": "Separate amplifier output power at a stated headphone load, output impedance, connection types and whether a DAC is included. Existing FiiO K11 line-out source preset is not an existing headphone power-amplifier measurement."
+      },
+      {
+        "id": "powered-desktop-monitors",
+        "recordIds": [
+          "edifier-mr3-studio",
+          "edifier-mr4-studio",
+          "edifier-mr45-studio",
+          "edifier-mr5-studio",
+          "kali-lp-unf-studio",
+          "adam-d3v-studio",
+          "yamaha-hs5-studio",
+          "jbl-305p-mkii-studio"
+        ],
+        "existingPresetModels": [],
+        "purpose": "Compare powered desktop and nearfield monitors by published response tolerance, package quantity, line/digital input roles and acoustic output test conditions; use independent measurements where available. Do not treat internal watts as acoustic headroom or mix peaks with continuous ratings."
       }
     ],
     "headphoneCompatibilityRules": {
