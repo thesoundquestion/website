@@ -15,11 +15,11 @@
     "system-builder/supplemental-headphones.mjs"
   ],
   "summary": {
-    "totalModels": 197,
+    "totalModels": 204,
     "byCategory": {
-      "amp": 46,
+      "amp": 47,
       "headphone": 16,
-      "speaker": 75,
+      "speaker": 81,
       "source": 19,
       "computer_sound_card": 1,
       "headphone_amplifier": 5,
@@ -27,8 +27,8 @@
       "microphone": 17,
       "mixer_recorder": 8
     },
-    "researchProfiles": 53,
-    "legacyProfiles": 130,
+    "researchProfiles": 59,
+    "legacyProfiles": 131,
     "builderSupplementProfiles": 17
   },
   "records": [
@@ -5427,6 +5427,147 @@
         },
         {
           "url": "https://data.yamaha.com/files/download/other_assets/2/794512/web_VEX7420_R-S202_om_UA_En_A0.pdf",
+          "from": "system-check/gear.js",
+          "fields": [
+            "catalogue preset"
+          ],
+          "checkedDate": null
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "legacy/amp/yamaha-r-s700",
+      "model": "Yamaha R-S700",
+      "aliases": [],
+      "categories": [
+        "amp"
+      ],
+      "goalTags": [
+        "home_listening",
+        "speaker_amplification"
+      ],
+      "connections": {
+        "inputs": [],
+        "outputs": [],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerPowerRatings": {
+          "value": [
+            {
+              "wattsPerChannel": 100,
+              "loadOhms": 8,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.019% THD, stereo"
+            },
+            {
+              "wattsPerChannel": 120,
+              "loadOhms": 6,
+              "duration": "continuous",
+              "testConditions": "20 Hz–20 kHz, 0.03% THD, stereo"
+            },
+            {
+              "wattsPerChannel": 140,
+              "loadOhms": 8,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 170,
+              "loadOhms": 6,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 220,
+              "loadOhms": 4,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power per channel"
+            },
+            {
+              "wattsPerChannel": 290,
+              "loadOhms": 2,
+              "duration": "burst",
+              "testConditions": "IHF dynamic power per channel; not an approved speaker load"
+            }
+          ],
+          "scope": "amp",
+          "from": "system-check/gear.js",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "amp",
+          "from": "system-check/gear.js",
+          "legacyModel": "Yamaha R-S700",
+          "legacyOrder": 42,
+          "values": {
+            "inputZ": 47,
+            "outputZ": 0.03333333333333333
+          },
+          "ratings": [
+            [
+              100,
+              8,
+              "continuous",
+              "20 Hz–20 kHz, 0.019% THD, stereo"
+            ],
+            [
+              120,
+              6,
+              "continuous",
+              "20 Hz–20 kHz, 0.03% THD, stereo"
+            ],
+            [
+              140,
+              8,
+              "burst",
+              "IHF dynamic power per channel"
+            ],
+            [
+              170,
+              6,
+              "burst",
+              "IHF dynamic power per channel"
+            ],
+            [
+              220,
+              4,
+              "burst",
+              "IHF dynamic power per channel"
+            ],
+            [
+              290,
+              2,
+              "burst",
+              "IHF dynamic power per channel; not an approved speaker load"
+            ]
+          ],
+          "note": "North American receiver. Manual: one speaker set ≥6 Ω HIGH or ≥4 Ω LOW; switch only with power disconnected. Two sets in LOW require ≥8 Ω each; Canadian model has separate A+B HIGH restriction. No 4 Ω continuous rating for North America or continuous 2 Ω support. Output impedance is an upper-bound estimate from damping factor ≥240 at 8 Ω, 1 kHz, SPEAKERS A. CD line input sensitivity 200 mV/47 kΩ; rated-output test basis not explicitly given, so calculator sensitivity omitted. MAIN IN 1 V/47 kΩ bypasses volume; use a controlled preamp. Published THD ≤0.015% at 50 W/8 Ω, 20 Hz–20 kHz; SNR ≥100 dB Pure Direct or ≥107 dB CD Direct (IHF-A, 200 mV shorted); residual noise 30 µV IHF-A. No verified distortion curve. Discontinued; current used price unknown.",
+          "details": null,
+          "otherFields": {
+            "extra": [
+              "Yamaha Canadian product specifications",
+              "https://ca.yamaha.com/en/audio/home-audio/products/hifi-components/r-s700/specs.html"
+            ]
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ca.yamaha.com/files/download/other_assets/1/330561/R-S700_S500_om_CA-3.pdf",
           "from": "system-check/gear.js",
           "fields": [
             "catalogue preset"
@@ -19649,6 +19790,829 @@
       }
     },
     {
+      "id": "research/speaker/adam-d3v-studio",
+      "model": "ADAM Audio D3V",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:desktop_listening",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "usb_c_audio",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "3.5mm_stereo_headphone_out",
+            "scope": "speaker documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "responseMinus3DbHz": {
+          "value": [
+            48,
+            22600
+          ],
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "unitsPerRetailPackage": {
+          "value": 2,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "manufacturerMaximumSplDb": {
+          "value": 97,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "adam-d3v-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring",
+            "desktop_listening"
+          ],
+          "specifications": {
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 2,
+            "passiveSpeakerOutputRequired": false,
+            "physicalInputTypes": [
+              "6.35mm_trs_line",
+              "usb_c_audio"
+            ],
+            "physicalOutputTypes": [
+              "3.5mm_stereo_headphone_out"
+            ],
+            "wooferInches": 3.5,
+            "boxType": "dual_passive_radiator",
+            "responseMinus3DbHz": [
+              48,
+              22600
+            ],
+            "responseMinus6DbHz": [
+              45,
+              23200
+            ],
+            "crossoverHz": 4000,
+            "manufacturerMaximumSplDb": 97,
+            "manufacturerMaximumSplConditions": "One speaker, full space, 1 m, sine bursts averaged 100 Hz–6 kHz, 3% THD, peak; 94 dB RMS under same test; 84 dB peak / 80 dB RMS at 50–100 Hz. Not clean broadband continuous SPL."
+          },
+          "note": "Stereo desktop system, not separate passive speakers; no native Bluetooth/optical documented. ADAM's current manufacturer specification supersedes older retailer 92/96 dB figures for this draft; firmware/test revision differences not resolved. No subwoofer high-pass verified. Burst output must not be treated as continuous broadband maximum."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.adam-audio.com/en/desktop/d3v/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "3.5 inch woofer, D-ART tweeter, two 3.5 inch passive radiators per cabinet",
+            "48 Hz–22.6 kHz -3 dB; 45 Hz–23.2 kHz -6 dB",
+            "97 dB peak / 94 dB RMS sine bursts 100 Hz–6 kHz at 1 m, 3% THD; bass-only output considerably lower",
+            "balanced TRS and USB-C audio, 16-bit USB and 48 kHz internal processing, room/desk controls"
+          ],
+          "checkedDate": "2026-11-28"
+        },
+        {
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/adam_d3v/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "Independent Klippel frequency response, directivity and distortion/compression measurements"
+          ],
+          "checkedDate": "2026-11-28"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/speaker/edifier-mr3-studio",
+      "model": "Edifier MR3",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:desktop_listening",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "rca_stereo_line_in",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "3.5mm_stereo_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "bluetooth_stream",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "3.5mm_stereo_headphone_out",
+            "scope": "speaker documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "frequencyRangeToleranceDb": {
+          "value": null,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "unitsPerRetailPackage": {
+          "value": 2,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "internalAmplificationWatts": {
+          "value": {
+            "combined": 36,
+            "perChannel": 18
+          },
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "manufacturerMaximumSplDb": {
+          "value": 92.5,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "edifier-mr3-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring",
+            "desktop_listening"
+          ],
+          "specifications": {
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 2,
+            "passiveSpeakerOutputRequired": false,
+            "physicalInputTypes": [
+              "6.35mm_trs_line",
+              "rca_stereo_line_in",
+              "3.5mm_stereo_line",
+              "bluetooth_stream"
+            ],
+            "physicalOutputTypes": [
+              "3.5mm_stereo_headphone_out"
+            ],
+            "wooferInches": 3.5,
+            "tweeterInches": 1,
+            "internalAmplificationWatts": {
+              "combined": 36,
+              "perChannel": 18
+            },
+            "speakerFrequencyRangeHz": [
+              52,
+              40000
+            ],
+            "frequencyRangeToleranceDb": null,
+            "manufacturerMaximumSplDb": 92.5,
+            "manufacturerMaximumSplConditions": "Peak at 1 m; cabinet count, stimulus and distortion limit unspecified."
+          },
+          "note": "Stereo pair with primary powered and secondary linked cabinet. No verified response tolerance for published range; independent measurements are separate. Analog inputs are line level, not external speaker terminals. Do not interpret Hi-Res internal processing as USB audio. No documented comparable continuous maximum SPL, subwoofer output or automatic subwoofer high-pass. Independent measurement graphs are linked, not reproduced."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.edifier.com/p/studio-monitors/mr3",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "18 W + 18 W RMS system output",
+            "52 Hz–40 kHz no tolerance",
+            "92.5 dB peak at 1 m; test details incomplete",
+            "balanced TRS, RCA, 3.5 mm AUX, Bluetooth 5.4 SBC, headphone out",
+            "3.5 inch woofer and 1 inch silk dome",
+            "TRS 1228±100 mV; RCA/AUX 775±50 mV input sensitivity",
+            "room, desktop and low-cut controls"
+          ],
+          "checkedDate": "2026-11-28"
+        },
+        {
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr3/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "Independent Klippel NFS CTA-2034 response/directivity, distortion and compression; tweeter reference, 0.20 Vrms with tone options off; review finds strong nearfield performance"
+          ],
+          "checkedDate": "2026-11-28"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.frequencyRangeToleranceDb"
+        ]
+      }
+    },
+    {
+      "id": "research/speaker/edifier-mr4-studio",
+      "model": "Edifier MR4",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:desktop_listening",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "rca_stereo_line_in",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "3.5mm_stereo_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "3.5mm_stereo_headphone_out",
+            "scope": "speaker documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "frequencyRangeToleranceDb": {
+          "value": null,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "unitsPerRetailPackage": {
+          "value": 2,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "internalAmplificationWatts": {
+          "value": {
+            "combined": 42,
+            "perChannel": 21
+          },
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "manufacturerMaximumSplDb": {
+          "value": null,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "edifier-mr4-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring",
+            "desktop_listening"
+          ],
+          "specifications": {
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 2,
+            "passiveSpeakerOutputRequired": false,
+            "physicalInputTypes": [
+              "6.35mm_trs_line",
+              "rca_stereo_line_in",
+              "3.5mm_stereo_line"
+            ],
+            "physicalOutputTypes": [
+              "3.5mm_stereo_headphone_out"
+            ],
+            "wooferInches": 4,
+            "tweeterInches": 1,
+            "internalAmplificationWatts": {
+              "combined": 42,
+              "perChannel": 21
+            },
+            "speakerFrequencyRangeHz": [
+              60,
+              20000
+            ],
+            "frequencyRangeToleranceDb": null,
+            "manufacturerMaximumSplDb": null
+          },
+          "note": "Original MR4, not MR4.5 or MR3. Stereo powered set; no native Bluetooth/USB audio on documented input list. No verified maximum acoustic SPL with distance; do not calculate acoustic output from 42 W. No documented subwoofer output or automatic high-pass."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ca.edifier.com/products/mr4",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "21 W + 21 W RMS",
+            "60 Hz–20 kHz no tolerance",
+            "balanced TRS +4 dBu and RCA/AUX -10 dBV line inputs",
+            "stereo set"
+          ],
+          "checkedDate": "2026-11-28"
+        },
+        {
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr4/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "Independent Klippel NFS frequency response, directivity and distortion measurements"
+          ],
+          "checkedDate": "2026-11-28"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.frequencyRangeToleranceDb",
+          "research.manufacturerMaximumSplDb"
+        ]
+      }
+    },
+    {
+      "id": "research/speaker/edifier-mr45-studio",
+      "model": "Edifier MR4.5",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:desktop_listening",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "balanced_xlr_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "rca_stereo_line_in",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "3.5mm_stereo_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "bluetooth_stream",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "3.5mm_stereo_headphone_out",
+            "scope": "speaker documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "frequencyRangeToleranceDb": {
+          "value": null,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "unitsPerRetailPackage": {
+          "value": 2,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "internalAmplificationWatts": {
+          "value": {
+            "combined": 80
+          },
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "manufacturerMaximumSplDb": {
+          "value": 98,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "edifier-mr45-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring",
+            "desktop_listening"
+          ],
+          "specifications": {
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 2,
+            "passiveSpeakerOutputRequired": false,
+            "physicalInputTypes": [
+              "balanced_xlr_line",
+              "6.35mm_trs_line",
+              "rca_stereo_line_in",
+              "3.5mm_stereo_line",
+              "bluetooth_stream"
+            ],
+            "physicalOutputTypes": [
+              "3.5mm_stereo_headphone_out"
+            ],
+            "wooferInches": 4.5,
+            "tweeterInches": 1,
+            "internalAmplificationWatts": {
+              "combined": 80
+            },
+            "speakerFrequencyRangeHz": [
+              50,
+              40000
+            ],
+            "frequencyRangeToleranceDb": null,
+            "manufacturerMaximumSplDb": 98,
+            "manufacturerMaximumSplConditions": "Peak at 1 m; cabinet count, stimulus and distortion limit unspecified."
+          },
+          "note": "Distinct MR4.5 model, not MR4. Published range has no stated tolerance. No validated independent anechoic series identified in this pass; do not import MR4 measurements. No comparable continuous SPL rating or documented subwoofer high-pass."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.ecoustics.com/reviews/edifier-mr4-5/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "Independent subjective desktop review; observed in-room response differs from marketing flatness claim"
+          ],
+          "checkedDate": "2026-11-28"
+        },
+        {
+          "url": "https://www.edifier.com/global/p/studio-monitors/mr4-5",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "80 W RMS stereo system",
+            "50 Hz–40 kHz without tolerance",
+            "98 dB peak at 1 m",
+            "4.5 inch woofer, 1 inch silk dome, two-way active crossover",
+            "XLR, TRS, RCA, AUX, headphones, Bluetooth 6.0 and LDAC",
+            "room compensation"
+          ],
+          "checkedDate": "2026-11-28"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.frequencyRangeToleranceDb"
+        ]
+      }
+    },
+    {
+      "id": "research/speaker/edifier-mr5-studio",
+      "model": "Edifier MR5",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:desktop_listening",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "balanced_xlr_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "rca_stereo_line_in",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "3.5mm_stereo_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "bluetooth_stream",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "3.5mm_stereo_headphone_out",
+            "scope": "speaker documented physical output",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "frequencyRangeToleranceDb": {
+          "value": null,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "unknown"
+        },
+        "unitsPerRetailPackage": {
+          "value": 2,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "internalAmplificationWatts": {
+          "value": {
+            "combined": 110
+          },
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "manufacturerMaximumSplDb": {
+          "value": 101,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "edifier-mr5-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring",
+            "desktop_listening"
+          ],
+          "specifications": {
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 2,
+            "passiveSpeakerOutputRequired": false,
+            "physicalInputTypes": [
+              "balanced_xlr_line",
+              "6.35mm_trs_line",
+              "rca_stereo_line_in",
+              "3.5mm_stereo_line",
+              "bluetooth_stream"
+            ],
+            "physicalOutputTypes": [
+              "3.5mm_stereo_headphone_out"
+            ],
+            "wooferInches": 5,
+            "tweeterInches": 1,
+            "midrangeInches": 3.75,
+            "crossoverHz": [
+              155,
+              2600
+            ],
+            "internalAmplificationWatts": {
+              "combined": 110
+            },
+            "speakerFrequencyRangeHz": [
+              46,
+              40000
+            ],
+            "frequencyRangeToleranceDb": null,
+            "manufacturerMaximumSplDb": 101,
+            "manufacturerMaximumSplConditions": "Maximum at 1 m; cabinet count, stimulus, peak/RMS definition and distortion limit unspecified."
+          },
+          "note": "Three-way powered stereo set. Published range is not a -3 dB response. No verified comparable continuous maximum SPL; no documented subwoofer output or automatic high-pass. Independent curves are linked, not transcribed."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ca.edifier.com/products/mr5",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "110 W RMS stereo system",
+            "46 Hz–40 kHz no tolerance",
+            "101 dB maximum at 1 m",
+            "5 inch woofer, 3.75 inch mid, 1 inch tweeter; 155 and 2600 Hz crossover",
+            "balanced XLR and TRS, RCA/AUX, headphone output, Bluetooth 6.0 SBC/LDAC"
+          ],
+          "checkedDate": "2026-11-28"
+        },
+        {
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/edifier_mr5/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "Independent Klippel response, directivity and output-dependent distortion/compression measurements"
+          ],
+          "checkedDate": "2026-11-28"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": [
+          "research.frequencyRangeToleranceDb"
+        ]
+      }
+    },
+    {
       "id": "research/speaker/electrovoice-zlx-12p-g2",
       "model": "Electro-Voice ZLX-12P-G2",
       "aliases": [],
@@ -19856,6 +20820,171 @@
             "94 dB maximum continuous SPL under manufacturer test"
           ],
           "checkedDate": "2026-11-18"
+        }
+      ],
+      "pricing": {
+        "currentPrice": null,
+        "currency": null,
+        "checkedDate": null,
+        "availability": null
+      },
+      "comparisonAnchor": false,
+      "review": {
+        "status": "source_specific_not_independently_measured",
+        "unknowns": []
+      }
+    },
+    {
+      "id": "research/speaker/kali-lp-unf-studio",
+      "model": "Kali Audio LP-UNF",
+      "aliases": [],
+      "categories": [
+        "speaker"
+      ],
+      "goalTags": [
+        "home_listening",
+        "live_sound",
+        "role:desktop_listening",
+        "role:mixing_reference",
+        "role:recording_monitoring",
+        "role:studio_monitoring",
+        "studio_monitoring"
+      ],
+      "connections": {
+        "inputs": [
+          {
+            "type": "6.35mm_trs_line",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "rca_stereo_line_in",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "usb_c_audio",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          },
+          {
+            "type": "bluetooth_stream",
+            "scope": "speaker documented physical input",
+            "from": "research/recording-input-catalog-v1.json"
+          }
+        ],
+        "outputs": [],
+        "descriptions": []
+      },
+      "facts": {
+        "speakerKind": {
+          "value": "powered_studio_monitor",
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "powered": {
+          "value": true,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "frequencyRangeToleranceDb": {
+          "value": 3,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "unitsPerRetailPackage": {
+          "value": 2,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "internalAmplificationWatts": {
+          "value": {
+            "lf": 40,
+            "hf": 40,
+            "combined": 160
+          },
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        },
+        "manufacturerMaximumSplDb": {
+          "value": 103,
+          "scope": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "evidenceStatus": "source_stated"
+        }
+      },
+      "profiles": [
+        {
+          "category": "speaker",
+          "from": "research/recording-input-catalog-v1.json",
+          "researchId": "kali-lp-unf-studio",
+          "roles": [
+            "recording_monitoring",
+            "mixing_reference",
+            "studio_monitoring",
+            "desktop_listening"
+          ],
+          "specifications": {
+            "speakerKind": "powered_studio_monitor",
+            "powered": true,
+            "unitsPerRetailPackage": 2,
+            "passiveSpeakerOutputRequired": false,
+            "physicalInputTypes": [
+              "6.35mm_trs_line",
+              "rca_stereo_line_in",
+              "usb_c_audio",
+              "bluetooth_stream"
+            ],
+            "physicalOutputTypes": [],
+            "wooferInches": 4.5,
+            "tweeterInches": 1,
+            "boxType": "front_ported_bass_reflex",
+            "internalAmplificationWatts": {
+              "lf": 40,
+              "hf": 40,
+              "combined": 160
+            },
+            "frequencyRangeToleranceDb": 3,
+            "speakerFrequencyRangeHz": [
+              54,
+              21000
+            ],
+            "quotedRangeMinus10DbHz": [
+              39,
+              25000
+            ],
+            "crossoverHz": 1950,
+            "manufacturerMaximumSplDb": 103,
+            "manufacturerMaximumSplConditions": "Manufacturer max SPL; product page does not specify max test conditions. Separate 85 dB continuous at 0.8 m with 20 dB headroom statement; not interchangeable."
+          },
+          "note": "Ultra-nearfield stereo pair. LF/HF figures are per channel; combined figure is both cabinets. No inferred continuous or single-cabinet max SPL from the product page. USB-C is audio; no documented subwoofer high-pass. Source review needed before numeric headroom admission."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.erinsaudiocorner.com/loudspeakers/kali_lp_unf/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "Independent Klippel frequency response and directivity; distortion at 86/96 dB at 1 m, compression sweeps and multitone tests"
+          ],
+          "checkedDate": "2026-11-28"
+        },
+        {
+          "url": "https://www.kaliaudio.com/lp-unf/",
+          "from": "research/recording-input-catalog-v1.json",
+          "fields": [
+            "40 W LF + 40 W HF per channel, 160 W stereo system",
+            "54 Hz–21 kHz ±3 dB; 39 Hz–25 kHz -10 dB",
+            "85 dB continuous at 0.8 m with 20 dB headroom; 103 dB max SPL",
+            "4.5 inch woofer, 1 inch tweeter, 1950 Hz crossover",
+            "TRS/RCA/USB-C/Bluetooth; placement EQ"
+          ],
+          "checkedDate": "2026-11-28"
         }
       ],
       "pricing": {
